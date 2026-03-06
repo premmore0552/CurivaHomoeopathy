@@ -62,11 +62,11 @@ async function startServer() {
 
   // API Routes
   app.get("/api/posts", (req, res) => {
-    const { category, search } = req.query;
+    const { category, search, tag } = req.query;
     let query = "SELECT * FROM posts";
     const params: any[] = [];
 
-    if (category || search) {
+    if (category || search || tag) {
       query += " WHERE";
       const conditions: string[] = [];
       
@@ -79,6 +79,11 @@ async function startServer() {
         conditions.push("(title LIKE ? OR excerpt LIKE ? OR content LIKE ?)");
         const searchParam = `%${search}%`;
         params.push(searchParam, searchParam, searchParam);
+      }
+
+      if (tag) {
+        conditions.push("tags LIKE ?");
+        params.push(`%"${tag}"%`);
       }
       
       query += " " + conditions.join(" AND ");

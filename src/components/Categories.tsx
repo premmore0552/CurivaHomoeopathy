@@ -2,8 +2,11 @@ import React from 'react';
 import { categories } from '../data/mockData';
 import * as Icons from 'lucide-react';
 import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
 
 const Categories: React.FC = () => {
+  const navigate = useNavigate();
+
   return (
     <section className="py-20 bg-soft-beige">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -27,6 +30,7 @@ const Categories: React.FC = () => {
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
+                onClick={() => navigate(`/articles?category=${category.name}`)}
                 className="group p-8 bg-white rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">

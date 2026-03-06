@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Header from './components/Header';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
+import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import Articles from './pages/Articles';
 import About from './pages/About';
@@ -14,6 +15,7 @@ import TermsOfService from './pages/TermsOfService';
 export default function App() {
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen bg-white font-sans selection:bg-primary/20 selection:text-primary flex flex-col">
         <Header />
         <div className="flex-grow">

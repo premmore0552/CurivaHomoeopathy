@@ -1,9 +1,10 @@
 import { BlogPost } from '../types';
 
-export const fetchPosts = async (category?: string, search?: string): Promise<BlogPost[]> => {
+export const fetchPosts = async (category?: string, search?: string, tag?: string): Promise<BlogPost[]> => {
   const params = new URLSearchParams();
   if (category && category !== 'All') params.append('category', category);
   if (search) params.append('search', search);
+  if (tag) params.append('tag', tag);
   
   const response = await fetch(`/api/posts?${params.toString()}`);
   if (!response.ok) throw new Error('Failed to fetch posts');

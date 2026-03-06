@@ -16,8 +16,6 @@ export default function Home() {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
-    } else if (!hash) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }, [hash]);
 

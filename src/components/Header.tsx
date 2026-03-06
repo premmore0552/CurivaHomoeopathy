@@ -21,8 +21,6 @@ const Header: React.FC = () => {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
       }
-    } else if (to === '/') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   };
 

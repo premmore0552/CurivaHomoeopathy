@@ -7,9 +7,10 @@ import SEO from './SEO';
 interface PostDetailProps {
   post: BlogPost;
   onBack: () => void;
+  onTagClick?: (tag: string) => void;
 }
 
-const PostDetail: React.FC<PostDetailProps> = ({ post, onBack }) => {
+const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick }) => {
   const [copied, setCopied] = React.useState(false);
 
   const shareUrl = typeof window !== 'undefined' 
@@ -99,7 +100,11 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack }) => {
               <div className="flex items-center gap-3 flex-wrap">
                 <Tag className="w-4 h-4 text-gray-400" />
                 {post.tags.map(tag => (
-                  <span key={tag} className="px-3 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-full hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer">
+                  <span 
+                    key={tag} 
+                    onClick={() => onTagClick?.(tag)}
+                    className="px-3 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-full hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer"
+                  >
                     #{tag}
                   </span>
                 ))}

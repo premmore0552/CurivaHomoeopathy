@@ -1,25 +1,41 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { categories } from '../data/mockData';
-import { Search, Filter, Calendar, User, ArrowRight, Loader2, Library } from 'lucide-react';
+import { Search, Filter, Calendar, User, ArrowRight, Loader2, Library, Tag as TagIcon, X } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { BlogPost } from '../types';
 import { fetchPosts } from '../services/api';
 
 interface BlogGridProps {
   onSelectPost: (post: BlogPost) => void;
+  initialTag?: string | null;
+  initialCategory?: string | null;
 }
 
-const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
-  const [selectedCategory, setSelectedCategory] = useState('All');
+const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCategory }) => {
+  const [selectedCategory, setSelectedCategory] = useState(initialCategory || 'All');
   const [searchQuery, setSearchQuery] = useState('');
+  const [selectedTag, setSelectedTag] = useState<string | null>(initialTag || null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+  const gridRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (initialTag) {
+      setSelectedTag(initialTag);
+    }
+  }, [initialTag]);
+
+  useEffect(() => {
+    if (initialCategory) {
+      setSelectedCategory(initialCategory);
+    }
+  }, [initialCategory]);
 
   useEffect(() => {
     const loadPosts = async () => {
       setIsLoading(true);
       try {
-        const data = await fetchPosts(selectedCategory, searchQuery);
+        const data = await fetchPosts(selectedCategory, searchQuery, selectedTag || undefined);
         setPosts(data);
       } catch (error) {
         console.error('Error loading posts:', error);
@@ -30,10 +46,10 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
 
     const debounce = setTimeout(loadPosts, 300);
     return () => clearTimeout(debounce);
-  }, [selectedCategory, searchQuery]);
+  }, [selectedCategory, searchQuery, selectedTag]);
 
   return (
-    <section id="blog" className="py-24 bg-soft-beige">
+    <section id="blog" ref={gridRef} className="py-24 bg-soft-beige">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-2 mb-4">
@@ -49,9 +65,12 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
         <div className="flex flex-col lg:flex-row gap-6 mb-12 items-center justify-between">
           <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
             <button
-              onClick={() => setSelectedCategory('All')}
+              onClick={() => {
+                setSelectedCategory('All');
+                setSelectedTag(null);
+              }}
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
-                selectedCategory === 'All' 
+                selectedCategory === 'All' && !selectedTag
                 ? 'bg-primary text-white shadow-md' 
                 : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
               }`}
@@ -61,9 +80,12 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
             {categories.map(cat => (
               <button
                 key={cat.id}
-                onClick={() => setSelectedCategory(cat.name)}
+                onClick={() => {
+                  setSelectedCategory(cat.name);
+                  setSelectedTag(null);
+                }}
                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
-                  selectedCategory === cat.name 
+                  selectedCategory === cat.name && !selectedTag
                   ? 'bg-primary text-white shadow-md' 
                   : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
                 }`}
@@ -71,6 +93,15 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
                 {cat.name}
               </button>
             ))}
+            {selectedTag && (
+              <div className="flex items-center gap-2 px-4 py-2 bg-primary text-white rounded-full text-sm font-semibold shadow-md">
+                <TagIcon className="w-3 h-3" />
+                #{selectedTag}
+                <button onClick={() => setSelectedTag(null)} className="hover:text-white/80">
+                  <X className="w-4 h-4" />
+                </button>
+              </div>
+            )}
           </div>
 
           <div className="relative w-full lg:w-80">
@@ -135,8 +166,17 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
                       {post.excerpt}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
-                      {post.tags.slice(0, 2).map(tag => (
-                        <span key={tag} className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded">#{tag}</span>
+                      {post.tags.slice(0, 3).map(tag => (
+                        <span 
+                          key={tag} 
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            setSelectedTag(tag);
+                          }}
+                          className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded hover:bg-primary/10 hover:text-primary transition-colors"
+                        >
+                          #{tag}
+                        </span>
                       ))}
                     </div>
                     <button 

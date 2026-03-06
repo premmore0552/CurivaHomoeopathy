@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSearchParams } from 'react-router-dom';
+import { useSearchParams, useLocation } from 'react-router-dom';
 import FeaturedArticles from '../components/FeaturedArticles';
 import Categories from '../components/Categories';
 import EducationalHighlight from '../components/EducationalHighlight';
@@ -13,6 +13,12 @@ import { fetchPostById } from '../services/api';
 export default function Articles() {
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
+  const { pathname } = useLocation();
+
+  // Scroll to top on route change or post selection
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [pathname, selectedPost]);
 
   useEffect(() => {
     const postId = searchParams.get('post');
@@ -27,6 +33,8 @@ export default function Articles() {
         }
       };
       loadPost();
+    } else {
+      setSelectedPost(null);
     }
   }, [searchParams, setSearchParams]);
 
@@ -37,7 +45,11 @@ export default function Articles() {
         onBack={() => {
           setSelectedPost(null);
           setSearchParams({});
-        }} 
+        }}
+        onTagClick={(tag) => {
+          setSelectedPost(null);
+          setSearchParams({ tag });
+        }}
       />
     );
   }
@@ -69,7 +81,11 @@ export default function Articles() {
         <FeaturedArticles onSelectPost={handleSelectPost} />
         <Categories />
         <EducationalHighlight />
-        <BlogGrid onSelectPost={handleSelectPost} />
+        <BlogGrid 
+          onSelectPost={handleSelectPost} 
+          initialTag={searchParams.get('tag')}
+          initialCategory={searchParams.get('category')}
+        />
       </main>
     </>
   );
