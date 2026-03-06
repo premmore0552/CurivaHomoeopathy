@@ -1,0 +1,32 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Dancing+Script:wght@700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Poppins", sans-serif;
+  --font-script: "Dancing Script", cursive;
+  
+  --color-primary: #D12B81;
+  --color-primary-light: #F4B8D8;
+  --color-accent: #FFD700;
+  --color-beige: #FDF2F8;
+  --color-soft-beige: #FFF5F9;
+}
+
+@layer base {
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+  }
+}
+
+.markdown-body {
+  @apply text-gray-700 leading-relaxed;
+}
+
+.markdown-body h2 {
+  @apply text-2xl font-bold mt-8 mb-4 text-primary;
+}
+
+.markdown-body p {
+  @apply mb-4;
+}

@@ -1,11 +1,45 @@
-<div align="center">
+# Curiva Homoeopathy
 
-<img width="1200" height="475" alt="GHBanner" src="https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6" />
+An educational blog focused on homeopathy, holistic healing, and natural medicine awareness.
 
-  <h1>Built with AI Studio</h2>
+## Deployment to Netlify
 
-  <p>The fastest path from prompt to production with Gemini.</p>
+This project is ready for deployment to Netlify.
 
-  <a href="https://aistudio.google.com/apps">Start building</a>
+### Steps to Deploy
 
-</div>
+1. **Push to GitHub**:
+   - Create a new repository on GitHub.
+   - Initialize git in your local project folder:
+     ```bash
+     git init
+     git add .
+     git commit -m "Initial commit"
+     git branch -M main
+     git remote add origin <YOUR_GITHUB_REPO_URL>
+     git push -u origin main
+     ```
+
+2. **Connect to Netlify**:
+   - Log in to [Netlify](https://www.netlify.com/).
+   - Click **"Add new site"** > **"Import from an existing project"**.
+   - Select **GitHub** and choose this repository.
+   - Netlify will use the settings in `netlify.toml` automatically:
+     - **Build Command**: `npm run build`
+     - **Publish Directory**: `dist`
+
+### Note on Backend (Express/SQLite)
+
+This project currently uses an Express server with a SQLite database for the API. 
+**Netlify's standard deployment is for static sites.** 
+
+To make the blog fully functional on Netlify:
+- The current setup uses a local SQLite database which is not persistent on Netlify.
+- For a production deployment on Netlify, you should consider moving the blog data to a static JSON file or a headless CMS.
+
+## Local Development
+
+```bash
+npm install
+npm run dev
+```
