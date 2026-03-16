@@ -34,7 +34,7 @@ Acute fevers, sudden inflammatory conditions, croup, anxiety attacks, and ailmen
     `,
     author: 'Dr. H.C. Allen',
     date: 'March 05, 2024',
-    category: 'Homeopathic Remedies',
+    category: 'Homoeopathic Remedies',
     image: 'https://picsum.photos/seed/aconite/800/600',
     tags: ['Acute Care', 'Fear', 'Inflammation', 'Aconite']
   },
@@ -71,7 +71,7 @@ Complementary to Aconite, Hypericum, and Rhus-tox.
     `,
     author: 'Dr. H.C. Allen',
     date: 'March 02, 2024',
-    category: 'Homeopathic Remedies',
+    category: 'Homoeopathic Remedies',
     image: 'https://picsum.photos/seed/arnica/800/600',
     tags: ['Trauma', 'First Aid', 'Injury', 'Arnica']
   },
@@ -227,7 +227,7 @@ We invite you to explore the other articles here at **Curiva Homoeopathy** to le
     `,
     author: 'Curiva Editorial Team',
     date: 'March 05, 2024',
-    category: 'Homeopathy for Students',
+    category: 'Homoeopathy for Students',
     image: 'https://picsum.photos/seed/beginner/800/600',
     tags: ['Guide', 'Basics', 'Natural Healing', 'Beginner']
   },
@@ -263,7 +263,7 @@ Influenza, tension headaches, stage fright, anticipatory anxiety, and post-viral
     `,
     author: 'Dr. H.C. Allen',
     date: 'Feb 22, 2024',
-    category: 'Homeopathy for Students',
+    category: 'Homoeopathy for Students',
     image: 'https://picsum.photos/seed/gelsemium/800/600',
     tags: ['Anxiety', 'Flu', 'Weakness', 'Gelsemium']
   },
@@ -337,7 +337,7 @@ Menstrual irregularities, catarrhal conditions, digestive issues from rich food,
     `,
     author: 'Dr. H.C. Allen',
     date: 'Feb 15, 2024',
-    category: 'Homeopathy for Students',
+    category: 'Homoeopathy for Students',
     image: 'https://picsum.photos/seed/pulsatilla/800/600',
     tags: ['Gentle', 'Female Health', 'Thirstless', 'Pulsatilla']
   },
@@ -375,7 +375,7 @@ Homeopathy doesn't "force" your body to do anything. It simply reminds your body
     `,
     author: 'Curiva Editorial Team',
     date: 'March 06, 2024',
-    category: 'Homeopathy for Students',
+    category: 'Homoeopathy for Students',
     image: 'https://picsum.photos/seed/body-healing/800/600',
     tags: ['Science', 'Mechanism', 'Vital Force', 'Healing']
   },
@@ -457,7 +457,7 @@ Understanding these two systems helps you make the best choice for your health. 
     `,
     author: 'Curiva Editorial Team',
     date: 'March 08, 2024',
-    category: 'Homeopathy for Students',
+    category: 'Homoeopathy for Students',
     image: 'https://picsum.photos/seed/medicine-compare/800/600',
     tags: ['Comparison', 'Education', 'Health Choices']
   },
@@ -532,7 +532,7 @@ When you take a homeopathic remedy, you are using the pure healing power of natu
     `,
     author: 'Curiva Editorial Team',
     date: 'March 10, 2024',
-    category: 'Homeopathy for Students',
+    category: 'Homoeopathy for Students',
     image: 'https://picsum.photos/seed/nature-medicine/800/600',
     tags: ['Natural', 'Origins', 'Eco-friendly']
   },
@@ -844,7 +844,7 @@ You don't have to live with the burn. Homeopathy offers a gentle, natural way to
     `,
     author: 'Curiva Editorial Team',
     date: 'March 19, 2024',
-    category: 'Digestive Disorders',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/acidity-relief/800/600',
     tags: ['Acidity', 'Heartburn', 'Digestion']
   },
@@ -879,7 +879,7 @@ Regularity is a key part of feeling your best. Homeopathy provides a safe, gentl
     `,
     author: 'Curiva Editorial Team',
     date: 'March 20, 2024',
-    category: 'Digestive Disorders',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/constipation-relief/800/600',
     tags: ['Constipation', 'Digestion', 'Natural Relief']
   },
@@ -1319,7 +1319,7 @@ Inner peace is possible. Homeopathy provides a gentle, natural way to quiet the 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 02, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/anxiety-relief/800/600',
     tags: ['Anxiety', 'Stress', 'Mental Wellness']
   },
@@ -1352,7 +1352,7 @@ You don't have to carry the weight alone. Homeopathy offers a gentle, natural wa
     `,
     author: 'Curiva Editorial Team',
     date: 'April 03, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/depression-support/800/600',
     tags: ['Depression', 'Emotional Health', 'Mental Wellness']
   },
@@ -1387,7 +1387,7 @@ A good night's sleep is the foundation of a healthy life. Homeopathy provides a 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 04, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/sleep-relief/800/600',
     tags: ['Insomnia', 'Sleep', 'Mental Wellness']
   },
@@ -1420,7 +1420,7 @@ Panic attacks are frightening, but they are not dangerous. Homeopathy offers a g
     `,
     author: 'Curiva Editorial Team',
     date: 'April 05, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/panic-relief/800/600',
     tags: ['Panic Attacks', 'Anxiety', 'Mental Wellness']
   },
@@ -1453,7 +1453,7 @@ A calm mind is a powerful mind. Homeopathy provides a gentle, natural way to bal
     `,
     author: 'Curiva Editorial Team',
     date: 'April 06, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/anger-relief/800/600',
     tags: ['Anger Management', 'Emotional Health', 'Mental Wellness']
   },
@@ -1486,7 +1486,7 @@ Your mind is your most valuable tool. Homeopathy provides a gentle, natural way 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 07, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/focus-memory/800/600',
     tags: ['Concentration', 'Memory', 'Brain Health']
   },
@@ -1589,7 +1589,7 @@ Digestion should be a quiet, effortless process. Homeopathy provides a gentle, n
     `,
     author: 'Curiva Editorial Team',
     date: 'April 10, 2024',
-    category: 'Digestive Disorders',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/digestion-health/800/600',
     tags: ['Digestion', 'Gut Health', 'Natural Relief']
   },
@@ -2433,7 +2433,7 @@ Your mind is a powerful tool, but it needs rest to stay sharp. Homeopathy provid
     `,
     author: 'Curiva Editorial Team',
     date: 'May 05, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/mental-fatigue/800/600',
     tags: ['Mental Fatigue', 'Brain Fog', 'Focus']
   },
@@ -2466,7 +2466,7 @@ Burnout is a difficult place to be, but it's also an opportunity to rebuild a li
     `,
     author: 'Curiva Editorial Team',
     date: 'May 06, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/burnout-recovery/800/600',
     tags: ['Burnout', 'Stress Management', 'Mental Health']
   },
@@ -3170,7 +3170,7 @@ We don't just "label" depression; we ask: Is it related to grief? Is it accompan
     `,
     author: 'Curiva Mental Health Team',
     date: 'June 03, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/depression/800/600',
     tags: ['Depression', 'Mental Health', 'Emotional Well-being']
   },
@@ -3193,7 +3193,7 @@ Is your anxiety related to a specific event? Is it a constant "background noise"
     `,
     author: 'Curiva Mental Health Team',
     date: 'June 04, 2024',
-    category: 'Mental Health',
+    category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/anxiety-relief/800/600',
     tags: ['Anxiety', 'Panic Attacks', 'Stress Relief']
   },
@@ -3434,5 +3434,173 @@ Kidney stones (renal calculi) are hard deposits made of minerals and salts that 
     category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/kidney/800/600',
     tags: ['Kidney Stones', 'Renal Health', 'Pain Relief']
+  },
+  {
+    id: 'abrotanum-profile',
+    title: 'Abrotanum: The Remedy for Marasmus and Emaciation',
+    excerpt: 'A deep dive into "Southernwood" - essential for conditions where emaciation starts from the legs upwards.',
+    content: `
+## Materia Medica: Abrotanum
+**Common Name:** Southernwood
+**Family:** Compositae
+
+### Summary
+Abrotanum is a powerful remedy for malnutrition and emaciation, especially in children. It is characterized by a "ravenous appetite" while the body continues to waste away.
+
+### Key Characteristics
+*   **Emaciation:** Wasting starts from the legs and moves upwards. The skin feels flabby and hangs in folds.
+*   **Ravenous Hunger:** Eats a lot but loses weight.
+*   **Metastasis:** Symptoms shift from one part to another (e.g., gouty pain disappears and heart symptoms appear).
+*   **Irritability:** Children are cross, depressed, and irritable.
+*   **Physical Signs:** Face looks old, wrinkled, and pale.
+
+### Clinical Applications
+Marasmus, rheumatism, gout, and digestive disorders where there is a marked failure of nutrition.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 14, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/abrotanum/800/600',
+    tags: ['Materia Medica', 'Abrotanum', 'Nutrition']
+  },
+  {
+    id: 'aceticum-acidum-profile',
+    title: 'Aceticum Acidum: The Remedy for Profuse Wasting',
+    excerpt: 'Learn about "Glacial Acetic Acid" - indicated for profound debility, pale skin, and intense thirst.',
+    content: `
+## Materia Medica: Aceticum Acidum
+**Common Name:** Glacial Acetic Acid
+**Formula:** CH3COOH
+
+### Summary
+Aceticum Acidum is a remedy for deep-seated constitutional weakness. It is often indicated in cases of profound anemia and wasting diseases.
+
+### Key Characteristics
+*   **Profound Debility:** Great weakness, pale face, and a tendency to faint.
+*   **Intense Thirst:** Unquenchable thirst for large quantities of water.
+*   **Hemorrhage:** Tendency to bleed from any mucous membrane (nose, stomach, lungs).
+*   **Edema:** Swelling of the legs and abdomen (dropsy).
+*   **Sleep:** Cannot sleep on the back; feels better sleeping on the abdomen.
+
+### Clinical Applications
+Anemia, diabetes, dropsy, and chronic diarrhea with profound weakness.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 15, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/acetic/800/600',
+    tags: ['Materia Medica', 'Acetic Acid', 'Debility']
+  },
+  {
+    id: 'apis-mellifica-profile',
+    title: 'Apis Mellifica: The Remedy for Stinging and Swelling',
+    excerpt: 'Discover the "Poison of the Honey Bee" - the premier remedy for edema and allergic reactions.',
+    content: `
+## Materia Medica: Apis Mellifica
+**Common Name:** Poison of the Honey Bee
+**Source:** Animal Kingdom
+
+### Summary
+Apis is the remedy for "stinging, burning, and swelling." It acts on the cellular tissue, causing edema (swelling) of the skin and mucous membranes.
+
+### Key Characteristics
+*   **Edema:** Puffy swelling, especially under the eyes (like "bags").
+*   **Stinging Pains:** Pains feel like bee stings—sharp, stinging, and burning.
+*   **Thirstlessness:** Almost always thirstless, even during fever or with swelling.
+*   **Intolerance to Heat:** Feels much worse in a warm room or with heat; craves cool air.
+*   **Clumsiness:** Drops things easily; awkwardness.
+
+### Clinical Applications
+Allergic reactions, hives (urticaria), joint swelling, and urinary tract infections with stinging pain.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 16, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/apis/800/600',
+    tags: ['Materia Medica', 'Apis', 'Allergy Relief']
+  },
+  {
+    id: 'allium-cepa-profile',
+    title: 'Allium Cepa: The Remedy for Hay Fever and Colds',
+    excerpt: 'A study of "Red Onion" - the premier remedy for acrid nasal discharge and bland eye discharge.',
+    content: `
+## Materia Medica: Allium Cepa
+**Common Name:** Red Onion
+**Family:** Liliaceae
+
+### Summary
+Allium Cepa is characterized by profuse, acrid nasal discharge and bland lachrymation (eye discharge). It is a leading remedy for hay fever and common colds.
+
+### Key Characteristics
+*   **Acrid Nasal Discharge:** The discharge from the nose burns the skin and upper lip.
+*   **Bland Eye Discharge:** The eyes water profusely, but the discharge does not burn the skin.
+*   **Cough:** Tickling in the larynx; cough feels as if it would tear the larynx.
+*   **Neuralgic Pains:** Like long threads; in the face, head, neck, and chest.
+*   **Better in Open Air:** Symptoms are significantly relieved in cool, open air.
+
+### Clinical Applications
+Hay fever, common cold, laryngitis, and neuralgic pains after surgery or injury.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 17, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/onion/800/600',
+    tags: ['Materia Medica', 'Allium Cepa', 'Allergy']
+  },
+  {
+    id: 'aloe-socotrina-profile',
+    title: 'Aloe Socotrina: The Remedy for Portal Congestion',
+    excerpt: 'Discover "Socotrine Aloes" - essential for digestive issues characterized by a "jelly-like" mucus.',
+    content: `
+## Materia Medica: Aloe Socotrina
+**Common Name:** Socotrine Aloes
+**Family:** Liliaceae
+
+### Summary
+Aloe acts primarily on the liver and the large intestine. It is characterized by a "heavy, dragging" sensation in the abdomen and a distinct lack of confidence in the sphincter ani.
+
+### Key Characteristics
+*   **Jelly-like Mucus:** Discharges from the bowels or throat are thick and jelly-like.
+*   **Insecurity:** A feeling of insecurity in the rectum; fears that stool will pass while urinating or passing gas.
+*   **Morning Diarrhea:** Driven out of bed in the early morning by an urgent need for stool.
+*   **Hemorrhoids:** Like a bunch of grapes; relieved by cold water.
+*   **Headache:** Alternates with lumbago or hemorrhoids.
+
+### Clinical Applications
+Diarrhea, hemorrhoids, portal congestion, and headaches related to digestive issues.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 18, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/aloe/800/600',
+    tags: ['Materia Medica', 'Aloe', 'Digestion']
+  },
+  {
+    id: 'alumina-profile',
+    title: 'Alumina: The Remedy for Dryness and Sluggishness',
+    excerpt: 'Learn about "Pure Clay" - indicated for extreme dryness of mucous membranes and severe constipation.',
+    content: `
+## Materia Medica: Alumina
+**Common Name:** Pure Clay
+**Source:** Mineral Kingdom
+
+### Summary
+Alumina is characterized by extreme dryness and a lack of vital heat. It is suited to thin, scrawny individuals who are physically and mentally sluggish.
+
+### Key Characteristics
+*   **Dryness:** Every mucous membrane is dry (mouth, throat, rectum, skin).
+*   **Constipation:** Inactivity of the rectum; even a soft stool is passed with great effort.
+*   **Abnormal Cravings:** Desires indigestible things like charcoal, chalk, tea-grounds, and dry rice.
+*   **Time Perception:** Time passes too slowly; an hour seems like a day.
+*   **Skin:** Dry, tettery, itching; worse from the heat of the bed.
+
+### Clinical Applications
+Chronic constipation, skin disorders, and neurological conditions characterized by slow coordination.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 19, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/alumina/800/600',
+    tags: ['Materia Medica', 'Alumina', 'Constipation']
   }
 ];

@@ -38,16 +38,20 @@ const Header: React.FC = () => {
                 className="w-8 h-8 text-white" 
                 fill="none" 
                 stroke="currentColor" 
-                strokeWidth="2" 
-                strokeLinecap="round" 
-                strokeLinejoin="round"
+                strokeWidth="1.5"
               >
-                <path d="M12 22V2" />
-                <path d="M12 7c2-1 4-1.5 6-1.5s4 .5 4 1.5-2 2.5-4 2.5-4-.5-6-2.5z" />
-                <path d="M12 7c-2-1-4-1.5-6-1.5s-4 .5-4 1.5 2 2.5 4 2.5 4-.5 6-2.5z" />
-                <path d="M12 12c2-1 4-1.5 6-1.5s4 .5 4 1.5-2 2.5-4 2.5-4-.5-6-2.5z" />
-                <path d="M12 12c-2-1-4-1.5-6-1.5s-4 .5-4 1.5 2 2.5 4 2.5 4-.5 6-2.5z" />
-                <circle cx="12" cy="2" r="1.5" fill="currentColor" />
+                {/* Staff */}
+                <path d="M12 21V5" strokeWidth="2" />
+                {/* Wings */}
+                <path d="M12 5C12 5 15 3 18 3C21 3 21 6 18 6C15 6 12 8 12 8" strokeWidth="1.5" />
+                <path d="M12 5C12 5 9 3 6 3C3 3 3 6 6 6C9 6 12 8 12 8" strokeWidth="1.5" />
+                {/* Snakes */}
+                <path d="M12 21C12 21 18 18 18 14C18 10 12 8 12 8" strokeWidth="1" />
+                <path d="M12 21C12 21 6 18 6 14C6 10 12 8 12 8" strokeWidth="1" />
+                <path d="M12 16C12 16 16 14 16 12C16 10 12 9 12 9" strokeWidth="1" />
+                <path d="M12 16C12 16 8 14 8 12C8 10 12 9 12 9" strokeWidth="1" />
+                {/* Top Knob */}
+                <circle cx="12" cy="4" r="1.5" fill="currentColor" />
               </svg>
             </div>
             <div className="flex flex-col">
