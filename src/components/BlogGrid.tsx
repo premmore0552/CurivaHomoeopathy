@@ -49,21 +49,35 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
   }, [selectedCategory, searchQuery, selectedTag]);
 
   return (
-    <section id="blog" ref={gridRef} className="py-24 bg-soft-beige">
+    <section id="blog" ref={gridRef} className="py-24 bg-bg-secondary transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Library className="w-6 h-6 text-primary" />
-            <h2 className="text-3xl font-display font-bold text-gray-900">Educational Blog</h2>
+            <h2 className="text-3xl font-display font-bold text-text-primary">Educational Blog</h2>
           </div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-2xl mx-auto">
             Deep dive into our extensive library of articles on remedies, conditions, and holistic health.
           </p>
         </div>
 
         {/* Filters and Search */}
-        <div className="flex flex-col lg:flex-row gap-6 mb-12 items-center justify-between">
-          <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+        <div className="flex flex-col gap-8 mb-12">
+          {selectedCategory !== 'All' && !selectedTag && (
+            <motion.div 
+              initial={{ opacity: 0, y: -10 }}
+              animate={{ opacity: 1, y: 0 }}
+              className="bg-bg-primary p-6 rounded-2xl border border-border"
+            >
+              <h3 className="text-2xl font-display font-bold text-primary mb-2">{selectedCategory}</h3>
+              <p className="text-text-secondary">
+                {categories.find(c => c.name === selectedCategory)?.description}
+              </p>
+            </motion.div>
+          )}
+
+          <div className="flex flex-col lg:flex-row gap-6 items-center justify-between">
+            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
             <button
               onClick={() => {
                 setSelectedCategory('All');
@@ -72,7 +86,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
               className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
                 selectedCategory === 'All' && !selectedTag
                 ? 'bg-primary text-white shadow-md' 
-                : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                : 'bg-bg-primary text-text-secondary hover:bg-bg-secondary border border-border'
               }`}
             >
               All Posts
@@ -87,7 +101,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
                 className={`px-5 py-2 rounded-full text-sm font-semibold transition-all ${
                   selectedCategory === cat.name && !selectedTag
                   ? 'bg-primary text-white shadow-md' 
-                  : 'bg-white text-gray-600 hover:bg-gray-100 border border-gray-200'
+                  : 'bg-bg-primary text-text-secondary hover:bg-bg-secondary border border-border'
                 }`}
               >
                 {cat.name}
@@ -110,11 +124,12 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
               placeholder="Search articles..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-11 pr-4 py-3 bg-white border border-gray-200 rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm"
+              className="w-full pl-11 pr-4 py-3 bg-bg-primary border border-border rounded-xl focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary shadow-sm dark:text-white"
             />
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5" />
+            <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary w-5 h-5" />
           </div>
         </div>
+      </div>
 
         {/* Grid */}
         {isLoading ? (
@@ -132,7 +147,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer"
+                  className="group bg-bg-primary rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-lg transition-all cursor-pointer"
                   onClick={() => onSelectPost(post)}
                 >
                   <div className="relative h-52 overflow-hidden">
@@ -149,7 +164,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
                     </div>
                   </div>
                   <div className="p-6">
-                    <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider font-bold text-gray-400 mb-3">
+                    <div className="flex items-center gap-4 text-[10px] uppercase tracking-wider font-bold text-text-secondary mb-3">
                       <div className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {post.date}
@@ -159,10 +174,10 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
                         {post.author}
                       </div>
                     </div>
-                    <h3 className="text-lg font-display font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors line-clamp-2">
+                    <h3 className="text-lg font-display font-bold text-text-primary mb-3 group-hover:text-primary transition-colors line-clamp-2">
                       {post.title}
                     </h3>
-                    <p className="text-gray-600 text-sm mb-6 line-clamp-2">
+                    <p className="text-text-secondary text-sm mb-6 line-clamp-2">
                       {post.excerpt}
                     </p>
                     <div className="flex flex-wrap gap-2 mb-6">
@@ -173,14 +188,14 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
                             e.stopPropagation();
                             setSelectedTag(tag);
                           }}
-                          className="text-[10px] bg-gray-100 text-gray-500 px-2 py-0.5 rounded hover:bg-primary/10 hover:text-primary transition-colors"
+                          className="text-[10px] bg-bg-secondary text-text-secondary px-2 py-0.5 rounded hover:bg-primary/10 hover:text-primary transition-colors"
                         >
                           #{tag}
                         </span>
                       ))}
                     </div>
                     <button 
-                      className="w-full py-3 bg-gray-50 text-gray-800 font-bold text-sm rounded-xl group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2"
+                      className="w-full py-3 bg-bg-secondary text-text-primary font-bold text-sm rounded-xl group-hover:bg-primary group-hover:text-white transition-all flex items-center justify-center gap-2"
                       onClick={(e) => {
                         e.stopPropagation();
                         onSelectPost(post);
@@ -198,10 +213,10 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost, initialTag, initialCa
 
         {!isLoading && posts.length === 0 && (
           <div className="text-center py-20">
-            <div className="bg-white p-8 rounded-3xl shadow-sm inline-block">
-              <Filter className="w-12 h-12 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-xl font-bold text-gray-900 mb-2">No articles found</h3>
-              <p className="text-gray-500">Try adjusting your search or category filters.</p>
+            <div className="bg-bg-primary p-8 rounded-3xl shadow-sm inline-block border border-border">
+              <Filter className="w-12 h-12 text-text-secondary opacity-30 mx-auto mb-4" />
+              <h3 className="text-xl font-bold text-text-primary mb-2">No articles found</h3>
+              <p className="text-text-secondary">Try adjusting your search or category filters.</p>
               <button 
                 onClick={() => {setSelectedCategory('All'); setSearchQuery('');}}
                 className="mt-6 text-primary font-bold hover:underline"

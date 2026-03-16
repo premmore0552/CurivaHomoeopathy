@@ -11,6 +11,24 @@
   --color-accent: #FFD700;
   --color-beige: #FDF2F8;
   --color-soft-beige: #FFF5F9;
+
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #FDF2F8;
+  --color-text-primary: #111827;
+  --color-text-secondary: #4B5563;
+  --color-border: #F3F4F6;
+}
+
+@theme dark {
+  --color-bg-primary: #111827;
+  --color-bg-secondary: #1F2937;
+  --color-text-primary: #F9FAFB;
+  --color-text-secondary: #D1D5DB;
+  --color-border: #374151;
+  
+  --color-primary: #F4B8D8;
+  --color-primary-light: #D12B81;
+  --color-soft-beige: #1F2937;
 }
 
 @layer base {
@@ -20,11 +38,23 @@
 }
 
 .markdown-body {
-  @apply text-gray-700 leading-relaxed;
+  @apply text-text-secondary leading-relaxed;
 }
 
 .markdown-body h2 {
   @apply text-2xl font-bold mt-8 mb-4 text-primary;
+}
+
+.markdown-body h3 {
+  @apply text-xl font-bold mt-6 mb-3 text-text-primary;
+}
+
+.markdown-body ul {
+  @apply list-disc pl-6 mb-4 space-y-2;
+}
+
+.markdown-body li {
+  @apply text-text-secondary;
 }
 
 .markdown-body p {

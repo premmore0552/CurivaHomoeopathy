@@ -65,7 +65,7 @@ export default function Articles() {
         title="Explore Articles | Curiva Homoeopathy" 
         description="Deep dive into the world of homoeopathy with our curated articles and educational resources."
       />
-      <main className="pt-8">
+      <main className="pt-8 bg-bg-primary transition-colors duration-300">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
           <div className="flex items-center gap-3 mb-4">
             <Newspaper className="w-10 h-10 text-primary" />
@@ -73,7 +73,7 @@ export default function Articles() {
               Explore Articles
             </h1>
           </div>
-          <p className="text-lg text-gray-600 max-w-2xl">
+          <p className="text-lg text-text-secondary max-w-2xl">
             Discover natural healing insights, patient stories, and educational guides to help you on your wellness journey.
           </p>
         </div>

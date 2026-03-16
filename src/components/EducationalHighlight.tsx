@@ -23,7 +23,7 @@ const EducationalHighlight: React.FC = () => {
   ];
 
   return (
-    <section className="py-24 bg-white overflow-hidden">
+    <section className="py-24 bg-bg-primary overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-20 items-center">
           <motion.div
@@ -34,11 +34,11 @@ const EducationalHighlight: React.FC = () => {
           >
             <div className="flex items-center gap-2 mb-6">
               <BookOpen className="w-6 h-6 text-primary" />
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900 leading-tight">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary leading-tight">
                 What is Homoeopathy and <span className="text-primary">How Does it Work?</span>
               </h2>
             </div>
-            <div className="prose prose-lg text-gray-600 mb-10">
+            <div className="prose prose-lg text-text-secondary mb-10 dark:prose-invert">
               <p>
                 Homoeopathy is a system of natural medicine that has been used worldwide for over 200 years. 
                 It is based on the principle of "Like Cures Like"—the idea that a substance that causes symptoms 
@@ -55,8 +55,8 @@ const EducationalHighlight: React.FC = () => {
                 <div key={idx} className="flex gap-3">
                   <CheckCircle2 className="w-6 h-6 text-primary shrink-0" />
                   <div>
-                    <h4 className="font-bold text-gray-900 mb-1">{point.title}</h4>
-                    <p className="text-sm text-gray-500 leading-relaxed">{point.description}</p>
+                    <h4 className="font-bold text-text-primary mb-1">{point.title}</h4>
+                    <p className="text-sm text-text-secondary leading-relaxed">{point.description}</p>
                   </div>
                 </div>
               ))}
@@ -81,9 +81,9 @@ const EducationalHighlight: React.FC = () => {
             <div className="absolute -top-10 -right-10 w-40 h-40 bg-primary-light/30 rounded-full blur-2xl -z-0"></div>
             <div className="absolute -bottom-10 -left-10 w-60 h-60 bg-beige/50 rounded-full blur-3xl -z-0"></div>
             
-            <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 z-20 hidden md:block">
+            <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-bg-primary p-6 rounded-2xl shadow-xl border border-border z-20 hidden md:block">
               <p className="text-primary font-bold text-2xl mb-1">200+</p>
-              <p className="text-gray-600 text-sm font-medium">Years of Clinical History</p>
+              <p className="text-text-secondary text-sm font-medium">Years of Clinical History</p>
             </div>
           </motion.div>
         </div>

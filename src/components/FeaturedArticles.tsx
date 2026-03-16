@@ -27,15 +27,15 @@ const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ onSelectPost }) => 
   }, []);
 
   return (
-    <section className="py-20 bg-white">
+    <section className="py-20 bg-bg-primary transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-end mb-12">
           <div>
             <div className="flex items-center gap-2 mb-4">
               <Sparkles className="w-6 h-6 text-primary" />
-              <h2 className="text-3xl font-display font-bold text-gray-900">Featured Articles</h2>
+              <h2 className="text-3xl font-display font-bold text-text-primary">Featured Articles</h2>
             </div>
-            <p className="text-gray-600 max-w-2xl">
+            <p className="text-text-secondary max-w-2xl">
               Our most popular and insightful pieces on homeopathic practice and holistic wellness.
             </p>
           </div>
@@ -57,7 +57,7 @@ const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ onSelectPost }) => 
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.1 }}
-                className="group bg-white rounded-2xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
+                className="group bg-bg-secondary rounded-2xl border border-border overflow-hidden shadow-sm hover:shadow-xl transition-all duration-300 cursor-pointer"
                 onClick={() => onSelectPost(post)}
               >
                 <div className="relative h-56 overflow-hidden">
@@ -68,13 +68,13 @@ const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ onSelectPost }) => 
                     referrerPolicy="no-referrer"
                   />
                   <div className="absolute top-4 left-4">
-                    <span className="px-3 py-1 bg-white/90 backdrop-blur-sm text-primary text-xs font-bold rounded-full shadow-sm">
+                    <span className="px-3 py-1 bg-bg-primary/90 backdrop-blur-sm text-primary text-xs font-bold rounded-full shadow-sm">
                       {post.category}
                     </span>
                   </div>
                 </div>
                 <div className="p-6">
-                  <div className="flex items-center gap-4 text-xs text-gray-500 mb-4">
+                  <div className="flex items-center gap-4 text-xs text-text-secondary mb-4">
                     <div className="flex items-center gap-1">
                       <Calendar className="w-3.5 h-3.5" />
                       {post.date}
@@ -84,10 +84,10 @@ const FeaturedArticles: React.FC<FeaturedArticlesProps> = ({ onSelectPost }) => 
                       {post.author}
                     </div>
                   </div>
-                  <h3 className="text-xl font-display font-bold text-gray-900 mb-3 group-hover:text-primary transition-colors">
+                  <h3 className="text-xl font-display font-bold text-text-primary mb-3 group-hover:text-primary transition-colors">
                     {post.title}
                   </h3>
-                  <p className="text-gray-600 text-sm mb-6 line-clamp-2">
+                  <p className="text-text-secondary text-sm mb-6 line-clamp-2">
                     {post.excerpt}
                   </p>
                   <button 

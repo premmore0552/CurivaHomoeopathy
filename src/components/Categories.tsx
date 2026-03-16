@@ -8,14 +8,14 @@ const Categories: React.FC = () => {
   const navigate = useNavigate();
 
   return (
-    <section className="py-20 bg-soft-beige">
+    <section className="py-20 bg-bg-secondary transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           <div className="flex items-center justify-center gap-2 mb-4">
             <Icons.LayoutGrid className="w-6 h-6 text-primary" />
-            <h2 className="text-3xl font-display font-bold text-gray-900">Explore by Category</h2>
+            <h2 className="text-3xl font-display font-bold text-text-primary">Explore by Category</h2>
           </div>
-          <p className="text-gray-600 max-w-2xl mx-auto">
+          <p className="text-text-secondary max-w-2xl mx-auto">
             Find exactly what you're looking for by browsing our specialized educational categories.
           </p>
         </div>
@@ -31,13 +31,13 @@ const Categories: React.FC = () => {
                 viewport={{ once: true }}
                 transition={{ delay: index * 0.05 }}
                 onClick={() => navigate(`/articles?category=${category.name}`)}
-                className="group p-8 bg-white rounded-2xl border border-gray-100 hover:border-primary/20 hover:shadow-lg transition-all cursor-pointer"
+                className="group p-8 bg-bg-primary rounded-2xl border border-border hover:border-primary/20 hover:shadow-lg transition-all cursor-pointer"
               >
                 <div className="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
                   {IconComponent && <IconComponent className="w-7 h-7" />}
                 </div>
-                <h3 className="text-xl font-display font-bold text-gray-900 mb-3">{category.name}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">
+                <h3 className="text-xl font-display font-bold text-text-primary mb-3">{category.name}</h3>
+                <p className="text-text-secondary text-sm leading-relaxed mb-4">
                   {category.description}
                 </p>
                 <span className="text-primary font-bold text-xs uppercase tracking-wider flex items-center gap-2">

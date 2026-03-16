@@ -4,7 +4,7 @@ import SEO from '../components/SEO';
 
 export default function About() {
   return (
-    <div className="pt-24 pb-16">
+    <div className="pt-24 pb-16 bg-bg-primary transition-colors duration-300">
       <SEO 
         title="About Curiva Homoeopathy - Our Mission & Vision" 
         description="Learn about Curiva Homoeopathy, our mission to provide authentic homoeopathic education, and our vision for a healthier world through tiny doses."
@@ -30,12 +30,12 @@ export default function About() {
             </div>
             <div>
               <h1 className="text-4xl md:text-5xl font-serif font-bold text-primary mb-2">About Curiva Homoeopathy</h1>
-              <p className="text-xl text-gray-500 font-medium">Tiny Doses. True Shifts.</p>
+              <p className="text-xl text-text-secondary font-medium">Tiny Doses. True Shifts.</p>
             </div>
           </div>
           
-          <div className="prose prose-lg max-w-none text-gray-700 space-y-6">
-            <p className="text-xl font-medium text-gray-900 italic border-l-4 border-accent pl-4 py-2">
+          <div className="prose prose-lg max-w-none text-text-secondary space-y-6 dark:prose-invert">
+            <p className="text-xl font-medium text-text-primary italic border-l-4 border-accent pl-4 py-2">
               "Tiny Doses. True Shifts."
             </p>
             
@@ -43,12 +43,12 @@ export default function About() {
               Curiva Homoeopathy was founded with a single mission: to bridge the gap between traditional homoeopathic wisdom and modern health awareness. We believe that true healing comes from understanding the body's innate intelligence and supporting it with the gentle, yet profound, power of homoeopathy.
             </p>
             
-            <h2 className="text-2xl font-serif font-bold text-gray-900 mt-12 mb-4">Our Vision</h2>
+            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">Our Vision</h2>
             <p>
               We envision a world where homoeopathy is recognized as a primary pillar of holistic health. Through education, research, and community engagement, we strive to make homoeopathic knowledge accessible to everyone—from curious beginners to dedicated students of the Materia Medica.
             </p>
             
-            <h2 className="text-2xl font-serif font-bold text-gray-900 mt-12 mb-4">What We Do</h2>
+            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">What We Do</h2>
             <ul className="list-disc pl-6 space-y-3">
               <li><strong>Educational Resources:</strong> We provide in-depth articles on homoeopathic remedies, principles, and history.</li>
               <li><strong>Materia Medica Insights:</strong> Our structured medicine profiles help students and practitioners understand the core essence of remedies.</li>
@@ -56,7 +56,7 @@ export default function About() {
               <li><strong>Advocacy:</strong> We promote the safe and effective use of homoeopathy as part of a balanced lifestyle.</li>
             </ul>
             
-            <h2 className="text-2xl font-serif font-bold text-gray-900 mt-12 mb-4">Our Philosophy</h2>
+            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">Our Philosophy</h2>
             <p>
               Homoeopathy is more than just medicine; it's a philosophy of life. It teaches us to look beyond the symptoms and see the whole person. At Curiva, we honor the principles laid down by Dr. Samuel Hahnemann while embracing the evolving science of holistic wellness.
             </p>

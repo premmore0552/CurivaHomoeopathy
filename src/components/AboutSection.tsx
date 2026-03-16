@@ -23,7 +23,7 @@ const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 bg-white overflow-hidden">
+    <section id="about" className="py-24 bg-bg-primary overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
           <motion.div
@@ -34,11 +34,11 @@ const AboutSection: React.FC = () => {
           >
             <div className="flex items-center gap-3 mb-6">
               <Info className="w-8 h-8 text-primary" />
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-gray-900">
+              <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary">
                 About <span className="text-primary">Curiva Homoeopathy</span>
               </h2>
             </div>
-            <p className="text-lg text-gray-600 mb-8 leading-relaxed">
+            <p className="text-lg text-text-secondary mb-8 leading-relaxed">
               Curiva Homoeopathy is dedicated to spreading awareness about the profound healing power of homoeopathy. 
               We bridge the gap between traditional wisdom and modern health education, providing resources that empower 
               individuals to take control of their wellness naturally.
@@ -51,8 +51,8 @@ const AboutSection: React.FC = () => {
                     {feature.icon}
                   </div>
                   <div>
-                    <h3 className="font-bold text-gray-900 mb-1">{feature.title}</h3>
-                    <p className="text-gray-600 text-sm">{feature.description}</p>
+                    <h3 className="font-bold text-text-primary mb-1">{feature.title}</h3>
+                    <p className="text-text-secondary text-sm">{feature.description}</p>
                   </div>
                 </div>
               ))}
@@ -78,7 +78,7 @@ const AboutSection: React.FC = () => {
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-accent/20 rounded-full blur-2xl"></div>
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
               
-              <div className="relative rounded-3xl overflow-hidden shadow-xl border-8 border-soft-beige">
+              <div className="relative rounded-3xl overflow-hidden shadow-xl border-8 border-bg-secondary">
                 <img
                   src="https://picsum.photos/seed/curiva-about/600/800"
                   alt="Curiva Homoeopathy Philosophy"
@@ -87,9 +87,9 @@ const AboutSection: React.FC = () => {
                 />
               </div>
               
-              <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-white p-6 rounded-2xl shadow-xl hidden md:block border border-gray-100 max-w-[200px]">
+              <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-bg-primary p-6 rounded-2xl shadow-xl hidden md:block border border-border max-w-[200px]">
                 <p className="text-primary font-serif italic text-lg mb-2">"Tiny Doses. True Shifts."</p>
-                <p className="text-xs text-gray-500">Our core philosophy for lasting health.</p>
+                <p className="text-xs text-text-secondary">Our core philosophy for lasting health.</p>
               </div>
             </div>
           </motion.div>

@@ -2502,5 +2502,937 @@ Chronic fatigue is a difficult journey, but you don't have to walk it alone. Hom
     category: 'Disease & Conditions',
     image: 'https://picsum.photos/seed/chronic-fatigue/800/600',
     tags: ['Chronic Fatigue', 'Energy', 'Holistic Health']
+  },
+  {
+    id: 'bhms-guide',
+    title: 'A Comprehensive Guide to the BHMS Course: What to Expect',
+    excerpt: 'Thinking about a career in homeopathy? Learn everything about the Bachelor of Homeopathic Medicine and Surgery (BHMS) curriculum.',
+    content: `
+## The BHMS Journey: From Student to Doctor
+The Bachelor of Homeopathic Medicine and Surgery (BHMS) is an undergraduate degree in the homeopathic system of medicine. It is a 5.5-year journey that includes 4.5 years of academic study and 1 year of mandatory internship.
+
+### Year-by-Year Breakdown
+*   **First Year:** Focuses on foundational subjects like Anatomy, Physiology, Pharmacy, and the Organon of Medicine.
+*   **Second Year:** Introduces Pathology, Forensic Medicine, Toxicology, and Materia Medica.
+*   **Third Year:** Covers Surgery, Obstetrics & Gynecology, and further study of Materia Medica and Organon.
+*   **Fourth Year:** Deep dives into Practice of Medicine, Community Medicine, and advanced Materia Medica.
+
+### Why Choose BHMS?
+BHMS offers a unique perspective on healing, focusing on the "whole person" rather than just the disease. It combines modern medical knowledge with the gentle, effective principles of homeopathy.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'May 08, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/bhms-guide/800/600',
+    tags: ['BHMS', 'Education', 'Career', 'Homeopathy']
+  },
+  {
+    id: 'bhms-career',
+    title: 'Career Opportunities After BHMS: Beyond the Clinic',
+    excerpt: 'Explore the diverse career paths available to BHMS graduates, from clinical practice to research and hospital management.',
+    content: `
+## Life After BHMS: Your Career Path
+Graduating with a BHMS degree opens up a world of opportunities. While many choose to open their own private clinics, there are several other paths you can take:
+
+### 1. Clinical Practice
+The most common path. You can work in private clinics, government hospitals, or multi-specialty homeopathic hospitals.
+
+### 2. Research
+Contribute to the scientific advancement of homeopathy by working in research organizations like the CCRH (Central Council for Research in Homeopathy).
+
+### 3. Hospital Management
+With an additional MBA in Hospital Management, you can take on administrative roles in healthcare facilities.
+
+### 4. Teaching
+If you have a passion for education, you can become a lecturer or professor in homeopathic medical colleges.
+
+### 5. Pharmaceutical Industry
+Work in the manufacturing, quality control, or marketing of homeopathic medicines.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'May 09, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/bhms-career/800/600',
+    tags: ['BHMS', 'Career', 'Jobs', 'Homeopathy']
+  },
+  {
+    id: 'calcarea-carb',
+    title: 'Calcarea Carbonica: The Remedy for the Slow and Steady',
+    excerpt: 'A deep study of the "Oyster Shell" remedy, suited for individuals who are hardworking but easily overwhelmed.',
+    content: `
+## Materia Medica: Calcarea Carbonica
+**Common Name:** Carbonate of Lime (from Oyster Shell)
+**Family:** Mineral
+
+### Summary
+Calcarea Carbonica is a major constitutional remedy. It is especially suited to individuals who are "fair, fat, and flabby" and who tend to be slow in their movements and thoughts.
+
+### Key Characteristics
+*   **Slowness:** Slow to walk, slow to talk, and slow to learn.
+*   **Coldness:** Cold hands and feet; cold, clammy sweat, especially on the head.
+*   **Overwhelmed:** Feels overwhelmed by responsibilities and fears losing their mind or that people will notice their confusion.
+*   **Cravings:** Strong desire for eggs and indigestible things like chalk or coal.
+
+### Clinical Applications
+Bone and joint issues, delayed development in children, anxiety disorders, and metabolic complaints.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 10, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/calcarea/800/600',
+    tags: ['Chronic', 'Constitutional', 'Calcarea Carb']
+  },
+  {
+    id: 'nux-vomica',
+    title: 'Nux Vomica: The Modern Remedy for Sedentary Lifestyles',
+    excerpt: 'Discover the "Poison Nut" - the premier remedy for the stresses of modern life, over-indulgence, and irritability.',
+    content: `
+## Materia Medica: Nux Vomica
+**Common Name:** Poison Nut
+**Family:** Loganiaceae
+
+### Summary
+Nux Vomica is often called the "remedy for modern life." It is suited to ambitious, competitive individuals who lead sedentary lives and over-indulge in stimulants like coffee, alcohol, or rich food.
+
+### Key Characteristics
+*   **Irritability:** Very irritable and easily offended; cannot bear noise, light, or odors.
+*   **Digestive Issues:** Constant "ineffectual urge" for stool; feels like they need to go but can't.
+*   **Chilly:** Extremely sensitive to cold air and drafts.
+*   **Over-indulgence:** Bad effects of coffee, tobacco, alcohol, and spicy food.
+
+### Clinical Applications
+Indigestion, constipation, stress-related headaches, and insomnia due to over-work.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 11, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/nux/800/600',
+    tags: ['Stress', 'Digestion', 'Nux Vomica']
+  },
+  {
+    id: 'hypertension-homeopathy',
+    title: 'Homoeopathic Approach to Hypertension (High Blood Pressure)',
+    excerpt: 'Learn how homeopathy addresses the underlying causes of high blood pressure and supports cardiovascular health naturally.',
+    content: `
+## Managing Hypertension Naturally
+Hypertension, or high blood pressure, is often called a "silent killer" because it may not have obvious symptoms. Homeopathy looks at the whole person to find the root cause, whether it's stress, diet, or genetic factors.
+
+### How Homeopathy Helps
+Homeopathy doesn't just "lower" the pressure; it works to:
+*   **Reduce Stress:** Calming the nervous system.
+*   **Improve Circulation:** Supporting the health of the blood vessels.
+*   **Balance the System:** Addressing the metabolic factors that contribute to high pressure.
+
+### Common Remedies
+*   **Glonoinum:** For sudden, violent surges of blood to the head with a throbbing headache.
+*   **Natrum Mur:** For hypertension related to high salt intake and suppressed emotions.
+*   **Baryta Mur:** Often used for hypertension in the elderly with arterial stiffness.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 12, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/hypertension/800/600',
+    tags: ['Hypertension', 'Heart Health', 'Blood Pressure']
+  },
+  {
+    id: 'diabetes-homeopathy',
+    title: 'Managing Diabetes Naturally with Homoeopathy',
+    excerpt: 'Explore the supportive role of homeopathy in managing blood sugar levels and preventing complications of diabetes.',
+    content: `
+## A Holistic View of Diabetes
+Diabetes Mellitus is a chronic condition that affects how your body processes blood sugar. While conventional treatment is often necessary, homeopathy can play a vital supportive role.
+
+### The Homeopathic Goal
+*   **Support Pancreatic Function:** Helping the body manage insulin more effectively.
+*   **Prevent Complications:** Supporting nerve and kidney health.
+*   **Improve Vitality:** Reducing the fatigue often associated with diabetes.
+
+### Common Remedies
+*   **Syzygium Jambolanum:** A famous remedy for reducing sugar in the urine and blood.
+*   **Phosphoric Acid:** For diabetes accompanied by great physical and mental exhaustion.
+*   **Uranium Nitricum:** Often used when there is excessive thirst and frequent urination.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 13, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/diabetes/800/600',
+    tags: ['Diabetes', 'Blood Sugar', 'Metabolic Health']
+  },
+  {
+    id: 'bhms-anatomy',
+    title: 'Mastering Anatomy in BHMS: Tips for First-Year Students',
+    excerpt: 'Anatomy is the foundation of medical study. Learn how to approach this vast subject effectively in your first year of BHMS.',
+    content: `
+## Anatomy: The Foundation of Medicine
+Anatomy is one of the most challenging yet rewarding subjects in the first year of BHMS. It involves the study of the structure of the human body, from macroscopic organs to microscopic tissues.
+
+### Key Study Areas
+*   **Osteology:** The study of bones. Focus on landmarks, attachments, and clinical significance.
+*   **Myology:** The study of muscles. Understand origins, insertions, nerve supply, and actions.
+*   **Splanchnology:** The study of internal organs. Pay attention to relations, blood supply, and lymphatic drainage.
+*   **Neuroanatomy:** The study of the nervous system. A complex but vital area for understanding homeopathic prescribing.
+
+### Tips for Success
+1.  **Use Atlases:** Visual aids like Netter's Atlas are indispensable.
+2.  **Dissection is Vital:** Spend time in the dissection hall to understand 3D relationships.
+3.  **Draw Diagrams:** Drawing helps in memorization and is crucial for exams.
+4.  **Relate to Clinical Practice:** Always think about how anatomical knowledge applies to surgery or medicine.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'May 14, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/anatomy/800/600',
+    tags: ['BHMS', 'Anatomy', 'Medical Education']
+  },
+  {
+    id: 'bhms-physiology',
+    title: 'Understanding Human Physiology: A Core Subject in BHMS',
+    excerpt: 'Physiology explains how the body functions. Discover the importance of this subject in understanding health and disease in homeopathy.',
+    content: `
+## Physiology: The Science of Life
+Physiology is the study of how the human body functions. In BHMS, it provides the basis for understanding "vital force" and how it maintains harmony in the body.
+
+### Why Physiology Matters in Homeopathy
+*   **Understanding Health:** To recognize disease, one must first understand the normal functioning of the body.
+*   **Vital Force:** Physiology helps bridge the gap between material functions and the energetic concept of the vital force.
+*   **Pathology Correlation:** It forms the basis for understanding how functions are altered in disease states.
+
+### Key Systems to Focus On
+*   **Cardiovascular System:** Heart function, blood pressure regulation.
+*   **Respiratory System:** Gas exchange, mechanics of breathing.
+*   **Endocrine System:** Hormonal regulation and its impact on constitution.
+*   **Nervous System:** Sensory and motor functions, reflexes.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'May 15, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/physiology/800/600',
+    tags: ['BHMS', 'Physiology', 'Medical Science']
+  },
+  {
+    id: 'lycopodium-profile',
+    title: 'Lycopodium Clavatum: The Remedy for Lack of Confidence',
+    excerpt: 'A deep dive into Lycopodium, a key polychrest remedy for digestive issues and performance anxiety.',
+    content: `
+## Materia Medica: Lycopodium Clavatum
+**Common Name:** Club Moss
+**Family:** Lycopodiaceae
+
+### Summary
+Lycopodium is a powerful polychrest remedy, often indicated for individuals who appear confident but suffer from deep-seated insecurity and performance anxiety.
+
+### Key Characteristics
+*   **Digestive Weakness:** Bloating, gas, and "fullness" after eating just a few bites. Symptoms often worse between 4 PM and 8 PM.
+*   **Right-Sided:** Complaints often start on the right side and move to the left.
+*   **Performance Anxiety:** Fear of new situations or public speaking, despite often performing well once they start.
+*   **Cravings:** Strong desire for sweets and warm food/drinks.
+
+### Clinical Applications
+Liver disorders, kidney stones, digestive complaints, and anxiety-related issues.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 16, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/lycopodium/800/600',
+    tags: ['Materia Medica', 'Lycopodium', 'Digestion']
+  },
+  {
+    id: 'pulsatilla-profile',
+    title: 'Pulsatilla Nigricans: The Wind Flower Remedy',
+    excerpt: 'Learn about Pulsatilla, the premier remedy for changeable symptoms and gentle, emotional personalities.',
+    content: `
+## Materia Medica: Pulsatilla Nigricans
+**Common Name:** Wind Flower
+**Family:** Ranunculaceae
+
+### Summary
+Pulsatilla is known for its "changeability." Symptoms are never the same twice. It is often suited to gentle, timid, and emotional individuals who seek consolation.
+
+### Key Characteristics
+*   **Changeability:** Shifting pains, changing moods, and inconsistent physical symptoms.
+*   **Thirstlessness:** Almost always thirstless, even with a dry mouth or fever.
+*   **Better in Open Air:** Symptoms are significantly relieved by fresh, cool air and worsened in warm, stuffy rooms.
+*   **Emotional:** Weeps easily, seeks sympathy, and feels better when consoled.
+
+### Clinical Applications
+Menstrual irregularities, respiratory issues with thick yellow discharge, and digestive upsets from rich food.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 17, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/pulsatilla/800/600',
+    tags: ['Materia Medica', 'Pulsatilla', 'Emotional Health']
+  },
+  {
+    id: 'asthma-homeopathy',
+    title: 'Homoeopathic Management of Bronchial Asthma',
+    excerpt: 'Discover how homeopathy can help reduce the frequency and severity of asthma attacks by addressing the underlying sensitivity.',
+    content: `
+## Breathing Easy: Homeopathy for Asthma
+Asthma is a chronic respiratory condition characterized by inflammation and narrowing of the airways. Homeopathy aims to reduce the body's hyper-reactivity to triggers.
+
+### The Homeopathic Approach
+*   **Constitutional Treatment:** Addressing the patient's overall health and family history to reduce the tendency toward asthma.
+*   **Acute Management:** Remedies to help during an actual attack (always in consultation with a professional).
+*   **Trigger Identification:** Helping the patient understand and manage environmental triggers.
+
+### Common Remedies
+*   **Arsenicum Album:** For asthma worse at midnight, with great restlessness and anxiety.
+*   **Ipecac:** For asthma with constant nausea and a feeling of constriction in the chest.
+*   **Antimonium Tart:** For asthma with a lot of rattling mucus in the chest that is difficult to expectorate.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 18, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/asthma/800/600',
+    tags: ['Asthma', 'Respiratory Health', 'Homeopathy']
+  },
+  {
+    id: 'eczema-homeopathy',
+    title: 'Natural Relief for Eczema and Dermatitis',
+    excerpt: 'Itchy, inflamed skin? Learn how homeopathy treats eczema from the inside out for long-lasting relief.',
+    content: `
+## Healing Skin from Within
+Eczema is more than just a skin rash; it's often an external sign of internal imbalance. Homeopathy focuses on treating the root cause rather than just suppressing the symptoms with creams.
+
+### Why Avoid Suppression?
+In homeopathy, we believe that suppressing skin symptoms can sometimes drive the imbalance deeper into the body, potentially leading to respiratory issues like asthma.
+
+### Common Remedies for Eczema
+*   **Graphites:** For eczema with thick, honey-like discharge and cracked skin.
+*   **Sulphur:** For red, itchy skin that feels worse with heat and washing.
+*   **Mezereum:** For eczema with intense itching and thick crusts, often worse at night.
+*   **Natrum Mur:** For eczema in the bends of joints, often triggered by emotional stress.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 19, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/eczema/800/600',
+    tags: ['Eczema', 'Skin Care', 'Dermatology']
+  },
+  {
+    id: 'arthritis-homeopathy',
+    title: 'Homoeopathy for Arthritis and Joint Pain',
+    excerpt: 'Manage joint inflammation and improve mobility with natural homeopathic remedies tailored to your specific symptoms.',
+    content: `
+## Moving Freely: Homeopathy for Joints
+Arthritis involves inflammation of one or more joints, causing pain and stiffness. Homeopathy offers a gentle way to manage these symptoms and improve quality of life.
+
+### Tailored Treatment
+Homeopathy is highly specific. We ask: Is the pain better with movement or rest? Is it worse in damp weather or dry? These details help find the right remedy.
+
+### Key Remedies
+*   **Rhus Tox:** For joint pain that is worse on initial movement but gets better with continued motion. Worse in damp, cold weather.
+*   **Bryonia:** For pain that is worse with any movement and better with absolute rest and pressure.
+*   **Apis Mellifica:** For joints that are swollen, red, and have stinging pains, relieved by cold applications.
+*   **Ledum Pal:** For joint pain that starts in the feet and moves upwards, often feeling "cold" to the touch but relieved by cold water.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 20, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/arthritis/800/600',
+    tags: ['Arthritis', 'Joint Pain', 'Mobility']
+  },
+  {
+    id: 'migraine-homeopathy',
+    title: 'Finding Relief from Migraines with Homoeopathy',
+    excerpt: 'Tired of recurring headaches? Discover how homeopathy can help reduce migraine frequency and intensity naturally.',
+    content: `
+## Beyond the Headache: Understanding Migraines
+Migraines are severe, throbbing headaches often accompanied by nausea and sensitivity to light and sound. Homeopathy looks for the "triggers" and the unique pattern of the pain.
+
+### Common Migraine Patterns
+*   **Right-Sided:** Often related to liver or digestive issues.
+*   **Left-Sided:** Often related to hormonal changes or stress.
+*   **Sun-Related:** Headaches that increase and decrease with the sun's movement.
+
+### Top Remedies
+*   **Belladonna:** For sudden, violent, throbbing headaches with a red face and sensitivity to light.
+*   **Sanguinaria:** For right-sided migraines that start in the back of the head and settle over the right eye.
+*   **Spigelia:** For left-sided migraines with stabbing pains, often settling over the left eye.
+*   **Glonoinum:** For congestive headaches caused by sun exposure or heat.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 21, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/migraine/800/600',
+    tags: ['Migraine', 'Headache', 'Pain Relief']
+  },
+  {
+    id: 'sepia-profile',
+    title: 'Sepia Officinalis: The Remedy for Exhaustion and Indifference',
+    excerpt: 'A study of the Cuttlefish Ink remedy, primarily used for hormonal imbalances and emotional weariness.',
+    content: `
+## Materia Medica: Sepia Officinalis
+**Common Name:** Inky juice of Cuttlefish
+**Family:** Mollusca
+
+### Summary
+Sepia is a major "female" remedy, though it is used for all genders. It is suited to individuals who feel worn out by life's demands and become indifferent to their loved ones.
+
+### Key Characteristics
+*   **Indifference:** Loss of affection for family and friends; wants to be alone.
+*   **Hormonal Issues:** Irregular periods, menopausal symptoms, and pelvic heaviness.
+*   **Better with Vigorous Exercise:** Unlike many remedies, Sepia feels better with fast walking or dancing.
+*   **Chilly:** Very sensitive to cold air.
+
+### Clinical Applications
+Menstrual disorders, depression, skin issues like chloasma (mask of pregnancy), and digestive complaints.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 22, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/sepia/800/600',
+    tags: ['Materia Medica', 'Sepia', 'Hormonal Health']
+  },
+  {
+    id: 'arsenicum-profile',
+    title: 'Arsenicum Album: The Remedy for Anxiety and Restlessness',
+    excerpt: 'Explore the "White Oxide of Arsenic" - a premier remedy for perfectionists who suffer from deep-seated fears.',
+    content: `
+## Materia Medica: Arsenicum Album
+**Common Name:** White Oxide of Arsenic
+**Family:** Mineral
+
+### Summary
+Arsenicum is a deep-acting remedy for people who are fastidious, anxious about their health, and extremely restless.
+
+### Key Characteristics
+*   **Anxiety:** Great fear of death and being alone.
+*   **Restlessness:** Moves from place to place; "tired but wired."
+*   **Burning Pains:** Pains that feel like hot coals, but are paradoxically relieved by heat.
+*   **Thirst:** Desires small sips of cold water at frequent intervals.
+
+### Clinical Applications
+Food poisoning, asthma, anxiety disorders, and skin conditions with dry, scaly eruptions.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 23, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/arsenicum/800/600',
+    tags: ['Materia Medica', 'Arsenicum', 'Anxiety']
+  },
+  {
+    id: 'ignatia-profile',
+    title: 'Ignatia Amara: The Remedy for Grief and Contradiction',
+    excerpt: 'Learn about the "St. Ignatius Bean" - the primary remedy for acute emotional shock, grief, and hysterical symptoms.',
+    content: `
+## Materia Medica: Ignatia Amara
+**Common Name:** St. Ignatius Bean
+**Family:** Loganiaceae
+
+### Summary
+Ignatia is the "remedy of contradictions." It is suited to sensitive, idealistic individuals who are suffering from recent grief, disappointment, or emotional shock.
+
+### Key Characteristics
+*   **Contradiction:** Symptoms that don't make sense (e.g., sore throat better by swallowing solids).
+*   **Grief:** Sighing, sobbing, and a "lump in the throat" (globus hystericus).
+*   **Mood Swings:** Rapid changes from laughter to tears.
+*   **Sensitivity:** Extremely sensitive to tobacco smoke and strong odors.
+
+### Clinical Applications
+Acute grief, emotional stress, nervous headaches, and hysterical disorders.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'May 24, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/ignatia/800/600',
+    tags: ['Materia Medica', 'Ignatia', 'Grief']
+  },
+  {
+    id: 'bhms-pharmacy',
+    title: 'Homoeopathic Pharmacy: The Art of Potentization',
+    excerpt: 'Learn how homeopathic medicines are prepared and the unique science behind the process of potentization in BHMS.',
+    content: `
+## The Science of Preparation
+Homoeopathic Pharmacy is a unique subject in the first year of BHMS. it covers the identification, collection, preparation, and standardization of homeopathic medicines.
+
+### Key Concepts
+*   **Sources:** Medicines are derived from plants, minerals, animals, healthy tissues (nosodes), and even imponderables (like X-rays).
+*   **Vehicles:** Substances like sugar of milk, alcohol, and water used to carry the medicinal properties.
+*   **Potentization:** The process of serial dilution and succussion (vigorous shaking) that releases the dynamic power of the substance.
+*   **Trituration:** The process of grinding insoluble substances with sugar of milk.
+
+### Why It Matters
+Understanding pharmacy is crucial for a homeopath to ensure the quality and efficacy of the medicines they prescribe.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'May 25, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/pharmacy/800/600',
+    tags: ['BHMS', 'Pharmacy', 'Homeopathy']
+  },
+  {
+    id: 'organon-intro',
+    title: 'Introduction to the Organon of Medicine',
+    excerpt: 'The "Bible" of homeopathy. Discover the fundamental principles of healing as laid down by Dr. Samuel Hahnemann.',
+    content: `
+## The Foundation of Homeopathic Philosophy
+The Organon of Medicine, written by Dr. Samuel Hahnemann, is the foundational text of homeopathy. It outlines the laws and principles that govern the homeopathic system of medicine.
+
+### Core Principles
+*   **Similia Similibus Curentur:** "Like cures like."
+*   **Single Remedy:** Prescribing one medicine at a time.
+*   **Minimum Dose:** Using the smallest amount necessary to stimulate healing.
+*   **Individualization:** Treating the patient, not just the disease.
+
+### The Vital Force
+Hahnemann introduced the concept of the "Vital Force"—the invisible energy that maintains life and harmony in the body. Disease is seen as a derangement of this force.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'May 26, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/organon/800/600',
+    tags: ['BHMS', 'Organon', 'Philosophy']
+  },
+  {
+    id: 'thyroid-homeopathy',
+    title: 'Homoeopathic Support for Thyroid Disorders',
+    excerpt: 'Learn how homeopathy can help balance thyroid function naturally, whether you have hypothyroidism or hyperthyroidism.',
+    content: `
+## Balancing the Butterfly Gland
+The thyroid gland regulates your metabolism. When it's out of balance, it can affect your energy, weight, mood, and more. Homeopathy aims to restore balance to the entire endocrine system.
+
+### Hypothyroidism (Underactive)
+Symptoms include fatigue, weight gain, and feeling cold.
+*   **Calcarea Carb:** For individuals who are chilly, easily tired, and prone to weight gain.
+*   **Sepia:** For thyroid issues accompanied by exhaustion and hormonal imbalances.
+
+### Hyperthyroidism (Overactive)
+Symptoms include anxiety, weight loss, and heat sensitivity.
+*   **Iodium:** For rapid weight loss despite a huge appetite and feeling very hot.
+*   **Natrum Mur:** For thyroid issues triggered by grief or emotional stress.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 27, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/thyroid/800/600',
+    tags: ['Thyroid', 'Hormones', 'Metabolism']
+  },
+  {
+    id: 'anemia-homeopathy',
+    title: 'Natural Approaches to Anemia and Low Iron',
+    excerpt: 'Feeling pale and tired? Discover how homeopathy can help improve iron absorption and boost your vitality.',
+    content: `
+## Boosting Your Blood Health
+Anemia occurs when your blood lacks enough healthy red blood cells or hemoglobin. Homeopathy doesn't just "give iron"; it helps your body absorb and utilize nutrients more effectively.
+
+### Common Symptoms
+Fatigue, weakness, pale skin, shortness of breath, and cold hands/feet.
+
+### Key Remedies
+*   **Ferrum Met:** The premier remedy for iron-deficiency anemia with a "false plethora" (pale but flushes easily).
+*   **Calcarea Phos:** Excellent for anemia in growing children or after a long illness.
+*   **China (Cinchona):** For anemia caused by loss of vital fluids (like heavy periods or blood loss).
+*   **Natrum Mur:** For anemia accompanied by a desire for salt and a tendency to be reserved.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 28, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/anemia/800/600',
+    tags: ['Anemia', 'Iron', 'Vitality']
+  },
+  {
+    id: 'insomnia-homeopathy',
+    title: 'Better Sleep Naturally: Homoeopathy for Insomnia',
+    excerpt: 'Struggling to fall or stay asleep? Learn about gentle homeopathic remedies that help calm the mind and restore natural sleep patterns.',
+    content: `
+## The Quest for Restful Sleep
+Insomnia can be caused by stress, anxiety, caffeine, or physical discomfort. Homeopathy looks at the *type* of insomnia to find the right match.
+
+### Types of Sleep Issues
+*   **Can't Fall Asleep:** Often due to a "busy mind."
+*   **Waking at 3 AM:** Often related to liver function or deep-seated worry.
+*   **Restless Sleep:** Tossing and turning all night.
+
+### Top Remedies
+*   **Coffea Cruda:** For insomnia caused by "joyful excitement" or a rush of ideas.
+*   **Nux Vomica:** For those who wake up at 3-4 AM and can't get back to sleep due to work stress.
+*   **Aconite:** For insomnia caused by a sudden shock or fear.
+*   **Passiflora:** A gentle herbal-based remedy often used in mother tincture for its calming effect.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 29, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/insomnia/800/600',
+    tags: ['Insomnia', 'Sleep', 'Natural Healing']
+  },
+  {
+    id: 'acne-homeopathy',
+    title: 'Clear Skin Naturally: Homoeopathic Treatment for Acne',
+    excerpt: 'Stop hiding your skin. Discover how homeopathy treats the internal causes of acne for a clearer, healthier complexion.',
+    content: `
+## More Than Skin Deep
+Acne is often linked to hormonal changes, diet, and stress. Homeopathy treats the person, not just the pimple, to provide long-term results.
+
+### Common Remedies
+*   **Pulsatilla:** For acne related to puberty or menstrual cycles, often in gentle personalities.
+*   **Kali Bromatum:** For severe acne with bluish-red pustules, often on the face, chest, and shoulders.
+*   **Sulphur:** For itchy acne that feels worse with heat and washing.
+*   **Hepar Sulph:** For painful, pus-filled acne that is very sensitive to touch.
+
+### Tips for Clearer Skin
+1.  **Hydrate:** Drink plenty of water.
+2.  **Cleanse Gently:** Avoid harsh chemicals that strip the skin.
+3.  **Watch Your Diet:** Notice if dairy or sugar triggers your breakouts.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 30, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/acne/800/600',
+    tags: ['Acne', 'Skin Care', 'Dermatology']
+  },
+  {
+    id: 'psoriasis-homeopathy',
+    title: 'Homoeopathic Management of Psoriasis',
+    excerpt: 'Learn how homeopathy addresses the autoimmune roots of psoriasis for clearer skin and reduced flare-ups.',
+    content: `
+## Psoriasis: Beyond the Surface
+Psoriasis is a chronic autoimmune condition that causes the rapid buildup of skin cells, leading to scaling on the skin's surface. Homeopathy treats it as a systemic issue, not just a skin problem.
+
+### The Homeopathic Perspective
+We look at the patient's immune system, stress levels, and family history. The goal is to modulate the immune response and reduce the inflammatory process.
+
+### Key Remedies
+*   **Graphites:** For thick, leathery skin with cracks and honey-like discharge.
+*   **Arsenicum Album:** For dry, scaly psoriasis that is very itchy and worse with cold.
+*   **Sulphur:** For red, inflamed patches that itch intensely and feel worse with heat.
+*   **Petroleum:** For psoriasis that is significantly worse in winter, with deep, painful cracks.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'May 31, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/psoriasis/800/600',
+    tags: ['Psoriasis', 'Autoimmune', 'Skin Health']
+  },
+  {
+    id: 'sinusitis-homeopathy',
+    title: 'Natural Relief for Chronic Sinusitis',
+    excerpt: 'Tired of sinus pressure and headaches? Discover how homeopathy can help clear congestion and reduce inflammation naturally.',
+    content: `
+## Breathing Freely Again
+Sinusitis is the inflammation of the tissue lining the sinuses. It can cause facial pain, nasal congestion, and headaches. Homeopathy helps by reducing inflammation and supporting the body's natural drainage.
+
+### Common Symptoms
+Pressure around the eyes and nose, thick nasal discharge, reduced sense of smell, and cough.
+
+### Top Remedies
+*   **Kali Bich:** For thick, stringy, yellow-green discharge and pressure at the root of the nose.
+*   **Silicea:** For chronic sinusitis in people who are very sensitive to cold and have a tendency toward infections.
+*   **Pulsatilla:** For sinusitis with thick, bland, yellow discharge, worse in warm rooms and better in open air.
+*   **Hydrastis:** For "post-nasal drip" and thick, tenacious mucus that is hard to clear.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'June 01, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/sinus/800/600',
+    tags: ['Sinusitis', 'Congestion', 'Respiratory Health']
+  },
+  {
+    id: 'gastritis-homeopathy',
+    title: 'Homoeopathy for Gastritis and Acid Reflux',
+    excerpt: 'Soothe your stomach naturally. Learn about homeopathic remedies for burning pain, bloating, and indigestion.',
+    content: `
+## Calming the Fire Within
+Gastritis is the inflammation of the stomach lining. It can cause burning pain, nausea, and a feeling of fullness. Homeopathy addresses the underlying causes, such as stress, diet, or bacterial imbalance.
+
+### The Holistic Approach
+We look at what triggers your symptoms—spicy food, stress, or eating too fast—and find a remedy that matches your unique pattern of discomfort.
+
+### Key Remedies
+*   **Nux Vomica:** For gastritis caused by over-indulgence in rich food, alcohol, or coffee. Often with a feeling of a "stone" in the stomach.
+*   **Arsenicum Album:** For burning pain in the stomach relieved by warm drinks and worsened by cold food.
+*   **Carbo Veg:** For intense bloating and gas, especially in the upper abdomen, relieved by belching.
+*   **Lycopodium:** For bloating that starts soon after eating just a little bit, often worse in the late afternoon.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'June 02, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/gastritis/800/600',
+    tags: ['Gastritis', 'Digestion', 'Acid Reflux']
+  },
+  {
+    id: 'depression-homeopathy',
+    title: 'A Holistic Approach to Depression and Low Mood',
+    excerpt: 'Explore how homeopathy can support emotional well-being and help restore a sense of balance and hope naturally.',
+    content: `
+## Finding the Light Again
+Depression is a complex emotional state that affects how you feel, think, and handle daily activities. Homeopathy treats the individual's unique experience of depression, looking at the root causes and emotional patterns.
+
+### The Homeopathic View
+We don't just "label" depression; we ask: Is it related to grief? Is it accompanied by irritability? Is there a loss of interest in everything? These details guide the remedy selection.
+
+### Common Remedies
+*   **Aurum Met:** For deep depression with a sense of worthlessness and a heavy heart.
+*   **Ignatia:** For depression triggered by recent grief, disappointment, or emotional shock.
+*   **Natrum Mur:** For reserved individuals who dwell on past hurts and prefer to be alone with their grief.
+*   **Sepia:** For depression accompanied by exhaustion and a feeling of indifference toward loved ones.
+    `,
+    author: 'Curiva Mental Health Team',
+    date: 'June 03, 2024',
+    category: 'Mental Health',
+    image: 'https://picsum.photos/seed/depression/800/600',
+    tags: ['Depression', 'Mental Health', 'Emotional Well-being']
+  },
+  {
+    id: 'anxiety-homeopathy-deep',
+    title: 'Managing Anxiety Naturally with Homoeopathy',
+    excerpt: 'From panic attacks to constant worry, discover how homeopathy can help calm the nervous system and restore peace of mind.',
+    content: `
+## Calming the Anxious Mind
+Anxiety can manifest as physical symptoms like heart palpitations, sweating, and restlessness, as well as mental symptoms like racing thoughts and constant worry. Homeopathy offers a gentle way to support the nervous system.
+
+### Understanding Your Anxiety
+Is your anxiety related to a specific event? Is it a constant "background noise"? Does it make you want to move or keep you frozen? These distinctions are vital in homeopathy.
+
+### Key Remedies
+*   **Aconite:** For sudden, intense panic attacks with a fear of death and great restlessness.
+*   **Argentum Nit:** For "anticipatory anxiety"—worrying about upcoming events like exams or public speaking.
+*   **Arsenicum Album:** For anxiety about health and security, often accompanied by a need for order and fastidiousness.
+*   **Gelsemium:** For anxiety that makes you feel "paralyzed" or weak, often with trembling.
+    `,
+    author: 'Curiva Mental Health Team',
+    date: 'June 04, 2024',
+    category: 'Mental Health',
+    image: 'https://picsum.photos/seed/anxiety-relief/800/600',
+    tags: ['Anxiety', 'Panic Attacks', 'Stress Relief']
+  },
+  {
+    id: 'hair-loss-homeopathy',
+    title: 'Natural Solutions for Hair Loss and Thinning',
+    excerpt: 'Discover how homeopathy addresses the internal imbalances that lead to hair loss, from stress to hormonal changes.',
+    content: `
+## Revitalizing Your Hair from Within
+Hair loss can be distressing and is often a sign of internal stress, nutritional deficiency, or hormonal shifts. Homeopathy aims to improve the health of the hair follicles by balancing the body's internal environment.
+
+### Common Causes
+*   **Stress:** Physical or emotional shock can trigger hair shedding.
+*   **Hormonal Changes:** Post-pregnancy, menopause, or thyroid issues.
+*   **Nutritional Gaps:** Lack of vital minerals and vitamins.
+
+### Top Remedies
+*   **Fluoric Acid:** For hair loss that occurs in patches (alopecia areata) or after a long illness.
+*   **Phosphorus:** For hair loss in large clumps, often with a dry, itchy scalp.
+*   **Lycopodium:** For premature graying and thinning of hair, often related to digestive or liver issues.
+*   **Natrum Mur:** For hair loss triggered by grief or emotional stress, often with a greasy scalp.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'June 05, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/hair-loss/800/600',
+    tags: ['Hair Loss', 'Alopecia', 'Natural Beauty']
+  },
+  {
+    id: 'bhms-pathology',
+    title: 'The Role of Pathology in BHMS: Understanding Disease',
+    excerpt: 'Explore the study of disease processes and how it integrates with homeopathic principles in the second year of BHMS.',
+    content: `
+## Pathology: The Study of Suffering
+Pathology is a bridge between basic sciences and clinical medicine. In the second year of BHMS, students learn about the structural and functional changes that occur in cells, tissues, and organs during disease.
+
+### Key Areas of Study
+*   **General Pathology:** Inflammation, healing, cell injury, and neoplasia (tumors).
+*   **Systemic Pathology:** Disease processes in specific organ systems (cardiovascular, respiratory, etc.).
+*   **Microbiology:** The study of bacteria, viruses, and fungi and their role in disease.
+*   **Clinical Pathology:** Laboratory techniques for diagnosing disease through blood, urine, and other fluids.
+
+### Homeopathic Integration
+While pathology focuses on the material changes, homeopathic students learn to relate these changes to the "miasmatic" background and the overall state of the vital force.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'June 06, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/pathology/800/600',
+    tags: ['BHMS', 'Pathology', 'Medical Science']
+  },
+  {
+    id: 'bhms-fmtd',
+    title: 'Forensic Medicine and Toxicology in BHMS',
+    excerpt: 'Learn about the legal aspects of medicine and the study of poisons in the second year of the BHMS curriculum.',
+    content: `
+## Medicine and the Law
+Forensic Medicine and Toxicology (FMT) is a fascinating subject that deals with the application of medical knowledge to legal issues.
+
+### Key Topics in Forensic Medicine
+*   **Medical Jurisprudence:** The legal responsibilities and rights of a doctor.
+*   **Thanatology:** The study of death and its legal implications.
+*   **Identification:** Methods for identifying living and dead individuals.
+*   **Autopsy:** The procedure and legal requirements for post-mortem examinations.
+
+### Key Topics in Toxicology
+*   **Classification of Poisons:** Understanding different types of toxins.
+*   **Signs and Symptoms:** Recognizing the effects of various poisons on the body.
+*   **Management:** Emergency treatment and antidotes for poisoning.
+*   **Medico-legal Aspects:** The legal consequences of poisoning cases.
+    `,
+    author: 'Curiva Academic Team',
+    date: 'June 07, 2024',
+    category: 'BHMS Course',
+    image: 'https://picsum.photos/seed/forensic/800/600',
+    tags: ['BHMS', 'Forensic Medicine', 'Toxicology']
+  },
+  {
+    id: 'natrum-mur-profile',
+    title: 'Natrum Muriaticum: The Remedy for Suppressed Emotions',
+    excerpt: 'A deep study of "Common Salt" - the premier remedy for reserved individuals who dwell on past grief.',
+    content: `
+## Materia Medica: Natrum Muriaticum
+**Common Name:** Common Salt
+**Family:** Mineral
+
+### Summary
+Natrum Mur is a deep-acting constitutional remedy. It is suited to individuals who are sensitive, reserved, and who tend to bottle up their emotions, especially grief and disappointment.
+
+### Key Characteristics
+*   **Reserved:** Does not like to show emotion; dislikes consolation (it makes them feel worse).
+*   **Grief:** Dwells on past unpleasant events and cannot let go of hurts.
+*   **Cravings:** Strong desire for salt and a dislike of bread and fats.
+*   **Sun Sensitivity:** Symptoms often worse in the sun or heat.
+*   **Physical Signs:** Mapping of the tongue, cracks in the middle of the lower lip.
+
+### Clinical Applications
+Chronic headaches, skin issues like eczema or cold sores, menstrual irregularities, and emotional disorders.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 08, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/natrum/800/600',
+    tags: ['Materia Medica', 'Natrum Mur', 'Emotional Health']
+  },
+  {
+    id: 'gelsemium-profile',
+    title: 'Gelsemium Sempervirens: The Remedy for "Dull, Dizz, and Drowsy"',
+    excerpt: 'Discover the "Yellow Jasmine" - the primary remedy for flu-like symptoms and anticipatory anxiety.',
+    content: `
+## Materia Medica: Gelsemium Sempervirens
+**Common Name:** Yellow Jasmine
+**Family:** Loganiaceae
+
+### Summary
+Gelsemium is known for its "paralyzing" effect on both the mind and body. It is suited to situations where there is a feeling of extreme weakness, heaviness, and dullness.
+
+### Key Characteristics
+*   **The Three Ds:** Dullness, Dizziness, and Drowsiness.
+*   **Weakness:** Limbs feel heavy like lead; eyelids droop; wants to lie down and be still.
+*   **Anticipatory Anxiety:** Fear of upcoming events (exams, stage fright) that leads to trembling or diarrhea.
+*   **Thirstlessness:** Almost always thirstless, even during a fever.
+
+### Clinical Applications
+Influenza (flu) with aching muscles, tension headaches, and anxiety-related issues.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 09, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/gelsemium/800/600',
+    tags: ['Materia Medica', 'Gelsemium', 'Flu Relief']
+  },
+  {
+    id: 'aconite-profile',
+    title: 'Aconitum Napellus: The Remedy for Sudden Shock',
+    excerpt: 'Learn about "Monkshood" - the premier remedy for acute conditions that come on suddenly with great intensity.',
+    content: `
+## Materia Medica: Aconitum Napellus
+**Common Name:** Monkshood
+**Family:** Ranunculaceae
+
+### Summary
+Aconite is the "remedy of the first hour." It is indicated for conditions that come on suddenly and violently, often after exposure to cold, dry wind or a sudden emotional shock.
+
+### Key Characteristics
+*   **Suddenness:** Symptoms appear with great intensity and speed.
+*   **Fear of Death:** Intense anxiety and a conviction that they are going to die.
+*   **Restlessness:** Tossing and turning; cannot be still.
+*   **Thirst:** Great thirst for large quantities of cold water.
+*   **Dryness:** Dry skin, dry cough, and a lack of perspiration.
+
+### Clinical Applications
+Early stages of fever, croup, sudden panic attacks, and acute inflammatory conditions.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 10, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/aconite/800/600',
+    tags: ['Materia Medica', 'Aconite', 'Acute Care']
+  },
+  {
+    id: 'belladonna-profile',
+    title: 'Belladonna: The Remedy for Heat and Redness',
+    excerpt: 'Explore "Deadly Nightshade" - a powerful remedy for acute inflammations characterized by suddenness and intensity.',
+    content: `
+## Materia Medica: Belladonna
+**Common Name:** Deadly Nightshade
+**Family:** Solanaceae
+
+### Summary
+Belladonna is a remedy of "intensity." It is suited to acute conditions where there is a lot of heat, redness, and throbbing pain.
+
+### Key Characteristics
+*   **Suddenness:** Like Aconite, symptoms come on very fast.
+*   **Heat and Redness:** The affected part is hot to the touch and bright red (e.g., a red face in fever).
+*   **Throbbing:** Pains are often described as throbbing or pulsating.
+*   **Sensitivity:** Extremely sensitive to light, noise, and jarring.
+*   **Dilated Pupils:** Eyes often appear bright and pupils are dilated.
+
+### Clinical Applications
+High fevers, throbbing headaches, acute tonsillitis, and inflammatory skin conditions.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 11, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/belladonna/800/600',
+    tags: ['Materia Medica', 'Belladonna', 'Inflammation']
+  },
+  {
+    id: 'bryonia-profile',
+    title: 'Bryonia Alba: The Remedy for Pain Worse with Motion',
+    excerpt: 'Discover "White Bryony" - the premier remedy for inflammatory conditions where absolute rest is the only relief.',
+    content: `
+## Materia Medica: Bryonia Alba
+**Common Name:** White Bryony
+**Family:** Cucurbitaceae
+
+### Summary
+Bryonia is the remedy of "dryness" and "aggravation by motion." It is suited to individuals who are irritable and want to be left alone in their quiet, dark room.
+
+### Key Characteristics
+*   **Worse with Motion:** Even the slightest movement (like blinking or breathing deeply) makes the pain worse.
+*   **Better with Rest and Pressure:** Feels significantly better when lying perfectly still and applying firm pressure to the painful area.
+*   **Dryness:** Dry mouth, dry cough, and constipation with dry, hard stools.
+*   **Thirst:** Great thirst for large quantities of cold water at long intervals.
+*   **Irritability:** Wants to be left alone and talks about business even when sick.
+
+### Clinical Applications
+Pleurisy, joint pain, dry coughs, and headaches that feel like the head will "burst."
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/bryonia/800/600',
+    tags: ['Materia Medica', 'Bryonia', 'Pain Management']
+  },
+  {
+    id: 'kidney-stones-homeopathy',
+    title: 'Homoeopathic Approach to Kidney Stones',
+    excerpt: 'Learn how homeopathy can help manage the pain of kidney stones and reduce the tendency for them to recur.',
+    content: `
+## Managing Renal Calculi Naturally
+Kidney stones (renal calculi) are hard deposits made of minerals and salts that form inside your kidneys. They can cause intense, radiating pain. Homeopathy offers a way to manage the acute pain and address the underlying metabolic factors.
+
+### The Homeopathic Goal
+*   **Pain Relief:** Managing the intense "renal colic."
+*   **Facilitating Passage:** Helping the stone pass more easily through the urinary tract.
+*   **Preventing Recurrence:** Addressing the body's tendency to form stones through constitutional treatment.
+
+### Key Remedies
+*   **Berberis Vulgaris:** The most famous remedy for kidney stones, especially when the pain radiates from the kidney to the bladder or down the thigh.
+*   **Lycopodium:** For right-sided kidney stones with red sand in the urine.
+*   **Cantharis:** For intense burning pain and a constant urge to urinate.
+*   **Sarsaparilla:** For pain that is most intense at the end of urination.
+    `,
+    author: 'Curiva Medical Team',
+    date: 'June 13, 2024',
+    category: 'Disease & Conditions',
+    image: 'https://picsum.photos/seed/kidney/800/600',
+    tags: ['Kidney Stones', 'Renal Health', 'Pain Relief']
   }
 ];

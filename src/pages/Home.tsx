@@ -27,12 +27,12 @@ export default function Home() {
         <AboutSection />
         
         {/* Articles CTA Section */}
-        <section className="py-20 bg-soft-beige border-t border-gray-100">
+        <section className="py-20 bg-bg-secondary border-t border-border transition-colors duration-300">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-            <h2 className="text-3xl font-display font-bold text-gray-900 mb-6">
+            <h2 className="text-3xl font-display font-bold text-text-primary mb-6">
               Ready to Dive Deeper?
             </h2>
-            <p className="text-lg text-gray-600 mb-10 max-w-2xl mx-auto">
+            <p className="text-lg text-text-secondary mb-10 max-w-2xl mx-auto">
               Explore our extensive collection of educational articles, patient stories, and holistic health guides.
             </p>
             <Link

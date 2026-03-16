@@ -36,7 +36,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick }) => 
   };
 
   return (
-    <div className="min-h-screen bg-white">
+    <div className="min-h-screen bg-bg-primary transition-colors duration-300">
       <SEO 
         title={post.title}
         description={post.excerpt}
@@ -87,8 +87,8 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick }) => 
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Main Content */}
           <div className="flex-1">
-            <div className="markdown-body prose prose-lg max-w-none">
-              <p className="text-xl text-gray-600 font-medium italic mb-8 border-l-4 border-primary pl-6">
+            <div className="markdown-body prose prose-lg max-w-none dark:prose-invert">
+              <p className="text-xl text-text-secondary font-medium italic mb-8 border-l-4 border-primary pl-6">
                 {post.excerpt}
               </p>
               
@@ -103,7 +103,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick }) => 
                   <span 
                     key={tag} 
                     onClick={() => onTagClick?.(tag)}
-                    className="px-3 py-1 bg-gray-50 text-gray-600 text-xs font-medium rounded-full hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer"
+                    className="px-3 py-1 bg-bg-secondary text-text-secondary text-xs font-medium rounded-full hover:bg-primary/10 hover:text-primary transition-colors cursor-pointer"
                   >
                     #{tag}
                   </span>
@@ -115,36 +115,36 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick }) => 
           {/* Sidebar */}
           <aside className="lg:w-64 shrink-0">
             <div className="sticky top-28 space-y-8">
-              <div className="p-6 bg-soft-beige rounded-2xl border border-gray-100">
-                <h4 className="font-display font-bold text-gray-900 mb-4 flex items-center gap-2">
+              <div className="p-6 bg-bg-secondary rounded-2xl border border-border">
+                <h4 className="font-display font-bold text-text-primary mb-4 flex items-center gap-2">
                   <Share2 className="w-4 h-4 text-primary" />
                   Share Article
                 </h4>
                 <div className="flex gap-3">
                   <button 
                     onClick={() => handleShare('facebook')}
-                    className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group"
+                    className="w-10 h-10 rounded-full bg-bg-primary border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group"
                   >
                     <span className="sr-only">Facebook</span>
                     <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24"><path d="M22 12c0-5.523-4.477-10-10-10S2 6.477 2 12c0 4.991 3.657 9.128 8.438 9.878v-6.987h-2.54V12h2.54V9.797c0-2.506 1.492-3.89 3.777-3.89 1.094 0 2.238.195 2.238.195v2.46h-1.26c-1.243 0-1.63.771-1.63 1.562V12h2.773l-.443 2.89h-2.33v6.988C18.343 21.128 22 16.991 22 12z"/></svg>
                   </button>
                   <button 
                     onClick={() => handleShare('twitter')}
-                    className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group"
+                    className="w-10 h-10 rounded-full bg-bg-primary border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group"
                   >
                     <span className="sr-only">Twitter</span>
                     <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24"><path d="M23.953 4.57a10 10 0 01-2.825.775 4.958 4.958 0 002.163-2.723c-.951.555-2.005.959-3.127 1.184a4.92 4.92 0 00-8.384 4.482C7.69 8.095 4.067 6.13 1.64 3.162a4.822 4.822 0 00-.666 2.475c0 1.71.87 3.213 2.188 4.096a4.904 4.904 0 01-2.228-.616v.06a4.923 4.923 0 003.946 4.84 4.996 4.996 0 01-2.212.085 4.936 4.936 0 004.604 3.417 9.867 9.867 0 01-6.102 2.105c-.39 0-.779-.023-1.17-.067a13.995 13.995 0 007.557 2.209c9.053 0 13.998-7.496 13.998-13.985 0-.21 0-.42-.015-.63A9.935 9.935 0 0024 4.59z"/></svg>
                   </button>
                   <button 
                     onClick={() => handleShare('linkedin')}
-                    className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group"
+                    className="w-10 h-10 rounded-full bg-bg-primary border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group"
                   >
                     <span className="sr-only">LinkedIn</span>
                     <svg className="w-5 h-5 transition-transform group-hover:scale-110" fill="currentColor" viewBox="0 0 24 24"><path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/></svg>
                   </button>
                   <button 
                     onClick={() => handleShare('copy')}
-                    className="w-10 h-10 rounded-full bg-white border border-gray-200 flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group relative"
+                    className="w-10 h-10 rounded-full bg-bg-primary border border-border flex items-center justify-center hover:border-primary hover:text-primary transition-all shadow-sm group relative"
                   >
                     <span className="sr-only">Copy Link</span>
                     {copied ? (
@@ -162,8 +162,8 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick }) => 
               </div>
 
               <div className="p-6 bg-primary/5 rounded-2xl border border-primary/10">
-                <h4 className="font-display font-bold text-gray-900 mb-2">Need a Consultation?</h4>
-                <p className="text-sm text-gray-600 mb-4">
+                <h4 className="font-display font-bold text-text-primary mb-2">Need a Consultation?</h4>
+                <p className="text-sm text-text-secondary mb-4">
                   Connect with our certified homeopathic practitioners for personalized care.
                 </p>
                 <button className="w-full py-2 bg-primary text-white text-sm font-bold rounded-lg hover:bg-primary/90 transition-all">

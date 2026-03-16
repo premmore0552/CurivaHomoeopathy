@@ -21,9 +21,15 @@ export const categories: Category[] = [
     description: 'Comprehensive study of remedy symptoms and origins.'
   },
   {
+    id: 'bhms',
+    name: 'BHMS Course',
+    icon: 'GraduationCap',
+    description: 'Detailed information about the BHMS curriculum and career.'
+  },
+  {
     id: 'students',
     name: 'Homoeopathy for Students',
-    icon: 'GraduationCap',
+    icon: 'BookOpen',
     description: 'Educational resources for aspiring homeopaths.'
   },
   {
