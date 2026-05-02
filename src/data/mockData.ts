@@ -3,46 +3,34 @@ import { allBlogPosts } from './blogPosts';
 
 export const categories: Category[] = [
   {
-    id: 'remedies',
-    name: 'Homoeopathic Remedies',
-    icon: 'Leaf',
-    description: 'In-depth profiles of key homeopathic medicines.'
-  },
-  {
-    id: 'conditions',
-    name: 'Disease & Conditions',
-    icon: 'Stethoscope',
-    description: 'Natural approaches to common and chronic ailments.'
-  },
-  {
     id: 'materia-medica',
     name: 'Materia Medica',
     icon: 'BookOpen',
-    description: 'Comprehensive study of remedy symptoms and origins.'
+    description: 'Comprehensive study of homeopathic remedies, their symptoms, and origins.'
   },
   {
-    id: 'bhms',
-    name: 'BHMS Course',
-    icon: 'GraduationCap',
-    description: 'Detailed information about the BHMS curriculum and career.'
-  },
-  {
-    id: 'students',
-    name: 'Homoeopathy for Students',
-    icon: 'BookOpen',
-    description: 'Educational resources for aspiring homeopaths.'
+    id: 'conditions',
+    name: 'Diseases and Conditions',
+    icon: 'Stethoscope',
+    description: 'Natural approaches to common and chronic ailments through homoeopathy.'
   },
   {
     id: 'lifestyle',
-    name: 'Lifestyle & Natural Healing',
+    name: 'Lifestyle and Natural Healing',
     icon: 'HeartPulse',
-    description: 'Holistic living tips for better health and vitality.'
+    description: 'Holistic living tips and natural healing guides for better health and vitality.'
+  },
+  {
+    id: 'students',
+    name: 'BHMS Course',
+    icon: 'GraduationCap',
+    description: 'Educational resources and study guides for aspiring homeopaths.'
   },
   {
     id: 'research',
-    name: 'Research & Evidence',
+    name: 'Research and Evidence',
     icon: 'Search',
-    description: 'Scientific studies and evidence-based homoeopathy.'
+    description: 'Scientific studies and evidence-based research in the field of homoeopathy.'
   }
 ];
 

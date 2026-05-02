@@ -26,20 +26,25 @@ export default function PrivacyPolicy() {
             
             <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">1. Information We Collect</h2>
             <p>
-              We may collect personal information that you voluntarily provide to us, such as your name and email address when you subscribe to our newsletter or contact us. We also collect non-personal information automatically, such as your IP address, browser type, and usage data through cookies.
+              We collect minimal information to support our educational mission. The types of information we collect include:
             </p>
-            
-            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">2. How We Use Your Information</h2>
             <ul className="list-disc pl-6 space-y-3">
-              <li>To provide and maintain our services.</li>
-              <li>To send you newsletters and updates if you have subscribed.</li>
-              <li>To respond to your inquiries and feedback.</li>
-              <li>To analyze website traffic and improve user experience.</li>
+              <li><strong>Contact Information:</strong> Email address only if you voluntarily subscribe to our newsletter or provide feedback.</li>
+              <li><strong>Feedback Data:</strong> Any comments or error reports you submit through our feedback forms. <strong>We do not collect or store patient medical history or clinical health data.</strong></li>
+              <li><strong>Usage Data:</strong> Non-personal information automatically collected through cookies, such as IP address and browser type to understand how users interact with our research content.</li>
             </ul>
             
-            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">3. Data Security</h2>
+            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">2. How We Use Your Information</h2>
+            <p>We use your data strictly for educational and feedback-related purposes:</p>
+            <ul className="list-disc pl-6 space-y-3">
+              <li>To improve our educational resources based on user feedback.</li>
+              <li>To send you research updates and homoeopathic awareness newsletters if subscribed.</li>
+              <li>To respond to your specific inquiries or content suggestions.</li>
+            </ul>
+
+            <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">3. Data Security & Integrity</h2>
             <p>
-              We implement appropriate technical and organizational measures to protect your personal data against unauthorized access, alteration, disclosure, or destruction. However, no method of transmission over the internet is 100% secure.
+              While we do not store health records, we implement standard security measures to protect your contact information and feedback. We do not sell or share any user data with third-party pharmaceutical or medical marketing firms.
             </p>
             
             <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">4. Third-Party Links</h2>

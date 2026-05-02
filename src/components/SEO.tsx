@@ -44,7 +44,10 @@ const SEO: React.FC<SEOProps> = ({
       <meta name="twitter:image" content={image} />
       
       {/* Theme Color */}
-      <meta name="theme-color" content="#1a4d2e" />
+      <meta name="theme-color" content="#D12B81" />
+      
+      {/* Canonical Link */}
+      <link rel="canonical" href={url} />
     </Helmet>
   );
 };

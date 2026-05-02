@@ -1,0 +1,6 @@
+import fs from 'fs';
+import path from 'fs';
+
+// This script will read blogPosts.ts and add missing slugs based on IDs
+// Since I can't easily parse TS with regex perfectly, I'll use a simpler approach
+// if I were to run it. But I'll just do a targeted multiedit.

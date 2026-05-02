@@ -32,29 +32,38 @@ const AboutSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 mb-6">
+            <div className="flex items-center gap-3 mb-8">
               <Info className="w-8 h-8 text-primary" />
-              <h2 className="text-3xl md:text-4xl font-display font-bold text-text-primary">
-                About <span className="text-primary">Curiva Homoeopathy</span>
+              <h2 className="text-3xl md:text-5xl font-display font-extrabold text-text-primary">
+                About <span className="text-primary italic">Curiva</span>
               </h2>
             </div>
-            <p className="text-lg text-text-secondary mb-8 leading-relaxed">
-              Curiva Homoeopathy is dedicated to spreading awareness about the profound healing power of homoeopathy. 
-              We bridge the gap between traditional wisdom and modern health education, providing resources that empower 
-              individuals to take control of their wellness naturally.
+            <div className="mb-6 inline-block px-3 py-1 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 rounded-lg">
+              BHMS Student Resource
+            </div>
+            <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed font-medium">
+              Curiva is an educational project dedicated to spreading awareness about the profound healing patterns of homoeopathy. 
+              We bridge traditional research with modern wellness literacry, offering a student-curated repository for holistic study.
             </p>
             
             <div className="space-y-6 mb-10">
               {features.map((feature, index) => (
-                <div key={index} className="flex gap-4">
-                  <div className="shrink-0 w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center">
+                <motion.div 
+                  key={index} 
+                  initial={{ opacity: 0, x: -10 }}
+                  whileInView={{ opacity: 1, x: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.1 * index }}
+                  className="flex gap-4 group"
+                >
+                  <div className="shrink-0 w-12 h-12 bg-primary/10 text-primary rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
                     {feature.icon}
                   </div>
                   <div>
                     <h3 className="font-bold text-text-primary mb-1">{feature.title}</h3>
                     <p className="text-text-secondary text-sm">{feature.description}</p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
 
@@ -78,18 +87,18 @@ const AboutSection: React.FC = () => {
               <div className="absolute -top-4 -left-4 w-24 h-24 bg-accent/20 rounded-full blur-2xl"></div>
               <div className="absolute -bottom-4 -right-4 w-32 h-32 bg-primary/20 rounded-full blur-2xl"></div>
               
-              <div className="relative rounded-3xl overflow-hidden shadow-xl border-8 border-bg-secondary">
+              <div className="relative rounded-[2rem] overflow-hidden shadow-2xl border-4 border-white dark:border-border">
                 <img
-                  src="https://picsum.photos/seed/curiva-about/600/800"
+                  src="https://images.unsplash.com/photo-1498837167922-ddd27525d352?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80"
                   alt="Curiva Homoeopathy Philosophy"
-                  className="w-full h-auto object-cover"
+                  className="w-full h-[500px] object-cover"
                   referrerPolicy="no-referrer"
                 />
               </div>
               
-              <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-bg-primary p-6 rounded-2xl shadow-xl hidden md:block border border-border max-w-[200px]">
-                <p className="text-primary font-serif italic text-lg mb-2">"Tiny Doses. True Shifts."</p>
-                <p className="text-xs text-text-secondary">Our core philosophy for lasting health.</p>
+              <div className="absolute top-1/2 -right-8 -translate-y-1/2 bg-bg-primary p-6 rounded-2xl shadow-xl hidden md:block border border-border max-w-[240px]">
+                <p className="text-primary font-serif italic text-xl mb-3">"Tiny Doses. True Shifts."</p>
+                <p className="text-sm text-text-secondary">Our core philosophy for discovering lasting, natural health.</p>
               </div>
             </div>
           </motion.div>

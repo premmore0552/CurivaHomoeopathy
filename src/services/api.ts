@@ -16,3 +16,9 @@ export const fetchPostById = async (id: string): Promise<BlogPost> => {
   if (!response.ok) throw new Error('Failed to fetch post');
   return response.json();
 };
+
+export const fetchPostBySlug = async (slug: string): Promise<BlogPost> => {
+  const response = await fetch(`/api/posts/slug/${slug}`);
+  if (!response.ok) throw new Error('Failed to fetch post');
+  return response.json();
+};

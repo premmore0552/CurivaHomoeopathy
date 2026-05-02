@@ -1,62 +1,118 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&family=Open+Sans:wght@400;600&family=Dancing+Script:wght@700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Instrument+Sans:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Open Sans", ui-sans-serif, system-ui, sans-serif;
-  --font-display: "Poppins", sans-serif;
-  --font-script: "Dancing Script", cursive;
-  
-  --color-primary: #D12B81;
-  --color-primary-light: #F4B8D8;
-  --color-accent: #FFD700;
-  --color-beige: #FDF2F8;
-  --color-soft-beige: #FFF5F9;
+  --font-display: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-sans: "Instrument Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #FDF2F8;
-  --color-text-primary: #111827;
-  --color-text-secondary: #4B5563;
-  --color-border: #F3F4F6;
-}
-
-@theme dark {
-  --color-bg-primary: #111827;
-  --color-bg-secondary: #1F2937;
-  --color-text-primary: #F9FAFB;
-  --color-text-secondary: #D1D5DB;
-  --color-border: #374151;
+  --color-primary: #ba1173;
+  --color-primary-light: #f8dbe6;
+  --color-primary-dark: #ba1775;
   
-  --color-primary: #F4B8D8;
-  --color-primary-light: #D12B81;
-  --color-soft-beige: #1F2937;
+  --color-bg-primary: #fcf4f6;
+  --color-bg-secondary: #f8dbe6;
+  --color-text-primary: #2d0a1b;
+  --color-text-secondary: #724e5b;
+  --color-border: #f2c9d6;
+
+  --shadow-soft: 0 4px 20px -2px rgba(186, 17, 115, 0.05);
+  --shadow-header: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+    @apply antialiased text-text-primary bg-bg-primary;
+    font-size: 16px;
+  }
+
+  body {
+    @apply font-sans transition-colors duration-300;
+  }
+
   h1, h2, h3, h4, h5, h6 {
-    font-family: var(--font-display);
+    @apply font-display tracking-tight text-text-primary;
+  }
+
+  /* Improve focus states for accessibility */
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-primary/60;
+  }
+
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }
 
+.dark {
+  --color-bg-primary: #1a0410;
+  --color-bg-secondary: #2d0a1b;
+  --color-text-primary: #fcf4f6;
+  --color-text-secondary: #f8dbe6;
+  --color-border: #5c0d3a;
+  
+  --color-primary: #bd1576;
+  --color-primary-light: #ba1173;
+}
+
 .markdown-body {
-  @apply text-text-secondary leading-relaxed;
+  @apply text-text-secondary leading-relaxed text-base md:text-lg overflow-hidden break-words;
+}
+
+.markdown-body img {
+  @apply max-w-full h-auto rounded-2xl my-8;
+}
+
+.markdown-body pre {
+  @apply bg-bg-secondary p-4 rounded-xl overflow-x-auto my-6 border border-border;
+}
+
+.markdown-body blockquote {
+  @apply border-l-4 border-primary pl-6 italic my-8 text-text-primary;
+}
+
+.markdown-body table {
+  @apply w-full border-collapse mb-10 overflow-hidden rounded-xl border border-border;
+}
+
+.markdown-body th {
+  @apply bg-bg-secondary p-4 text-left font-bold text-text-primary border-b border-border;
+}
+
+.markdown-body td {
+  @apply p-4 text-text-secondary border-b border-border;
+}
+
+.markdown-body tr:last-child td {
+  @apply border-b-0;
 }
 
 .markdown-body h2 {
-  @apply text-2xl font-bold mt-8 mb-4 text-primary;
+  @apply text-2xl md:text-3xl font-display font-bold mt-10 mb-5 text-text-primary;
 }
 
 .markdown-body h3 {
-  @apply text-xl font-bold mt-6 mb-3 text-text-primary;
+  @apply text-xl md:text-2xl font-display font-bold mt-8 mb-4 text-text-primary;
 }
 
 .markdown-body ul {
-  @apply list-disc pl-6 mb-4 space-y-2;
-}
-
-.markdown-body li {
-  @apply text-text-secondary;
+  @apply list-disc pl-6 mb-6 space-y-3;
 }
 
 .markdown-body p {
-  @apply mb-4;
+  @apply mb-6;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
 }

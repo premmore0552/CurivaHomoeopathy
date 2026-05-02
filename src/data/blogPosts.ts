@@ -3,8 +3,54 @@ import { BlogPost } from '../types';
 export const allBlogPosts: BlogPost[] = [
   {
     id: 'aconite',
+    seoTitle: 'Aconitum Napellus in Homeopathy: Sudden Shock, Fever & Fear',
     title: 'Aconitum Napellus: The Remedy for Sudden Shock and Fear',
+    slug: 'aconite',
     excerpt: 'Discover the "Homeopathic Lancet" - a primary remedy for conditions that come on suddenly after exposure to dry, cold winds.',
+    quickSummary: [
+      'Sudden onset of intense symptoms',
+      'Accompanied by great fear, anxiety, and restlessness',
+      'Often comes after exposure to dry, cold wind or shock'
+    ],
+    keyPatterns: [
+      'Ailments from shock, fright, or chilling wind',
+      'First stage of acute inflammation or fever',
+      'Unquenchable thirst for cold water',
+      'Extreme mental and physical restlessness'
+    ],
+    whoItSuits: 'Strong, normally healthy individuals who suddenly fall ill with intense panic, feeling certain they will not recover.',
+    whenToConsider: [
+      'First signs of a cold or flu',
+      'Sudden high fever with dry, hot skin',
+      'Panic attacks or shock after a scary event',
+      'Croupy, dry cough awakening someone from sleep'
+    ],
+    modalities: {
+      better: ['Open air', 'Rest'],
+      worse: ['Warm room', 'Evening and night', 'Lying on the affected side', 'Rising from bed']
+    },
+    comparisons: [
+      {
+        remedyName: 'Belladonna',
+        differences: 'Aconite has intense fear, pale/flushed alternating face, and dry heat. Belladonna has sudden throbbing, delirium, bright red face, and may sweat on covered parts.',
+        linkId: '/read/belladonna'
+      },
+      {
+        remedyName: 'Gelsemium',
+        differences: 'Aconite is restless and panicked. Gelsemium is dull, dizzy, drowsy, and wants to lie quietly.',
+        linkId: '/read/gelsemium'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Anxiety & Stress Management',
+        linkId: '/guide/stress-anxiety'
+      },
+      {
+        name: 'Immune System Support',
+        linkId: '/guide/immunity-wellness'
+      }
+    ],
     content: `
 ## Materia Medica: Aconitum Napellus
 **Common Name:** Monkshood
@@ -34,14 +80,60 @@ Acute fevers, sudden inflammatory conditions, croup, anxiety attacks, and ailmen
     `,
     author: 'Dr. H.C. Allen',
     date: 'March 05, 2024',
-    category: 'Homoeopathic Remedies',
+    category: 'Materia Medica',
     image: 'https://picsum.photos/seed/aconite/800/600',
-    tags: ['Acute Care', 'Fear', 'Inflammation', 'Aconite']
+    tags: ['Acute Care', 'Fear', 'Inflammation', 'Aconite'],
+    relatedRemedies: ['aconite', 'belladonna', 'arnica'],
+    relatedConditions: ['fever', 'anxiety', 'migraine'],
+    citations: [
+      { title: 'Homeopathy in Acute Fevers', url: 'https://pubmed.ncbi.nlm.nih.gov/', source: 'PubMed' },
+      { title: 'Allen\'s Keynotes on Aconite', url: '#', source: 'Allen\'s Materia Medica' }
+    ]
   },
   {
     id: 'arnica',
+    seoTitle: 'Arnica Montana in Homeopathy: First Aid for Bruises & Trauma',
     title: 'Arnica Montana: The First Choice for Trauma and Injuries',
+    slug: 'arnica',
     excerpt: 'Learn why Arnica is the most trusted remedy for bruises, mechanical injuries, and that characteristic "sore, lame, bruised" feeling.',
+    quickSummary: [
+      'The #1 remedy for physical trauma and shock',
+      'Feeling of being "bruised and beaten"',
+      'Says "I am fine" even when seriously hurt'
+    ],
+    keyPatterns: [
+      'Deep muscle soreness and bruising',
+      'Bed feels too hard to lie on',
+      'Over-sensitive to pain and touch',
+      'Denies that anything is wrong (shock)'
+    ],
+    whoItSuits: 'Anyone who has recently experienced physical trauma, overexertion, or a fall, especially if they are trying to push through the pain.',
+    whenToConsider: [
+      'Immediately after a fall, blow, or concussion',
+      'Post-surgery or dental work to reduce swelling',
+      'Muscle soreness from intense physical exertion',
+      'Sprains where the whole area feels bruised'
+    ],
+    modalities: {
+      better: ['Lying down with head low', 'Rest'],
+      worse: ['Least touch', 'Motion', 'Damp cold', 'Wine']
+    },
+    comparisons: [
+      {
+        remedyName: 'Rhus Tox',
+        differences: 'Arnica is for the initial trauma and bruising. Rhus Tox is for the lingering stiffness and ligament sprains that feel better after you "warm up" by moving.',
+      },
+      {
+        remedyName: 'Bellis Perennis',
+        differences: 'Similar to Arnica but acts deeper. Bellis is for deep muscle trauma or pelvic injuries where Arnica fails.',
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Chronic Pain & Inflammation',
+        linkId: '/guide/chronic-pain'
+      }
+    ],
     content: `
 ## Materia Medica: Arnica Montana
 **Common Name:** Leopard's Bane
@@ -71,14 +163,55 @@ Complementary to Aconite, Hypericum, and Rhus-tox.
     `,
     author: 'Dr. H.C. Allen',
     date: 'March 02, 2024',
-    category: 'Homoeopathic Remedies',
+    category: 'Materia Medica',
     image: 'https://picsum.photos/seed/arnica/800/600',
     tags: ['Trauma', 'First Aid', 'Injury', 'Arnica']
   },
   {
-    id: 'arsenicum',
+    id: 'arsenicum-album',
+    seoTitle: 'Arsenicum Album: Food Poisoning, Anxiety & Burning Pain',
     title: 'Arsenicum Album: A Deep Study of Anxiety and Burning Pains',
+    slug: 'arsenicum-album',
     excerpt: 'A comprehensive look at one of the most powerful polychrest remedies, characterized by restlessness, burning pains, and a fear of death.',
+    quickSummary: [
+      'Intensely restless, anxious, and fearful of death',
+      'Burning pains that miraculously feel better with heat',
+      'Extreme physical weakness out of proportion to the illness'
+    ],
+    keyPatterns: [
+      'Thirsty for frequent, small sips of cold water',
+      'Incredibly fastidious and wants everything in strict order',
+      'Worse after midnight (1 to 2 a.m.)',
+      'Ailments from bad food or food poisoning'
+    ],
+    whoItSuits: 'Neat, orderly, and highly anxious people who become easily exhausted and are terrified of being alone.',
+    whenToConsider: [
+      'Food poisoning with vomiting and diarrhea',
+      'Asthma attacks that worsen after midnight',
+      'Severe anxiety attacks regarding health',
+      'Fevers with extreme prostration'
+    ],
+    modalities: {
+      better: ['Heat', 'Warm applications', 'Warm drinks', 'Having company'],
+      worse: ['After midnight', 'Cold drinks or food', 'Being alone', 'Exertion']
+    },
+    comparisons: [
+      {
+        remedyName: 'Aconitum',
+        differences: 'Aconite anxiety comes suddenly after shock; Arsenicum anxiety is deeply ingrained and accompanied by extreme weakness.',
+        linkId: '/read/aconite'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Digestive & Gut Health',
+        linkId: '/guide/digestive-issues'
+      },
+      {
+        name: 'Anxiety & Stress Management',
+        linkId: '/guide/stress-anxiety'
+      }
+    ],
     content: `
 ## Materia Medica: Arsenicum Album
 **Common Name:** White Oxide of Arsenic
@@ -114,39 +247,185 @@ Food poisoning, asthma, chronic skin issues, anxiety disorders, and conditions w
   },
   {
     id: 'belladonna',
+    seoTitle: 'Belladonna in Homeopathy: Uses, Symptoms & When It Helps',
     title: 'Belladonna: The Remedy for Sudden, Violent Conditions',
+    slug: 'belladonna',
     excerpt: 'Understanding the "Deadly Nightshade" - a remedy for high fever, throbbing headaches, and intense redness.',
-    content: `
-## Materia Medica: Belladonna
-**Common Name:** Deadly Nightshade
-**Family:** Solanaceae
+    quickSummary: [
+      'Sudden and violent onset of symptoms',
+      'Intense heat, redness, and throbbing pain',
+      'Worse from light and noise'
+    ],
+    keyPatterns: [
+      'Complaints come on suddenly and violently',
+      'Throbbing pain, especially in the head',
+      'Bright red, hot, and flushed skin',
+      'Sensitive to light, noise, and sudden movement'
+    ],
+    whoItSuits: 'People who are normally lively and robust, but become restless, sensitive, and prefer quiet dark rooms when they suddenly fall ill.',
+    whenToConsider: [
+      'Sudden high fever',
+      'Throbbing headache',
+      'Acute inflammation (like sore throat or earache)',
+      'Sunstroke or hot flashes'
+    ],
+    modalities: {
+      better: ['Rest', 'Standing or sitting erect', 'Light covering', 'Darkness'],
+      worse: ['Light', 'Noise', 'Touch or jarring motion', 'After 3 p.m. and midnight']
+    },
+    comparisons: [
+      {
+        remedyName: 'Bryonia',
+        differences: 'Belladonna has sudden throbbing pain and restlessness. Bryonia has slower onset, dryness, and is significantly worse from any movement.',
+        linkId: '/read/bryonia'
+      },
+      {
+        remedyName: 'Aconitum',
+        differences: 'Aconite has sudden panic, fear of death, and comes after cold wind. Belladonna has sudden heat, flushed face, and delirium.',
+        linkId: '/read/aconite'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Headache & Migraine Relief',
+        linkId: '/guide/chronic-pain'
+      },
+      {
+        name: 'Natural Fever Management',
+        linkId: '/guide/immunity-wellness'
+      }
+    ],
+    content: `Belladonna is commonly used when symptoms start suddenly with intense heat, redness, and throbbing pain. Derived from the "Deadly Nightshade" plant, it is one of the most recognizable homeopathic remedies for acute, violent flares of illness.
 
-### Summary
-Belladonna is the remedy for sudden, violent, and intense conditions. It is especially adapted to plethoric individuals who are lively when well but become violent when sick.
+Instead of a slow, creeping cold, Belladonna symptoms hit you like a ton of bricks. One minute you feel fine, and the next you have a throbbing headache or a high fever with a flushed face.
 
-### Key Characteristics
-* **Suddenness:** Symptoms appear suddenly, are intense, and often disappear just as suddenly.
-* **Redness & Heat:** Flushed face, bright red skin, and intense heat of the affected parts.
-* **Throbbing:** Violent throbbing of the brain and carotid arteries.
-* **Mental State:** Violent delirium; may bite, strike, or tear things. Hallucinations of hideous faces or animals.
-
-### Physical Indications
-* **Headache:** Congestive, throbbing headache; worse from light, noise, jar, or motion. Better from pressure or tight bandaging.
-* **Fever:** High fever with hot head and cold feet; face is red and eyes are staring with dilated pupils.
-* **Skin:** Smooth, shining, scarlet redness; skin feels burning hot to the touch.
-
-### Modalities
-* **Aggravation:** From touch, motion, noise, or draft of air; after 3 p.m. and after midnight.
-* **Amelioration:** Rest; standing or sitting erect; warm room.
-
-### Relationship
-Complementary to Calcarea Carbonica (Belladonna is its acute).
-    `,
+Always remember that Belladonna is highly sensitive: the person wants to retreat to a dark, quiet room where no one can bump the bed or turn on bright lights.`,
     author: 'Dr. H.C. Allen',
     date: 'Feb 25, 2024',
-    category: 'Disease & Conditions',
+    category: 'Materia Medica',
     image: 'https://picsum.photos/seed/belladonna/800/600',
     tags: ['Fever', 'Acute', 'Headache', 'Belladonna']
+  },
+  {
+    id: 'bryonia',
+    seoTitle: 'Bryonia Alba in Homeopathy: Joint Pain, Cough & Dryness',
+    title: 'Bryonia Alba: The Remedy for Dryness and Pain on Motion',
+    slug: 'bryonia',
+    excerpt: 'Discover Bryonia, an essential homeopathic remedy for ailments characterized by intense dryness, bursting headache, and aggravation from the slightest movement.',
+    quickSummary: [
+      'Extremely dry mucous membranes (mouth, lips, joints)',
+      'Sharp, stitching pains that are much worse from any motion',
+      'Relieved by absolute rest and firm pressure on the painful part'
+    ],
+    keyPatterns: [
+      'Ailments from exposure to cold after being overheated',
+      'Craves large quantities of cold water at long intervals',
+      'Dry, hard cough making the patient hold their chest',
+      'Irritable, wanting to be left perfectly quiet'
+    ],
+    whoItSuits: 'Pragmatic, irritable individuals (often worried about money or business) who become extremely grumpy when ill and just want to be left alone.',
+    whenToConsider: [
+      'Dry, painful coughs or chest pain',
+      'Joint pains, arthritis or rheumatism where movement is agony',
+      'Bursting headache that worsens from coughing or moving the eyes',
+      'Constipation with very dry, hard stools'
+    ],
+    modalities: {
+      better: ['Absolute rest', 'Lying on the painful side', 'Firm pressure', 'Cold things'],
+      worse: ['The slightest motion', 'Warmth or hot rooms', 'In the morning', 'Eating']
+    },
+    comparisons: [
+      {
+        remedyName: 'Rhus Tox',
+        differences: 'Rhus Tox is driven to move to relieve stiffness, while Bryonia avoids all movement because it causes severe pain.',
+      },
+      {
+        remedyName: 'Belladonna',
+        differences: 'Belladonna has sudden, violent heat and throbbing; Bryonia has a slower onset, dry heat, and stitching pain.',
+        linkId: '/read/belladonna'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Chronic Pain & Inflammation',
+        linkId: '/guide/chronic-pain'
+      },
+      {
+        name: 'Respiratory Freedom',
+        linkId: '/guide/respiratory-health'
+      }
+    ],
+    content: `Bryonia alba, commonly known as Wild Hops, is prepared from the root of a vine. It is one of the most reliable remedies for conditions characterized by intense dryness and stitching, tearing pains that are greatly aggravated by movement. 
+
+Because of this intense pain on motion, the Bryonia patient typically lies completely still, often directly on the painful side to apply pressure and prevent it from moving. Their mucous membranes are extremely dry, leading to intense thirst for large amounts of cold water, though they may only drink it infrequently.
+
+Irritability is a hallmark of Bryonia; they do not want to be questioned, touched, or disturbed in any way, preferring absolute quiet and isolation until the illness passes.`,
+    author: 'Dr. H.C. Allen',
+    date: 'April 07, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/bryonia/800/600',
+    tags: ['Pain', 'Joints', 'Cough', 'Bryonia']
+  },
+  {
+    id: 'nux-vomica',
+    seoTitle: 'Nux Vomica in Homeopathy: Digestion, Stress & Overindulgence',
+    title: 'Nux Vomica: The Remedy for the Modern, Stressed Lifestyle',
+    slug: 'nux-vomica',
+    excerpt: 'Explore Nux Vomica, the premier remedy for ailments resulting from stress, overwork, lack of sleep, and overindulgence in food, alcohol, or stimulants.',
+    quickSummary: [
+      'Ill-effects of modern life: stress, rich food, alcohol, and lack of sleep',
+      'Highly irritable, impatient, and easily offended',
+      'Digestive complaints with an "ineffectual urge" (feels like they need to go, but cannot)'
+    ],
+    keyPatterns: [
+      'Very chilly; shivers even in a warm room or when uncovered',
+      'Wakes up around 3 or 4 AM and cannot get back to sleep due to racing thoughts',
+      'Frequent, unsuccessful urging for stool or vomiting',
+      'Sensitive to all external impressions (noise, light, odors)'
+    ],
+    whoItSuits: 'Driven, ambitious, overworked individuals running on caffeine and stress, who are quick to anger and impatient with others.',
+    whenToConsider: [
+      'Indigestion, acidity, or heartburn after spicy or rich food',
+      'Hangovers or ailments from excessive alcohol or stimulants',
+      'Headaches from lack of sleep or mental strain',
+      'Constipation with constant urging'
+    ],
+    modalities: {
+      better: ['A short nap', 'Warmth', 'Warm drinks', 'After passing stool or vomiting'],
+      worse: ['Early morning', 'Cold or drafts', 'Overeating or alcohol', 'Mental exertion', 'Noise']
+    },
+    comparisons: [
+      {
+        remedyName: 'Lycopodium',
+        differences: 'Both have digestive issues, but Lycopodium is insecure and bloated immediately after eating, while Nux Vomica is aggressive, driven, and suffers from an ineffectual urge.',
+        linkId: '/read/lycopodium'
+      },
+      {
+        remedyName: 'Arsenicum',
+        differences: 'Both can be fastidious and chilly, but Arsenicum has profound anxiety and burning pain, whereas Nux Vomica is irritable, angry, and focused on stress.',
+        linkId: '/read/arsenicum'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Digestive & Gut Health',
+        linkId: '/guide/digestive-issues'
+      },
+      {
+        name: 'Anxiety & Stress Management',
+        linkId: '/guide/stress-anxiety'
+      }
+    ],
+    content: `Nux Vomica is often called the "remedy for modern life." Prepared from the Poison Nut tree, it perfectly matches the profile of someone who is stressed, overworked, and relying on stimulants—like coffee, alcohol, or rich food—to keep going.
+
+When this lifestyle catches up with them, the Nux Vomica patient becomes incredibly irritable, impatient, and hypersensitive to everything around them. They cannot bear noises, bright lights, or being contradicted.
+
+Physically, their nervous system and digestion take the hit. They suffer from severe acidity, heartburn, and a hallmark symptom: an ineffectual urge. Whether it's wanting to vomit but being unable to, or constantly feeling the need to empty their bowels without success, their system is in a state of tense spasm. Nux Vomica helps relax the nervous system and restore harmony to an overtaxed body.`,
+    author: 'Dr. H.C. Allen',
+    date: 'April 08, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/nuxvomica/800/600',
+    tags: ['Digestion', 'Stress', 'Irritability', 'Nux Vomica']
   },
   {
     id: 'what-is-homeopathy',
@@ -227,14 +506,58 @@ We invite you to explore the other articles here at **Curiva Homoeopathy** to le
     `,
     author: 'Curiva Editorial Team',
     date: 'March 05, 2024',
-    category: 'Homoeopathy for Students',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/beginner/800/600',
     tags: ['Guide', 'Basics', 'Natural Healing', 'Beginner']
   },
   {
     id: 'gelsemium',
+    seoTitle: 'Gelsemium in Homeopathy: Stage Fright, Flu & Weakness',
     title: 'Gelsemium Sempervirens: The Remedy for Anticipation and Weakness',
+    slug: 'gelsemium',
     excerpt: 'Explore the "Yellow Jasmine" - a key remedy for stage fright, flu-like weakness, and the effects of exciting news.',
+    quickSummary: [
+      'The 3 Ds: Dullness, Dizziness, and Drowsiness',
+      'Intense anticipatory anxiety and stage fright',
+      'Flu with extreme muscle weakness and heaviness'
+    ],
+    keyPatterns: [
+      'Ailments from fright, fear, or exciting news',
+      'Trembling and weakness of all limbs',
+      'Desires to lie down and be perfectly still',
+      'Thirstless despite fever'
+    ],
+    whoItSuits: 'Nervous, sensitive individuals who become paralyzed by fear or students anxious before an examination.',
+    whenToConsider: [
+      'Before a public speech, exam, or performance',
+      'During the onset of flu characterized by chills and heavy eyelids',
+      'When experiencing weakness and trembling from bad news'
+    ],
+    modalities: {
+      better: ['Profuse urination', 'Open air', 'Continuous motion'],
+      worse: ['Damp weather', 'Anticipation or emotions', 'Before a thunderstorm']
+    },
+    comparisons: [
+      {
+        remedyName: 'Aconitum',
+        differences: 'Aconite is panicked and restless, whereas Gelsemium is paralyzed with fear and dullness.',
+        linkId: '/read/aconite'
+      },
+      {
+        remedyName: 'Ignatia',
+        differences: 'Ignatia is more hysterical with contradictory moods, Gelsemium is simply weak and trembling.'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Anxiety & Stress Management',
+        linkId: '/guide/stress-anxiety'
+      },
+      {
+        name: 'Immune System Support',
+        linkId: '/guide/immunity-wellness'
+      }
+    ],
     content: `
 ## Materia Medica: Gelsemium Sempervirens
 **Common Name:** Yellow Jasmine
@@ -263,14 +586,56 @@ Influenza, tension headaches, stage fright, anticipatory anxiety, and post-viral
     `,
     author: 'Dr. H.C. Allen',
     date: 'Feb 22, 2024',
-    category: 'Homoeopathy for Students',
+    category: 'Materia Medica',
     image: 'https://picsum.photos/seed/gelsemium/800/600',
     tags: ['Anxiety', 'Flu', 'Weakness', 'Gelsemium']
   },
   {
     id: 'lycopodium',
+    seoTitle: 'Lycopodium Clavatum: Liver Troubles & Digestive Health',
     title: 'Lycopodium Clavatum: A Deep Dive into Digestive and Mental Power',
+    slug: 'lycopodium',
     excerpt: 'Discover the "Wolf\'s Foot" - a deep-seated remedy for chronic diseases, characterized by right-sided symptoms and digestive flatulence.',
+    quickSummary: [
+      'Strongly affects right-sided complaints or travels right to left',
+      'Severe flatulence and bloating after eating very little',
+      'Lack of self-confidence disguised by a bossy exterior'
+    ],
+    keyPatterns: [
+      'Ailments worse between 4 p.m. and 8 p.m.',
+      'Craves sweets and warm drinks',
+      'Wakes up hungry but feels full after a few bites',
+      'Red sand or sediment in urine'
+    ],
+    whoItSuits: 'Individuals who are intellectually keen but physically weak, lacking true confidence but often appearing authoritative.',
+    whenToConsider: [
+      'Chronic indigestion, acidity, and bloating',
+      'Performance anxiety or fear of failure',
+      'Liver complaints or kidney stones on the right side',
+      'Premature aging or hair loss'
+    ],
+    modalities: {
+      better: ['Warm drinks and food', 'Uncovering the head', 'Loosening garments', 'Passing gas'],
+      worse: ['From 4 to 8 p.m.', 'Right side', 'Cold drinks or food', 'Eating even a little']
+    },
+    comparisons: [
+      {
+        remedyName: 'Nux Vomica',
+        differences: 'Nux Vomica is irritable and driven by overindulgence. Lycopodium is insecure and driven by fear of failure, though both have digestive issues.',
+        linkId: '/read/nux-vomica'
+      },
+      {
+        remedyName: 'Pulsatilla',
+        differences: 'Pulsatilla is yielding and thirstless, better in cool air. Lycopodium craves warmth and is bossy.',
+        linkId: '/read/pulsatilla'
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Digestive & Gut Health',
+        linkId: '/guide/digestive-issues'
+      }
+    ],
     content: `
 ## Materia Medica: Lycopodium Clavatum
 **Common Name:** Club Moss
@@ -306,8 +671,52 @@ Chronic digestive disorders, liver complaints, kidney stones, performance anxiet
   },
   {
     id: 'pulsatilla',
+    seoTitle: 'Pulsatilla Nigricans: Homeopathic Uses for Women & Children',
     title: 'Pulsatilla Nigricans: The Gentle Remedy for Changing Symptoms',
+    slug: 'pulsatilla',
     excerpt: 'Learn about the "Wind Flower" - a primary remedy for the female constitution, characterized by a mild disposition and thirstlessness.',
+    quickSummary: [
+      'Very emotional, weeps easily, and craves sympathy',
+      'Symptoms constantly change (no two days are alike)',
+      'Completely thirstless, even with fever'
+    ],
+    keyPatterns: [
+      'Discharges are thick, bland, and yellow-green',
+      'Feels suffocated in warm, stuffy rooms',
+      'Needs open air to feel better',
+      'Symptoms are erratic and shifting'
+    ],
+    whoItSuits: 'People (often women and children) who are gentle, yielding, affectionate, but easily brought to tears and clingy when sick.',
+    whenToConsider: [
+      'Hormonal imbalances or irregular cycles',
+      'Thick, yellow colds or sinus infections',
+      'Digestive upset after eating rich, fatty foods',
+      'Earaches in clingy children who want to be held'
+    ],
+    modalities: {
+      better: ['Open, cool air', 'Gentle motion', 'Cold applications', 'Sympathy and comfort'],
+      worse: ['Warm, stuffy rooms', 'Rich, fatty foods', 'Evening/Twilight', 'Lying on the left side']
+    },
+    comparisons: [
+      {
+        remedyName: 'Silicea',
+        differences: 'Both can be yielding, but Silicea is deeply chilly and stubborn underneath, whereas Pulsatilla is warm-blooded and truly yielding.',
+      },
+      {
+        remedyName: 'Nux Vomica',
+        differences: 'Nux is irritable, angry, chilly, and wants to be left alone. Pulsatilla is weeping, warm, and wants company.',
+      }
+    ],
+    relatedCarePlans: [
+      {
+        name: 'Digestive & Gut Health',
+        linkId: '/guide/digestive-issues'
+      },
+      {
+        name: 'Respiratory Freedom',
+        linkId: '/guide/respiratory-health'
+      }
+    ],
     content: `
 ## Materia Medica: Pulsatilla Nigricans
 **Common Name:** Wind Flower
@@ -337,7 +746,7 @@ Menstrual irregularities, catarrhal conditions, digestive issues from rich food,
     `,
     author: 'Dr. H.C. Allen',
     date: 'Feb 15, 2024',
-    category: 'Homoeopathy for Students',
+    category: 'Materia Medica',
     image: 'https://picsum.photos/seed/pulsatilla/800/600',
     tags: ['Gentle', 'Female Health', 'Thirstless', 'Pulsatilla']
   },
@@ -375,7 +784,7 @@ Homeopathy doesn't "force" your body to do anything. It simply reminds your body
     `,
     author: 'Curiva Editorial Team',
     date: 'March 06, 2024',
-    category: 'Homoeopathy for Students',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/body-healing/800/600',
     tags: ['Science', 'Mechanism', 'Vital Force', 'Healing']
   },
@@ -415,7 +824,7 @@ Homeopathy is a gentle friend to every growing child. It provides a safe, effect
     `,
     author: 'Curiva Editorial Team',
     date: 'March 07, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/child-health/800/600',
     tags: ['Children', 'Safety', 'Parenting', 'Pediatrics']
   },
@@ -457,7 +866,7 @@ Understanding these two systems helps you make the best choice for your health. 
     `,
     author: 'Curiva Editorial Team',
     date: 'March 08, 2024',
-    category: 'Homoeopathy for Students',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/medicine-compare/800/600',
     tags: ['Comparison', 'Education', 'Health Choices']
   },
@@ -492,7 +901,7 @@ If you are tired of just "managing" a problem, homeopathy offers a path toward t
     `,
     author: 'Curiva Editorial Team',
     date: 'March 09, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/chronic-care/800/600',
     tags: ['Chronic', 'Deep Healing', 'Holistic']
   },
@@ -532,7 +941,7 @@ When you take a homeopathic remedy, you are using the pure healing power of natu
     `,
     author: 'Curiva Editorial Team',
     date: 'March 10, 2024',
-    category: 'Homoeopathy for Students',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/nature-medicine/800/600',
     tags: ['Natural', 'Origins', 'Eco-friendly']
   },
@@ -568,7 +977,7 @@ Homeopathy isn't "slow"—it's **thorough**. It takes the time needed to make su
     `,
     author: 'Curiva Editorial Team',
     date: 'March 11, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/time-healing/800/600',
     tags: ['Duration', 'Expectations', 'Healing Journey']
   },
@@ -602,7 +1011,7 @@ Homeopathy offers a way to get well without the worry of getting "new" problems 
     `,
     author: 'Curiva Editorial Team',
     date: 'March 12, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/safety-first/800/600',
     tags: ['Safety', 'Side Effects', 'Healing Crisis']
   },
@@ -637,7 +1046,7 @@ Migraines don't have to be a permanent part of your life. By finding the right h
     `,
     author: 'Curiva Editorial Team',
     date: 'March 13, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/migraine-relief/800/600',
     tags: ['Migraine', 'Headache', 'Pain Relief']
   },
@@ -675,7 +1084,7 @@ Healthy hair starts from the inside. Homeopathy helps balance your body so your 
     `,
     author: 'Curiva Editorial Team',
     date: 'March 14, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/hair-health/800/600',
     tags: ['Hair Loss', 'Beauty', 'Natural Growth']
   },
@@ -710,7 +1119,7 @@ Clear skin is a reflection of a healthy body. Homeopathy provides a gentle, effe
     `,
     author: 'Curiva Editorial Team',
     date: 'March 15, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/acne-skin/800/600',
     tags: ['Acne', 'Skin Care', 'Natural Beauty']
   },
@@ -743,7 +1152,7 @@ You don't have to hide indoors all spring. Homeopathy offers a natural way to st
     `,
     author: 'Curiva Editorial Team',
     date: 'March 16, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/allergy-relief/800/600',
     tags: ['Allergies', 'Hay Fever', 'Respiratory']
   },
@@ -776,7 +1185,7 @@ Eczema can be a long journey, but you don't have to walk it alone. Homeopathy of
     `,
     author: 'Curiva Editorial Team',
     date: 'March 17, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/eczema-skin/800/600',
     tags: ['Eczema', 'Skin Care', 'Inflammation']
   },
@@ -811,7 +1220,7 @@ Sinus pressure doesn't have to weigh you down. Homeopathy provides a natural, ef
     `,
     author: 'Curiva Editorial Team',
     date: 'March 18, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/sinus-relief/800/600',
     tags: ['Sinusitis', 'Congestion', 'Respiratory']
   },
@@ -844,7 +1253,7 @@ You don't have to live with the burn. Homeopathy offers a gentle, natural way to
     `,
     author: 'Curiva Editorial Team',
     date: 'March 19, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/acidity-relief/800/600',
     tags: ['Acidity', 'Heartburn', 'Digestion']
   },
@@ -879,7 +1288,7 @@ Regularity is a key part of feeling your best. Homeopathy provides a safe, gentl
     `,
     author: 'Curiva Editorial Team',
     date: 'March 20, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/constipation-relief/800/600',
     tags: ['Constipation', 'Digestion', 'Natural Relief']
   },
@@ -912,7 +1321,7 @@ PCOS can be a complex journey, but it doesn't have to define you. Homeopathy pro
     `,
     author: 'Curiva Editorial Team',
     date: 'March 21, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/pcos-health/800/600',
     tags: ['PCOS', 'Womens Health', 'Hormones']
   },
@@ -947,7 +1356,7 @@ Your body has its own unique rhythm. Homeopathy helps you tune back into that rh
     `,
     author: 'Curiva Editorial Team',
     date: 'March 22, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/cycle-health/800/600',
     tags: ['Menstruation', 'Womens Health', 'Hormones']
   },
@@ -980,7 +1389,7 @@ You deserve to feel comfortable every day of the month. Homeopathy provides a ge
     `,
     author: 'Curiva Editorial Team',
     date: 'March 23, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/period-pain/800/600',
     tags: ['Cramps', 'Womens Health', 'Pain Relief']
   },
@@ -1013,7 +1422,7 @@ PMS doesn't have to be a monthly battle. Homeopathy offers a gentle, natural way
     `,
     author: 'Curiva Editorial Team',
     date: 'March 24, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/pms-relief/800/600',
     tags: ['PMS', 'Womens Health', 'Mood Swings']
   },
@@ -1048,7 +1457,7 @@ Teething is a natural process, and homeopathy provides a natural way to support 
     `,
     author: 'Curiva Editorial Team',
     date: 'March 25, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/baby-teething/800/600',
     tags: ['Teething', 'Baby Health', 'Parenting']
   },
@@ -1081,7 +1490,7 @@ Colic can be a tough stage, but nature has provided gentle tools to help. Homeop
     `,
     author: 'Curiva Editorial Team',
     date: 'March 26, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/baby-colic/800/600',
     tags: ['Colic', 'Baby Health', 'Digestion']
   },
@@ -1116,7 +1525,7 @@ A cold is a temporary hurdle. With a little help from homeopathy, your child can
     `,
     author: 'Curiva Editorial Team',
     date: 'March 27, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/child-cold/800/600',
     tags: ['Common Cold', 'Children', 'Immunity']
   },
@@ -1150,7 +1559,7 @@ Empowering yourself with natural tools is a wonderful way to care for your famil
     `,
     author: 'Curiva Editorial Team',
     date: 'March 28, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/kids-safety/800/600',
     tags: ['First Aid', 'Children', 'Safety']
   },
@@ -1183,7 +1592,7 @@ Psoriasis can be a long-term challenge, but it doesn't have to control your life
     `,
     author: 'Curiva Editorial Team',
     date: 'March 29, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/psoriasis-care/800/600',
     tags: ['Psoriasis', 'Skin Care', 'Immunity']
   },
@@ -1220,7 +1629,7 @@ A healthy scalp is the foundation for beautiful hair. Homeopathy provides a gent
     `,
     author: 'Curiva Editorial Team',
     date: 'March 30, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/dandruff-relief/800/600',
     tags: ['Dandruff', 'Hair Care', 'Scalp Health']
   },
@@ -1253,7 +1662,7 @@ Hives are your body's way of saying it's overwhelmed. Homeopathy provides a gent
     `,
     author: 'Curiva Editorial Team',
     date: 'March 31, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/hives-relief/800/600',
     tags: ['Urticaria', 'Hives', 'Allergies']
   },
@@ -1286,7 +1695,7 @@ Fungal infections can be stubborn, but nature has powerful tools to help. Homeop
     `,
     author: 'Curiva Editorial Team',
     date: 'April 01, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/fungal-care/800/600',
     tags: ['Fungal Infection', 'Skin Care', 'Natural Healing']
   },
@@ -1319,7 +1728,7 @@ Inner peace is possible. Homeopathy provides a gentle, natural way to quiet the 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 02, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/anxiety-relief/800/600',
     tags: ['Anxiety', 'Stress', 'Mental Wellness']
   },
@@ -1352,7 +1761,7 @@ You don't have to carry the weight alone. Homeopathy offers a gentle, natural wa
     `,
     author: 'Curiva Editorial Team',
     date: 'April 03, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/depression-support/800/600',
     tags: ['Depression', 'Emotional Health', 'Mental Wellness']
   },
@@ -1387,7 +1796,7 @@ A good night's sleep is the foundation of a healthy life. Homeopathy provides a 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 04, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/sleep-relief/800/600',
     tags: ['Insomnia', 'Sleep', 'Mental Wellness']
   },
@@ -1420,7 +1829,7 @@ Panic attacks are frightening, but they are not dangerous. Homeopathy offers a g
     `,
     author: 'Curiva Editorial Team',
     date: 'April 05, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/panic-relief/800/600',
     tags: ['Panic Attacks', 'Anxiety', 'Mental Wellness']
   },
@@ -1453,7 +1862,7 @@ A calm mind is a powerful mind. Homeopathy provides a gentle, natural way to bal
     `,
     author: 'Curiva Editorial Team',
     date: 'April 06, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/anger-relief/800/600',
     tags: ['Anger Management', 'Emotional Health', 'Mental Wellness']
   },
@@ -1486,7 +1895,7 @@ Your mind is your most valuable tool. Homeopathy provides a gentle, natural way 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 07, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/focus-memory/800/600',
     tags: ['Concentration', 'Memory', 'Brain Health']
   },
@@ -1523,7 +1932,7 @@ Healthy weight is a journey toward overall wellness. Homeopathy provides a gentl
     `,
     author: 'Curiva Editorial Team',
     date: 'April 08, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/weight-health/800/600',
     tags: ['Weight Management', 'Metabolism', 'Healthy Living']
   },
@@ -1556,7 +1965,7 @@ A strong immune system is your best investment in health. Homeopathy offers a ge
     `,
     author: 'Curiva Editorial Team',
     date: 'April 09, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/immunity-boost/800/600',
     tags: ['Immunity', 'Prevention', 'Natural Health']
   },
@@ -1589,7 +1998,7 @@ Digestion should be a quiet, effortless process. Homeopathy provides a gentle, n
     `,
     author: 'Curiva Editorial Team',
     date: 'April 10, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/digestion-health/800/600',
     tags: ['Digestion', 'Gut Health', 'Natural Relief']
   },
@@ -1622,7 +2031,7 @@ True beauty is a sign of a healthy, balanced body. Homeopathy provides a gentle,
     `,
     author: 'Curiva Editorial Team',
     date: 'April 11, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/beauty-health/800/600',
     tags: ['Skin Care', 'Hair Care', 'Natural Beauty']
   },
@@ -1658,7 +2067,7 @@ Your heart is a reflection of how you live and feel. Homeopathy provides a gentl
     `,
     author: 'Curiva Editorial Team',
     date: 'April 12, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/heart-health/800/600',
     tags: ['Heart Health', 'Circulation', 'Healthy Living']
   },
@@ -1691,7 +2100,7 @@ Thyroid balance is key to feeling your best. Homeopathy provides a gentle, natur
     `,
     author: 'Curiva Editorial Team',
     date: 'April 13, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/thyroid-health/800/600',
     tags: ['Thyroid', 'Hormones', 'Metabolism']
   },
@@ -1724,7 +2133,7 @@ Every stage of life has its own beauty. Homeopathy provides a gentle, natural wa
     `,
     author: 'Curiva Editorial Team',
     date: 'April 14, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/aging-gracefully/800/600',
     tags: ['Healthy Aging', 'Senior Health', 'Vitality']
   },
@@ -1757,7 +2166,7 @@ Joint pain doesn't have to slow you down. Homeopathy provides a gentle, natural 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 15, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/joint-pain/800/600',
     tags: ['Joint Pain', 'Arthritis', 'Mobility']
   },
@@ -1790,7 +2199,7 @@ Menopause is the start of a new, vibrant chapter. Homeopathy provides a gentle, 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 16, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/menopause-relief/800/600',
     tags: ['Menopause', 'Womens Health', 'Hormones']
   },
@@ -1823,7 +2232,7 @@ Your legs carry you through life. Homeopathy provides a gentle, natural way to s
     `,
     author: 'Curiva Editorial Team',
     date: 'April 17, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/leg-health/800/600',
     tags: ['Varicose Veins', 'Circulation', 'Leg Health']
   },
@@ -1859,7 +2268,7 @@ Kidney stones are a painful reminder that your body needs balance. Homeopathy pr
     `,
     author: 'Curiva Editorial Team',
     date: 'April 18, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/kidney-health/800/600',
     tags: ['Kidney Stones', 'Urinary Health', 'Pain Relief']
   },
@@ -1892,7 +2301,7 @@ A healthy liver is the key to a vibrant life. Homeopathy provides a gentle, natu
     `,
     author: 'Curiva Editorial Team',
     date: 'April 19, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/liver-health/800/600',
     tags: ['Liver Health', 'Detox', 'Vitality']
   },
@@ -1928,7 +2337,7 @@ Managing blood pressure is a lifelong commitment to health. Homeopathy provides 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 20, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/blood-pressure/800/600',
     tags: ['Blood Pressure', 'Heart Health', 'Hypertension']
   },
@@ -1965,7 +2374,7 @@ Living well with diabetes is about balance. Homeopathy offers a gentle, natural 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 21, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/diabetes-care/800/600',
     tags: ['Diabetes', 'Metabolism', 'Chronic Care']
   },
@@ -1998,7 +2407,7 @@ Breathing is the most natural thing in the world. Homeopathy provides a gentle, 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 22, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/asthma-relief/800/600',
     tags: ['Asthma', 'Respiratory', 'Lung Health']
   },
@@ -2034,7 +2443,7 @@ A deep cough can be exhausting, but nature has provided gentle tools to help. Ho
     `,
     author: 'Curiva Editorial Team',
     date: 'April 23, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/bronchitis-relief/800/600',
     tags: ['Bronchitis', 'Cough', 'Respiratory']
   },
@@ -2070,7 +2479,7 @@ Gout pain is intense, but you don't have to face it alone. Homeopathy provides a
     `,
     author: 'Curiva Editorial Team',
     date: 'April 24, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/gout-relief/800/600',
     tags: ['Gout', 'Arthritis', 'Joint Pain']
   },
@@ -2103,7 +2512,7 @@ Sciatic pain can be a major hurdle, but nature has provided gentle tools to help
     `,
     author: 'Curiva Editorial Team',
     date: 'April 25, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/sciatica-relief/800/600',
     tags: ['Sciatica', 'Back Pain', 'Nerve Pain']
   },
@@ -2136,7 +2545,7 @@ Back pain doesn't have to be a permanent part of your life. Homeopathy provides 
     `,
     author: 'Curiva Editorial Team',
     date: 'April 26, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/back-pain/800/600',
     tags: ['Back Pain', 'Spinal Health', 'Pain Relief']
   },
@@ -2169,7 +2578,7 @@ A stiff neck can make everything feel like a chore. Homeopathy offers a natural,
     `,
     author: 'Curiva Editorial Team',
     date: 'April 27, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/neck-pain/800/600',
     tags: ['Neck Pain', 'Posture', 'Pain Relief']
   },
@@ -2202,7 +2611,7 @@ Shoulder pain can be a major limitation, but nature has provided gentle tools to
     `,
     author: 'Curiva Editorial Team',
     date: 'April 28, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/shoulder-pain/800/600',
     tags: ['Shoulder Pain', 'Joint Health', 'Pain Relief']
   },
@@ -2235,7 +2644,7 @@ Every step should be comfortable. Homeopathy provides a gentle, natural way to e
     `,
     author: 'Curiva Editorial Team',
     date: 'April 29, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/heel-pain/800/600',
     tags: ['Heel Pain', 'Plantar Fasciitis', 'Foot Health']
   },
@@ -2268,7 +2677,7 @@ Your knees are vital for your independence and activity. Homeopathy provides a g
     `,
     author: 'Curiva Editorial Team',
     date: 'April 30, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/knee-pain/800/600',
     tags: ['Knee Pain', 'Joint Health', 'Mobility']
   },
@@ -2301,7 +2710,7 @@ Muscle cramps are a painful interruption, but nature has provided gentle tools t
     `,
     author: 'Curiva Editorial Team',
     date: 'May 01, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/muscle-cramps/800/600',
     tags: ['Muscle Cramps', 'Pain Relief', 'Natural Healing']
   },
@@ -2334,7 +2743,7 @@ Injuries are a setback, but they don't have to be the end of your active journey
     `,
     author: 'Curiva Editorial Team',
     date: 'May 02, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/sports-injury/800/600',
     tags: ['Sports Injuries', 'Recovery', 'Pain Relief']
   },
@@ -2367,7 +2776,7 @@ A sprain or strain can be a major inconvenience, but nature has provided gentle 
     `,
     author: 'Curiva Editorial Team',
     date: 'May 03, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/sprain-relief/800/600',
     tags: ['Sprains', 'Strains', 'Injury Care']
   },
@@ -2400,7 +2809,7 @@ Exhaustion is your body's way of saying it needs a break. Homeopathy provides a 
     `,
     author: 'Curiva Editorial Team',
     date: 'May 04, 2024',
-    category: 'Lifestyle & Natural Healing',
+    category: 'Lifestyle and Natural Healing',
     image: 'https://picsum.photos/seed/exhaustion-relief/800/600',
     tags: ['Exhaustion', 'Energy', 'Vitality']
   },
@@ -2433,7 +2842,7 @@ Your mind is a powerful tool, but it needs rest to stay sharp. Homeopathy provid
     `,
     author: 'Curiva Editorial Team',
     date: 'May 05, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/mental-fatigue/800/600',
     tags: ['Mental Fatigue', 'Brain Fog', 'Focus']
   },
@@ -2466,7 +2875,7 @@ Burnout is a difficult place to be, but it's also an opportunity to rebuild a li
     `,
     author: 'Curiva Editorial Team',
     date: 'May 06, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/burnout-recovery/800/600',
     tags: ['Burnout', 'Stress Management', 'Mental Health']
   },
@@ -2499,7 +2908,7 @@ Chronic fatigue is a difficult journey, but you don't have to walk it alone. Hom
     `,
     author: 'Curiva Editorial Team',
     date: 'May 07, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/chronic-fatigue/800/600',
     tags: ['Chronic Fatigue', 'Energy', 'Holistic Health']
   },
@@ -2583,7 +2992,7 @@ Bone and joint issues, delayed development in children, anxiety disorders, and m
     tags: ['Chronic', 'Constitutional', 'Calcarea Carb']
   },
   {
-    id: 'nux-vomica',
+    id: 'nux-vomica-2',
     title: 'Nux Vomica: The Modern Remedy for Sedentary Lifestyles',
     excerpt: 'Discover the "Poison Nut" - the premier remedy for the stresses of modern life, over-indulgence, and irritability.',
     content: `
@@ -2630,7 +3039,7 @@ Homeopathy doesn't just "lower" the pressure; it works to:
     `,
     author: 'Curiva Medical Team',
     date: 'May 12, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/hypertension/800/600',
     tags: ['Hypertension', 'Heart Health', 'Blood Pressure']
   },
@@ -2654,7 +3063,7 @@ Diabetes Mellitus is a chronic condition that affects how your body processes bl
     `,
     author: 'Curiva Medical Team',
     date: 'May 13, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/diabetes/800/600',
     tags: ['Diabetes', 'Blood Sugar', 'Metabolic Health']
   },
@@ -2783,7 +3192,7 @@ Asthma is a chronic respiratory condition characterized by inflammation and narr
     `,
     author: 'Curiva Medical Team',
     date: 'May 18, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/asthma/800/600',
     tags: ['Asthma', 'Respiratory Health', 'Homeopathy']
   },
@@ -2806,7 +3215,7 @@ In homeopathy, we believe that suppressing skin symptoms can sometimes drive the
     `,
     author: 'Curiva Medical Team',
     date: 'May 19, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/eczema/800/600',
     tags: ['Eczema', 'Skin Care', 'Dermatology']
   },
@@ -2829,7 +3238,7 @@ Homeopathy is highly specific. We ask: Is the pain better with movement or rest?
     `,
     author: 'Curiva Medical Team',
     date: 'May 20, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/arthritis/800/600',
     tags: ['Arthritis', 'Joint Pain', 'Mobility']
   },
@@ -2854,13 +3263,14 @@ Migraines are severe, throbbing headaches often accompanied by nausea and sensit
     `,
     author: 'Curiva Medical Team',
     date: 'May 21, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/migraine/800/600',
     tags: ['Migraine', 'Headache', 'Pain Relief']
   },
   {
-    id: 'sepia-profile',
+    id: 'sepia',
     title: 'Sepia Officinalis: The Remedy for Exhaustion and Indifference',
+    slug: 'sepia',
     excerpt: 'A study of the Cuttlefish Ink remedy, primarily used for hormonal imbalances and emotional weariness.',
     content: `
 ## Materia Medica: Sepia Officinalis
@@ -3005,7 +3415,7 @@ Symptoms include anxiety, weight loss, and heat sensitivity.
     `,
     author: 'Curiva Medical Team',
     date: 'May 27, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/thyroid/800/600',
     tags: ['Thyroid', 'Hormones', 'Metabolism']
   },
@@ -3028,7 +3438,7 @@ Fatigue, weakness, pale skin, shortness of breath, and cold hands/feet.
     `,
     author: 'Curiva Medical Team',
     date: 'May 28, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/anemia/800/600',
     tags: ['Anemia', 'Iron', 'Vitality']
   },
@@ -3053,7 +3463,7 @@ Insomnia can be caused by stress, anxiety, caffeine, or physical discomfort. Hom
     `,
     author: 'Curiva Medical Team',
     date: 'May 29, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/insomnia/800/600',
     tags: ['Insomnia', 'Sleep', 'Natural Healing']
   },
@@ -3078,7 +3488,7 @@ Acne is often linked to hormonal changes, diet, and stress. Homeopathy treats th
     `,
     author: 'Curiva Medical Team',
     date: 'May 30, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/acne/800/600',
     tags: ['Acne', 'Skin Care', 'Dermatology']
   },
@@ -3101,7 +3511,7 @@ We look at the patient's immune system, stress levels, and family history. The g
     `,
     author: 'Curiva Medical Team',
     date: 'May 31, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/psoriasis/800/600',
     tags: ['Psoriasis', 'Autoimmune', 'Skin Health']
   },
@@ -3124,7 +3534,7 @@ Pressure around the eyes and nose, thick nasal discharge, reduced sense of smell
     `,
     author: 'Curiva Medical Team',
     date: 'June 01, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/sinus/800/600',
     tags: ['Sinusitis', 'Congestion', 'Respiratory Health']
   },
@@ -3147,7 +3557,7 @@ We look at what triggers your symptoms—spicy food, stress, or eating too fast�
     `,
     author: 'Curiva Medical Team',
     date: 'June 02, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/gastritis/800/600',
     tags: ['Gastritis', 'Digestion', 'Acid Reflux']
   },
@@ -3170,7 +3580,7 @@ We don't just "label" depression; we ask: Is it related to grief? Is it accompan
     `,
     author: 'Curiva Mental Health Team',
     date: 'June 03, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/depression/800/600',
     tags: ['Depression', 'Mental Health', 'Emotional Well-being']
   },
@@ -3193,7 +3603,7 @@ Is your anxiety related to a specific event? Is it a constant "background noise"
     `,
     author: 'Curiva Mental Health Team',
     date: 'June 04, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/anxiety-relief/800/600',
     tags: ['Anxiety', 'Panic Attacks', 'Stress Relief']
   },
@@ -3218,7 +3628,7 @@ Hair loss can be distressing and is often a sign of internal stress, nutritional
     `,
     author: 'Curiva Medical Team',
     date: 'June 05, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/hair-loss/800/600',
     tags: ['Hair Loss', 'Alopecia', 'Natural Beauty']
   },
@@ -3272,7 +3682,8 @@ Forensic Medicine and Toxicology (FMT) is a fascinating subject that deals with 
     tags: ['BHMS', 'Forensic Medicine', 'Toxicology']
   },
   {
-    id: 'natrum-mur-profile',
+    id: 'natrum-muriaticum',
+    slug: 'natrum-muriaticum',
     title: 'Natrum Muriaticum: The Remedy for Suppressed Emotions',
     excerpt: 'A deep study of "Common Salt" - the premier remedy for reserved individuals who dwell on past grief.',
     content: `
@@ -3431,7 +3842,7 @@ Kidney stones (renal calculi) are hard deposits made of minerals and salts that 
     `,
     author: 'Curiva Medical Team',
     date: 'June 13, 2024',
-    category: 'Disease & Conditions',
+    category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/kidney/800/600',
     tags: ['Kidney Stones', 'Renal Health', 'Pain Relief']
   },
@@ -3520,7 +3931,8 @@ Allergic reactions, hives (urticaria), joint swelling, and urinary tract infecti
     tags: ['Materia Medica', 'Apis', 'Allergy Relief']
   },
   {
-    id: 'allium-cepa-profile',
+    id: 'allium-cepa',
+    slug: 'allium-cepa',
     title: 'Allium Cepa: The Remedy for Hay Fever and Colds',
     excerpt: 'A study of "Red Onion" - the premier remedy for acrid nasal discharge and bland eye discharge.',
     content: `
@@ -3602,5 +4014,596 @@ Chronic constipation, skin disorders, and neurological conditions characterized 
     category: 'Materia Medica',
     image: 'https://picsum.photos/seed/alumina/800/600',
     tags: ['Materia Medica', 'Alumina', 'Constipation']
+  },
+  {
+    id: 'research-homeopathy-evidence',
+    title: 'Evidence-Based Homoeopathy: Understanding the Science',
+    excerpt: 'Is there scientific evidence for homeopathy? Explore recent research studies and clinical trials that demonstrate the effectiveness of natural medicine.',
+    content: `
+## The Science of Small Doses
+A common question asked about homeopathy is whether there is scientific evidence to support it. The answer is a resounding yes! Research in the field of homeopathy has grown significantly over the last few decades, with studies exploring everything from clinical outcomes to the physical properties of high dilutions.
+
+### Clinical Research highlights
+* **Systematic Reviews:** Several large-scale reviews have shown that homeopathy often performs significantly better than a placebo in treating various conditions.
+* **Observational Studies:** Large "real-world" studies in countries like France and Germany show that patients under homeopathic care often achieve similar or better results with fewer side effects than conventional medicine.
+
+### Laboratory Research
+Scientists are also using advanced technology to study how homeopathic remedies affect living cells and even how the "memory" of a substance is retained in water after dilution.
+
+### Conclusion
+While more research is always needed, the current body of evidence suggests that homeopathy is a powerful and scientifically grounded system of medicine. At **Curiva Homoeopathy**, we are committed to staying up-to-date with the latest research to provide you with evidence-based natural healing.
+    `,
+    author: 'Curiva Research Team',
+    date: 'June 20, 2024',
+    category: 'Research and Evidence',
+    image: 'https://picsum.photos/seed/research-science/800/600',
+    tags: ['Research', 'Science', 'Evidence', 'Clinical Trials']
+  },
+  {
+    id: 'calcarea-carb-profile',
+    title: 'Calcarea Carbonica: The Remedy for Sluggishness and Sweat',
+    excerpt: 'A study of "Carbonate of Lime" - essential for the leuco-phlegmatic constitution, characterized by cold clammy feet and sour sweats.',
+    content: `
+## Materia Medica: Calcarea Carbonica
+**Common Name:** Carbonate of Lime
+**Source:** Animal Kingdom (Oyster shell)
+
+### Summary
+Calcarea Carbonica is a deep-acting constitutional remedy suited to individuals who are "fair, fat, flabby, and perspiring." They are often slow in movement and growth, both physically and mentally.
+
+### Key Characteristics
+*   **Cold & Clammy:** Cold, clammy feet; feels as if they have cold, damp stockings on.
+*   **Perspiration:** Profuse perspiration on the head during sleep, wetting the pillow.
+*   **Sourness:** Everything about the patient is sour—sweat, breath, stool.
+*   **Appetite:** Cravings for indigestible things like chalk, coal, and pencils; also a great desire for eggs.
+*   **Fears:** Afraid of the dark, of being alone, and of losing their reason.
+
+### Clinical Applications
+Rickets, delayed growth, chronic digestive issues, and ailments from over-exertion or mental strain.
+
+### Modalities
+*   **Aggravation:** From cold air; water; wet weather; exertion (mental or physical); morning.
+*   **Amelioration:** Dry weather; lying on the painful side.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 21, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/calc-carb/800/600',
+    tags: ['Materia Medica', 'Calcarea Carb', 'Chronic']
+  },
+  {
+    id: 'chamomilla-profile',
+    title: 'Chamomilla: The Irritable Child\'s Remedy',
+    excerpt: 'Discover "German Chamomile" - the premier remedy for teething, irritability, and pains that are out of proportion.',
+    content: `
+## Materia Medica: Chamomilla
+**Common Name:** German Chamomile
+**Family:** Compositae
+
+### Summary
+Chamomilla is primarily a remedy for children and people with highly sensitive, irritable nervous systems. It is characterized by an extreme sensitivity to pain and a nasty temper during illness.
+
+### Key Characteristics
+*   **Irritability:** Extremely cross and irritable; cannot bear to be spoken to or civilly treated.
+*   **Teething:** A primary remedy for teething; the child wants to be carried constantly and becomes quiet only when moved.
+*   **Red Cheek:** One cheek red and hot, the other pale and cold.
+*   **Pains:** Pains are unendurable and drive the patient to distraction; often accompanied by numbness.
+*   **Thirst:** Great thirst for cold drinks.
+
+### Clinical Applications
+Teething, colic, irritable behavior, menstrual cramps with great irritability, and ailments from anger.
+
+### Modalities
+*   **Aggravation:** By heat; evening (until midnight); from anger; open air; wind.
+*   **Amelioration:** From being carried; fast motion; warm, wet weather.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 22, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/chamomilla/800/600',
+    tags: ['Materia Medica', 'Chamomilla', 'Children']
+  },
+  {
+    id: 'nux-vomica-profile',
+    title: 'Nux Vomica: The Polycrest for the Modern Lifestyle',
+    excerpt: 'Learn about "Poison Nut" - the remedy for sedentary life, over-indulgence, and the "irritable, over-sensitive" worker.',
+    content: `
+## Materia Medica: Nux Vomica
+**Common Name:** Poison Nut
+**Family:** Loganiaceae
+
+### Summary
+Nux Vomica is the remedy for the "modern man"—irritable, busy, sedentary, and given to high-pressure work and stimulants like coffee or alcohol. It is a powerful remedy for digestive and nervous system disorders.
+
+### Key Characteristics
+*   **Irritability:** Over-sensitive to all impressions; noise, odors, light, and music are unbearable.
+*   **Digestion:** "Stone in the stomach" feeling after eating; ineffective desire for stool.
+*   **Chilly:** Extremely chilly; wants to be covered up in all stages of fever.
+*   **Drowsiness:** Drowsy after meals and in the evening; wakes up at 3-4 a.m. and then falls to sleep late in the morning.
+*   **Catarrh:** Nose is stuffed up in a warm room and at night; runs in the open air and during the day.
+
+### Clinical Applications
+Indigestion, piles, constipation, hangover, tension headaches, and ailments from night-watching or over-study.
+
+### Modalities
+*   **Aggravation:** Morning; after eating; stimulants (coffee, alcohol); cold air; mental exertion.
+*   **Amelioration:** In the evening; while at rest; from damp, wet weather.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 23, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/nux/800/600',
+    tags: ['Materia Medica', 'Nux Vomica', 'Digestion']
+  },
+  {
+    id: 'rhus-tox-profile',
+    title: 'Rhus Toxicodendron: The Remedy for Rusty Joints',
+    excerpt: 'Discover "Poison Ivy" - the leading remedy for strains, sprains, and rheumatism that gets better with continued motion.',
+    content: `
+## Materia Medica: Rhus Toxicodendron
+**Common Name:** Poison Ivy
+**Family:** Anacardiaceae
+
+### Summary
+Rhus Tox is characterized by a "restlessness" both mental and physical. It is the premier remedy for musculoskeletal issues that are worse after rest and better after some motion.
+
+### Key Characteristics
+*   **Rusty Gate:** Stiffness and pain on starting to move, but gets better after "warming up" or continued motion.
+*   **Restlessness:** Constant change of position; cannot lie long in one spot.
+*   **Tongue:** Triangular red tip of the tongue is a characteristic keynote.
+*   **Exposure:** Ailments from getting wet while perspiring; from damp weather or cold, wet ground.
+*   **Skin:** Intense itching with vesicular eruptions (blisters) that burn and sting.
+
+### Clinical Applications
+Rheumatism, sciatica, sprains, strains, flu with body aches, and skin conditions like shingles or poison ivy.
+
+### Modalities
+*   **Aggravation:** Before a storm; cold, damp weather; night; during rest.
+*   **Amelioration:** Continued motion; warm, dry weather; warm applications; stretching the limbs.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 24, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/rhus/800/600',
+    tags: ['Materia Medica', 'Rhus Tox', 'Muscles']
+  },
+  {
+    id: 'sulphur-profile',
+    title: 'Sulphur: The King of Remedies and the "Ragged Philosopher"',
+    excerpt: 'A deep study of "Brimstone" - a polychrest remedy indicated for skin issues, burning sensations, and a messy nature.',
+    content: `
+## Materia Medica: Sulphur
+**Common Name:** Brimstone / Flowers of Sulphur
+**Source:** Mineral Kingdom
+
+### Summary
+Sulphur is one of the most important remedies in homeopathy, often used to clear the way for other remedies. It is suited to "the ragged philosopher"—untidy, messy individuals who are intellectually deep but physically neglectful.
+
+### Key Characteristics
+*   **Burning:** Burning sensations everywhere; burning in the soles of feet at night, making the patient stick them out from under the covers.
+*   **Aversion to Washing:** Water and bathing are disliked; child screams during a bath.
+*   **Orifices:** All body openings (lips, anus, eyelids) are very red.
+*   **Morning Hunger:** Gets a "sinking" feeling in the stomach around 11 a.m.
+*   **Lean & Stooped:** Lean, scrawny persons who walk with a stoop or stand uncomfortably.
+
+### Clinical Applications
+Chronic skin diseases, suppressed eruptions, constipation, hemorhoids, and as an intercurrent remedy in chronic cases.
+
+### Modalities
+*   **Aggravation:** Standing (most uncomfortable position); warmth of bed; washing/bathing; 11 a.m.
+*   **Amelioration:** Dry, warm weather; lying on the right side.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 25, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/sulphur/800/600',
+    tags: ['Materia Medica', 'Sulphur', 'Skin']
+  },
+  {
+    id: 'nat-mur-profile',
+    title: 'Natrum Muriaticum: The Remedy for Silent Grief',
+    excerpt: 'Learn about "Common Salt" - the deep-seated remedy for emotional suppression, sun headaches, and dry mucous membranes.',
+    content: `
+## Materia Medica: Natrum Muriaticum
+**Common Name:** Common Salt
+**Source:** Mineral Kingdom
+
+### Summary
+Natrum Mur is a profound remedy for the emotional and physical consequences of suppressed grief and anger. It is suited to reserved, serious individuals who avoid consolation.
+
+### Key Characteristics
+*   **Silent Grief:** Ailments from grief, disappointed love, or bad news; the patient cannot cry and hates being consoled.
+*   **Sun Headaches:** Severe, blinding headaches that are worse from sunrise to sunset.
+*   **Salt Craving:** A marked desire for salt and salty foods.
+*   **Dryness:** Dry, cracked lips (especially a crack in the middle of the lower lip); dry mucous membranes.
+*   **Mapped Tongue:** Tongue looks like a map with red and white patches.
+
+### Clinical Applications
+Anemia, chronic headaches, skin eruptions on the hairline, and emotional support for suppressed feelings.
+
+### Modalities
+*   **Aggravation:** 10-11 a.m.; heat of the sun; mental exertion; consolation.
+*   **Amelioration:** Open air; cold bathing; skipping a meal.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 26, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/nat-mur/800/600',
+    tags: ['Materia Medica', 'Natrum Mur', 'Emotional']
+  },
+  {
+    id: 'phosphorus-profile',
+    title: 'Phosphorus: The Polychrest for the Sensitive and Brilliant',
+    excerpt: 'Explore the "Light Bearer" - indicated for tall, slender individuals with a burning thirst for cold water and a fear of being alone.',
+    content: `
+## Materia Medica: Phosphorus
+**Common Name:** Phosphorus
+**Source:** Mineral Kingdom
+
+### Summary
+Phosphorus is suited to tall, slender, fair-skinned individuals with a lively, sensitive nature. They are often "brilliant" but physically weak and prone to bleeding and lung issues.
+
+### Key Characteristics
+*   **Burning:** Burning sensations everywhere—in the brain, spine, between the scapula, and in the stomach.
+*   **Thirst:** Intense thirst for very cold water; but as soon as the water becomes warm in the stomach, it is vomited.
+*   **Hemorrhagic Diathesis:** Tendency to bleed easily from any part; even slight wounds bleed profusely.
+*   **Fear:** Great fear of being alone; of the dark; and of thunderstorms.
+*   **Cravings:** Desire for salt and spicy, refreshing foods.
+
+### Clinical Applications
+Respiratory issues (pneumonia, bronchitis), liver complaints, hemorrhagic disorders, and anxiety after sunset.
+
+### Modalities
+*   **Aggravation:** Evening; before midnight; lying on the left side or the back; during a thunderstorm.
+*   **Amelioration:** In the dark; lying on the right side; cold food; massage.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 27, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/phosphorus/800/600',
+    tags: ['Materia Medica', 'Phosphorus', 'Respiration']
+  },
+  {
+    id: 'sepia-profile-2',
+    title: 'Sepia Officinalis: The Washerwoman\'s Remedy',
+    excerpt: 'Learn about "Cuttlefish Ink" - the leading remedy for hormonal imbalances, stasis, and "bearing down" sensations.',
+    content: `
+## Materia Medica: Sepia Officinalis
+**Common Name:** Inky Juice of Cuttlefish
+**Source:** Animal Kingdom
+
+### Summary
+Sepia is primarily a remedy for venous congestion and hormonal disturbances. It is suited to individuals who fee "worn out," indifferent to their loved ones, and physically dragged down.
+
+### Key Characteristics
+*   **Bearing Down:** A strong "bearing down" sensation in the pelvic region, as if everything would protrude; must cross the legs to prevent it.
+*   **Indifference:** Becomes indifferent even to those she loves best; avoids company.
+*   **Chloasma:** Yellowish-brown saddle-shaped discoloration across the nose and cheeks.
+*   **Cravings:** Great desire for sour things, pickles, and vinegar.
+*   **Activity:** Better from vigorous exercise (like dancing) which improves circulation.
+
+### Clinical Applications
+Menstrual issues, menopause, morning sickness, skin discolorations, and emotional exhaustion.
+
+### Modalities
+*   **Aggravation:** From laundry work (standing and using cold water); before a thunderstorm; 10-11 a.m.; cold air.
+*   **Amelioration:** Vigorous exercise; warmth of bed; hot applications; pressure.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 28, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/sepia/800/600',
+    tags: ['Materia Medica', 'Sepia', 'Female Health']
+  },
+  {
+    id: 'lachesis',
+    slug: 'lachesis',
+    title: 'Lachesis Mutus: The Remedy for "Too Tight" Sensations',
+    excerpt: 'Discover the "Surukuku Snake" - characterized by left-sided symptoms, intolerance to touch, and aggravation after sleep.',
+    content: `
+## Materia Medica: Lachesis Mutus
+**Common Name:** Surukuku Snake Venom
+**Source:** Animal Kingdom
+
+### Summary
+Lachesis is a powerful "hot" remedy suited to individuals who are talkative, suspicious, and jealous. It has a strong affinity for the left side and the cardiovascular system.
+
+### Key Characteristics
+*   **Left to Right:** Symptoms often start on the left side and move to the right (e.g., sore throat).
+*   **Intolerance to Constriction:** Cannot bear anything tight about the throat or waist; must loosen the collar.
+*   **Sleep:** Feels "worse after sleep" or the patient "sleeps into an aggravation."
+*   **Loquacity:** Extremely talkative; jumps from one subject to another.
+*   **Hot Flashes:** Frequent hot flushes, especially during menopause.
+
+### Clinical Applications
+Heart disorders, throat infections, menopausal symptoms, vein issues, and ailments from jealousy or suppressed releases.
+
+### Modalities
+*   **Aggravation:** After sleep; mornings; heat of the sun; warm room; touch or pressure.
+*   **Amelioration:** Open air; from a discharge (like the onset of menses).
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 29, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/lachesis/800/600',
+    tags: ['Materia Medica', 'Lachesis', 'Cardiology']
+  },
+  {
+    id: 'ignatia',
+    title: 'Ignatia Amara: The Remedy for Emotional Contradictions',
+    slug: 'ignatia',
+    excerpt: 'A study of "St. Ignatius Bean" - essential for acute grief, hysteria, and paradoxical symptoms.',
+    content: `
+## Materia Medica: Ignatia Amara
+**Common Name:** St. Ignatius Bean
+**Family:** Loganiaceae
+
+### Summary
+Ignatia is characterized by "contradictions." It is a remedy of "paradoxes"—e.g., a sore throat that is better from swallowing solids, or a stomach ache relieved by eating. It is the leading remedy for acute emotional shock and grief.
+
+### Key Characteristics
+*   **Emotional Paradox:** Rapid changes in mood; laughing one moment and crying the next.
+*   **Sighing:** Constant involuntary sighing or yawning.
+*   **Ailments from Grief:** Bad effects of grief, worry, or disappointed love.
+*   **Globus Hystericus:** Sensation of a lump in the throat that cannot be swallowed.
+*   **Clavus Hystericus:** Pain in the head as if a nail were being driven into the side.
+
+### Clinical Applications
+Acute grief, hysteria, nervous headaches, and paradoxical physical symptoms.
+
+### Modalities
+*   **Aggravation:** Tobacco smoke; coffee; morning; open air; after eating.
+*   **Amelioration:** While eating; by changing position; deep breathing.
+    `,
+    author: 'Dr. H.C. Allen',
+    date: 'June 30, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/ignatia/800/600',
+    tags: ['Materia Medica', 'Ignatia', 'Emotional']
+  },
+  {
+    id: 'argentum-nitricum-profile',
+    title: 'Argentum Nitricum: The Remedy for Anticipation and Anxiety',
+    slug: 'argentum-nitricum-profile',
+    category: 'Materia Medica',
+    excerpt: 'Explore the "Silver Nitrate" remedy, essential for those who suffer from stage fright, anticipatory anxiety, and intense cravings for sweets.',
+    tags: ['Anxiety', 'Acidity', 'Stage Fright', 'Argentum Nit'],
+    content: `## Materia Medica: Argentum Nitricum
+**Common Name:** Nitrate of Silver
+**Family:** Mineral (Chemical)
+
+### Summary
+Argentum Nitricum is a major remedy for nervous disorders, particularly those centered around anticipation, haste, and anxiety. It is deeply connected to the gastrointestinal system and the nervous system.
+
+### Key Characteristics
+* **Anticipatory Anxiety:** Worrying about upcoming events months or days in advance.
+* **Haste:** Everything must be done in a hurry; feels time passes too slowly.
+* **Craving for Sweets:** Intense desire for sugar, which often causes flatulence and diarrhea.
+* **Physical Pattern:** Feeling of a splinter in the throat or stuck somewhere in the body.
+
+### Clinical Applications
+High-performance anxiety (exams, public speaking), flatulence, acidity, and nervous indigestion.`,
+    author: 'Curiva Research Team',
+    date: 'April 10, 2024',
+    image: 'https://picsum.photos/seed/argentum/800/600'
+  },
+  {
+    id: 'phosphoric-acid-profile',
+    title: 'Phosphoric Acid: The Remedy for Mental and Physical Burnout',
+    slug: 'phosphoric-acid-profile',
+    category: 'Materia Medica',
+    excerpt: 'Indicated for states of extreme debility, mental apathy, and exhaustion following emotional strain or loss of fluids.',
+    tags: ['Burnout', 'Debility', 'Grief', 'Acidum Phos'],
+    content: `## Materia Medica: Phosphoric Acid
+**Common Name:** Glacial Phosphoric Acid
+
+### Summary
+Phosphoric Acid (Acidum Phosphoricum) corresponds to the state of "nervous exhaustion" where the mind and body are simply too tired to react.
+
+### Key Characteristics
+* **Apathy:** Complete indifference to everything; too tired to even speak.
+* **Mental Fatigue:** Difficulty concentrating; thoughts come slowly.
+* **Physical Weakness:** Great debility, often following long-term grief or rapid growth in teenagers.
+* **Modalities:** Better from short sleep and rest.
+
+### Clinical Applications
+Chronic fatigue syndrome, burnout, emotional shock, and early stages of diabetes support.`,
+    author: 'Curiva Research Team',
+    date: 'April 12, 2024',
+    image: 'https://picsum.photos/seed/phosacid/800/600'
+  },
+  {
+    id: 'aspidosperma-profile',
+    title: 'Aspidosperma: The Digitalis of the Lungs',
+    slug: 'aspidosperma-profile',
+    category: 'Materia Medica',
+    excerpt: 'A specialized remedy acting as a lung tonic, helping to improve oxygenation in cases of asthma and cardiac respiratory distress.',
+    tags: ['Asthma', 'Lung Health', 'Breathing', 'Aspidosperma'],
+    content: `## Materia Medica: Aspidosperma
+**Common Name:** Quebracho
+
+### Summary
+Aspidosperma is often referred to as the "Digitalis of the lungs." It focuses almost exclusively on the respiratory system, specifically the ability of the lungs to take in oxygen.
+
+### Key Characteristics
+* **Oxygenation:** Increases the oxidation of blood and stimulates the respiratory centers.
+* **Breathlessness:** Extreme shortness of breath upon exertion.
+* **Cardiac Asthma:** Respiratory distress associated with heart conditions.
+
+### Clinical Applications
+Asthma, COPD support, and shortness of breath due to various causes.`,
+    author: 'Curiva Research Team',
+    date: 'April 15, 2024',
+    image: 'https://picsum.photos/seed/lungs/800/600'
+  },
+  {
+    id: 'ipecac-profile',
+    title: 'Ipecacuanha: The Remedy for Persistent Nausea',
+    slug: 'ipecac-profile',
+    category: 'Materia Medica',
+    excerpt: 'Famous for its role in treating persistent nausea that isn’t relieved by vomiting, and spasmodic respiratory conditions.',
+    tags: ['Nausea', 'Asthma', 'Cough', 'Ipecac'],
+    content: `## Materia Medica: Ipecacuanha
+**Common Name:** Ipecac-root
+**Family:** Rubiaceae
+
+### Summary
+Ipecac is the foremost remedy for persistent, unrelenting nausea. It also has a strong affinity for the respiratory system, producing spasmodic, suffocating coughs.
+
+### Key Characteristics
+* **Nausea:** Constant nausea, with a clean tongue (unusual in digestive distress).
+* **Vomiting:** Vomiting doesn't relieve the nausea.
+* **Spasmodic Cough:** Cough that is dry, hoarse, and comes in fits, leading to gagging or vomiting.
+
+### Clinical Applications
+Morning sickness, asthma with gagging, persistent vomiting, and certain types of dysentery.`,
+    author: 'Curiva Research Team',
+    date: 'April 18, 2024',
+    image: 'https://picsum.photos/seed/ipecac/800/600'
+  },
+  {
+    id: 'antimonium-crudum-profile',
+    title: 'Antimonium Crudum: The Remedy for Over-Indulgence',
+    slug: 'antimonium-crudum-profile',
+    category: 'Materia Medica',
+    excerpt: 'Suited for those with a "thick white coated tongue" and digestive issues arising from over-eating or emotional sensitivity.',
+    tags: ['Indigestion', 'Skin', 'Overeating', 'Antimonium Cr'],
+    content: `## Materia Medica: Antimonium Crudum
+**Common Name:** Native Antimony Sulphide
+
+### Summary
+Antimonium Crudum relates to the digestive track and the skin. It is often indicated when a person has over-indulged in heavy food or sweets.
+
+### Key Characteristics
+* **The Tongue:** Characteristic thick, milky-white coating on the tongue.
+* **Irritability:** Children who cannot bear to be looked at or touched.
+* **Skin Patterns:** Hard, brittle nails and skin issues that are aggravated by heat.
+
+### Clinical Applications
+Gastritis, acne, corns, and sentimental mood swings in adolescents.`,
+    author: 'Curiva Research Team',
+    date: 'April 20, 2024',
+    image: 'https://picsum.photos/seed/antimony/800/600'
+  },
+  {
+    id: 'berberis-aquifolium-profile',
+    title: 'Berberis Aquifolium: The Skin Beautifier',
+    slug: 'berberis-aquifolium-profile',
+    category: 'Materia Medica',
+    excerpt: 'Widely used in homoeopathy to clear the complexion and treat stubborn skin conditions like acne and psoriasis markers.',
+    tags: ['Skin', 'Acne', 'Complexion', 'Berberis Aq'],
+    content: `## Materia Medica: Berberis Aquifolium
+**Common Name:** Mountain Grape
+
+### Summary
+Berberis Aquifolium is primarily a skin and liver remedy. It is known for its ability to clear the complexion and aid in glandular health.
+
+### Key Characteristics
+* **Skin Clearance:** Helps remove scars/marks left by acne.
+* **Complexion:** Often given to improve sallow, dull skin.
+* **Liver Affinity:** Stimulates the liver and can help with overall detoxification.
+
+### Clinical Applications
+Acne scars, rough skin, psoriasis support, and chronic dermatitis.`,
+    author: 'Curiva Research Team',
+    date: 'April 22, 2024',
+    image: 'https://picsum.photos/seed/berberis/800/600'
+  },
+  {
+    id: 'aesculus-hippocastanum-profile',
+    title: 'Aesculus Hippocastanum: For Lower Back and Venous Congestion',
+    slug: 'aesculus-hippocastanum-profile',
+    category: 'Materia Medica',
+    excerpt: 'A powerful remedy for lower backache that feels "as if the back would break," often tied to venous congestion.',
+    tags: ['Backache', 'Hemorrhoids', 'Congestion', 'Aesculus'],
+    content: `## Materia Medica: Aesculus Hippocastanum
+**Common Name:** Horse Chestnut
+
+### Summary
+Aesculus acts primarily on the lower bowel and the venous system, particularly the portal system.
+
+### Key Characteristics
+* **Sacral Pain:** Intense pain in the sacro-iliac joints; back feels weak and gives out.
+* **Congestion:** Sensation of fullness in various organs (lungs, heart, stomach).
+* **Hemorrhoids:** Very painful, stick-like sensation in the rectum.
+
+### Clinical Applications
+Chronic backache, hemorrhoids, and varicose veins.`,
+    author: 'Curiva Research Team',
+    date: 'April 25, 2024',
+    image: 'https://picsum.photos/seed/chestnut/800/600'
+  },
+  {
+    id: 'symphytum-profile',
+    title: 'Symphytum: The Knitter of Bones',
+    slug: 'symphytum-profile',
+    category: 'Materia Medica',
+    excerpt: 'Known as "Comfrey" or the "Bone-knit," this remedy is essential for healing fractures and injuries to the periosteum.',
+    tags: ['Bones', 'Fractures', 'Injury', 'Symphytum'],
+    content: `## Materia Medica: Symphytum
+**Common Name:** Comfrey
+
+### Summary
+Symphytum is the specific remedy for broken bones. It facilitates the formation of callus and knits fractured bones together rapidly.
+
+### Key Characteristics
+* **Bone Repair:** Speeds up the healing process of fractures.
+* **Eye Injuries:** Specific remedy for injuries to the eyeball (blow from a fist, ball, etc.).
+* **Periosteum:** Acts on the lining of the bone where there is pain after an injury.
+
+### Clinical Applications
+Fractures, irritable stump after amputation, and non-union of bones.`,
+    author: 'Curiva Research Team',
+    date: 'April 28, 2024',
+    image: 'https://picsum.photos/seed/bone/800/600'
+  },
+  {
+    id: 'carbo-vegetabilis-profile',
+    title: 'Carbo Vegetabilis: The Corpse Reviver',
+    slug: 'carbo-vegetabilis-profile',
+    category: 'Materia Medica',
+    excerpt: 'The "Corpse Reviver" indicated for states of collapse, intense bloating, and the need for constant fanning.',
+    tags: ['Bloating', 'Collapse', 'Oxygen', 'Carbo Veg'],
+    content: `## Materia Medica: Carbo Vegetabilis
+**Common Name:** Vegetable Charcoal
+
+### Summary
+Carbo Veg is used in states of extreme debility or collapse where the patient is nearly breathless. It is also the premier remedy for upper-digestive gas.
+
+### Key Characteristics
+* **Air Hunger:** Wants to be fanned constantly; feels they cannot get enough air.
+* **Flatulence:** Intense bloating in the upper stomach; better by belching.
+* **Coldness:** Body feels cold, yet the patient wants cold air fanned on them.
+
+### Clinical Applications
+Indigestion, recovery from severe illness, gas, and circulatory debility.`,
+    author: 'Curiva Research Team',
+    date: 'May 01, 2024',
+    image: 'https://picsum.photos/seed/charcoal/800/600'
+  },
+  {
+    id: 'allium-cepa-profile',
+    title: 'Allium Cepa: The Onion Remedy for Hay Fever',
+    slug: 'allium-cepa-profile',
+    category: 'Materia Medica',
+    excerpt: 'Derived from the common onion, it treats watery eyes and burning nasal discharge that mimics the effects of peeling an onion.',
+    tags: ['Allergy', 'Cold', 'Hay Fever', 'Allium Cepa'],
+    content: `## Materia Medica: Allium Cepa
+**Common Name:** Red Onion
+
+### Summary
+Allium Cepa works exactly like the effects of peeling an onion: watering of the eyes and nose.
+
+### Key Characteristics
+* **Acrid Discharge:** Nasal discharge is burning and makes the skin around the nose sore.
+* **Bland Tears:** Eye discharge is profuse but does not burn the cheeks.
+* **Modalities:** Worse in a warm room; better in the open air.
+
+### Clinical Applications
+Hay fever, allergic rhinitis, and early stages of a common cold.`,
+    author: 'Curiva Research Team',
+    date: 'May 03, 2024',
+    image: 'https://picsum.photos/seed/onion/800/600'
   }
 ];
+

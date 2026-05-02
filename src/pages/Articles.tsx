@@ -1,91 +1,103 @@
-import React, { useState, useEffect } from 'react';
-import { useSearchParams, useLocation } from 'react-router-dom';
-import FeaturedArticles from '../components/FeaturedArticles';
-import Categories from '../components/Categories';
-import EducationalHighlight from '../components/EducationalHighlight';
-import BlogGrid from '../components/BlogGrid';
-import PostDetail from '../components/PostDetail';
-import SEO from '../components/SEO';
-import { Newspaper } from 'lucide-react';
-import { BlogPost } from '../types';
-import { fetchPostById } from '../services/api';
+import React, { useState, useEffect } from "react";
+import { useSearchParams, useLocation } from "react-router-dom";
+import FeaturedArticles from "../components/FeaturedArticles";
+import BlogGrid from "../components/BlogGrid";
+import PostDetail from "../components/PostDetail";
+import SEO from "../components/SEO";
+import { Newspaper } from "lucide-react";
+import { BlogPost } from "../types";
+import { fetchPostBySlug } from "../services/api";
+import { motion } from "motion/react";
+import { useParams, useNavigate } from "react-router-dom";
 
 export default function Articles() {
+  const { slug } = useParams<{ slug: string }>();
+  const navigate = useNavigate();
   const [selectedPost, setSelectedPost] = useState<BlogPost | null>(null);
   const [searchParams, setSearchParams] = useSearchParams();
   const { pathname } = useLocation();
 
+  const handleSelectPost = (post: BlogPost) => {
+    navigate(`/read/${post.slug}`);
+  };
+
   // Scroll to top on route change or post selection
   useEffect(() => {
     window.scrollTo(0, 0);
-  }, [pathname, selectedPost]);
+  }, [pathname, slug]);
 
   useEffect(() => {
-    const postId = searchParams.get('post');
-    if (postId) {
+    if (slug) {
       const loadPost = async () => {
         try {
-          const post = await fetchPostById(postId);
+          const post = await fetchPostBySlug(slug);
           setSelectedPost(post);
         } catch (error) {
-          console.error('Error fetching post by ID:', error);
-          setSearchParams({});
+          console.error("Error fetching post by slug:", error);
+          navigate("/articles");
         }
       };
       loadPost();
     } else {
       setSelectedPost(null);
     }
-  }, [searchParams, setSearchParams]);
+  }, [slug, navigate]);
 
   if (selectedPost) {
     return (
-      <PostDetail 
-        post={selectedPost} 
+      <PostDetail
+        post={selectedPost}
         onBack={() => {
-          setSelectedPost(null);
-          setSearchParams({});
+          navigate("/articles");
         }}
         onTagClick={(tag) => {
-          setSelectedPost(null);
-          setSearchParams({ tag });
+          navigate(`/articles?tag=${encodeURIComponent(tag)}&page=1`);
         }}
+        onSelectPost={handleSelectPost}
       />
     );
   }
 
-  const handleSelectPost = (post: BlogPost) => {
-    setSelectedPost(post);
-    setSearchParams({ post: post.id });
-  };
-
   return (
     <>
-      <SEO 
-        title="Explore Articles | Curiva Homoeopathy" 
+      <SEO
+        title="Educational Blog | Curiva Homoeopathy"
         description="Deep dive into the world of homoeopathy with our curated articles and educational resources."
       />
-      <main className="pt-8 bg-bg-primary transition-colors duration-300">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12">
-          <div className="flex items-center gap-3 mb-4">
-            <Newspaper className="w-10 h-10 text-primary" />
-            <h1 className="text-4xl md:text-5xl font-display font-bold text-primary">
-              Explore Articles
+      <main className="bg-bg-primary transition-colors duration-300 pb-12">
+        <div className="pt-20 pb-16 bg-bg-secondary border-b border-border">
+          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-[2rem] text-primary mb-6 shadow-sm border border-primary/20">
+              <Newspaper className="w-10 h-10" />
+            </div>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-text-primary mb-6 tracking-tight">
+              Educational <span className="text-primary italic">Articles</span>
             </h1>
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed mb-8 relative z-10">
+              Discover natural healing insights, student-curated research, and trusted
+              guides to help you explore the patterns of holistic wellness.
+            </p>
+            <div className="inline-flex items-center justify-center gap-2 bg-primary/5 text-primary px-5 py-2.5 rounded-full font-bold text-sm border border-primary/20 relative z-10 uppercase tracking-widest">
+               <span className="w-2 h-2 rounded-full bg-primary animate-pulse block"></span>
+               Evidence-Based Homoeopathy Awareness
+            </div>
           </div>
-          <p className="text-lg text-text-secondary max-w-2xl">
-            Discover natural healing insights, patient stories, and educational guides to help you on your wellness journey.
-          </p>
         </div>
-        
+
+        {/* We can use the default section variant of Featured Articles */}
         <FeaturedArticles onSelectPost={handleSelectPost} />
-        <Categories />
-        <EducationalHighlight />
-        <BlogGrid 
-          onSelectPost={handleSelectPost} 
-          initialTag={searchParams.get('tag')}
-          initialCategory={searchParams.get('category')}
-        />
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pb-24">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+          >
+            <div id="blog-grid" className="scroll-mt-24">
+              <BlogGrid onSelectPost={handleSelectPost} />
+            </div>
+          </motion.div>
+        </div>
       </main>
     </>
   );
