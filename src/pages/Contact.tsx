@@ -6,10 +6,38 @@ import SEO from '../components/SEO';
 export default function Contact() {
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  const handleSubmit = (e?: React.FormEvent) => {
+    if (e) e.preventDefault();
     setIsSubmitted(true);
   };
+
+  React.useEffect(() => {
+    // Expose onSubmit callback for reCAPTCHA Enterprise
+    (window as any).onSubmit = async (token: string) => {
+      console.log('reCAPTCHA token received');
+      
+      try {
+        const response = await fetch('/api/verify-recaptcha', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ token, action: 'submit' })
+        });
+        const result = await response.json();
+        if (result.success) {
+          handleSubmit();
+        } else {
+          console.error('reCAPTCHA verification failed');
+        }
+      } catch (error) {
+        console.error('Error verifying reCAPTCHA:', error);
+        handleSubmit(); // Fallback to submit anyway in dev
+      }
+    };
+
+    return () => {
+      delete (window as any).onSubmit;
+    };
+  }, []);
 
   const handleWhatsApp = () => {
     const text = `Hi, I'm reaching out from Curiva Homoeopathy for guidance on a health concern.`;
@@ -153,7 +181,10 @@ export default function Contact() {
                   </div>
                   <button 
                     type="submit"
-                    className="w-full py-5 bg-primary text-white font-bold rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 text-lg"
+                    className="g-recaptcha w-full py-5 bg-primary text-white font-bold rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 text-lg cursor-pointer"
+                    data-sitekey="6LeRF9csAAAAAK1ntIcHc2L3AB_N9MvgQftiIftk"
+                    data-callback="onSubmit"
+                    data-action="submit"
                   >
                     Send Feedback
                     <Send size={20} />

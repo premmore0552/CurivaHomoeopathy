@@ -13,19 +13,27 @@ export default function ComparisonTool() {
         description="Side-by-side differential analysis of homeopathic remedies for practitioners and students."
       />
 
-      <header className="py-20 bg-bg-secondary relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-12 opacity-5">
-           <Scale className="w-96 h-96" />
+      <header className="relative pt-32 pb-48 overflow-hidden bg-text-primary text-white">
+        <div className="absolute inset-0 bg-gradient-radial from-primary/10 to-transparent opacity-50 pointer-events-none" />
+        <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
+           <Scale className="w-96 h-96 text-white" />
         </div>
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-           <div className="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 rounded-full text-xs font-black text-primary uppercase tracking-[0.25em] mb-6 border border-primary/20">
-             <Sparkles className="w-4 h-4" /> Clinical Analysis Module
-           </div>
-           <h1 className="text-4xl md:text-6xl font-display font-black text-text-primary uppercase tracking-tight italic mb-6">
-             Differential <span className="text-primary">Materia Medica</span>
+           <motion.div 
+             initial={{ opacity: 0, scale: 0.9 }}
+             animate={{ opacity: 1, scale: 1 }}
+             className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/5 border border-white/10 rounded-full shadow-2xl mb-10"
+           >
+             <Sparkles className="w-4 h-4 text-primary-light" />
+             <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Clinical Intelligence</span>
+           </motion.div>
+           <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black text-white tracking-tighter leading-[0.8] uppercase flex flex-col">
+             <span>Differential</span>
+             <span className="text-primary italic lg:ml-24">Analysis</span>
            </h1>
-           <p className="text-lg md:text-xl text-text-secondary max-w-2xl font-medium leading-relaxed">
-             Compare key characteristics, modalities, and thermal patterns of remedies side-by-side to understand their clinical nuances.
+           <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-medium leading-tight mt-12">
+             Compare modalities, thermal patterns, and keynotes side-by-side.
            </p>
         </div>
       </header>

@@ -36,8 +36,46 @@ service cloud.firestore {
         && data.email is string && data.email.size() <= 256
         && (data.get('displayName', '') is string && data.get('displayName', '').size() <= 100)
         && (data.get('favorites', []) is list && data.get('favorites', []).size() <= 100)
+        && (data.get('comparisonCount', 0) is number)
+        && (data.get('isPremium', false) is bool)
+        && (data.get('lastResetDate', '') is string)
         && data.createdAt is timestamp
         && data.updatedAt is timestamp;
+    }
+
+    // --- Resource Validation ---
+    function isValidResource(data) {
+      return data.keys().hasAll(['id', 'title', 'price', 'category'])
+        && data.id is string
+        && data.title is string && data.title.size() <= 200
+        && data.price is number && data.price >= 0
+        && data.category in ['PDF', 'Guide', 'Research', 'Notes'];
+    }
+
+    // --- Order Validation ---
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'userEmail', 'resourceId', 'amount', 'currency', 'method', 'status', 'createdAt'])
+        && (isSignedIn() ? data.userId == request.auth.uid : data.userId == 'guest')
+        && data.userEmail is string && data.userEmail.size() <= 256
+        && data.resourceId is string
+        && data.amount is number && data.amount >= 0
+        && data.currency in ['INR', 'USD']
+        && data.method is string
+        && data.status in ['completed', 'pending', 'delivered']
+        && data.createdAt is timestamp;
+    }
+
+    // --- Lead Validation ---
+    function isValidLead(data) {
+      return data.keys().hasAll(['userName', 'userEmail', 'createdAt'])
+        && data.userName is string && data.userName.size() <= 200
+        && data.userEmail is string && data.userEmail.size() <= 256
+        && data.createdAt is timestamp
+        && (data.get('status', 'pending') in ['pending', 'contacted', 'fulfilled'])
+        && (data.get('userProfession', 'Student') in ['Student', 'Doctor'])
+        && (data.get('userId', 'guest') is string)
+        && (data.get('resourceId', '') is string)
+        && (data.get('type', '') is string);
     }
 
     // --- Rules ---
@@ -55,11 +93,35 @@ service cloud.firestore {
         && incoming().createdAt == existing().createdAt
         && incoming().updatedAt == request.time
         && (
-          // Action: Update Profile/Favorites
-          incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'updatedAt', 'favorites'])
+          // Action: Update Profile/Favorites/Usage
+          incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'updatedAt', 'favorites', 'comparisonCount', 'isPremium', 'lastResetDate'])
         );
       
       allow delete: if false;
+    }
+
+    match /resources/{resourceId} {
+      allow get, list: if true;
+      allow write: if false; // System/Admin managed
+    }
+
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (isOwner(existing().userId) || existing().userId == 'guest');
+      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
+      
+      allow create: if (isSignedIn() || incoming().userId == 'guest')
+        && isValidOrder(incoming())
+        && incoming().createdAt == request.time;
+      
+      allow update, delete: if false;
+    }
+
+    match /leads/{leadId} {
+      allow get, list: if false; // Admin only for now
+      allow create: if (isSignedIn() || (incoming().get('userId', 'guest') == 'guest'))
+        && isValidLead(incoming())
+        && incoming().createdAt == request.time;
+      allow update, delete: if false;
     }
   }
 }

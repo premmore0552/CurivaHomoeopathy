@@ -15,36 +15,81 @@ import {
   Info,
   BookOpen,
   Layout,
-  Sparkles
+  Sparkles,
+  Zap,
+  Shield,
+  Search
 } from 'lucide-react';
 import SEO from '../components/SEO';
-import { enhancedRemedies } from '../data/enhancedRemedies';
+import { enhancedRemedies, RemedyDetailData } from '../data/enhancedRemedies';
+import { comparisonRemedies, ComparisonData } from '../data/comparisonData';
 import { allBlogPosts } from '../data/blogPosts';
 
 export default function RemedyDetail() {
   const { remedyId } = useParams<{ remedyId: string }>();
-  const remedy = enhancedRemedies.find(r => r.id === remedyId);
+  
+  // Try to find in enhanced remedies first
+  const enhancedRemedy = enhancedRemedies.find(r => r.id === remedyId);
+  
+  // Fallback to comparisonRemedies
+  const comparisonRemedy = comparisonRemedies.find(r => r.id === remedyId);
+
+  // Convert comparisonRemedy to RemedyDetailData structure if enhanced is missing
+  const remedy: RemedyDetailData | null = enhancedRemedy || (comparisonRemedy ? {
+    id: comparisonRemedy.id,
+    name: comparisonRemedy.name,
+    family: (comparisonRemedy.origin.includes('Plant') ? 'Plant' : 
+             comparisonRemedy.origin.includes('Mineral') ? 'Mineral' : 
+             comparisonRemedy.origin.includes('Animal') ? 'Animal' : 'Mineral') as any,
+    origin: comparisonRemedy.origin,
+    description: comparisonRemedy.tendency + ". " + comparisonRemedy.keyCharacteristic,
+    keyCharacteristics: [comparisonRemedy.keyCharacteristic, ...comparisonRemedy.keyPatterns],
+    modalities: {
+      better: comparisonRemedy.betterWith,
+      worse: comparisonRemedy.worseWith
+    },
+    thermal: (comparisonRemedy.thermal.includes('Chilly') ? 'Chilly' : 
+              comparisonRemedy.thermal.includes('Hot') ? 'Hot' : 'Ambi-thermal') as any,
+    thirst: comparisonRemedy.thirst,
+    clinicalApplications: comparisonRemedy.clinicalApplications,
+    comparisons: [], // We could populate this if we wanted
+    relatedAilments: comparisonRemedy.relatedConditions.map(c => ({ id: c.toLowerCase().replace(/\s+/g, '-'), name: c }))
+  } : null);
 
   useEffect(() => {
     window.scrollTo(0, 0);
   }, [remedyId]);
 
   if (!remedy) {
-    // Basic placeholder for non-existent remedies to maintain continuity
     const placeholderName = remedyId?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     return (
       <div className="min-h-screen bg-bg-primary pt-32 pb-20 px-4">
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="w-20 h-20 bg-bg-secondary rounded-full flex items-center justify-center mx-auto border border-border shadow-soft">
-            <Info className="w-10 h-10 text-primary" />
+            <Search className="w-10 h-10 text-primary" />
           </div>
           <div>
-            <h1 className="text-4xl font-display font-black text-text-primary mb-4">{placeholderName}</h1>
-            <p className="text-text-secondary max-w-lg mx-auto">
-              This remedy is currently being researched. In clinical homoeopathy, {placeholderName} is part of our extensive database of therapeutic agents.
+            <h1 className="text-4xl font-display font-black text-text-primary mb-4 uppercase tracking-tighter italic">
+              {placeholderName}
+            </h1>
+            <p className="text-xl text-text-secondary max-w-xl mx-auto font-medium leading-relaxed italic">
+              This remedy profile is currently being compiled by our clinical research team. Master the fundamentals while we finalize the deep-dive analysis.
             </p>
           </div>
-          <Link to="/encyclopedia" className="inline-flex items-center gap-2 text-primary font-bold hover:underline">
+          
+          <div className="bg-white dark:bg-bg-secondary p-12 rounded-[4rem] border border-border shadow-2xl max-w-2xl mx-auto">
+             <Sparkles className="w-12 h-12 text-primary mx-auto mb-6" />
+             <h3 className="text-2xl font-black text-text-primary mb-4 italic">Unlock Premium Materia Medica</h3>
+             <p className="text-text-secondary mb-8 font-medium">Get instant access to clinical cases, miasmatic analysis, and advanced differential diagnosis for 200+ remedies.</p>
+             <Link 
+               to="/pro-plans" 
+               className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20"
+             >
+               Go Pro Now <Zap className="w-4 h-4 fill-white" />
+             </Link>
+          </div>
+
+          <Link to="/encyclopedia" className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-xs hover:underline pt-12">
             <ArrowLeft className="w-4 h-4" /> Back to Encyclopedia
           </Link>
         </div>

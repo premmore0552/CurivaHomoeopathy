@@ -3,7 +3,7 @@ import { motion, Variants } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
-import { useLanguage } from './LanguageContext';
+import { useLanguage } from '../context/LanguageContext';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
@@ -28,24 +28,26 @@ const Hero: React.FC = () => {
   };
 
   return (
-    <section className="relative bg-bg-secondary py-24 lg:py-32 overflow-hidden transition-colors duration-300">
-      {/* Abstract background shapes */}
-      <motion.div 
-        animate={{ 
-          scale: [1, 1.1, 1],
-          opacity: [0.2, 0.3, 0.2],
-        }}
-        transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
-        className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/4 w-96 h-96 bg-primary-light/20 rounded-full blur-3xl pointer-events-none"
-      />
-      <motion.div 
-        animate={{ 
-          scale: [1, 1.2, 1],
-          opacity: [0.1, 0.2, 0.1],
-        }}
-        transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-        className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/4 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none"
-      />
+    <section className="relative bg-bg-primary pt-24 pb-32 lg:pt-32 lg:pb-48 overflow-hidden transition-colors duration-300">
+      {/* Animated geometric background */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <motion.div 
+          animate={{ 
+            rotate: [0, 360],
+          }}
+          transition={{ duration: 60, repeat: Infinity, ease: "linear" }}
+          className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[800px] h-[800px] border border-primary/5 rounded-[10rem] opacity-20"
+        />
+        <motion.div 
+          animate={{ 
+            rotate: [360, 0],
+          }}
+          transition={{ duration: 80, repeat: Infinity, ease: "linear" }}
+          className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] border border-primary/5 rounded-[8rem] opacity-20"
+        />
+        <div className="absolute top-0 right-0 w-1/2 h-1/2 bg-gradient-radial from-primary/10 to-transparent opacity-40 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-1/2 h-1/2 bg-gradient-radial from-emerald-500/5 to-transparent opacity-30 blur-3xl" />
+      </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="lg:grid lg:grid-cols-12 lg:gap-16 items-center">
@@ -55,30 +57,46 @@ const Hero: React.FC = () => {
             animate="visible"
             className="text-center lg:text-left lg:col-span-7"
           >
-            <motion.span variants={itemVariants} className="inline-block px-4 py-2 bg-primary/10 text-primary font-bold text-xs uppercase tracking-widest rounded-full mb-8">
-              Empowering Natural Wellness
-            </motion.span>
-            <motion.h1 variants={itemVariants} className="text-4xl md:text-5xl lg:text-6xl xl:text-8xl font-display font-black text-text-primary leading-[1.1] mb-8 text-balance">
-              {t('hero.title').split(' ').slice(0, -1).join(' ')} <span className="text-primary italic">{t('hero.title').split(' ').pop()}</span>
+            <motion.div variants={itemVariants} className="flex items-center justify-center lg:justify-start gap-3 mb-8">
+              <span className="px-4 py-1.5 bg-primary/10 text-primary font-black text-[10px] uppercase tracking-[0.2em] rounded-full border border-primary/20">
+                Homoeopathy 2.0
+              </span>
+              <span className="flex items-center gap-1.5 px-3 py-1.5 bg-emerald-500/10 text-emerald-600 font-black text-[10px] uppercase tracking-[0.2em] rounded-full border border-emerald-500/20">
+                <span className="w-1.5 h-1.5 bg-emerald-500 rounded-full animate-pulse" />
+                Live Research
+              </span>
+            </motion.div>
+            
+            <motion.h1 variants={itemVariants} className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-black text-text-primary leading-[1] mb-8 tracking-tighter">
+              {t('hero.title').split(' ').slice(0, -1).join(' ')} <br className="hidden xl:block" />
+              <span className="text-primary italic relative">
+                {t('hero.title').split(' ').pop()}
+                <svg className="absolute -bottom-2 left-0 w-full h-3 text-primary/20 fill-current" viewBox="0 0 100 10" preserveAspectRatio="none">
+                  <path d="M0 5 Q 50 10 100 5 L 100 0 L 0 0 Z" />
+                </svg>
+              </span>
             </motion.h1>
-            <motion.p variants={itemVariants} className="text-lg md:text-xl text-text-secondary mb-12 max-w-xl mx-auto lg:mx-0 leading-relaxed font-medium">
-              Access a comprehensive clinical database of 8,000+ remedy options across 570 conditions, based on standard homeopathic research.
+            
+            <motion.p variants={itemVariants} className="text-xl md:text-2xl text-text-secondary mb-12 max-w-2xl mx-auto lg:mx-0 leading-relaxed font-medium opacity-80">
+              Transform clinical results with evidence-backed protocols and a modern approach to Materia Medica.
             </motion.p>
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
+            
+            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
               <Link
                 to="/explore-symptoms"
                 onClick={() => trackEvent('cta_click', { cta_id: 'hero_health_guides' })}
-                className="px-10 py-5 bg-primary text-white font-bold rounded-2xl hover:scale-105 hover:shadow-2xl hover:bg-primary-dark active:scale-95 transition-all flex items-center justify-center gap-3 text-lg group"
+                className="px-10 py-6 bg-primary text-white font-black uppercase tracking-widest text-sm rounded-3xl hover:scale-105 hover:shadow-2xl hover:shadow-primary/30 active:scale-95 transition-all flex items-center justify-center gap-3 group"
               >
                 {t('btn.explore')}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
               <Link
-                to="/learn"
-                onClick={() => trackEvent('cta_click', { cta_id: 'hero_read_articles' })}
-                className="px-10 py-5 bg-bg-primary text-text-primary font-bold rounded-2xl border-2 border-border hover:border-primary hover:text-primary active:scale-95 transition-all text-lg flex items-center justify-center shadow-sm"
+                to="/marketplace"
+                onClick={() => trackEvent('cta_click', { cta_id: 'hero_marketplace' })}
+                className="px-10 py-6 bg-bg-secondary text-text-primary font-black uppercase tracking-widest text-sm rounded-3xl border border-border hover:border-primary hover:bg-primary/5 active:scale-95 transition-all flex items-center justify-center gap-2 group shadow-sm"
               >
-                {t('btn.read')}
+                Resource Store
+                <span className="px-1.5 py-0.5 rounded-full bg-primary text-[8px] text-white">NEW</span>
               </Link>
             </motion.div>
           </motion.div>

@@ -2,7 +2,7 @@ import {StrictMode} from 'react';
 import {createRoot} from 'react-dom/client';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext.tsx';
-import { LanguageProvider } from './components/LanguageContext.tsx';
+import { LanguageProvider } from './context/LanguageContext.tsx';
 import App from './App.tsx';
 import './index.css';
 

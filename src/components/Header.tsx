@@ -1,14 +1,14 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import { categories } from '../data/mockData';
 import * as Icons from 'lucide-react';
 import { motion, AnimatePresence, Variants } from 'motion/react';
 import { trackEvent } from '../lib/analytics';
 import LanguageToggle from './LanguageToggle';
-import { useLanguage } from './LanguageContext';
+import { useLanguage } from '../context/LanguageContext';
 import AuthButton from './AuthButton';
 import Logo from './Logo';
 
@@ -42,44 +42,68 @@ const Header: React.FC = () => {
 
   const getBreadcrumbName = (segment: string) => {
     const map: Record<string, string> = {
-      'articles': 'Articles',
-      'topics': 'Research Database',
-      'our-story': 'Our Story',
+      'materia-medica': 'Materia Medica',
+      'remedy-comparator': 'Remedy Comparator',
+      'organon-philosophy': 'Organon Philosophy',
+      'principles': 'Core Principles',
+      'about-us': 'About Curiva',
+      'feedback': 'Get in Touch',
+      'faq': 'Help Center',
       'privacy-policy': 'Privacy Policy',
       'medical-disclaimer': 'Medical Disclaimer',
-      'get-in-touch': 'Contact',
       'terms-of-service': 'Terms of Service',
-      'guide': 'Guide',
-      'help-center': 'FAQ & Help Center',
-      'health-guides': 'Health Guides',
-      'myths-and-facts': 'Myths & Facts',
+      'topics': 'Research Database',
+      'student-resources': 'Student Resources',
     };
     return map[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
   };
 
   const navLinks = [
-    { name: 'Home', to: '/' },
-    { name: 'Organon', to: '/organon' },
+    { name: 'Home', label: 'Home', to: '/' },
     { 
-      name: 'Explore', 
-      to: '/encyclopedia',
+      name: (
+        <span className="flex items-center gap-1.5">
+          Organon <Sparkles className="w-3.5 h-3.5 text-primary" />
+        </span>
+      ), 
+      label: 'Organon & Philosophy',
+      to: '/organon-philosophy' 
+    },
+    { 
+      name: 'Marketplace', 
+      label: 'Marketplace',
+      to: '/marketplace',
+      isNew: true
+    },
+    { 
+      name: 'Comparator', 
+      label: 'Remedy Comparator',
+      to: '/remedy-comparator'
+    },
+    { 
+      name: 'Encyclopedia', 
+      label: 'Encyclopedia',
+      to: '/materia-medica',
       dropdown: [
-        { name: 'Encyclopedia A-Z', to: '/encyclopedia' },
-        { name: 'Comparator Tool', to: '/compare' },
+        { name: 'A-Z Materia Medica', to: '/materia-medica' },
         { name: 'Health Guides', to: '/explore-symptoms' },
+        { name: 'Scientific Principles', to: '/principles' },
       ]
     },
     { 
-      name: 'Understanding Homeopathy', 
-      to: '/understanding-homeopathy',
+      name: 'Resources', 
+      label: 'More Resources',
+      to: '#',
       dropdown: [
-        { name: 'Basics', to: '/understanding-homeopathy#basics' },
-        { name: 'Modalities', to: '/understanding-homeopathy#modalities' },
-        { name: 'Individualization', to: '/understanding-homeopathy#individualization' },
+        { name: 'Subscription Plans', to: '/pro-plans' },
+        { name: 'Clinical Recall (Study)', to: '/study-tool' },
+        { name: 'Student Resources', to: '/student-resources' },
+        { name: 'About Curiva', to: '/about-us' },
+        { name: 'Help Center (FAQ)', to: '/faq' },
+        { name: 'Community Feedback', to: '/feedback' },
+        { name: 'Terms & Privacy', to: '/terms-of-service' },
       ]
     },
-    { name: 'About', to: '/about' },
-    { name: 'Feedback', to: '/guidance' },
   ];
 
   const handleLinkClick = (to: string) => {
@@ -140,23 +164,23 @@ const Header: React.FC = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1 flex-nowrap" aria-label="Main Navigation">
-            <div className="mr-4 px-3 py-1 bg-primary/5 border border-primary/20 rounded-full text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-1.5">
+          <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
+            <div className="mr-2 px-3 py-1 bg-primary/5 border border-primary/20 rounded-full text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-1.5">
               <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-              BHMS Student Resource
+              Resource
             </div>
-            {navLinks.map((link) => {
+            {navLinks.map((link: any, idx) => {
               const isActive = location.pathname === link.to;
               const hasDropdown = 'dropdown' in link;
               
               if (hasDropdown) {
                 return (
-                  <div key={link.name} className="relative group/nav-item">
+                  <div key={link.label || idx} className="relative group/nav-item">
                     <button
                       aria-haspopup="true"
                       aria-expanded="false"
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-sm font-bold transition-all whitespace-nowrap ${
-                        isActive || link.dropdown?.some(d => location.pathname === d.to)
+                      className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-bold transition-all whitespace-nowrap ${
+                        isActive || link.dropdown?.some((d: any) => location.pathname === d.to)
                         ? 'text-primary' 
                         : 'text-text-secondary hover:text-primary'
                       }`}
@@ -165,7 +189,7 @@ const Header: React.FC = () => {
                       <ChevronDown className="w-4 h-4 transition-transform group-hover/nav-item:rotate-180" />
                     </button>
                     <div className="absolute top-full left-0 mt-1 w-52 bg-bg-primary border border-border rounded-2xl shadow-xl p-2 opacity-0 invisible group-hover/nav-item:opacity-100 group-hover/nav-item:visible transition-all duration-200 z-50">
-                      {link.dropdown?.map(sub => {
+                      {link.dropdown?.map((sub: any) => {
                         const isSubActive = location.pathname === sub.to;
                         return (
                           <Link
@@ -192,21 +216,26 @@ const Header: React.FC = () => {
               }
 
               return (
-                <div key={link.name} className="relative">
+                <div key={link.label || idx} className="relative">
                   <Link
                     to={link.to}
                     onClick={() => {
-                      trackEvent('nav_click', { link_name: link.name, link_to: link.to });
+                       // Use label if it exists, otherwise name
+                      const trackLabel = link.label || (typeof link.name === 'string' ? link.name : 'Unknown');
+                      trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
                       handleLinkClick(link.to);
                     }}
                     aria-current={isActive ? 'page' : undefined}
-                    className={`block px-3 py-2 rounded-xl text-sm font-bold transition-all relative group whitespace-nowrap ${
+                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-bold transition-all relative group whitespace-nowrap ${
                       isActive 
                       ? 'text-primary' 
                       : 'text-text-secondary hover:text-primary'
                     }`}
                   >
                     {link.name}
+                    {link.isNew && (
+                      <span className="px-1.5 py-0.5 rounded-full bg-primary text-[8px] text-white font-black uppercase tracking-tighter">New</span>
+                    )}
                     {isActive && (
                       <motion.div
                         layoutId="nav-active"
@@ -215,7 +244,7 @@ const Header: React.FC = () => {
                       />
                     )}
                     {!isActive && (
-                      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary/30 group-hover:w-1/2 transition-all duration-300 rounded-full" />
+                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary/30 group-hover:w-1/3 transition-all duration-300 rounded-full" />
                     )}
                   </Link>
                 </div>
@@ -223,9 +252,9 @@ const Header: React.FC = () => {
             })}
 
             {/* Categories Dropdown */}
-            <div className="relative ml-2">
+            <div className="relative ml-1">
               <button
-                className={`flex items-center gap-2 px-4 py-2 rounded-xl text-sm font-bold transition-all ${
+                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-bold transition-all ${
                   isCategoriesOpen 
                   ? 'text-primary bg-primary/10 shadow-sm' 
                   : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
@@ -233,7 +262,7 @@ const Header: React.FC = () => {
                 aria-expanded={isCategoriesOpen}
                 onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
               >
-                Research Database <ChevronDown className={`w-4 h-4 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+                Research <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
               </button>
               <AnimatePresence>
                 {isCategoriesOpen && (
@@ -280,6 +309,24 @@ const Header: React.FC = () => {
             
             <LanguageToggle />
             
+            <div className="w-[1px] h-6 bg-border mx-2" />
+
+            <Link
+              to="/my-library"
+              className={`p-2 rounded-xl transition-all relative group ${
+                location.pathname === '/my-library'
+                ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                : 'bg-bg-secondary text-text-tertiary hover:text-primary hover:bg-primary/5'
+              }`}
+              title="My Library"
+            >
+              <Library className="w-5 h-5" />
+              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary border-2 border-bg-primary"></span>
+              </span>
+            </Link>
+
             <div className="w-[1px] h-6 bg-border mx-2" />
 
             <AuthButton />
@@ -410,11 +457,11 @@ const Header: React.FC = () => {
                   Navigation
                 </h3>
                 <nav className="grid grid-cols-2 gap-3">
-                  {navLinks.map((link) => {
+                  {navLinks.map((link, idx) => {
                     const isActive = location.pathname === link.to;
                     return (
                       <motion.div 
-                        key={link.name} 
+                        key={link.label || idx} 
                         variants={itemVariants}
                         whileHover={{ scale: 1.05, rotateX: 10, rotateY: 5, z: 20 }}
                         whileTap={{ scale: 0.95 }}

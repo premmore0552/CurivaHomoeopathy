@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { motion } from 'motion/react';
 import { Book, Sparkles, Filter, Leaf, Database, Activity } from 'lucide-react';
 import SEO from '../components/SEO';
 import AZIndex from '../components/AZIndex';
@@ -48,20 +49,34 @@ export default function Encyclopedia() {
         description="Browse our comprehensive A-Z index of remedies, clinical topics, and research articles."
       />
 
-      <header className="py-20 bg-primary text-white relative overflow-hidden">
-        <div className="absolute top-0 right-0 p-12 opacity-10">
-           <Book className="w-96 h-96" />
-        </div>
+      <header className="relative pt-32 pb-48 overflow-hidden bg-text-primary">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
+        <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-           <div className="inline-flex items-center gap-3 px-4 py-2 bg-white/10 rounded-full text-xs font-black uppercase tracking-[0.25em] mb-6 border border-white/20">
-             <Sparkles className="w-4 h-4 text-white" /> Learning Repository
-           </div>
-           <h1 className="text-4xl md:text-6xl font-display font-black uppercase tracking-tight italic mb-6">
-             Homeopathic <span className="opacity-60 italic">Encyclopedia</span>
-           </h1>
-           <p className="text-lg md:text-xl text-white/80 max-w-2xl font-medium leading-relaxed">
-             Access a centralized directory of Materia Medica notes, clinical summaries, and evidence-based research articles organized for ease of reference.
-           </p>
+           <motion.div 
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] mb-10 border border-white/10 text-primary-light"
+           >
+             <Sparkles className="w-4 h-4" /> Living Archive
+           </motion.div>
+           <motion.h1 
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.1 }}
+             className="text-6xl md:text-8xl lg:text-9xl font-display font-black text-white tracking-tighter leading-[0.85] mb-12"
+           >
+             Materia <br/> <span className="text-primary italic">Medica</span> <span className="opacity-20">&</span> <br/> <span className="opacity-40 italic">Clinical Guides</span>
+           </motion.h1>
+           <motion.p 
+             initial={{ opacity: 0, y: 20 }}
+             animate={{ opacity: 1, y: 0 }}
+             transition={{ delay: 0.2 }}
+             className="text-xl md:text-2xl text-white/60 max-w-2xl font-medium leading-relaxed"
+           >
+             Your centralized gateway for evidence-based research, clinical patterns, and holistic philosophy.
+           </motion.p>
         </div>
       </header>
 

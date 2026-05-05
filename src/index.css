@@ -28,11 +28,11 @@
   }
 
   body {
-    @apply font-sans transition-colors duration-300;
+    @apply font-sans transition-colors duration-300 overflow-x-hidden w-full;
   }
 
   h1, h2, h3, h4, h5, h6 {
-    @apply font-display tracking-tight text-text-primary;
+    @apply font-display tracking-tight text-text-primary text-balance;
   }
 
   /* Improve focus states for accessibility */
@@ -114,5 +114,17 @@
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+  .rotate-y-180 {
+    transform: rotateY(180deg);
   }
 }

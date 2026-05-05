@@ -43,7 +43,7 @@ const data: MindMapNode = {
           articleId: "/conditions/acidity",
           children: [
             { id: "argentum-nitricum", name: "Argentum Nit", type: "remedy", articleId: "/read/argentum-nitricum-profile" },
-            { id: "nux-vomica", name: "Nux Vomica", type: "remedy", articleId: "/read/nux-vomica" },
+            { id: "nux-vomica", name: "Nux Vomica", type: "remedy", articleId: "/read/nux-vomica-profile" },
             { id: "phosphoric-acid", name: "Acidum Phos", type: "remedy", articleId: "/read/phosphoric-acid-profile" }
           ]
         },
@@ -54,7 +54,7 @@ const data: MindMapNode = {
           summary: "Excessive gas in the digestive tract leading to abdominal discomfort.",
           articleId: "/conditions/acidity",
           children: [
-            { id: "lycopodium", name: "Lycopodium", type: "remedy", articleId: "/read/lycopodium" },
+            { id: "lycopodium", name: "Lycopodium", type: "remedy", articleId: "/read/lycopodium-profile" },
             { id: "carbo-vegetabilis", name: "Carbo Veg", type: "remedy", articleId: "/read/carbo-vegetabilis-profile" }
           ]
         }
@@ -87,9 +87,9 @@ const data: MindMapNode = {
           summary: "Acute viral infection characterized by fever, chills, and muscular pain.",
           articleId: "/guide/immunity-wellness",
           children: [
-            { id: "aconite", name: "Aconite", type: "remedy", articleId: "/read/aconite" },
-            { id: "gelsemium", name: "Gelsemium", type: "remedy", articleId: "/read/gelsemium" },
-            { id: "bryonia", name: "Bryonia", type: "remedy", articleId: "/read/bryonia" }
+            { id: "aconite", name: "Aconite", type: "remedy", articleId: "/read/aconite-profile" },
+            { id: "gelsemium", name: "Gelsemium", type: "remedy", articleId: "/read/gelsemium-profile" },
+            { id: "bryonia", name: "Bryonia", type: "remedy", articleId: "/read/bryonia-profile" }
           ]
         }
       ]
@@ -102,6 +102,41 @@ const data: MindMapNode = {
       color: "#ba1775",
       articleId: "/topics",
       children: [
+        { 
+          id: "headache",
+          name: "Headache Patterns",
+          type: "topic",
+          summary: "Differential analysis of cephalalgia based on sensation, location, and modalities.",
+          children: [
+            {
+              id: "throbbing",
+              name: "Throbbing (Congestive)",
+              type: "topic",
+              summary: "Pulsating pain, often associated with heat and sudden onset.",
+              children: [
+                { id: "belladonna", name: "Belladonna", type: "remedy", articleId: "/remedy/belladonna", summary: "Violent throbbing, red face, cold feet. Worse for light and noise." }
+              ]
+            },
+            {
+              id: "bursting",
+              name: "Bursting (Splitting)",
+              type: "topic",
+              summary: "Feeling as if the head would burst; pain triggered by slightest motion.",
+              children: [
+                { id: "bryonia", name: "Bryonia", type: "remedy", articleId: "/remedy/bryonia", summary: "Splitting headache worse for movement, better for firm pressure and lying on the painful side." }
+              ]
+            },
+            {
+              id: "dull",
+              name: "Dull (Heavy)",
+              type: "topic",
+              summary: "Heavy, sluggish feeling; often starting from the neck/occiput.",
+              children: [
+                { id: "gelsemium", name: "Gelsemium", type: "remedy", articleId: "/remedy/gelsemium", summary: "Dull, heavy headache with drowsiness and thirstlessness. Better for profuse urination." }
+              ]
+            }
+          ]
+        },
         { 
           id: "acne", 
           name: "Acne (Pimples)", 
@@ -141,7 +176,7 @@ const data: MindMapNode = {
           summary: "Pain in the posterior region of the torso from neck to pelvis.",
           articleId: "/guide/chronic-pain",
           children: [
-            { id: "aconite", name: "Aconite", type: "remedy", articleId: "/read/aconite" },
+            { id: "aconite", name: "Aconite", type: "remedy", articleId: "/read/aconite-profile" },
             { id: "aesculus-hippocastanum", name: "Aesculus Hip", type: "remedy", articleId: "/read/aesculus-hippocastanum-profile" },
             { id: "rhus-toxicodendron", name: "Rhus Tox", type: "remedy", articleId: "/read/rhus-tox-profile" }
           ]
@@ -203,6 +238,7 @@ export default function ResearchMindMap() {
   const [zoomLevel, setZoomLevel] = useState(1);
   const [filterType, setFilterType] = useState<string>("all");
   const [loading, setLoading] = useState(true);
+  const [layoutMode, setLayoutMode] = useState<'tree' | 'radial'>('tree');
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -216,13 +252,13 @@ export default function ResearchMindMap() {
     
     const filterNode = (node: MindMapNode): MindMapNode | null => {
       const matchesSearch = node.name.toLowerCase().includes(searchTerm.toLowerCase());
-      const matchesType = filterType === 'all' || node.type === filterType;
+      const matchesType = filterType === 'all' || node.type === filterType || (filterType === 'symptom' && (node.type === 'topic' || node.type === 'category'));
       
       const filteredChildren = node.children 
         ? node.children.map(filterNode).filter((n): n is MindMapNode => n !== null) 
         : [];
         
-      if (matchesSearch || filteredChildren.length > 0) {
+      if (matchesSearch || (filterType === 'all' ? filteredChildren.length > 0 : filteredChildren.length > 0)) {
         return { ...node, children: filteredChildren.length > 0 ? filteredChildren : undefined };
       }
       return null;
@@ -256,66 +292,100 @@ export default function ResearchMindMap() {
     svg.call(zoom);
 
     const root = d3.hierarchy(filteredData);
-    const treeLayout = d3.tree<MindMapNode>().nodeSize([120, NODE_DISTANCE]);
-    treeLayout(root);
+    
+    if (layoutMode === 'tree') {
+      const treeLayout = d3.tree<MindMapNode>().nodeSize([120, NODE_DISTANCE]);
+      treeLayout(root);
 
-    // Links
-    g.selectAll(".link")
-      .data(root.links())
-      .enter()
-      .append("path")
-      .attr("class", "link")
-      .attr("d", d3.linkHorizontal<any, any>()
-        .x(d => d.y)
-        .y(d => d.x))
-      .attr("fill", "none")
-      .attr("stroke", "#e2e8f0")
-      .attr("stroke-width", 2)
-      .attr("stroke-dasharray", d => (d.target.data.type === 'lifestyle' || d.target.data.type === 'research') ? "4,4" : "none");
+      // Links
+      g.selectAll(".link")
+        .data(root.links())
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", d3.linkHorizontal<any, any>()
+          .x(d => d.y)
+          .y(d => d.x))
+        .attr("fill", "none")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2)
+        .attr("stroke-dasharray", d => (d.target.data.type === 'lifestyle' || d.target.data.type === 'research') ? "4,4" : "none");
 
-    // Nodes
-    const node = g.selectAll(".node")
-      .data(root.descendants())
-      .enter()
-      .append("g")
-      .attr("class", "node")
-      .attr("transform", d => `translate(${d.y},${d.x})`)
-      .on("click", (event, d) => {
-        event.stopPropagation();
-        setSelectedNode(d.data);
-        if (d.data.articleId) {
-          // Double click or explicit button? Let's show summary modal first
-        }
-      })
-      .attr("cursor", "pointer");
+      // Nodes
+      const node = g.selectAll(".node")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", d => `translate(${d.y},${d.x})`)
+        .on("click", (event, d) => {
+          event.stopPropagation();
+          setSelectedNode(d.data);
+        })
+        .attr("cursor", "pointer");
 
-    // Node Background
-    node.append("circle")
-      .attr("r", d => d.data.type === 'root' ? 45 : 35)
-      .attr("fill", d => d.data.color || "#fff")
-      .attr("stroke", d => d.data.color || "#cbd5e1")
-      .attr("stroke-width", 2)
-      .attr("class", "transition-all duration-300");
+      // Node Background
+      node.append("circle")
+        .attr("r", d => d.data.type === 'root' ? 45 : 35)
+        .attr("fill", d => d.data.color || "#fff")
+        .attr("stroke", d => d.data.color || "#cbd5e1")
+        .attr("stroke-width", 2);
 
-    // Node Icons
-    node.each(function(d) {
-      if (d.data.iconName) {
-        const IconComponent = (Icons as any)[d.data.iconName];
-        if (IconComponent) {
-          // We can't directly append React component, so we'll use a foreignObject or just labels
-          // For simplicity in D3, let's use labels and icons via text if needed, 
-          // or just overlays in React.
-          // Let's use labels for now.
-        }
-      }
-    });
+      // Node Labels
+      node.append("text")
+        .attr("dy", d => d.children ? "-2.5em" : "2.5em")
+        .attr("text-anchor", "middle")
+        .attr("class", "text-[10px] font-black uppercase tracking-widest fill-text-primary pointer-events-none")
+        .text(d => d.data.name);
 
-    // Node Labels
-    node.append("text")
-      .attr("dy", d => d.children ? "-2.5em" : "2.5em")
-      .attr("text-anchor", "middle")
-      .attr("class", "text-[10px] font-black uppercase tracking-widest fill-text-primary pointer-events-none")
-      .text(d => d.data.name);
+    } else {
+      // Radial Cluster Layout
+      const clusterLayout = d3.cluster<MindMapNode>().size([2 * Math.PI, Math.min(width, height) / 2 - 100]);
+      clusterLayout(root);
+
+      // Links
+      g.selectAll(".link")
+        .data(root.links())
+        .enter()
+        .append("path")
+        .attr("class", "link")
+        .attr("d", d3.linkRadial<any, any>()
+          .angle(d => d.x)
+          .radius(d => d.y))
+        .attr("fill", "none")
+        .attr("stroke", "#e2e8f0")
+        .attr("stroke-width", 2);
+
+      // Nodes
+      const node = g.selectAll(".node")
+        .data(root.descendants())
+        .enter()
+        .append("g")
+        .attr("class", "node")
+        .attr("transform", d => `
+          rotate(${d.x * 180 / Math.PI - 90})
+          translate(${d.y},0)
+        `)
+        .on("click", (event, d) => {
+          event.stopPropagation();
+          setSelectedNode(d.data);
+        })
+        .attr("cursor", "pointer");
+
+      node.append("circle")
+        .attr("r", 30)
+        .attr("fill", d => d.data.color || "#fff")
+        .attr("stroke", d => d.data.color || "#cbd5e1")
+        .attr("stroke-width", 2);
+
+      node.append("text")
+        .attr("dy", "0.31em")
+        .attr("x", d => d.x < Math.PI ? 40 : -40)
+        .attr("text-anchor", d => d.x < Math.PI ? "start" : "end")
+        .attr("transform", d => d.x >= Math.PI ? "rotate(180)" : null)
+        .attr("class", "text-[9px] font-black uppercase tracking-widest fill-text-primary pointer-events-none")
+        .text(d => d.data.name);
+    }
 
     // Initial Zoom
     svg.transition().duration(750).call(
@@ -416,6 +486,13 @@ export default function ResearchMindMap() {
           </div>
 
           <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setLayoutMode(prev => prev === 'tree' ? 'radial' : 'tree')} 
+              className={`p-3 border border-border rounded-xl transition-all shadow-sm flex items-center gap-2 group ${layoutMode === 'radial' ? 'bg-primary text-white' : 'bg-bg-primary text-text-primary hover:text-primary'}`}
+            >
+              <Icons.Layout className="w-5 h-5" />
+              <span className="text-[10px] font-black uppercase tracking-widest hidden sm:block">{layoutMode === 'tree' ? 'Radial View' : 'Tree View'}</span>
+            </button>
             <button onClick={() => handleZoom('in')} className="p-3 bg-bg-primary border border-border rounded-xl hover:text-primary transition-colors shadow-sm"><ZoomIn className="w-5 h-5" /></button>
             <button onClick={() => handleZoom('out')} className="p-3 bg-bg-primary border border-border rounded-xl hover:text-primary transition-colors shadow-sm"><ZoomOut className="w-5 h-5" /></button>
             <button onClick={() => handleZoom('reset')} className="p-3 bg-bg-primary border border-border rounded-xl hover:text-primary transition-colors shadow-sm"><Maximize className="w-5 h-5" /></button>

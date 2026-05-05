@@ -1,5 +1,5 @@
 import React from 'react';
-import { useLanguage } from './LanguageContext';
+import { useLanguage } from '../context/LanguageContext';
 import { Globe, ChevronDown } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 

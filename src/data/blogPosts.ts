@@ -429,6 +429,7 @@ Physically, their nervous system and digestion take the hit. They suffer from se
   },
   {
     id: 'what-is-homeopathy',
+    slug: 'what-is-homeopathy',
     title: 'What Is Homoeopathy? A Simple Beginner Guide',
     excerpt: 'New to natural healing? This easy guide explains exactly what homeopathy is, how it works, and why it is a safe choice for your family.',
     content: `
@@ -752,6 +753,7 @@ Menstrual irregularities, catarrhal conditions, digestive issues from rich food,
   },
   {
     id: 'how-it-works',
+    slug: 'how-it-works',
     title: 'How Does Homoeopathy Work in the Body?',
     excerpt: 'Ever wondered how tiny pills can make a big difference? Learn the simple science behind how homeopathy triggers your body\'s natural healing.',
     content: `
@@ -790,6 +792,7 @@ Homeopathy doesn't "force" your body to do anything. It simply reminds your body
   },
   {
     id: 'safe-for-children',
+    slug: 'safe-for-children',
     title: 'Is Homoeopathy Safe for Children?',
     excerpt: 'Parents often worry about side effects. Discover why homeopathy is one of the safest and most effective choices for babies and kids.',
     content: `
@@ -830,6 +833,7 @@ Homeopathy is a gentle friend to every growing child. It provides a safe, effect
   },
   {
     id: 'homeopathy-vs-allopathy',
+    slug: 'homeopathy-vs-allopathy',
     title: 'Homoeopathy vs Allopathy: What Is the Difference?',
     excerpt: 'Confused about the different types of medicine? We break down the key differences between homeopathy and conventional medicine in simple terms.',
     content: `
@@ -872,6 +876,7 @@ Understanding these two systems helps you make the best choice for your health. 
   },
   {
     id: 'chronic-diseases',
+    slug: 'chronic-diseases',
     title: 'Can Homoeopathy Treat Chronic Diseases?',
     excerpt: 'Chronic problems like asthma, arthritis, or skin issues can be frustrating. Learn how homeopathy offers a deep, long-term solution.',
     content: `
@@ -907,6 +912,7 @@ If you are tired of just "managing" a problem, homeopathy offers a path toward t
   },
   {
     id: 'natural-medicines',
+    slug: 'natural-medicines',
     title: 'Are Homeopathic Medicines Really Natural?',
     excerpt: 'Where do those tiny white pills come from? Discover the fascinating natural origins of homeopathic remedies.',
     content: `
@@ -947,6 +953,7 @@ When you take a homeopathic remedy, you are using the pure healing power of natu
   },
   {
     id: 'how-long-it-takes',
+    slug: 'how-long-it-takes',
     title: 'How Long Does Homoeopathy Take to Work?',
     excerpt: 'Is homeopathy slow? The answer might surprise you! Learn what to expect when you start your natural healing journey.',
     content: `
@@ -983,6 +990,7 @@ Homeopathy isn't "slow"—it's **thorough**. It takes the time needed to make su
   },
   {
     id: 'side-effects',
+    slug: 'side-effects',
     title: 'Are There Any Side Effects of Homeopathic Medicines?',
     excerpt: 'One of the biggest advantages of homeopathy is its safety. Learn why side effects are almost non-existent in this natural system.',
     content: `
@@ -1017,6 +1025,7 @@ Homeopathy offers a way to get well without the worry of getting "new" problems 
   },
   {
     id: 'migraine-remedies',
+    slug: 'migraine-remedies',
     title: 'Homeopathic Remedies for Migraine',
     excerpt: 'Tired of dark rooms and throbbing pain? Discover how homeopathy can help reduce the frequency and intensity of your migraines naturally.',
     content: `
@@ -1052,6 +1061,7 @@ Migraines don't have to be a permanent part of your life. By finding the right h
   },
   {
     id: 'hair-loss-treatment',
+    slug: 'hair-loss-treatment',
     title: 'Best Homeopathic Treatment for Hair Loss',
     excerpt: 'Losing hair can be stressful. Learn how homeopathy addresses the root causes of hair fall to promote natural, healthy growth.',
     content: `
@@ -1090,6 +1100,7 @@ Healthy hair starts from the inside. Homeopathy helps balance your body so your 
   },
   {
     id: 'acne-healing',
+    slug: 'acne-healing',
     title: 'Homoeopathy for Acne: Natural Skin Healing',
     excerpt: 'Stubborn breakouts? Discover how homeopathy treats acne from the inside out for clear, glowing skin without harsh chemicals.',
     content: `
@@ -1125,6 +1136,7 @@ Clear skin is a reflection of a healthy body. Homeopathy provides a gentle, effe
   },
   {
     id: 'allergic-rhinitis',
+    slug: 'allergic-rhinitis',
     title: 'Homeopathic Remedies for Allergic Rhinitis',
     excerpt: 'Sneezing, itchy eyes, and a runny nose? Learn how homeopathy can help you enjoy the outdoors again by reducing your allergy sensitivity.',
     content: `
@@ -1158,6 +1170,7 @@ You don't have to hide indoors all spring. Homeopathy offers a natural way to st
   },
   {
     id: 'eczema-treatment',
+    slug: 'eczema-treatment',
     title: 'Natural Homeopathic Treatment for Eczema',
     excerpt: 'Itchy, red, and inflamed skin can be painful. Discover how homeopathy addresses the internal causes of eczema for long-term relief.',
     content: `
@@ -1191,6 +1204,7 @@ Eczema can be a long journey, but you don't have to walk it alone. Homeopathy of
   },
   {
     id: 'sinusitis-remedies',
+    slug: 'sinusitis-remedies',
     title: 'Homeopathic Medicine for Sinusitis',
     excerpt: 'Pressure, pain, and congestion? Learn how homeopathy can help clear your sinuses and prevent recurring infections naturally.',
     content: `
@@ -1226,6 +1240,7 @@ Sinus pressure doesn't have to weigh you down. Homeopathy provides a natural, ef
   },
   {
     id: 'acidity-relief',
+    slug: 'acidity-relief',
     title: 'Homoeopathy for Acidity',
     excerpt: 'Heartburn and bloating? Discover how homeopathy can help balance your digestion and provide natural relief from acidity.',
     content: `
@@ -1259,6 +1274,7 @@ You don't have to live with the burn. Homeopathy offers a gentle, natural way to
   },
   {
     id: 'constipation-remedies',
+    slug: 'constipation-remedies',
     title: 'Best Homeopathic Remedies for Constipation',
     excerpt: 'Feeling sluggish and blocked? Learn how homeopathy can help regulate your bowel movements naturally and gently.',
     content: `
@@ -1294,6 +1310,7 @@ Regularity is a key part of feeling your best. Homeopathy provides a safe, gentl
   },
   {
     id: 'pcos-treatment',
+    slug: 'pcos-treatment',
     title: 'Homeopathic Treatment for Polycystic Ovary Syndrome (PCOS)',
     excerpt: 'PCOS can affect your cycles, skin, and mood. Learn how homeopathy offers a holistic approach to balancing hormones naturally.',
     content: `
@@ -1327,6 +1344,7 @@ PCOS can be a complex journey, but it doesn't have to define you. Homeopathy pro
   },
   {
     id: 'irregular-menstruation',
+    slug: 'irregular-menstruation',
     title: 'Homoeopathy for Irregular Menstruation',
     excerpt: 'Are your cycles unpredictable? Discover how homeopathy can help regulate your periods and restore your natural monthly rhythm.',
     content: `
@@ -1362,6 +1380,7 @@ Your body has its own unique rhythm. Homeopathy helps you tune back into that rh
   },
   {
     id: 'menstrual-cramps',
+    slug: 'menstrual-cramps',
     title: 'Natural Remedies for Menstrual Cramps',
     excerpt: 'Painful periods don\'t have to be your "normal." Learn how homeopathy and simple lifestyle changes can provide natural relief from cramps.',
     content: `
@@ -1395,6 +1414,7 @@ You deserve to feel comfortable every day of the month. Homeopathy provides a ge
   },
   {
     id: 'pms-relief',
+    slug: 'pms-relief',
     title: 'Homoeopathy for Premenstrual Syndrome (PMS)',
     excerpt: 'Mood swings, bloating, and cravings? Discover how homeopathy can help balance your emotions and physical symptoms before your period.',
     content: `
@@ -1428,6 +1448,7 @@ PMS doesn't have to be a monthly battle. Homeopathy offers a gentle, natural way
   },
   {
     id: 'teething-problems',
+    slug: 'teething-problems',
     title: 'Homoeopathy for Teething Problems in Babies',
     excerpt: 'Is your baby fussy and drooling? Discover safe, gentle homeopathic remedies to help your little one through the teething stage.',
     content: `
@@ -1463,6 +1484,7 @@ Teething is a natural process, and homeopathy provides a natural way to support 
   },
   {
     id: 'infant-colic',
+    slug: 'infant-colic',
     title: 'Homeopathic Remedies for Colic in Infants',
     excerpt: 'Sleepless nights with a crying baby? Learn how homeopathy can gently settle your baby\'s tummy and provide relief from colic.',
     content: `
@@ -1496,6 +1518,7 @@ Colic can be a tough stage, but nature has provided gentle tools to help. Homeop
   },
   {
     id: 'common-cold-children',
+    slug: 'common-cold-children',
     title: 'Homoeopathy for Common Cold in Children',
     excerpt: 'Runny noses and coughs are part of childhood. Learn how homeopathy can help your child recover faster and build a stronger immune system.',
     content: `
@@ -1531,6 +1554,7 @@ A cold is a temporary hurdle. With a little help from homeopathy, your child can
   },
   {
     id: 'safe-medicines-kids',
+    slug: 'safe-medicines-kids',
     title: 'Safe Homeopathic Medicines for Kids',
     excerpt: 'Building a natural first-aid kit for your family? Discover the most essential and safe homeopathic remedies every parent should have.',
     content: `
@@ -1565,6 +1589,7 @@ Empowering yourself with natural tools is a wonderful way to care for your famil
   },
   {
     id: 'psoriasis-treatment',
+    slug: 'psoriasis-treatment',
     title: 'Homoeopathy for Psoriasis',
     excerpt: 'Psoriasis is more than just a skin condition. Learn how homeopathy addresses the internal immune system to provide natural, long-term relief.',
     content: `
@@ -1598,6 +1623,7 @@ Psoriasis can be a long-term challenge, but it doesn't have to control your life
   },
   {
     id: 'dandruff-treatment',
+    slug: 'dandruff-treatment',
     title: 'Natural Homeopathic Treatment for Dandruff',
     excerpt: 'Itchy scalp and white flakes? Discover how homeopathy treats the underlying causes of dandruff for a healthy, flake-free scalp.',
     content: `
@@ -1635,6 +1661,7 @@ A healthy scalp is the foundation for beautiful hair. Homeopathy provides a gent
   },
   {
     id: 'urticaria-remedies',
+    slug: 'urticaria-remedies',
     title: 'Best Homeopathic Remedies for Urticaria',
     excerpt: 'Itchy, red hives can be incredibly uncomfortable. Learn how homeopathy can help calm your skin and reduce allergic reactions naturally.',
     content: `
@@ -1668,6 +1695,7 @@ Hives are your body's way of saying it's overwhelmed. Homeopathy provides a gent
   },
   {
     id: 'fungal-infection',
+    slug: 'fungal-infection',
     title: 'Homoeopathy for Fungal Infection',
     excerpt: 'Stubborn fungal issues like ringworm or athletes foot? Discover how homeopathy treats the internal environment to clear infections naturally.',
     content: `
@@ -1701,6 +1729,7 @@ Fungal infections can be stubborn, but nature has powerful tools to help. Homeop
   },
   {
     id: 'anxiety-stress',
+    slug: 'anxiety-stress',
     title: 'Homoeopathy for Anxiety and Stress',
     excerpt: 'Feeling overwhelmed and restless? Discover how homeopathy can help calm your mind and restore your inner peace naturally.',
     content: `
@@ -1734,6 +1763,7 @@ Inner peace is possible. Homeopathy provides a gentle, natural way to quiet the 
   },
   {
     id: 'depression-remedies',
+    slug: 'depression-remedies',
     title: 'Natural Remedies for Depression',
     excerpt: 'Feeling low and disconnected? Learn how homeopathy can help support your emotional health and bring back your natural spark.',
     content: `
@@ -1767,6 +1797,7 @@ You don't have to carry the weight alone. Homeopathy offers a gentle, natural wa
   },
   {
     id: 'insomnia-treatment',
+    slug: 'insomnia-treatment',
     title: 'Homeopathic Treatment for Insomnia',
     excerpt: 'Tossing and turning all night? Discover how homeopathy can help you fall asleep faster and enjoy a deeper, more restful sleep naturally.',
     content: `
@@ -1802,6 +1833,7 @@ A good night's sleep is the foundation of a healthy life. Homeopathy provides a 
   },
   {
     id: 'panic-attacks',
+    slug: 'panic-attacks',
     title: 'Homoeopathy for Panic Attacks',
     excerpt: 'Sudden fear and a racing heart? Learn how homeopathy can help calm your nervous system and provide relief from panic attacks naturally.',
     content: `
@@ -1835,6 +1867,7 @@ Panic attacks are frightening, but they are not dangerous. Homeopathy offers a g
   },
   {
     id: 'anger-management',
+    slug: 'anger-management',
     title: 'Homeopathic Remedies for Anger Management',
     excerpt: 'Feeling irritable and quick to lose your temper? Discover how homeopathy can help balance your emotions and promote a calmer outlook.',
     content: `
@@ -1868,6 +1901,7 @@ A calm mind is a powerful mind. Homeopathy provides a gentle, natural way to bal
   },
   {
     id: 'concentration-memory',
+    slug: 'concentration-memory',
     title: 'Homoeopathy for Concentration and Memory',
     excerpt: 'Feeling "brain fog" or finding it hard to focus? Learn how homeopathy can help sharpen your mind and improve your memory naturally.',
     content: `
@@ -1901,6 +1935,7 @@ Your mind is your most valuable tool. Homeopathy provides a gentle, natural way 
   },
   {
     id: 'weight-management',
+    slug: 'weight-management',
     title: 'Homoeopathy for Weight Management',
     excerpt: 'Struggling to reach your health goals? Discover how homeopathy can help balance your metabolism and support natural weight management.',
     content: `
@@ -1938,6 +1973,7 @@ Healthy weight is a journey toward overall wellness. Homeopathy provides a gentl
   },
   {
     id: 'boost-immunity',
+    slug: 'boost-immunity',
     title: 'Natural Ways to Boost Immunity with Homeopathy',
     excerpt: 'Want to stay healthy all year round? Learn how homeopathy can help strengthen your body\'s natural defenses against illness.',
     content: `
@@ -1971,6 +2007,7 @@ A strong immune system is your best investment in health. Homeopathy offers a ge
   },
   {
     id: 'better-digestion',
+    slug: 'better-digestion',
     title: 'Homeopathic Remedies for Better Digestion',
     excerpt: 'Bloating, gas, or sluggishness? Discover how homeopathy can help balance your digestive system and help you feel light and energized.',
     content: `
@@ -2004,6 +2041,7 @@ Digestion should be a quiet, effortless process. Homeopathy provides a gentle, n
   },
   {
     id: 'healthy-skin-hair',
+    slug: 'healthy-skin-hair',
     title: 'Homoeopathy for Healthy Skin and Hair',
     excerpt: 'Want a natural glow? Learn how homeopathy treats the internal causes of skin and hair issues for beauty that starts from within.',
     content: `
@@ -2037,6 +2075,7 @@ True beauty is a sign of a healthy, balanced body. Homeopathy provides a gentle,
   },
   {
     id: 'healthy-heart-tips',
+    slug: 'healthy-heart-tips',
     title: 'Homeopathic Tips for a Healthy Heart',
     excerpt: 'Your heart is your engine. Discover how homeopathy and simple lifestyle choices can support your cardiovascular health naturally.',
     content: `
@@ -2073,6 +2112,7 @@ Your heart is a reflection of how you live and feel. Homeopathy provides a gentl
   },
   {
     id: 'thyroid-issues',
+    slug: 'thyroid-issues',
     title: 'Natural Homeopathic Treatment for Thyroid Issues',
     excerpt: 'Feeling tired or experiencing weight changes? Learn how homeopathy can help balance your thyroid and restore your energy levels naturally.',
     content: `
@@ -2106,6 +2146,7 @@ Thyroid balance is key to feeling your best. Homeopathy provides a gentle, natur
   },
   {
     id: 'healthy-aging',
+    slug: 'healthy-aging',
     title: 'Homoeopathy for Healthy Aging',
     excerpt: 'Aging is a natural journey. Discover how homeopathy can help you stay vibrant, active, and mentally sharp as you grow older.',
     content: `
@@ -2139,6 +2180,7 @@ Every stage of life has its own beauty. Homeopathy provides a gentle, natural wa
   },
   {
     id: 'joint-pain-remedies',
+    slug: 'joint-pain-remedies',
     title: 'Natural Homeopathic Remedies for Joint Pain',
     excerpt: 'Stiff and sore joints? Learn how homeopathy can help reduce inflammation and improve your mobility naturally and gently.',
     content: `
@@ -2172,6 +2214,7 @@ Joint pain doesn't have to slow you down. Homeopathy provides a gentle, natural 
   },
   {
     id: 'menopause-relief',
+    slug: 'menopause-relief',
     title: 'Homoeopathy for Menopause Relief',
     excerpt: 'Hot flashes, mood swings, and sleepless nights? Discover how homeopathy can help balance your hormones during this natural transition.',
     content: `
@@ -2205,6 +2248,7 @@ Menopause is the start of a new, vibrant chapter. Homeopathy provides a gentle, 
   },
   {
     id: 'varicose-veins',
+    slug: 'varicose-veins',
     title: 'Natural Treatment for Varicose Veins',
     excerpt: 'Heavy, aching legs? Learn how homeopathy can help improve your circulation and reduce the discomfort of varicose veins naturally.',
     content: `
@@ -2238,6 +2282,7 @@ Your legs carry you through life. Homeopathy provides a gentle, natural way to s
   },
   {
     id: 'kidney-stones',
+    slug: 'kidney-stones',
     title: 'Homoeopathy for Kidney Stones',
     excerpt: 'Intense pain and discomfort? Discover how homeopathy can help your body pass kidney stones naturally and prevent them from returning.',
     content: `
@@ -2274,6 +2319,7 @@ Kidney stones are a painful reminder that your body needs balance. Homeopathy pr
   },
   {
     id: 'liver-health',
+    slug: 'liver-health',
     title: 'Best Homeopathic Remedies for Liver Health',
     excerpt: 'Your liver is your body\'s filter. Learn how homeopathy can help support your liver function and boost your overall vitality naturally.',
     content: `
@@ -2307,6 +2353,7 @@ A healthy liver is the key to a vibrant life. Homeopathy provides a gentle, natu
   },
   {
     id: 'high-blood-pressure',
+    slug: 'high-blood-pressure',
     title: 'Homoeopathy for High Blood Pressure',
     excerpt: 'Managing your blood pressure naturally? Discover how homeopathy and lifestyle changes can support your cardiovascular health.',
     content: `
@@ -2343,6 +2390,7 @@ Managing blood pressure is a lifelong commitment to health. Homeopathy provides 
   },
   {
     id: 'diabetes-support',
+    slug: 'diabetes-support',
     title: 'Natural Remedies for Diabetes Support',
     excerpt: 'Living with diabetes? Learn how homeopathy can help support your metabolic health and improve your overall well-being naturally.',
     content: `
@@ -2380,6 +2428,7 @@ Living well with diabetes is about balance. Homeopathy offers a gentle, natural 
   },
   {
     id: 'asthma-relief',
+    slug: 'asthma-relief',
     title: 'Homoeopathy for Asthma Relief',
     excerpt: 'Breathing easy again? Discover how homeopathy can help reduce the frequency and intensity of asthma symptoms naturally.',
     content: `
@@ -2413,6 +2462,7 @@ Breathing is the most natural thing in the world. Homeopathy provides a gentle, 
   },
   {
     id: 'bronchitis-treatment',
+    slug: 'bronchitis-treatment',
     title: 'Homeopathic Treatment for Bronchitis',
     excerpt: 'Stubborn cough and chest congestion? Learn how homeopathy can help clear your lungs and support a faster recovery from bronchitis.',
     content: `
@@ -2449,6 +2499,7 @@ A deep cough can be exhausting, but nature has provided gentle tools to help. Ho
   },
   {
     id: 'gout-remedies',
+    slug: 'gout-remedies',
     title: 'Homoeopathy for Gout',
     excerpt: 'Sudden, intense joint pain? Discover how homeopathy can help manage gout symptoms and reduce inflammation naturally.',
     content: `
@@ -2485,6 +2536,7 @@ Gout pain is intense, but you don't have to face it alone. Homeopathy provides a
   },
   {
     id: 'sciatica-relief',
+    slug: 'sciatica-relief',
     title: 'Natural Remedies for Sciatica',
     excerpt: 'Pain radiating down your leg? Learn how homeopathy can help relieve sciatic nerve pain and improve your mobility naturally.',
     content: `
@@ -2518,6 +2570,7 @@ Sciatic pain can be a major hurdle, but nature has provided gentle tools to help
   },
   {
     id: 'back-pain-relief',
+    slug: 'back-pain-relief',
     title: 'Homoeopathy for Back Pain',
     excerpt: 'Aching back keeping you down? Discover how homeopathy can help relieve muscle tension and improve your spinal health naturally.',
     content: `
@@ -2551,6 +2604,7 @@ Back pain doesn't have to be a permanent part of your life. Homeopathy provides 
   },
   {
     id: 'neck-pain-remedies',
+    slug: 'neck-pain-remedies',
     title: 'Best Homeopathic Remedies for Neck Pain',
     excerpt: 'Stiff neck or "text neck"? Learn how homeopathy can help relieve tension and improve your neck mobility naturally.',
     content: `
@@ -2584,6 +2638,7 @@ A stiff neck can make everything feel like a chore. Homeopathy offers a natural,
   },
   {
     id: 'shoulder-pain',
+    slug: 'shoulder-pain',
     title: 'Homoeopathy for Shoulder Pain',
     excerpt: 'Frozen shoulder or muscle strain? Discover how homeopathy can help reduce inflammation and restore your shoulder\'s range of motion naturally.',
     content: `
@@ -2617,6 +2672,7 @@ Shoulder pain can be a major limitation, but nature has provided gentle tools to
   },
   {
     id: 'heel-pain-treatment',
+    slug: 'heel-pain-treatment',
     title: 'Natural Treatment for Heel Pain',
     excerpt: 'Pain with every step? Learn how homeopathy can help relieve heel pain and plantar fasciitis naturally and effectively.',
     content: `
@@ -2650,6 +2706,7 @@ Every step should be comfortable. Homeopathy provides a gentle, natural way to e
   },
   {
     id: 'knee-pain-relief',
+    slug: 'knee-pain-relief',
     title: 'Homoeopathy for Knee Pain',
     excerpt: 'Stiff, swollen, or aching knees? Discover how homeopathy can help reduce inflammation and support your knee health naturally.',
     content: `
@@ -2683,6 +2740,7 @@ Your knees are vital for your independence and activity. Homeopathy provides a g
   },
   {
     id: 'muscle-cramps',
+    slug: 'muscle-cramps',
     title: 'Homeopathic Remedies for Muscle Cramps',
     excerpt: 'Sudden, painful muscle spasms? Learn how homeopathy can help relax your muscles and prevent cramps naturally.',
     content: `
@@ -2716,6 +2774,7 @@ Muscle cramps are a painful interruption, but nature has provided gentle tools t
   },
   {
     id: 'sports-injuries',
+    slug: 'sports-injuries',
     title: 'Homoeopathy for Sports Injuries',
     excerpt: 'Back on the field faster? Discover how homeopathy can help speed up recovery from common sports injuries naturally.',
     content: `
@@ -2749,6 +2808,7 @@ Injuries are a setback, but they don't have to be the end of your active journey
   },
   {
     id: 'sprains-and-strains',
+    slug: 'sprains-and-strains',
     title: 'Natural Remedies for Sprains and Strains',
     excerpt: 'Twisted ankle or pulled muscle? Learn how homeopathy can help reduce swelling and support the healing of ligaments and muscles naturally.',
     content: `
@@ -2782,6 +2842,7 @@ A sprain or strain can be a major inconvenience, but nature has provided gentle 
   },
   {
     id: 'physical-exhaustion',
+    slug: 'physical-exhaustion',
     title: 'Homoeopathy for Physical Exhaustion',
     excerpt: 'Feeling completely drained? Discover how homeopathy can help restore your energy and vitality after intense physical stress or illness.',
     content: `
@@ -2815,6 +2876,7 @@ Exhaustion is your body's way of saying it needs a break. Homeopathy provides a 
   },
   {
     id: 'mental-fatigue',
+    slug: 'mental-fatigue',
     title: 'Best Homeopathic Remedies for Mental Fatigue',
     excerpt: 'Brain fog and mental burnout? Learn how homeopathy can help clear your mind and restore your focus naturally.',
     content: `
@@ -2848,6 +2910,7 @@ Your mind is a powerful tool, but it needs rest to stay sharp. Homeopathy provid
   },
   {
     id: 'burnout-recovery',
+    slug: 'burnout-recovery',
     title: 'Homoeopathy for Burnout',
     excerpt: 'Feeling emotionally and physically "done"? Discover how homeopathy can help you recover from burnout and find your balance again.',
     content: `
@@ -2881,6 +2944,7 @@ Burnout is a difficult place to be, but it's also an opportunity to rebuild a li
   },
   {
     id: 'chronic-fatigue-syndrome',
+    slug: 'chronic-fatigue-syndrome',
     title: 'Natural Treatment for Chronic Fatigue Syndrome',
     excerpt: 'Living with persistent, unexplained exhaustion? Learn how homeopathy can help support your energy levels and improve your quality of life.',
     content: `
@@ -2914,6 +2978,7 @@ Chronic fatigue is a difficult journey, but you don't have to walk it alone. Hom
   },
   {
     id: 'bhms-guide',
+    slug: 'bhms-guide',
     title: 'A Comprehensive Guide to the BHMS Course: What to Expect',
     excerpt: 'Thinking about a career in homeopathy? Learn everything about the Bachelor of Homeopathic Medicine and Surgery (BHMS) curriculum.',
     content: `
@@ -2937,6 +3002,7 @@ BHMS offers a unique perspective on healing, focusing on the "whole person" rath
   },
   {
     id: 'bhms-career',
+    slug: 'bhms-career',
     title: 'Career Opportunities After BHMS: Beyond the Clinic',
     excerpt: 'Explore the diverse career paths available to BHMS graduates, from clinical practice to research and hospital management.',
     content: `
@@ -2966,6 +3032,7 @@ Work in the manufacturing, quality control, or marketing of homeopathic medicine
   },
   {
     id: 'calcarea-carb',
+    slug: 'calcarea-carb',
     title: 'Calcarea Carbonica: The Remedy for the Slow and Steady',
     excerpt: 'A deep study of the "Oyster Shell" remedy, suited for individuals who are hardworking but easily overwhelmed.',
     content: `
@@ -2993,6 +3060,7 @@ Bone and joint issues, delayed development in children, anxiety disorders, and m
   },
   {
     id: 'nux-vomica-2',
+    slug: 'nux-vomica-2',
     title: 'Nux Vomica: The Modern Remedy for Sedentary Lifestyles',
     excerpt: 'Discover the "Poison Nut" - the premier remedy for the stresses of modern life, over-indulgence, and irritability.',
     content: `
@@ -3020,6 +3088,7 @@ Indigestion, constipation, stress-related headaches, and insomnia due to over-wo
   },
   {
     id: 'hypertension-homeopathy',
+    slug: 'hypertension-homeopathy',
     title: 'Homoeopathic Approach to Hypertension (High Blood Pressure)',
     excerpt: 'Learn how homeopathy addresses the underlying causes of high blood pressure and supports cardiovascular health naturally.',
     content: `
@@ -3045,6 +3114,7 @@ Homeopathy doesn't just "lower" the pressure; it works to:
   },
   {
     id: 'diabetes-homeopathy',
+    slug: 'diabetes-homeopathy',
     title: 'Managing Diabetes Naturally with Homoeopathy',
     excerpt: 'Explore the supportive role of homeopathy in managing blood sugar levels and preventing complications of diabetes.',
     content: `
@@ -3069,6 +3139,7 @@ Diabetes Mellitus is a chronic condition that affects how your body processes bl
   },
   {
     id: 'bhms-anatomy',
+    slug: 'bhms-anatomy',
     title: 'Mastering Anatomy in BHMS: Tips for First-Year Students',
     excerpt: 'Anatomy is the foundation of medical study. Learn how to approach this vast subject effectively in your first year of BHMS.',
     content: `
@@ -3095,6 +3166,7 @@ Anatomy is one of the most challenging yet rewarding subjects in the first year 
   },
   {
     id: 'bhms-physiology',
+    slug: 'bhms-physiology',
     title: 'Understanding Human Physiology: A Core Subject in BHMS',
     excerpt: 'Physiology explains how the body functions. Discover the importance of this subject in understanding health and disease in homeopathy.',
     content: `
@@ -3120,6 +3192,7 @@ Physiology is the study of how the human body functions. In BHMS, it provides th
   },
   {
     id: 'lycopodium-profile',
+    slug: 'lycopodium-profile',
     title: 'Lycopodium Clavatum: The Remedy for Lack of Confidence',
     excerpt: 'A deep dive into Lycopodium, a key polychrest remedy for digestive issues and performance anxiety.',
     content: `
@@ -3147,6 +3220,7 @@ Liver disorders, kidney stones, digestive complaints, and anxiety-related issues
   },
   {
     id: 'pulsatilla-profile',
+    slug: 'pulsatilla-profile',
     title: 'Pulsatilla Nigricans: The Wind Flower Remedy',
     excerpt: 'Learn about Pulsatilla, the premier remedy for changeable symptoms and gentle, emotional personalities.',
     content: `
@@ -3174,6 +3248,7 @@ Menstrual irregularities, respiratory issues with thick yellow discharge, and di
   },
   {
     id: 'asthma-homeopathy',
+    slug: 'asthma-homeopathy',
     title: 'Homoeopathic Management of Bronchial Asthma',
     excerpt: 'Discover how homeopathy can help reduce the frequency and severity of asthma attacks by addressing the underlying sensitivity.',
     content: `
@@ -3198,6 +3273,7 @@ Asthma is a chronic respiratory condition characterized by inflammation and narr
   },
   {
     id: 'eczema-homeopathy',
+    slug: 'eczema-homeopathy',
     title: 'Natural Relief for Eczema and Dermatitis',
     excerpt: 'Itchy, inflamed skin? Learn how homeopathy treats eczema from the inside out for long-lasting relief.',
     content: `
@@ -3221,6 +3297,7 @@ In homeopathy, we believe that suppressing skin symptoms can sometimes drive the
   },
   {
     id: 'arthritis-homeopathy',
+    slug: 'arthritis-homeopathy',
     title: 'Homoeopathy for Arthritis and Joint Pain',
     excerpt: 'Manage joint inflammation and improve mobility with natural homeopathic remedies tailored to your specific symptoms.',
     content: `
@@ -3244,6 +3321,7 @@ Homeopathy is highly specific. We ask: Is the pain better with movement or rest?
   },
   {
     id: 'migraine-homeopathy',
+    slug: 'migraine-homeopathy',
     title: 'Finding Relief from Migraines with Homoeopathy',
     excerpt: 'Tired of recurring headaches? Discover how homeopathy can help reduce migraine frequency and intensity naturally.',
     content: `
@@ -3297,6 +3375,7 @@ Menstrual disorders, depression, skin issues like chloasma (mask of pregnancy), 
   },
   {
     id: 'arsenicum-profile',
+    slug: 'arsenicum-profile',
     title: 'Arsenicum Album: The Remedy for Anxiety and Restlessness',
     excerpt: 'Explore the "White Oxide of Arsenic" - a premier remedy for perfectionists who suffer from deep-seated fears.',
     content: `
@@ -3324,6 +3403,7 @@ Food poisoning, asthma, anxiety disorders, and skin conditions with dry, scaly e
   },
   {
     id: 'ignatia-profile',
+    slug: 'ignatia-profile',
     title: 'Ignatia Amara: The Remedy for Grief and Contradiction',
     excerpt: 'Learn about the "St. Ignatius Bean" - the primary remedy for acute emotional shock, grief, and hysterical symptoms.',
     content: `
@@ -3351,6 +3431,7 @@ Acute grief, emotional stress, nervous headaches, and hysterical disorders.
   },
   {
     id: 'bhms-pharmacy',
+    slug: 'bhms-pharmacy',
     title: 'Homoeopathic Pharmacy: The Art of Potentization',
     excerpt: 'Learn how homeopathic medicines are prepared and the unique science behind the process of potentization in BHMS.',
     content: `
@@ -3374,6 +3455,7 @@ Understanding pharmacy is crucial for a homeopath to ensure the quality and effi
   },
   {
     id: 'organon-intro',
+    slug: 'organon-intro',
     title: 'Introduction to the Organon of Medicine',
     excerpt: 'The "Bible" of homeopathy. Discover the fundamental principles of healing as laid down by Dr. Samuel Hahnemann.',
     content: `
@@ -3397,6 +3479,7 @@ Hahnemann introduced the concept of the "Vital Force"—the invisible energy tha
   },
   {
     id: 'thyroid-homeopathy',
+    slug: 'thyroid-homeopathy',
     title: 'Homoeopathic Support for Thyroid Disorders',
     excerpt: 'Learn how homeopathy can help balance thyroid function naturally, whether you have hypothyroidism or hyperthyroidism.',
     content: `
@@ -3421,6 +3504,7 @@ Symptoms include anxiety, weight loss, and heat sensitivity.
   },
   {
     id: 'anemia-homeopathy',
+    slug: 'anemia-homeopathy',
     title: 'Natural Approaches to Anemia and Low Iron',
     excerpt: 'Feeling pale and tired? Discover how homeopathy can help improve iron absorption and boost your vitality.',
     content: `
@@ -3444,6 +3528,7 @@ Fatigue, weakness, pale skin, shortness of breath, and cold hands/feet.
   },
   {
     id: 'insomnia-homeopathy',
+    slug: 'insomnia-homeopathy',
     title: 'Better Sleep Naturally: Homoeopathy for Insomnia',
     excerpt: 'Struggling to fall or stay asleep? Learn about gentle homeopathic remedies that help calm the mind and restore natural sleep patterns.',
     content: `
@@ -3469,6 +3554,7 @@ Insomnia can be caused by stress, anxiety, caffeine, or physical discomfort. Hom
   },
   {
     id: 'acne-homeopathy',
+    slug: 'acne-homeopathy',
     title: 'Clear Skin Naturally: Homoeopathic Treatment for Acne',
     excerpt: 'Stop hiding your skin. Discover how homeopathy treats the internal causes of acne for a clearer, healthier complexion.',
     content: `
@@ -3494,6 +3580,7 @@ Acne is often linked to hormonal changes, diet, and stress. Homeopathy treats th
   },
   {
     id: 'psoriasis-homeopathy',
+    slug: 'psoriasis-homeopathy',
     title: 'Homoeopathic Management of Psoriasis',
     excerpt: 'Learn how homeopathy addresses the autoimmune roots of psoriasis for clearer skin and reduced flare-ups.',
     content: `
@@ -3517,6 +3604,7 @@ We look at the patient's immune system, stress levels, and family history. The g
   },
   {
     id: 'sinusitis-homeopathy',
+    slug: 'sinusitis-homeopathy',
     title: 'Natural Relief for Chronic Sinusitis',
     excerpt: 'Tired of sinus pressure and headaches? Discover how homeopathy can help clear congestion and reduce inflammation naturally.',
     content: `
@@ -3540,6 +3628,7 @@ Pressure around the eyes and nose, thick nasal discharge, reduced sense of smell
   },
   {
     id: 'gastritis-homeopathy',
+    slug: 'gastritis-homeopathy',
     title: 'Homoeopathy for Gastritis and Acid Reflux',
     excerpt: 'Soothe your stomach naturally. Learn about homeopathic remedies for burning pain, bloating, and indigestion.',
     content: `
@@ -3563,6 +3652,7 @@ We look at what triggers your symptoms—spicy food, stress, or eating too fast�
   },
   {
     id: 'depression-homeopathy',
+    slug: 'depression-homeopathy',
     title: 'A Holistic Approach to Depression and Low Mood',
     excerpt: 'Explore how homeopathy can support emotional well-being and help restore a sense of balance and hope naturally.',
     content: `
@@ -3586,6 +3676,7 @@ We don't just "label" depression; we ask: Is it related to grief? Is it accompan
   },
   {
     id: 'anxiety-homeopathy-deep',
+    slug: 'anxiety-homeopathy-deep',
     title: 'Managing Anxiety Naturally with Homoeopathy',
     excerpt: 'From panic attacks to constant worry, discover how homeopathy can help calm the nervous system and restore peace of mind.',
     content: `
@@ -3609,6 +3700,7 @@ Is your anxiety related to a specific event? Is it a constant "background noise"
   },
   {
     id: 'hair-loss-homeopathy',
+    slug: 'hair-loss-homeopathy',
     title: 'Natural Solutions for Hair Loss and Thinning',
     excerpt: 'Discover how homeopathy addresses the internal imbalances that lead to hair loss, from stress to hormonal changes.',
     content: `
@@ -3634,6 +3726,7 @@ Hair loss can be distressing and is often a sign of internal stress, nutritional
   },
   {
     id: 'bhms-pathology',
+    slug: 'bhms-pathology',
     title: 'The Role of Pathology in BHMS: Understanding Disease',
     excerpt: 'Explore the study of disease processes and how it integrates with homeopathic principles in the second year of BHMS.',
     content: `
@@ -3657,6 +3750,7 @@ While pathology focuses on the material changes, homeopathic students learn to r
   },
   {
     id: 'bhms-fmtd',
+    slug: 'bhms-fmtd',
     title: 'Forensic Medicine and Toxicology in BHMS',
     excerpt: 'Learn about the legal aspects of medicine and the study of poisons in the second year of the BHMS curriculum.',
     content: `
@@ -3712,6 +3806,7 @@ Chronic headaches, skin issues like eczema or cold sores, menstrual irregulariti
   },
   {
     id: 'gelsemium-profile',
+    slug: 'gelsemium-profile',
     title: 'Gelsemium Sempervirens: The Remedy for "Dull, Dizz, and Drowsy"',
     excerpt: 'Discover the "Yellow Jasmine" - the primary remedy for flu-like symptoms and anticipatory anxiety.',
     content: `
@@ -3739,6 +3834,7 @@ Influenza (flu) with aching muscles, tension headaches, and anxiety-related issu
   },
   {
     id: 'aconite-profile',
+    slug: 'aconite-profile',
     title: 'Aconitum Napellus: The Remedy for Sudden Shock',
     excerpt: 'Learn about "Monkshood" - the premier remedy for acute conditions that come on suddenly with great intensity.',
     content: `
@@ -3767,6 +3863,7 @@ Early stages of fever, croup, sudden panic attacks, and acute inflammatory condi
   },
   {
     id: 'belladonna-profile',
+    slug: 'belladonna-profile',
     title: 'Belladonna: The Remedy for Heat and Redness',
     excerpt: 'Explore "Deadly Nightshade" - a powerful remedy for acute inflammations characterized by suddenness and intensity.',
     content: `
@@ -3795,6 +3892,7 @@ High fevers, throbbing headaches, acute tonsillitis, and inflammatory skin condi
   },
   {
     id: 'bryonia-profile',
+    slug: 'bryonia-profile',
     title: 'Bryonia Alba: The Remedy for Pain Worse with Motion',
     excerpt: 'Discover "White Bryony" - the premier remedy for inflammatory conditions where absolute rest is the only relief.',
     content: `
@@ -3823,6 +3921,7 @@ Pleurisy, joint pain, dry coughs, and headaches that feel like the head will "bu
   },
   {
     id: 'kidney-stones-homeopathy',
+    slug: 'kidney-stones-homeopathy',
     title: 'Homoeopathic Approach to Kidney Stones',
     excerpt: 'Learn how homeopathy can help manage the pain of kidney stones and reduce the tendency for them to recur.',
     content: `
@@ -3848,6 +3947,7 @@ Kidney stones (renal calculi) are hard deposits made of minerals and salts that 
   },
   {
     id: 'abrotanum-profile',
+    slug: 'abrotanum-profile',
     title: 'Abrotanum: The Remedy for Marasmus and Emaciation',
     excerpt: 'A deep dive into "Southernwood" - essential for conditions where emaciation starts from the legs upwards.',
     content: `
@@ -3876,6 +3976,7 @@ Marasmus, rheumatism, gout, and digestive disorders where there is a marked fail
   },
   {
     id: 'aceticum-acidum-profile',
+    slug: 'aceticum-acidum-profile',
     title: 'Aceticum Acidum: The Remedy for Profuse Wasting',
     excerpt: 'Learn about "Glacial Acetic Acid" - indicated for profound debility, pale skin, and intense thirst.',
     content: `
@@ -3904,6 +4005,7 @@ Anemia, diabetes, dropsy, and chronic diarrhea with profound weakness.
   },
   {
     id: 'apis-mellifica-profile',
+    slug: 'apis-mellifica-profile',
     title: 'Apis Mellifica: The Remedy for Stinging and Swelling',
     excerpt: 'Discover the "Poison of the Honey Bee" - the premier remedy for edema and allergic reactions.',
     content: `
@@ -3961,6 +4063,7 @@ Hay fever, common cold, laryngitis, and neuralgic pains after surgery or injury.
   },
   {
     id: 'aloe-socotrina-profile',
+    slug: 'aloe-socotrina-profile',
     title: 'Aloe Socotrina: The Remedy for Portal Congestion',
     excerpt: 'Discover "Socotrine Aloes" - essential for digestive issues characterized by a "jelly-like" mucus.',
     content: `
@@ -3989,6 +4092,7 @@ Diarrhea, hemorrhoids, portal congestion, and headaches related to digestive iss
   },
   {
     id: 'alumina-profile',
+    slug: 'alumina-profile',
     title: 'Alumina: The Remedy for Dryness and Sluggishness',
     excerpt: 'Learn about "Pure Clay" - indicated for extreme dryness of mucous membranes and severe constipation.',
     content: `
@@ -4017,6 +4121,7 @@ Chronic constipation, skin disorders, and neurological conditions characterized 
   },
   {
     id: 'research-homeopathy-evidence',
+    slug: 'research-homeopathy-evidence',
     title: 'Evidence-Based Homoeopathy: Understanding the Science',
     excerpt: 'Is there scientific evidence for homeopathy? Explore recent research studies and clinical trials that demonstrate the effectiveness of natural medicine.',
     content: `
@@ -4041,6 +4146,7 @@ While more research is always needed, the current body of evidence suggests that
   },
   {
     id: 'calcarea-carb-profile',
+    slug: 'calcarea-carb-profile',
     title: 'Calcarea Carbonica: The Remedy for Sluggishness and Sweat',
     excerpt: 'A study of "Carbonate of Lime" - essential for the leuco-phlegmatic constitution, characterized by cold clammy feet and sour sweats.',
     content: `
@@ -4073,6 +4179,7 @@ Rickets, delayed growth, chronic digestive issues, and ailments from over-exerti
   },
   {
     id: 'chamomilla-profile',
+    slug: 'chamomilla-profile',
     title: 'Chamomilla: The Irritable Child\'s Remedy',
     excerpt: 'Discover "German Chamomile" - the premier remedy for teething, irritability, and pains that are out of proportion.',
     content: `
@@ -4105,6 +4212,7 @@ Teething, colic, irritable behavior, menstrual cramps with great irritability, a
   },
   {
     id: 'nux-vomica-profile',
+    slug: 'nux-vomica-profile',
     title: 'Nux Vomica: The Polycrest for the Modern Lifestyle',
     excerpt: 'Learn about "Poison Nut" - the remedy for sedentary life, over-indulgence, and the "irritable, over-sensitive" worker.',
     content: `
@@ -4137,6 +4245,7 @@ Indigestion, piles, constipation, hangover, tension headaches, and ailments from
   },
   {
     id: 'rhus-tox-profile',
+    slug: 'rhus-tox-profile',
     title: 'Rhus Toxicodendron: The Remedy for Rusty Joints',
     excerpt: 'Discover "Poison Ivy" - the leading remedy for strains, sprains, and rheumatism that gets better with continued motion.',
     content: `
@@ -4169,6 +4278,7 @@ Rheumatism, sciatica, sprains, strains, flu with body aches, and skin conditions
   },
   {
     id: 'sulphur-profile',
+    slug: 'sulphur-profile',
     title: 'Sulphur: The King of Remedies and the "Ragged Philosopher"',
     excerpt: 'A deep study of "Brimstone" - a polychrest remedy indicated for skin issues, burning sensations, and a messy nature.',
     content: `
@@ -4201,6 +4311,7 @@ Chronic skin diseases, suppressed eruptions, constipation, hemorhoids, and as an
   },
   {
     id: 'nat-mur-profile',
+    slug: 'nat-mur-profile',
     title: 'Natrum Muriaticum: The Remedy for Silent Grief',
     excerpt: 'Learn about "Common Salt" - the deep-seated remedy for emotional suppression, sun headaches, and dry mucous membranes.',
     content: `
@@ -4233,6 +4344,7 @@ Anemia, chronic headaches, skin eruptions on the hairline, and emotional support
   },
   {
     id: 'phosphorus-profile',
+    slug: 'phosphorus-profile',
     title: 'Phosphorus: The Polychrest for the Sensitive and Brilliant',
     excerpt: 'Explore the "Light Bearer" - indicated for tall, slender individuals with a burning thirst for cold water and a fear of being alone.',
     content: `
@@ -4265,6 +4377,7 @@ Respiratory issues (pneumonia, bronchitis), liver complaints, hemorrhagic disord
   },
   {
     id: 'sepia-profile-2',
+    slug: 'sepia-profile-2',
     title: 'Sepia Officinalis: The Washerwoman\'s Remedy',
     excerpt: 'Learn about "Cuttlefish Ink" - the leading remedy for hormonal imbalances, stasis, and "bearing down" sensations.',
     content: `

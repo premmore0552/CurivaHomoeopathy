@@ -132,6 +132,38 @@ async function startServer() {
   console.log("Database seeded with", allBlogPosts.length, "posts.");
 
   app.use(express.json());
+  
+  // reCAPTCHA verification endpoint
+  app.post("/api/verify-recaptcha", async (req, res) => {
+    const { token, action } = req.body;
+    
+    // In a real production app, you would call:
+    // https://recaptchaenterprise.googleapis.com/v1/projects/${PROJECT_ID}/assessments?key=${API_KEY}
+    
+    console.log(`[reCAPTCHA] Verifying token for action: ${action}`);
+    
+    // For this simulation, we'll assume the token is valid
+    if (token) {
+      res.json({ success: true, score: 0.9 });
+    } else {
+      res.status(400).json({ success: false, error: "Missing token" });
+    }
+  });
+
+  // API endpoint for simulated email delivery of resources
+  app.post("/api/send-resource-email", async (req, res) => {
+    const { email, resourceId, resourceTitle } = req.body;
+    
+    console.log(`[Email Service] Sending resource ${resourceTitle} (${resourceId}) to ${email}`);
+    
+    // Simulate some delay for email processing
+    await new Promise(resolve => setTimeout(resolve, 1500));
+    
+    res.json({ 
+      success: true, 
+      message: `The ${resourceTitle} has been sent to ${email} successfully.` 
+    });
+  });
 
   // API Routes
   app.get("/api/posts", (req, res) => {

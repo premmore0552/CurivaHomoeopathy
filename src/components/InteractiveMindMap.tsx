@@ -1,6 +1,6 @@
 import React, { useEffect, useRef } from 'react';
 import * as d3 from 'd3';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 
 interface Node extends d3.SimulationNodeDatum {
   id: string;

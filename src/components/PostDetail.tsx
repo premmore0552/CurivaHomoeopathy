@@ -9,7 +9,7 @@ import { Link } from 'react-router-dom';
 import ModalityPill from './ModalityPill';
 import { MarkdownComponents, highlightModalities } from './MarkdownRenderers';
 import TextMindMap from './TextMindMap';
-import { useTheme } from './ThemeContext';
+import { useTheme } from '../context/ThemeContext';
 import { Volume2, VolumeX, Play, Pause } from 'lucide-react';
 
 import RelatedArticles from './RelatedArticles';
@@ -306,6 +306,38 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
               </div>
             )}
 
+            {/* Core Modalites Overview (New) */}
+            {post.modalities && (
+              <div className="mb-10 grid grid-cols-2 gap-4">
+                <div className="p-4 bg-[#991B1B]/5 border border-[#991B1B]/20 rounded-2xl">
+                  <div className="flex items-center gap-2 mb-2 text-[#991B1B] dark:text-red-400">
+                    <ThumbsDown size={14} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Aggravation</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {post.modalities.worse.slice(0, 3).map((w, i) => (
+                      <span key={i} className="text-xs font-bold text-text-primary bg-white/50 dark:bg-zinc-800/50 px-2 py-0.5 rounded-md border border-black/5">
+                        {w}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+                <div className="p-4 bg-[#166534]/5 border border-[#166534]/20 rounded-2xl">
+                  <div className="flex items-center gap-2 mb-2 text-[#166534] dark:text-green-400">
+                    <ThumbsUp size={14} />
+                    <span className="text-[10px] font-black uppercase tracking-widest">Amelioration</span>
+                  </div>
+                  <div className="flex flex-wrap gap-1">
+                    {post.modalities.better.slice(0, 3).map((b, i) => (
+                      <span key={i} className="text-xs font-bold text-text-primary bg-white/50 dark:bg-zinc-800/50 px-2 py-0.5 rounded-md border border-black/5">
+                        {b}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            )}
+
             <TextMindMap 
               title={post.title.split(':')[0]} 
               category={post.category} 
@@ -578,7 +610,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
                           <Link 
                             key={remId} 
                             to={`/remedy/${remId}`}
-                            className="p-4 bg-white border border-border rounded-2xl hover:border-primary/50 hover:shadow-md transition-all flex items-center justify-between group"
+                            className="p-4 bg-white dark:bg-zinc-800 border border-border rounded-2xl hover:border-primary/50 hover:shadow-md transition-all flex items-center justify-between group"
                           >
                             <span className="font-bold text-text-primary group-hover:text-primary transition-colors capitalize">{remId.replace(/-/g, ' ')}</span>
                             <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />
@@ -596,7 +628,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
                           <Link 
                             key={condId} 
                             to={`/conditions/${condId}`}
-                            className="p-4 bg-white border border-border rounded-2xl hover:border-primary/50 hover:shadow-md transition-all flex items-center justify-between group"
+                            className="p-4 bg-white dark:bg-zinc-800 border border-border rounded-2xl hover:border-primary/50 hover:shadow-md transition-all flex items-center justify-between group"
                           >
                             <span className="font-bold text-text-primary group-hover:text-primary transition-colors capitalize">{condId.replace(/-/g, ' ')}</span>
                             <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-all -translate-x-2 group-hover:translate-x-0" />

@@ -1,7 +1,9 @@
 import React, { useState, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, ChevronRight, BookOpen, Activity, Zap, Wind, Brain, Shield, HeartPulse, Stethoscope } from 'lucide-react';
+import { Search, ChevronRight, BookOpen, Activity, Zap, Wind, Brain, Shield, HeartPulse, Stethoscope, ExternalLink } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import { remedyDatabase, ConditionData } from '../data/remedyDatabase';
+import { comparisonRemedies } from '../data/comparisonData';
 
 const categoryIcons: Record<string, React.ReactNode> = {
   digestive: <HeartPulse className="w-5 h-5" />,
@@ -16,6 +18,7 @@ const categoryIcons: Record<string, React.ReactNode> = {
 };
 
 export default function RemedyExplorer() {
+  const navigate = useNavigate();
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedCondition, setSelectedCondition] = useState<ConditionData | null>(null);
 
@@ -116,9 +119,54 @@ export default function RemedyExplorer() {
                         className="p-6 bg-bg-primary rounded-3xl border border-border hover:border-primary/30 transition-all hover:shadow-lg group"
                       >
                         <div className="flex flex-wrap items-center justify-between gap-4 mb-3">
-                          <div className="text-lg font-black text-text-primary group-hover:text-primary transition-colors">
+                          <button 
+                            onClick={() => {
+                              const normalizeRemedy = (name: string) => {
+                                const mapping: Record<string, string> = {
+                                  'carbo veg.': 'carbo-vegetabilis',
+                                  'merc sol.': 'mercurius-solubilis',
+                                  'rhus tox.': 'rhus-toxicodendron',
+                                  'arsenicum alb.': 'arsenicum-album',
+                                  'acid phos.': 'phosphoric-acid',
+                                  'calc carb.': 'calcarea-carbonica',
+                                  'mag phos.': 'magnesia-phosphorica',
+                                  'kali phos.': 'kali-phosphoricum',
+                                  'ferrum phos.': 'ferrum-phosphoricum',
+                                  'acid fluor.': 'fluoric-acid',
+                                  'apis mel.': 'apis-mellifica',
+                                  'ipecac': 'ipecacuanha',
+                                  'hepar sulph.': 'hepar-sulphuris',
+                                  'argentum nit.': 'argentum-nitricum',
+                                  'china off.': 'cinchona-officinalis',
+                                  'natrum mur.': 'natrum-muriaticum',
+                                  'acidum phos.': 'phosphoric-acid',
+                                  'acidum sulph.': 'sulphuric-acid',
+                                  'arg nit.': 'argentum-nitricum',
+                                  'natrum carb.': 'natrum-carbonicum',
+                                  'natrum sulph.': 'natrum-sulphuricum',
+                                  'kali bich.': 'kali-bichromicum',
+                                  'kali carb.': 'kali-carbonicum',
+                                  'merc cor.': 'mercurius-corrosivus'
+                                };
+                                const lower = name.toLowerCase().trim();
+                                if (mapping[lower]) return mapping[lower];
+                                if (mapping[lower.replace(/\.$/, '')]) return mapping[lower.replace(/\.$/, '')];
+                                return null;
+                              };
+
+                              const mappedId = normalizeRemedy(s.remedy);
+                              const remedyId = mappedId || comparisonRemedies.find(r => 
+                                r.name.toLowerCase().includes(s.remedy.toLowerCase()) || 
+                                s.remedy.toLowerCase().includes(r.name.toLowerCase())
+                              )?.id || s.remedy.toLowerCase().replace(/\s+/g, '-').replace(/\./g, '');
+                              
+                              navigate(`/remedy/${remedyId}`);
+                            }}
+                            className="text-lg font-black text-text-primary hover:text-primary transition-colors flex items-center gap-2 group/link cursor-pointer text-left"
+                          >
                             {s.remedy} {s.potency && <span className="text-sm font-mono text-text-secondary/60 ml-2">{s.potency}</span>}
-                          </div>
+                            <ExternalLink className="w-3 h-3 opacity-0 group-hover/link:opacity-100 transition-opacity" />
+                          </button>
                           {s.frequency && (
                             <div className="px-3 py-1 bg-primary/5 text-primary text-[9px] font-black uppercase rounded-lg border border-primary/10">
                               {s.frequency}

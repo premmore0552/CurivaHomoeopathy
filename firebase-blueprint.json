@@ -13,16 +13,80 @@
           "type": "array",
           "items": { "type": "string" }
         },
+        "comparisonCount": { "type": "number", "default": 0 },
+        "isPremium": { "type": "boolean", "default": false },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "email", "createdAt", "updatedAt"]
+    },
+    "Resource": {
+      "title": "Digital Resource",
+      "description": "Available digital product in the marketplace.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "description": { "type": "string" },
+        "category": { "type": "string", "enum": ["PDF", "Guide", "Research", "Notes"] },
+        "pageCount": { "type": "number" },
+        "price": { "type": "number" },
+        "thumbnail": { "type": "string" },
+        "fileUrl": { "type": "string" }
+      },
+      "required": ["id", "title", "price", "category"]
+    },
+    "Order": {
+      "title": "Purchase Order",
+      "description": "A record of a successful purchase.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "resourceId": { "type": "string" },
+        "amount": { "type": "number" },
+        "currency": { "type": "string" },
+        "method": { "type": "string" },
+        "status": { "type": "string", "enum": ["completed", "pending", "delivered"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userEmail", "resourceId", "amount", "status", "createdAt"]
+    },
+    "Lead": {
+      "title": "Business Lead",
+      "description": "User interest or resource request for business growth.",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userName": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "userProfession": { "type": "string", "enum": ["Student", "Doctor"] },
+        "resourceId": { "type": "string" },
+        "resourceTitle": { "type": "string" },
+        "type": { "type": "string" },
+        "status": { "type": "string", "enum": ["pending", "contacted", "fulfilled"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userName", "userEmail", "createdAt"]
     }
   },
   "firestore": {
     "/users/{userId}": {
       "schema": "User",
       "description": "User profiles and personalization data."
+    },
+    "/resources/{resourceId}": {
+      "schema": "Resource",
+      "description": "Product catalog."
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "User purchase history."
+    },
+    "/leads/{leadId}": {
+      "schema": "Lead",
+      "description": "Business leads generated from the store and paywall."
     }
   }
 }
