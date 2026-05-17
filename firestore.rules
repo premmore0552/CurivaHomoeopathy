@@ -1,18 +1,16 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    // 0. Global Safety Net
+    
+    // 0. Default Deny
     match /{document=**} {
       allow read, write: if false;
     }
 
     // --- Helpers ---
+    
     function isSignedIn() {
       return request.auth != null;
-    }
-
-    function isOwner(userId) {
-      return isSignedIn() && request.auth.uid == userId;
     }
 
     function isValidId(id) {
@@ -27,101 +25,69 @@ service cloud.firestore {
       return resource.data;
     }
 
-    // --- User Validation ---
+    function isOwner(userId) {
+      return isSignedIn() && request.auth.uid == userId;
+    }
+
+    function isAdmin() {
+      return isSignedIn() && (
+        (request.auth.token.email == 'premmore0552@gmail.com' && request.auth.token.email_verified == true) ||
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+      );
+    }
+
+    // --- Validation Helpers ---
+
     function isValidUser(data) {
-      // Note: Map.keys() returns a List, which does NOT support .hasOnly().
-      // Using hasAll and checking size for strict keys during create.
-      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt']) 
-        && data.uid == request.auth.uid
-        && data.email is string && data.email.size() <= 256
-        && (data.get('displayName', '') is string && data.get('displayName', '').size() <= 100)
-        && (data.get('favorites', []) is list && data.get('favorites', []).size() <= 100)
-        && (data.get('comparisonCount', 0) is number)
-        && (data.get('isPremium', false) is bool)
-        && (data.get('lastResetDate', '') is string)
-        && data.createdAt is timestamp
-        && data.updatedAt is timestamp;
+      return data.keys().hasAll(['uid', 'email']) && 
+             data.uid == request.auth.uid &&
+             data.email is string && data.email.size() <= 200;
     }
 
-    // --- Resource Validation ---
-    function isValidResource(data) {
-      return data.keys().hasAll(['id', 'title', 'price', 'category'])
-        && data.id is string
-        && data.title is string && data.title.size() <= 200
-        && data.price is number && data.price >= 0
-        && data.category in ['PDF', 'Guide', 'Research', 'Notes'];
+    function isValidQuestion(data) {
+      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.subject is string && data.subject.size() >= 5 && data.subject.size() <= 200 &&
+             data.content is string && data.content.size() >= 10 && data.content.size() <= 2000 &&
+             data.status in ['pending', 'answered', 'featured'];
     }
 
-    // --- Order Validation ---
-    function isValidOrder(data) {
-      return data.keys().hasAll(['userId', 'userEmail', 'resourceId', 'amount', 'currency', 'method', 'status', 'createdAt'])
-        && (isSignedIn() ? data.userId == request.auth.uid : data.userId == 'guest')
-        && data.userEmail is string && data.userEmail.size() <= 256
-        && data.resourceId is string
-        && data.amount is number && data.amount >= 0
-        && data.currency in ['INR', 'USD']
-        && data.method is string
-        && data.status in ['completed', 'pending', 'delivered']
-        && data.createdAt is timestamp;
-    }
-
-    // --- Lead Validation ---
-    function isValidLead(data) {
-      return data.keys().hasAll(['userName', 'userEmail', 'createdAt'])
-        && data.userName is string && data.userName.size() <= 200
-        && data.userEmail is string && data.userEmail.size() <= 256
-        && data.createdAt is timestamp
-        && (data.get('status', 'pending') in ['pending', 'contacted', 'fulfilled'])
-        && (data.get('userProfession', 'Student') in ['Student', 'Doctor'])
-        && (data.get('userId', 'guest') is string)
-        && (data.get('resourceId', '') is string)
-        && (data.get('type', '') is string);
-    }
-
-    // --- Rules ---
+    // --- Collection: Users ---
+    
     match /users/{userId} {
-      allow get: if isOwner(userId);
+      allow get, list: if isOwner(userId) || isAdmin();
       
-      allow create: if isOwner(userId) 
-        && isValidUser(incoming())
-        && incoming().createdAt == request.time
-        && incoming().updatedAt == request.time
-        && incoming().keys().size() >= 4;
+      allow create: if isOwner(userId) && 
+                      isValidUser(incoming()) &&
+                      incoming().createdAt == request.time;
       
-      allow update: if isOwner(userId)
-        && isValidUser(incoming())
-        && incoming().createdAt == existing().createdAt
-        && incoming().updatedAt == request.time
-        && (
-          // Action: Update Profile/Favorites/Usage
-          incoming().diff(existing()).affectedKeys().hasOnly(['displayName', 'photoURL', 'updatedAt', 'favorites', 'comparisonCount', 'isPremium', 'lastResetDate'])
-        );
-      
-      allow delete: if false;
+      allow update: if isOwner(userId) && 
+                       incoming().diff(existing()).affectedKeys().hasAny(['displayName', 'photoURL', 'bookmarks', 'readingHistory', 'updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasAny(['updatedAt']) &&
+                       incoming().updatedAt == request.time;
     }
 
-    match /resources/{resourceId} {
-      allow get, list: if true;
-      allow write: if false; // System/Admin managed
+    // --- Collection: Questions ---
+    match /questions/{questionId} {
+      allow read: if (isSignedIn() && (isOwner(resource.data.userId) || isAdmin())) || resource.data.status == 'featured';
+      
+      allow create: if isSignedIn() && 
+                      isValidQuestion(incoming()) &&
+                      incoming().status == 'pending' &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasAny(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+                       incoming().updatedAt == request.time;
     }
 
-    match /orders/{orderId} {
-      allow get: if isSignedIn() && (isOwner(existing().userId) || existing().userId == 'guest');
-      allow list: if isSignedIn() && resource.data.userId == request.auth.uid;
-      
-      allow create: if (isSignedIn() || incoming().userId == 'guest')
-        && isValidOrder(incoming())
-        && incoming().createdAt == request.time;
-      
-      allow update, delete: if false;
-    }
-
-    match /leads/{leadId} {
-      allow get, list: if false; // Admin only for now
-      allow create: if (isSignedIn() || (incoming().get('userId', 'guest') == 'guest'))
-        && isValidLead(incoming())
-        && incoming().createdAt == request.time;
-      allow update, delete: if false;
+    // --- Collection: Admins ---
+    match /admins/{adminId} {
+      allow read: if isAdmin();
+      allow write: if false;
     }
   }
 }

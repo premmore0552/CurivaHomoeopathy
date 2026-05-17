@@ -1,14 +1,33 @@
 import React, { useState } from 'react';
-import { motion } from 'motion/react';
+import { useNavigate } from 'react-router-dom';
+import { motion, AnimatePresence } from 'motion/react';
 import { Book, Sparkles, Filter, Leaf, Database, Activity } from 'lucide-react';
 import SEO from '../components/SEO';
 import AZIndex from '../components/AZIndex';
+import { useSubscription } from '../hooks/useSubscription';
+import Paywall from '../components/Paywall';
 import { enhancedRemedies } from '../data/enhancedRemedies';
 import { conditionsData } from '../data/conditionsData';
 import { allBlogPosts } from '../data/blogPosts';
 
+import { materiaMedicaData } from '../data/materiaMedica';
+
 export default function Encyclopedia() {
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
+  const { checkAccess } = useSubscription();
+  const [showPaywall, setShowPaywall] = useState(false);
+  const navigate = useNavigate();
+
+  const handleItemClick = (link: string) => {
+    // If it's a remedy or ailment (premium), check access
+    if (link.startsWith('/remedy/') || link.startsWith('/conditions/')) {
+      if (!checkAccess('premium')) {
+        setShowPaywall(true);
+        return;
+      }
+    }
+    navigate(link);
+  };
 
   const families = [
     { id: 'Plant', icon: Leaf },
@@ -16,14 +35,25 @@ export default function Encyclopedia() {
     { id: 'Animal', icon: Activity },
   ];
 
-  const encyclopediaItems = [
-    ...enhancedRemedies
-      .filter(r => !activeFamily || r.family === activeFamily)
+  const rawEncyclopediaItems = [
+    ...materiaMedicaData
+      .filter(r => !activeFamily || r.family?.includes(activeFamily))
       .map(r => ({
         id: `rem-${r.id}`,
         name: r.name,
         category: 'Remedy',
+        description: r.commonName + ' (' + r.family + ')',
+        imageUrl: (r as any).imageUrl,
+        link: `/remedy/${r.id}`
+      })),
+    ...enhancedRemedies
+      .filter(r => !activeFamily || r.family === activeFamily)
+      .map(r => ({
+        id: `enh-rem-${r.id}`,
+        name: r.name,
+        category: 'Remedy',
         description: r.family + ' Family',
+        imageUrl: r.imageUrl,
         link: `/remedy/${r.id}`
       })),
     ...conditionsData.map(c => ({
@@ -31,6 +61,7 @@ export default function Encyclopedia() {
       name: c.title,
       category: 'Ailment',
       description: c.category,
+      imageUrl: c.imageUrl,
       link: `/conditions/${c.id}`
     })),
     ...allBlogPosts.map(p => ({
@@ -38,9 +69,13 @@ export default function Encyclopedia() {
       name: p.title,
       category: 'Article',
       description: p.category,
+      imageUrl: p.image,
       link: `/read/${p.slug}`
     }))
   ];
+
+  // Uniqueify by ID to prevent duplicate key errors if data overlaps
+  const encyclopediaItems = Array.from(new Map(rawEncyclopediaItems.map(item => [item.id, item])).values());
 
   return (
     <div className="min-h-screen bg-bg-primary pb-20">
@@ -57,7 +92,7 @@ export default function Encyclopedia() {
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-black uppercase tracking-[0.25em] mb-10 border border-white/10 text-primary-light"
+             className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] mb-10 border border-white/10 text-accent-light"
            >
              <Sparkles className="w-4 h-4" /> Living Archive
            </motion.div>
@@ -65,15 +100,15 @@ export default function Encyclopedia() {
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.1 }}
-             className="text-6xl md:text-8xl lg:text-9xl font-display font-black text-white tracking-tighter leading-[0.85] mb-12"
+             className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white tracking-tighter leading-[0.85] mb-12"
            >
-             Materia <br/> <span className="text-primary italic">Medica</span> <span className="opacity-20">&</span> <br/> <span className="opacity-40 italic">Clinical Guides</span>
+             Materia <br/> <span className="text-accent italic">Medica</span> <span className="opacity-20">&</span> <br/> <span className="opacity-40 italic">Clinical Guides</span>
            </motion.h1>
            <motion.p 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.2 }}
-             className="text-xl md:text-2xl text-white/60 max-w-2xl font-medium leading-relaxed"
+             className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-relaxed"
            >
              Your centralized gateway for evidence-based research, clinical patterns, and holistic philosophy.
            </motion.p>
@@ -114,7 +149,11 @@ export default function Encyclopedia() {
            </div>
         </div>
 
-        <AZIndex items={encyclopediaItems} />
+        <AZIndex items={encyclopediaItems} onItemClick={handleItemClick} />
+
+        <AnimatePresence>
+          {showPaywall && <Paywall onClose={() => setShowPaywall(false)} />}
+        </AnimatePresence>
       </main>
     </div>
   );

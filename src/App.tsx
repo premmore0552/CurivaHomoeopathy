@@ -23,6 +23,8 @@ const Contact = lazy(() => import('./pages/Contact'));
 const TermsOfService = lazy(() => import('./pages/TermsOfService'));
 const AilmentDetail = lazy(() => import('./pages/AilmentDetail'));
 const ComparisonTool = lazy(() => import('./pages/ComparisonTool'));
+const RepertoryTool = lazy(() => import('./pages/RepertoryTool'));
+const RelationshipVisualizer = lazy(() => import('./pages/RelationshipVisualizer'));
 const Encyclopedia = lazy(() => import('./pages/Encyclopedia'));
 const FAQPage = lazy(() => import('./pages/FAQPage'));
 const TreatmentsPage = lazy(() => import('./pages/TreatmentsPage'));
@@ -36,6 +38,11 @@ const MyLibrary = lazy(() => import('./pages/MyLibrary'));
 const StudentResources = lazy(() => import('./pages/StudentResources'));
 const Subscription = lazy(() => import('./pages/Subscription'));
 const StudyTool = lazy(() => import('./pages/StudyTool'));
+const Stalwarts = lazy(() => import('./pages/Stalwarts'));
+const AskHomeopath = lazy(() => import('./pages/AskHomeopath'));
+const Profile = lazy(() => import('./pages/Profile'));
+const CaseSimulation = lazy(() => import('./pages/CaseSimulation'));
+const MCQPractice = lazy(() => import('./pages/MCQPractice'));
 
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
@@ -64,14 +71,17 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 1.02 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className="w-full min-h-full flex flex-col"
+      className="w-full min-h-screen flex flex-col"
     >
-      <div className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="flex-grow w-full max-w-[1600px] mx-auto px-4 sm:px-6">
         {children}
       </div>
     </motion.div>
   );
 }
+
+import TrialIndicator from './components/TrialIndicator';
+import Breadcrumbs from './components/Breadcrumbs';
 
 function AppRoutes() {
   const location = useLocation();
@@ -86,50 +96,67 @@ function AppRoutes() {
       <GuidedTour />
       <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary flex flex-col transition-colors duration-300">
         <Header />
-        <main className="flex-grow overflow-x-hidden">
+        <Breadcrumbs />
+        <main className="flex-grow">
           <AnimatePresence mode="wait">
             <Suspense fallback={<LoadingScreen />}>
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
-                <Route path="/remedy-comparator" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
-                <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/materia-medica/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
+                
+                {/* Glossary Routes */}
+                <Route path="/glossary" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
+                <Route path="/glossary/all" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
+                <Route path="/glossary/philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
+                <Route path="/glossary/clinical" element={<PageWrapper><TreatmentsPage /></PageWrapper>} />
+                <Route path="/glossary/historical" element={<PageWrapper><UnderstandingHomeopathy /></PageWrapper>} />
+                
+                {/* Research & Tools */}
+                <Route path="/research" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
+                <Route path="/repertory" element={<PageWrapper><RepertoryTool /></PageWrapper>} />
+                <Route path="/relationships" element={<PageWrapper><RelationshipVisualizer /></PageWrapper>} />
+                <Route path="/visualization" element={<PageWrapper><StudyTool /></PageWrapper>} />
+                <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
+                <Route path="/ask-homeopath" element={<PageWrapper><AskHomeopath /></PageWrapper>} />
+                <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+                <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
+                <Route path="/mcq-practice" element={<PageWrapper><MCQPractice /></PageWrapper>} />
+                <Route path="/case-simulation" element={<PageWrapper><CaseSimulation /></PageWrapper>} />
+                
+                {/* Stalwarts Gallery */}
+                <Route path="/stalwarts" element={<PageWrapper><Stalwarts /></PageWrapper>} />
+                <Route path="/stalwarts/:slug" element={<PageWrapper><Stalwarts /></PageWrapper>} />
+                
+                {/* Account & Support */}
+                <Route path="/subscription" element={<PageWrapper><Subscription /></PageWrapper>} />
+                <Route path="/account" element={<PageWrapper><MyLibrary /></PageWrapper>} />
+                <Route path="/support" element={<PageWrapper><Contact /></PageWrapper>} />
+
+                {/* Legacy & Internal Page Routes */}
                 <Route path="/remedy/:remedyId" element={<PageWrapper><RemedyDetail /></PageWrapper>} />
                 <Route path="/read/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
-                <Route path="/articles/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
-                <Route path="/learn/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
-                <Route path="/explore-symptoms" element={<PageWrapper><TreatmentsPage /></PageWrapper>} />
-                <Route path="/conditions" element={<PageWrapper><TreatmentsPage /></PageWrapper>} />
+                <Route path="/materia-medica/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/conditions/:slug" element={<PageWrapper><ConditionDetail /></PageWrapper>} />
-                <Route path="/principles" element={<PageWrapper><UnderstandingHomeopathy /></PageWrapper>} />
-                <Route path="/about-us" element={<PageWrapper><About /></PageWrapper>} />
-                <Route path="/topics" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
-                <Route path="/feedback" element={<PageWrapper><Contact /></PageWrapper>} />
+                <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
                 <Route path="/faq" element={<PageWrapper><FAQPage /></PageWrapper>} />
                 <Route path="/disclaimer" element={<PageWrapper><MedicalDisclaimer /></PageWrapper>} />
                 <Route path="/privacy-policy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
                 <Route path="/terms-of-service" element={<PageWrapper><TermsOfService /></PageWrapper>} />
-                <Route path="/organon-philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/marketplace" element={<PageWrapper><ResourceStore /></PageWrapper>} />
-                <Route path="/my-library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
-                <Route path="/student-resources" element={<PageWrapper><StudentResources /></PageWrapper>} />
-                <Route path="/pro-plans" element={<PageWrapper><Subscription /></PageWrapper>} />
-                <Route path="/study-tool" element={<PageWrapper><StudyTool /></PageWrapper>} />
+                <Route path="/feedback" element={<PageWrapper><Contact /></PageWrapper>} />
+                <Route path="/community" element={<PageWrapper><Subscription /></PageWrapper>} />
                 
-                {/* Fallback & Legacy Routes */}
-                <Route path="/compare" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
-                <Route path="/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
-                <Route path="/encyclopedia" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/understanding-homeopathy" element={<PageWrapper><UnderstandingHomeopathy /></PageWrapper>} />
-                <Route path="/learn" element={<PageWrapper><Articles /></PageWrapper>} />
-                <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
-                <Route path="/guidance" element={<PageWrapper><Contact /></PageWrapper>} />
+                {/* Redirects */}
+                <Route path="/pro-plans" element={<PageWrapper><Subscription /></PageWrapper>} />
+                <Route path="/student-resources" element={<PageWrapper><StudentResources /></PageWrapper>} />
+                <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
+                <Route path="/organon-philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
             </Routes>
           </Suspense>
         </AnimatePresence>
       </main>
         <Newsletter />
         <Footer />
+        <TrialIndicator />
       </div>
     </>
   );

@@ -1,122 +1,98 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { Lock, Sparkles, CheckCircle2, ArrowRight, Mail, User } from 'lucide-react';
-import { setPremiumStatus } from '../services/UsageService';
-import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { Crown, Sparkles, Check, ArrowRight, ShieldCheck, X } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 interface PaywallProps {
-  onUnlock?: () => void;
+  onClose?: () => void;
+  reason?: string;
 }
 
-export default function Paywall({ onUnlock }: PaywallProps) {
-  const [email, setEmail] = useState('');
-  const [name, setName] = useState('');
-  const [isSubmitting, setIsSubmitting] = useState(false);
+const Paywall: React.FC<PaywallProps> = ({ onClose, reason = "Unlock Professional Clinical Intelligence" }) => {
+  const navigate = useNavigate();
 
-  const handleLeadSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!email || !name) return;
-
-    setIsSubmitting(true);
-    try {
-      const leadsPath = 'leads';
-      try {
-        await addDoc(collection(db, leadsPath), {
-          userId: auth.currentUser?.uid || 'guest',
-          userName: name,
-          userEmail: email,
-          type: 'UNLOCK_TOOLS',
-          createdAt: serverTimestamp()
-        });
-      } catch (firestoreError) {
-        handleFirestoreError(firestoreError, OperationType.WRITE, leadsPath);
-      }
-
-      await setPremiumStatus(true);
-      if (onUnlock) onUnlock();
-      // Refresh page to apply premium status across app
-      window.location.reload();
-    } catch (error) {
-      console.error('Lead submission failed:', error);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+  const features = [
+    "Full A-Z Materia Medica Access",
+    "Advanced Clinical Protocols",
+    "Differential Analysis Tool",
+    "Historical Case Studies",
+    "Exclusive Research Library"
+  ];
 
   return (
-    <div className="p-12 bg-bg-secondary rounded-[3rem] border border-primary/20 shadow-2xl relative overflow-hidden text-center">
-      <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none">
-        <Sparkles className="w-64 h-64 text-primary" />
-      </div>
+    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        exit={{ opacity: 0 }}
+        className="absolute inset-0 bg-black/80 backdrop-blur-sm"
+        onClick={onClose}
+      />
       
-      <div className="relative z-10 max-w-xl mx-auto">
-        <div className="w-24 h-24 rounded-[2.5rem] bg-primary/10 flex items-center justify-center text-primary mx-auto mb-8 shadow-inner ring-4 ring-bg-primary">
-          <Lock className="w-10 h-10" />
+      <motion.div
+        initial={{ scale: 0.9, opacity: 0, y: 20 }}
+        animate={{ scale: 1, opacity: 1, y: 0 }}
+        className="relative w-full max-w-lg bg-bg-primary rounded-[3rem] overflow-hidden border-2 border-accent shadow-2xl"
+      >
+        <div className="absolute top-6 right-6 z-10">
+          <button onClick={onClose} className="p-2 hover:bg-bg-secondary rounded-full transition-colors">
+            <X className="w-6 h-6 text-text-tertiary" />
+          </button>
         </div>
-        
-        <h2 className="text-4xl font-display font-black text-text-primary uppercase tracking-tight mb-4 italic">
-          Unlock Unlimited <span className="text-primary italic">Clinical Tools</span>
-        </h2>
-        
-        <p className="text-lg text-text-secondary font-medium mb-12 leading-relaxed">
-          You've reached the free limit. <span className="text-primary font-bold">Join our professional community</span> to get unlimited access to all tools and premium differential analysis.
-        </p>
-        
-        <div className="grid sm:grid-cols-2 gap-4 mb-12">
-          {[
-            "Unlimited Remedy Comparisons",
-            "Compare up to 10 Remedies",
-            "Pro Verdict Differential Analysis",
-            "Free Educational Resources"
-          ].map((feature, i) => (
-            <div key={i} className="flex items-center gap-3 p-4 bg-bg-primary rounded-2xl border border-border shadow-soft group hover:border-primary/30 transition-all">
-              <CheckCircle2 className="w-5 h-5 text-primary shrink-0" />
-              <span className="text-sm font-bold text-text-primary text-left">{feature}</span>
-            </div>
-          ))}
-        </div>
-        
-        <form onSubmit={handleLeadSubmit} className="space-y-6">
-          <div className="space-y-4">
-            <div className="relative group">
-              <User className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
-              <input 
-                type="text"
-                placeholder="Full Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
-                required
-                className="w-full pl-16 pr-8 py-5 bg-bg-primary border border-border rounded-2.5xl focus:outline-none focus:border-primary/50 transition-all font-bold"
-              />
-            </div>
-            
-            <div className="relative group">
-              <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
-              <input 
-                type="email"
-                placeholder="Email Address"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-                required
-                className="w-full pl-16 pr-8 py-5 bg-bg-primary border border-border rounded-2.5xl focus:outline-none focus:border-primary/50 transition-all font-bold"
-              />
+
+        <div className="p-8 md:p-12">
+          <div className="flex justify-center mb-8">
+            <div className="w-16 h-16 bg-primary rounded-2xl flex items-center justify-center shadow-xl shadow-primary/20">
+              <Crown className="w-8 h-8 text-white" />
             </div>
           </div>
 
-          <button 
-            type="submit"
-            disabled={isSubmitting}
-            className="w-full py-6 bg-primary text-white rounded-2.5xl font-black uppercase tracking-widest text-sm shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3"
-          >
-            {isSubmitting ? 'Unlocking...' : 'Join & Unlock Now'} <ArrowRight className="w-4 h-4" />
-          </button>
-        </form>
-        
-        <p className="mt-8 text-[11px] font-bold text-text-tertiary uppercase tracking-[0.2em] opacity-60">
-          By joining, you agree to receive clinical updates and news.
-        </p>
-      </div>
+          <div className="text-center mb-10">
+            <h2 className="text-3xl md:text-4xl font-display font-medium text-text-primary uppercase italic tracking-tight leading-none mb-4">
+              Trial Limit <span className="text-accent">Reached</span>
+            </h2>
+            <p className="text-text-secondary font-serif italic text-lg leading-relaxed">
+              {reason}
+            </p>
+          </div>
+
+          <div className="space-y-4 mb-10">
+            {features.map((feature, i) => (
+              <div key={i} className="flex items-center gap-3">
+                <div className="p-1 rounded-full bg-accent/10">
+                  <Check className="w-4 h-4 text-accent" />
+                </div>
+                <span className="text-sm font-bold text-text-primary uppercase tracking-tight italic">{feature}</span>
+              </div>
+            ))}
+          </div>
+
+          <div className="space-y-4">
+            <button 
+              onClick={() => navigate('/subscription')}
+              className="w-full py-5 bg-primary text-white font-bold uppercase tracking-widest text-xs rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 group"
+            >
+              Upgrade for ₹99/month <ArrowRight className="w-4 h-4 group-hover:translate-x-2 transition-transform" />
+            </button>
+            <div className="flex items-center justify-center gap-2 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">
+              <ShieldCheck className="w-3 h-3" /> Secure Google Payments
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-bg-primary p-6 border-t border-border flex items-center justify-center gap-4">
+          <div className="flex -space-x-3">
+            {[1, 2, 3].map(i => (
+              <div key={i} className="w-8 h-8 rounded-full border-2 border-bg-secondary bg-text-tertiary flex items-center justify-center text-[10px] font-bold text-white overflow-hidden">
+                <img src={`https://i.pravatar.cc/100?u=${i}`} alt="user" />
+              </div>
+            ))}
+          </div>
+          <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">Joined by 2,000+ Professionals</p>
+        </div>
+      </motion.div>
     </div>
   );
-}
+};
+
+export default Paywall;

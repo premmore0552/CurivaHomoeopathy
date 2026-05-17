@@ -8,12 +8,15 @@ import { motion } from 'motion/react';
 
 export default function TreatmentsPage() {
   const ailments = [
-    { id: 'skin-health', name: 'Skin Conditions (Eczema, Psoriasis)', category: 'Dermatology' },
-    { id: 'chronic-pain', name: 'Chronic Pain (Arthritis)', category: 'Musculoskeletal' },
-    { id: 'stress-anxiety', name: 'Stress and Anxiety', category: 'Mental Health' },
-    { id: 'digestive-issues', name: 'Digestive Issues (IBS)', category: 'Gastrointestinal' },
-    { id: 'respiratory-health', name: 'Respiratory (Asthma, Allergies)', category: 'Respiratory' },
-    { id: 'immunity-wellness', name: 'Immunity & Vitality', category: 'Constitutional' },
+    { id: 'skin-health', name: 'Skin Conditions (Eczema, Psoriasis)', category: 'Dermatology', link: '/conditions/skin-health' },
+    { id: 'chronic-pain', name: 'Chronic Pain (Arthritis)', category: 'Musculoskeletal', link: '/conditions/chronic-pain' },
+    { id: 'stress-anxiety', name: 'Stress and Anxiety', category: 'Mental Health', link: '/conditions/stress-anxiety' },
+    { id: 'digestive-issues', name: 'Digestive Issues (IBS)', category: 'Gastrointestinal', link: '/conditions/digestive-issues' },
+    { id: 'respiratory-health', name: 'Respiratory (Asthma, Allergies)', category: 'Respiratory', link: '/conditions/respiratory-health' },
+    { id: 'immunity-wellness', name: 'Immunity & Vitality', category: 'Constitutional', link: '/conditions/immunity-wellness' },
+    { id: 'acidity', name: 'Acidity & GERD', category: 'Digestive', link: '/conditions/acidity' },
+    { id: 'migraine', name: 'Migraine & Headaches', category: 'Nervous System', link: '/conditions/migraine' },
+    { id: 'pcos', name: 'PCOS & Hormonal Balance', category: 'Endocrine', link: '/conditions/pcos' },
   ];
   return (
     <div className="bg-bg-primary min-h-screen transition-colors duration-300">

@@ -2,8 +2,9 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { BookOpen, Search, GraduationCap, ExternalLink, Bookmark, Info, Sparkles, Filter, ChevronRight, Library, Brain } from 'lucide-react';
+import { BookOpen, Search, GraduationCap, ExternalLink, Bookmark, Info, Sparkles, Filter, ChevronRight, Library, Brain, Zap } from 'lucide-react';
 import SEO from '../components/SEO';
+import ModalitiesCheatSheet from '../components/ModalitiesCheatSheet';
 import { glossary, materiaMedicaConcepts, academicLinks, GlossaryTerm } from '../data/studentResourcesData';
 
 function ConceptCard({ concept }: { concept: typeof materiaMedicaConcepts[0] }) {
@@ -174,12 +175,17 @@ export default function StudentResources() {
           {[
             { id: 'glossary', label: 'Glossary', icon: BookOpen },
             { id: 'concepts', label: 'Core Concepts', icon: Bookmark },
+            { id: 'mcq', label: 'MCQ Practice', icon: Zap },
             { id: 'links', label: 'Academic Links', icon: Library },
             { id: 'recall', label: 'Clinical Recall', icon: Brain },
           ].map((tab) => (
             <button
               key={tab.id}
-              onClick={() => tab.id === 'recall' ? navigate('/study-tool') : setActiveTab(tab.id as any)}
+              onClick={() => {
+                if (tab.id === 'recall') navigate('/study-tool');
+                else if (tab.id === 'mcq') navigate('/mcq-practice');
+                else setActiveTab(tab.id as any);
+              }}
               className={`flex items-center gap-3 px-8 py-4 rounded-3xl text-sm font-black uppercase tracking-widest transition-all ${
                 activeTab === tab.id 
                 ? 'bg-primary text-white shadow-xl shadow-primary/20 scale-105' 
@@ -334,27 +340,9 @@ export default function StudentResources() {
           </AnimatePresence>
         </section>
 
-        {/* CTA Section */}
+        {/* Modalities Cheat Sheet Section */}
         <section className="mt-32">
-          <div className="bg-primary p-12 md:p-20 rounded-[4rem] relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
-            <div className="absolute inset-0 bg-gradient-to-br from-white/10 via-transparent to-transparent opacity-60 pointer-events-none" />
-            <div className="max-w-2xl relative z-10">
-              <h2 className="text-4xl md:text-6xl font-display font-black text-white mb-8 tracking-tighter italic leading-none">
-                Expand Your <br/> <span className="text-text-primary not-italic uppercase tracking-widest text-2xl md:text-3xl">Clinical Horizon.</span>
-              </h2>
-              <p className="text-xl text-white/80 font-medium mb-12 leading-relaxed">
-                Connect with our community of students and practitioners to discuss complex cases and philosophy.
-              </p>
-              <div className="flex flex-col sm:flex-row gap-6">
-                <button className="px-10 py-5 bg-white text-primary font-black uppercase tracking-widest text-xs rounded-3xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-black/20">
-                  Join Student Forum
-                </button>
-                <button className="px-10 py-5 bg-primary-dark text-white border border-white/20 font-black uppercase tracking-widest text-xs rounded-3xl hover:bg-white/10 transition-all">
-                  Request Case Study
-                </button>
-              </div>
-            </div>
-          </div>
+          <ModalitiesCheatSheet />
         </section>
       </main>
     </div>

@@ -14,13 +14,20 @@ import {
   Lock,
   Search,
   BookOpen,
-  ArrowRight
+  ArrowRight,
+  Bookmark,
+  History,
+  Clock,
+  ChevronRight,
+  Sparkles
 } from 'lucide-react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { Helmet } from 'react-helmet-async';
 import { auth, db } from '../lib/firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { resources, Resource } from '../data/resources';
+import { userService } from '../services/userService';
+import { allBlogPosts as blogPosts } from '../data/blogPosts';
+import SEO from '../components/SEO';
 
 interface Order {
   id: string;
@@ -129,17 +136,20 @@ const MyLibrary = () => {
   const [loading, setLoading] = useState(true);
   const [selectedForView, setSelectedForView] = useState<Resource | null>(null);
   const [search, setSearch] = useState('');
+  const [activeTab, setActiveTab] = useState<'bookmarks' | 'history' | 'books'>('bookmarks');
+  const [profile, setProfile] = useState<any>(null);
   const location = useLocation();
   const navigate = useNavigate();
 
   useEffect(() => {
-    const fetchOrders = async () => {
+    const fetchData = async () => {
       if (!auth.currentUser) {
         setLoading(false);
         return;
       }
 
       try {
+        // Fetch Orders
         const q = query(
           collection(db, 'orders'),
           where('userId', '==', auth.currentUser.uid),
@@ -148,10 +158,13 @@ const MyLibrary = () => {
         const snapshot = await getDocs(q);
         const orderData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order));
         
-        // Match orders with resource static data
         const uniqueResourceIds = [...new Set(orderData.map(o => o.resourceId))];
         const owned = resources.filter(r => uniqueResourceIds.includes(r.id));
         setPurchasedResources(owned);
+
+        // Fetch User Profile (Bookmarks/History)
+        const userProfile = await userService.getProfile(auth.currentUser.uid);
+        setProfile(userProfile);
 
         // Auto-open logic
         const state = location.state as { purchasedResourceId?: string; success?: boolean };
@@ -159,8 +172,8 @@ const MyLibrary = () => {
           const newlyPurchased = owned.find(r => r.id === state.purchasedResourceId);
           if (newlyPurchased) {
             setSelectedForView(newlyPurchased);
+            setActiveTab('books');
           }
-          // Clear state to prevent re-opening on refresh
           navigate(location.pathname, { replace: true, state: {} });
         }
       } catch (error) {
@@ -170,11 +183,28 @@ const MyLibrary = () => {
       }
     };
 
-    fetchOrders();
+    fetchData();
   }, [location.state, navigate]);
+
+  const bookmarkedPosts = blogPosts.filter(post => profile?.bookmarks?.includes(post.id || ''));
+  const historyPosts = (profile?.readingHistory || [])
+    .map((h: any) => ({
+      ...blogPosts.find(p => p.id === h.postId),
+      viewedAt: h.timestamp
+    }))
+    .filter((p: any) => p.id)
+    .sort((a, b) => new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime());
 
   const filteredResources = purchasedResources.filter(r => 
     r.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredBookmarks = bookmarkedPosts.filter(p => 
+    p.title.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredHistory = historyPosts.filter(p => 
+    p.title?.toLowerCase().includes(search.toLowerCase())
   );
 
   if (loading) {
@@ -198,13 +228,13 @@ const MyLibrary = () => {
             <h2 className="text-3xl font-black uppercase tracking-tighter italic leading-none">
               Private <span className="text-primary italic">Library</span>
             </h2>
-            <p className="text-text-secondary font-medium">Please log in to access your purchased digital resources and research materials.</p>
-            <button 
-              onClick={() => navigate('/feedback')}
-              className="w-full py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-primary/20 hover:scale-105 transition-all"
+            <p className="text-text-secondary font-medium">Please log in to access your bookmarks, reading history, and digital resources.</p>
+            <Link 
+              to="/auth"
+              className="block w-full py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-xs shadow-xl shadow-primary/20 hover:scale-105 transition-all"
             >
               Access Now
-            </button>
+            </Link>
          </div>
       </div>
     );
@@ -212,9 +242,10 @@ const MyLibrary = () => {
 
   return (
     <div className="bg-bg-primary min-h-screen pb-20">
-      <Helmet>
-        <title>My Digital Library | Curiva</title>
-      </Helmet>
+      <SEO 
+        title="My Library | Curiva Homoeopathy"
+        description="Your personal archive of homeopathic wisdom, books, and studies."
+      />
 
       {/* Header Space */}
       <section className="relative pt-48 pb-24 overflow-hidden bg-text-primary text-white">
@@ -222,109 +253,161 @@ const MyLibrary = () => {
         
         <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-12 text-center lg:text-left">
           <div className="space-y-8">
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 rounded-full border border-white/10 mb-2 mx-auto lg:mx-0"
-            >
+            <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 rounded-full border border-white/10 mb-2 mx-auto lg:mx-0">
               <ShieldCheck className="w-4 h-4 text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Secure Access</span>
-            </motion.div>
-            <motion.h1 
-              initial={{ opacity: 0, y: 30 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-              className="text-7xl md:text-[10rem] font-display font-black text-white tracking-tighter leading-[0.8] uppercase flex flex-col"
-            >
-              My <span className="text-primary italic lg:ml-12">Collections</span>
-            </motion.h1>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Personal Archive</span>
+            </div>
+            <h1 className="text-6xl md:text-[8rem] font-display font-black text-white tracking-tighter leading-[0.8] uppercase flex flex-col">
+              My <span className="text-primary italic lg:ml-12">Library</span>
+            </h1>
           </div>
 
-          <motion.div 
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ delay: 0.2 }}
-            className="relative w-full lg:w-[450px] group"
-          >
+          <div className="relative w-full lg:w-[450px] group">
             <Search className="absolute left-8 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-primary transition-colors" />
             <input 
               type="text"
-              placeholder="Search your library..."
+              placeholder={`Search in ${activeTab}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
               className="w-full pl-20 pr-8 py-7 bg-white/5 border border-white/10 rounded-[2.5rem] focus:outline-none focus:border-primary/50 transition-all text-lg font-bold text-white placeholder:text-white/10 shadow-2xl"
             />
-          </motion.div>
+          </div>
         </div>
       </section>
 
-      {/* Grid */}
-      <section className="max-w-7xl mx-auto px-4">
-        {filteredResources.length > 0 ? (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <AnimatePresence mode="popLayout">
-              {filteredResources.map((resource) => (
-                <motion.div
-                  layout
-                  key={resource.id}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="group bg-bg-secondary border border-border p-8 rounded-[3rem] hover:shadow-2xl transition-all relative overflow-hidden"
-                >
-                  <div className="mb-6 relative h-40 rounded-[2rem] overflow-hidden bg-primary/5">
-                    <img 
-                      src={resource.thumbnail} 
-                      alt={resource.title}
-                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    />
-                    <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
-                      <span className="text-white text-[10px] font-black uppercase tracking-widest">{resource.category}</span>
-                    </div>
-                  </div>
+      {/* Tabs */}
+      <div className="max-w-7xl mx-auto px-4 -mt-10 relative z-30">
+        <div className="flex items-center justify-center lg:justify-start gap-4 flex-wrap bg-white p-3 rounded-[2.5rem] border border-border shadow-2xl">
+          <button 
+            onClick={() => setActiveTab('bookmarks')}
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 ${
+              activeTab === 'bookmarks' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
+            }`}
+          >
+            <Bookmark className="w-4 h-4" /> Bookmarks {bookmarkedPosts.length > 0 && `(${bookmarkedPosts.length})`}
+          </button>
+          <button 
+            onClick={() => setActiveTab('history')}
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 ${
+              activeTab === 'history' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
+            }`}
+          >
+            <History className="w-4 h-4" /> Reading History
+          </button>
+          <button 
+            onClick={() => setActiveTab('books')}
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 ${
+              activeTab === 'books' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
+            }`}
+          >
+            <BookOpen className="w-4 h-4" /> Digital Books {purchasedResources.length > 0 && `(${purchasedResources.length})`}
+          </button>
+        </div>
+      </div>
 
-                  <div className="space-y-4">
-                    <h3 className="text-xl font-black text-text-primary group-hover:text-primary transition-colors leading-tight">
-                      {resource.title}
-                    </h3>
-                    <div className="flex items-center gap-4 text-[10px] font-bold text-text-tertiary uppercase tracking-widest">
-                       <span className="flex items-center gap-2"><FileText className="w-3 h-3 text-primary" /> {resource.pageCount} Pages</span>
-                       <span className="w-1 h-1 bg-border rounded-full" />
-                       <span>Purchased</span>
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-2 gap-3 mt-8">
-                    <button 
-                      onClick={() => setSelectedForView(resource)}
-                      className="flex items-center justify-center gap-2 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shadow-lg shadow-primary/20"
-                    >
-                      <Eye className="w-4 h-4" /> View
-                    </button>
-                    <button className="flex items-center justify-center gap-2 py-4 bg-bg-primary text-text-primary border border-border rounded-2xl font-black uppercase tracking-widest text-[10px] hover:bg-bg-secondary transition-all">
-                      <Download className="w-4 h-4" /> Save
-                    </button>
-                  </div>
-                </motion.div>
-              ))}
-            </AnimatePresence>
-          </div>
-        ) : (
-          <div className="text-center py-32 bg-bg-secondary rounded-[4rem] border-2 border-dashed border-border p-12">
-            <div className="w-24 h-24 bg-primary/10 rounded-[2.5rem] flex items-center justify-center text-primary mx-auto mb-8">
-               <BookOpen className="w-10 h-10" />
-            </div>
-            <h3 className="text-3xl font-black text-text-primary uppercase tracking-tighter italic">Your shelf is empty</h3>
-            <p className="text-text-secondary max-w-sm mx-auto mt-4 font-medium leading-relaxed">
-              Explore our marketplace to discover professional clinical guides and research materials.
-            </p>
-            <Link 
-              to="/marketplace"
-              className="inline-flex items-center gap-3 px-10 py-4 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-2xl mt-10 hover:scale-105 transition-all shadow-xl shadow-primary/30"
+      {/* Grid Content */}
+      <section className="max-w-7xl mx-auto px-4 mt-20">
+        <AnimatePresence mode="wait">
+          {activeTab === 'books' && (
+            <motion.div
+              key="books"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
             >
-              Browse Marketplace <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
+              {filteredResources.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                  {filteredResources.map((resource) => (
+                    <div key={resource.id} className="group bg-bg-secondary border border-border p-8 rounded-[3rem] hover:shadow-2xl transition-all relative overflow-hidden">
+                       <div className="mb-6 relative h-48 rounded-[2rem] overflow-hidden bg-primary/5">
+                        <img 
+                          src={resource.thumbnail} 
+                          alt={resource.title}
+                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                        />
+                        <div className="absolute inset-x-0 bottom-0 p-4 bg-gradient-to-t from-black/80 to-transparent">
+                          <span className="text-white text-[10px] font-black uppercase tracking-widest">{resource.category}</span>
+                        </div>
+                      </div>
+                      <h3 className="text-xl font-black text-text-primary mb-4 leading-tight">{resource.title}</h3>
+                      <div className="flex gap-3">
+                        <button 
+                          onClick={() => setSelectedForView(resource)}
+                          className="flex-1 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest text-[10px] shadow-lg shadow-primary/20"
+                        >
+                          Read Now
+                        </button>
+                        <button className="p-4 bg-white border border-border rounded-2xl text-text-secondary">
+                          <Download className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <EmptyLibrary 
+                  icon={BookOpen} 
+                  title="No books owned" 
+                  desc="Purchased professional guides and study materials will appear here." 
+                  cta="Browse Store" 
+                  link="/marketplace" 
+                />
+              )}
+            </motion.div>
+          )}
+
+          {activeTab === 'bookmarks' && (
+            <motion.div
+              key="bookmarks"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              {filteredBookmarks.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredBookmarks.map(post => (
+                    <PostCard key={post.id} post={post} type="bookmark" onRemove={() => userService.toggleBookmark(post.id)} />
+                  ))}
+                </div>
+              ) : (
+                <EmptyLibrary 
+                  icon={Bookmark} 
+                  title="No bookmarks yet" 
+                  desc="Save remedies and articles for quick access during your studies." 
+                  cta="Explore Materia Medica" 
+                  link="/blog" 
+                />
+              )}
+            </motion.div>
+          )}
+
+          {activeTab === 'history' && (
+            <motion.div
+              key="history"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              {filteredHistory.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {filteredHistory.map(post => (
+                    <PostCard key={post.id} post={post} type="history" />
+                  ))}
+                </div>
+              ) : (
+                <EmptyLibrary 
+                  icon={History} 
+                  title="History is empty" 
+                  desc="Articles you read will be tracked here automatically." 
+                  cta="Start Learning" 
+                  link="/blog" 
+                />
+              )}
+            </motion.div>
+          )}
+        </AnimatePresence>
       </section>
 
       {/* Reader Overlay */}
@@ -339,5 +422,50 @@ const MyLibrary = () => {
     </div>
   );
 };
+
+const PostCard = ({ post, type, onRemove }: any) => (
+  <div className="group bg-white p-6 rounded-[2.5rem] border border-border shadow-sm hover:shadow-soft transition-all flex gap-6 items-center">
+    <div className="w-32 h-32 rounded-3xl overflow-hidden flex-shrink-0 bg-bg-secondary">
+      <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+    </div>
+    <div className="flex-1">
+      <div className="flex items-center gap-2 mb-2">
+        <span className="text-[8px] font-black uppercase tracking-widest text-primary bg-primary/5 px-2 py-1 rounded-md">{post.category}</span>
+        {type === 'history' && post.viewedAt && (
+           <span className="text-[8px] font-bold text-text-tertiary flex items-center gap-1">
+             <Clock className="w-2 h-2" /> {new Date(post.viewedAt).toLocaleDateString()}
+           </span>
+        )}
+      </div>
+      <h4 className="text-lg font-bold text-text-primary leading-tight mb-2 group-hover:text-primary transition-colors">{post.title}</h4>
+      <div className="flex items-center gap-4">
+        <Link to={`/blog/${post.slug}`} className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1">
+          Read <ChevronRight className="w-3 h-3" />
+        </Link>
+        {type === 'bookmark' && (
+          <button onClick={onRemove} className="text-[10px] font-black uppercase tracking-widest text-text-tertiary hover:text-red-500 transition-colors">
+            Remove
+          </button>
+        )}
+      </div>
+    </div>
+  </div>
+);
+
+const EmptyLibrary = ({ icon: Icon, title, desc, cta, link }: any) => (
+  <div className="text-center py-24 bg-bg-secondary rounded-[4rem] border-2 border-dashed border-border p-12">
+    <div className="w-20 h-20 bg-bg-primary rounded-[2rem] flex items-center justify-center text-primary/20 mx-auto mb-6">
+      <Icon className="w-10 h-10" />
+    </div>
+    <h3 className="text-2xl font-black text-text-primary uppercase tracking-tighter italic">{title}</h3>
+    <p className="text-text-secondary max-w-xs mx-auto mt-2 font-medium opacity-70 italic">{desc}</p>
+    <Link 
+      to={link}
+      className="inline-flex items-center gap-3 px-8 py-3 bg-primary text-white font-black uppercase tracking-widest text-[10px] rounded-xl mt-8 hover:scale-105 transition-all shadow-xl shadow-primary/30"
+    >
+      {cta} <ArrowRight className="w-4 h-4" />
+    </Link>
+  </div>
+);
 
 export default MyLibrary;

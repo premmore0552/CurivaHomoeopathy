@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Search, ArrowRight, Zap } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
@@ -13,20 +13,32 @@ interface AZIndexProps {
     description?: string; 
     slug?: string;
     link?: string;
+    imageUrl?: string;
   }[];
+  onItemClick?: (link: string) => void;
 }
 
-export default function AZIndex({ items }: AZIndexProps) {
+export default function AZIndex({ items, onItemClick }: AZIndexProps) {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
+  const navigate = useNavigate();
+
+  const handleLinkClick = (e: React.MouseEvent, link: string) => {
+    if (onItemClick) {
+      e.preventDefault();
+      onItemClick(link);
+    }
+  };
 
   const filteredItems = items.filter(item => {
-    const matchesLetter = selectedLetter ? item.name.toUpperCase().startsWith(selectedLetter) : true;
-    const matchesSearch = searchQuery ? item.name.toLowerCase().includes(searchQuery.toLowerCase()) : true;
+    if (!item.name) return false;
+    const nameStr = String(item.name);
+    const matchesLetter = selectedLetter ? nameStr.toUpperCase().startsWith(selectedLetter) : true;
+    const matchesSearch = searchQuery ? nameStr.toLowerCase().includes(searchQuery.toLowerCase()) : true;
     return matchesLetter && matchesSearch;
   }).sort((a, b) => a.name.localeCompare(b.name));
 
-  const lettersWithItems = [...new Set(items.map(item => item.name[0].toUpperCase()))];
+  const lettersWithItems = [...new Set(items.filter(item => item.name).map(item => item.name[0].toUpperCase()))];
 
   return (
     <div className="space-y-10">
@@ -43,10 +55,10 @@ export default function AZIndex({ items }: AZIndexProps) {
           />
         </div>
         
-        <div className="flex flex-wrap justify-center gap-1">
+        <div className="flex flex-nowrap overflow-x-auto pb-4 gap-1 no-scrollbar justify-start md:justify-center w-full md:w-auto px-2">
           <button
             onClick={() => setSelectedLetter(null)}
-            className={`w-10 h-10 rounded-xl text-xs font-black transition-all flex items-center justify-center ${!selectedLetter ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'bg-bg-secondary text-text-secondary hover:bg-border'}`}
+            className={`min-w-[40px] h-10 rounded-xl text-xs font-black transition-all flex items-center justify-center shrink-0 ${!selectedLetter ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' : 'bg-bg-secondary text-text-secondary hover:bg-border'}`}
           >
             ALL
           </button>
@@ -57,7 +69,7 @@ export default function AZIndex({ items }: AZIndexProps) {
                 key={letter}
                 disabled={!hasItems}
                 onClick={() => setSelectedLetter(letter)}
-                className={`w-10 h-10 rounded-xl text-xs font-black transition-all flex items-center justify-center ${
+                className={`min-w-[40px] h-10 rounded-xl text-xs font-black transition-all flex items-center justify-center shrink-0 ${
                   selectedLetter === letter 
                   ? 'bg-primary text-white shadow-lg shadow-primary/20 scale-110' 
                   : hasItems 
@@ -96,24 +108,37 @@ export default function AZIndex({ items }: AZIndexProps) {
 
               <Link
                 to={item.link || (item.slug ? `/read/${item.slug}` : `/guide/${item.id}`)}
-                className="group block p-6 bg-bg-secondary border border-border rounded-3xl hover:border-primary hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col"
+                onClick={(e) => handleLinkClick(e, item.link || (item.slug ? `/read/${item.slug}` : `/guide/${item.id}`))}
+                className="group block bg-bg-secondary border border-border rounded-3xl hover:border-primary hover:shadow-xl hover:-translate-y-1 transition-all duration-300 h-full flex flex-col overflow-hidden"
               >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
-                    <Zap className="w-6 h-6" />
+                {item.imageUrl && (
+                  <div className="w-full aspect-[2/1] overflow-hidden bg-primary/5">
+                    <img 
+                      src={item.imageUrl} 
+                      alt={item.name} 
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                      referrerPolicy="no-referrer"
+                    />
                   </div>
-                  <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] px-2 py-1 bg-primary/5 rounded-full border border-primary/20">
-                    {item.category}
-                  </span>
-                </div>
-                <h3 className="text-xl font-display font-black text-text-primary mb-3 leading-tight group-hover:text-primary transition-colors">
-                  {item.name}
-                </h3>
-                <p className="text-sm text-text-secondary font-medium leading-relaxed mb-6 line-clamp-2">
-                  {item.description || 'Comprehensive clinical research and therapeutic indications database node.'}
-                </p>
-                <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                  Explore Module <ArrowRight className="w-3 h-3 translate-x-0 group-hover:translate-x-1 transition-transform" />
+                )}
+                <div className="p-6 flex flex-col flex-1">
+                  <div className="flex items-start justify-between mb-4">
+                    <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-colors duration-300">
+                      <Zap className="w-6 h-6" />
+                    </div>
+                    <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em] px-2 py-1 bg-primary/5 rounded-full border border-primary/20">
+                      {item.category}
+                    </span>
+                  </div>
+                  <h3 className="text-xl font-display font-black text-text-primary mb-3 leading-tight group-hover:text-primary transition-colors">
+                    {item.name}
+                  </h3>
+                  <p className="text-sm text-text-secondary font-medium leading-relaxed mb-6 line-clamp-2">
+                    {item.description || 'Comprehensive clinical research and therapeutic indications database node.'}
+                  </p>
+                  <div className="mt-auto flex items-center gap-2 text-[10px] font-black text-primary uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
+                    Explore Module <ArrowRight className="w-3 h-3 translate-x-0 group-hover:translate-x-1 transition-transform" />
+                  </div>
                 </div>
               </Link>
             </motion.div>

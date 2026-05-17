@@ -12,7 +12,6 @@ import {
   Crown,
   Smartphone,
   Mail,
-  QrCode,
   ArrowLeft
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
@@ -32,32 +31,80 @@ const ResourceStore = () => {
   const [profession, setProfession] = useState('Student');
   const [isSubmitted, setIsSubmitted] = useState(false);
 
-  const handleSubmitRequest = async (e: React.FormEvent) => {
+  const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!selectedResource || !email || !name) return;
+    if (!selectedResource || !email) return;
     
     setIsProcessing(true);
     try {
-      const leadsPath = 'leads';
-      try {
-        await addDoc(collection(db, leadsPath), {
-          userId: auth.currentUser?.uid || 'guest',
-          userName: name,
-          userEmail: email,
-          userProfession: profession,
-          resourceId: selectedResource.id,
-          resourceTitle: selectedResource.title,
-          status: 'pending',
-          createdAt: serverTimestamp()
-        });
-      } catch (firestoreError) {
-        handleFirestoreError(firestoreError, OperationType.WRITE, leadsPath);
-      }
+      // 1. Create order on server
+      const orderRes = await fetch('/api/create-razorpay-order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: 49, // ₹49 for the cheat sheet
+          currency: 'INR',
+          receipt: `resource_${selectedResource.id}_${Date.now()}`
+        })
+      });
 
-      setIsSubmitted(true);
-      setPaymentStep('success');
-    } catch (error) {
-      console.error('Lead submission failed:', error);
+      const order = await orderRes.json();
+      if (!orderRes.ok) throw new Error(order.details || order.error || 'Failed to create order');
+
+      // 2. Open Razorpay
+      const options = {
+        key: import.meta.env.VITE_RAZORPAY_KEY_ID,
+        amount: order.amount,
+        currency: order.currency,
+        name: "Curiva Homoeopathy",
+        description: `Get ${selectedResource.title}`,
+        order_id: order.id,
+        handler: async (response: any) => {
+          const verifyRes = await fetch('/api/verify-razorpay-payment', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(response)
+          });
+          
+          const result = await verifyRes.json();
+          if (result.success) {
+            // Also save a lead for fulfillment if needed, or just show success
+            const leadsPath = 'orders';
+            try {
+              await addDoc(collection(db, leadsPath), {
+                userId: auth.currentUser?.uid || 'guest',
+                userEmail: email,
+                resourceId: selectedResource.id,
+                resourceTitle: selectedResource.title,
+                paymentId: response.razorpay_payment_id,
+                status: 'paid',
+                createdAt: serverTimestamp()
+              });
+            } catch (fErr) {
+              handleFirestoreError(fErr, OperationType.WRITE, leadsPath);
+            }
+
+            setPaymentStep('success');
+          } else {
+            alert('Payment verification failed.');
+          }
+        },
+        prefill: {
+          email: email
+        },
+        notes: {
+          resource_id: selectedResource.id
+        },
+        theme: {
+          color: "#df392e"
+        }
+      };
+
+      const rzp = new (window as any).Razorpay(options);
+      rzp.open();
+    } catch (error: any) {
+      console.error('Payment error:', error);
+      alert(error.message || 'Failed to initiate payment.');
     } finally {
       setIsProcessing(false);
     }
@@ -82,7 +129,7 @@ const ResourceStore = () => {
              className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/5 border border-white/10 rounded-full shadow-2xl mx-auto backdrop-blur-sm"
            >
               <ShoppingBag className="w-4 h-4 text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Featured Offer</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Educational Series</span>
            </motion.div>
            
            <h1 className="text-6xl md:text-8xl font-display font-black text-white tracking-tighter leading-[0.85] uppercase italic">
@@ -95,9 +142,9 @@ const ResourceStore = () => {
               </p>
               
               <div className="flex items-center gap-4 py-2 px-6 bg-white/5 rounded-2xl border border-white/10">
-                <span className="text-3xl font-black text-white italic">FREE</span>
+                <span className="text-3xl font-black text-white italic">₹49</span>
                 <div className="w-px h-8 bg-white/10" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary-light">Limited Time Offer • Digital Access</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary-light">One-time payment • Digital Access</span>
               </div>
            </div>
 
@@ -161,29 +208,12 @@ const ResourceStore = () => {
                     className="space-y-8"
                   >
                     <div className="space-y-2">
-                      <h3 className="text-2xl font-black text-text-primary uppercase italic tracking-tight">Order Details</h3>
-                      <p className="text-text-secondary font-medium">Enter your email to receive the PDF instantly.</p>
+                      <h3 className="text-2xl font-black text-text-primary uppercase italic tracking-tight">Access Resource</h3>
+                      <p className="text-text-secondary font-medium">Enter your email to receive the PDF after payment.</p>
                     </div>
 
-                    <form onSubmit={handleSubmitRequest} className="space-y-6">
-                      <div className="space-y-2">
-                        <h3 className="text-2xl font-black text-text-primary uppercase italic tracking-tight">Request Access</h3>
-                        <p className="text-text-secondary font-medium">Join our exclusive list to receive this and future high-yield resources for free.</p>
-                      </div>
-
+                    <form onSubmit={handlePayment} className="space-y-8">
                       <div className="space-y-4">
-                        <div className="relative group">
-                          <BookOpen className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
-                          <input 
-                            type="text"
-                            placeholder="Full Name"
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            required
-                            className="w-full pl-16 pr-8 py-5 bg-bg-primary border border-border rounded-2.5xl focus:outline-none focus:border-primary/50 focus:ring-8 focus:ring-primary/5 transition-all font-bold"
-                          />
-                        </div>
-
                         <div className="relative group">
                           <Mail className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
                           <input 
@@ -192,34 +222,17 @@ const ResourceStore = () => {
                             value={email}
                             onChange={(e) => setEmail(e.target.value)}
                             required
-                            className="w-full pl-16 pr-8 py-5 bg-bg-primary border border-border rounded-2.5xl focus:outline-none focus:border-primary/50 focus:ring-8 focus:ring-primary/5 transition-all font-bold"
+                            className="w-full pl-16 pr-8 py-5 bg-bg-primary border border-border rounded-2.5xl focus:outline-none focus:border-primary/50 transition-all font-bold"
                           />
-                        </div>
-
-                        <div className="grid grid-cols-2 gap-4">
-                          {['Student', 'Doctor'].map((prof) => (
-                            <button
-                              key={prof}
-                              type="button"
-                              onClick={() => setProfession(prof)}
-                              className={`py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest border transition-all ${
-                                profession === prof 
-                                ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' 
-                                : 'bg-bg-primary text-text-secondary border-border hover:border-primary/30'
-                              }`}
-                            >
-                              {prof}
-                            </button>
-                          ))}
                         </div>
                       </div>
 
                       <button 
                         type="submit"
-                        disabled={isProcessing || !email || !name}
-                        className="w-full py-6 bg-primary text-white rounded-2.5xl font-black uppercase tracking-widest text-sm shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 disabled:pointer-events-none flex items-center justify-center gap-3"
+                        disabled={isProcessing || !email}
+                        className="w-full py-6 bg-primary text-white rounded-2.5xl font-black uppercase tracking-widest text-sm shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                       >
-                        {isProcessing ? 'Processing...' : 'Get Access Now'} <ArrowRight className="w-4 h-4" />
+                        {isProcessing ? 'Processing...' : 'Pay ₹49 & Get PDF'} <ArrowRight className="w-4 h-4" />
                       </button>
                     </form>
                   </motion.div>

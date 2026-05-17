@@ -4,9 +4,32 @@ import Database from "better-sqlite3";
 import { allBlogPosts } from "./src/data/blogPosts";
 import path from "path";
 import { fileURLToPath } from "url";
+import Razorpay from "razorpay";
+import crypto from "crypto";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+// Initialize Razorpay lazily to avoid crash if keys are missing
+let razorpayInstance: Razorpay | null = null;
+
+function getRazorpay() {
+  if (!razorpayInstance) {
+    const keyId = process.env.VITE_RAZORPAY_KEY_ID || process.env.RAZORPAY_KEY_ID;
+    const keySecret = process.env.RAZORPAY_KEY_SECRET;
+    
+    if (!keyId || !keySecret) {
+      console.warn("Razorpay API keys are missing. Payment features will be disabled.");
+      return null;
+    }
+    
+    razorpayInstance = new Razorpay({
+      key_id: keyId,
+      key_secret: keySecret,
+    });
+  }
+  return razorpayInstance;
+}
 
 async function startServer() {
   const app = express();
@@ -90,7 +113,7 @@ async function startServer() {
 
   console.log("Seeding database...");
   const insert = db.prepare(`
-    INSERT INTO posts (
+    INSERT OR IGNORE INTO posts (
       id, slug, title, excerpt, content, author, date, category, image, tags, readingTime,
       seoTitle, quickSummary, keyPatterns, whoItSuits, whenToConsider, modalities,
       comparisons, relatedCarePlans, citations, relatedRemedies, relatedConditions
@@ -133,23 +156,6 @@ async function startServer() {
 
   app.use(express.json());
   
-  // reCAPTCHA verification endpoint
-  app.post("/api/verify-recaptcha", async (req, res) => {
-    const { token, action } = req.body;
-    
-    // In a real production app, you would call:
-    // https://recaptchaenterprise.googleapis.com/v1/projects/${PROJECT_ID}/assessments?key=${API_KEY}
-    
-    console.log(`[reCAPTCHA] Verifying token for action: ${action}`);
-    
-    // For this simulation, we'll assume the token is valid
-    if (token) {
-      res.json({ success: true, score: 0.9 });
-    } else {
-      res.status(400).json({ success: false, error: "Missing token" });
-    }
-  });
-
   // API endpoint for simulated email delivery of resources
   app.post("/api/send-resource-email", async (req, res) => {
     const { email, resourceId, resourceTitle } = req.body;
@@ -163,6 +169,65 @@ async function startServer() {
       success: true, 
       message: `The ${resourceTitle} has been sent to ${email} successfully.` 
     });
+  });
+
+  // Razorpay Order Creation
+  app.post("/api/create-razorpay-order", async (req, res) => {
+    const { amount, currency = "INR", receipt } = req.body;
+    
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return res.status(500).json({ error: "Razorpay is not configured" });
+    }
+
+    try {
+      const finalAmount = Math.round(Number(amount) * 100);
+      
+      if (isNaN(finalAmount) || finalAmount < 100) {
+        return res.status(400).json({ error: "Invalid amount. Minimum ₹1 is required." });
+      }
+
+      // Razorpay receipt has a limit of 40 characters
+      const rawReceipt = receipt || `receipt_${Date.now()}`;
+      const finalReceipt = rawReceipt.length > 40 ? rawReceipt.substring(0, 37) + "..." : rawReceipt;
+
+      const options = {
+        amount: finalAmount,
+        currency,
+        receipt: finalReceipt,
+      };
+
+      const order = await razorpay.orders.create(options);
+      res.json(order);
+    } catch (error: any) {
+      console.error("Razorpay Order Error Details:", JSON.stringify(error, null, 2));
+      res.status(500).json({ 
+        error: "Failed to create payment order", 
+        details: error.error?.description || error.message || "Unknown error"
+      });
+    }
+  });
+
+  // Razorpay Payment Verification
+  app.post("/api/verify-razorpay-payment", async (req, res) => {
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const secret = process.env.RAZORPAY_KEY_SECRET;
+
+    if (!secret) {
+      return res.status(500).json({ error: "Payment verification failed: missing configuration" });
+    }
+
+    const body = razorpay_order_id + "|" + razorpay_payment_id;
+    const expectedSignature = crypto
+      .createHmac("sha256", secret)
+      .update(body.toString())
+      .digest("hex");
+
+    if (expectedSignature === razorpay_signature) {
+      res.json({ success: true, message: "Payment verified successfully" });
+    } else {
+      res.status(400).json({ success: false, message: "Invalid signature" });
+    }
   });
 
   // API Routes

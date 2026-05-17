@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
@@ -14,6 +14,81 @@ import Logo from './Logo';
 
 import SearchAutocomplete from './SearchAutocomplete';
 
+const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location }: any) => {
+  const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
+  const hasDropdown = 'dropdown' in link;
+
+  if (hasDropdown) {
+    return (
+      <motion.div 
+        key={link.name} 
+        variants={itemVariants}
+        className="space-y-2"
+      >
+        <button
+          onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
+          className={`flex items-center justify-between w-full p-5 rounded-3xl font-black transition-all border group ${
+            isActive || link.dropdown?.some((d: any) => location.pathname === d.to)
+            ? 'bg-primary/5 text-primary border-primary/20' 
+            : 'bg-bg-secondary text-text-primary border-transparent shadow-sm'
+          }`}
+        >
+          <span className="text-lg leading-tight">{link.name}</span>
+          <ChevronDown className={`w-5 h-5 transition-transform ${isSubMenuOpen ? 'rotate-180' : ''}`} />
+        </button>
+        
+        <AnimatePresence>
+          {isSubMenuOpen && (
+            <motion.div
+              initial={{ height: 0, opacity: 0 }}
+              animate={{ height: 'auto', opacity: 1 }}
+              exit={{ height: 0, opacity: 0 }}
+              className="overflow-hidden pl-4 space-y-2"
+            >
+              {link.dropdown.map((sub: any) => (
+                <Link
+                  key={sub.name}
+                  to={sub.to}
+                  onClick={() => handleLinkClick(sub.to)}
+                  className={`flex items-center justify-between p-4 rounded-2xl text-sm font-bold border transition-all ${
+                    location.pathname === sub.to
+                    ? 'bg-primary text-white border-primary shadow-md'
+                    : 'bg-bg-secondary text-text-secondary border-transparent'
+                  }`}
+                >
+                  {sub.name}
+                  <ChevronRight className="w-4 h-4 opacity-50" />
+                </Link>
+              ))}
+            </motion.div>
+          )}
+        </AnimatePresence>
+      </motion.div>
+    );
+  }
+
+  return (
+    <motion.div 
+      key={link.name} 
+      variants={itemVariants}
+      whileTap={{ scale: 0.98 }}
+    >
+      <Link
+        to={link.to}
+        className={`flex items-center justify-between p-5 rounded-3xl font-black transition-all border group ${
+          isActive 
+          ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' 
+          : 'bg-bg-secondary text-text-primary border-transparent hover:border-primary/20 shadow-sm'
+        }`}
+        onClick={() => handleLinkClick(link.to)}
+      >
+        <span className="text-lg leading-tight">{link.name}</span>
+        <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-white' : 'text-text-secondary'}`} />
+      </Link>
+    </motion.div>
+  );
+};
+
 const Header: React.FC = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
@@ -22,6 +97,17 @@ const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
+
+  React.useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => {
+      document.body.style.overflow = 'unset';
+    };
+  }, [isMenuOpen]);
 
   React.useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
@@ -59,51 +145,44 @@ const Header: React.FC = () => {
   };
 
   const navLinks = [
-    { name: 'Home', label: 'Home', to: '/' },
+    { name: 'Home', to: '/' },
     { 
-      name: (
-        <span className="flex items-center gap-1.5">
-          Organon <Sparkles className="w-3.5 h-3.5 text-primary" />
-        </span>
-      ), 
-      label: 'Organon & Philosophy',
-      to: '/organon-philosophy' 
-    },
-    { 
-      name: 'Marketplace', 
-      label: 'Marketplace',
-      to: '/marketplace',
-      isNew: true
-    },
-    { 
-      name: 'Comparator', 
-      label: 'Remedy Comparator',
-      to: '/remedy-comparator'
-    },
-    { 
-      name: 'Encyclopedia', 
-      label: 'Encyclopedia',
-      to: '/materia-medica',
+      name: 'Glossary', 
+      to: '/glossary',
       dropdown: [
-        { name: 'A-Z Materia Medica', to: '/materia-medica' },
-        { name: 'Health Guides', to: '/explore-symptoms' },
-        { name: 'Scientific Principles', to: '/principles' },
+        { name: 'Philosophy', to: '/glossary/philosophy' },
+        { name: 'Clinical', to: '/glossary/clinical' },
+        { name: 'Historical', to: '/glossary/historical' },
+        { name: 'All Remedies', to: '/glossary/all' },
+      ]
+    },
+    { name: 'Research', to: '/research' },
+    { 
+      name: 'Stalwarts', 
+      to: '/stalwarts',
+      dropdown: [
+        { name: 'Samuel Hahnemann', to: '/stalwarts/hahnemann' },
+        { name: 'J.T. Kent', to: '/stalwarts/kent' },
+        { name: 'C.M. Boger', to: '/stalwarts/boger' },
+        { name: 'Richard Hughes', to: '/stalwarts/hughes' },
+        { name: 'Boenninghausen', to: '/stalwarts/boenninghausen' },
+        { name: 'Constantine Hering', to: '/stalwarts/hering' },
       ]
     },
     { 
-      name: 'Resources', 
-      label: 'More Resources',
-      to: '#',
+      name: 'Analysis', 
+      to: '/analysis',
       dropdown: [
-        { name: 'Subscription Plans', to: '/pro-plans' },
-        { name: 'Clinical Recall (Study)', to: '/study-tool' },
-        { name: 'Student Resources', to: '/student-resources' },
-        { name: 'About Curiva', to: '/about-us' },
-        { name: 'Help Center (FAQ)', to: '/faq' },
-        { name: 'Community Feedback', to: '/feedback' },
-        { name: 'Terms & Privacy', to: '/terms-of-service' },
+        { name: 'Comparison Tool', to: '/analysis' },
+        { name: 'Repertory Tool', to: '/repertory' },
+        { name: 'Relationship Map', to: '/relationships' },
+        { name: 'Visualizer', to: '/visualization' },
+        { name: 'Case Simulator', to: '/case-simulation' },
       ]
     },
+    { name: 'Ask Expert', to: '/ask-homeopath' },
+    { name: 'Library', to: '/library' },
+    { name: 'Pro Access', to: '/subscription' },
   ];
 
   const handleLinkClick = (to: string) => {
@@ -146,224 +225,152 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-300 ${
+    <header className={`sticky top-0 z-50 transition-all duration-500 ${
       isScrolled 
-      ? 'bg-bg-primary/90 backdrop-blur-xl border-b border-border shadow-soft h-16' 
-      : 'bg-bg-primary border-b border-transparent h-20'
+      ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-20' 
+      : 'bg-bg-primary border-b border-transparent h-24'
     }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex justify-between items-center h-full">
-          {/* Logo */}
-          <Link 
-            to="/" 
-            onClick={() => handleLinkClick('/')} 
-            className="flex items-center"
-            aria-label="Home"
-          >
-            <Logo size={isScrolled ? "xs" : "sm"} />
-          </Link>
+      <div className="max-w-[1600px] mx-auto px-6 h-full">
+        <div className="flex justify-between items-center h-full gap-8">
+          {/* Logo Section */}
+          <div className="flex items-center gap-10">
+            <Link 
+              to="/" 
+              onClick={() => handleLinkClick('/')} 
+              className="flex items-center hover:scale-105 transition-transform"
+              aria-label="Home"
+            >
+              <Logo size={isScrolled ? "xs" : "sm"} />
+            </Link>
 
-          {/* Desktop Navigation */}
-          <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
-            <div className="mr-2 px-3 py-1 bg-primary/5 border border-primary/20 rounded-full text-[10px] font-black text-primary uppercase tracking-widest flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-              Resource
-            </div>
-            {navLinks.map((link: any, idx) => {
-              const isActive = location.pathname === link.to;
-              const hasDropdown = 'dropdown' in link;
-              
-              if (hasDropdown) {
+            <div className="hidden lg:block w-px h-8 bg-border/50" />
+
+            {/* Desktop Navigation */}
+            <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
+              {navLinks.map((link: any, idx) => {
+                const isActive = location.pathname === link.to;
+                const hasDropdown = 'dropdown' in link;
+                
+                if (hasDropdown) {
+                  return (
+                    <div key={link.name || idx} className="relative group/nav-item">
+                      <button
+                        aria-haspopup="true"
+                        aria-expanded="false"
+                        className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-[0.15em] transition-all whitespace-nowrap border border-transparent ${
+                          isActive || link.dropdown?.some((d: any) => location.pathname === d.to)
+                          ? 'text-primary bg-primary/5 border-primary/10' 
+                          : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
+                        }`}
+                      >
+                        {link.name}
+                        <ChevronDown className="w-3 h-3 transition-transform group-hover/nav-item:rotate-180 opacity-50" />
+                      </button>
+                      <div className="absolute top-full left-0 mt-3 w-64 bg-bg-primary border border-border rounded-[2.5rem] shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-3 opacity-0 invisible group-hover/nav-item:opacity-100 group-hover/nav-item:visible transition-all duration-500 z-50 translate-y-4 group-hover/nav-item:translate-y-0">
+                        <div className="grid gap-1">
+                          {link.dropdown?.map((sub: any) => {
+                            const isSubActive = location.pathname === sub.to;
+                            return (
+                              <Link
+                                key={sub.name}
+                                to={sub.to}
+                                aria-current={isSubActive ? 'page' : undefined}
+                                className={`flex items-center justify-between px-5 py-4 text-[10px] font-black uppercase tracking-[0.15em] rounded-2xl transition-all whitespace-nowrap group/sub ${
+                                  isSubActive 
+                                  ? 'text-primary bg-primary/5' 
+                                  : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
+                                }`}
+                                onClick={() => {
+                                  trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
+                                  handleLinkClick(sub.to);
+                                }}
+                              >
+                                {sub.name}
+                                <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover/sub:opacity-100 -translate-x-3 group-hover/sub:translate-x-0 transition-all" />
+                              </Link>
+                            );
+                          })}
+                        </div>
+                      </div>
+                    </div>
+                  );
+                }
+
                 return (
-                  <div key={link.label || idx} className="relative group/nav-item">
-                    <button
-                      aria-haspopup="true"
-                      aria-expanded="false"
-                      className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-bold transition-all whitespace-nowrap ${
-                        isActive || link.dropdown?.some((d: any) => location.pathname === d.to)
-                        ? 'text-primary' 
-                        : 'text-text-secondary hover:text-primary'
+                  <div key={link.name || idx} className="relative">
+                    <Link
+                      to={link.to}
+                      onClick={() => {
+                        const trackLabel = (typeof link.name === 'string' ? link.name : 'Unknown');
+                        trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
+                        handleLinkClick(link.to);
+                      }}
+                      aria-current={isActive ? 'page' : undefined}
+                      className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-[0.15em] transition-all relative group whitespace-nowrap border border-transparent ${
+                        isActive 
+                        ? 'text-primary bg-primary/5 border-primary/10' 
+                        : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
                       }`}
                     >
                       {link.name}
-                      <ChevronDown className="w-4 h-4 transition-transform group-hover/nav-item:rotate-180" />
-                    </button>
-                    <div className="absolute top-full left-0 mt-1 w-52 bg-bg-primary border border-border rounded-2xl shadow-xl p-2 opacity-0 invisible group-hover/nav-item:opacity-100 group-hover/nav-item:visible transition-all duration-200 z-50">
-                      {link.dropdown?.map((sub: any) => {
-                        const isSubActive = location.pathname === sub.to;
-                        return (
-                          <Link
-                            key={sub.name}
-                            to={sub.to}
-                            aria-current={isSubActive ? 'page' : undefined}
-                            className={`block px-4 py-2.5 text-sm font-medium rounded-xl transition-colors whitespace-nowrap ${
-                              isSubActive 
-                              ? 'text-primary bg-primary/5' 
-                              : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
-                            }`}
-                            onClick={() => {
-                              trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
-                              handleLinkClick(sub.to);
-                            }}
-                          >
-                            {sub.name}
-                          </Link>
-                        );
-                      })}
-                    </div>
+                      {link.isNew && (
+                        <span className="px-1.5 py-0.5 rounded-md bg-primary text-[7px] text-white font-black uppercase tracking-widest absolute -top-1 -right-1 shadow-sm">New</span>
+                      )}
+                    </Link>
                   </div>
                 );
-              }
+              })}
+            </nav>
+          </div>
 
-              return (
-                <div key={link.label || idx} className="relative">
-                  <Link
-                    to={link.to}
-                    onClick={() => {
-                       // Use label if it exists, otherwise name
-                      const trackLabel = link.label || (typeof link.name === 'string' ? link.name : 'Unknown');
-                      trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
-                      handleLinkClick(link.to);
-                    }}
-                    aria-current={isActive ? 'page' : undefined}
-                    className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-bold transition-all relative group whitespace-nowrap ${
-                      isActive 
-                      ? 'text-primary' 
-                      : 'text-text-secondary hover:text-primary'
-                    }`}
-                  >
-                    {link.name}
-                    {link.isNew && (
-                      <span className="px-1.5 py-0.5 rounded-full bg-primary text-[8px] text-white font-black uppercase tracking-tighter">New</span>
-                    )}
-                    {isActive && (
-                      <motion.div
-                        layoutId="nav-active"
-                        className="absolute inset-0 bg-primary/10 rounded-xl -z-10 shadow-sm"
-                        transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
-                      />
-                    )}
-                    {!isActive && (
-                      <div className="absolute bottom-1 left-1/2 -translate-x-1/2 w-0 h-0.5 bg-primary/30 group-hover:w-1/3 transition-all duration-300 rounded-full" />
-                    )}
-                  </Link>
-                </div>
-              );
-            })}
+          {/* Right Section */}
+          <div className="flex items-center gap-6">
+            <div className="hidden xl:flex items-center bg-bg-secondary h-12 px-2 rounded-full border border-border shadow-inner">
+               <SearchAutocomplete />
+            </div>
 
-            {/* Categories Dropdown */}
-            <div className="relative ml-1">
-              <button
-                className={`flex items-center gap-1.5 px-3 py-2 rounded-xl text-[13px] font-bold transition-all ${
-                  isCategoriesOpen 
-                  ? 'text-primary bg-primary/10 shadow-sm' 
-                  : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
+            <div className="hidden lg:flex items-center gap-4 pl-4 border-l border-border/50">
+               <AuthButton />
+               
+               <Link
+                to="/subscription"
+                className={`flex items-center gap-3 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg ${
+                  location.pathname === '/subscription'
+                  ? 'bg-text-primary text-white'
+                  : 'bg-primary text-white shadow-primary/20 hover:scale-105'
                 }`}
-                aria-expanded={isCategoriesOpen}
-                onClick={() => setIsCategoriesOpen(!isCategoriesOpen)}
               >
-                Research <ChevronDown className={`w-3.5 h-3.5 transition-transform ${isCategoriesOpen ? 'rotate-180' : ''}`} />
+                <Crown className="w-4 h-4" />
+                Go Pro
+              </Link>
+
+               <Link
+                to="/my-library"
+                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all relative group shadow-sm border ${
+                  location.pathname === '/my-library'
+                  ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
+                  : 'bg-bg-secondary text-text-tertiary border-border hover:text-primary hover:border-primary/50 hover:bg-white'
+                }`}
+                title="My Library"
+              >
+                <Library className="w-5 h-5" />
+                <span className="absolute -top-1 -right-1 flex h-3 w-3">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary border-2 border-bg-primary"></span>
+                </span>
+              </Link>
+            </div>
+
+            <div className="lg:hidden flex items-center gap-3">
+               <ThemeToggle />
+               <button
+                onClick={() => setIsMenuOpen(!isMenuOpen)}
+                className="p-3 rounded-2xl bg-primary text-white hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 relative z-[60] active:scale-95"
+                aria-label="Toggle menu"
+              >
+                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
-              <AnimatePresence>
-                {isCategoriesOpen && (
-                  <motion.div 
-                    initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                    animate={{ opacity: 1, y: 0, scale: 1 }}
-                    exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                    className="absolute top-full right-0 mt-2 w-64 bg-bg-primary border border-border rounded-2xl shadow-xl p-3 z-50 overflow-hidden"
-                  >
-                    <div className="grid grid-cols-1 gap-1">
-                      {categories.map(cat => {
-                        const IconComponent = (Icons as any)[cat.icon];
-                        return (
-                        <Link
-                          key={cat.id}
-                          to={`/topics#${cat.id}`}
-                          className="flex items-center gap-3 px-4 py-3 text-text-secondary hover:text-primary font-medium hover:bg-bg-secondary rounded-xl transition-colors group"
-                          onClick={() => {
-                            setIsCategoriesOpen(false);
-                          }}
-                        >
-                          <div className="p-2 rounded-lg bg-bg-secondary group-hover:bg-primary/10 transition-colors">
-                            {IconComponent && <IconComponent className="w-4 h-4" />}
-                          </div>
-                          {cat.name}
-                        </Link>
-                      )})}
-                    </div>
-                    <div className="border-t border-border mt-3 pt-3 px-2">
-                      <Link 
-                        to="/topics" 
-                        className="block text-center py-2 bg-primary/10 text-primary font-bold rounded-xl hover:bg-primary/20 transition-colors text-sm"
-                        onClick={() => setIsCategoriesOpen(false)}
-                      >
-                        Browse all Topics
-                      </Link>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
             </div>
-            
-            <div className="w-[1px] h-6 bg-border mx-2" />
-            
-            <LanguageToggle />
-            
-            <div className="w-[1px] h-6 bg-border mx-2" />
-
-            <Link
-              to="/my-library"
-              className={`p-2 rounded-xl transition-all relative group ${
-                location.pathname === '/my-library'
-                ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                : 'bg-bg-secondary text-text-tertiary hover:text-primary hover:bg-primary/5'
-              }`}
-              title="My Library"
-            >
-              <Library className="w-5 h-5" />
-              <span className="absolute -top-1 -right-1 flex h-2.5 w-2.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2.5 w-2.5 bg-primary border-2 border-bg-primary"></span>
-              </span>
-            </Link>
-
-            <div className="w-[1px] h-6 bg-border mx-2" />
-
-            <AuthButton />
-
-            <div className="w-[1px] h-6 bg-border mx-2" />
-            
-            <ThemeToggle />
-          </nav>
-
-          {/* Search Bar & Mobile Buttons */}
-          <div className="flex items-center gap-3">
-            <div className="hidden md:flex items-center">
-              <SearchAutocomplete />
-            </div>
-
-            <ThemeToggle />
-            {/* Mobile Menu Button - Animated Hamburger */}
-            <button
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="lg:hidden p-2.5 rounded-xl bg-primary text-white hover:bg-primary/90 transition-colors shadow-lg shadow-primary/20 relative z-[60]"
-              aria-label="Toggle menu"
-            >
-              <div className="w-6 h-6 flex flex-col justify-center items-center gap-1.5">
-                <motion.span 
-                  animate={isMenuOpen ? { rotate: 45, y: 8 } : { rotate: 0, y: 0 }}
-                  className="w-full h-0.5 bg-white block rounded-full origin-center transition-all duration-300"
-                />
-                <motion.span 
-                  animate={isMenuOpen ? { opacity: 0, width: 0 } : { opacity: 1, width: "100%" }}
-                  className="w-full h-0.5 bg-white block rounded-full transition-all duration-300"
-                />
-                <motion.span 
-                  animate={isMenuOpen ? { rotate: -45, y: -8 } : { rotate: 0, y: 0 }}
-                  className="w-full h-0.5 bg-white block rounded-full origin-center transition-all duration-300"
-                />
-              </div>
-            </button>
           </div>
         </div>
       </div>
@@ -452,36 +459,21 @@ const Header: React.FC = () => {
               </motion.div>
               
               {/* Mobile Links */}
-              <div className="space-y-4">
+              <div className="space-y-6">
                 <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] px-2 italic">
                   Navigation
                 </h3>
-                <nav className="grid grid-cols-2 gap-3">
-                  {navLinks.map((link, idx) => {
-                    const isActive = location.pathname === link.to;
-                    return (
-                      <motion.div 
-                        key={link.label || idx} 
-                        variants={itemVariants}
-                        whileHover={{ scale: 1.05, rotateX: 10, rotateY: 5, z: 20 }}
-                        whileTap={{ scale: 0.95 }}
-                        style={{ transformStyle: "preserve-3d" }}
-                      >
-                        <Link
-                          to={link.to}
-                          className={`flex flex-col items-start justify-between min-h-[100px] p-5 rounded-3xl font-black transition-all border group ${
-                            isActive 
-                            ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' 
-                            : 'bg-bg-secondary text-text-primary border-transparent hover:border-primary/20 shadow-sm'
-                          }`}
-                          onClick={() => handleLinkClick(link.to)}
-                        >
-                          <span className="text-lg leading-tight">{link.name}</span>
-                          <ChevronRight className={`w-5 h-5 mt-auto self-end transition-transform group-hover:translate-x-1 ${isActive ? 'text-white' : 'text-text-secondary'}`} />
-                        </Link>
-                      </motion.div>
-                    );
-                  })}
+                <nav className="space-y-2">
+                  {navLinks.map((link: any, idx) => (
+                    <MobileNavLink
+                      key={link.name || idx}
+                      link={link}
+                      isActive={location.pathname === link.to}
+                      itemVariants={itemVariants}
+                      handleLinkClick={handleLinkClick}
+                      location={location}
+                    />
+                  ))}
                 </nav>
               </div>
 

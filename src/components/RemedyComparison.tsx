@@ -7,12 +7,13 @@ import { ComparisonData } from '../data/comparisonData';
 
 interface RemedyComparisonProps {
   remedies: ComparisonData[];
+  preSelectedId?: string;
 }
 
 type SortKey = 'name' | 'origin' | 'category';
 
-export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
-  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+export default function RemedyComparison({ remedies, preSelectedId }: RemedyComparisonProps) {
+  const [selectedIds, setSelectedIds] = useState<string[]>(preSelectedId ? [preSelectedId] : []);
   const [isComparing, setIsComparing] = useState(false);
   const [usage, setUsage] = useState<UsageStatus | null>(null);
   const [isLoadingUsage, setIsLoadingUsage] = useState(true);
@@ -66,7 +67,7 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
 
   const toggleSelection = (id: string) => {
     if (isComparing) setIsComparing(false); // Reset comparison view when changing selection
-    const max = usage?.maxRemedies || 5;
+    const max = usage?.isPremium ? 100 : (usage?.maxRemedies || 5);
     setSelectedIds(prev => 
       prev.includes(id) 
         ? prev.filter(i => i !== id) 
@@ -78,8 +79,10 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
     if (usage?.limitReached) return;
     
     setIsComparing(true);
-    const newUsage = await incrementComparisonCount();
-    setUsage(newUsage);
+    if (!usage?.isPremium) {
+      const newUsage = await incrementComparisonCount();
+      setUsage(newUsage);
+    }
     
     // Scroll to table
     setTimeout(() => {
@@ -129,12 +132,13 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
               </div>
             )}
             <div className={`px-4 py-2 rounded-xl text-xs font-black uppercase tracking-widest border ${usage?.isPremium ? 'bg-emerald-500/10 text-emerald-600 border-emerald-500/20' : 'bg-primary/10 text-primary border-primary/20'}`}>
-              {selectedIds.length} / {usage?.maxRemedies || 5} Selected
+              {selectedIds.length} / {usage?.isPremium ? 'Unlimited' : (usage?.maxRemedies || 5)} Selected
             </div>
-            {selectedIds.length > 0 && !isComparing && !usage?.limitReached && (
+            {selectedIds.length > 0 && !isComparing && (
               <button 
                 onClick={startComparison}
-                className="px-6 py-2 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all flex items-center gap-2"
+                disabled={!usage?.isPremium && usage?.limitReached && selectedIds.length > 0}
+                className="px-6 py-2 bg-primary text-white rounded-xl text-xs font-black uppercase tracking-widest shadow-lg shadow-primary/20 hover:scale-105 transition-all flex items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 Compare Now <ArrowRight className="w-3.5 h-3.5" />
               </button>
@@ -163,7 +167,7 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
                 onClick={() => toggleSort(key)}
                 className={`px-3 py-2 rounded-xl text-[10px] font-black uppercase tracking-widest border transition-all flex items-center gap-2 ${
                   sortKey === key 
-                  ? 'bg-primary text-white border-primary border-primary shadow-sm' 
+                  ? 'bg-primary text-white border-primary shadow-sm' 
                   : 'bg-bg-secondary text-text-secondary border-border hover:border-primary/30'
                 }`}
               >
@@ -181,12 +185,12 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
               <button
                 key={remedy.id}
                 onClick={() => toggleSelection(remedy.id)}
-                disabled={usage?.limitReached && !selectedIds.includes(remedy.id)}
+                disabled={(!usage?.isPremium && usage?.limitReached && !selectedIds.includes(remedy.id))}
                 className={`p-4 rounded-2xl border transition-all text-left group relative flex flex-col justify-between h-[100px] ${
                   selectedIds.includes(remedy.id)
                   ? 'bg-primary border-primary shadow-xl shadow-primary/20 -translate-y-1'
                   : 'bg-bg-primary border-border hover:border-primary/50 text-text-primary'
-                } ${usage?.limitReached && !selectedIds.includes(remedy.id) ? 'opacity-50 cursor-not-allowed' : ''}`}
+                } ${(!usage?.isPremium && usage?.limitReached && !selectedIds.includes(remedy.id)) ? 'opacity-50 cursor-not-allowed' : ''}`}
               >
                 <div>
                   <div className={`text-[10px] font-black uppercase tracking-widest mb-1 ${selectedIds.includes(remedy.id) ? 'text-white/60' : 'text-text-secondary opacity-50'}`}>
@@ -230,12 +234,12 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
               >
                 <ChevronLeft className="w-4 h-4" />
               </button>
-              <div className="flex gap-1">
+              <div className="flex gap-1 overflow-x-auto max-w-[150px] sm:max-w-none no-scrollbar">
                 {Array.from({ length: totalPages }).map((_, i) => (
                   <button
                     key={i}
                     onClick={() => setCurrentPage(i + 1)}
-                    className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all ${
+                    className={`w-8 h-8 rounded-lg text-[10px] font-black transition-all flex-shrink-0 ${
                       currentPage === i + 1 
                       ? 'bg-primary text-white shadow-sm' 
                       : 'bg-bg-primary border border-border text-text-secondary hover:bg-bg-secondary'
@@ -260,7 +264,7 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
       {/* Comparison Table / Paywall */}
       <div id="comparison-table">
         <AnimatePresence mode="wait">
-          {usage?.limitReached ? (
+          {!usage?.isPremium && usage?.limitReached && isComparing ? (
             <motion.div
               key="paywall"
               initial={{ opacity: 0, scale: 0.95 }}
@@ -275,168 +279,174 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: 20 }}
-              className="overflow-x-auto rounded-[2.5rem] border border-border shadow-2xl bg-bg-primary"
+              className="bg-bg-primary border border-border shadow-2xl rounded-[2.5rem] overflow-hidden"
             >
-              <table className="w-full border-collapse">
-                <thead>
-                  <tr>
-                    <th className="p-8 bg-bg-secondary text-left border-r border-border min-w-[200px] sticky left-0 z-10 shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
-                      <div className="flex items-center gap-2 text-primary">
-                        <Sparkles className="w-4 h-4" />
-                        <span className="text-xs font-black uppercase tracking-[0.2em]">Key Aspects</span>
-                      </div>
-                    </th>
-                    {selectedRemedies.map(remedy => (
-                      <th key={remedy.id} className="p-8 border-r border-border last:border-r-0 min-w-[280px]">
-                        <div className="flex flex-col items-center">
-                          <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center text-primary mb-4">
-                            <Info className="w-8 h-8" />
-                          </div>
-                          <h4 className="text-xl font-display font-black text-text-primary uppercase tracking-tight truncate max-w-full px-2 text-center">{remedy.name}</h4>
-                          <span className="text-[10px] font-bold text-text-secondary uppercase tracking-[0.3em] mt-1 line-clamp-1">{remedy.origin}</span>
-                          <span className="mt-2 px-3 py-1 rounded-full bg-primary/5 text-primary text-[8px] font-black uppercase tracking-widest border border-primary/10">{remedy.category}</span>
+              <div className="overflow-x-auto scrollbar-thin scrollbar-thumb-primary/20">
+                <table className="w-full border-collapse">
+                  <thead>
+                    <tr>
+                      <th className="p-4 md:p-8 bg-bg-secondary text-left border-r border-b border-border min-w-[140px] md:min-w-[200px] sticky left-0 z-20 shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
+                        <div className="flex items-center gap-2 text-primary">
+                          <Sparkles className="w-3 md:w-4 h-3 md:h-4" />
+                          <span className="text-[10px] md:text-xs font-black uppercase tracking-[0.2em]">Key Aspects</span>
                         </div>
                       </th>
-                    ))}
-                  </tr>
-                </thead>
-                <tbody className="text-sm">
-                  {[
-                    { label: 'Thermal Pattern', key: 'thermal', icon: Thermometer },
-                    { label: 'Key Difference', key: 'keyDifference', icon: Scale },
-                    { label: 'Differential Modality', key: 'keyCharacteristic', icon: Target },
-                    { label: 'Thirsty Habits', key: 'thirst', icon: Droplets },
-                  ].map((row, i) => (
-                    <tr key={row.key} className={i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/30'}>
-                      <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-inherit shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
-                        <div className="flex items-center gap-3">
-                           <div className="p-2 bg-primary/5 rounded-lg">
-                             <row.icon className="w-3.5 h-3.5 text-primary" />
-                           </div>
-                           {row.label}
-                        </div>
-                      </td>
                       {selectedRemedies.map(remedy => (
-                        <td key={remedy.id} className="p-8 border-r border-border last:border-r-0 font-medium text-text-secondary leading-relaxed">
-                          {(remedy as any)[row.key]}
-                        </td>
+                        <th key={remedy.id} className="p-6 md:p-8 border-r border-b border-border last:border-r-0 min-w-[280px] md:min-w-[320px] bg-bg-primary sticky top-0 z-10">
+                          <div className="flex flex-col items-center">
+                            <div className="w-12 h-12 md:w-16 md:h-16 rounded-2xl md:rounded-3xl bg-primary/10 flex items-center justify-center text-primary mb-4">
+                              <Info className="w-6 h-6 md:w-8 md:h-8" />
+                            </div>
+                            <h4 className="text-lg md:text-xl font-display font-black text-text-primary uppercase tracking-tight truncate max-w-full px-2 text-center">{remedy.name}</h4>
+                            <span className="text-[9px] md:text-[10px] font-bold text-text-secondary uppercase tracking-[0.15em] md:tracking-[0.3em] mt-1 line-clamp-1">{remedy.origin}</span>
+                          </div>
+                        </th>
                       ))}
                     </tr>
-                  ))}
-                  
-                  {/* Expanded Fields */}
-                  {[
-                    { label: 'Key Patterns', key: 'keyPatterns', icon: Target },
-                    { label: 'Related Conditions', key: 'relatedConditions', icon: Activity },
-                    { label: 'Clinical Applications', key: 'clinicalApplications', icon: ClipboardList },
-                  ].map((row, i) => (
-                    <tr key={row.key} className={i % 2 === 1 ? 'bg-bg-primary' : 'bg-bg-secondary/30'}>
-                      <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-inherit shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
+                  </thead>
+                  <tbody className="text-sm">
+                    {[
+                      { label: 'Thermal Pattern', key: 'thermal', icon: Thermometer },
+                      { label: 'Key Difference', key: 'keyDifference', icon: Scale },
+                      { label: 'Differential Modality', key: 'keyCharacteristic', icon: Target },
+                      { label: 'Thirsty Habits', key: 'thirst', icon: Droplets },
+                    ].map((row, i) => (
+                      <tr key={row.key} className={i % 2 === 0 ? 'bg-bg-primary' : 'bg-bg-secondary/30'}>
+                        <td className="p-4 md:p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[9px] md:text-[11px] sticky left-0 z-10 bg-inherit shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
+                          <div className="flex items-center gap-2 md:gap-3">
+                             <div className="p-1.5 md:p-2 bg-primary/5 rounded-lg">
+                               <row.icon className="w-3 md:w-3.5 h-3 md:h-3.5 text-primary" />
+                             </div>
+                             {row.label}
+                          </div>
+                        </td>
+                        {selectedRemedies.map(remedy => (
+                          <td key={remedy.id} className="p-4 md:p-8 border-r border-border last:border-r-0 font-medium text-text-secondary leading-relaxed break-words">
+                            <div className={`p-4 rounded-2xl ${row.key === 'keyDifference' ? 'bg-accent/5 border border-accent/10' : ''}`}>
+                              {row.key === 'keyDifference' && <span className="block text-[8px] md:text-[9px] font-black uppercase tracking-widest text-accent mb-2">Differential Verdict:</span>}
+                              <div className="text-xs md:text-sm">
+                                {(remedy as any)[row.key] || 'Data entry in progress...'}
+                              </div>
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+                    
+                    {/* Expanded Fields */}
+                    {[
+                      { label: 'Key Patterns', key: 'keyPatterns', icon: Target },
+                      { label: 'Related Conditions', key: 'relatedConditions', icon: Activity },
+                      { label: 'Clinical Applications', key: 'clinicalApplications', icon: ClipboardList },
+                    ].map((row, i) => (
+                      <tr key={row.key} className={i % 2 === 1 ? 'bg-bg-primary' : 'bg-bg-secondary/30'}>
+                        <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-inherit shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
+                          <div className="flex items-center gap-3">
+                             <div className="p-2 bg-primary/5 rounded-lg">
+                               <row.icon className="w-3.5 h-3.5 text-primary" />
+                             </div>
+                             {row.label}
+                          </div>
+                        </td>
+                        {selectedRemedies.map(remedy => (
+                          <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
+                            <div className="flex flex-wrap gap-2">
+                               {((remedy as any)[row.key] || []).map((item: string, idx: number) => (
+                                 <span key={`${remedy.id}-${row.key}-${idx}`} className="px-3 py-1 bg-primary/5 text-primary rounded-lg text-[10px] font-bold border border-primary/10">
+                                   {item}
+                                 </span>
+                               ))}
+                            </div>
+                          </td>
+                        ))}
+                      </tr>
+                    ))}
+
+                    <tr className="bg-bg-primary">
+                      <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-bg-primary shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
                         <div className="flex items-center gap-3">
-                           <div className="p-2 bg-primary/5 rounded-lg">
-                             <row.icon className="w-3.5 h-3.5 text-primary" />
+                             <div className="p-2 bg-[#166534]/5 rounded-lg">
+                               <Check className="w-3.5 h-3.5 text-[#166534]" />
+                             </div>
+                             Amelioration (Better)
                            </div>
-                           {row.label}
-                        </div>
                       </td>
                       {selectedRemedies.map(remedy => (
                         <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
                           <div className="flex flex-wrap gap-2">
-                             {((remedy as any)[row.key] || []).map((item: string, idx: number) => (
-                               <span key={`${remedy.id}-${row.key}-${idx}`} className="px-3 py-1 bg-primary/5 text-primary rounded-lg text-[10px] font-bold border border-primary/10">
-                                 {item}
-                               </span>
-                             ))}
+                            {remedy.betterWith.map((item, idx) => (
+                              <span key={`${remedy.id}-better-${idx}`} className="px-3 py-1 bg-[#DCFCE7] text-[#166534] dark:bg-[#14532D] dark:text-[#DCFCE7] rounded-lg text-xs font-bold border border-[#166534]/10">
+                                {item}
+                              </span>
+                            ))}
                           </div>
                         </td>
                       ))}
                     </tr>
-                  ))}
-
-                  <tr className="bg-bg-primary">
-                    <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-bg-primary shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
-                      <div className="flex items-center gap-3">
-                           <div className="p-2 bg-[#166534]/5 rounded-lg">
-                             <Check className="w-3.5 h-3.5 text-[#166534]" />
+                    <tr className="bg-bg-secondary/30">
+                      <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-inherit shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
+                         <div className="flex items-center gap-3">
+                             <div className="p-2 bg-[#991B1B]/5 rounded-lg">
+                               <X className="w-3.5 h-3.5 text-[#991B1B]" />
+                             </div>
+                             Aggravation (Worse)
                            </div>
-                           Amelioration (Better)
-                         </div>
-                    </td>
-                    {selectedRemedies.map(remedy => (
-                      <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
-                        <div className="flex flex-wrap gap-2">
-                          {remedy.betterWith.map((item, idx) => (
-                            <span key={`${remedy.id}-better-${idx}`} className="px-3 py-1 bg-[#DCFCE7] text-[#166534] dark:bg-[#14532D] dark:text-[#DCFCE7] rounded-lg text-xs font-bold border border-[#166534]/10">
-                              {item}
-                            </span>
-                          ))}
+                      </td>
+                      {selectedRemedies.map(remedy => (
+                        <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
+                          <div className="flex flex-wrap gap-2">
+                            {remedy.worseWith.map((item, idx) => (
+                              <span key={`${remedy.id}-worse-${idx}`} className="px-3 py-1 bg-[#FEE2E2] text-[#991B1B] dark:bg-[#7F1D1D] dark:text-[#FEE2E2] rounded-lg text-xs font-bold border border-[#991B1B]/10">
+                                {item}
+                              </span>
+                            ))}
+                          </div>
+                        </td>
+                      ))}
+                    </tr>
+                    
+                    {/* Pro Section */}
+                    <tr className="bg-primary/5">
+                      <td className="p-8 border-r border-border sticky left-0 z-10 bg-bg-primary shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
+                        <div className="flex flex-col gap-2">
+                          <div className="flex items-center gap-2 text-primary">
+                            <Crown className="w-4 h-4" />
+                            <span className="text-[10px] font-black uppercase tracking-widest">Pro Verdict</span>
+                          </div>
+                          <span className="text-[11px] font-black text-text-primary uppercase tracking-widest">Differential Analysis</span>
                         </div>
                       </td>
-                    ))}
-                  </tr>
-                  <tr className="bg-bg-secondary/30">
-                    <td className="p-8 border-r border-border font-black text-text-primary uppercase tracking-widest text-[11px] sticky left-0 z-10 bg-inherit shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
-                       <div className="flex items-center gap-3">
-                           <div className="p-2 bg-[#991B1B]/5 rounded-lg">
-                             <X className="w-3.5 h-3.5 text-[#991B1B]" />
-                           </div>
-                           Aggravation (Worse)
-                         </div>
-                    </td>
-                    {selectedRemedies.map(remedy => (
-                      <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
-                        <div className="flex flex-wrap gap-2">
-                          {remedy.worseWith.map((item, idx) => (
-                            <span key={`${remedy.id}-worse-${idx}`} className="px-3 py-1 bg-[#FEE2E2] text-[#991B1B] dark:bg-[#7F1D1D] dark:text-[#FEE2E2] rounded-lg text-xs font-bold border border-[#991B1B]/10">
-                              {item}
-                            </span>
-                          ))}
-                        </div>
-                      </td>
-                    ))}
-                  </tr>
-                  
-                  {/* Pro Section */}
-                  <tr className="bg-primary/5">
-                    <td className="p-8 border-r border-border sticky left-0 z-10 bg-bg-primary shadow-[2px_0_10px_rgba(0,0,0,0.02)]">
-                      <div className="flex flex-col gap-2">
-                        <div className="flex items-center gap-2 text-primary">
-                          <Crown className="w-4 h-4" />
-                          <span className="text-[10px] font-black uppercase tracking-widest">Pro Verdict</span>
-                        </div>
-                        <span className="text-[11px] font-black text-text-primary uppercase tracking-widest">Differential Analysis</span>
-                      </div>
-                    </td>
-                    {selectedRemedies.map(remedy => (
-                      <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
-                        {usage?.isPremium ? (
-                          <div className="space-y-4">
-                            <p className="text-sm font-medium text-text-secondary leading-relaxed italic">
-                              {remedy.name} primarily presents with a {remedy.tendency.toLowerCase()} profile. Focus on the {remedy.keyCharacteristic} for definitive identification in complex clinical cases.
-                            </p>
-                            <div className="bg-bg-primary/50 p-4 rounded-2xl border border-primary/10">
-                               <span className="text-[9px] font-black uppercase tracking-widest text-primary block mb-2">Key Patterns for {remedy.name}:</span>
-                               <ul className="space-y-1">
-                                 {(remedy.keyPatterns || []).map((p, i) => (
-                                   <li key={i} className="text-[11px] font-bold text-text-primary flex items-center gap-2">
-                                     <span className="w-1 h-1 bg-primary rounded-full" />
-                                     {p}
-                                   </li>
-                                 ))}
-                               </ul>
+                      {selectedRemedies.map(remedy => (
+                        <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
+                          {usage?.isPremium ? (
+                            <div className="space-y-4">
+                              <p className="text-sm font-medium text-text-secondary leading-relaxed italic">
+                                {remedy.name} primarily presents with a {remedy.tendency.toLowerCase()} profile. Focus on the {remedy.keyCharacteristic} for definitive identification in complex clinical cases.
+                              </p>
+                              <div className="bg-bg-primary/50 p-4 rounded-2xl border border-primary/10">
+                                 <span className="text-[9px] font-black uppercase tracking-widest text-primary block mb-2">Key Patterns for {remedy.name}:</span>
+                                 <ul className="space-y-1">
+                                   {(remedy.keyPatterns || []).map((p, i) => (
+                                     <li key={i} className="text-[11px] font-bold text-text-primary flex items-center gap-2">
+                                       <span className="w-1 h-1 bg-primary rounded-full" />
+                                       {p}
+                                     </li>
+                                   ))}
+                                 </ul>
+                              </div>
                             </div>
-                          </div>
-                        ) : (
-                          <div className="flex flex-col items-center gap-4 py-4 blur-[2px] select-none pointer-events-none opacity-50">
-                             <Lock className="w-6 h-6 text-text-tertiary" />
-                             <p className="text-[10px] font-black uppercase tracking-widest text-center">Unlocks with Pro Plan</p>
-                          </div>
-                        )}
-                      </td>
-                    ))}
-                  </tr>
-                </tbody>
-              </table>
+                          ) : (
+                            <div className="flex flex-col items-center gap-4 py-4 blur-[2px] select-none pointer-events-none opacity-50">
+                               <Lock className="w-6 h-6 text-text-tertiary" />
+                               <p className="text-[10px] font-black uppercase tracking-widest text-center">Unlocks with Pro Access</p>
+                            </div>
+                          )}
+                        </td>
+                      ))}
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </motion.div>
           ) : (
             <div className="p-20 text-center bg-bg-secondary rounded-[3rem] border border-dashed border-border border-spacing-4">
@@ -445,9 +455,9 @@ export default function RemedyComparison({ remedies }: RemedyComparisonProps) {
                </div>
                <h4 className="text-xl font-black text-text-primary uppercase tracking-tight">Select <span className="text-primary italic">Remedies</span></h4>
                <p className="text-text-secondary font-medium mt-2 max-w-md mx-auto">
-                 {usage?.limitReached 
-                   ? "You have reached your free comparison limit." 
-                   : `Pick up to ${usage?.maxRemedies || 5} remedies from the grid above and click 'Compare Now' to see a detailed analysis.`
+                 {usage?.limitReached && !usage?.isPremium
+                   ? "You have reached your free comparison limit. Login to unlock unlimited comparisons." 
+                   : `Pick remedies from the grid above and click 'Compare Now' to see a detailed side-by-side analysis.`
                  }
                </p>
             </div>

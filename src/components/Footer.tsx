@@ -44,26 +44,26 @@ const Footer: React.FC = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-text-primary font-display font-black mb-10 italic text-[10px] uppercase tracking-[0.2em] opacity-50">Navigation</h4>
-            <ul className="space-y-5 text-sm font-black uppercase tracking-tight">
+            <h4 className="text-text-primary font-display font-medium mb-10 italic text-[10px] uppercase tracking-[0.2em] opacity-50">Navigation</h4>
+            <ul className="space-y-5 text-sm font-bold uppercase tracking-tight">
               <li><Link to="/" className="text-text-secondary hover:text-primary transition-colors">Home</Link></li>
-              <li><Link to="/study-tool" className="text-text-secondary hover:text-primary transition-colors">Clinical Recall Tool</Link></li>
-              <li><Link to="/student-resources" className="text-text-secondary hover:text-primary transition-colors">Student Resources</Link></li>
-              <li><Link to="/organon-philosophy" className="text-primary flex items-center gap-2 group">Organon <Sparkles className="w-3 h-3 group-hover:scale-125 transition-transform" /></Link></li>
-              <li><Link to="/topics" className="text-text-secondary hover:text-primary transition-colors">Research Database</Link></li>
-              <li><Link to="/materia-medica" className="text-text-secondary hover:text-primary transition-colors">Materia Medica</Link></li>
-              <li><Link to="/marketplace" className="text-emerald-500 hover:text-emerald-600 transition-colors flex items-center gap-2">Marketplace <span className="text-[10px] bg-emerald-500/10 px-1.5 py-0.5 rounded-full">New</span></Link></li>
+              <li><Link to="/glossary" className="text-text-secondary hover:text-primary transition-colors">Glossary</Link></li>
+              <li><Link to="/research" className="text-text-secondary hover:text-primary transition-colors">Research Database</Link></li>
+              <li><Link to="/stalwarts" className="text-text-secondary hover:text-primary transition-colors">Stalwarts</Link></li>
+              <li><Link to="/analysis" className="text-text-secondary hover:text-primary transition-colors">Analysis Tool</Link></li>
+              <li><Link to="/library" className="text-text-secondary hover:text-primary transition-colors">Library</Link></li>
+              <li><Link to="/subscription" className="text-accent hover:text-accent/80 transition-colors flex items-center gap-2">Go Pro <Sparkles className="w-3 h-3" /></Link></li>
             </ul>
           </div>
 
           {/* Resources */}
           <div>
-            <h4 className="text-text-primary font-display font-black mb-10 italic text-[10px] uppercase tracking-[0.2em] opacity-50">Organization</h4>
-            <ul className="space-y-5 text-sm font-black uppercase tracking-tight">
-              <li><Link to="/about-us" className="text-text-secondary hover:text-primary transition-colors">About Story</Link></li>
-              <li><Link to="/feedback" className="text-text-secondary hover:text-primary transition-colors">Submit Feedback</Link></li>
+            <h4 className="text-text-primary font-display font-medium mb-10 italic text-[10px] uppercase tracking-[0.2em] opacity-50">Information</h4>
+            <ul className="space-y-5 text-sm font-bold uppercase tracking-tight">
+              <li><Link to="/about" className="text-text-secondary hover:text-primary transition-colors">Our Philosophy</Link></li>
+              <li><Link to="/support" className="text-text-secondary hover:text-primary transition-colors">Support & Contact</Link></li>
               <li><Link to="/faq" className="text-text-secondary hover:text-primary transition-colors">FAQ Center</Link></li>
-              <li><Link to="/medical-disclaimer" className="text-red-500/70 hover:text-red-500 transition-colors">Legal Policy</Link></li>
+              <li><Link to="/disclaimer" className="text-red-500/70 hover:text-red-500 transition-colors">Medical Disclaimer</Link></li>
             </ul>
           </div>
 

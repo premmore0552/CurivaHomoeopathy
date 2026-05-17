@@ -2,9 +2,389 @@ import { BlogPost } from '../types';
 
 export const allBlogPosts: BlogPost[] = [
   {
+    id: 'agaricus-muscarius',
+    seoTitle: 'Agaricus Muscarius in Homeopathy: Twitching, Spasms & Chilly Needles',
+    title: 'Agaricus Muscarius: The Remedy for Twitching and Cold Needles',
+    slug: 'agaricus-muscarius',
+    excerpt: 'Explore Agaricus (Bug Agaric) - a powerful remedy for nervous systems characterized by twitching, trembling, and unusual cold sensations.',
+    quickSummary: [
+      'Jerking and involuntary twitching of muscles',
+      'Sensation of "icy cold needles" piercing tissues',
+      'Burning and itching of the skin, especially in chilblains'
+    ],
+    keyPatterns: [
+      'Spine is extremely sensitive to touch and pressure',
+      'Trembling of all limbs, especially after physical exertion',
+      'Tumultuous heartbeat with a cold feeling in the chest',
+      'Better after sleep and in the open air'
+    ],
+    whoItSuits: 'Individuals suffering from nervous exhaustion, tremors, or "chilly" temperaments who find their symptoms worsen during thunderstorms.',
+    whenToConsider: [
+      'Involuntary twitching of the eyelids or face',
+      'Painful chilblains that itch intolerably',
+      'Neuralgia that feels like cold needles run through nerves',
+      'Irregular heart palpitations accompanied by trembling'
+    ],
+    modalities: {
+      better: ['Open air', 'Moving about'],
+      worse: ['After eating', 'Cold air', 'Before a thunderstorm', 'After physical effort']
+    },
+    comparisons: [
+      {
+        remedyName: 'Ignatia',
+        differences: 'Both have twitching, but Ignatia is driven by grief and paradoxical emotions, while Agaricus is driven by objective nervous weakness and sensitivity to touch.',
+      }
+    ],
+    content: `Agaricus Muscarius, prepared from the Bug Agaric fungus, is a premier remedy for conditions involving the nerves and muscle coordination. 
+
+The most characteristic physical sign is **jerking and twitching**. This may manifest as simple eye twitching or more complex involuntary movements of the limbs. Accompanying these movements is a peculiar sensation of **icy cold needles** or "ice-cold pins" being run through the nerves.
+
+It is also famously used for chilblains (skin sores caused by cold)—whenever they are red, swollen, and itch or burn intensely, Agaricus can provide relief. The patient's spine is often so sensitive that the slightest touch causes pain or a dazed mental state where they talk or sing but fail to answer direct questions.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/agaricus/800/600',
+    tags: ['Nerves', 'Twitching', 'Agaricus Muscarius'],
+    relatedRemedies: ['agaricus', 'ignatia'],
+    relatedCarePlans: [{ name: 'Nervous System Health', linkId: '/guide/nervous-health' }]
+  },
+  {
+    id: 'agnus-castus',
+    seoTitle: 'Agnus Castus in Homeopathy: Vitality, Memory & Nursing',
+    title: 'Agnus Castus: Restoring Vitality and Mental Focus',
+    slug: 'agnus-castus',
+    excerpt: 'Learn about Agnus Castus (Chaste Tree) - a remedy for premature old age, low vitality, and the mental fog of over-exhaustion.',
+    quickSummary: [
+      'Low sexual vitality and physical relaxation',
+      'Scanty or suppressed milk in nursing mothers',
+      'Deep sadness and fear of approaching death'
+    ],
+    keyPatterns: [
+      'Absent-mindedness and inability to focus',
+      'Parts feel cold, relaxed, and sluggish',
+      'Impotence with chronic urethral discharge (gleet)',
+      'Aversion to mental labor and lack of courage'
+    ],
+    whoItSuits: 'Individuals who feel they have "used up" their vitality prematurely, leading to mental fog, depression, and physical lethargy.',
+    whenToConsider: [
+      'Low energy levels and mental "blankness"',
+      'Mothers struggling with insufficient breast milk',
+      'Premature aging or physical weakness following excess',
+      'Sadness where the patient believes they will die soon'
+    ],
+    modalities: {
+      better: ['Moving about'],
+      worse: ['Rest', 'Being alone']
+    },
+    comparisons: [
+      {
+        remedyName: 'Nux Vomica',
+        differences: 'Both have low energy from overindulgence, but Nux is irritable and driven, while Agnus is sad, relaxed, and dazed.',
+      }
+    ],
+    content: `Agnus Castus, or the Chaste Tree, acts deeply on the nervous and reproductive systems. It is often indicated for the "prematurely old"—those who have exhausted their vital forces and now suffer from deep physical and mental relaxation.
+
+One of its most prominent clinical uses is for nursing mothers when their milk is scanty or entirely suppressed, often accompanied by a state of deep despondency. 
+
+Mentally, the patient is characterized by an **inability to fix the attention**. They are absent-minded, lack courage, and may have a fixed delusion that their death is imminent. Physically, areas of the body feel cold and sluggish, reflecting the low overall vitality that Agnus Castus helps to stimulate and restore.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/agnus/800/600',
+    tags: ['Vitality', 'Nursing', 'Mental Fog', 'Agnus Castus'],
+    relatedRemedies: ['agnus-castus', 'nux-vomica'],
+    relatedCarePlans: [{ name: 'Post-Partum Care', linkId: '/guide/womens-wellness' }]
+  },
+  {
+    id: 'allium-cepa-remedy',
+    seoTitle: 'Allium Cepa in Homeopathy: Acrid Coryza, Hay Fever & Cough',
+    title: 'Allium Cepa: The Remedy for "Onion-Style" Colds and Allergies',
+    slug: 'allium-cepa-remedy',
+    excerpt: 'Discover Allium Cepa (Red Onion) - the premier remedy for colds with burning nasal discharge and teary eyes.',
+    quickSummary: [
+      'Acrid nasal discharge that burns the skin',
+      'Bland lachrymation (tears) that do NOT burn the eyes',
+      'Intense sneezing, especially when entering a warm room'
+    ],
+    keyPatterns: [
+      'Ailments often start after exposure to damp cold winds',
+      'Symptoms are significantly better in a cold room or open air',
+      'Laryngeal cough that feels like it will "tear the throat"',
+      'Peculiar sensation of a "long thread" of neuralgic pain'
+    ],
+    whoItSuits: 'Individuals suffering from acute hay fever or colds where the nose and eyes run profusely, especially worse in warm indoor environments.',
+    whenToConsider: [
+      'Intense, repetitive sneezing fits',
+      'Respiratory allergies triggered by seasonal pollen',
+      'Nasal discharge that makes the upper lip sore and red',
+      'Coughing that causes the patient to grasp their throat'
+    ],
+    modalities: {
+      better: ['Cold room', 'Open air'],
+      worse: ['Warm room', 'Evening']
+    },
+    comparisons: [
+      {
+        remedyName: 'Euphrasia',
+        differences: 'Allium Cepa has acrid nose/bland eyes. Euphrasia has bland nose/ACRID eyes (tears burn the cheeks).',
+        linkId: '/read/allergic-rhinitis'
+      }
+    ],
+    content: `Allium Cepa, prepared from the Red Onion, perfectly illustrates the Law of Similars. Just as peeling an onion causes the nose to run and eyes to water, this remedy is used to heal those very symptoms when they occur during a cold or allergy.
+
+The signature of Allium Cepa is the **acridity of the nasal discharge**—it burns the upper lip and the area around the nose. Paradoxically, while the eyes water profusely, the **tears are bland** and do not burn the cheeks (the opposite of Euphrasia).
+
+Patients often find they are much worse in a warm room and experience an immediate relief of symptoms upon stepping into the cool, open air. The cough is also characteristic: it is violent and causes a sensation as if the larynx were being torn, leading the patient to instinctively clutch their throat for support.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/cepa/800/600',
+    tags: ['Allergies', 'Common Cold', 'Allium Cepa'],
+    relatedRemedies: ['allium-cepa', 'euphrasia'],
+    relatedCarePlans: [{ name: 'Respiratory Freedom', linkId: '/guide/respiratory-health' }]
+  },
+  {
+    id: 'aloe-socotrina',
+    seoTitle: 'Aloe Socotrina in Homeopathy: Digestion, Hemorrhoids & Urgency',
+    title: 'Aloe Socotrina: Relief for Digestive Urgency and Congestion',
+    slug: 'aloe-socotrina',
+    excerpt: 'Learn about Aloe - a leading remedy for digestive "accidents," morning diarrhea, and grape-like hemorrhoids.',
+    quickSummary: [
+      'Sudden morning diarrhea that "drives from bed"',
+      'Insecurity of the rectal muscles (fear of accidents)',
+      'Hemorrhoids like "a bunch of grapes," better from cold water'
+    ],
+    keyPatterns: [
+      'Abdomen feels bloated, heavy, and hot',
+      'Passage of jelly-like mucus in the stools',
+      'Aversion to mental labor; feels dissatisfied and grumpy',
+      'Headache across the forehead, relieved by cold'
+    ],
+    whoItSuits: 'Individuals who suffer from chronic digestive weakness, portal congestion, and a lack of control over their bowel functions.',
+    whenToConsider: [
+      'Urgent diarrhea early in the morning',
+      'Painful, protruding hemorrhoids that burn',
+      'Bloating and rumbling in the abdomen before stool',
+      'Headaches accompanied by digestive disturbances'
+    ],
+    modalities: {
+      better: ['Cold water', 'Open air', 'Cold applications'],
+      worse: ['Hot weather', 'Early morning', 'After eating or drinking']
+    },
+    comparisons: [
+      {
+        remedyName: 'Sulphur',
+        differences: 'Both have morning diarrhea driving from bed, but Sulphur is for those with heat/burning in feet and skin, whereas Aloe has the specific "sphincter insecurity" and jelly-like stools.',
+      }
+    ],
+    content: `Aloe Socotrina is a powerful remedy with a specific affinity for the liver and the entire intestinal tract. It is characterized by intense venous congestion, particularly in the portal system.
+
+The most famous symptom of Aloe is the **morning diarrhea that "drives the patient out of bed"** at 5 AM. This is often accompanied by an extreme **insecurity of the rectal sphincter**—the patient feels they cannot trust themselves to pass gas without a stool escaping.
+
+Stools are typically accompanied by a large amount of flatulence and may contain distinctive "jelly-like" mucus. It is also a premier remedy for hemorrhoids that are large, purple, and protrude like a "bunch of grapes," providing great relief when washed with cold water. Mentally, the patient is often dissatisfied with themselves and finds it difficult to engage in any mental work.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/aloe/800/600',
+    tags: ['Digestion', 'Hemorrhoids', 'Aloe Socotrina'],
+    relatedRemedies: ['aloe', 'sulphur'],
+    relatedCarePlans: [{ name: 'Gut Recovery', linkId: '/guide/digestive-issues' }]
+  },
+  {
+    id: 'aceticum-acidum',
+    seoTitle: 'Aceticum Acidum in Homeopathy: Hemorrhage, Thirst & Dropsy',
+    title: 'Aceticum Acidum: The Remedy for Deep Exhaustion and Hemorrhage',
+    slug: 'aceticum-acidum',
+    excerpt: 'Discover Aceticum Acidum - an essential remedy for pale, lean individuals suffering from intense thirst and deep-seated weakness.',
+    quickSummary: [
+      'Intense, unquenchable thirst even for large quantities',
+      'Pale, waxy, flabby appearance',
+      'Hemorrhages from every mucous outlet'
+    ],
+    keyPatterns: [
+      'Deep prostration after injury or surgical shock',
+      'Cannot sleep lying on the back (must lie on belly)',
+      'Thirst is constant in dropsy and diabetes, but absent in fever',
+      'Copious night sweats and exhausted diarrhea'
+    ],
+    whoItSuits: 'Individuals who are pale, lean, and physically "flabby," often suffering from chronic wasting diseases or recovering from severe shock.',
+    whenToConsider: [
+      'Intense thirst that cannot be satisfied',
+      'Recovery after surgery or heavy trauma',
+      'Chronic diarrhea accompanied by night sweats',
+      'Symptoms that feel better when lying on the stomach'
+    ],
+    modalities: {
+      better: ['Lying on the belly'],
+      worse: ['Lying on the back', 'Cold air', 'Sleep']
+    },
+    comparisons: [
+      {
+        remedyName: 'Arsenicum',
+        differences: 'Both have great thirst and weakness. Acetic Acid has thirst during dropsy but NOT in fever; Arsenicum has thirst in all stages.',
+        linkId: '/read/arsenicum-album'
+      }
+    ],
+    content: `Aceticum Acidum, or Glacial Acetic Acid, is a powerful remedy for deep-seated wasting conditions. It is specifically adapted to individuals who appear pale, waxy, and have lax, flabby muscles. 
+
+One of the most striking keynotes of this remedy is the **intense, insatiable thirst**. The patient craves large quantities of water, yet paradoxically, they may have no thirst during a fever stage. 
+
+Physically, there is a strong tendency toward hemorrhage from any mucous outlet—nose, lungs, stomach, or bowels. It is a leading remedy for surgical shock or the aftermath of severe injuries where prostration is extreme. 
+
+Sleep is also characteristic: the patient finds it impossible to sleep on their back and must lie on their belly to find rest. Often, a bright red spot is seen on the left cheek during hectic fevers.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/acetic/800/600',
+    tags: ['Thirst', 'Exhaustion', 'Materia Medica', 'Aceticum Acidum'],
+    relatedRemedies: ['aceticvm-acidum', 'arsenicum-album'],
+    relatedCarePlans: [{ name: 'Diabetes Support', linkId: '/guide/diabetes' }]
+  },
+  {
+    id: 'actaea-racemosa',
+    seoTitle: 'Actaea Racemosa in Homeopathy: Mental Gloom & Female Health',
+    title: 'Actaea Racemosa: Relief for Mental Gloom and Muscular Pains',
+    slug: 'actaea-racemosa',
+    excerpt: 'Explore Actaea Racemosa (Cimicifuga) - a remedy famously used for its deep action on the female system and mental states of "black clouds."',
+    quickSummary: [
+      'Sensation of a "heavy black cloud" over the mind',
+      'Sharp, electric-like pains in muscles and joints',
+      'Greatly affects the female reproductive system'
+    ],
+    keyPatterns: [
+      'Ciliary neuralgia extending to temples',
+      'Severe left-sided pain under the breast (inframammary)',
+      'Illusion of a mouse running under the chair',
+      'Muscular soreness after violent exertion'
+    ],
+    whoItSuits: 'Nervous, loquacious individuals who feel they might "go crazy" and suffer from deep mental depression or rheumatic pains.',
+    whenToConsider: [
+      'Depression where it feels like a dark cloud has settled',
+      'Severe back and neck pain from exertion',
+      'Irregular or painful periods with sharp, darting pains',
+      'Post-partum "blues" or mania'
+    ],
+    modalities: {
+      better: ['Warmth', 'Lying down'],
+      worse: ['During menstruation', 'Cold air', 'Motion', 'Noise']
+    },
+    comparisons: [
+      {
+        remedyName: 'Ignatia',
+        differences: 'Both have deep grief and emotional symptoms, but Actaea has more intense muscular soreness and physical "electric" pains.',
+        linkId: '/read/ignatia'
+      }
+    ],
+    content: `Actaea Racemosa, also known as Cimicifuga or Black Cohosh, is a remedy with a profound influence on the nervous system and the female reproductive organs. 
+
+The mental state is perhaps its most famous feature: a deep, heavy gloom, described by patients as a **"heavy black cloud"** settling over them, making everything look dark. There is often a fear of going crazy or a sensation that a mouse is running across the floor.
+
+Physically, it addresses "electric" pains—sharp, lancinating, and sudden. It is a premier remedy for muscular soreness after intense physical activity and for rheumatic pains in the neck and back. In women, it is frequently indicated when uterine symptoms travel to the heart or cause sharp pains under the left breast.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/actaea/800/600',
+    tags: ['Mental Health', 'Womens Health', 'Pain', 'Actaea Racemosa'],
+    relatedRemedies: ['actaea-racemosa', 'ignatia'],
+    relatedCarePlans: [{ name: 'Emotional Wellness', linkId: '/guide/stress-anxiety' }]
+  },
+  {
+    id: 'aesculus-hippocastanum',
+    seoTitle: 'Aesculus in Homeopathy: Hemorrhoids, Backache & Congestion',
+    title: 'Aesculus Hippocastanum: The Remedy for Venous Congestion',
+    slug: 'aesculus-hippocastanum',
+    excerpt: 'Learn how Aesculus (Horse Chestnut) provides relief for painful hemorrhoids that feel like "small sticks" and chronic lower backache.',
+    quickSummary: [
+      'Sensation of "sticks" in the rectum',
+      'Severe dull backache in the lower spine',
+      'Venous congestion and purple hemorrhoids'
+    ],
+    keyPatterns: [
+      'Dryness and heat in the rectum',
+      'Hemorrhoids that are purple, blind, and very painful',
+      'Backache so severe it makes walking or stooping difficult',
+      'Mucous membranes feel swollen and burning'
+    ],
+    whoItSuits: 'Individuals who feel sluggish, gloomy, and suffer from chronic portal or venous congestion, especially in the rectum or lower back.',
+    whenToConsider: [
+      'Painful, non-bleeding hemorrhoids',
+      'Chronic lower back pain localized in the lumbo-sacral joint',
+      'Throbbing in the abdomen and pelvis',
+      'Ailments that feel better in cool air'
+    ],
+    modalities: {
+      better: ['Cool air', 'Summer'],
+      worse: ['Motion', 'Walking', 'Stooping', 'After sleep']
+    },
+    comparisons: [
+      {
+        remedyName: 'Aloe',
+        differences: 'Aloe hemorrhoids feel better with cold water and have more "jelly-like" mucus; Aesculus has the "sticks" sensation and severe backache.',
+      }
+    ],
+    content: `Aesculus Hippocastanum, or Horse Chestnut, is primarily a remedy for the venous system. It acts heavily on the portal circulation, leading to congestion in the liver and, most notably, the rectum.
+
+The hallmark sensation is **dryness and heat in the rectum**, with the feeling as if it were **full of small sticks**. Hemorrhoids are typically purple and "blind" (rarely bleeding), but intensely painful. 
+
+Accompanying these rectal symptoms is almost always a severe, dull backache in the lumbo-sacral articulation. The back feels like it will "give out," making simple motions like walking or stooping nearly impossible. Mentally, the patient is often gloomy, despondent, and "miserably cross."`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/aesculus/800/600',
+    tags: ['Digestion', 'Back Pain', 'Congestion', 'Aesculus'],
+    relatedRemedies: ['aesculus'],
+    relatedCarePlans: [{ name: 'Digestive Health', linkId: '/guide/digestive-issues' }]
+  },
+  {
+    id: 'aethusa-cynapium',
+    seoTitle: 'Aethusa in Homeopathy: Milk Intolerance & Weakness',
+    title: 'Aethusa Cynapium: The "Fools Parsley" for Digestion and Children',
+    slug: 'aethusa-cynapium',
+    excerpt: 'Explore Aethusa - a vital remedy for infants and children who cannot tolerate milk and suffer from mental weakness.',
+    quickSummary: [
+      'Complete intolerance of milk (vomited in curds)',
+      'Sudden, violent vomiting and exhaustion',
+      '"Linea Nasalis" - a marked line from nose to chin'
+    ],
+    keyPatterns: [
+      'Great weakness; child cannot hold its head up',
+      'Absence of thirst with stomach complaints',
+      'Epileptic spasms with eyes turned downwards',
+      'Regurgitation of food an hour after eating'
+    ],
+    whoItSuits: 'Infant/children during teething or hot summer weather who vomit frequently and appear mentally "dazed" or weak.',
+    whenToConsider: [
+      'Vomiting of milk immediately after nursing',
+      'Digestive upset during summer heat',
+      'Incapacity to think or mental confusion in students',
+      'Weakness where the head constantly falls back'
+    ],
+    modalities: {
+      better: ['After sleep', 'Open air'],
+      worse: ['After eating/drinking', 'After stool', 'Hot weather']
+    },
+    comparisons: [
+      {
+        remedyName: 'Antimonium Crudum',
+        differences: 'Both have milk intolerance. Antimonium has a thick white coated tongue; Aethusa has the Linea Nasalis and more profound weakness.',
+      }
+    ],
+    content: `Aethusa Cynapium, known as Fool's Parsley, is a critical remedy in pediatric homeopathy. Its most defining characteristic is the **absolute intolerance of milk**. 
+
+In infants, the milk is either vomited immediately or soon after in large, hard curds. This is followed by great exhaustion and drowsiness. A striking physical sign is the **Linea Nasalis**—a deep line extending from the nose to the outer angle of the mouth, giving the child an expression of great anxiety and pain.
+
+Mentally, it is used for "idiocy" or incapacity to think. It helps students who are overtaxed and find themselves unable to focus or "see" the words on a page. Despite the vomiting and diarrhea, one of its peculiar symptoms is a **complete absence of thirst**. Symptoms often worsen during the peak of summer heat.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://picsum.photos/seed/aethusa/800/600',
+    tags: ['Children', 'Digestion', 'Pediatrics', 'Aethusa'],
+    relatedRemedies: ['aethusa'],
+    relatedCarePlans: [{ name: 'Infant Wellness', linkId: '/guide/child-health' }]
+  },
+  {
     id: 'aconite',
-    seoTitle: 'Aconitum Napellus in Homeopathy: Sudden Shock, Fever & Fear',
-    title: 'Aconitum Napellus: The Remedy for Sudden Shock and Fear',
+    title: 'Aconite: The Homeopathic Lancet',
     slug: 'aconite',
     excerpt: 'Discover the "Homeopathic Lancet" - a primary remedy for conditions that come on suddenly after exposure to dry, cold winds.',
     quickSummary: [
@@ -398,12 +778,12 @@ Irritability is a hallmark of Bryonia; they do not want to be questioned, touche
       {
         remedyName: 'Lycopodium',
         differences: 'Both have digestive issues, but Lycopodium is insecure and bloated immediately after eating, while Nux Vomica is aggressive, driven, and suffers from an ineffectual urge.',
-        linkId: '/read/lycopodium'
+        linkId: '/read/lycopodium',
       },
       {
         remedyName: 'Arsenicum',
         differences: 'Both can be fastidious and chilly, but Arsenicum has profound anxiety and burning pain, whereas Nux Vomica is irritable, angry, and focused on stress.',
-        linkId: '/read/arsenicum'
+        linkId: '/read/arsenicum',
       }
     ],
     relatedCarePlans: [
@@ -4409,39 +4789,6 @@ Menstrual issues, menopause, morning sickness, skin discolorations, and emotiona
     tags: ['Materia Medica', 'Sepia', 'Female Health']
   },
   {
-    id: 'lachesis',
-    slug: 'lachesis',
-    title: 'Lachesis Mutus: The Remedy for "Too Tight" Sensations',
-    excerpt: 'Discover the "Surukuku Snake" - characterized by left-sided symptoms, intolerance to touch, and aggravation after sleep.',
-    content: `
-## Materia Medica: Lachesis Mutus
-**Common Name:** Surukuku Snake Venom
-**Source:** Animal Kingdom
-
-### Summary
-Lachesis is a powerful "hot" remedy suited to individuals who are talkative, suspicious, and jealous. It has a strong affinity for the left side and the cardiovascular system.
-
-### Key Characteristics
-*   **Left to Right:** Symptoms often start on the left side and move to the right (e.g., sore throat).
-*   **Intolerance to Constriction:** Cannot bear anything tight about the throat or waist; must loosen the collar.
-*   **Sleep:** Feels "worse after sleep" or the patient "sleeps into an aggravation."
-*   **Loquacity:** Extremely talkative; jumps from one subject to another.
-*   **Hot Flashes:** Frequent hot flushes, especially during menopause.
-
-### Clinical Applications
-Heart disorders, throat infections, menopausal symptoms, vein issues, and ailments from jealousy or suppressed releases.
-
-### Modalities
-*   **Aggravation:** After sleep; mornings; heat of the sun; warm room; touch or pressure.
-*   **Amelioration:** Open air; from a discharge (like the onset of menses).
-    `,
-    author: 'Dr. H.C. Allen',
-    date: 'June 29, 2024',
-    category: 'Materia Medica',
-    image: 'https://picsum.photos/seed/lachesis/800/600',
-    tags: ['Materia Medica', 'Lachesis', 'Cardiology']
-  },
-  {
     id: 'ignatia',
     title: 'Ignatia Amara: The Remedy for Emotional Contradictions',
     slug: 'ignatia',
@@ -4717,6 +5064,334 @@ Hay fever, allergic rhinitis, and early stages of a common cold.`,
     author: 'Curiva Research Team',
     date: 'May 03, 2024',
     image: 'https://picsum.photos/seed/onion/800/600'
+  },
+  {
+    id: 'kali-bich',
+    title: 'Kali Bichromicum: The Remedy for Ropey Discharges',
+    seoTitle: 'Kali Bichromicum in Homeopathy: Sinusitis, Stringy Mucus & Small Spots',
+    slug: 'kali-bich',
+    excerpt: 'Detailed study of Kali Bichromate - essential for sinusitis, stringy discharges, and wandering pains in small spots.',
+    quickSummary: [
+      'Discharges are tough, stringy, and cohesive',
+      'Pains in small spots that can be covered with a finger',
+      'Loss of taste and smell in chronic catarrh'
+    ],
+    whoItSuits: 'Individuals suffering from chronic respiratory catarrh or stomach ulcers, especially those who tend to be "fat, light-haired" and chilly.',
+    whenToConsider: [
+      'Sinusitis with thick, yellow, stringy discharge',
+      'Wandering pains that appear in very small areas',
+      'Gastric complaints alternating with rheumatism',
+      'Deep, "punched out" ulcers on the skin or mucous membranes'
+    ],
+    modalities: {
+      better: ['Heat', 'Wrapping up'],
+      worse: ['Morning (2-3 AM)', 'Cold air', 'Damp weather']
+    },
+    comparisons: [
+      {
+        remedyName: 'Pulsatilla',
+        differences: 'Both have thick yellow discharge, but Pulsatilla is thirstless and better in open air, while Kali Bich is chilly and the discharge is uniquely stringy.'
+      }
+    ],
+    content: `Kali Bichromicum (Potassium Bichromate) is a major remedy for the mucous membranes of the respiratory and digestive tracts. 
+
+Its most striking characteristic is the nature of its discharges: they are **tough, stringy, and ropey**, so cohesive they can be drawn out into long threads. This is often seen in sinusitis where the mucus is hard to expel.
+
+Another distinctive feature is the **localization of pains**. The patient often points to a "small spot" where it hurts, which can be covered with the tip of a finger. These pains frequently wander from one joint to another or alternate between gastric and respiratory symptoms. It is also a key remedy for "punched-out" ulcers, particularly in the stomach or on the septum of the nose.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1584017911766-d451b3d0e843?auto=format&fit=crop&q=80',
+    tags: ['Sinusitis', 'Mucus', 'Kali Bich'],
+    relatedRemedies: ['pulsatilla', 'hydrastis'],
+    relatedCarePlans: [{ name: 'Sinus Relief Protocol', linkId: '/guide/respiratory-care' }]
+  },
+  {
+    id: 'rhus-tox',
+    title: 'Rhus Toxicodendron: The Remedy for Restless Joints',
+    seoTitle: 'Rhus Tox Homeopathy: Arthritis, Restlessness & Triangular Red Tip',
+    slug: 'rhus-tox',
+    excerpt: 'Explore Rhus Tox - the premier remedy for rheumatism, sprains, and conditions better for continued motion.',
+    quickSummary: [
+      'Extreme restlessness; must change position constantly',
+      'Complaints from getting wet while perspiring',
+      'Better for continued motion, worse for first motion'
+    ],
+    whoItSuits: 'People with "rusty" joints who feel stiff upon waking but loosen up with activity. Often chilly and sensitive to damp cold.',
+    whenToConsider: [
+      'Rheumatism and arthritis worse in damp weather',
+      'Sprains or strains from overexertion',
+      'Skin rashes that are itchy and vesicular (like shingles)',
+      'Fevers with great restlessness and a dry, triangular red tip on the tongue'
+    ],
+    modalities: {
+      better: ['Continued motion', 'Warm applications', 'Dry weather'],
+      worse: ['First motion', 'Rest', 'Cold damp weather', 'Getting wet']
+    },
+    comparisons: [
+      {
+        remedyName: 'Bryonia',
+        differences: 'Rhus Tox is better for moving; Bryonia is worse for even the slightest movement.'
+      }
+    ],
+    content: `Rhus Toxicodendron (Poison Ivy) is famously known as the "Rusty Hinge" remedy. Much like a rusty hinge, the Rhus Tox patient is very stiff when they first start moving, but as they continue, they "oil up" and feel much better.
+
+**Restlessness** is the hallmark of this remedy. The patient cannot find a comfortable position in bed and must toss and turn. This is true for both their physical pains and their mental state. 
+
+It is the top remedy for ailments caused by **getting wet while overheated** or perspiring. It acts deeply on fibrous tissues—tendons, ligaments, and the fascia—making it indispensable for sprains and rheumatics who feel every change in the weather, especially towards damp and cold.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1559757175-5700dde67d2b?auto=format&fit=crop&q=80',
+    tags: ['Arthritis', 'Restlessness', 'Rhus Tox'],
+    relatedRemedies: ['bryonia', 'arnica'],
+    relatedCarePlans: [{ name: 'Joint Mobility Plan', linkId: '/guide/joint-health' }]
+  },
+  {
+    id: 'causticum',
+    title: 'Causticum: Empathy and Paralysis',
+    seoTitle: 'Causticum Homeopathy: Paralysis, Empathy & Raw Soreness',
+    slug: 'causticum',
+    excerpt: 'A deep study of Causticum - a remedy for chronic paralysis, vocal loss, and individuals with a deep sense of social justice.',
+    quickSummary: [
+      'Sensation of raw, sore, "burned" feeling in tissues',
+      'Paralysis of single parts (vocal cords, eyelids, bladder)',
+      'Great empathy and intolerance of injustice'
+    ],
+    whoItSuits: 'Intense, sympathetic individuals who are deeply affected by the suffering of others. Often have dark hair and rigid muscles.',
+    whenToConsider: [
+      'Chronic hoarseness or loss of voice (worse in the morning)',
+      'Involuntary urination when coughing or sneezing',
+      'Warts that bleed easily, especially on the face or fingertips',
+      'Old burns that refuse to heal or leave painful scars'
+    ],
+    modalities: {
+      better: ['Damp, wet weather', 'Warmth of bed'],
+      worse: ['Dry, cold weather', 'Clear fine weather', 'Evening']
+    },
+    comparisons: [
+      {
+        remedyName: 'Gelsemium',
+        differences: 'Both have weakness and paralysis, but Gelsemium is more about "dullness/drowsiness," while Causticum has "rawness" and a specific emotional profile of empathy.'
+      }
+    ],
+    content: `Causticum is a unique Hahnemannian preparation that acts deeply on the nervous and muscular systems. It is primarily a remedy for **gradually developing paralysis**.
+
+Mentally, the Causticum patient is noble and **deeply sympathetic**. They cannot bear to see anyone suffer and are often activists or individuals with a burning desire for justice. 
+
+Physically, the remedy is characterized by a sensation of **rawness and soreness**. This is seen in the throat (hoarseness), the bladder (incontinence), and the skin. Interestingly, while most chilly remedies feel better in dry weather, Causticum is uniquely better in **damp, rainy weather** and worse when the air is dry and cold.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1505663912202-ac22d4cb3777?auto=format&fit=crop&q=80',
+    tags: ['Paralysis', 'Empathy', 'Causticum'],
+    relatedRemedies: ['gelsemium', 'phosphorus'],
+    relatedCarePlans: [{ name: 'Vocal Health Guide', linkId: '/guide/vocal-care' }]
+  },
+  {
+    id: 'graphites',
+    title: 'Graphites: The Honey-Ooze Remedy',
+    seoTitle: 'Graphites Homeopathy: Skin Eruptions, Constipation & Sticky Excrescences',
+    slug: 'graphites',
+    excerpt: 'Explore Graphites - essential for skin conditions with sticky discharges, chronic constipation, and metabolic sluggishness.',
+    quickSummary: [
+      'Eruptions with thick, sticky, honey-like discharge',
+      'Skin is dry, cracked, and unhealthy',
+      'Tendency to obesity and chronic constipation'
+    ],
+    whoItSuits: 'Individuals who are "fleshy," chilly, and struggle with slow digestion and skin problems. Mentally, they may be sad and weep when hearing music.',
+    whenToConsider: [
+      'Eczema behind the ears or in skin folds with "honey" ooze',
+      'Chronic constipation where stools are large and lumpy',
+      'Brittle, thick, or deformed nails',
+      'Keloids and thick scars that itch or burn'
+    ],
+    modalities: {
+      better: ['Open air', 'Belching', 'Eating'],
+      worse: ['Night', 'Warmth of bed', 'During menstruation']
+    },
+    comparisons: [
+      {
+        remedyName: 'Pulsatilla',
+        differences: 'Both weep easily and are mild, but Graphites has skin issues and is very chilly, whereas Pulsatilla is hot and doesn\'t have the sticky discharges.'
+      }
+    ],
+    content: `Graphites (Black Lead) is a premier remedy for the skin and the metabolism. Its most famous indication is an eruption that oozes a **thick, sticky, yellow, honey-like fluid**.
+
+It is suited to patients who are prone to **obesity and "chilling"**. Everything about their system seems to move slowly—their bowels are constipated, their skin heals slowly, and they may be mentally sluggish or despondent. 
+
+It is also a remarkable remedy for **scars and keloids**, helping to soften old, hard cicatrices. Women may find it useful for menstrual cycles that are late, scanty, and accompanied by intense chilliness.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1590439471364-192aa70c0b53?auto=format&fit=crop&q=80',
+    tags: ['Skin', 'Eczema', 'Graphites'],
+    relatedRemedies: ['pulsatilla', 'petroleum'],
+    relatedCarePlans: [{ name: 'Skin Barrier Repair', linkId: '/guide/skin-health' }]
+  },
+  {
+    id: 'staphisagria',
+    title: 'Staphisagria: Suppressed Anger and Styes',
+    seoTitle: 'Staphisagria Homeopathy: Emotions, Styes & Post-Surgery Recovery',
+    slug: 'staphisagria',
+    excerpt: 'A study of Staphisagria - the remedy for ailments from indignation, suppressed anger, and surgical incisions.',
+    quickSummary: [
+      'Ailments from suppressed anger, indignation, or shame',
+      'Recurrent styes on the eyelids',
+      'Extreme sensitivity to the slightest word'
+    ],
+    whoItSuits: 'Quiet, dignified, and sensitive people who suppress their feelings until they manifest as physical pain or irritability.',
+    whenToConsider: [
+      'Styes that leave hard nodules behind',
+      'Burning in the urethra when NOT urinating',
+      'Physical ailments following surgery or clean-cut wounds',
+      'Toothache that is worse from touch or cold air'
+    ],
+    modalities: {
+      better: ['Warmth', 'Rest at night'],
+      worse: ['Anger', 'Indignation', 'Sexual excess', 'Tobacco']
+    },
+    comparisons: [
+      {
+        remedyName: 'Colocynthis',
+        differences: 'Both have ailments from anger, but Colocynth has colic that makes them double up, while Staphisagria has more of a "quivering" emotional irritability.'
+      }
+    ],
+    content: `Staphisagria (Stavesacre) is a major remedy for the effects of **suppressed emotions**, particularly anger and indignation. 
+
+The Staphisagria patient is often very refined and sensitive. If they are insulted or treated unfairly, they swallow their anger to maintain their dignity. This suppression often leads to physical symptoms like **styes, cystitis, or backaches**.
+
+Clinically, it is the first remedy to think of for **surgical incisions** or clean-cut wounds that are very painful. It also has a specific affinity for the urinary tract, where it treats the "honeymoon cystitis" or burning sensations that persist long after an infection has cleared.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1512290923902-8a9f81dc2069?auto=format&fit=crop&q=80',
+    tags: ['Emotions', 'Styes', 'Staphisagria'],
+    relatedRemedies: ['colocynthis', 'ignatia'],
+    relatedCarePlans: [{ name: 'Post-Surgery Support', linkId: '/guide/recovery' }]
+  },
+  {
+    id: 'lachesis',
+    title: 'Lachesis Mutus: The Left-Sided Messenger',
+    seoTitle: 'Lachesis Homeopathy: Menopause, Snake Venom & Left-Sided Symptoms',
+    slug: 'lachesis',
+    excerpt: 'Detailed analysis of Lachesis - the remedy for hot flashes, loquacity, and conditions worse after sleep.',
+    quickSummary: [
+      'Left-sided complaints, or moving from left to right',
+      'Worse after sleep ("sleeps into an aggravation")',
+      'Extreme intolerance of tight clothes, especially around the neck'
+    ],
+    whoItSuits: 'Intense, hot-blooded, and talkative individuals who may be prone to suspicion or jealousy. Often indicated during menopause.',
+    whenToConsider: [
+      'Hot flashes and hormonal imbalances with congestion',
+      'Throat pain that is worse on the left side and sensitive to touch',
+      'Cardiovascular issues with a feeling of constriction',
+      'Purplish or dark discoloration of inflamed parts'
+    ],
+    modalities: {
+      better: ['Open air', 'Appearance of discharges', 'Cold drinks'],
+      worse: ['Sleep', 'Heat', 'Pressure of clothes', 'After sleep']
+    },
+    comparisons: [
+      {
+        remedyName: 'Lycopodium',
+        differences: 'Lachesis is left-sided and hot; Lycopodium is right-sided and chilly. Lachesis is suspicious; Lycopodium is lacks self-confidence.'
+      }
+    ],
+    content: `Lachesis Mutus (Bushmaster Snake Venom) is a powerful, deep-acting remedy with a clear affinity for the blood, nerves, and heart. 
+
+One of its most famous indicators is the **left-sided nature** of symptoms. Whether it is a headache, an ovarian pain, or a sore throat, it usually starts on the left and may move to the right.
+
+The Lachesis patient is **extraordinarily sensitive to touch**. They cannot bear anything tight around their neck or waist—even a necklace or a loose scarf can feel suffocating. Mentally, they are often **loquacious**, shifting rapidly from one idea to another in a continuous stream of talk. A key clinical pearl is that they are always **worse after sleep**; the transition from sleep to waking often brings an intensification of all pains and discomforts.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1531384441138-2736e62e0919?auto=format&fit=crop&q=80',
+    tags: ['Menopause', 'Snake Venom', 'Lachesis'],
+    relatedRemedies: ['lycopodium', 'sepia'],
+    relatedCarePlans: [{ name: 'Hormonal Balance Guide', linkId: '/guide/womens-health' }]
+  },
+  {
+    id: 'apis',
+    title: 'Apis Mellifica: Stinging Pain and Edema',
+    seoTitle: 'Apis Mellifica Homeopathy: Bee Stings, Swelling & Thirstlessness',
+    slug: 'apis',
+    excerpt: 'Explore Apis Mellifica - the premier remedy for stinging pains, sudden puffiness, and inflammation with dropsy.',
+    quickSummary: [
+      'Stinging and burning pains like a bee sting',
+      'Sudden edematous swelling and puffiness',
+      'Thirstlessness during inflammatory states'
+    ],
+    whoItSuits: 'Individuals who are "awkward" (drop things), jealous, and highly sensitive to heat. Often have a waxy, translucent skin appearance.',
+    whenToConsider: [
+      'Hives or skin eruptions that are red, puffy, and sting',
+      'Arthritis with significant swelling and stinging pain',
+      'Acute kidney issues (nephritis) with suppressed urine',
+      'Sore throats with "fish-bone" sensation and swollen uvula'
+    ],
+    modalities: {
+      better: ['Cold applications', 'Open air', 'Uncovering'],
+      worse: ['Warm room', 'Heat', 'Touch', 'Right side']
+    },
+    comparisons: [
+      {
+        remedyName: 'Arsenicum',
+        differences: 'Both have burning pains, but Apis is hot and better for cold; Arsenicum is chilly and better for heat.'
+      }
+    ],
+    content: `Apis Mellifica is prepared from the whole honey bee. Its physical effects perfectly mimic a bee sting: **sudden swelling, stinging pain, and heat**.
+
+It is a world-class remedy for **edema**. Tissues appear puffy, baggy, and waxy, as if filled with water. This can occur anywhere—under the eyes, in the joints, or in the internal organs. 
+
+A critical guiding symptom for Apis is **thirstlessness**. Even during high fevers or intense inflammatory states, the patient rarely wants to drink. They are also extremely sensitive to heat and feel much better when they can find a cool, breezy spot or apply cold water to the affected area. Mentally, they may be prone to sudden jealousy or irritability and often exhibit physical awkwardness, dropping things from their hands.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1473973266408-ed4e27f06ed9?auto=format&fit=crop&q=80',
+    tags: ['Swelling', 'Bee Sting', 'Apis'],
+    relatedRemedies: ['arsenicum', 'nat-mur'],
+    relatedCarePlans: [{ name: 'Inflammation Protocol', linkId: '/guide/inflammation' }]
+  },
+  {
+    id: 'chelidonium',
+    title: 'Chelidonium: The Liver Specialist',
+    seoTitle: 'Chelidonium Homeopathy: Liver Issues, Jaundice & Scapular Pain',
+    slug: 'chelidonium',
+    excerpt: 'Detailed study of Chelidonium - the premier remedy for right-sided liver dysfunction and jaundice.',
+    quickSummary: [
+      'Fixed pain under the inner angle of the right scapula',
+      'Strong desire for very hot drinks',
+      'Prominent right-sided symptoms'
+    ],
+    whoItSuits: 'People with "bilious" temperaments who suffer from slow digestion, yellowing of the skin, and a constant dull pain in the liver area.',
+    whenToConsider: [
+      'Jaundice, hepatitis, or gallstone colic',
+      'Headaches that start in the nape and go over the right eye',
+      'Pneumonia with liver complications (bilious pneumonia)',
+      'Bitter taste in the mouth and yellow-coated tongue'
+    ],
+    modalities: {
+      better: ['Hot food/drinks', 'Eating', 'Pressure'],
+      worse: ['Motion', 'Change of weather', '4 AM and 4 PM']
+    },
+    comparisons: [
+      {
+        remedyName: 'Lycopodium',
+        differences: 'Both are right-sided liver remedies, but Chelidonium has the specific scapular pain and desires very hot drinks, while Lycopodium has gas/bloating and 4-8 PM aggravation.'
+      }
+    ],
+    content: `Chelidonium Majus (Greater Celandine) is the "Liver's best friend" in homeopathy. It has a specific affinity for the liver, gallbladder, and digestive tract.
+
+The most characteristic physical sign is a **fixed, steady pain under the inner lower angle of the right shoulder blade (scapula)**. This pain is almost always present in cases where Chelidonium is needed for hepatic issues. 
+
+Everything in the Chelidonium case is **right-sided**. The patient's digestion is sluggish, leading to jaundice, a yellow tongue, and a bitter taste. Interestingly, they have a craving for **very hot drinks** (almost scalding), which seem to relieve their stomach pains and improve their general state of being. It is also of great use in "bilious pneumonia" where the right lung is affected alongside the liver.`,
+    author: 'Dr. H.C. Allen',
+    date: 'May 12, 2024',
+    category: 'Materia Medica',
+    image: 'https://images.unsplash.com/photo-1615485290382-441e4d0c9cb5?auto=format&fit=crop&q=80',
+    tags: ['Liver', 'Jaundice', 'Chelidonium'],
+    relatedRemedies: ['lycopodium', 'bryonia', 'carduus-marianus'],
+    relatedCarePlans: [{ name: 'Liver Detox Support', linkId: '/guide/liver-health' }]
   }
 ];
 

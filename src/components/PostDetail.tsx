@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BlogPost } from '../types';
-import { ArrowLeft, Calendar, User, Tag, Share2, Link2, Check, ArrowRight, BookOpen, Clock, Zap, Target, Users, AlertTriangle, Search, MessageCircle, ArrowUpRight, CheckCircle2, ThumbsUp, ThumbsDown, Activity, BrainCircuit, LayoutGrid, Sparkles } from 'lucide-react';
+import { Bookmark as BookmarkIcon, ArrowLeft, Calendar, User, Tag, Share2, Link2, Check, ArrowRight, BookOpen, Clock, Zap, Target, Users, AlertTriangle, Search, MessageCircle, ArrowUpRight, CheckCircle2, ThumbsUp, ThumbsDown, Activity, BrainCircuit, LayoutGrid, Sparkles } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import SEO from './SEO';
 import { fetchPosts } from '../services/api';
@@ -10,7 +10,8 @@ import ModalityPill from './ModalityPill';
 import { MarkdownComponents, highlightModalities } from './MarkdownRenderers';
 import TextMindMap from './TextMindMap';
 import { useTheme } from '../context/ThemeContext';
-import { Volume2, VolumeX, Play, Pause } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, BookmarkCheck } from 'lucide-react';
+import { useUser } from '../hooks/useUser';
 
 import RelatedArticles from './RelatedArticles';
 
@@ -22,6 +23,7 @@ interface PostDetailProps {
 }
 
 const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSelectPost }) => {
+  const { profile, toggleBookmark, addToHistory } = useUser();
   const [copied, setCopied] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
@@ -100,8 +102,11 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
       }
     };
     loadRelated();
+    if (profile) {
+      addToHistory(post.slug);
+    }
     window.scrollTo(0, 0);
-  }, [post]);
+  }, [post, profile?.uid]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -685,6 +690,32 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
 
           <aside className="lg:w-72 shrink-0">
             <div className="sticky top-28 space-y-8">
+              <div className="p-6 bg-bg-secondary rounded-3xl border border-border">
+                {profile ? (
+                  <button 
+                    onClick={() => toggleBookmark(post.slug)}
+                    className={`w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${
+                      profile.bookmarks?.includes(post.slug)
+                      ? 'bg-primary text-white shadow-xl shadow-primary/20'
+                      : 'bg-bg-primary border border-border text-text-primary hover:border-primary hover:text-primary shadow-sm'
+                    }`}
+                  >
+                    {profile.bookmarks?.includes(post.slug) ? (
+                      <> <BookmarkCheck className="w-4 h-4" /> Saved to Library </>
+                    ) : (
+                      <> <BookmarkIcon className="w-4 h-4" /> Save to Library </>
+                    )}
+                  </button>
+                ) : (
+                  <Link 
+                    to="/subscription"
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-bg-primary border border-border text-text-secondary rounded-2xl font-black text-[10px] uppercase tracking-widest hover:border-primary hover:text-primary transition-all shadow-sm"
+                  >
+                    <BookmarkIcon className="w-4 h-4" /> Sign In to Save
+                  </Link>
+                )}
+              </div>
+
               <div className="p-6 bg-bg-secondary rounded-3xl border border-border">
                 <h4 className="font-display font-bold text-text-primary mb-4 flex items-center gap-2">
                   <Share2 className="w-4 h-4 text-primary" /> Share

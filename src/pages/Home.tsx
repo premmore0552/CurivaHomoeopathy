@@ -1,44 +1,59 @@
 import React, { useEffect } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { ArrowRight, Activity, BookOpen, GraduationCap, HelpCircle, Users, ShoppingBag } from 'lucide-react';
+import { ArrowRight, Activity, BookOpen, GraduationCap, HelpCircle, Users, ShoppingBag, Sparkles, ShieldCheck, History, Award, Network, Zap } from 'lucide-react';
 import Hero from '../components/Hero';
 import FeaturedArticles from '../components/FeaturedArticles';
-import { InstagramFeed } from '../components/InstagramFeed';
-import AboutSection from '../components/AboutSection';
-import SEO from '../components/SEO';
+import FeaturedQuestions from '../components/FeaturedQuestions';
 import Newsletter from '../components/Newsletter';
+import SEO from '../components/SEO';
 import { BlogPost } from '../types';
 
-const entryPoints = [
+const funnelSteps = [
   {
-    title: 'Explore Symptoms',
-    description: 'Understand the "fingerprints" of health conditions through our pattern-based clinical guides.',
-    icon: Activity,
-    link: '/explore-symptoms',
-    color: 'text-primary'
-  },
-  {
-    title: 'Resource Vault',
-    description: 'Get exclusive access to high-yield clinical guides, research papers, and curated study notes.',
-    icon: ShoppingBag,
-    link: '/marketplace',
-    color: 'text-emerald-500',
-    isNew: true
-  },
-  {
-    title: 'Organon of Medicine',
-    description: 'The foundation of Homoeopathic logic, principles, and the Law of Similars.',
+    id: 'organon',
+    title: 'The Foundation',
+    subtitle: 'Glossary of Wisdom',
+    description: 'Master the logic and philosophy of homoeopathy. Explore 291 aphorisms with historical context and clinical insights.',
     icon: GraduationCap,
-    link: '/organon-philosophy',
-    color: 'text-primary'
+    link: '/glossary/philosophy',
+    color: 'bg-primary'
   },
   {
-    title: 'Our Story',
-    description: 'From humble beginnings to a global mission of Tiny Doses and True Shifts.',
-    icon: Users,
-    link: '/about-us',
-    color: 'text-amber-500'
+    id: 'materia-medica',
+    title: 'The Database',
+    subtitle: 'Clinical Materia Medica',
+    description: 'A comprehensive alphabetical index of remedies. Precise indications, keynotes, and clinical modalities.',
+    icon: BookOpen,
+    link: '/glossary/all',
+    color: 'bg-accent'
+  },
+  {
+    id: 'repertory',
+    title: 'The Analysis',
+    subtitle: 'Interactive Repertory',
+    description: 'Dynamic symptom-to-remedy mapping. Filter thousands of clinical indications to find the most accurate medicinal match.',
+    icon: Activity,
+    link: '/repertory',
+    color: 'bg-emerald-600'
+  },
+  {
+    id: 'relationships',
+    title: 'The Mapping',
+    subtitle: 'Remedy Relationships',
+    description: "Visualize 'Complementary', 'Inimical', and 'Antidotal' networks. Refine your long-term clinical strategy.",
+    icon: Network,
+    link: '/relationships',
+    color: 'bg-indigo-600'
+  },
+  {
+    id: 'mcq-practice',
+    title: 'The Evaluation',
+    subtitle: 'Competitive MCQs',
+    description: 'Prepare for AIAPGET and competitive exams with 10,000+ targeted MCQs. Simulate exam conditions with timed sessions.',
+    icon: Zap,
+    link: '/mcq-practice',
+    color: 'bg-orange-600'
   }
 ];
 
@@ -51,7 +66,7 @@ export default function Home() {
   };
 
   useEffect(() => {
-    if (hash === '#about') {
+    if (hash) {
       const element = document.getElementById(hash.substring(1));
       if (element) {
         element.scrollIntoView({ behavior: 'smooth' });
@@ -62,122 +77,138 @@ export default function Home() {
   return (
     <>
       <SEO 
-        title="Curiva Homoeopathy | Evidence-Based Holistic Healing & Research Insights"
-        description="Explore the world of homoeopathy through pattern-based research guides, Materia Medica deep-dives, and peer-curated educational resources."
-        keywords="homoeopathy, research insights, materia medica, natural healing, academic study, holistic health, curiva"
+        title="Curiva Homoeopathy | Precision Learning & Clinical Excellence"
+        description="The ultimate funnel for homoeopathic mastery. From Organon principles to Materia Medica depth and historical stalwarts."
       />
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      transition={{ duration: 0.5 }}
-      className="bg-bg-primary transition-colors duration-300"
-    >
+      <motion.div 
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.5 }}
+        className="bg-bg-primary"
+      >
         <Hero />
-        
-        <div className="relative overflow-hidden">
-          <FeaturedArticles onSelectPost={handleSelectPost} />
-        </div>
-        
-        <AboutSection />
 
-        {/* Global Entry Grid Section */}
-        <section className="py-32 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-          <div className="text-center mb-20 max-w-2xl mx-auto">
-            <h2 className="text-4xl md:text-5xl font-display font-black text-text-primary mb-6 tracking-tight">
-              Master the <span className="text-primary italic">Science</span>
-            </h2>
-            <p className="text-xl text-text-secondary font-medium">
-              Comprehensive tools designed for practitioners, students, and curious minds.
-            </p>
-          </div>
-
-          <motion.div 
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            variants={{
-              hidden: { opacity: 0 },
-              visible: { opacity: 1, transition: { staggerChildren: 0.1 } }
-            }}
-            className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8"
-          >
-            {entryPoints.map((point) => (
+        {/* Funnel Section */}
+        <section className="py-24 md:py-32 relative overflow-hidden bg-bg-secondary/30">
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-px h-full bg-gradient-to-b from-primary/10 via-primary/5 to-transparent hidden md:block" />
+          
+          <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+            <div className="text-center mb-24">
               <motion.div
-                key={point.title}
-                variants={{
-                  hidden: { opacity: 0, y: 30 },
-                  visible: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 100, damping: 15 } }
-                }}
-                whileHover={{ y: -5, scale: 1.02 }}
-                className="group relative p-10 bg-bg-secondary rounded-[3rem] border border-border hover:border-primary/30 hover:shadow-[0_20px_50px_rgba(45,108,223,0.1)] transition-all duration-500 flex flex-col"
+                initial={{ opacity: 0, scale: 0.9 }}
+                whileInView={{ opacity: 1, scale: 1 }}
+                className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/10 text-accent text-[10px] font-bold uppercase tracking-widest mb-6"
               >
-                {point.isNew && (
-                  <div className="absolute top-6 right-6 px-3 py-1 bg-primary text-white text-[10px] font-black rounded-full shadow-lg shadow-primary/20 animate-pulse">
-                    NEW Addition
-                  </div>
-                )}
-                <Link to={point.link} className="block h-full flex flex-col">
-                  <div className={`w-20 h-20 bg-bg-primary rounded-2xl flex items-center justify-center shadow-lg mb-10 ${point.color} group-hover:scale-110 transition-transform duration-500`}>
-                    <point.icon className="w-10 h-10" />
-                  </div>
-                  <h3 className="text-3xl font-display font-black text-text-primary mb-5 group-hover:text-primary transition-colors leading-tight">
-                    {point.title}
-                  </h3>
-                  <p className="text-lg text-text-secondary mb-10 leading-relaxed font-medium opacity-80 flex-grow">
-                    {point.description}
-                  </p>
-                  <div className="flex items-center gap-3 text-primary font-black uppercase tracking-[0.2em] text-[10px] group-hover:gap-5 transition-all mt-auto pb-2">
-                    Enter <ArrowRight className="w-4 h-4" />
-                  </div>
-                </Link>
+                <Sparkles className="w-3 h-3" /> Professional Standards
               </motion.div>
-            ))}
-          </motion.div>
+              <h2 className="text-5xl md:text-7xl font-display font-medium text-text-primary tracking-tight leading-[0.9]">
+                Evidence-Based <br/> <span className="text-primary italic">Intelligence</span>
+              </h2>
+            </div>
+
+            <div className="space-y-32 md:space-y-64">
+              {funnelSteps.map((step, index) => (
+                <motion.div
+                  key={step.id}
+                  initial={{ opacity: 0, y: 50 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ duration: 0.8, ease: "easeOut" }}
+                  className={`flex flex-col ${index % 2 === 0 ? 'md:flex-row' : 'md:flex-row-reverse'} gap-12 items-center`}
+                >
+                  <div className="w-full md:w-1/2">
+                    <div className="relative group cursor-pointer">
+                      <div className={`absolute -inset-4 ${step.color} opacity-0 group-hover:opacity-5 rounded-[4rem] transition-opacity duration-500`} />
+                      <div className="p-12 bg-bg-primary rounded-[3rem] border border-border shadow-soft relative">
+                         <div className={`w-20 h-20 ${step.color} rounded-2xl flex items-center justify-center mb-8 shadow-xl`}>
+                           <step.icon className="w-10 h-10 text-white" />
+                         </div>
+                         <div className="text-accent font-bold uppercase tracking-[0.3em] text-[10px] mb-4">{step.title}</div>
+                         <h3 className="text-4xl md:text-5xl font-display font-medium text-text-primary mb-6 italic tracking-tight leading-none">
+                           {step.subtitle}
+                         </h3>
+                         <p className="text-xl text-text-secondary leading-relaxed mb-10 font-serif italic">
+                           {step.description}
+                         </p>
+                         <Link 
+                          to={step.link}
+                          className="inline-flex items-center gap-3 text-primary font-bold uppercase tracking-widest text-xs hover:gap-5 transition-all"
+                         >
+                           Enter Domain <ArrowRight className="w-4 h-4" />
+                         </Link>
+                      </div>
+                    </div>
+                  </div>
+                  <div className="hidden md:block w-full md:w-1/2 relative lg:px-20 text-center">
+                    <div className="text-[12rem] font-display italic font-light text-primary/5 select-none">
+                      {index + 1}
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        {/* Pro Funnel Converter */}
+        <section className="py-32 bg-primary-dark text-white overflow-hidden relative">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.1)_0%,transparent_70%)] opacity-50" />
+          
+          <div className="max-w-7xl mx-auto px-6 relative z-10">
+            <div className="grid lg:grid-cols-2 gap-20 items-center">
+              <div>
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-widest text-accent-light mb-10 border border-white/10"
+                >
+                  <Award className="w-4 h-4" /> Professional Tier
+                </motion.div>
+                <h2 className="text-5xl md:text-7xl font-display font-medium tracking-tight italic leading-[0.9] mb-10 text-bg-primary">
+                  Ready to <br/> <span className="text-accent italic">Prescribe</span> with Confidence?
+                </h2>
+                <div className="space-y-6 mb-12">
+                  {[
+                    "Clinical-grade Differential Analysis",
+                    "A-Z Integrated Materia Medica Search",
+                    "Historical Case Studies & Stalwart Insights",
+                    "Priority Access to Research Papers"
+                  ].map((feat, i) => (
+                    <div key={i} className="flex items-center gap-4 text-white/70">
+                      <ShieldCheck className="w-6 h-6 text-accent" />
+                      <span className="text-lg font-medium">{feat}</span>
+                    </div>
+                  ))}
+                </div>
+                <Link 
+                  to="/subscription"
+                  className="px-12 py-6 bg-accent text-primary-dark font-bold uppercase tracking-widest text-xs rounded-2xl shadow-3xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-4"
+                >
+                  Upgrade to Pro <ArrowRight className="w-5 h-5" />
+                </Link>
+              </div>
+              
+              <div className="relative">
+                <div className="absolute -inset-10 bg-accent/10 rounded-full blur-[100px]" />
+                <img 
+                  src="https://images.unsplash.com/photo-1540348922527-3efe7d3f94ee?auto=format&fit=crop&q=80&w=1000" 
+                  alt="Clinical Excellence" 
+                  className="w-full h-full object-cover rounded-[4rem] shadow-2xl relative sepia-[0.2] hover:sepia-0 transition-all duration-700" 
+                />
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="py-24">
+          <FeaturedQuestions />
+        </section>
+
+        <section className="py-24">
+          <FeaturedArticles onSelectPost={handleSelectPost} />
         </section>
 
         <Newsletter />
-
-        <InstagramFeed />
-        
-        {/* Support Entry Section */}
-        <section className="py-32 bg-text-primary text-bg-primary transition-colors duration-300 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] -translate-y-1/2 translate-x-1/2" />
-          <div className="absolute bottom-0 left-0 w-96 h-96 bg-primary/10 rounded-full blur-[100px] translate-y-1/2 -translate-x-1/2" />
-          
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="max-w-4xl mx-auto px-4 text-center relative z-10"
-          >
-            <div className="flex justify-center mb-8">
-              <div className="p-4 bg-bg-primary/10 rounded-3xl backdrop-blur-xl border border-white/10">
-                <HelpCircle className="w-12 h-12 text-primary" />
-              </div>
-            </div>
-            <h2 className="text-4xl md:text-5xl font-display font-black mb-8 tracking-tight">
-              Shape the <span className="text-primary italic">Future</span> of Curiva
-            </h2>
-            <p className="text-xl opacity-80 mb-12 max-w-2xl mx-auto font-medium">
-              We're building this for the homoeopathic community. Your feedback helps us curate the most relevant clinical data.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-6 justify-center">
-              <Link 
-                to="/feedback"
-                className="px-12 py-5 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-2xl shadow-2xl shadow-primary/40 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3"
-              >
-                Submit Feedback
-                <ArrowRight className="w-5 h-5" />
-              </Link>
-              <Link 
-                to="/faq"
-                className="px-12 py-5 bg-white/10 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-white/20 transition-all border border-white/20 flex items-center justify-center"
-              >
-                Help Center
-              </Link>
-            </div>
-          </motion.div>
-        </section>
       </motion.div>
     </>
   );

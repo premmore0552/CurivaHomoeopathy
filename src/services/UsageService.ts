@@ -2,7 +2,7 @@ import { auth, db } from '../lib/firebase';
 import { doc, getDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
 
 const FREE_LIMIT = 5;
-const PREMIUM_REMEDY_LIMIT = 10;
+const PREMIUM_REMEDY_LIMIT = 100; // Effectively "unlimited" for UI selection
 const FREE_REMEDY_LIMIT = 5;
 const LOCAL_STORAGE_KEY = 'curiva_comparison_count';
 
@@ -41,7 +41,7 @@ export async function getComparisonUsage(): Promise<UsageStatus> {
     const userDoc = await getDoc(userRef);
     if (userDoc.exists()) {
       const data = userDoc.data();
-      const isPremium = data.isPremium || localIsPremium || false;
+      const isPremium = data.isPremium || localIsPremium || !!user; // Logged in users get everything unlocked as requested
       const lastResetDate = data.lastResetDate || null;
       let count = data.comparisonCount || 0;
 

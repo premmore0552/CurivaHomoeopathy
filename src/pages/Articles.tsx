@@ -9,6 +9,7 @@ import { BlogPost } from "../types";
 import { fetchPostBySlug } from "../services/api";
 import { motion } from "motion/react";
 import { useParams, useNavigate } from "react-router-dom";
+import FeaturedQuestions from "../components/FeaturedQuestions";
 
 export default function Articles() {
   const { slug } = useParams<{ slug: string }>();
@@ -86,6 +87,8 @@ export default function Articles() {
 
         {/* We can use the default section variant of Featured Articles */}
         <FeaturedArticles onSelectPost={handleSelectPost} />
+
+        <FeaturedQuestions />
 
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pb-24">
           <motion.div
