@@ -15,6 +15,7 @@
   
   --color-bg-primary: #fdfbf7;
   --color-bg-secondary: #f5f0e6;
+  --color-bg-dark: #1a2b23;
   --color-text-primary: #1a2b23;
   --color-text-secondary: #4a5d54;
   --color-border: #e2dac8;
@@ -58,6 +59,7 @@
 .dark {
   --color-bg-primary: #1a0410;
   --color-bg-secondary: #2d0a1b;
+  --color-bg-dark: #2d0a1b;
   --color-text-primary: #fcf4f6;
   --color-text-secondary: #f8dbe6;
   --color-border: #5c0d3a;

@@ -21,6 +21,7 @@ import { allBlogPosts } from '../data/blogPosts';
 const ConditionDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const condition = conditionsData.find(c => c.id === slug);
+  const [copied, setCopied] = React.useState(false);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -60,15 +61,26 @@ const ConditionDetail: React.FC = () => {
 
   const Icon = condition.icon;
 
-  const handleShare = () => {
+  const handleShare = async () => {
     if (navigator.share) {
-      navigator.share({
-        title: condition.title + ' | Curiva Homoeopathy',
-        text: `Check out these homeopathic patterns for ${condition.title}`,
-        url: window.location.href,
-      });
+      try {
+        await navigator.share({
+          title: condition.title + ' | Curiva Homoeopathy',
+          text: `Check out these homeopathic patterns for ${condition.title}`,
+          url: window.location.href,
+        });
+      } catch (err: any) {
+        // Silently catch the DOMException (AbortError: Share canceled or prompt dismissed)
+        console.log('Unified sharing interaction: ', err.message || err);
+      }
     } else {
-      navigator.clipboard.writeText(window.location.href);
+      try {
+        await navigator.clipboard.writeText(window.location.href);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (err) {
+        console.error('Copy selection failed:', err);
+      }
     }
   };
 
@@ -79,18 +91,7 @@ const ConditionDetail: React.FC = () => {
         description={`Learn the clinical patterns, better/worse factors, and homeopathic perspectives on ${condition.title}.`}
       />
       
-      {/* Breadcrumbs */}
-      <nav className="pt-24 pb-8 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text-secondary">
-          <Link to="/" className="hover:text-primary transition-colors">Home</Link>
-          <ChevronRight className="w-3 h-3" />
-          <Link to="/explore-symptoms" className="hover:text-primary transition-colors">Ailments</Link>
-          <ChevronRight className="w-3 h-3" />
-          <span className="text-primary">{condition.title}</span>
-        </div>
-      </nav>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
         <div className="grid lg:grid-cols-4 gap-12">
           
           {/* Sidebar */}
@@ -265,10 +266,10 @@ const ConditionDetail: React.FC = () => {
                   </Link>
                   <button 
                     onClick={handleShare}
-                    className="px-8 py-4 bg-primary-light text-white font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all border border-white/20 flex items-center gap-2"
+                    className="px-8 py-4 bg-primary-light text-white font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all border border-white/20 flex items-center gap-2 min-w-[200px] justify-center"
                   >
                     <MessageCircle className="w-5 h-5" />
-                    Share This Research
+                    {copied ? 'Link Copied!' : 'Share This Research'}
                   </button>
                 </div>
               </div>

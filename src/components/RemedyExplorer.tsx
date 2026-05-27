@@ -54,23 +54,23 @@ export default function RemedyExplorer() {
       <div className="grid lg:grid-cols-12 gap-10">
         {/* Sidebar - Condition List */}
         <div className="lg:col-span-4 space-y-3 max-h-[600px] overflow-y-auto pr-2 no-scrollbar">
-          {filteredConditions.map((condition) => (
+          {filteredConditions.map((condition, idx) => (
             <motion.button
-              key={condition.id}
+              key={`${condition.id}-${idx}`}
               onClick={() => setSelectedCondition(condition)}
               className={`w-full text-left p-6 rounded-3xl border transition-all duration-300 flex items-center justify-between group ${
-                selectedCondition?.id === condition.id 
+                selectedCondition === condition 
                 ? 'bg-primary text-white border-primary shadow-xl shadow-primary/20' 
                 : 'bg-bg-secondary border-border hover:border-primary/30'
               }`}
             >
               <div className="flex items-center gap-4">
-                <div className={`p-2 rounded-xl ${selectedCondition?.id === condition.id ? 'bg-white/20' : 'bg-primary/10 text-primary'}`}>
+                <div className={`p-2 rounded-xl ${selectedCondition === condition ? 'bg-white/20' : 'bg-primary/10 text-primary'}`}>
                   {categoryIcons[condition.id] || <Activity className="w-5 h-5" />}
                 </div>
                 <span className="font-bold text-sm uppercase tracking-wider">{condition.name}</span>
               </div>
-              <ChevronRight className={`w-4 h-4 transition-transform ${selectedCondition?.id === condition.id ? 'translate-x-1' : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-1'}`} />
+              <ChevronRight className={`w-4 h-4 transition-transform ${selectedCondition === condition ? 'translate-x-1' : 'opacity-0 group-hover:opacity-100 group-hover:translate-x-1'}`} />
             </motion.button>
           ))}
           {filteredConditions.length === 0 && (
@@ -85,7 +85,7 @@ export default function RemedyExplorer() {
           <AnimatePresence mode="wait">
             {selectedCondition ? (
               <motion.div
-                key={selectedCondition.id}
+                key={`${selectedCondition.id}-${filteredConditions.indexOf(selectedCondition)}`}
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}

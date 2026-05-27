@@ -2416,5 +2416,1695 @@ export const materiaMedicaData: RemedyDetail[] = [
       better: ["Moderate temperature"],
       worse: ["Night", "Damp weather", "Warmth of bed", "Perspiring"]
     }
+  },
+  {
+    id: "aurum-metallicum",
+    name: "Aurum Metallicum",
+    commonName: "Metallic Gold",
+    family: "Mineral",
+    keynotes: [
+      "Hopelessness and extreme depression",
+      "Self-condemnation and desire for self-destruction",
+      "Bone pains, especially of skull and nasal bones, worse at night",
+      "Great congestion and sense of fulness"
+    ],
+    mind: [
+      "Melancholy; thinks he is unfit for this world",
+      "Intolerable melancholy leading to thoughts of suicide",
+      "Anger and vehemence when contradicted"
+    ],
+    physical: [
+      "Necrosis and caries of skull bones and nasal cartilage",
+      "Severe night pains in bones that drive to despair",
+      "Valvular cardiac conditions with hypertrophy"
+    ],
+    modalities: {
+      better: ["Cool open air", "Washing with cold water", "During the day"],
+      worse: ["Night season", "Cold weather", "Winter", "Mental exertion"]
+    }
+  },
+  {
+    id: "chelidonium-majus",
+    name: "Chelidonium Majus",
+    commonName: "Great Celandine",
+    family: "Plant",
+    keynotes: [
+      "Fixed pain under the lower inner angle of right scapula",
+      "Jaundice and liver congestion with bilious symptoms",
+      "Strong preference for hot drinks and warm food",
+      "Spasmodic cough with rattling phlegm"
+    ],
+    mind: [
+      "Lethargic and dull; hates mental exertion",
+      "Aversion to company, anxious and sad",
+      "Dread of being touched or approached"
+    ],
+    physical: [
+      "Biliary tract inflammation and gallstone colic",
+      "Thick yellow coated tongue with teeth indentations",
+      "Hepatic congestion with right shoulder blade pain"
+    ],
+    modalities: {
+      better: ["Taking hot food/drinks", "Eating a meal", "Pressure on right side"],
+      worse: ["Right side", "Change of weather", "4 AM and 4 PM", "Motion"]
+    }
+  },
+  {
+    id: "conium-maculatum",
+    name: "Conium Maculatum",
+    commonName: "Poison Hemlock",
+    family: "Plant",
+    keynotes: [
+      "Glands swollen and stony hard from mechanical injury",
+      "Ascending neuromuscular paralysis beginning in lower limbs",
+      "Vertigo on turning over or looking around in bed",
+      "Photophobia intense out of proportion to redness"
+    ],
+    mind: [
+      "Symptons of progressive senile debility and loss of memory",
+      "Indifference; wants no company yet dreads being alone",
+      "Inability to sustain mental activity"
+    ],
+    physical: [
+      "Scyros of breasts and testicles with stony hardness",
+      "Prostatic hypertrophy and flow of prostatic fluid",
+      "Soreness of breasts before menses and during nursing"
+    ],
+    modalities: {
+      better: ["Darkness", "Letting affected limb hang down", "Motion", "Pressure"],
+      worse: ["Turning over in bed", "Least touch", "Celibacy", "At night", "Cold air"]
+    }
+  },
+  {
+    id: "secale-cornutum",
+    name: "Secale Cornutum",
+    commonName: "Ergot of Rye",
+    family: "Fungi",
+    keynotes: [
+      "Icy coldness of body but cannot tolerate any cover/blankets",
+      "Burning sensations in internal parts as if sparks of fire",
+      "Dry gangrene and necrosis of extremities",
+      "Passive hemorrhages of dark, thin, fluid blood"
+    ],
+    mind: [
+      "Mania with desire to tear things or walk naked",
+      "Dullness of senses with fear of death",
+      "Sudden anxiety and starting up in sleep"
+    ],
+    physical: [
+      "Severe muscle cramps starting in hands and feet, extending to calves",
+      "Dark fluid oozing bleeding; non-coagulating",
+      "Extreme prostration and cachexia with senile look"
+    ],
+    modalities: {
+      better: ["Cold air", "Being uncovered", "Cold applications"],
+      worse: ["Warm applications and wraps", "Heat of stove", "Motion", "Touch"]
+    }
+  },
+  {
+    id: "platina",
+    name: "Platinum Metallicum",
+    commonName: "Metallic Platinum",
+    family: "Mineral",
+    keynotes: [
+      "Supreme arrogance, pride, and self-esteem",
+      "Objects and people appear small and physically inferior",
+      "Spasmodic numbness and neuralgic pressure",
+      "Hysterical spasms alternating with mental depression"
+    ],
+    mind: [
+      "Thinks highly of herself; looks down upon everyone else",
+      "Feels physically detached and larger than normal",
+      "Mental symptoms worsen as physical symptoms improve"
+    ],
+    physical: [
+      "Numbness and coldness in face, hands, and isolated patches",
+      "Ovarian irritation with intense sensitive soreness",
+      "Constipation during travel with clay-like stools"
+    ],
+    modalities: {
+      better: ["Walking in open air", "Gentle massage", "Resting"],
+      worse: ["Being indoors", "In evening", "Touch", "Lying on left side"]
+    }
+  },
+  {
+    id: "plumbum-metallicum",
+    name: "Plumbum Metallicum",
+    commonName: "Metallic Lead",
+    family: "Mineral",
+    keynotes: [
+      "Violent colic with retraction of abdomen to the spine",
+      "Wrist-drop from extensor muscle paralysis",
+      "Extreme, obstinate constipation with hard, dark, lumpy feces",
+      "Muscular atrophy and progressive sclerosis"
+    ],
+    mind: [
+      "Loss of memory; cannot find correct words",
+      "Apathy with progressive mental dullness",
+      "Delusions of being poisoned or watched"
+    ],
+    physical: [
+      "Alternating hemiplegia and localized muscular paralysis",
+      "Colic so severe the navel feels drawn backward by a string",
+      "Hyperesthesia of skin alternating with anesthesia"
+    ],
+    modalities: {
+      better: ["Hard physical pressure", "Rubbing of abdomen", "Bending double"],
+      worse: ["Motion", "At night", "Open drafts", "Mental effort"]
+    }
+  },
+  {
+    id: "pyrogenium",
+    name: "Pyrogenium",
+    commonName: "Artificial Sepsis",
+    family: "Animal",
+    keynotes: [
+      "Pulse exceptionally rapid while temperature remains low",
+      "Bed feels intolerably hard, causing dynamic restlessness",
+      "All discharges (breath, seat, stool, menses) have a putrid odor",
+      "High fevers with rapid septic state and chills"
+    ],
+    mind: [
+      "Loquacity; mind active and excited, can think of multiple things",
+      "Sensation as if limbs were scattered or double in bed",
+      "Anxious dreams and restless waking state"
+    ],
+    physical: [
+      "Soreness and aching in bones and joints all over",
+      "Septicemia, puerperal fever, and abscesses with offensive pus",
+      "Great thirst for small quantities of ice-cold water, vomited instantly"
+    ],
+    modalities: {
+      better: ["Constant motion", "Changing position in bed", "Heat"],
+      worse: ["Cold damp air", "Starting to move", "First motion"]
+    }
+  },
+  {
+    id: "coffea-cruda",
+    name: "Coffea Cruda",
+    commonName: "Raw Coffee Bean",
+    family: "Plant",
+    keynotes: [
+      "Extreme mental and physical excitability with flow of ideas",
+      "Sleeplessness arising from sudden joy, happy news, or over-excitement",
+      "Hyperesthesia of all senses (noise, light, touch is intolerable)",
+      "Toothache or neuralgic pain relieved by cold ice-water in mouth"
+    ],
+    mind: [
+      "Ecstatic state of mind with rapid flow of creative ideas",
+      "Oversensitive to pain; cries out and cannot tolerate it",
+      "Full of plans and mental activity during nighttime"
+    ],
+    physical: [
+      "Hysterical palpitations and rapid irregular pulse",
+      "Severe neuralgias worse from wind, better from cold water and rest",
+      "Extreme physical restlessness with twitching of muscles"
+    ],
+    modalities: {
+      better: ["Holding ice-cold water in mouth", "Lying down", "Warmth"],
+      worse: ["Sudden emotions/joy", "Extreme cold", "Noise", "Strong scents"]
+    }
+  },
+  {
+    id: "colocynthis",
+    name: "Colocynthis",
+    commonName: "Bitter Cucumber",
+    family: "Plant",
+    keynotes: [
+      "Agonizing colic in abdomen causing patient to bend double",
+      "Pains are relieved entirely by hard pressure and heat",
+      "Ailments starting immediately after anger with indignation",
+      "Sciatic nerve pain extending from hip down to knee and foot"
+    ],
+    mind: [
+      "Extremely irritable; gets angry when questioned",
+      "Full of indignation and resentment over wrongs",
+      "Aversion to talking or being approached"
+    ],
+    physical: [
+      "Spasms and constriction of intestines with sour vomiting",
+      "Sciatica on left side, worse from motion and cold, better by pressure",
+      "Severe neuralic headache from emotional suppression"
+    ],
+    modalities: {
+      better: ["Bending double", "Hard pressure", "Heat", "Rest"],
+      worse: ["Anger", "Indignation", "Motion", "Cold", "Eating/drinking"]
+    }
+  },
+  {
+    id: "calendula-officinalis",
+    name: "Calendula Officinalis",
+    commonName: "Garden Marigold",
+    family: "Plant",
+    keynotes: [
+      "Clean-cut surgical wounds or lacerations with ragged edges",
+      "Acts as a local antiseptic, promoting healthy granulation",
+      "Prevents excessive suppuration, gangrene, and scarring",
+      "Pain in wounds is out of proportion to injury"
+    ],
+    mind: [
+      "Fretful and easily frightened",
+      "Aversion to effort, sluggish mental state",
+      "Anxious and foreboding of evil"
+    ],
+    physical: [
+      "Rupture of muscles and tendons, lacerated perineum",
+      "Post-operative wounds to speed healing",
+      "Erysipelas and open ulcers with bloody discharge"
+    ],
+    modalities: {
+      better: ["Resting", "Warm weather", "Lying perfectly still"],
+      worse: ["Damp weather", "Cold drafts", "Dynamic movements"]
+    }
+  },
+  {
+    id: "acidum-nitricum",
+    name: "Acidum Nitricum",
+    commonName: "Nitric Acid",
+    family: "Chemical",
+    keynotes: [
+      "Stitching, splinter-like pains in ulcers, throat, and hemorrhoids",
+      "Urine highly offensive, smelling like horse's urine",
+      "Ulcers with zigzag, irregular edges and exuberant granulations",
+      "Extremely sensitive to cold and change of weather"
+    ],
+    mind: [
+      "Vindictive, unforgiving; holds grudges and refuses to be appeased",
+      "Extremely irritable and anxious about health, with fear of death",
+      "Sadness and despondency, especially during the evening"
+    ],
+    physical: [
+      "Cracks and fissures at mucus outlets, especially corners of mouth and anus",
+      "Hemorrhoids that pain for hours after every stool",
+      "Frequent, severe epistaxis of dark, clotted blood"
+    ],
+    modalities: {
+      better: ["Riding in a carriage / vehicle", "Warm air", "Steady pressure"],
+      worse: ["Cold air", "Change of weather", "Touch", "Evening and night"]
+    }
+  },
+  {
+    id: "acidum-benzoicum",
+    name: "Acidum Benzoicum",
+    commonName: "Benzoic Acid",
+    family: "Chemical",
+    keynotes: [
+      "Urine highly colored, exceedingly offensive, smelling like horse's urine",
+      "Gouty and rheumatic symptoms alternating with urinary symptoms",
+      "Cracking in joints on slightest movement",
+      "Stiffness and nodes in joints"
+    ],
+    mind: [
+      "Prone to dwell on unpleasant items from the past",
+      "Anxious, especially when light is dim or in evening",
+      "Child clings to mother, refuses to be separated"
+    ],
+    physical: [
+      "Excessive uric acid in blood; red sandy deposit in urine",
+      "Rheumatic pains in Achilles tendon and joints",
+      "Heavy, dark urine with extremely offensive odor"
+    ],
+    modalities: {
+      better: ["Warmth of bed", "Eating", "Rest"],
+      worse: ["Cold air", "Exertion", "Change of weather"]
+    }
+  },
+  {
+    id: "acidum-fluoricum",
+    name: "Acidum Fluoricum",
+    commonName: "Hydrofluoric Acid",
+    family: "Chemical",
+    keynotes: [
+      "Sensation of cold wind blowing through the eyes",
+      "Varicose veins and ulcers; deep-seated destructive processes",
+      "Extremely warm-blooded; seeks cold water and cold rooms",
+      "Ailments from abuse of mercury, especially in bone diseases"
+    ],
+    mind: [
+      "Buoyant, cheerful, highly energetic and physical",
+      "Indifference to loved ones, yet friendly to strangers",
+      "Sensation of lightness and increased willpower"
+    ],
+    physical: [
+      "Destructive ulcers that eat into bone and deep tissues",
+      "Rapidly decaying teeth; lachrymal fistula",
+      "Soles and palms burn, causing patient to seek cold surface"
+    ],
+    modalities: {
+      better: ["Cold applications", "Washing in cold water", "Walking rapidly"],
+      worse: ["Warmth in any form", "Rest", "Acid food or drinks"]
+    }
+  },
+  {
+    id: "acidum-muriaticum",
+    name: "Acidum Muriaticum",
+    commonName: "Muriatic Acid",
+    family: "Chemical",
+    keynotes: [
+      "Extreme physical weakness; slides down to foot of bed",
+      "Hemorrhoids so sensitive to touch that even toilet sheet is intolerable",
+      "Involuntary stool while passing urine or flatus",
+      "Dry, dark tongue, looking like leather"
+    ],
+    mind: [
+      "Quiet, sad, and fully taciturn; refuses to respond",
+      "Anxious, has prophetic dreams of misfortune",
+      "Sighing and groaning during sleep"
+    ],
+    physical: [
+      "Profound muscular exhaustion with dropped lower jaw",
+      "Ulceration of mouth and throat with putrid breath",
+      "Hemorrhoids protrude like a bunch of red cherries, highly painful"
+    ],
+    modalities: {
+      better: ["Warmth of bed", "Lying on right side"],
+      worse: ["Touch", "Cold wind", "Motion", "Sitting"]
+    }
+  },
+  {
+    id: "acidum-sulphuricum",
+    name: "Acidum Sulphuricum",
+    commonName: "Sulphuric Acid",
+    family: "Chemical",
+    keynotes: [
+      "Sensation of internal trembling, though none is visible externally",
+      "In a great hurry; everything must be done immediately",
+      "Black and blue spots on skin after minor bruises or falls",
+      "Sour vomiting, sour breath, and sour sweat in children"
+    ],
+    mind: [
+      "Hurried and impatient in all actions and speaking",
+      "Fretful, moody, and easily offended",
+      "Anxiety with rapid flow of pessimistic thoughts"
+    ],
+    physical: [
+      "Petechiae, purpura, and passive hemorrhages from all orifices",
+      "Aphthous ulceration of mouth, gums bleed easily",
+      "Extreme fatigue with dragging of feet when walking"
+    ],
+    modalities: {
+      better: ["Warmth", "Rest", "Lying on back"],
+      worse: ["Cold air", "Smell of coffee", "Open draft", "Warm drinks"]
+    }
+  },
+  {
+    id: "anthracinum",
+    name: "Anthracinum",
+    commonName: "Anthrax Poison",
+    family: "Animal",
+    keynotes: [
+      "Terrible, burning, intense pain as if hot coals were on the part",
+      "Septic, malignant boils and carbuncles with dark, bloody discharge",
+      "Rapid and extreme prostration with putrid breath and secretions",
+      "Successive crops of painful boils that do not heal"
+    ],
+    mind: [
+      "Anxiety with extreme physical restlessness",
+      "Stupor with delirium during hot septicaemias",
+      "Fear of death and toxic daze"
+    ],
+    physical: [
+      "Gangrenous ulcerations, erysipelas with black vesicles",
+      "Malignant pustule with heavy induration in surrounding tissues",
+      "Septicemia with rapid heart rate and low body temperature"
+    ],
+    modalities: {
+      better: ["Warm applications", "Pressure"],
+      worse: ["Cold applications", "Least touch", "Warmth of bed"]
+    }
+  },
+  {
+    id: "arum-triphyllum",
+    name: "Arum Triphyllum",
+    commonName: "Jack-in-the-Pulpit",
+    family: "Plant",
+    keynotes: [
+      "Constant picking and boring at the nose and lips until they bleed",
+      "Nostrils and lips are raw, bloody, and painful",
+      "Hoarseness and loss of voice after singing or public speaking",
+      "Acrid, watery discharge from nostrils, excoriating the lip"
+    ],
+    mind: [
+      "Screams from pain; gets highly irritable and cross",
+      "Delirium; talks incoherently and picking at bedclothes",
+      "Aversion to light and company"
+    ],
+    physical: [
+      "Corners of mouth cracked, bleeding, and ulcerated",
+      "Voice changeable, constantly breaking or squeaking",
+      "Salivation with swollen glands under jaw"
+    ],
+    modalities: {
+      better: ["Warmth", "Drinking warm water"],
+      worse: ["Cold wind", "Speaking or singing", "North-west wind"]
+    }
+  },
+  {
+    id: "asafoetida",
+    name: "Asafoetida",
+    commonName: "Asafetida",
+    family: "Plant",
+    keynotes: [
+      "Sensation of a globe or ball rising in the throat (globus)",
+      "Reversed peristalsis with violent spasmodic belching",
+      "Bone pains and ulcers, especially of shin and head, from overuse of mercury",
+      "Extreme hypersensitiveness of ulcerated bone to touch"
+    ],
+    mind: [
+      "Hysterical, changeable temperament with crying and laughing",
+      "Anxious and fearful of physical collapse",
+      "Easily excited by noises or sudden movements"
+    ],
+    physical: [
+      "Flatus passes upwards; stomach feels bloated and highly distended",
+      "Deep bone ulcers with offensive, thin, watery discharge",
+      "Sensation of pressure and burning in chest radiating to neck"
+    ],
+    modalities: {
+      better: ["Open air", "Motion", "Hard pressure on parts"],
+      worse: ["Touch", "Night", "Resting indoors", "Lying on left side"]
+    }
+  },
+  {
+    id: "asterias-rubens",
+    name: "Asterias Rubens",
+    commonName: "Red Starfish",
+    family: "Animal",
+    keynotes: [
+      "Lancinating, sharp, stabbing pains in left breast",
+      "Chronic swelling and induration of glands, especially mammary",
+      "Flushing of face with heat, followed by coldness",
+      "Epileptiform spasms preceded by visual aura"
+    ],
+    mind: [
+      "Highly irritable, easily offended and tearful",
+      "Anxious and fearful of breast disease or cancer",
+      "Sensation as if brain were shaken by a blow"
+    ],
+    physical: [
+      "Left breast swollen, hard, and painful; nipple drawn inward",
+      "Varicose veins on legs that bleed or itch easily",
+      "Acne on face and chest during puberty"
+    ],
+    modalities: {
+      better: ["Open sea air", "Cool rooms", "Motion"],
+      worse: ["Warm rooms", "At night", "Damp cold", "Left side"]
+    }
+  },
+  {
+    id: "bellis-perennis",
+    name: "Bellis Perennis",
+    commonName: "English Daisy",
+    family: "Plant",
+    keynotes: [
+      "Deep-seated tissue trauma; bruising from mechanical blow",
+      "Railway spine; injury to pelvis and lower vertebrae",
+      "Ill-effects of cold drinks when the body is overheated",
+      "Sensation of soreness and swelling in internal organs"
+    ],
+    mind: [
+      "Dullness and aversion to physical and mental exertion",
+      "Prefers to be alone and quiet",
+      "Anxious dreams of falling or being crushed"
+    ],
+    physical: [
+      "Soreness of abdominal walls after operations or childbirth",
+      "Muscular aches in back and limbs from heavy manual labor",
+      "Chilblains with intense burning and purple swelling"
+    ],
+    modalities: {
+      better: ["Cold applications", "Lying still", "Gentle motion"],
+      worse: ["Touch", "Warm bath", "Getting hot in bed", "Sudden drafts"]
+    }
+  },
+  {
+    id: "bismuthum",
+    name: "Bismuthum Subnitricum",
+    commonName: "Subnitrate of Bismuth",
+    family: "Chemical",
+    keynotes: [
+      "Vomits water as soon as it reaches the stomach; food is retained longer",
+      "Craves company; cannot bear to be alone, even for a few minutes",
+      "Tongue coated thickly white; breath is highly offensive",
+      "Cramping, spasmodic gastralgia with burning in stomach"
+    ],
+    mind: [
+      "Solitude is intolerable; has intense anxiety and fear when alone",
+      "Discontented, restless, and complaining",
+      "Child holds onto mother's hand constantly"
+    ],
+    physical: [
+      "Watery, painless diarrhea with cadaveric, offensive odor",
+      "Convulsive retching with cold extremities",
+      "Severe neuralic headaches alternating with stomach pains"
+    ],
+    modalities: {
+      better: ["Cold applications", "Bending backward", "Movement"],
+      worse: ["Solitude", "Cold drinks", "Eating", "Lying down"]
+    }
+  },
+  {
+    id: "bovista-lycoperdon",
+    name: "Bovista Lycoperdon",
+    commonName: "Puff-Ball",
+    family: "Fungi",
+    keynotes: [
+      "Intolerance of tight clothing around the waist or abdomen",
+      "Sensation of puffiness or swelling in all parts",
+      "Sweat in axillae smells distinctly like onions",
+      "Hemorrhages of dark, liquid blood from any mucous outlet"
+    ],
+    mind: [
+      "Awkwardness; drops things from hands easily",
+      "Sensitiveness; gets irritated by minor remarks",
+      "Dullness of memory; easily confused"
+    ],
+    physical: [
+      "Violent itching of skin, worse from getting warm in bed",
+      "Deep creases and thick dry skin on hands and fingers",
+      "Diarrhea preceding or during menstruation"
+    ],
+    modalities: {
+      better: ["Hot food", "Bending forward", "Rubbing"],
+      worse: ["Tight clothes", "Getting hot", "Before thunderstorm", "Morning"]
+    }
+  },
+  {
+    id: "bromium-element",
+    name: "Bromium",
+    commonName: "Bromine",
+    family: "Chemical",
+    keynotes: [
+      "Respiratory and glandular symptoms in sailors, better at sea",
+      "Croup with deep rattling mucus, but cannot expectorate",
+      "Sensation of water or cold air in the larynx",
+      "Hard, stony induration of parotid and thyroid glands"
+    ],
+    mind: [
+      "Anxious and fearful of ghosts, darkness, or being alone",
+      "Sensation as if strange people were looking over shoulder",
+      "Desire to travel or seek open space"
+    ],
+    physical: [
+      "Spasmodic dyspnea with gasping, cyanosis, and dry cough",
+      "Hypertrophy of heart with rapid, full pulse",
+      "Acne-like eruptions on face and forehead"
+    ],
+    modalities: {
+      better: ["Sea air", "Riding on water", "Motion", "Exertion"],
+      worse: ["Warm rooms", "At dust", "Heat of sun", "Damp north wind"]
+    }
+  },
+  {
+    id: "caladium-seguinum",
+    name: "Caladium Seguinum",
+    commonName: "American Arum",
+    family: "Plant",
+    keynotes: [
+      "Violent pruritus of the vulva or scrotum, worse at night",
+      "Sweet, sticky perspiration that attracts flies and insects",
+      "Great craving for tobacco and smoking habit",
+      "Loss of sexual power with cold, relaxed organs"
+    ],
+    mind: [
+      "Extremely forgetful; loses track of what he is doing",
+      "Depressed and dazed; fear of approaching sickness",
+      "Hypochondriacal state with dread of efforts"
+    ],
+    physical: [
+      "Aversion to motion; prefers to lie down always",
+      "Asthma alternating with skin eruptions",
+      "Glany secretions from urethra with weakness"
+    ],
+    modalities: {
+      better: ["After sleep", "Cool open air", "Cold water"],
+      worse: ["Warmth of bed", "Motion", "Stormy weather", "Solitude"]
+    }
+  },
+  {
+    id: "calcarea-fluorica",
+    name: "Calcarea Fluorica",
+    commonName: "Fluoride of Lime",
+    family: "Mineral",
+    keynotes: [
+      "Stony hard glands, especially in neck, breasts, and testes",
+      "Exostoses, bunions, and malnutrition of bones and teeth",
+      "Enlarged, hard varicose veins and sluggish circulation",
+      "Indurated swelling of fascia and tendons from sprains"
+    ],
+    mind: [
+      "Anxiety about financial ruins and poverty",
+      "Indecisive; lacks confidence to start any project",
+      "Depression and fear of becoming dependent"
+    ],
+    physical: [
+      "Decay of teeth, loose teeth, with deficient enamel",
+      "Cracking in joints on moving",
+      "Uterine displacement and bearing down pains"
+    ],
+    modalities: {
+      better: ["Heat", "Warm applications", "Continuous gentle motion"],
+      worse: ["Cold damp weather", "Starting to move", "Rest", "Drafts"]
+    }
+  },
+  {
+    id: "carbo-animalis",
+    name: "Carbo Animalis",
+    commonName: "Animal Charcoal",
+    family: "Mineral",
+    keynotes: [
+      "Glandular induration of stony hardness, esp. axilla and groin",
+      "Weak ankles in children; they turn inwards when walking",
+      "Copper-colored, dark spots on face, chest, and arms",
+      "All secretions (sweat, discharge) stain linen bright yellow"
+    ],
+    mind: [
+      "Desire to be alone; avoids conversation and company",
+      "Deep, heavy sadness, worse in the morning on waking",
+      "Nostalgia and homesickness of elderly"
+    ],
+    physical: [
+      "Ulceration and burning in stomach and rectum",
+      "Painful swelling of bones with burning sensations",
+      "Offensive, burning discharges from uterus"
+    ],
+    modalities: {
+      better: ["Warmth", "Dry weather"],
+      worse: ["Cold air", "Loss of fluids", "After eating", "Morning"]
+    }
+  },
+  {
+    id: "carduus-marianus",
+    name: "Carduus Marianus",
+    commonName: "St. Mary's Thistle",
+    family: "Plant",
+    keynotes: [
+      "Liver congestion and edema with dull aching pain in right side",
+      "Varicose veins and ulcers, especially associated with portal stagnation",
+      "Pain in liver region radiating to left shoulder",
+      "Stool hard, knotty, alternating with bright yellow diarrhea"
+    ],
+    mind: [
+      "Melancholy and heavy depression; loses interest in life",
+      "Irritable, easily angered by minor contradictions",
+      "Apathy with difficulty in understanding ideas"
+    ],
+    physical: [
+      "Jaundice with clay-colored stools and dark urine",
+      "Varicose veins in legs with severe burning and itching",
+      "Congestion of portal veins leading to pelvic fullness"
+    ],
+    modalities: {
+      better: ["Cool air", "Rest", "Gentle massage"],
+      worse: ["Lying on left side", "Motion", "Damp warm weather"]
+    }
+  },
+  {
+    id: "cicuta-virosa",
+    name: "Cicuta Virosa",
+    commonName: "Water Hemlock",
+    family: "Plant",
+    keynotes: [
+      "Violent spasmodic convulsions with head turned backward (opisthotonos)",
+      "Strange, unnatural hunger for chalk, coal, or charcoal",
+      "Pupils highly dilated and insensible to light",
+      "Eczema on face with thick, yellow, horn-like crusts"
+    ],
+    mind: [
+      "Childish behavior; sings, dances, and talks of foolish things",
+      "Misanthropy; hates company and avoids human interaction",
+      "Extreme fear of strange faces and new places"
+    ],
+    physical: [
+      "Sudden spasmodic twitching of any muscle group",
+      "Lockjaw (trismus) with frothing at the mouth",
+      "Violent stomach cramps preceding fits"
+    ],
+    modalities: {
+      better: ["Warmth", "Quiet", "Resting"],
+      worse: ["Touch", "Noise", "Draft", "Turning head in bed"]
+    }
+  },
+  {
+    id: "clematis-erecta",
+    name: "Clematis Erecta",
+    commonName: "Virgin's Bower",
+    family: "Plant",
+    keynotes: [
+      "Glandular swelling in groin and testes with sore induration",
+      "Scrotal eczema and intense itching of the perineum",
+      "Painful urination with interrupted flow; must wait for urine to start",
+      "Strictures of urethra; burning during and after urination"
+    ],
+    mind: [
+      "Apathy and disinclination to any exertion",
+      "Irritability, gets angry when talking",
+      "Low spirits and weeping tendency"
+    ],
+    physical: [
+      "Swelling of right testicle, highly sensitive to touch",
+      "Eczema on face and hands with sticky fluid, burning",
+      "Iritation of prostate with frequent urge"
+    ],
+    modalities: {
+      better: ["Open air", "Washing in cold water"],
+      worse: ["Warmth of bed", "Night", "Wet weather", "Touch"]
+    }
+  },
+  {
+    id: "coccus-cacti",
+    name: "Coccus Cacti",
+    commonName: "Cochineal",
+    family: "Animal",
+    keynotes: [
+      "Spasmodic cough in quick successions with ropy, sticky phlegm",
+      "phlegm hangs in long strings from mouth and nose",
+      "Tickling in throat-fit like a feather, triggering cough",
+      "Kidney pains (renal colic) with brick-dust sediment in urine"
+    ],
+    mind: [
+      "Sadness and heavy depression, worse in morning",
+      "Anxious first thing on waking",
+      "Irritable about minor noises"
+    ],
+    physical: [
+      "Cough ending in vomiting of clear sticky mucus",
+      "Menses early with large black clots and thick flow",
+      "Urination painful with constant cutting urge"
+    ],
+    modalities: {
+      better: ["Washing in cold water", "Cool open air", "Drinking cold water"],
+      worse: ["Warm room", "Heat of stove", "After sleep", "Around 11 PM"]
+    }
+  },
+  {
+    id: "coca-erythroxylon",
+    name: "Coca",
+    commonName: "Erythroxylon Coca",
+    family: "Plant",
+    keynotes: [
+      "Mountain sickness; air hunger and headache from high altitude",
+      "Shortness of breath on ascending stairs or hills",
+      "Violent palpitations with dazed state of mind",
+      "Prevents easy muscular fatigue from overexertion"
+    ],
+    mind: [
+      "Melancholy and desire for absolute system isolation",
+      "Brain-fag; can only concentrate on physical items",
+      "Quiet, refuses to respond to questions"
+    ],
+    physical: [
+      "Pulse rapid, small, and highly compressible",
+      "Sleeplessness from least mental excitement or study",
+      "Decay of teeth with cold sensitivity"
+    ],
+    modalities: {
+      better: ["Descending hills", "Cold air", "Gentle motion"],
+      worse: ["Ascending", "Physical effort", "Cold drafts", "At night"]
+    }
+  },
+  {
+    id: "condurango-plant",
+    name: "Condurango",
+    commonName: "Condor Plant",
+    family: "Plant",
+    keynotes: [
+      "Painful cracks and fissures in angles of mouth",
+      "Gastric cancer with vomiting of dark, coffee-ground matter",
+      "Stricture of esophagus with severe pain behind sternum on swallowing",
+      "Chronic ulcers with burning and jagged margins"
+    ],
+    mind: [
+      "Despondency and deep anxiety over stomach disease",
+      "Aversion to any effort, feels highly fatigued",
+      "Quiet and reflective"
+    ],
+    physical: [
+      "Vomiting of food immediately after eating, with burning pain",
+      "Fissures of anus, painful during defecation",
+      "Swelling of lymph nodes with hard centers"
+    ],
+    modalities: {
+      better: ["Rest", "Warm fluids", "Pressure"],
+      worse: ["Eating food", "Swallowing", "Cold air"]
+    }
+  },
+  {
+    id: "crotalus-horridus",
+    name: "Crotalus Horridus",
+    commonName: "Timber Rattlesnake",
+    family: "Animal",
+    keynotes: [
+      "Hemorrhagic diathesis; dark fluid blood flows from every orifice",
+      "Severest yellow jaundice with rapid liver degeneration",
+      "Malignant, septic states with rapid decay of tissues",
+      "Sensation of tightness around neck; cannot bear collar or touch"
+    ],
+    mind: [
+      "Loquacity; muttering, dazed delirium in low fevers",
+      "Sadness and heavy depression; weeps easily",
+      "Suspicious of everyone, refuses medicines"
+    ],
+    physical: [
+      "Epistaxis of non-clotting dark blood; gums bleed easily",
+      "Carbuncles with purple surrounding skin and offensive pus",
+      "Feculent, dark, bloody stools in low typhoids"
+    ],
+    modalities: {
+      better: ["Light", "Being uncovered", "Quiet"],
+      worse: ["Lying on right side", "Spring season", "At sleep", "Touch"]
+    }
+  },
+  {
+    id: "croton-tiglium",
+    name: "Croton Tiglium",
+    commonName: "Croton Oil",
+    family: "Plant",
+    keynotes: [
+      "Stool discharged with a sudden, forceful gush; 'as out of a hydrant'",
+      "Swerve skin itching, especially on scrotum, relieved by GENTLE rubbing",
+      "Sensation of a thread drawing backward from nipple to spine on nursing",
+      "Eczema on face and hands with yellow, oozing vesicles"
+    ],
+    mind: [
+      "Anxious and fearful of minor touch or approach",
+      "Irritable, wants to be left alone",
+      "Weeping on waking"
+    ],
+    physical: [
+      "Diarrhea starts immediately after eating or drinking least thing",
+      "Scrotal swelling with intense burning and drawing pain",
+      "Violent coughing on first waking up"
+    ],
+    modalities: {
+      better: ["Gentle rubbing of skin", "Warmth", "Lying down"],
+      worse: ["Least eating/drinking", "Touch", "Motion", "Morning"]
+    }
+  },
+  {
+    id: "cyclamen-europaeum",
+    name: "Cyclamen",
+    commonName: "Sow-Bread",
+    family: "Plant",
+    keynotes: [
+      "Dread of fresh air; symptoms are aggravated in wind/cold",
+      "Dimness of vision with flickering, stars, or colors before eyes",
+      "Weeping, changeable disposition similar to Pulsatilla, but with fear of fresh air",
+      "Violent headaches with vertigo, better by cold water on head"
+    ],
+    mind: [
+      "Desire for solitude; keeps all worries to herself",
+      "Anxious and tearful; feels as if she has committed a crime",
+      "Hysterical mood swings in young gilrs"
+    ],
+    physical: [
+      "Menses profuse, dark, clotted, with labor-like pains",
+      "Burning itching on skin, worse at night of old people",
+      "Salivation with thick white coating on tongue"
+    ],
+    modalities: {
+      better: ["Moving about", "Rubbing", "Cold water"],
+      worse: ["Fresh air", "Rest", "Warm room", "Fat food"]
+    }
+  },
+  {
+    id: "dioscorea-villosa",
+    name: "Dioscorea",
+    commonName: "Wild Yam",
+    family: "Plant",
+    keynotes: [
+      "Severe abdominal colic relieved entirely by bending BACKWARD",
+      "Sciatica pain extending from hip down to thigh, better for walking",
+      "Pain in liver region extending up to right chest and shoulder",
+      "Vivid sexual dreams with nocturnal emissions and weakness"
+    ],
+    mind: [
+      "Extremely irritable; becomes abusive when questioned",
+      "Depression; feels weary of life",
+      "Aversion to any mental activity"
+    ],
+    physical: [
+      "Spasmodic stretching of limbs with abdominal gas",
+      "Stool hot, watery, followed by faintness and rectal pain",
+      "Neuralic pain in skull radiating to teeth"
+    ],
+    modalities: {
+      better: ["Bending backward", "Standing erect", "Continuous motion"],
+      worse: ["Bending forward", "Sitting", "Lying down", "Midnight"]
+    }
+  },
+  {
+    id: "dolichos-pruriens",
+    name: "Dolichos",
+    commonName: "Cowhage",
+    family: "Plant",
+    keynotes: [
+      "Intense itching of skin without any visible eruption or swelling",
+      "Itching is aggravated enormously by warm bath or warmth of bed",
+      "Jaundice with clay stools, very dark urine, and unbearable skin itch",
+      "Pain in right throat radiating to right ear on swallowing"
+    ],
+    mind: [
+      "Fretful and restless from skin irritation",
+      "Anxious first thing in morning",
+      "Apathy and loss of memory"
+    ],
+    physical: [
+      "Gums swollen, sore, and painful during teething",
+      "Constipation with hard, dry stool, followed by rectal itching",
+      "Frequent, thin yellow stool with griping"
+    ],
+    modalities: {
+      better: ["Cold water", "Lying down in cool room"],
+      worse: ["Warm bath", "Warmth of bed", "At night", "Scratching"]
+    }
+  },
+  {
+    id: "equisetum-hyemale",
+    name: "Equisetum",
+    commonName: "Horsetail",
+    family: "Plant",
+    keynotes: [
+      "Severe pain and full feeling in bladder NOT relieved by urinating",
+      "Constant, burning urge to pass urine, with dribbling of drops",
+      "Enuresis (bedwetting) in children with no apparent cause",
+      "Urine contains heavy mucus and red sandy sediment"
+    ],
+    mind: [
+      "Fretful and irritable, especially during urinary pain",
+      "Despondency and listlessness",
+      "Fatigued from lack of sleep"
+    ],
+    physical: [
+      "Extreme tenderness over bladder region to touch",
+      "Pruritus of urethra with burning after voiding",
+      "Aching pain in loin region radiating to hips"
+    ],
+    modalities: {
+      better: ["Lying down still", "Warm applications"],
+      worse: ["Motion", "After urination", "Pressure on bladder"]
+    }
+  },
+  {
+    id: "eupatorium-purpureum",
+    name: "Eupatorium Purpureum",
+    commonName: "Queen of the Meadow",
+    family: "Plant",
+    keynotes: [
+      "Painful irritation of bladder with frequent urge in pregnant women",
+      "Deep bone-ache with high fever and severe chills",
+      "Urine highly colored, depositing a heavy white clay-like sediment",
+      "Chills start in the back and extend upwards to neck"
+    ],
+    mind: [
+      "Highly nervous, easily startled by minor movements",
+      "Sighing and weeping disposition",
+      "Desire to talk, but loses line of thought"
+    ],
+    physical: [
+      "Dropsy of head and limbs from renal insufficiency",
+      "Severe dull backache in lumbar region with urinary pain",
+      "Cold sweat on face and chest during fever"
+    ],
+    modalities: {
+      better: ["Urinating", "Warm room", "Eating"],
+      worse: ["Damp cold air", "In morning", "Least movement"]
+    }
+  },
+  {
+    id: "ferrum-metallicum",
+    name: "Ferrum Metallicum",
+    commonName: "Metallic Iron",
+    family: "Mineral",
+    keynotes: [
+      "Anemia with sudden blushing and flushing of face from least emotion",
+      "Pseudo-plethora; face looks red and healthy but patient is highly anemic",
+      "Sensation of a heavy hammer beating in brain, worse on sitting down",
+      "Better for gentle, slow walking in open air"
+    ],
+    mind: [
+      "Extremely irritable and sensitive; disputes every opinion",
+      "Anxious about health, yet gets cheerful with company",
+      "Excitement from music or happy news"
+    ],
+    physical: [
+      "Undigested stools passed immediately after eating least food",
+      "Rheumatic shoulder joint pain, worse on raising arm, better for motion",
+      "Menses pale, watery, with labor-like pains"
+    ],
+    modalities: {
+      better: ["Gentle walking in open air", "Warmth", "Slow motion"],
+      worse: ["Sitting still", "Sudden motion", "At night", "Loss of sleep"]
+    }
+  },
+  {
+    id: "helonias-dioica",
+    name: "Helonias",
+    commonName: "False Unicorn",
+    family: "Plant",
+    keynotes: [
+      "Consciousness of uterus; feels the womb distinctly all the time",
+      "Profound mental depression; 'too tired to weep' mood",
+      "Severe backache in lumbar region and hips, better for motion",
+      "Leucorrhea of thick white curd-like matter with intense vagina itch"
+    ],
+    mind: [
+      "Miserable, irritable, cannot bear contradiction",
+      "Cheered and relieved of depression by physical movement/work",
+      "Aversion to company, wants to hide away"
+    ],
+    physical: [
+      "Prolapsus uteri with heavy, bearing-down sensation in pelvis",
+      "Anemia with dropsical swelling of limbs in young girls",
+      "Frequent, pale, heavy urine containing albumin"
+    ],
+    modalities: {
+      better: ["Active motion", "Doing manual work", "Company"],
+      worse: ["Rest", "Thinking of symptoms", "Fatigue", "Cold damp"]
+    }
+  },
+  {
+    id: "hydrastis-canadensis-root",
+    name: "Hydrastis",
+    commonName: "Golden Seal",
+    family: "Plant",
+    keynotes: [
+      "Thick, yellowish, ropy, sticky mucous discharges from any outlet",
+      "Catarrh of nasal, gastric, and uterine tract with great weakness",
+      "Empty, gone, sinking feeling in stomach; not relieved by eating",
+      "Stony hard induration of glands, esp. breast tumors"
+    ],
+    mind: [
+      "Extremely depressed; sure she has cancer or incurable disease",
+      "Hypochondriacal; complains of constant weakness and stomach pains",
+      "Irritable and forgets words"
+    ],
+    physical: [
+      "Constipation with hard, dark, lumpy stools coated in ropy mucus",
+      "Thick yellow coating on tongue; shows imprint of teeth",
+      "Excoriating, thick yellow leucorrhea with backache"
+    ],
+    modalities: {
+      better: ["Warmth", "Resting in warm bed", "Dry weather"],
+      worse: ["Inhaling cold air", "At night", "Washing", "Warm room"]
+    }
+  },
+  {
+    id: "iris-versicolor-plant",
+    name: "Iris Versicolor",
+    commonName: "Blue Flag",
+    family: "Plant",
+    keynotes: [
+      "Burning in entire gastrointestinal tract; 'from mouth to anus'",
+      "Migraine with sick headache beginning with a blur before eyes",
+      "Vomiting of extremely sour, bitter fluid that burns throat",
+      "Periodical sick headache returning every Sunday of hard-workers"
+    ],
+    mind: [
+      "Despondent, gloomy, and highly nervous",
+      "Fear of losing mental control",
+      "Apathy with disinclination to talk"
+    ],
+    physical: [
+      "Profuse, greasy saliva with burning tongue and gums",
+      "Diarrhea watery, green, with severe anus burning",
+      "Headache on right side, worse from motion and rest"
+    ],
+    modalities: {
+      better: ["Continuous movement in open air", "Gentle pressure"],
+      worse: ["Resting", "In evening", "Least eating/drinking", "Sunlight"]
+    }
+  },
+  {
+    id: "lac-defloratum-milk",
+    name: "Lac Defloratum",
+    commonName: "Skimmed Milk",
+    family: "Animal",
+    keynotes: [
+      "Intense sick headache beginning in forehead and settling in right eye",
+      "Obstinate constipation with dry, hard, lumpy stools; requires great effort",
+      "Great despondency and fear of death during headache",
+      "Loss of milk in nursing mothers with sudden chilliness"
+    ],
+    mind: [
+      "Deep melancholy; does not care whether she lives or dies",
+      "Aversion to any conversation or mental effort",
+      "Anxious and tearful"
+    ],
+    physical: [
+      "Frequent urination of pale, watery urine during headache",
+      "Skin highly sensitive to touch and drafts",
+      "Severe nausea with vomiting of bitter bile"
+    ],
+    modalities: {
+      better: ["Lying in dark room", "Hard pressure of head", "Warm wraps"],
+      worse: ["Noise", "Light", "Drafts of air", "Motion of eyes"]
+    }
+  },
+  {
+    id: "lobelia-inflata-herb",
+    name: "Lobelia",
+    commonName: "Indian Tobacco",
+    family: "Plant",
+    keynotes: [
+      "Extreme nausea accompanied by cold sweat and extreme physical weakness",
+      "Dyspnea aggravated by cold air or slightest muscular effort",
+      "Sensation of a lump or weight in center of chest",
+      "Gastralgia with dry mouth, roaring in ears, and vertigo"
+    ],
+    mind: [
+      "Fear of death and dazed dazed mental state",
+      "Extremely nervous; sighs with every breath",
+      "Aversion to speaking or moving"
+    ],
+    physical: [
+      "Vomiting of sour, green fluid with cold forehead",
+      "Respiration shallow, fast, with constant sighing",
+      "Palpitations with severe sinking feeling in stomach"
+    ],
+    modalities: {
+      better: ["Drinking warm water", "Lying down", "Continuous movement"],
+      worse: ["Cold air", "Tobacco smoke", "Least touch", "Afternoon"]
+    }
+  },
+  {
+    id: "murex-purpurea-shell",
+    name: "Murex",
+    commonName: "Purple Murex",
+    family: "Animal",
+    keynotes: [
+      "Extreme sexual excitement in ladies; nymphomania",
+      "Severe bearing-down sensation in uterus; must cross legs to prevent prolapse",
+      "Sensation of a stitch running upwards from uterus to chest",
+      "Leucorrhea watery, greenish, with great weakness in knees"
+    ],
+    mind: [
+      "Lively, overexcited, with rapid emotional transitions",
+      "Deep depression during menses; weeps constantly",
+      "Anxious about pelvic conditions"
+    ],
+    physical: [
+      "Sensation of dryness and soreness in vagina during rest",
+      "Menses early, profuse, with heavy black clots",
+      "Aching pain in loin region radiating to thighs"
+    ],
+    modalities: {
+      better: ["Crossing legs", "Hard pressure on abdomen", "Walking"],
+      worse: ["Lying down", "Thinking of symptoms", "Resting still"]
+    }
+  },
+  {
+    id: "nux-moschata-nut",
+    name: "Nux Moschata",
+    commonName: "Nutmeg",
+    family: "Plant",
+    keynotes: [
+      "Intense, parchment-like dryness of mouth without any thirst",
+      "Absolute sleepiness and irresistible dazed drowsiness",
+      "Changeable, hysterical moods (laughter alternating with tears)",
+      "Feels as if limbs are made of wood or glass, highly brittle"
+    ],
+    mind: [
+      "Dazed, confused, and highly forgetful; loses track of sentences",
+      "Hysterical; laughs at serious things, cries at trivialities",
+      "Sensation of floating in the air or being double"
+    ],
+    physical: [
+      "Stomach enormously bloated with gas; food turns into wind",
+      "Stool hard, dry, difficult, requiring great effort, even if soft",
+      "Dry, hacking cough triggered by getting warm in bed"
+    ],
+    modalities: {
+      better: ["Dry warm weather", "Warm wraps", "Continuous motion"],
+      worse: ["Cold damp air", "Drafts", "Getting wet", "Change of weather"]
+    }
+  },
+  {
+    id: "petroleum-oil",
+    name: "Petroleum",
+    commonName: "Rock Oil",
+    family: "Mineral",
+    keynotes: [
+      "Skin fissures and cracks on hands, worse in winter; raw and bleeding",
+      "Diarrhea occurring only during daytime; completely absent at night",
+      "Nausea and vomiting from riding in carriage, train, or ship",
+      "Sensation of coldness in chest and abdomen after eating"
+    ],
+    mind: [
+      "Extremely irritable; gets angry over trivial mistakes",
+      "Delirium; thinks another person is lying in bed with him",
+      "Anxious and fearful of losing his way"
+    ],
+    physical: [
+      "Eczema on head and neck, thick yellow scales, bleeding easily",
+      "Gastralgia relieved completely by eating least dry food",
+      "Burning in urethra after micturition"
+    ],
+    modalities: {
+      better: ["Eating dry food", "Warm dry air", "Lying down"],
+      worse: ["Winter season", "Riding in carriage", "Getting cold", "Touch"]
+    }
+  },
+  {
+    id: "ranunculus-bulbosus-butter",
+    name: "Ranunculus Bulbosus",
+    commonName: "Bulbous Buttercup",
+    family: "Plant",
+    keynotes: [
+      "Intercostal neuralgia; severe stitching pain in chest walls, worse for breathing",
+      "Skin eruptions resembling herpes or shingles; dark blue vesicles",
+      "Pain in right shoulder blade, worse from change of weather",
+      "Great soreness in muscles of chest, feels bruised and raw"
+    ],
+    mind: [
+      "Extremely irritable and quarrelsome; gets angry easily",
+      "Melancholy and sad; weeps in the evening",
+      "Dread of being alone, yet avoids friends"
+    ],
+    physical: [
+      "Dry, spasmodic cough with chest stitching",
+      "Vesicular herpes on palms and fingers, burning intensely",
+      "Gouty joints with severe stinging pains"
+    ],
+    modalities: {
+      better: ["Resting still", "Warmth", "Gentle pressure"],
+      worse: ["Breathing/inhaling", "Cold damp weather", "Touch", "Evening"]
+    }
+  },
+  {
+    id: "rheum-rhubarb",
+    name: "Rheum",
+    commonName: "Rhubarb",
+    family: "Plant",
+    keynotes: [
+      "Sour smell of the child; sour breath, sour stool, sour sweat",
+      "Screaming, crying child during teething; refuses all toys",
+      "Colic in abdomen with sour diarrhea and constant griping",
+      "Frequent desire for sour things and cold drinks"
+    ],
+    mind: [
+      "Impatient, fretful, and highly irritable",
+      "Child is never satisfied; turns away from everything",
+      "Anxious dreams and restless sleep"
+    ],
+    physical: [
+      "Green, sour-smelling stools with severe straining",
+      "Face pale, waxy during colic, with cold forehead",
+      "Difficulty in teething with swollen gums"
+    ],
+    modalities: {
+      better: ["Warmth of bed", "Wrapping up warm"],
+      worse: ["After eating", "Dentition/teething", "Cold air", "Movement"]
+    }
+  },
+  {
+    id: "rumex-crispus-dock",
+    name: "Rumex",
+    commonName: "Yellow Dock",
+    family: "Plant",
+    keynotes: [
+      "Violent, continuous cough triggered by tickling in throat-pit",
+      "Cough is aggravated enormously by inhalation of cold air; patient covers head",
+      "Sensation of a lump in raw throat-pit, worse on talking",
+      "Brownish, watery diarrhea in early morning, driving him from bed"
+    ],
+    mind: [
+      "Extremely irritable, gets angry at minor jokes",
+      "Depressed and sad; thinks she will never recover",
+      "Aversion to any conversation"
+    ],
+    physical: [
+      "Larynx raw, sore, and highly sensitive to touch",
+      "Skin itching on undressing; worse when cold air touches skin",
+      "Stomach feels heavy and sour after eating dry bread"
+    ],
+    modalities: {
+      better: ["Covering head, mouth, and neck warm", "Drinking warm water"],
+      worse: ["Inhaling cold air", "Undressing", "At night (11 PM)", "Talking"]
+    }
+  },
+  {
+    id: "sabadilla-seed",
+    name: "Sabadilla",
+    commonName: "Cevadilla Seed",
+    family: "Plant",
+    keynotes: [
+      "Sudden, spasmodic fits of violent sneezing, with running nose",
+      "Hay fever worse from smell of flowers; throat sore, relieved by warm drinks",
+      "Sensation of a thread hanging down the throat, causing ticketing cough",
+      "Ailments from intestinal worms, with crawling in anus and nose"
+    ],
+    mind: [
+      "Imagines strange things, such as limbs are shrunk or abdomen is swollen",
+      "Melancholy and silent; sits in a corner and refuses to talk",
+      "Easily startled by minor sounds"
+    ],
+    physical: [
+      "Coryza with profuse bland discharge and red eyes",
+      "Dry, tickling cough in paroxysms, throat red and swollen",
+      "Severe pain in frontal sinus with running eyes"
+    ],
+    modalities: {
+      better: ["Warm drinks", "Warm wraps", "Open air"],
+      worse: ["Smell of flowers", "Cold air", "At night", "Solitude"]
+    }
+  },
+  {
+    id: "selenium-metall",
+    name: "Selenium",
+    commonName: "Metallic Selenium",
+    family: "Mineral",
+    keynotes: [
+      "Severe hair loss, especially from eyebrows, whiskers, and genitals",
+      "Easy mental and physical fatigue from least exertion",
+      "Sexual weakness with discharge of prostatic fluid while straining at stool",
+      "Impotence with desire; organs relaxed, cold, and slow to respond"
+    ],
+    mind: [
+      "Great mental exhaustion; cannot concentrate or read properly",
+      "Despondency and sadness, wishes to lie down always",
+      "Forgetfulness, especially of names and dates"
+    ],
+    physical: [
+      "Constipation with dry, hard lumpy stools of enormous size",
+      "Sweat smells sweetish, attracting insects",
+      "Pains in liver region with yellowish skin"
+    ],
+    modalities: {
+      better: ["Cold water", "Moving in cool air", "Evening"],
+      worse: ["Hot weather", "After sleep", "Exertion", "Touch"]
+    }
+  },
+  {
+    id: "squilla-maritima-onion",
+    name: "Squilla",
+    commonName: "Sea Onion",
+    family: "Plant",
+    keynotes: [
+      "Violent, spasmodic cough with involuntary urination or sneezing",
+      "Cough is triggered by drinking cold water; rattling chest mucus",
+      "Sensation of cold wind in the respiratory tract",
+      "Frequent, severe coryza with watery nasal discharge"
+    ],
+    mind: [
+      "Impatient and fretful; gets angry quickly",
+      "Depressed, silent, and weeps easily",
+      "Aversion to light and noise"
+    ],
+    physical: [
+      "Stitching chest pains, worse for deep breathing",
+      "Bladder irritation with frequent involuntary drops",
+      "Soreness of trachea after coughing fits"
+    ],
+    modalities: {
+      better: ["Warmth of bed", "Quiet rest"],
+      worse: ["Drinking cold water", "In morning on waking", "Motion"]
+    }
+  },
+  {
+    id: "syphilinum-nosode",
+    name: "Syphilinum",
+    commonName: "Syphilitic Nosode",
+    family: "Animal",
+    keynotes: [
+      "Pains increase from sunset to sunrise; worst at midnight",
+      "Washing mania; constantly washing hands with soap and water",
+      "Profound mental depression; hopeless of recovery, weeps constantly",
+      "Severe bone pains, especially in tibiae and skull, worse at night"
+    ],
+    mind: [
+      "Apathy and loss of memory; cannot remember names or places",
+      "Severe depression with thoughts of suicide in evening",
+      "Fear of going mad or losing control"
+    ],
+    physical: [
+      "Ulceration of throat, palate, and nose with putrid discharge",
+      "Chronic, severe constipation with dry hard stools",
+      "Rheumatic joints with severe night pains"
+    ],
+    modalities: {
+      better: ["During the day", "Continuous slow motion", "Cold air"],
+      worse: ["At night (sunset to sunrise)", "Warmth of bed", "At sea"]
+    }
+  },
+  {
+    id: "tellurium-metal",
+    name: "Tellurium",
+    commonName: "Metallic Tellurium",
+    family: "Mineral",
+    keynotes: [
+      "Offensive discharge from ear, smelling like fish brine",
+      "Severe pain in small of back, radiating down left sciatica",
+      "Herpetic ringworm eruptions in circular patches on skin",
+      "Spine between shoulder blades is extremely sensitive to touch"
+    ],
+    mind: [
+      "Extremely irritable; wants to do something violent when crossed",
+      "Dullness of memory; cannot find correct words",
+      "Aversion to any mental work"
+    ],
+    physical: [
+      "Ringworm eruptions with intense itching and watery discharge",
+      "Congestion of ears with severe shooting pains",
+      "Pain in cervical region, worse from turning head"
+    ],
+    modalities: {
+      better: ["Cool open air", "Lying down perfectly still"],
+      worse: ["Touch of spine", "At night", "Damp cold weather"]
+    }
+  },
+  {
+    id: "terebinthina-oil",
+    name: "Terebinthina",
+    commonName: "Turpentine",
+    family: "Chemical",
+    keynotes: [
+      "Urine smoky, dark, containing coffee-ground sediment",
+      "Severe burning and drawing pain in kidneys, radiating to bladder",
+      "Tongue red, dry, and highly polished; 'like glass'",
+      "Hemorrhages from every mucous outlet with extreme weakness"
+    ],
+    mind: [
+      "Dullness and apathy; semi-conscious state",
+      "Anxiety during urinary retention",
+      "Restless dreams with starting up"
+    ],
+    physical: [
+      "Abdomen highly distended with gas; feels like a drum",
+      "Hemorrhoidal bleeding with burning rectal pain",
+      "Severe respiratory congestion with blood-stained sputum"
+    ],
+    modalities: {
+      better: ["Continuous motion", "Cool air", "Uncovering"],
+      worse: ["Lying down still", "Warm applications", "Damp wet weather"]
+    }
+  },
+  {
+    id: "valeriana-offic",
+    name: "Valeriana",
+    commonName: "Valerian",
+    family: "Plant",
+    keynotes: [
+      "Hysteria with wild changeable moods; smiles turn into screams",
+      "Sensation of a thread hanging down throat, causing coughing fits",
+      "Pains in limbs are worse sitting, better on walking about",
+      "Oversensitiveness of all senses; pain feels out of proportion"
+    ],
+    mind: [
+      "Extremely excitable; rapid transition from happiness to deep sadness",
+      "Imagines strange things; thinks she is in a different place",
+      "Fear of darkness and being alone"
+    ],
+    physical: [
+      "Spasmodic contraction of muscles during sleep",
+      "Taste in mouth sour, greasy, with frequent belching",
+      "Headache begins with a warm sensation in skull"
+    ],
+    modalities: {
+      better: ["Walking about", "Bending double", "Continuous gentle movement"],
+      worse: ["Sitting still", "Resting", "In evening", "Touch"]
+    }
+  },
+  {
+    id: "zincum-metallicum-ele",
+    name: "Zincum Metallicum",
+    commonName: "Metallic Zinc",
+    family: "Mineral",
+    keynotes: [
+      "Ceaseless, fidgety, restless movement of feet",
+      "Extreme brain-fag with inability to express thoughts",
+      "Twitching and jerking of muscles all over body",
+      "Ailments from suppressed skin eruptions; symptoms worsen"
+    ],
+    mind: [
+      "Extremely forgetful; cannot write or speak correctly",
+      "Aversion to any mental exertion, gets fatigued immediately",
+      "Sighing and screaming from nervous exhaustion"
+    ],
+    physical: [
+      "Neuralgic pains worse sitting, better for active walking",
+      "Varicose veins on legs with severe aching and swelling",
+      "Difficult urination; must sit or bend backward to void"
+    ],
+    modalities: {
+      better: ["Gentle walking", "Appearance of suppressed eruptions", "Warmth"],
+      worse: ["Sitting still", "Mental effort", "After eating least food", "Wine"]
+    }
+  },
+  {
+    id: "sabina-plant",
+    name: "Sabina",
+    commonName: "Savin",
+    family: "Plant",
+    keynotes: [
+      "Active, bright-red uterine hemorrhage with dark clots",
+      "Pains run from sacrum extending forward to the pubes",
+      "Aggravated enormously by least motion; patient must lie quiet",
+      "Gouty and rheumatic tendons with severe burning joint pains"
+    ],
+    mind: [
+      "Hypochondriacal depression with fear of death",
+      "Irritable and highly nervous; dislikes music",
+      "Tearful, loves dark quiet rooms"
+    ],
+    physical: [
+      "Menses early, profuse, flowing in sudden gushes of hot blood",
+      "Leucorrhea is thick, yellowish, starch-like, and highly offensive",
+      "Spasmodic toothache worse from warmth of bed"
+    ],
+    modalities: {
+      better: ["Open cool air", "Lying perfectly still on back"],
+      worse: ["Least motion", "Warm room", "Warmth of bed", "Touch"]
+    }
+  },
+  {
+    id: "secale-cornutum-fungi",
+    name: "Secale Cornutum",
+    commonName: "Ergot of Rye",
+    family: "Fungi",
+    keynotes: [
+      "Icy coldness of body but cannot tolerate any cover/blankets",
+      "Burning sensations in internal parts as if sparks of fire",
+      "Dry gangrene and necrosis of extremities (senile gangrene)",
+      "Passive hemorrhages of dark, thin, fluid, non-coagulating blood"
+    ],
+    mind: [
+      "Mania with desire to tear things or walk naked",
+      "Dullness of senses with fear of death",
+      "Sudden anxiety and starting up in sleep"
+    ],
+    physical: [
+      "Severe muscle cramps starting in hands and feet, extending to calves",
+      "Extreme prostration and cachexia with senile, wrinkled look",
+      "Diarrhea watery, olive green, highly offensive, with cold extremities"
+    ],
+    modalities: {
+      better: ["Cold air", "Being uncovered", "Cold applications"],
+      worse: ["Warm applications and wraps", "Heat of stove", "Motion", "Touch"]
+    }
+  },
+  {
+    id: "stannum-metallicum-item",
+    name: "Stannum Metallicum",
+    commonName: "Metallic Tin",
+    family: "Mineral",
+    keynotes: [
+      "Profound weakness in chest; cannot talk or read aloud from chest fatigue",
+      "Neuralgic pains that increase gradually, peak, and then slowly decrease",
+      "Cough with sweetish, greenish, or salty mucous expectoration",
+      "Sensation of emptiness in stomach and abdomen"
+    ],
+    mind: [
+      "Extremely sensitive and weeps when reading or talking",
+      "Aversion to company, highly despondent",
+      "Loss of memory; cannot find correct words"
+    ],
+    physical: [
+      "Dry bronchial cough ending in sweet mucous vomiting",
+      "Severe paralysis of limbs with hand trembling",
+      "Leucorrhea profuse, yellow, with extreme physical fatigue"
+    ],
+    modalities: {
+      better: ["Hard pressure on chest/abdomen", "Coughing up expectoration"],
+      worse: ["Talking or singing", "Lying on right side", "Warm food"]
+    }
+  },
+  {
+    id: "stramonium-plant",
+    name: "Stramonium",
+    commonName: "Thorn-Apple",
+    family: "Plant",
+    keynotes: [
+      "Terrified child clings to nearest person or weeps on waking",
+      "Wild, loquacious mania with desire to escape or talk incessantly",
+      "Absolute dread of darkness; craves light and company",
+      "Striking painlessness of all physical symptoms, even in severe inflammation"
+    ],
+    mind: [
+      "Delirium with terrifying hallucinations of black dogs or ghosts",
+      "Desire to bite, tear bedclothes, or strike people",
+      "Lascivious undressing and singing"
+    ],
+    physical: [
+      "Spasmodic throat on trying to swallow liquids; hydrophobia look",
+      "Pupils highly dilated and staring; head hot",
+      "Stammering speech with dazed look"
+    ],
+    modalities: {
+      better: ["Bright light", "Company", "Warmth", "Lying down"],
+      worse: ["Darkness", "Solitude", "Closing eyes", "After sleep"]
+    }
+  },
+  {
+    id: "symphytum-officinale-root",
+    name: "Symphytum Officinale",
+    commonName: "Comfrey",
+    family: "Plant",
+    keynotes: [
+      "Mechanical injuries or blows to eyeball (black eyes / contusions)",
+      "Promotes rapid union of fractured bones (non-union or slow healing)",
+      "Severe, irritability-inducing bone pain after the reduction of fracture",
+      "Pricking, stitching pains in bones when weather changes"
+    ],
+    mind: [
+      "Fretful and irritable from constant bone pain",
+      "Lacks confidence in recovery",
+      "Restless dreams of danger"
+    ],
+    physical: [
+      "Bruising of periosteum with extreme sensitivity to touch",
+      "Injuries to cartilages and ligaments from athletic sprains",
+      "Ulceration of bones with discharging sinuses"
+    ],
+    modalities: {
+      better: ["Gentle pressure", "Warmth", "Resting still"],
+      worse: ["Touch", "Motion", "Change of weather", "Cold drafts"]
+    }
+  },
+  {
+    id: "capsicum-annuum",
+    name: "Capsicum Annuum",
+    commonName: "Cayenne Pepper / Red Pepper",
+    family: "Plant",
+    keynotes: [
+      "Intense burning and smarting pains, like cayenne pepper on raw parts",
+      "Nostalgia (homesickness) accompanied by sleeplessness and red cheeks",
+      "Pain in throat-pit on coughing; cough triggers stitching in ears",
+      "Constipation with burning in rectum and constant ineffectual strain"
+    ],
+    mind: [
+      "Homesick, melancholic, and tearful with red face",
+      "Extremely obstinate; gets angry over major items",
+      "Dread of any mental or physical effort"
+    ],
+    physical: [
+      "Coryza with sore nose and burning throat",
+      "Severe shivering/chills starting between shoulder blades on drinking water",
+      "Swelling of mastoid process behind ear, highly painful to touch"
+    ],
+    modalities: {
+      better: ["Eating dry food", "Warm wrap-up", "Continuous movement"],
+      worse: ["Drinking cold water", "Open cold air", "Touch", "On coughing"]
+    }
   }
 ];

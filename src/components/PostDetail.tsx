@@ -62,13 +62,19 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
   const [toc, setToc] = useState<{ id: string, text: string, level: number }[]>([]);
 
   useEffect(() => {
-    // Basic markdown heading extraction for TOC
+    // Basic markdown heading extraction for TOC with ID deduplication to prevent React key collision
     const headingLines = post.content.split('\n').filter(line => line.startsWith('## ') || line.startsWith('### '));
-    const extractedToc = headingLines.map(line => {
+    const seenIds = new Set<string>();
+    const extractedToc: { id: string, text: string, level: number }[] = [];
+    
+    headingLines.forEach(line => {
       const level = line.startsWith('### ') ? 3 : 2;
       const text = line.replace(/^#+\s+/, '').trim();
       const id = text.toLowerCase().replace(/[^\w\s-]/g, '').replace(/\s+/g, '-');
-      return { id, text, level };
+      if (id && !seenIds.has(id)) {
+        seenIds.add(id);
+        extractedToc.push({ id, text, level });
+      }
     });
     setToc(extractedToc);
 
@@ -277,9 +283,9 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
                   <h3 className="font-display font-black text-xl text-text-primary uppercase tracking-tight italic">Content <span className="text-primary italic">Guide</span></h3>
                 </div>
                 <nav className="space-y-4">
-                  {toc.map((item) => (
+                  {toc.map((item, idx) => (
                     <a 
-                      key={`${post.id}-toc-${item.id}`} 
+                      key={`${post.id}-toc-${item.id}-${idx}`} 
                       href={`#${item.id}`}
                       className={`block text-text-secondary hover:text-primary font-bold transition-all flex items-center gap-3 group ${item.level === 3 ? 'ml-6' : ''}`}
                     >

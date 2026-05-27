@@ -118,7 +118,7 @@ const ResourceStore = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-text-primary text-white text-center">
+      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white text-center">
         <div className="absolute inset-0 bg-[url('https://ais-dev-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/assets/cheat_sheet_cover.png')] bg-cover bg-center opacity-20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-text-primary/90 via-text-primary to-bg-primary pointer-events-none" />
         
@@ -258,7 +258,7 @@ const ResourceStore = () => {
                     <div className="pt-6 flex justify-center">
                        <button 
                          onClick={() => navigate('/community')}
-                         className="flex items-center gap-3 px-10 py-5 bg-text-primary text-bg-primary rounded-2xl hover:scale-105 transition-all shadow-xl font-black uppercase tracking-widest text-[10px]"
+                         className="flex items-center gap-3 px-10 py-5 bg-primary text-white rounded-2xl hover:scale-105 hover:bg-primary-dark transition-all shadow-xl font-black uppercase tracking-widest text-[10px]"
                        >
                          Join Community Group <ArrowRight className="w-4 h-4" />
                        </button>
@@ -295,7 +295,7 @@ const ResourceStore = () => {
           </p>
           <button 
             onClick={() => navigate('/feedback')}
-            className="px-10 py-5 bg-text-primary text-bg-primary font-black uppercase tracking-widest text-xs rounded-2xl hover:scale-105 transition-all shadow-xl"
+            className="px-10 py-5 bg-primary text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:scale-105 hover:bg-primary-dark transition-all shadow-xl"
           >
             Request Resources
           </button>

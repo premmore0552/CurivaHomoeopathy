@@ -26,6 +26,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 // Removed old aphorisms import to use full organonData structure
 import { organonData, OrganonAphorism } from '../data/organon_data';
+import { prefacesData, westernPhilosophyData } from '../data/prefacesData';
 
 const AphorismItem = ({ 
   aphorism, 
@@ -223,12 +224,12 @@ const AphorismTree = () => {
               Aphorism <br /> <span className="text-primary not-italic tracking-widest text-lg md:text-xl">Interactive Browser.</span>
             </h3>
             <div className="flex items-center gap-4 mt-4">
-              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text-tertiary">
+              <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#15803d] dark:text-[#a7f3d0] bg-[#dcfce7] dark:bg-[#064e3b]/50 px-3 py-1 rounded-full border border-[#bbf7d0] dark:border-[#064e3b]">
                 <Database className="w-3.5 h-3.5 text-primary" />
                 {filteredData.length} Aphorisms Found
               </div>
               <div className="w-1 h-1 bg-border rounded-full" />
-              <div className="text-[10px] font-black uppercase tracking-widest text-primary italic">
+              <div className="text-[10px] font-black uppercase tracking-widest text-primary italic bg-primary/5 px-2.5 py-1 rounded-full border border-primary/10">
                 {activeCategory} Category
               </div>
             </div>
@@ -269,7 +270,7 @@ const AphorismTree = () => {
                           isSelected 
                           ? 'bg-primary text-white border-primary scale-125 z-10 shadow-2xl shadow-primary/40' 
                           : hasData 
-                            ? 'bg-white dark:bg-zinc-900 text-text-primary border-border hover:border-primary hover:-translate-y-1' 
+                            ? 'bg-[#ecfdf5] dark:bg-[#064e3b]/30 text-[#047857] dark:text-[#34d399] border-[#a7f3d0] dark:border-[#065f46]/50 hover:bg-[#d1fae5] hover:border-[#34d399] hover:-translate-y-1' 
                             : 'bg-bg-secondary/50 text-text-secondary/20 border-border/50'
                         }`}
                         title={`Aphorism §${id}${data ? `: ${data.category}` : ''}`}
@@ -411,43 +412,57 @@ const AphorismTree = () => {
 };
 
 const PrefaceSection = () => {
+  const [selectedPrefaceId, setSelectedPrefaceId] = useState(prefacesData[prefacesData.length - 1].id); // Default to 6th Edition Preface
+  const currentPreface = prefacesData.find(p => p.id === selectedPrefaceId) || prefacesData[prefacesData.length - 1];
+
   return (
     <div className="space-y-12">
+      {/* Selector pills */}
+      <div className="flex flex-wrap gap-2 p-3 bg-bg-secondary rounded-[2.5rem] border border-border shadow-soft">
+        {prefacesData.map((p) => (
+          <button
+            key={p.id}
+            onClick={() => setSelectedPrefaceId(p.id)}
+            className={`px-5 py-3 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all ${
+              selectedPrefaceId === p.id 
+                ? 'bg-primary text-white shadow-xl shadow-primary/30' 
+                : 'text-text-secondary hover:bg-bg-primary hover:text-primary hover:-translate-y-0.5'
+            }`}
+          >
+            {p.title === "Translator's Preface" ? "Translator's" : p.title.replace("Preface to the ", "")}
+          </button>
+        ))}
+      </div>
+
       <section className="bg-bg-secondary p-10 md:p-16 rounded-[4rem] border border-border relative overflow-hidden group">
         <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-1000">
            <Quote className="w-64 h-64" />
         </div>
-        <div className="relative z-10">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full mb-8">
-            <span className="w-2 h-2 bg-primary rounded-full" />
-            <span className="text-[10px] font-black uppercase tracking-widest italic">The Preface to the 6th Edition</span>
+        <div className="relative z-10 space-y-8">
+          <div className="flex flex-wrap items-center justify-between gap-4">
+            <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full">
+              <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
+              <span className="text-[10px] font-black uppercase tracking-widest italic">{currentPreface.title}</span>
+            </div>
+            <div className="text-[10px] text-text-tertiary font-black uppercase tracking-widest italic">
+              {currentPreface.author} &bull; {currentPreface.date}
+            </div>
           </div>
           
-          <h2 className="text-4xl md:text-5xl font-display font-black text-text-primary mb-8 italic leading-tight">
-            "The truth we mortals need... <br className="hidden md:block"/>did not bury deep."
+          <h2 className="text-4xl md:text-5xl font-display font-black text-text-primary italic leading-tight">
+             Historical Document Verbatim
           </h2>
+
+          <div className="p-8 bg-bg-primary rounded-3xl border border-border border-l-4 border-l-primary/60 italic font-serif text-lg leading-relaxed text-text-secondary">
+             "{currentPreface.keyTakeaway}"
+          </div>
           
-          <div className="prose prose-lg max-w-none text-text-secondary leading-loose space-y-6">
-            <p className="text-xl italic font-serif border-l-4 border-primary pl-8 py-4 bg-bg-primary/50 rounded-r-3xl">
-              "In the fifth edition of the Organon, the treatment of chronic diseases was brought to such perfection that they could be cured with almost certain success... but in this new edition, the true healing art is rendered even more complete and certain."
-            </p>
-            <p>
-              Hahnemann's preface to the 6th edition (penned in 1842) represents the zenith of his clinical wisdom. He highlights the discovery of the <span className="font-bold text-text-primary italic">LM (50-millesimal) scale</span>, which allows for daily administration of remedies without the risk of violent aggravations—marking a shift from the centesimal methods of his earlier years.
-            </p>
-            <div className="grid md:grid-cols-2 gap-8 mt-12">
-               <div className="p-8 bg-bg-primary rounded-3xl border border-border">
-                  <h4 className="text-lg font-black uppercase tracking-widest text-primary mb-4 italic">Core Message</h4>
-                  <p className="text-sm leading-relaxed">
-                    The 6th edition emphasizes that the physician's highest duty is not theoretical speculation, but the practical, gentle, and permanent restoration of health based on easily comprehensible principles.
-                  </p>
-               </div>
-               <div className="p-8 bg-zinc-900 text-white rounded-3xl border border-white/5">
-                  <h4 className="text-lg font-black uppercase tracking-widest text-primary-light mb-4 italic">Critical Difference</h4>
-                  <p className="text-sm opacity-80 leading-relaxed">
-                    Unlike the 5th edition, the 6th introduces the concept of repeating the dose in solution (the "medicinal glass") to keep the vital force active during the curative process.
-                  </p>
-               </div>
-            </div>
+          <div className="prose prose-lg max-w-none text-text-secondary leading-loose space-y-6 max-h-[500px] overflow-y-auto pr-4 scrollbar-thin">
+            {currentPreface.content.map((para, idx) => (
+              <p key={idx} className="font-serif italic text-base leading-relaxed text-text-secondary text-justify">
+                {para}
+              </p>
+            ))}
           </div>
         </div>
       </section>
@@ -531,9 +546,9 @@ const ChronologySection = () => {
               
               <h4 className="text-xl font-bold text-text-primary mb-2 italic">{ed.title}</h4>
               <div className="flex items-center gap-2 mb-4">
-                 <span className="text-[10px] font-black uppercase tracking-widest text-primary italic opacity-60">{ed.location}</span>
+                 <span className="text-[9px] font-black uppercase tracking-widest text-primary italic bg-primary/10 border border-primary/20 px-2 rounded-full">{ed.location}</span>
                  <div className="w-1 h-1 rounded-full bg-border" />
-                 <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary opacity-60">{ed.aph}</span>
+                 <span className="text-[9px] font-black uppercase tracking-widest text-[#15803d] dark:text-[#a7f3d0] bg-[#dcfce7] dark:bg-[#064e3b]/50 px-2.5 py-0.5 rounded-full border border-[#bbf7d0] dark:border-[#064e3b]">{ed.aph}</span>
               </div>
               
               <p className="text-sm text-text-secondary leading-relaxed font-serif italic line-clamp-4 group-hover:line-clamp-none transition-all duration-500">
@@ -544,7 +559,7 @@ const ChronologySection = () => {
         ))}
       </div>
       
-      <div className="p-12 bg-text-primary text-white rounded-[4rem] text-center border-t-8 border-primary relative overflow-hidden">
+      <div className="p-12 bg-[#1a2b23] dark:bg-[#11010a] text-white rounded-[4rem] text-center border-t-8 border-primary relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
          <h4 className="text-2xl font-display font-black uppercase italic mb-4 relative z-10">The Gap of Silence</h4>
          <p className="text-white/60 max-w-3xl mx-auto italic leading-relaxed relative z-10">
@@ -558,6 +573,7 @@ const ChronologySection = () => {
 
 const OrganonMedicine = () => {
   const [activePart, setActivePart] = useState(0);
+  const [showSarkarStudy, setShowSarkarStudy] = useState(false);
 
   const parts = [
     {
@@ -604,7 +620,7 @@ const OrganonMedicine = () => {
                    ].map((tenet, i) => (
                      <li key={i} className="flex gap-4 group">
                         <div className="w-8 h-8 rounded-2xl bg-primary/20 shrink-0 flex items-center justify-center text-primary font-black italic group-hover:bg-primary group-hover:text-white transition-all">
-                          {i + 1}
+                           {i + 1}
                         </div>
                         <div>
                            <div className="font-black text-sm uppercase tracking-tight text-text-primary mb-1 group-hover:text-primary transition-colors">{tenet.t}</div>
@@ -634,6 +650,60 @@ const OrganonMedicine = () => {
                    ))}
                 </div>
              </div>
+          </div>
+
+          {/* Sarkar's Critical Study Panel Toggle */}
+          <div className="bg-bg-secondary p-10 md:p-16 rounded-[4rem] border border-border relative overflow-hidden group shadow-soft">
+            <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-1000">
+              <Globe className="w-64 h-64" />
+            </div>
+            <div className="relative z-10 space-y-6">
+              <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary rounded-full">
+                <Sparkles className="w-4 h-4 text-primary animate-pulse" />
+                <span className="text-[10px] font-black uppercase tracking-widest italic">Academic Appendix</span>
+              </div>
+              <h3 className="text-3xl md:text-5xl font-display font-black text-text-primary italic leading-none">
+                Sarkar's Critical Commentary: <br />
+                <span className="text-primary not-italic uppercase tracking-widest text-xl md:text-2xl block mt-2">Evolution of Western Therapeutics</span>
+              </h3>
+              <p className="text-lg text-text-secondary font-medium leading-relaxed italic max-w-3xl">
+                Hahnemann's clinical methodology was not born in a vacuum. It represents the pinnacle of Lord Bacon's Inductive Logic applied to biology. Revisit the historical conflict between Dogmatists, Empirics, and Methodists.
+              </p>
+              
+              <button 
+                onClick={() => setShowSarkarStudy(!showSarkarStudy)}
+                className="px-8 py-4 bg-primary text-white rounded-[2rem] text-xs font-black uppercase tracking-widest shadow-xl shadow-primary/30 hover:scale-105 active:scale-95 transition-all flex items-center gap-2"
+              >
+                {showSarkarStudy ? "Collapse Study" : "Explore Full Historical Study"}
+                <ChevronRight className={`w-4 h-4 transition-transform ${showSarkarStudy ? 'rotate-90' : ''}`} />
+              </button>
+
+              <AnimatePresence>
+                {showSarkarStudy && (
+                  <motion.div 
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    className="overflow-hidden pt-8 border-t border-border mt-8 space-y-12"
+                  >
+                    {westernPhilosophyData.sections.map((sec, i) => (
+                      <div key={i} className="space-y-6">
+                        <h4 className="text-2xl font-display font-black text-primary italic border-l-4 border-primary pl-6 py-2">
+                          {sec.heading}
+                        </h4>
+                        <div className="space-y-4">
+                          {sec.paragraphs.map((p, idx) => (
+                            <p key={idx} className="font-serif italic text-base leading-relaxed text-text-secondary text-justify">
+                              {p}
+                            </p>
+                          ))}
+                        </div>
+                      </div>
+                    ))}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
           </div>
         </div>
       )
@@ -750,7 +820,7 @@ const OrganonMedicine = () => {
       </Helmet>
 
       {/* Modern Hero */}
-      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-text-primary text-white">
+      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white">
         <div className="absolute inset-x-0 top-0 h-full bg-gradient-radial from-primary/10 to-transparent opacity-50 pointer-events-none" />
         <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
            <Book className="w-96 h-96 text-white" />
@@ -781,21 +851,33 @@ const OrganonMedicine = () => {
 
       {/* Tabs Navigation */}
       <section className="max-w-7xl mx-auto px-4 mb-20">
-         <div className="flex flex-wrap justify-center gap-4 p-4 bg-bg-secondary rounded-[3rem] border border-border shadow-soft sticky top-24 z-40 backdrop-blur-xl">
-            {parts.map((p, i) => (
-              <button
-                key={i}
-                onClick={() => setActivePart(i)}
-                className={`px-8 py-4 rounded-[2rem] text-sm font-black uppercase tracking-widest transition-all flex items-center gap-3 ${
-                  activePart === i 
-                  ? 'bg-primary text-white shadow-xl shadow-primary/30 -translate-y-1' 
-                  : 'text-text-secondary hover:bg-bg-primary hover:text-primary'
-                }`}
-              >
-                {p.icon}
-                {p.title}
-              </button>
-            ))}
+         <div className="flex flex-wrap justify-center gap-2 p-2 bg-bg-secondary/85 backdrop-blur-xl rounded-[2.5rem] border border-border sticky top-24 z-40 shadow-xl max-w-fit mx-auto">
+            {parts.map((p, i) => {
+              const isActive = activePart === i;
+              return (
+                <button
+                  key={i}
+                  onClick={() => setActivePart(i)}
+                  className={`relative px-6 py-3.5 rounded-2xl text-[11px] font-black uppercase tracking-widest transition-all duration-300 flex items-center gap-2.5 outline-none cursor-pointer ${
+                    isActive 
+                    ? 'text-white font-black' 
+                    : 'text-text-secondary hover:text-primary font-bold'
+                  }`}
+                >
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeSubTab"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                      className="absolute inset-0 bg-primary rounded-2xl shadow-lg shadow-primary/20 z-0"
+                    />
+                  )}
+                  <span className="relative z-10 flex items-center gap-2.5">
+                    {p.icon}
+                    {p.title}
+                  </span>
+                </button>
+              );
+            })}
          </div>
       </section>
 
@@ -816,7 +898,7 @@ const OrganonMedicine = () => {
       
       {/* Visual Quote */}
       <section className="max-w-5xl mx-auto px-4 mt-40">
-         <div className="p-20 rounded-[5rem] bg-text-primary text-white text-center relative overflow-hidden group">
+         <div className="p-20 rounded-[5rem] bg-[#1a2b23] dark:bg-[#11010a] text-white text-center relative overflow-hidden group">
             <Quote className="absolute top-10 left-10 w-40 h-40 opacity-5 pointer-events-none group-hover:scale-125 transition-transform duration-700" />
             <div className="relative z-10 space-y-8">
                <h3 className="text-4xl font-display font-black italic tracking-tight leading-tight">

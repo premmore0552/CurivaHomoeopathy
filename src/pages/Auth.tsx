@@ -1,0 +1,550 @@
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { 
+  Mail, 
+  Lock, 
+  User, 
+  Sparkles, 
+  LogIn, 
+  KeyRound, 
+  ShieldCheck, 
+  AlertCircle, 
+  ArrowRight, 
+  ChevronLeft,
+  Loader2,
+  Phone,
+  CheckCircle2,
+  RefreshCw
+} from 'lucide-react';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
+import { 
+  signInWithPopup, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  updateProfile,
+  onAuthStateChanged,
+  RecaptchaVerifier,
+  signInWithPhoneNumber
+} from 'firebase/auth';
+import { auth, googleProvider } from '../lib/firebase';
+import { userService } from '../services/userService';
+import SEO from '../components/SEO';
+
+export default function Auth() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  
+  // Access mode selector: 'email' or 'phone'
+  const [authType, setAuthType] = useState<'email' | 'phone'>('email');
+  const [mode, setMode] = useState<'login' | 'register'>('login');
+  
+  // Email mode Fields
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
+  
+  // Phone mode Fields
+  const [phoneNumber, setPhoneNumber] = useState('+91 ');
+  const [otpCode, setOtpCode] = useState('');
+  const [verificationId, setVerificationId] = useState<string | null>(null);
+  
+  // Status states
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+  const [successMessage, setSuccessMessage] = useState<string | null>(null);
+
+  // Redirect path
+  const redirectPath = location.state?.from || '/profile';
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        navigate(redirectPath);
+      }
+    });
+    return () => unsubscribe();
+  }, [navigate, redirectPath]);
+
+  // Clean verifier and session artifacts on unmount
+  useEffect(() => {
+    return () => {
+      if ((window as any).recaptchaVerifier) {
+        try {
+          (window as any).recaptchaVerifier.clear();
+        } catch (_) {}
+        (window as any).recaptchaVerifier = null;
+      }
+    };
+  }, []);
+
+  const handleGoogleSignIn = async () => {
+    setLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+    try {
+      await signInWithPopup(auth, googleProvider);
+      await userService.syncAuthUser();
+      navigate(redirectPath);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || 'Failed to authenticate using Google.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleEmailSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !password || (mode === 'register' && !name)) {
+      setError('Please populate all required fields.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      if (mode === 'login') {
+        await signInWithEmailAndPassword(auth, email, password);
+      } else {
+        const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(userCredential.user, {
+          displayName: name
+        });
+        await userService.syncAuthUser();
+      }
+      navigate(redirectPath);
+    } catch (err: any) {
+      console.error(err);
+      let friendlyMessage = err.message || 'Authentication error.';
+      if (err.code === 'auth/email-already-in-use') {
+        friendlyMessage = 'Email address already registered to another account.';
+      } else if (err.code === 'auth/weak-password') {
+        friendlyMessage = 'Choice of password is too weak. Ensure it is at least 6 characters.';
+      } else if (err.code === 'auth/invalid-email') {
+        friendlyMessage = 'Please enter a valid email address.';
+      } else if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
+        friendlyMessage = 'Incorrect credentials. Verify your email and password combination.';
+      }
+      setError(friendlyMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  // Recaptcha initializer for Phone OTP Auth
+  const initRecaptchaVerifier = () => {
+    try {
+      if ((window as any).recaptchaVerifier) {
+        try {
+          (window as any).recaptchaVerifier.clear();
+        } catch (_) {}
+      }
+      
+      const verifier = new RecaptchaVerifier(auth, 'recaptcha-container', {
+        size: 'invisible',
+        callback: () => {
+          // reCAPTCHA solved
+        },
+        'expired-callback': () => {
+          setError('reCAPTCHA security context expired. Please re-try.');
+        }
+      });
+      (window as any).recaptchaVerifier = verifier;
+      return verifier;
+    } catch (err: any) {
+      console.error(err);
+      setError('Secure container initialization failed: ' + err.message);
+      return null;
+    }
+  };
+
+  const handlePhoneSendCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const cleanNumber = phoneNumber.trim();
+    if (!cleanNumber || cleanNumber.length < 8) {
+      setError('Include valid phone number with country code (e.g. +91 98765 43210).');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+    setSuccessMessage(null);
+
+    try {
+      const verifier = initRecaptchaVerifier();
+      if (!verifier) {
+        setLoading(false);
+        return;
+      }
+      // Strip spaces for format
+      const formattedNum = cleanNumber.replace(/\s+/g, '');
+      const result = await signInWithPhoneNumber(auth, formattedNum, verifier);
+      (window as any).confirmationResult = result;
+      setVerificationId(result.verificationId);
+      setSuccessMessage('A 6-digit confirmation code has been sent via SMS.');
+    } catch (err: any) {
+      console.error(err);
+      let friendlyMessage = err.message || 'Failed to dispatch verification code SMS.';
+      if (err.code === 'auth/invalid-phone-number') {
+        friendlyMessage = 'Format not recognized. Use the +[CountryCode][Number] format (e.g., +919876543210).';
+      } else if (err.code === 'auth/too-many-requests') {
+        friendlyMessage = 'Too many requests. This phone number is temporarily locked for security. Please try again later.';
+      }
+      setError(friendlyMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handlePhoneVerifyCode = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!otpCode || otpCode.trim().length !== 6) {
+      setError('Please provide the 6-digit OTP code.');
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      const confirmationResult = (window as any).confirmationResult;
+      if (!confirmationResult) {
+        throw new Error('Verification session expired. Please start over.');
+      }
+      await confirmationResult.confirm(otpCode.trim());
+      await userService.syncAuthUser();
+      navigate(redirectPath);
+    } catch (err: any) {
+      console.error(err);
+      let friendlyMessage = err.message || 'Verification of confirmation code failed.';
+      if (err.code === 'auth/invalid-verification-code') {
+        friendlyMessage = 'The verification code entered is incorrect. Double check and try again.';
+      } else if (err.code === 'auth/code-expired') {
+        friendlyMessage = 'Security code has expired. Request a new verification code.';
+      }
+      setError(friendlyMessage);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const resetPhoneFlow = () => {
+    setVerificationId(null);
+    setOtpCode('');
+    setError(null);
+    setSuccessMessage(null);
+    if ((window as any).recaptchaVerifier) {
+      try {
+        (window as any).recaptchaVerifier.clear();
+      } catch (_) {}
+      (window as any).recaptchaVerifier = null;
+    }
+  };
+
+  return (
+    <div className="min-h-screen bg-bg-primary pb-20 relative flex flex-col justify-center overflow-hidden">
+      <SEO 
+        title="Scholars Portal | Curiva Homoeopathy"
+        description="Access your personal Homoeopathic portal, reading history, saved articles, and study statistics securely."
+      />
+
+      {/* Background decoration */}
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
+
+      {/* reCAPTCHA anchor */}
+      <div id="recaptcha-container" className="fixed bottom-0 right-0 z-50 pointer-events-none opacity-0"></div>
+
+      <main className="max-w-md w-full mx-auto px-6 relative z-10 pt-32">
+        
+        {/* Header Back Link */}
+        <Link 
+          to="/"
+          className="inline-flex items-center gap-2 text-text-secondary hover:text-primary transition-colors text-xs font-black uppercase tracking-widest mb-10 group"
+        >
+          <ChevronLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          Materia Medica Homeward
+        </Link>
+
+        {/* Brand Icon & Heading */}
+        <div className="text-center space-y-4 mb-10">
+          <div className="w-16 h-16 bg-primary/10 border border-primary/20 rounded-[2rem] flex items-center justify-center text-primary mx-auto shadow-md">
+            <ShieldCheck className="w-8 h-8" />
+          </div>
+          <h1 className="text-4xl font-display font-black text-text-primary tracking-tighter uppercase italic">
+            Scholars <span className="text-primary">Portal</span>
+          </h1>
+          <p className="text-text-secondary font-serif italic text-base">
+            Access study logs, clinical bookmarks, and personalized insights.
+          </p>
+        </div>
+
+        {/* Auth Type Selector: Email or Phone */}
+        <div className="bg-bg-secondary p-1.5 rounded-[2rem] border border-border flex gap-2 mb-8">
+          <button
+            onClick={() => { setAuthType('email'); setError(null); setSuccessMessage(null); }}
+            className={`flex-1 py-4 text-xs font-black uppercase tracking-widest rounded-[1.5rem] transition-all flex items-center justify-center gap-2 ${
+              authType === 'email' 
+              ? 'bg-white text-text-primary border-border shadow-sm ring-1 ring-black/5' 
+              : 'text-text-secondary hover:bg-bg-primary/50'
+            }`}
+          >
+            <Mail className="w-3.5 h-3.5" /> Email
+          </button>
+          <button
+            onClick={() => { setAuthType('phone'); setError(null); setSuccessMessage(null); }}
+            className={`flex-1 py-4 text-xs font-black uppercase tracking-widest rounded-[1.5rem] transition-all flex items-center justify-center gap-2 ${
+              authType === 'phone' 
+              ? 'bg-white text-text-primary border-border shadow-sm ring-1 ring-black/5' 
+              : 'text-text-secondary hover:bg-bg-primary/50'
+            }`}
+          >
+            <Phone className="w-3.5 h-3.5" /> Mobile OTP
+          </button>
+        </div>
+
+        {/* Main interactive Panel */}
+        <div className="bg-white rounded-[3rem] border border-border shadow-soft p-8 md:p-10 space-y-6">
+          
+          {/* Success or Error Message Overlay */}
+          <AnimatePresence mode="wait">
+            {error && (
+              <motion.div
+                key="err"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="p-5 bg-red-500/5 border border-red-500/20 text-red-600 rounded-2xl flex items-start gap-3 text-xs leading-relaxed"
+              >
+                <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
+                <p className="font-bold">{error}</p>
+              </motion.div>
+            )}
+
+            {successMessage && !error && (
+              <motion.div
+                key="succ"
+                initial={{ opacity: 0, y: -10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                className="p-5 bg-emerald-500/5 border border-emerald-500/20 text-emerald-600 rounded-2xl flex items-start gap-3 text-xs leading-relaxed"
+              >
+                <CheckCircle2 className="w-5 h-5 shrink-0 mt-0.5" />
+                <p className="font-bold">{successMessage}</p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+
+          {/* Conditional Rendering based on selected auth style */}
+          {authType === 'email' ? (
+            <div className="space-y-6">
+              {/* Register/Login Mode Selector */}
+              <div className="flex justify-center gap-6 border-b border-border pb-4">
+                <button 
+                  onClick={() => setMode('login')} 
+                  className={`text-xs font-black uppercase tracking-widest pb-1 transition-all border-b-2 ${mode === 'login' ? 'text-primary border-primary' : 'text-text-tertiary border-transparent'}`}
+                >
+                  Sign In
+                </button>
+                <button 
+                  onClick={() => setMode('register')} 
+                  className={`text-xs font-black uppercase tracking-widest pb-1 transition-all border-b-2 ${mode === 'register' ? 'text-primary border-primary' : 'text-text-tertiary border-transparent'}`}
+                >
+                  Create Account
+                </button>
+              </div>
+
+              <form onSubmit={handleEmailSubmit} className="space-y-4">
+                <AnimatePresence mode="popLayout" initial={false}>
+                  {mode === 'register' && (
+                    <motion.div
+                      initial={{ opacity: 0, y: 15 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -15 }}
+                      transition={{ duration: 0.2 }}
+                      className="space-y-2"
+                    >
+                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Full Name</label>
+                      <div className="relative">
+                        <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                        <input
+                          type="text"
+                          placeholder="Dr. Samuel Hahnemann"
+                          required={mode === 'register'}
+                          value={name}
+                          onChange={(e) => setName(e.target.value)}
+                          className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                        />
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Email Address</label>
+                  <div className="relative">
+                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                    <input
+                      type="email"
+                      placeholder="scholar@curiva.org"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                    />
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Password</label>
+                  <div className="relative">
+                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                    <input
+                      type="password"
+                      placeholder="••••••••"
+                      required
+                      value={password}
+                      onChange={(e) => setPassword(e.target.value)}
+                      className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                    />
+                  </div>
+                </div>
+
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all cursor-pointer mt-4"
+                >
+                  {loading ? (
+                    <> <Loader2 className="w-4 h-4 animate-spin" /> Verifying Scholar... </>
+                  ) : mode === 'login' ? (
+                    <> Sign In <LogIn className="w-4 h-4" /> </>
+                  ) : (
+                    <> Create Account <ArrowRight className="w-4 h-4" /> </>
+                  )}
+                </button>
+              </form>
+            </div>
+          ) : (
+            // Phone Authentication Flow
+            <div className="space-y-6">
+              {!verificationId ? (
+                // Step 1: Request code
+                <form onSubmit={handlePhoneSendCode} className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Phone Number (With Country Code)</label>
+                    <div className="relative">
+                      <Phone className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                      <input
+                        type="tel"
+                        placeholder="+91 9876543210"
+                        required
+                        value={phoneNumber}
+                        onChange={(e) => setPhoneNumber(e.target.value)}
+                        className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                      />
+                    </div>
+                    <span className="text-[10px] text-text-tertiary block ml-1">
+                      Always include country prefix (e.g. <b>+91</b> for India).
+                    </span>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all cursor-pointer"
+                  >
+                    {loading ? (
+                      <> <Loader2 className="w-4 h-4 animate-spin" /> Initializing Container... </>
+                    ) : (
+                      <> Send Verification Code <ArrowRight className="w-4 h-4" /> </>
+                    )}
+                  </button>
+                </form>
+              ) : (
+                // Step 2: Input confirmation code (SMS OTP)
+                <form onSubmit={handlePhoneVerifyCode} className="space-y-4">
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Enter 6-Digit SMS Code</label>
+                    <div className="relative">
+                      <KeyRound className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                      <input
+                        type="text"
+                        maxLength={6}
+                        placeholder="123456"
+                        required
+                        value={otpCode}
+                        onChange={(e) => setOtpCode(e.target.value)}
+                        className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-bold text-center text-lg tracking-[0.2em] text-text-primary placeholder:text-text-tertiary transition-all"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="flex items-center justify-between gap-4 mt-2">
+                    <button
+                      type="button"
+                      onClick={resetPhoneFlow}
+                      className="text-text-secondary hover:text-text-primary font-bold text-xs flex items-center gap-1.5 transition-colors"
+                    >
+                      <RefreshCw className="w-3.5 h-3.5" /> Re-enter Phone Number
+                    </button>
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all cursor-pointer mt-4"
+                  >
+                    {loading ? (
+                      <> <Loader2 className="w-4 h-4 animate-spin" /> Verifying Code... </>
+                    ) : (
+                      <> Verify & Confirm Login <ShieldCheck className="w-4 h-4" /> </>
+                    )}
+                  </button>
+                </form>
+              )}
+            </div>
+          )}
+
+          {/* Social credentials separator */}
+          <div className="relative flex items-center justify-center py-4">
+            <div className="absolute inset-x-0 h-px bg-border" />
+            <span className="relative px-4 bg-white text-[10px] font-black uppercase tracking-widest text-text-tertiary">Or portal in with</span>
+          </div>
+
+          <button
+            onClick={handleGoogleSignIn}
+            disabled={loading}
+            className="w-full flex items-center justify-center gap-4 py-4 bg-bg-secondary border border-border hover:border-primary/40 rounded-xl font-bold text-sm text-text-primary transition-all cursor-pointer"
+          >
+            <svg className="w-5 h-5 shrink-0" viewBox="0 0 24 24">
+              <path
+                fill="#EA4335"
+                d="M12 5.04c1.7 0 3.2.6 4.4 1.7L20 3C17.6 1.1 14.8 0 12 0 7.3 0 3.3 2.7 1.3 6.6l3.9 3C6.1 6.8 8.8 5.04 12 5.04z"
+              />
+              <path
+                fill="#4285F4"
+                d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.4h6.5c-.3 1.5-1.1 2.7-2.4 3.6l3.7 2.9c2.1-2 3.7-4.9 3.7-8.6z"
+              />
+              <path
+                fill="#FBBC05"
+                d="M5.2 14.4c-.2-.7-.4-1.5-.4-2.4s.2-1.7.4-2.4l-3.9-3C.5 8.4 0 10.1 0 12s.5 3.6 1.3 5.4l3.9-3z"
+              />
+              <path
+                fill="#34A853"
+                d="M12 24c3.2 0 6-1.1 8-3l-3.7-2.9c-1.1.7-2.5 1.2-4.3 1.2-3.2 0-5.9-1.8-6.8-4.6l-3.9 3C3.3 21.3 7.3 24 12 24z"
+              />
+            </svg>
+            Google Credentials
+          </button>
+        </div>
+
+        {/* Informative Footer */}
+        <div className="mt-12 text-center text-text-tertiary">
+          <p className="text-[10px] font-black uppercase tracking-wider">Secure Access Protocol • Enabled with SSL</p>
+        </div>
+      </main>
+    </div>
+  );
+}

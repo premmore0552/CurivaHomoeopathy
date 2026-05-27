@@ -13,7 +13,9 @@ import {
   ArrowRight,
   Loader2,
   Trash2,
-  FileText
+  FileText,
+  CircuitBoard,
+  BookOpen
 } from 'lucide-react';
 import { auth, db } from '../lib/firebase';
 import { onAuthStateChanged, signOut } from 'firebase/auth';
@@ -22,6 +24,7 @@ import { fetchPosts } from '../services/api';
 import { BlogPost } from '../types';
 import SEO from '../components/SEO';
 import { Link, useNavigate } from 'react-router-dom';
+import { getPersonalizedRecommendations } from '../services/recommendationService';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -59,6 +62,9 @@ const Profile: React.FC = () => {
   if (!user || !profile) return null;
 
   const bookmarkedPosts = posts.filter(p => profile.bookmarks?.includes(p.slug));
+  
+  // Get personalized content recommendations based on reading telemetry
+  const recommendedPosts = getPersonalizedRecommendations(profile, posts, 3);
   
   // Sort history by timestamp descending
   const recentHistory = [...(profile.readingHistory || [])]
@@ -203,7 +209,7 @@ const Profile: React.FC = () => {
                       <p className="text-xs text-text-tertiary font-bold uppercase tracking-widest mt-1">Read on {new Date(post.lastRead).toLocaleDateString()} at {new Date(post.lastRead).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
                     </div>
                   </div>
-                  <Link to={`/articles/${post.slug}`} className="p-4 rounded-full bg-bg-secondary hover:bg-primary hover:text-white transition-all">
+                  <Link to={`/read/${post.slug}`} className="p-4 rounded-full bg-bg-secondary hover:bg-primary hover:text-white transition-all">
                     <ChevronRight className="w-5 h-5" />
                   </Link>
                 </div>
@@ -217,6 +223,37 @@ const Profile: React.FC = () => {
             </motion.div>
           )}
         </AnimatePresence>
+
+        {/* Personalized Recommendations Section */}
+        <div className="mt-20">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
+            <div className="space-y-1">
+              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-[9px] font-black uppercase tracking-widest border border-primary/25">
+                <Sparkles className="w-3 h-3" />
+                Adaptive Recommendation Pattern
+              </div>
+              <h3 className="text-3xl font-display font-black text-text-primary uppercase tracking-tight italic">
+                Personalized <span className="text-primary italic">Suggestions</span>
+              </h3>
+              <p className="text-text-secondary font-serif italic text-sm">
+                Targeted reading based on your active bookmarks and study patterns.
+              </p>
+            </div>
+            
+            <Link 
+              to="/glossary/all"
+              className="px-6 py-3 bg-white hover:border-primary/40 border border-border rounded-xl text-text-secondary text-[10px] font-black uppercase tracking-widest transition-all shadow-sm"
+            >
+              Browse Full Catalog
+            </Link>
+          </div>
+
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {recommendedPosts.map(post => (
+              <PostCard key={`rec-${post.slug}`} post={post} />
+            ))}
+          </div>
+        </div>
 
         <button 
            onClick={handleLogout}
@@ -245,7 +282,7 @@ const PostCard = ({ post }: { post: BlogPost }) => (
          {post.title}
        </h4>
        <Link 
-         to={`/articles/${post.slug}`}
+         to={`/read/${post.slug}`}
          className="flex items-center justify-between py-4 border-t border-border group/link"
        >
          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-tertiary group-hover/link:text-primary transition-colors">Review Case</span>

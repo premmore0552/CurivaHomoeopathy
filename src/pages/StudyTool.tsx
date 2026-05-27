@@ -495,31 +495,7 @@ const StudyTool: React.FC = () => {
         )}
       </main>
 
-      {/* Pro Hint Section */}
-      <div className="max-w-4xl mx-auto px-4 mt-20">
-        <div className="bg-text-primary p-12 rounded-[3.5rem] border border-white/5 relative overflow-hidden group">
-          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60" />
-          <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-10">
-            <div className="space-y-4 text-center md:text-left">
-               <div className="inline-flex items-center gap-3 px-4 py-1.5 bg-white/5 rounded-full border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-primary-light mb-2">
-                 <Crown className="w-3 h-3 text-primary" /> Pro feature
-               </div>
-               <h3 className="text-3xl font-display font-black text-white italic leading-tight">
-                 Unlock <span className="text-primary">Miasmatic Mastery</span> Decks
-               </h3>
-               <p className="text-white/60 font-medium max-w-md">
-                 Pro subscribers get access to advanced miasmatic classification quizzes and differential clinical scenarios.
-               </p>
-            </div>
-            <button 
-              onClick={() => navigate('/pro-plans')}
-              className="px-8 py-4 bg-white text-text-primary rounded-2xl font-black uppercase tracking-widest text-[10px] hover:scale-105 transition-all shrink-0"
-            >
-              Upgrade Now
-            </button>
-          </div>
-        </div>
-      </div>
+
     </div>
   );
 };

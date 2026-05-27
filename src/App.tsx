@@ -36,13 +36,13 @@ const OrganonMedicine = lazy(() => import('./pages/OrganonMedicine'));
 const ResourceStore = lazy(() => import('./pages/ResourceStore'));
 const MyLibrary = lazy(() => import('./pages/MyLibrary'));
 const StudentResources = lazy(() => import('./pages/StudentResources'));
-const Subscription = lazy(() => import('./pages/Subscription'));
 const StudyTool = lazy(() => import('./pages/StudyTool'));
 const Stalwarts = lazy(() => import('./pages/Stalwarts'));
 const AskHomeopath = lazy(() => import('./pages/AskHomeopath'));
 const Profile = lazy(() => import('./pages/Profile'));
-const CaseSimulation = lazy(() => import('./pages/CaseSimulation'));
+const Auth = lazy(() => import('./pages/Auth'));
 const MCQPractice = lazy(() => import('./pages/MCQPractice'));
+const ClinicalGuides = lazy(() => import('./pages/ClinicalGuides'));
 
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
@@ -80,7 +80,6 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
-import TrialIndicator from './components/TrialIndicator';
 import Breadcrumbs from './components/Breadcrumbs';
 
 function AppRoutes() {
@@ -118,16 +117,16 @@ function AppRoutes() {
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/ask-homeopath" element={<PageWrapper><AskHomeopath /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+                <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/mcq-practice" element={<PageWrapper><MCQPractice /></PageWrapper>} />
-                <Route path="/case-simulation" element={<PageWrapper><CaseSimulation /></PageWrapper>} />
                 
                 {/* Stalwarts Gallery */}
                 <Route path="/stalwarts" element={<PageWrapper><Stalwarts /></PageWrapper>} />
                 <Route path="/stalwarts/:slug" element={<PageWrapper><Stalwarts /></PageWrapper>} />
                 
                 {/* Account & Support */}
-                <Route path="/subscription" element={<PageWrapper><Subscription /></PageWrapper>} />
+                <Route path="/subscription" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/account" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/support" element={<PageWrapper><Contact /></PageWrapper>} />
 
@@ -143,20 +142,19 @@ function AppRoutes() {
                 <Route path="/terms-of-service" element={<PageWrapper><TermsOfService /></PageWrapper>} />
                 <Route path="/marketplace" element={<PageWrapper><ResourceStore /></PageWrapper>} />
                 <Route path="/feedback" element={<PageWrapper><Contact /></PageWrapper>} />
-                <Route path="/community" element={<PageWrapper><Subscription /></PageWrapper>} />
+                <Route path="/community" element={<PageWrapper><Profile /></PageWrapper>} />
                 
                 {/* Redirects */}
-                <Route path="/pro-plans" element={<PageWrapper><Subscription /></PageWrapper>} />
+                <Route path="/pro-plans" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/student-resources" element={<PageWrapper><StudentResources /></PageWrapper>} />
                 <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
+                <Route path="/clinical-guides" element={<PageWrapper><ClinicalGuides /></PageWrapper>} />
                 <Route path="/organon-philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
             </Routes>
           </Suspense>
         </AnimatePresence>
       </main>
-        <Newsletter />
         <Footer />
-        <TrialIndicator />
       </div>
     </>
   );

@@ -12,8 +12,13 @@ export interface UserSubscription {
 }
 
 export function useSubscription() {
-  const [subscription, setSubscription] = useState<UserSubscription | null>(null);
-  const [loading, setLoading] = useState(true);
+  const [subscription, setSubscription] = useState<UserSubscription | null>({
+    uid: '',
+    email: '',
+    isPro: true,
+    trialUsageCount: 0
+  });
+  const [loading, setLoading] = useState(false);
 
   useEffect(() => {
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
@@ -22,13 +27,16 @@ export function useSubscription() {
         
         const unsubscribeDoc = onSnapshot(userDocRef, (docSnap) => {
           if (docSnap.exists()) {
-            setSubscription(docSnap.data() as UserSubscription);
+            setSubscription({
+              ...(docSnap.data() as UserSubscription),
+              isPro: true
+            });
           } else {
             // Create user profile if doesn't exist
             const newSub: UserSubscription = {
               uid: user.uid,
-              email: user.email || '',
-              isPro: false,
+              email: user.email || user.phoneNumber || '',
+              isPro: true,
               trialUsageCount: 0
             };
             setDoc(userDocRef, {
@@ -46,7 +54,12 @@ export function useSubscription() {
 
         return () => unsubscribeDoc();
       } else {
-        setSubscription(null);
+        setSubscription({
+          uid: 'guest',
+          email: 'guest@scholar.org',
+          isPro: true,
+          trialUsageCount: 0
+        });
         setLoading(false);
       }
     });

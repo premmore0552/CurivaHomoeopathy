@@ -37,20 +37,44 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
   const [zoomLevel, setZoomLevel] = useState(1);
   const [viewMode, setViewMode] = useState<'radial' | 'tree'>('radial');
   const zoomBehaviorRef = useRef<any>(null);
+  const [dimensions, setDimensions] = useState({ width: 800, height: height });
+
+  useEffect(() => {
+    if (!containerRef.current) return;
+    
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!entries || entries.length === 0) return;
+      const { width, height: entryHeight } = entries[0].contentRect;
+      const actualWidth = width || containerRef.current?.clientWidth || 800;
+      const actualHeight = entryHeight || containerRef.current?.clientHeight || height || 600;
+      setDimensions({ width: actualWidth, height: actualHeight });
+    });
+
+    resizeObserver.observe(containerRef.current);
+    return () => resizeObserver.disconnect();
+  }, [height]);
 
   useEffect(() => {
     if (!svgRef.current || !containerRef.current) return;
 
-    const width = containerRef.current.clientWidth;
+    const width = dimensions.width;
     const svg = d3.select(svgRef.current);
     svg.selectAll('*').remove();
 
-    const nodes: Node[] = data.nodes.map(d => ({ 
-      ...d, 
-      radius: d.group === 0 ? 50 : d.group === 1 ? 35 : 25 
-    }));
+    // Deduplicate nodes and filter invalid links to prevent D3 crashes
+    const uniqueNodesMap = new Map<string, Node>();
+    data.nodes.forEach(n => {
+      uniqueNodesMap.set(n.id, {
+        ...n,
+        radius: n.group === 0 ? 50 : n.group === 1 ? 35 : 25
+      } as Node);
+    });
+    const nodes: Node[] = Array.from(uniqueNodesMap.values());
     
-    const links: Link[] = data.links.map(d => ({ ...d }));
+    const nodeIds = new Set(nodes.map(n => n.id));
+    const links: Link[] = data.links
+      .filter(l => nodeIds.has(l.source) && nodeIds.has(l.target))
+      .map(d => ({ ...d }));
 
     const simulation = d3.forceSimulation<Node>(nodes);
 
@@ -164,7 +188,7 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
     return () => {
       simulation.stop();
     };
-  }, [data, theme, height, viewMode]);
+  }, [data, theme, height, viewMode, dimensions.width, dimensions.height]);
 
   const handleZoom = (value: number) => {
     if (!svgRef.current || !zoomBehaviorRef.current) return;
@@ -180,6 +204,7 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
 
   return (
     <div 
+      ref={containerRef}
       className="w-full bg-bg-secondary/50 rounded-[4rem] border border-border overflow-hidden relative group/canvas shadow-2xl"
       style={{ height }}
     >

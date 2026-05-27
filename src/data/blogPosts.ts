@@ -1,6 +1,6 @@
 import { BlogPost } from '../types';
 
-export const allBlogPosts: BlogPost[] = [
+const rawBlogPosts: BlogPost[] = [
   {
     id: 'agaricus-muscarius',
     seoTitle: 'Agaricus Muscarius in Homeopathy: Twitching, Spasms & Chilly Needles',
@@ -5394,4 +5394,134 @@ Everything in the Chelidonium case is **right-sided**. The patient's digestion i
     relatedCarePlans: [{ name: 'Liver Detox Support', linkId: '/guide/liver-health' }]
   }
 ];
+
+// Helper to normalize remedy IDs for merging identical remedy profiles
+function getNormalizedRemedyKey(id: string, category: string): string | null {
+  if (category !== 'Materia Medica') return null;
+  const lowerId = id.toLowerCase();
+  
+  if (lowerId === 'aconite' || lowerId.startsWith('aconite-')) return 'aconite';
+  if (lowerId === 'agaricus-muscarius' || lowerId.startsWith('agaricus-')) return 'agaricus';
+  if (lowerId === 'agnus-castus' || lowerId.startsWith('agnus-')) return 'agnus';
+  if (lowerId === 'allium-cepa' || lowerId === 'allium-cepa-remedy' || lowerId.startsWith('allium-cepa-')) return 'allium_cepa';
+  if (lowerId === 'aloe-socotrina' || lowerId === 'aloe-socotrina-profile') return 'aloe';
+  if (lowerId === 'apis' || lowerId === 'apis-mellifica-profile' || lowerId.startsWith('apis-')) return 'apis';
+  if (lowerId === 'arsenicum-album' || lowerId === 'arsenicum-profile' || lowerId.startsWith('arsenicum-')) return 'arsenicum';
+  if (lowerId === 'belladonna' || lowerId === 'belladonna-profile' || lowerId.startsWith('belladonna-')) return 'belladonna';
+  if (lowerId === 'bryonia' || lowerId === 'bryonia-profile' || lowerId.startsWith('bryonia-')) return 'bryonia';
+  if (lowerId === 'calcarea-carb' || lowerId === 'calcarea-carb-profile' || lowerId.startsWith('calcarea-carb-')) return 'calcarea_carb';
+  if (lowerId === 'gelsemium' || lowerId === 'gelsemium-profile' || lowerId.startsWith('gelsemium-')) return 'gelsemium';
+  if (lowerId === 'ignatia' || lowerId === 'ignatia-profile' || lowerId.startsWith('ignatia-')) return 'ignatia';
+  if (lowerId === 'lycopodium' || lowerId === 'lycopodium-profile' || lowerId.startsWith('lycopodium-')) return 'lycopodium';
+  if (lowerId === 'natrum-muriaticum' || lowerId === 'nat-mur-profile' || lowerId.startsWith('nat-mur-') || lowerId.startsWith('natrum-muriaticum-')) return 'nat_mur';
+  if (lowerId === 'nux-vomica' || lowerId === 'nux-vomica-2' || lowerId === 'nux-vomica-profile' || lowerId.startsWith('nux-vomica-')) return 'nux_vomica';
+  if (lowerId === 'pulsatilla' || lowerId === 'pulsatilla-profile' || lowerId.startsWith('pulsatilla-')) return 'pulsatilla';
+  if (lowerId === 'rhus-tox' || lowerId === 'rhus-tox-profile' || lowerId.startsWith('rhus-tox-')) return 'rhus_tox';
+  if (lowerId === 'sepia' || lowerId === 'sepia-profile-2' || lowerId.startsWith('sepia-')) return 'sepia';
+  if (lowerId === 'aceticum-acidum' || lowerId === 'aceticum-acidum-profile') return 'aceticum';
+  if (lowerId === 'aesculus-hippocastanum' || lowerId === 'aesculus-hippocastanum-profile') return 'aesculus';
+  
+  return null;
+}
+
+const mergedPosts: BlogPost[] = [];
+const remedyKeyGroups: Record<string, BlogPost[]> = {};
+
+for (const post of rawBlogPosts) {
+  const rKey = getNormalizedRemedyKey(post.id, post.category);
+  if (rKey) {
+    if (!remedyKeyGroups[rKey]) {
+      remedyKeyGroups[rKey] = [];
+    }
+    remedyKeyGroups[rKey].push(post);
+  } else {
+    mergedPosts.push(post);
+  }
+}
+
+// Perform merging
+for (const rKey in remedyKeyGroups) {
+  const group = remedyKeyGroups[rKey];
+  if (group.length === 1) {
+    mergedPosts.push(group[0]);
+    continue;
+  }
+  
+  // Sort posts in the group so we prefer the one with the slug as the base
+  group.sort((a, b) => {
+    const aHasCleanSlug = a.slug && !a.id.includes('-profile') && !a.id.includes('-remedy') ? 1 : 0;
+    const bHasCleanSlug = b.slug && !b.id.includes('-profile') && !b.id.includes('-remedy') ? 1 : 0;
+    return bHasCleanSlug - aHasCleanSlug;
+  });
+  
+  const base = { ...group[0] };
+  
+  // Clean arrays of base
+  if (!base.quickSummary) base.quickSummary = [];
+  if (!base.keyPatterns) base.keyPatterns = [];
+  if (!base.whenToConsider) base.whenToConsider = [];
+  if (!base.tags) base.tags = [];
+  if (!base.relatedRemedies) base.relatedRemedies = [];
+  if (!base.relatedConditions) base.relatedConditions = [];
+  
+  for (let i = 1; i < group.length; i++) {
+    const post = group[i];
+    
+    // Merge contents
+    base.content += `\n\n### Clinical Perspectives & Comparative Insights\n\n${post.content}`;
+    
+    // Merge key patterns and other arrays
+    if (post.quickSummary) {
+      base.quickSummary = Array.from(new Set([...(base.quickSummary || []), ...post.quickSummary]));
+    }
+    if (post.keyPatterns) {
+      base.keyPatterns = Array.from(new Set([...(base.keyPatterns || []), ...post.keyPatterns]));
+    }
+    if (post.whenToConsider) {
+      base.whenToConsider = Array.from(new Set([...(base.whenToConsider || []), ...post.whenToConsider]));
+    }
+    if (post.tags) {
+      base.tags = Array.from(new Set([...(base.tags || []), ...post.tags]));
+    }
+    if (post.relatedRemedies) {
+      base.relatedRemedies = Array.from(new Set([...(base.relatedRemedies || []), ...post.relatedRemedies]));
+    }
+    if (post.relatedConditions) {
+      base.relatedConditions = Array.from(new Set([...(base.relatedConditions || []), ...post.relatedConditions]));
+    }
+    if (post.modalities) {
+      if (!base.modalities) base.modalities = { better: [], worse: [] };
+      base.modalities.better = Array.from(new Set([...(base.modalities.better || []), ...(post.modalities.better || [])]));
+      base.modalities.worse = Array.from(new Set([...(base.modalities.worse || []), ...(post.modalities.worse || [])]));
+    }
+    if (post.comparisons) {
+      base.comparisons = [...(base.comparisons || []), ...(post.comparisons || [])];
+    }
+    if (post.relatedCarePlans) {
+      base.relatedCarePlans = [...(base.relatedCarePlans || []), ...(post.relatedCarePlans || [])];
+    }
+  }
+  
+  // Clean up comparisons
+  if (base.comparisons) {
+    const uniqueComps = new Map();
+    for (const comp of base.comparisons) {
+      uniqueComps.set(comp.remedyName, comp);
+    }
+    base.comparisons = Array.from(uniqueComps.values());
+  }
+  
+  // Clean up relatedCarePlans
+  if (base.relatedCarePlans) {
+    const uniquePlans = new Map();
+    for (const p of base.relatedCarePlans) {
+      uniquePlans.set(p.name, p);
+    }
+    base.relatedCarePlans = Array.from(uniquePlans.values());
+  }
+
+  mergedPosts.push(base);
+}
+
+export const allBlogPosts: BlogPost[] = mergedPosts;
 

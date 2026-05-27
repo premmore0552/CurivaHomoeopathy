@@ -106,18 +106,7 @@ export default function RemedyDetail() {
               This remedy profile is currently being compiled by our clinical research team. Master the fundamentals while we finalize the deep-dive analysis.
             </p>
           </div>
-          
-          <div className="bg-white dark:bg-bg-secondary p-12 rounded-[4rem] border border-border shadow-2xl max-w-2xl mx-auto">
-             <Sparkles className="w-12 h-12 text-primary mx-auto mb-6" />
-             <h3 className="text-2xl font-black text-text-primary mb-4 italic">Unlock Premium Materia Medica</h3>
-             <p className="text-text-secondary mb-8 font-medium">Get instant access to clinical cases, miasmatic analysis, and advanced differential diagnosis for 200+ remedies.</p>
-             <Link 
-               to="/pro-plans" 
-               className="inline-flex items-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-105 transition-all shadow-xl shadow-primary/20"
-             >
-               Go Pro Now <Zap className="w-4 h-4 fill-white" />
-             </Link>
-          </div>
+
 
           <Link to="/encyclopedia" className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-xs hover:underline pt-12">
             <ArrowLeft className="w-4 h-4" /> Back to Encyclopedia
@@ -187,7 +176,7 @@ export default function RemedyDetail() {
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.1 }}
-             className="text-5xl md:text-8xl lg:text-[10rem] font-display font-medium text-white tracking-tighter leading-[0.8] uppercase flex flex-col mb-12"
+             className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-display font-medium text-white tracking-tighter leading-[0.8] uppercase flex flex-col mb-12"
            >
              <span>{remedy.name.split(' ')[0]}</span>
              {remedy.name.split(' ').slice(1).length > 0 && (
@@ -219,6 +208,30 @@ export default function RemedyDetail() {
       </header>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20">
+        {/* Mobile Tab Index */}
+        <div className="lg:hidden block mb-10 overflow-x-auto whitespace-nowrap py-4 px-2 -mx-4 no-scrollbar sticky top-16 bg-bg-primary/95 backdrop-blur-md z-30 border-b border-border">
+          <div className="flex gap-2 px-4">
+            {sections.filter(s => {
+              if (s.id === 'mind' || s.id === 'physical') {
+                return mmRemedy && (mmRemedy as any)[s.id]?.length > 0;
+              }
+              return true;
+            }).map(section => {
+              const Icon = section.icon;
+              return (
+                <a 
+                  key={section.id} 
+                  href={`#${section.id}`}
+                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-bg-secondary border border-border rounded-full hover:border-primary/40 hover:text-primary transition-all text-xs font-bold text-text-secondary"
+                >
+                  <Icon className="w-3.5 h-3.5 text-primary" />
+                  {section.name}
+                </a>
+              );
+            })}
+          </div>
+        </div>
+
         <div className="grid lg:grid-cols-4 gap-12">
           
           {/* Floating Sidebar Index */}
@@ -429,14 +442,25 @@ export default function RemedyDetail() {
               </div>
               <div className="grid gap-6 relative z-10">
                 {remedy.comparisons.map((comp) => (
-                  <div key={`${remedy.id}-comp-${comp.id}`} className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-border flex flex-col md:flex-row gap-8 items-start md:items-center hover:border-primary/20 transition-all">
-                    <Link 
-                      to={`/remedy/${comp.id}`}
-                      className="px-6 py-2.5 bg-primary-dark text-accent-light font-bold text-[10px] uppercase tracking-[0.2em] rounded-full hover:bg-primary transition-all whitespace-nowrap"
-                    >
-                      Compare {comp.name}
-                    </Link>
-                    <p className="text-lg font-serif italic text-text-secondary leading-relaxed">{comp.keyDifference}</p>
+                  <div key={`${remedy.id}-comp-${comp.id}`} className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-border flex flex-col md:flex-row gap-8 items-start md:items-center hover:border-primary/20 transition-all justify-between w-full">
+                    <div className="flex-1 min-w-0 pr-4">
+                      <p className="text-lg font-serif italic text-text-secondary leading-relaxed">{comp.keyDifference}</p>
+                    </div>
+                    <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
+                      <Link 
+                        to={`/remedy/${comp.id}`}
+                        className="px-6 py-3 bg-primary-dark text-accent-light text-center font-black text-[10px] uppercase tracking-[0.2em] rounded-xl hover:bg-primary hover:text-white transition-all whitespace-nowrap"
+                      >
+                        Detail View
+                      </Link>
+                      <Link 
+                        to="/analysis"
+                        state={{ preSelectedIds: [remedy.id, comp.id] }}
+                        className="px-6 py-3 bg-white hover:border-primary/40 text-center border border-border text-primary font-black text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all whitespace-nowrap inline-flex items-center justify-center gap-2"
+                      >
+                        Compare in Table <Scale className="w-3.5 h-3.5" />
+                      </Link>
+                    </div>
                   </div>
                 ))}
                 {remedy.comparisons.length === 0 && (

@@ -52,6 +52,16 @@ service cloud.firestore {
              data.status in ['pending', 'answered', 'featured'];
     }
 
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'userEmail', 'resourceId', 'resourceTitle', 'paymentId', 'status', 'createdAt']) &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.userEmail is string && data.userEmail.size() <= 200 &&
+             data.resourceId is string && data.resourceId.size() <= 100 &&
+             data.resourceTitle is string && data.resourceTitle.size() <= 500 &&
+             data.paymentId is string && data.paymentId.size() <= 200 &&
+             data.status in ['paid', 'pending', 'failed'];
+    }
+
     // --- Collection: Users ---
     
     match /users/{userId} {
@@ -82,6 +92,21 @@ service cloud.firestore {
       allow update: if isAdmin() && 
                        incoming().diff(existing()).affectedKeys().hasAny(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
                        incoming().updatedAt == request.time;
+    }
+
+    // --- Collection: Orders ---
+    match /orders/{orderId} {
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if (
+                      (isSignedIn() && incoming().userId == request.auth.uid) ||
+                      (!isSignedIn() && incoming().userId == 'guest')
+                    ) &&
+                    isValidOrder(incoming()) &&
+                    incoming().createdAt == request.time;
+      
+      allow update, delete: if false;
     }
 
     // --- Collection: Admins ---

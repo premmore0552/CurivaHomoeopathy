@@ -56,8 +56,8 @@ export const userService = {
       if (!docSnap.exists()) {
         const initialData: any = {
           uid: user.uid,
-          email: user.email,
-          displayName: user.displayName || '',
+          email: user.email || user.phoneNumber || '',
+          displayName: user.displayName || user.phoneNumber || '',
           photoURL: user.photoURL || '',
           bookmarks: [],
           readingHistory: [],

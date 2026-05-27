@@ -5,7 +5,6 @@ import { ArrowRight, Activity, BookOpen, GraduationCap, HelpCircle, Users, Shopp
 import Hero from '../components/Hero';
 import FeaturedArticles from '../components/FeaturedArticles';
 import FeaturedQuestions from '../components/FeaturedQuestions';
-import Newsletter from '../components/Newsletter';
 import SEO from '../components/SEO';
 import { BlogPost } from '../types';
 
@@ -13,7 +12,7 @@ const funnelSteps = [
   {
     id: 'organon',
     title: 'The Foundation',
-    subtitle: 'Glossary of Wisdom',
+    subtitle: 'Organon of Medicine',
     description: 'Master the logic and philosophy of homoeopathy. Explore 291 aphorisms with historical context and clinical insights.',
     icon: GraduationCap,
     link: '/glossary/philosophy',
@@ -150,55 +149,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Pro Funnel Converter */}
-        <section className="py-32 bg-primary-dark text-white overflow-hidden relative">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.1)_0%,transparent_70%)] opacity-50" />
-          
-          <div className="max-w-7xl mx-auto px-6 relative z-10">
-            <div className="grid lg:grid-cols-2 gap-20 items-center">
-              <div>
-                <motion.div
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-widest text-accent-light mb-10 border border-white/10"
-                >
-                  <Award className="w-4 h-4" /> Professional Tier
-                </motion.div>
-                <h2 className="text-5xl md:text-7xl font-display font-medium tracking-tight italic leading-[0.9] mb-10 text-bg-primary">
-                  Ready to <br/> <span className="text-accent italic">Prescribe</span> with Confidence?
-                </h2>
-                <div className="space-y-6 mb-12">
-                  {[
-                    "Clinical-grade Differential Analysis",
-                    "A-Z Integrated Materia Medica Search",
-                    "Historical Case Studies & Stalwart Insights",
-                    "Priority Access to Research Papers"
-                  ].map((feat, i) => (
-                    <div key={i} className="flex items-center gap-4 text-white/70">
-                      <ShieldCheck className="w-6 h-6 text-accent" />
-                      <span className="text-lg font-medium">{feat}</span>
-                    </div>
-                  ))}
-                </div>
-                <Link 
-                  to="/subscription"
-                  className="px-12 py-6 bg-accent text-primary-dark font-bold uppercase tracking-widest text-xs rounded-2xl shadow-3xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all inline-flex items-center gap-4"
-                >
-                  Upgrade to Pro <ArrowRight className="w-5 h-5" />
-                </Link>
-              </div>
-              
-              <div className="relative">
-                <div className="absolute -inset-10 bg-accent/10 rounded-full blur-[100px]" />
-                <img 
-                  src="https://images.unsplash.com/photo-1540348922527-3efe7d3f94ee?auto=format&fit=crop&q=80&w=1000" 
-                  alt="Clinical Excellence" 
-                  className="w-full h-full object-cover rounded-[4rem] shadow-2xl relative sepia-[0.2] hover:sepia-0 transition-all duration-700" 
-                />
-              </div>
-            </div>
-          </div>
-        </section>
+
 
         <section className="py-24">
           <FeaturedQuestions />
@@ -207,8 +158,6 @@ export default function Home() {
         <section className="py-24">
           <FeaturedArticles onSelectPost={handleSelectPost} />
         </section>
-
-        <Newsletter />
       </motion.div>
     </>
   );

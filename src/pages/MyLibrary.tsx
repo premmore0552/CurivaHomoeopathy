@@ -70,7 +70,7 @@ const FullscreenReader = ({ resource, onClose }: { resource: Resource; onClose: 
             <ShieldCheck className="w-4 h-4" />
             <span className="text-[10px] font-black uppercase tracking-widest">Encrypted Stream</span>
           </div>
-          <button className="hidden sm:flex items-center gap-2 px-6 py-2 bg-text-primary text-white rounded-xl text-xs font-black uppercase tracking-widest hover:bg-gray-800 transition-all">
+          <button className="hidden sm:flex items-center gap-2 px-6 py-2 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-black uppercase tracking-widest transition-all">
             <Maximize2 className="w-4 h-4" />
             Full Screen
           </button>
@@ -152,8 +152,7 @@ const MyLibrary = () => {
         // Fetch Orders
         const q = query(
           collection(db, 'orders'),
-          where('userId', '==', auth.currentUser.uid),
-          orderBy('createdAt', 'desc')
+          where('userId', '==', auth.currentUser.uid)
         );
         const snapshot = await getDocs(q);
         const orderData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Order));
@@ -248,7 +247,7 @@ const MyLibrary = () => {
       />
 
       {/* Header Space */}
-      <section className="relative pt-48 pb-24 overflow-hidden bg-text-primary text-white">
+      <section className="relative pt-48 pb-24 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-12 text-center lg:text-left">

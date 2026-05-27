@@ -9,6 +9,18 @@ import { comparisonRemedies } from '../data/comparisonData';
 export default function ComparisonTool() {
   const location = useLocation();
   const preSelectedId = location.state?.preSelectedId;
+  const preSelectedIds = location.state?.preSelectedIds;
+
+  // Deduplicate remedies by lowercase name to ensure clean comparisons with no duplicate rows
+  const uniqueComparisonRemedies = React.useMemo(() => {
+    const seen = new Set<string>();
+    return comparisonRemedies.filter(r => {
+      const nameKey = r.name.toLowerCase().trim();
+      if (seen.has(nameKey)) return false;
+      seen.add(nameKey);
+      return true;
+    });
+  }, []);
 
   return (
     <div className="min-h-screen bg-bg-primary pb-20">
@@ -39,11 +51,11 @@ export default function ComparisonTool() {
            <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-tight mt-12">
              Compare modalities, thermal patterns, and keynotes side-by-side to refine your therapeutic accuracy.
            </p>
-        </div>
+         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20">
-        <RemedyComparison remedies={comparisonRemedies} preSelectedId={preSelectedId} />
+        <RemedyComparison remedies={uniqueComparisonRemedies} preSelectedId={preSelectedId} preSelectedIds={preSelectedIds} />
 
         <div className="mt-20 grid md:grid-cols-2 gap-8">
            <div className="p-10 bg-white rounded-[3rem] border border-border shadow-soft">

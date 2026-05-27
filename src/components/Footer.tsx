@@ -52,7 +52,7 @@ const Footer: React.FC = () => {
               <li><Link to="/stalwarts" className="text-text-secondary hover:text-primary transition-colors">Stalwarts</Link></li>
               <li><Link to="/analysis" className="text-text-secondary hover:text-primary transition-colors">Analysis Tool</Link></li>
               <li><Link to="/library" className="text-text-secondary hover:text-primary transition-colors">Library</Link></li>
-              <li><Link to="/subscription" className="text-accent hover:text-accent/80 transition-colors flex items-center gap-2">Go Pro <Sparkles className="w-3 h-3" /></Link></li>
+
             </ul>
           </div>
 

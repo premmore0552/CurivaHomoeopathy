@@ -3330,5 +3330,48 @@ export const organonData: OrganonAphorism[] = [
          footnotes: []
       }
     ]
+  },
+  {
+    id: 292,
+    category: "Philosophy",
+    versions: [
+      {
+         edition: "Fifth Edition",
+         content: "What parts of the body are more susceptibility to the influence of medicines? I find it necessary to allude here to the administrative routes of olfaction (breathing the vapor of potentized remedies) and friction (rubbing remedies in solution into the skin). In very sensitive patients, simple olfaction of highly potentized medicines is incredibly swift and sufficient for cure, bypassing digestive disturbances.",
+         footnotes: [
+           {
+             id: "fn-292-1",
+             text: "Olfaction is especially useful in acute or highly painful conditions when taking remedies by mouth is uncomfortable or impossible."
+           }
+         ]
+      }
+    ]
+  },
+  {
+    id: 293,
+    category: "Philosophy",
+    versions: [
+      {
+         edition: "Fifth Edition",
+         content: "Animal magnetism (or mesmerism, as it is termed) is a marvelous, divinely bestowed gift given to man, by which the vital force of a healthy, goodwill-infused practitioner can be dynamically transferred to a sick patient, supplying deficient vital power, or calming irregular or hyper-aroused states, acting directly upon the nervous system.",
+         footnotes: [
+           {
+             id: "fn-293-1",
+             text: "This power can be concentrated to act curators-like upon specific organs or globally across the entire system."
+           }
+         ]
+      }
+    ]
+  },
+  {
+    id: 294,
+    category: "Philosophy",
+    versions: [
+      {
+         edition: "Fifth Edition",
+         content: "The practice of mesmerism is divided into two types: positive mesmerism (applying the hands or passes near the body to transmit positive, healing vital forces) and negative mesmerism (stroking with the hands from head to foot to discharge, disperse or calm down the hyper-excited or congested vital force of the patient). However, negative mesmerism must be applied with extreme caution to avoid over-depletion.",
+         footnotes: []
+      }
+    ]
   }
 ];

@@ -124,28 +124,12 @@ const Header: React.FC = () => {
     }
   };
 
-  const pathnames = location.pathname.split('/').filter((x) => x);
 
-  const getBreadcrumbName = (segment: string) => {
-    const map: Record<string, string> = {
-      'materia-medica': 'Materia Medica',
-      'remedy-comparator': 'Remedy Comparator',
-      'organon-philosophy': 'Organon Philosophy',
-      'principles': 'Core Principles',
-      'about-us': 'About Curiva',
-      'feedback': 'Get in Touch',
-      'faq': 'Help Center',
-      'privacy-policy': 'Privacy Policy',
-      'medical-disclaimer': 'Medical Disclaimer',
-      'terms-of-service': 'Terms of Service',
-      'topics': 'Research Database',
-      'student-resources': 'Student Resources',
-    };
-    return map[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
-  };
 
   const navLinks = [
     { name: 'Home', to: '/' },
+    { name: 'Materia Medica', to: '/materia-medica' },
+    { name: 'Clinical Guides', to: '/clinical-guides' },
     { 
       name: 'Glossary', 
       to: '/glossary',
@@ -177,12 +161,10 @@ const Header: React.FC = () => {
         { name: 'Repertory Tool', to: '/repertory' },
         { name: 'Relationship Map', to: '/relationships' },
         { name: 'Visualizer', to: '/visualization' },
-        { name: 'Case Simulator', to: '/case-simulation' },
       ]
     },
     { name: 'Ask Expert', to: '/ask-homeopath' },
     { name: 'Library', to: '/library' },
-    { name: 'Pro Access', to: '/subscription' },
   ];
 
   const handleLinkClick = (to: string) => {
@@ -330,20 +312,9 @@ const Header: React.FC = () => {
             </div>
 
             <div className="hidden lg:flex items-center gap-4 pl-4 border-l border-border/50">
+               <ThemeToggle />
                <AuthButton />
                
-               <Link
-                to="/subscription"
-                className={`flex items-center gap-3 px-6 py-2.5 rounded-full text-[10px] font-black uppercase tracking-[0.2em] transition-all shadow-lg ${
-                  location.pathname === '/subscription'
-                  ? 'bg-text-primary text-white'
-                  : 'bg-primary text-white shadow-primary/20 hover:scale-105'
-                }`}
-              >
-                <Crown className="w-4 h-4" />
-                Go Pro
-              </Link>
-
                <Link
                 to="/my-library"
                 className={`w-12 h-12 rounded-full flex items-center justify-center transition-all relative group shadow-sm border ${
@@ -375,44 +346,7 @@ const Header: React.FC = () => {
         </div>
       </div>
 
-      {/* Breadcrumbs */}
-      <AnimatePresence>
-        {pathnames.length > 0 && (
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -10 }}
-            className="bg-bg-secondary/50 border-b border-border py-2.5"
-          >
-            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-              <nav className="flex items-center space-x-2 text-xs md:text-sm text-text-secondary overflow-x-auto no-scrollbar whitespace-nowrap">
-                <Link to="/" className="hover:text-primary transition-colors flex items-center gap-1">
-                  <Home className="w-3.5 h-3.5" />
-                  <span className="hidden sm:inline">Home</span>
-                </Link>
-                
-                {pathnames.map((value, index) => {
-                  const last = index === pathnames.length - 1;
-                  const to = `/${pathnames.slice(0, index + 1).join('/')}`;
 
-                  return (
-                    <React.Fragment key={to}>
-                      <ChevronRight className="w-3.5 h-3.5 flex-shrink-0" />
-                      {last ? (
-                        <span className="text-primary font-medium truncate max-w-[150px] md:max-w-xs">{getBreadcrumbName(value)}</span>
-                      ) : (
-                        <Link to={to} className="hover:text-primary transition-colors">
-                          {getBreadcrumbName(value)}
-                        </Link>
-                      )}
-                    </React.Fragment>
-                  );
-                })}
-              </nav>
-            </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
 
       {/* Mobile Navigation Drawer */}
       <AnimatePresence mode="wait">

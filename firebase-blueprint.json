@@ -60,6 +60,21 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "role"]
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Digital resource purchase history and fulfillment details",
+      "type": "object",
+      "properties": {
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "resourceId": { "type": "string" },
+        "resourceTitle": { "type": "string" },
+        "paymentId": { "type": "string" },
+        "status": { "type": "string", "enum": ["paid", "pending", "failed"] },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["userId", "userEmail", "resourceId", "resourceTitle", "paymentId", "status", "createdAt"]
     }
   },
   "firestore": {
@@ -74,6 +89,10 @@
     "/admins/{adminId}": {
       "schema": "Admin",
       "description": "Authorized administrators and professionals"
+    },
+    "/orders/{orderId}": {
+      "schema": "Order",
+      "description": "Digital resource orders and customer records"
     }
   }
 }
