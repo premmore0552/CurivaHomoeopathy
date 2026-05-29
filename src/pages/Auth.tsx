@@ -42,6 +42,7 @@ export default function Auth() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [name, setName] = useState('');
+  const [profession, setProfession] = useState('user');
   
   // Phone mode Fields
   const [phoneNumber, setPhoneNumber] = useState('+91 ');
@@ -83,7 +84,7 @@ export default function Auth() {
     setSuccessMessage(null);
     try {
       await signInWithPopup(auth, googleProvider);
-      await userService.syncAuthUser();
+      await userService.syncAuthUser(profession);
       navigate(redirectPath);
     } catch (err: any) {
       console.error(err);
@@ -112,7 +113,7 @@ export default function Auth() {
         await updateProfile(userCredential.user, {
           displayName: name
         });
-        await userService.syncAuthUser();
+        await userService.syncAuthUser(profession);
       }
       navigate(redirectPath);
     } catch (err: any) {
@@ -214,7 +215,7 @@ export default function Auth() {
         throw new Error('Verification session expired. Please start over.');
       }
       await confirmationResult.confirm(otpCode.trim());
-      await userService.syncAuthUser();
+      await userService.syncAuthUser(profession);
       navigate(redirectPath);
     } catch (err: any) {
       console.error(err);
@@ -358,26 +359,56 @@ export default function Auth() {
               <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <AnimatePresence mode="popLayout" initial={false}>
                   {mode === 'register' && (
-                    <motion.div
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -15 }}
-                      transition={{ duration: 0.2 }}
-                      className="space-y-2"
-                    >
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Full Name</label>
-                      <div className="relative">
-                        <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
-                        <input
-                          type="text"
-                          placeholder="Dr. Samuel Hahnemann"
-                          required={mode === 'register'}
-                          value={name}
-                          onChange={(e) => setName(e.target.value)}
-                          className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
-                        />
-                      </div>
-                    </motion.div>
+                    <>
+                      <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.2 }}
+                        className="space-y-2"
+                      >
+                        <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Full Name</label>
+                        <div className="relative">
+                          <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                          <input
+                            type="text"
+                            placeholder="Dr. Samuel Hahnemann"
+                            required={mode === 'register'}
+                            value={name}
+                            onChange={(e) => setName(e.target.value)}
+                            className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                          />
+                        </div>
+                      </motion.div>
+
+                      <motion.div
+                        initial={{ opacity: 0, y: 15 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: -15 }}
+                        transition={{ duration: 0.2, delay: 0.05 }}
+                        className="space-y-2"
+                      >
+                        <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">My Role / Profession</label>
+                        <div className="relative">
+                          <select
+                            value={profession}
+                            onChange={(e) => setProfession(e.target.value)}
+                            className="w-full px-5 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all appearance-none cursor-pointer"
+                          >
+                            <option value="doctor">🩺 Homoeopathy Doctor (BHMS, MD-Hom)</option>
+                            <option value="practitioner">🌿 Clinical Practitioner</option>
+                            <option value="student">🎓 Academic Student / Scholar</option>
+                            <option value="user">📖 General Reader & Enthusiast</option>
+                          </select>
+                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-tertiary">
+                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-text-tertiary block ml-1 leading-relaxed">
+                          We will customize your clinical workspace with information designed for your practice or reading scope.
+                        </p>
+                      </motion.div>
+                    </>
                   )}
                 </AnimatePresence>
 

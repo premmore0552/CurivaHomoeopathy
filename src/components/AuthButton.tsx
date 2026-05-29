@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Crown, ArrowRight, Sparkles } from 'lucide-react';
+import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Crown, ArrowRight, Sparkles, Library } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { auth, googleProvider } from '../lib/firebase';
@@ -49,14 +49,14 @@ export default function AuthButton() {
 
   if (!user) {
     return (
-      <button 
-        onClick={handleLogin}
+      <Link 
+        to="/auth"
         className="group relative flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden border border-zinc-800 dark:border-zinc-200"
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 dark:via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         <LogIn className="w-4 h-4 transition-transform group-hover:rotate-12" />
         <span className="hidden sm:inline">Portal Access</span>
-      </button>
+      </Link>
     );
   }
 
@@ -92,10 +92,10 @@ export default function AuthButton() {
       <AnimatePresence>
         {showDropdown && (
           <motion.div
-            initial={{ opacity: 0, y: 15, scale: 0.9, rotateX: -15 }}
-            animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
-            exit={{ opacity: 0, y: 15, scale: 0.9, rotateX: -15 }}
-            className="absolute top-full mt-4 right-0 w-80 bg-bg-primary border border-border rounded-[2.5rem] shadow-[0_30px_70px_rgba(0,0,0,0.2)] z-[100] overflow-hidden origin-top-right backdrop-blur-2xl"
+             initial={{ opacity: 0, y: 15, scale: 0.9, rotateX: -15 }}
+             animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
+             exit={{ opacity: 0, y: 15, scale: 0.9, rotateX: -15 }}
+             className="absolute top-full mt-4 right-[-10px] sm:right-0 w-[calc(100vw-2rem)] sm:w-80 max-w-[340px] bg-bg-primary border border-border rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_30px_70px_rgba(0,0,0,0.2)] z-[100] overflow-hidden origin-top-right backdrop-blur-2xl"
           >
             <div className="p-8 bg-gradient-to-br from-bg-secondary via-bg-primary to-bg-secondary border-b border-border relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
@@ -134,6 +134,20 @@ export default function AuthButton() {
                     <User className="w-4 h-4" />
                   </div>
                   Study Profile
+                </div>
+                <ArrowRight className="w-4 h-4 opacity-0 group-hover/item:opacity-100 -translate-x-3 group-hover/item:translate-x-0 transition-all text-primary" />
+              </Link>
+
+              <Link 
+                to="/library"
+                className="w-full flex items-center justify-between px-5 py-4 text-[11px] font-black uppercase tracking-widest text-text-secondary hover:text-primary hover:bg-primary/5 rounded-2xl transition-all group/item border border-transparent hover:border-primary/10 shadow-sm hover:shadow-md"
+                onClick={() => setShowDropdown(false)}
+              >
+                <div className="flex items-center gap-4">
+                  <div className="p-2.5 rounded-xl bg-bg-secondary group-hover/item:bg-primary group-hover/item:text-white transition-all">
+                    <Library className="w-4 h-4" />
+                  </div>
+                  My Study Library
                 </div>
                 <ArrowRight className="w-4 h-4 opacity-0 group-hover/item:opacity-100 -translate-x-3 group-hover/item:translate-x-0 transition-all text-primary" />
               </Link>

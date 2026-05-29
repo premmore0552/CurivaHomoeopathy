@@ -1,12 +1,14 @@
 import React from 'react';
 import { motion, Variants } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, ShieldCheck, User } from 'lucide-react';
 import { trackEvent } from '../lib/analytics';
 import { useLanguage } from '../context/LanguageContext';
+import { useUser } from '../hooks/useUser';
 
 const Hero: React.FC = () => {
   const { t } = useLanguage();
+  const { profile, loading } = useUser();
   const containerVariants: Variants = {
     hidden: { opacity: 0 },
     visible: {
@@ -90,6 +92,27 @@ const Hero: React.FC = () => {
                 {t('btn.explore')}
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Link>
+
+              {!profile ? (
+                <Link
+                  to="/auth"
+                  onClick={() => trackEvent('cta_click', { cta_id: 'hero_portal_login' })}
+                  className="px-10 py-6 bg-accent text-primary-dark font-black uppercase tracking-widest text-[11px] rounded-2xl hover:scale-105 hover:shadow-2xl active:scale-95 transition-all flex items-center justify-center gap-2.5 group shadow-sm border border-transparent"
+                >
+                  <ShieldCheck className="w-4 h-4 text-primary-dark" />
+                  Scholars & Doctors Login
+                </Link>
+              ) : (
+                <Link
+                  to="/profile"
+                  onClick={() => trackEvent('cta_click', { cta_id: 'hero_portal_profile' })}
+                  className="px-10 py-6 bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs rounded-2xl hover:scale-105 hover:shadow-2xl hover:shadow-emerald-600/20 active:scale-95 transition-all flex items-center justify-center gap-2 group shadow-sm"
+                >
+                  <User className="w-4 h-4 text-white" />
+                  My Workspace Panel
+                </Link>
+              )}
+
               <Link
                 to="/research"
                 onClick={() => trackEvent('cta_click', { cta_id: 'hero_marketplace' })}

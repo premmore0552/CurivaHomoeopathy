@@ -143,18 +143,6 @@ export default function RemedyDetail() {
            <Leaf className="w-96 h-96 text-accent" />
         </div>
         
-        {remedy.imageUrl && (
-          <div className="absolute inset-0 z-0">
-            <img 
-              src={remedy.imageUrl} 
-              alt={remedy.name} 
-              className="w-full h-full object-cover opacity-20 filter grayscale" 
-              referrerPolicy="no-referrer"
-            />
-            <div className="absolute inset-0 bg-primary-dark/60" />
-          </div>
-        )}
-        
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
@@ -472,40 +460,49 @@ export default function RemedyDetail() {
             </section>
 
             {/* Related Research (Blog Posts) */}
-            {remedy.relatedBlogPosts && remedy.relatedBlogPosts.length > 0 && (
-              <section id="research" className="scroll-mt-32">
-                <div className="flex items-center gap-4 mb-12">
-                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                    <Sparkles className="w-6 h-6" />
+            {(() => {
+              const dynamicBlogPosts = allBlogPosts.filter(post => 
+                post.id === remedy.id || 
+                post.slug === remedy.id ||
+                post.relatedRemedies?.includes(remedy.id) ||
+                (remedy.relatedBlogPosts && remedy.relatedBlogPosts.includes(post.id))
+              );
+
+              if (dynamicBlogPosts.length === 0) return null;
+
+              return (
+                <section id="research" className="scroll-mt-32">
+                  <div className="flex items-center gap-4 mb-12">
+                    <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+                      <Sparkles className="w-6 h-6" />
+                    </div>
+                    <h2 className="text-4xl font-display font-medium text-text-primary italic">Scholarly <span className="text-primary italic">Insights</span></h2>
                   </div>
-                  <h2 className="text-4xl font-display font-medium text-text-primary italic">Scholarly <span className="text-primary italic">Insights</span></h2>
-                </div>
-                <div className="grid md:grid-cols-2 gap-8">
-                  {remedy.relatedBlogPosts.map(postId => {
-                    const post = allBlogPosts.find(p => p.id === postId);
-                    if (!post) return null;
-                    return (
-                      <Link 
-                        key={post.id}
-                        to={`/read/${post.slug || post.id}`}
-                        className="group relative bg-white rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
-                      >
-                        <div className="aspect-video w-full overflow-hidden">
-                          <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-                        </div>
-                        <div className="p-8">
-                          <span className="text-[10px] font-black uppercase text-accent tracking-[0.3em] mb-3 block">Publication</span>
-                          <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors line-clamp-2 italic leading-tight mb-4">{post.title}</h4>
-                          <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
-                            Read Article <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                  <div className="grid md:grid-cols-2 gap-8">
+                    {dynamicBlogPosts.map(post => {
+                      return (
+                        <Link 
+                          key={post.id}
+                          to={`/read/${post.slug || post.id}`}
+                          className="group relative bg-white rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
+                        >
+                          <div className="aspect-video w-full overflow-hidden">
+                            <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
                           </div>
-                        </div>
-                      </Link>
-                    )
-                  })}
-                </div>
-              </section>
-            )}
+                          <div className="p-8">
+                            <span className="text-[10px] font-black uppercase text-accent tracking-[0.3em] mb-3 block">Publication</span>
+                            <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors line-clamp-2 italic leading-tight mb-4">{post.title}</h4>
+                            <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+                              Read Article <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </div>
+                          </div>
+                        </Link>
+                      )
+                    })}
+                  </div>
+                </section>
+              );
+            })()}
 
             {/* Related Ailments */}
             <section id="related" className="scroll-mt-32">

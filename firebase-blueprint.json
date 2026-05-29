@@ -9,6 +9,14 @@
         "email": { "type": "string" },
         "displayName": { "type": "string" },
         "photoURL": { "type": "string" },
+        "profession": { "type": "string" },
+        "bio": { "type": "string" },
+        "qualifications": { "type": "string" },
+        "clinicAddress": { "type": "string" },
+        "interests": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
         "bookmarks": { 
           "type": "array", 
           "items": { "type": "string" },
@@ -23,6 +31,21 @@
               "timestamp": { "type": "string", "format": "date-time" }
             }
           }
+        },
+        "activities": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": { "type": "string" },
+              "type": { "type": "string" },
+              "details": { "type": "string" },
+              "timestamp": { "type": "string", "format": "date-time" }
+            }
+          }
+        },
+        "studyStats": {
+          "type": "object"
         },
         "createdAt": { "type": "string", "format": "date-time" },
         "updatedAt": { "type": "string", "format": "date-time" }

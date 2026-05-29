@@ -7,6 +7,8 @@ import FeaturedArticles from '../components/FeaturedArticles';
 import FeaturedQuestions from '../components/FeaturedQuestions';
 import SEO from '../components/SEO';
 import { BlogPost } from '../types';
+import { useUser } from '../hooks/useUser';
+import { HomeWorkspaceBanner } from '../components/HomeWorkspaceBanner';
 
 const funnelSteps = [
   {
@@ -20,11 +22,20 @@ const funnelSteps = [
   },
   {
     id: 'materia-medica',
-    title: 'The Database',
-    subtitle: 'Clinical Materia Medica',
-    description: 'A comprehensive alphabetical index of remedies. Precise indications, keynotes, and clinical modalities.',
+    title: 'The Materia Medica',
+    subtitle: 'Materia Medica A-Z',
+    description: 'A comprehensive alphabetical study of homoeopathic drug pictures. Explore detailed keynotes, modalities, and standard drug provers representations for all major remedies.',
     icon: BookOpen,
-    link: '/glossary/all',
+    link: '/materia-medica',
+    color: 'bg-emerald-600'
+  },
+  {
+    id: 'clinical-guides',
+    title: 'The Therapeutics',
+    subtitle: 'Clinical Materia Medica',
+    description: 'Explore detailed therapeutic guides, clinical articles, and pathology-backed disease indices designed for evidence-based practice and case management.',
+    icon: Activity,
+    link: '/clinical-guides',
     color: 'bg-accent'
   },
   {
@@ -32,9 +43,9 @@ const funnelSteps = [
     title: 'The Analysis',
     subtitle: 'Interactive Repertory',
     description: 'Dynamic symptom-to-remedy mapping. Filter thousands of clinical indications to find the most accurate medicinal match.',
-    icon: Activity,
+    icon: Zap,
     link: '/repertory',
-    color: 'bg-emerald-600'
+    color: 'bg-orange-600'
   },
   {
     id: 'relationships',
@@ -50,15 +61,16 @@ const funnelSteps = [
     title: 'The Evaluation',
     subtitle: 'Competitive MCQs',
     description: 'Prepare for AIAPGET and competitive exams with 10,000+ targeted MCQs. Simulate exam conditions with timed sessions.',
-    icon: Zap,
+    icon: ShieldCheck,
     link: '/mcq-practice',
-    color: 'bg-orange-600'
+    color: 'bg-slate-700'
   }
 ];
 
 export default function Home() {
   const { hash } = useLocation();
   const navigate = useNavigate();
+  const { profile, loading } = useUser();
 
   const handleSelectPost = (post: BlogPost) => {
     navigate(`/read/${post.slug}`);
@@ -86,6 +98,8 @@ export default function Home() {
         className="bg-bg-primary"
       >
         <Hero />
+
+        {profile && <HomeWorkspaceBanner profile={profile} />}
 
         {/* Funnel Section */}
         <section className="py-24 md:py-32 relative overflow-hidden bg-bg-secondary/30">

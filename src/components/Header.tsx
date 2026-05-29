@@ -43,23 +43,47 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
-              className="overflow-hidden pl-4 space-y-2"
+              className="overflow-hidden pl-4 pr-1 py-1 space-y-3"
             >
-              {link.dropdown.map((sub: any) => (
-                <Link
-                  key={sub.name}
-                  to={sub.to}
-                  onClick={() => handleLinkClick(sub.to)}
-                  className={`flex items-center justify-between p-4 rounded-2xl text-sm font-bold border transition-all ${
-                    location.pathname === sub.to
-                    ? 'bg-primary text-white border-primary shadow-md'
-                    : 'bg-bg-secondary text-text-secondary border-transparent'
-                  }`}
-                >
-                  {sub.name}
-                  <ChevronRight className="w-4 h-4 opacity-50" />
-                </Link>
-              ))}
+              {link.dropdown.map((sub: any) => {
+                const isSubActive = location.pathname === sub.to;
+                const hasHighlight = link.isGlossary && sub.highlight;
+                return (
+                  <Link
+                    key={sub.name}
+                    to={sub.to}
+                    onClick={() => handleLinkClick(sub.to)}
+                    className={`flex flex-col items-start p-4.5 rounded-2xl text-sm border font-bold transition-all ${
+                      isSubActive
+                      ? 'bg-primary text-white border-primary shadow-md'
+                      : hasHighlight
+                        ? `${sub.highlight} border hover:shadow-soft active:scale-[0.99]`
+                        : 'bg-bg-secondary text-text-secondary border-transparent'
+                    }`}
+                  >
+                    <div className="flex items-center justify-between w-full">
+                      <div className="flex items-center gap-2">
+                        <span className={`text-base font-black ${isSubActive ? 'text-white' : ''}`}>{sub.name}</span>
+                        {sub.badge && (
+                          <span className={`px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider border ${
+                            isSubActive 
+                            ? 'bg-white/20 border-white/30 text-white' 
+                            : 'bg-current/10 border-current/20 text-current'
+                          }`}>
+                            {sub.badge}
+                          </span>
+                        )}
+                      </div>
+                      <ChevronRight className={`w-4 h-4 opacity-50 ${isSubActive ? 'text-white' : ''}`} />
+                    </div>
+                    {sub.desc && (
+                      <span className={`text-xs mt-1.5 font-serif italic font-medium leading-relaxed text-left ${isSubActive ? 'text-white/80' : 'text-text-tertiary'}`}>
+                        {sub.desc}
+                      </span>
+                    )}
+                  </Link>
+                );
+              })}
             </motion.div>
           )}
         </AnimatePresence>
@@ -133,11 +157,40 @@ const Header: React.FC = () => {
     { 
       name: 'Glossary', 
       to: '/glossary',
+      isGlossary: true,
       dropdown: [
-        { name: 'Philosophy', to: '/glossary/philosophy' },
-        { name: 'Clinical', to: '/glossary/clinical' },
-        { name: 'Historical', to: '/glossary/historical' },
-        { name: 'All Remedies', to: '/glossary/all' },
+        { 
+          name: 'Organon & Philosophy', 
+          to: '/glossary/philosophy', 
+          category: 'Organon',
+          highlight: 'bg-amber-500/10 hover:bg-amber-500/15 border-amber-500/20 text-amber-700 dark:text-amber-400',
+          badge: 'Organon',
+          desc: 'Explore Hahnemannian principles & philosophies'
+        },
+        { 
+          name: 'Materia Medica (Remedies)', 
+          to: '/glossary/all', 
+          category: 'Materia',
+          highlight: 'bg-emerald-500/10 hover:bg-emerald-500/15 border-emerald-500/20 text-emerald-700 dark:text-emerald-400',
+          badge: 'Materia',
+          desc: 'Comprehensive A-Z homeopathic drug pictures'
+        },
+        { 
+          name: 'Clinical & Therapeutics', 
+          to: '/glossary/clinical', 
+          category: 'Clinical',
+          highlight: 'bg-sky-500/10 hover:bg-sky-500/15 border-sky-500/20 text-sky-700 dark:text-sky-400',
+          badge: 'Clinical',
+          desc: 'Diagnostic guides & therapeutic protocols'
+        },
+        { 
+          name: 'Historical Archives', 
+          to: '/glossary/historical', 
+          category: 'Historical',
+          highlight: 'bg-slate-500/10 hover:bg-slate-500/15 border-slate-500/20 text-slate-700 dark:text-slate-400',
+          badge: 'History',
+          desc: 'The genesis and evolution of homeopathy'
+        }
       ]
     },
     { name: 'Research', to: '/research' },
@@ -248,27 +301,46 @@ const Header: React.FC = () => {
                         {link.name}
                         <ChevronDown className="w-3 h-3 transition-transform group-hover/nav-item:rotate-180 opacity-50" />
                       </button>
-                      <div className="absolute top-full left-0 mt-3 w-64 bg-bg-primary border border-border rounded-[2.5rem] shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-3 opacity-0 invisible group-hover/nav-item:opacity-100 group-hover/nav-item:visible transition-all duration-500 z-50 translate-y-4 group-hover/nav-item:translate-y-0">
-                        <div className="grid gap-1">
+                      <div className={`absolute top-full left-0 mt-3 bg-bg-primary border border-border rounded-[2.5rem] shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-3.5 opacity-0 invisible group-hover/nav-item:opacity-100 group-hover/nav-item:visible transition-all duration-500 z-50 translate-y-4 group-hover/nav-item:translate-y-0 ${
+                        link.isGlossary ? 'w-80' : 'w-64'
+                      }`}>
+                        <div className="grid gap-1.5 font-sans">
                           {link.dropdown?.map((sub: any) => {
                             const isSubActive = location.pathname === sub.to;
+                            const hasHighlight = link.isGlossary && sub.highlight;
                             return (
                               <Link
                                 key={sub.name}
                                 to={sub.to}
                                 aria-current={isSubActive ? 'page' : undefined}
-                                className={`flex items-center justify-between px-5 py-4 text-[10px] font-black uppercase tracking-[0.15em] rounded-2xl transition-all whitespace-nowrap group/sub ${
+                                className={`flex flex-col items-start px-5 py-3 rounded-2xl transition-all border group/sub text-left ${
                                   isSubActive 
-                                  ? 'text-primary bg-primary/5' 
-                                  : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
+                                  ? 'text-primary bg-primary/5 border-primary/20 shadow-sm' 
+                                  : hasHighlight 
+                                    ? `${sub.highlight} border hover:shadow-soft hover:scale-[1.01]`
+                                    : 'text-text-secondary hover:text-primary hover:bg-bg-secondary border-transparent'
                                 }`}
                                 onClick={() => {
                                   trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
                                   handleLinkClick(sub.to);
                                 }}
                               >
-                                {sub.name}
-                                <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover/sub:opacity-100 -translate-x-3 group-hover/sub:translate-x-0 transition-all" />
+                                <div className="flex items-center justify-between w-full">
+                                  <div className="flex items-center gap-2">
+                                    <span className="text-[11px] font-black uppercase tracking-wider leading-none whitespace-nowrap">{sub.name}</span>
+                                    {sub.badge && (
+                                      <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-widest bg-current/10 border border-current/20">
+                                        {sub.badge}
+                                      </span>
+                                    )}
+                                  </div>
+                                  <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover/sub:opacity-100 -translate-x-2 group-hover/sub:translate-x-0 transition-all text-current" />
+                                </div>
+                                {sub.desc && (
+                                  <span className="text-[10px] text-text-tertiary mt-1 group-hover/sub:text-current font-serif italic font-medium leading-tight text-left">
+                                    {sub.desc}
+                                  </span>
+                                )}
                               </Link>
                             );
                           })}
@@ -410,6 +482,16 @@ const Header: React.FC = () => {
                   ))}
                 </nav>
               </div>
+
+              {/* Account Portal */}
+              <motion.div variants={itemVariants} className="space-y-4">
+                <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] px-2 italic">
+                  Account Portal & Workspace
+                </h3>
+                <div className="px-2 flex justify-start">
+                  <AuthButton />
+                </div>
+              </motion.div>
 
               {/* Quick Actions */}
               <motion.div variants={itemVariants} className="space-y-4">

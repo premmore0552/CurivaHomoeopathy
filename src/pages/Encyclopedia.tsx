@@ -29,7 +29,6 @@ export default function Encyclopedia() {
         name: r.name,
         category: 'Remedy',
         description: r.commonName + ' (' + r.family + ')',
-        imageUrl: (r as any).imageUrl,
         link: `/remedy/${r.id}`
       })),
     ...enhancedRemedies
@@ -39,7 +38,6 @@ export default function Encyclopedia() {
         name: r.name,
         category: 'Remedy',
         description: r.family + ' Family',
-        imageUrl: r.imageUrl,
         link: `/remedy/${r.id}`
       }))
   ];

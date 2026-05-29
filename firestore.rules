@@ -72,7 +72,14 @@ service cloud.firestore {
                       incoming().createdAt == request.time;
       
       allow update: if isOwner(userId) && 
-                       incoming().diff(existing()).affectedKeys().hasAny(['displayName', 'photoURL', 'bookmarks', 'readingHistory', 'updatedAt']) &&
+                       incoming().uid == existing().uid &&
+                       incoming().email == existing().email &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'displayName', 'photoURL', 'profession', 'bio', 'qualifications', 
+                         'clinicAddress', 'interests', 'bookmarks', 'readingHistory', 
+                         'activities', 'studyStats', 'updatedAt'
+                       ]) &&
                        incoming().updatedAt == request.time;
 
       allow update: if isAdmin() && 
