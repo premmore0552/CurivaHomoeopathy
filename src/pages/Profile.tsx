@@ -24,8 +24,7 @@ import {
   Key,
   Check
 } from 'lucide-react';
-import { auth, db } from '../lib/firebase';
-import { onAuthStateChanged, signOut } from 'firebase/auth';
+import { auth, db, onAuthStateChanged, signOut } from '../lib/firebase';
 import { userService, UserProfile } from '../services/userService';
 import { fetchPosts } from '../services/api';
 import { BlogPost } from '../types';
@@ -112,18 +111,18 @@ const Profile: React.FC = () => {
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary pb-20">
+    <div className="min-h-screen bg-bg-primary pb-20 pt-6">
       <SEO 
         title={`${user.displayName || 'User'} | Study Profile | Curiva`}
         description="Manage your clinical bookmarks and track your historical case study progress."
       />
 
-      {/* Header */}
-      <header className="relative pt-32 pb-48 overflow-hidden bg-primary-dark text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.1)_0%,transparent_70%)] opacity-20 pointer-events-none" />
+      {/* Header Card sitting elegantly below navigation */}
+      <header className="relative overflow-hidden bg-bg-secondary dark:bg-zinc-900/40 border border-border dark:border-zinc-800/80 rounded-[3.5rem] text-text-primary p-8 sm:p-12 mx-auto max-w-7xl">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.05)_0%,transparent_70%)] opacity-30 pointer-events-none" />
         
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-12">
+        <div className="relative z-10">
+          <div className="flex flex-col md:flex-row items-center gap-10">
             <motion.div 
                initial={{ opacity: 0, scale: 0.8 }}
                animate={{ opacity: 1, scale: 1 }}
@@ -132,9 +131,9 @@ const Profile: React.FC = () => {
               <img 
                 src={profile.photoURL || user.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80'} 
                 alt={profile.displayName || user.displayName || ''} 
-                className="w-40 h-40 rounded-[3rem] border-4 border-white/10 shadow-2xl object-cover" 
+                className="w-36 h-36 rounded-[3rem] border-4 border-primary/20 shadow-2xl object-cover" 
               />
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-5 py-2 bg-accent text-primary-dark rounded-full font-black text-[9px] uppercase tracking-widest shadow-xl border-4 border-primary-dark whitespace-nowrap">
+              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-5 py-2 bg-primary text-white dark:bg-accent dark:text-primary-dark rounded-full font-black text-[9px] uppercase tracking-widest shadow-xl whitespace-nowrap">
                 {profile.profession === 'doctor' && '🩺 Homoeopathy Doctor'}
                 {profile.profession === 'practitioner' && '🌿 Clinician'}
                 {profile.profession === 'student' && '🎓 Academic Student'}
@@ -143,59 +142,69 @@ const Profile: React.FC = () => {
               </div>
             </motion.div>
             
-            <div className="text-center md:text-left">
-              <motion.h1 
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="text-4xl md:text-6xl font-display font-medium text-white tracking-tighter uppercase mb-2 flex flex-wrap items-baseline gap-3"
-              >
-                {profile.displayName || user.displayName}
-                {profile.qualifications && (
-                  <span className="text-xl md:text-2xl font-serif italic text-accent font-normal lowercase tracking-normal">
-                    ({profile.qualifications})
-                  </span>
+            <div className="text-center md:text-left flex-1 space-y-4">
+              <div className="space-y-1">
+                <motion.h1 
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="text-3xl md:text-5xl font-display font-medium text-text-primary tracking-tighter uppercase flex flex-wrap justify-center md:justify-start items-baseline gap-3"
+                >
+                  {profile.displayName || user.displayName}
+                  {profile.qualifications && (
+                    <span className="text-lg md:text-xl font-serif italic text-primary dark:text-accent font-normal lowercase tracking-normal">
+                      ({profile.qualifications})
+                    </span>
+                  )}
+                </motion.h1>
+
+                {profile.bio && (
+                  <p className="text-text-secondary font-serif italic text-base max-w-2xl leading-relaxed">
+                    "{profile.bio}"
+                  </p>
                 )}
-              </motion.h1>
+              </div>
 
-              {profile.bio && (
-                <p className="text-white/80 font-serif italic text-lg mt-1 mb-4 max-w-2xl leading-relaxed">
-                  "{profile.bio}"
-                </p>
-              )}
-
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-6 text-white/60 font-serif italic text-sm md:text-lg">
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-5 text-text-secondary font-serif italic text-sm md:text-base opacity-90">
                 <div className="flex items-center gap-2">
-                   <Mail className="w-5 h-5 text-accent" />
+                   <Mail className="w-4 h-4 text-primary dark:text-accent" />
                    {user.email}
                 </div>
                 {profile.clinicAddress && (
                   <div className="flex items-center gap-2">
-                     <MapPin className="w-5 h-5 text-accent" />
+                     <MapPin className="w-4 h-4 text-primary dark:text-accent" />
                      {profile.clinicAddress}
                   </div>
                 )}
                 <div className="flex items-center gap-2">
-                   <Calendar className="w-5 h-5 text-accent" />
-                   Joined {new Date(profile.createdAt?.seconds * 1000).toLocaleDateString()}
+                   <Calendar className="w-4 h-4 text-primary dark:text-accent" />
+                   <span>
+                     Joined {profile.createdAt
+                       ? (profile.createdAt.seconds 
+                         ? new Date(profile.createdAt.seconds * 1000).toLocaleDateString() 
+                         : new Date(profile.createdAt).toLocaleDateString()
+                       )
+                       : new Date().toLocaleDateString()
+                     }
+                   </span>
                 </div>
               </div>
               
-              <div className="mt-8 flex flex-wrap gap-4 justify-center md:justify-start">
-                <div className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl">
-                   <span className="text-2xl font-display text-white block leading-none mb-1">{profile.bookmarks?.length || 0}</span>
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-accent-light opacity-60">Bookmarks</span>
+              <div className="flex flex-wrap gap-3 justify-center md:justify-start">
+                <div className="px-5 py-2.5 bg-bg-primary dark:bg-zinc-800/60 border border-border dark:border-zinc-700/50 rounded-2xl">
+                   <span className="text-xl font-display text-text-primary block leading-none mb-0.5">{profile.bookmarks?.length || 0}</span>
+                   <span className="text-[9px] font-black uppercase tracking-widest text-text-secondary opacity-60">Bookmarks</span>
                 </div>
-                <div className="px-6 py-3 bg-white/5 border border-white/10 rounded-2xl">
-                   <span className="text-2xl font-display text-white block leading-none mb-1">{profile.readingHistory?.length || 0}</span>
-                   <span className="text-[10px] font-bold uppercase tracking-widest text-accent-light opacity-60">Case Studies Read</span>
+                <div className="px-5 py-2.5 bg-bg-primary dark:bg-zinc-800/60 border border-border dark:border-zinc-700/50 rounded-2xl">
+                   <span className="text-xl font-display text-text-primary block leading-none mb-0.5">{profile.readingHistory?.length || 0}</span>
+                   <span className="text-[9px] font-black uppercase tracking-widest text-text-secondary opacity-60">Case Studies Read</span>
                 </div>
               </div>
 
-              <div className="mt-6 flex flex-wrap gap-3 items-center justify-center md:justify-start">
-                <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-white/50">Workspace View Mode:</span>
-                <div className="flex flex-wrap bg-white/5 border border-white/10 rounded-2xl p-1 gap-1">
+              <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start pt-2 border-t border-border/40">
+                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-text-secondary opacity-60">Switch Workspace Mode:</span>
+                <div className="flex flex-wrap bg-bg-primary dark:bg-zinc-800/40 border border-border dark:border-zinc-700/50 rounded-2xl p-1 gap-1">
                   {[
-                    { id: 'doctor', name: '🩺 Doctor' },
+                    { id: 'doctor', name: '✨ Doctor' },
                     { id: 'practitioner', name: '🌿 Clinician' },
                     { id: 'student', name: '🎓 Student' },
                     { id: 'user', name: '📖 Reader' },
@@ -207,10 +216,10 @@ const Profile: React.FC = () => {
                         const updated = await userService.getProfile(user.uid);
                         if (updated) setProfile(updated);
                       }}
-                      className={`px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
+                      className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
                         profile.profession === role.id
-                        ? 'bg-accent text-primary-dark font-black shadow-lg scale-102'
-                        : 'text-white/60 hover:text-white hover:bg-white/5'
+                        ? 'bg-primary text-white dark:bg-accent dark:text-primary-dark font-black shadow-md scale-102 font-bold'
+                        : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
                       }`}
                     >
                       {role.name}
@@ -224,8 +233,8 @@ const Profile: React.FC = () => {
       </header>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-6 -mt-20 relative z-20">
-        <div className="flex flex-wrap bg-white/80 backdrop-blur-xl p-2 rounded-[2.5rem] border border-border shadow-2xl w-fit mb-12 gap-1 md:gap-2">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 relative z-20">
+        <div className="grid grid-cols-2 lg:flex lg:flex-wrap bg-bg-secondary dark:bg-zinc-900/60 backdrop-blur-xl p-1.5 md:p-2 rounded-2xl md:rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-2xl w-full lg:w-fit mb-12 gap-1 md:gap-2">
             {[
               { id: 'bookmarks', name: 'Saved Inquiries', icon: Bookmark },
               { id: 'history', name: 'Reading Log', icon: History },
@@ -235,14 +244,14 @@ const Profile: React.FC = () => {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-3 px-6 md:px-8 py-4 md:py-5 rounded-[2rem] text-[10px] md:text-xs font-black uppercase tracking-widest transition-all ${
+                className={`flex items-center justify-center lg:justify-start gap-2 md:gap-3 px-3 md:px-8 py-3.5 md:py-5 rounded-xl md:rounded-[2rem] text-[9.5px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all cursor-pointer ${
                   activeTab === tab.id 
                   ? 'bg-primary text-white shadow-xl shadow-primary/30' 
                   : 'text-text-secondary hover:bg-bg-secondary'
                 }`}
               >
-                <tab.icon className="w-4 h-4" />
-                <span>{tab.name}</span>
+                <tab.icon className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
+                <span className="truncate">{tab.name}</span>
               </button>
             ))}
         </div>
@@ -260,7 +269,7 @@ const Profile: React.FC = () => {
                 <PostCard key={post.slug} post={post} />
               ))}
               {bookmarkedPosts.length === 0 && (
-                <div className="col-span-full p-20 text-center bg-white rounded-[3.5rem] border border-dashed border-border group">
+                <div className="col-span-full p-20 text-center bg-white dark:bg-zinc-900 rounded-[3.5rem] border border-dashed border-border dark:border-zinc-800/80 group">
                   <Bookmark className="w-16 h-16 text-primary/20 mx-auto mb-6 group-hover:scale-110 transition-transform" />
                   <h3 className="text-2xl font-display font-medium text-text-primary italic mb-2">No Saved Content</h3>
                   <p className="text-text-secondary font-serif italic mb-8">Clinical inquiries you bookmark will appear here for rapid reference.</p>
@@ -281,7 +290,7 @@ const Profile: React.FC = () => {
               className="space-y-4"
             >
               {historyPosts.map((post, idx) => (
-                <div key={`${post.slug}-${idx}`} className="bg-white p-8 rounded-[2rem] border border-border shadow-soft flex items-center justify-between group hover:border-primary/20 transition-all">
+                <div key={`${post.slug}-${idx}`} className="bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-border dark:border-zinc-800 shadow-soft flex items-center justify-between group hover:border-primary/20 transition-all">
                   <div className="flex items-center gap-6 min-w-0">
                     <div className="w-16 h-16 rounded-2xl bg-bg-secondary flex items-center justify-center shrink-0 overflow-hidden">
                        <img src={post.image} alt="" className="w-full h-full object-cover" />
@@ -297,7 +306,7 @@ const Profile: React.FC = () => {
                 </div>
               ))}
               {historyPosts.length === 0 && (
-                <div className="p-20 text-center bg-white rounded-[3.5rem] border border-dashed border-border">
+                <div className="p-20 text-center bg-white dark:bg-zinc-900 rounded-[3.5rem] border border-dashed border-border dark:border-zinc-800">
                    <History className="w-16 h-16 text-primary/20 mx-auto mb-6" />
                    <p className="text-xl font-serif italic text-text-secondary">Your reading journey has not yet begun.</p>
                 </div>
@@ -313,13 +322,13 @@ const Profile: React.FC = () => {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-4 max-w-4xl"
             >
-              <div className="bg-white p-8 rounded-[2.5rem] border border-border shadow-soft mb-6">
+               <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-soft mb-6">
                 <h4 className="text-xl font-display font-bold text-text-primary uppercase tracking-tight mb-2">Workspace Audit Trail</h4>
                 <p className="text-sm text-text-secondary font-serif italic">This secure log tracks your interactions, reading achievements, study performance, and credentials swaps.</p>
               </div>
 
               {(!profile.activities || profile.activities.length === 0) ? (
-                <div className="p-20 text-center bg-white rounded-[3.5rem] border border-dashed border-border">
+                <div className="p-20 text-center bg-white dark:bg-zinc-900 rounded-[3.5rem] border border-dashed border-border dark:border-zinc-800">
                   <Activity className="w-16 h-16 text-primary/20 mx-auto mb-6" />
                   <p className="text-xl font-serif italic text-text-secondary">No recorded sessions or workspace logs found yet.</p>
                 </div>
@@ -359,14 +368,14 @@ const Profile: React.FC = () => {
                         key={act.id} 
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="bg-white p-6 rounded-2xl border border-border shadow-sm flex items-start gap-5 hover:border-primary/15 transition-all"
+                        className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-border dark:border-zinc-800 shadow-sm flex items-start gap-5 hover:border-primary/15 transition-all"
                       >
                         <div className={`p-3 rounded-xl border ${badgeColor} shrink-0`}>
                           <IconComp className="w-5 h-5" />
                         </div>
                         <div className="min-w-0 flex-1">
                           <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-zinc-100 text-zinc-600 px-2.5 py-1 rounded-[10px]">
+                            <span className="text-[10px] font-black uppercase tracking-widest bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-2.5 py-1 rounded-[10px]">
                               {act.type.replace('_', ' ')}
                             </span>
                             <span className="text-[10px] text-text-tertiary font-bold tracking-tight">
@@ -421,7 +430,7 @@ const Profile: React.FC = () => {
               >
                 {/* Left Column - Clinical Avatar Selector */}
                 <div className="lg:col-span-1 space-y-8">
-                  <div className="bg-white p-8 rounded-[2.5rem] border border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col items-center text-center">
+                  <div className="bg-white dark:bg-zinc-900 p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col items-center text-center">
                     <h4 className="text-xs font-black uppercase tracking-widest text-text-tertiary mb-6">Clinical Avatar Portrait</h4>
                     
                     <div className="relative mb-6">
@@ -482,8 +491,8 @@ const Profile: React.FC = () => {
 
                 {/* Right Column - User Credentials Form */}
                 <div className="lg:col-span-2 space-y-8">
-                  <div className="bg-white p-10 rounded-[3.5rem] border border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] grid gap-8">
-                    <div className="border-b border-border pb-6">
+                  <div className="bg-white dark:bg-zinc-900 p-5 sm:p-10 rounded-2xl sm:rounded-[3.5rem] border border-border dark:border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] grid gap-8 animate-fade-in">
+                    <div className="border-b border-border dark:border-zinc-800 pb-6">
                       <h3 className="text-2xl font-display font-medium italic text-text-primary uppercase tracking-tight">Credentials & Practitioner Details</h3>
                       <p className="text-xs text-text-secondary font-serif italic mt-1">Configure your Homeopathic focus, qualifications, and biography.</p>
                     </div>

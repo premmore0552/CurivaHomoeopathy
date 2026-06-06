@@ -1,4 +1,8 @@
 import { 
+  db, 
+  auth, 
+  handleFirestoreError, 
+  OperationType,
   doc, 
   getDoc, 
   setDoc, 
@@ -6,8 +10,7 @@ import {
   arrayUnion, 
   arrayRemove,
   serverTimestamp 
-} from 'firebase/firestore';
-import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
+} from '../lib/firebase';
 
 export interface UserActivity {
   id: string;

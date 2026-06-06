@@ -53,8 +53,9 @@ export default function ModalitiesCheatSheet() {
       icon: Thermometer,
       color: "text-orange-500",
       items: [
-        { label: "Hot (Agg. by heat)", remedies: ["Sulphur", "Lachesis", "Pulsatilla", "Medorrhinum", "Iodum"] },
-        { label: "Chilly (Agg. by cold)", remedies: ["Arsenicum", "Hepar Sulph", "Nux Vomica", "Silicea", "Calcarea Carb"] }
+        { label: "Extremely Hot (Agg. by warmth / covering)", remedies: ["Sulphur", "Lachesis Mutus", "Pulsatilla", "Apis Mellifica", "Secale Cornutum", "Iodum", "Medorrhinum", "Fluoric Acid", "Lilium Tigrinum", "Ledum (locally)"] },
+        { label: "Extremely Chilly (Agg. by cold / drafts)", remedies: ["Arsenicum Album", "Hepar Sulphur", "Nux Vomica", "Silicea", "Calcarea Carbonica", "Psorinum", "Graphites", "Alumina", "China Officinalis", "Rhus Tox"] },
+        { label: "Ambi-thermal (Thermostat sensitive)", remedies: ["Mercurius Solubilis", "Antimonium Crudum", "Cinnabaris"] }
       ]
     },
     {
@@ -62,8 +63,8 @@ export default function ModalitiesCheatSheet() {
       icon: Activity,
       color: "text-blue-500",
       items: [
-        { label: "Worse by Motion", remedies: ["Bryonia", "Colocynth", "Belladonna", "Rhus Tox (initial)"] },
-        { label: "Better by Motion", remedies: ["Rhus Tox", "Kali Phos", "Ferrum Met", "Graphites"] }
+        { label: "Worse from Least Motion (Great soreness/dryness)", remedies: ["Bryonia Alba", "Belladonna", "Colocynth", "Ranunculus Bulbosus", "Chelidonium Majus", "Cactus Grandiflorus", "Apis Mellifica", "Nux Vomica"] },
+        { label: "Better from Continued Motion / Restless", remedies: ["Rhus Toxicodendron", "Ferrum Metallicum", "Pulsatilla (slow walking)", "Rhododendron", "Dulcamara", "Kali Phosphoricum", "Radium Bromide"] }
       ]
     },
     {
@@ -71,9 +72,11 @@ export default function ModalitiesCheatSheet() {
       icon: Clock,
       color: "text-purple-500",
       items: [
-        { label: "Worse 3 AM", remedies: ["Arsenicum", "Kali Carb", "Nux Vomica"] },
-        { label: "Worse Morning", remedies: ["Natrum Mur", "Nux Vomica", "Kali Phos", "Sepia"] },
-        { label: "Worse Evening", remedies: ["Lycopodium", "Pulsatilla", "Natrum Sulph"] }
+        { label: "Worse 1 AM - 2 AM (Anxiety peak)", remedies: ["Arsenicum Album", "Psorinum"] },
+        { label: "Worse 2 AM - 3 AM (Acid/Stitching pains)", remedies: ["Kali Carbonicum", "Ammonium Carbonicum"] },
+        { label: "Worse 4 PM - 8 PM (Liver/Gaseous peaks)", remedies: ["Lycopodium Clavatum", "Helleborus Niger"] },
+        { label: "Worse Morning on Waking (Transition load)", remedies: ["Lachesis Mutus", "Nux Vomica", "Natrum Muriaticum", "Sepia Officinalis", "Sulphur"] },
+        { label: "Worse Evening/Twilight (Somatic dusk decline)", remedies: ["Pulsatilla", "Phosphorus", "Lycopodium", "Aconitum Napellus"] }
       ]
     },
     {
@@ -81,9 +84,9 @@ export default function ModalitiesCheatSheet() {
       icon: CloudRain,
       color: "text-sky-500",
       items: [
-        { label: "Worse Damp Weather", remedies: ["Rhus Tox", "Dulcamara", "Calcarea Phos", "Pulsatilla"] },
-        { label: "Better Dry Weather", remedies: ["Calcarea Phos", "Arsenicum", "Kali Bich"] },
-        { label: "Worse Cold Air", remedies: ["Hepar Sulph", "Aconite", "Silicea"] }
+        { label: "Worse Damp, Wet Weather (Hydrogenoid)", remedies: ["Rhus Toxicodendron", "Dulcamara", "Natrum Sulphuricum", "Aranea Diadema", "Calcarea Carbonica", "Phytolacca Decandra"] },
+        { label: "Worse Dry, Cold Air (Tense/Inflammatory)", remedies: ["Aconitum Napellus", "Hepar Sulphur", "Nux Vomica", "Spongia Tosta", "Causticum"] },
+        { label: "Worse Before a Storm / Electric Changes", remedies: ["Rhododendron", "Psorinum", "Phosphorus", "Natrum Carbonicum", "Silicea"] }
       ]
     },
     {
@@ -91,10 +94,10 @@ export default function ModalitiesCheatSheet() {
       icon: Utensils,
       color: "text-rose-500",
       items: [
-        { label: "Craves Salt", remedies: ["Natrum Mur", "Sepia", "Kali Mur"] },
-        { label: "Craves Sweets", remedies: ["Argentum Nit", "Lycopodium", "Phosphorus"] },
-        { label: "Aversion to Fat", remedies: ["Pulsatilla", "Antim Crud", "Nux Vomica"] },
-        { label: "Worse after eating", remedies: ["Nux Vomica", "Antim Crud", "Lycopodium"] }
+        { label: "Craves Salt (Mineral deficit indicator)", remedies: ["Natrum Muriaticum", "Phosphorus", "Carbo Vegetabilis", "Causticum"] },
+        { label: "Craves Sweets (Rapid glucose utilization)", remedies: ["Argentum Nitricum", "Lycopodium Clavatum", "Sulphur", "Calcarea Carbonica", "China"] },
+        { label: "Worse from Fatty Foods & Pork", remedies: ["Pulsatilla Pratensis", "Carbo Vegetabilis", "Antimonium Crudum", "Ipecacuanha"] },
+        { label: "Worse after eating / Fulness", remedies: ["Nux Vomica", "Lycopodium (few bites)", "Anacardium (eating relieves!)", "Abies Nigra"] }
       ]
     },
     {
@@ -102,9 +105,10 @@ export default function ModalitiesCheatSheet() {
       icon: Moon,
       color: "text-indigo-500",
       items: [
-        { label: "Sleeps on Abdomen", remedies: ["Medorrhinum", "Cina", "Kali Carb"] },
-        { label: "Hands above head", remedies: ["Phosphorus", "Sulphur", "Lachesis"] },
-        { label: "No sleep before midnight", remedies: ["Sulphur", "Coffea", "Lycopodium"] }
+        { label: "Sleeps on Abdomen (Chest/Abdomen relief)", remedies: ["Medorrhinum", "Cina", "Podophyllum Peltatum", "Aceticum Acidum"] },
+        { label: "Worse Lying on Left Side (Cardiac load)", remedies: ["Phosphorus", "Lachesis Mutus", "Spigelia Anthelmia", "Phytolacca Decandra", "Cactus Grandiflorus"] },
+        { label: "Better Lying on Painful Side (Pressure relief)", remedies: ["Bryonia Alba", "Colocynth", "Chamomilla", "Pulsatilla"] },
+        { label: "Worse Lying on Painful Side", remedies: ["Hepar Sulphur", "Nux Vomica", "Silicea", "Arnica Montana"] }
       ]
     },
     {
@@ -112,10 +116,10 @@ export default function ModalitiesCheatSheet() {
       icon: Brain,
       color: "text-fuchsia-500",
       items: [
-        { label: "Worse Consolation", remedies: ["Natrum Mur", "Sepia", "Lachesis"] },
-        { label: "Better Consolation", remedies: ["Pulsatilla", "Staphysagria", "Phosphorus"] },
-        { label: "Worse Company", remedies: ["Sepia", "Lycopodium", "Kali Phos"] },
-        { label: "Fear of being alone", remedies: ["Arsenicum", "Calcarea Carb", "Phosphorus"] }
+        { label: "Worse from Consolation / Sympathy", remedies: ["Natrum Muriaticum", "Ignatia Amara", "Sepia Officinalis", "Silicea", "Phosphoricum Acidum"] },
+        { label: "Better from Consolation & Weeping", remedies: ["Pulsatilla Pratensis", "Phosphorus", "Cyclamen Europeum"] },
+        { label: "Better Alone / Worse Company", remedies: ["Sepia", "Nux Vomica", "Ignatia", "Gelsemium", "Carbo Vegetabilis"] },
+        { label: "Fear of Solitude / Better Company", remedies: ["Arsenicum Album", "Lycopodium (wants in next room)", "Phosphorus", "Stramonium", "Hyoscyamus Niger"] }
       ]
     },
     {
@@ -123,9 +127,9 @@ export default function ModalitiesCheatSheet() {
       icon: Zap,
       color: "text-amber-500",
       items: [
-        { label: "Better Pressure", remedies: ["Colocynth", "Mag Phos", "Arnica", "Rhus Tox"] },
-        { label: "Better Warmth", remedies: ["Mag Phos", "Arsenicum", "Rhus Tox", "Graphites"] },
-        { label: "Better Cold Apps", remedies: ["Belladonna", "Apis", "Bryonia", "Ruta"] }
+        { label: "Better from Hard Pressure & Friction", remedies: ["Colocynth", "Magnesia Phosphorica", "Bryonia Alba", "Platina", "Plumbum Metallicum"] },
+        { label: "Better from Heat & Warm Wraps", remedies: ["Magnesia Phosphorica", "Arsenicum Album", "Nux Vomica", "Rhus Toxicodendron"] },
+        { label: "Better from Cold / Ice Applications", remedies: ["Apis Mellifica (stinging)", "Pulsatilla", "Secale Cornutum", "Ledum Palustre"] }
       ]
     }
   ];

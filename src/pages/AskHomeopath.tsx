@@ -19,9 +19,7 @@ import {
   Eye,
   EyeOff
 } from 'lucide-react';
-import { auth, db } from '../lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
-import { doc, getDoc } from 'firebase/firestore';
+import { auth, db, onAuthStateChanged, doc, getDoc } from '../lib/firebase';
 import { questionService, Question, QuestionStatus } from '../services/questionService';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';

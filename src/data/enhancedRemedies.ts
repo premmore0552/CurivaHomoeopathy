@@ -1,4 +1,3 @@
-
 import { Zap, Droplets, Wind, Sparkles, Shield, Activity, Brain } from 'lucide-react';
 
 export interface RemedyComparison {
@@ -1346,5 +1345,686 @@ export const enhancedRemedies: RemedyDetailData[] = [
       { id: 'respiratory-health', name: 'Violent Cough' }
     ],
     imageUrl: 'https://images.unsplash.com/photo-1596708051759-994df558d94e?auto=format&fit=crop&q=80&w=800'
-  }
+  },
+  {
+  "id": "aethusa",
+  "name": "Aethusa Cynapium",
+  "latinName": "Aethusa cynapium",
+  "family": "Plant",
+  "origin": "Fool's Parsley (Umbelliferae)",
+  "description": "Aethusa Cynapium is characterized mainly by symptoms relating to the brain and nervous system, closely coupled with severe gastro-intestinal disturbances. It is primarily indicated in children during dentition and hot summer weather, marked by a complete, violent inability to digest milk, sudden vomiting of curdled masses, and profound weakness with an inability to hold the head up.",
+  "keyCharacteristics": [
+    "Anguish, crying, and expression of uneasiness and discontent",
+    "Marked inability to digest milk, it is vomited in large curds",
+    "Linea nasalis marked, a white line from ala nasi to angle of mouth",
+    "Ears feel obstructed, with a sense of something hot from them"
+  ],
+  "modalities": {
+    "better": [
+      "Open air",
+      "Company",
+      "Expelling flatus",
+      "Stool"
+    ],
+    "worse": [
+      "3 to 4 AM",
+      "Evenings",
+      "Warmth",
+      "Summer",
+      "Milk"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Thirstless during coldness, but craves cold water during fever",
+  "mind": [
+    "Restless, anxious, crying; looks of suffering and distress",
+    "Sees rats, cats, dogs, etc. with dream-like hallucinations",
+    "Inability to think, to fix the attention; brain-fag; idleness"
+  ],
+  "physical": [
+    "Sudden violent vomiting of a white frothy matter, with sweat and great weakness",
+    "Greenish, thin, undigested stool, preceded by colic, with tenesmus",
+    "Vertigo with drowsiness, hair feels pulled, head feels as if bound in a vise"
+  ],
+  "clinicalApplications": [
+    "Indigestion",
+    "Convulsions",
+    "Brain-fag",
+    "Cholera infantum"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "indigestion",
+      "name": "Indigestion"
+    },
+    {
+      "id": "convulsions",
+      "name": "Convulsions"
+    },
+    {
+      "id": "brain-fag",
+      "name": "Brain-fag"
+    },
+    {
+      "id": "cholera-infantum",
+      "name": "Cholera infantum"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "ammonium-mur",
+  "name": "Ammonium Muriaticum",
+  "latinName": "Ammonium muriaticum",
+  "family": "Mineral",
+  "origin": "Ammonium Chloride (Mineral)",
+  "description": "Ammonium Muriaticum produces a state of prostration bordering on a typhoid state. It is especially adapted to fat, sluggish individuals with thin limbs. All mucous secretions are increased and retained, and there is a characteristic icy coldness between the shoulders, accompanied by obstinate, crumbling constipation.",
+  "keyCharacteristics": [
+    "Suited to fat and sluggish patients who have respiratory/liver troubles",
+    "Icy coldness between shoulders, not relieved by warm covering",
+    "Obstinate constipation, hard crumbling stools, or stools covered with glairy mucus",
+    "Free acrid, hot watery discharge from nose corroding the lip"
+  ],
+  "modalities": {
+    "better": [
+      "Open air",
+      "Lying down",
+      "Lying on the abdomen",
+      "Walking"
+    ],
+    "worse": [
+      "Head and chest in the morning",
+      "Abdominal in afternoon",
+      "Limbs, skin, febrile in evening"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Thirsty for small quantities frequently",
+  "mind": [
+    "Melancholy, apprehensive; like from internal grief",
+    "Desire to cry, but cannot",
+    "Peevish, irritable disposition with consequence of grief"
+  ],
+  "physical": [
+    "Dry, hacking, scraping cough; worse lying on back or right side",
+    "Menses are too early, too free, flowing more at night, with abdominal pain",
+    "Sciatica worse while sitting, somewhat better by walking, better lying down"
+  ],
+  "clinicalApplications": [
+    "Constipation",
+    "Sciatica",
+    "Bronchitis",
+    "Coryza"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "constipation",
+      "name": "Constipation"
+    },
+    {
+      "id": "sciatica",
+      "name": "Sciatica"
+    },
+    {
+      "id": "bronchitis",
+      "name": "Bronchitis"
+    },
+    {
+      "id": "coryza",
+      "name": "Coryza"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1608686207856-001b95cf60ca?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "cinchona",
+  "name": "Cinchona Officinalis",
+  "latinName": "Cinchona officinalis",
+  "family": "Plant",
+  "origin": "Peruvian Bark (Rubiaceae)",
+  "description": "China/Cinchona is indicated for debility arising from the loss of vital fluids (hemorrhage, semen, sweat, or diarrhea). It is characterized by marked periodicity, excessive flatulence with abdominal bloating unrelieved by belching, and extreme hyperesthesia where the slightest touch, draft, or jar is painful but hard pressure relieves.",
+  "keyCharacteristics": [
+    "Debility from exhausting discharges, from loss of vital fluids, with nervous erethism",
+    "Excessive flatulent distention of the entire abdomen, where belching gives no relief",
+    "Extreme sensitiveness to the slightest touch, draft of air, or jar, while hard pressure relieves",
+    "Marked periodicity of complaints, with symptoms recurring every other day or at regular intervals"
+  ],
+  "modalities": {
+    "better": [
+      "Hard pressure",
+      "Bending double",
+      "Warm room",
+      "Warmth"
+    ],
+    "worse": [
+      "Slightest touch",
+      "Draft of air",
+      "Every other day",
+      "Loss of vital fluids",
+      "At night",
+      "After eating"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Great thirst for cold water during chill and sweat, but thirstless during heat",
+  "mind": [
+    "Apathetic, indifferent, disobedient, taciturn, despondent",
+    "Crowding of ideas in the mind, especially in the evening, preventing sleep",
+    "Disposition to hurt other people's feelings; crying and tossing about"
+  ],
+  "physical": [
+    "Painless, undigested, frothy, yellow diarrhea, worse at night and after meals",
+    "Intense throbbing headache with a sensation as if the skull would burst",
+    "Swelling of the liver and spleen, which feel sore and sensitive to touch; gall-stone colic"
+  ],
+  "clinicalApplications": [
+    "Debility",
+    "Diarrhea",
+    "Malaria",
+    "Flatulence"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "debility",
+      "name": "Debility"
+    },
+    {
+      "id": "diarrhea",
+      "name": "Diarrhea"
+    },
+    {
+      "id": "malaria",
+      "name": "Malaria"
+    },
+    {
+      "id": "flatulence",
+      "name": "Flatulence"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1502082553048-f009c37129b9?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "cocculus",
+  "name": "Cocculus Indicus",
+  "latinName": "Anamirta cocculus",
+  "family": "Plant",
+  "origin": "Indian Cockle (Menispermaceae)",
+  "description": "Cocculus Indicus acts profoundly on the cerebro-spinal system and is pre-eminently indicated for spasmodic and paretic affections, particularly those affecting one-half of the body, as well as motion/sea sickness. It is highly effective for the debilitating consequences of loss of sleep, night watching, or mental overexertion.",
+  "keyCharacteristics": [
+    "Ailments from loss of sleep, night watching, or mental exertion",
+    "Extreme aversion to food, where even the smell of food disgusts of it",
+    "Sensation of emptiness, hollowness, or weakness in internal organs",
+    "All symptoms worse riding in a carriage or on shipboard; seasickness"
+  ],
+  "modalities": {
+    "better": [
+      "Sitting quietly",
+      "Lying down",
+      "Warm room"
+    ],
+    "worse": [
+      "Riding in a carriage, boat, or train",
+      "Loss of sleep",
+      "Smell of food",
+      "Cold air"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Thirstless or sometimes intense thirst with aversion to drink",
+  "mind": [
+    "Profound sadness, constant brooding, and silent grief",
+    "Slow of comprehension; mind benumbed; absorbed in reveries",
+    "Cannot bear contradiction; very anxious about the health of others"
+  ],
+  "physical": [
+    "Vertigo, nausea, especially when riding, sitting up, or looking at moving objects",
+    "Spasmodic dysmenorrhea with too early, clotted menses, and flatulent colic",
+    "Paralytic pain in small of back, and weakness of cervical muscles making head heavy"
+  ],
+  "clinicalApplications": [
+    "Motion Sickness",
+    "Vertigo",
+    "Dysmenorrhea",
+    "Insomnia"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "motion-sickness",
+      "name": "Motion Sickness"
+    },
+    {
+      "id": "vertigo",
+      "name": "Vertigo"
+    },
+    {
+      "id": "dysmenorrhea",
+      "name": "Dysmenorrhea"
+    },
+    {
+      "id": "insomnia",
+      "name": "Insomnia"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "colchicum",
+  "name": "Colchicum Autumnale",
+  "latinName": "Colchicum autumnale",
+  "family": "Plant",
+  "origin": "Meadow Saffron (Liliaceae)",
+  "description": "Colchicum Autumnale has a powerful affinity for muscular, periosteal, and synovial structures, notably yielding excellent results in acute or chronic gouty paroxysms. It is characterized by extreme hyperesthesia, particularly an unbearable aversion to the smell of cooking food, with tearing pains in red, swollen joints.",
+  "keyCharacteristics": [
+    "The smell of food causes nausea even to fainting, especially fish",
+    "Tearing pains in joints, shifting rapidly, worse in evening and night",
+    "Affected parts swollen, red, hot, exquisitely sensitive to touch or movement",
+    "Great flatulent distention of the abdomen with a cold feeling in the stomach"
+  ],
+  "modalities": {
+    "better": [
+      "Stooping",
+      "Rest and lying quiet",
+      "Bending double"
+    ],
+    "worse": [
+      "Sundown to sunrise",
+      "Motion and touch",
+      "Smell of food",
+      "Mental exertion"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Burning thirst for cold water",
+  "mind": [
+    "Very irritable with the pains; cheeks red, hot, sweaty",
+    "Dullness of sense; cannot bear light, noise, or strong odors",
+    "Headache chiefly frontal and temporal, but also occipital and in nape of neck"
+  ],
+  "physical": [
+    "Autumnal dysentery with painful, scanty, transparent, jelly-like mucus, and tenesmus",
+    "Pericarditis, with severe pain, oppression, and dyspnoea; pulse threadlike",
+    "Burning or icy coldness in stomach and abdomen with flatulence"
+  ],
+  "clinicalApplications": [
+    "Gout",
+    "Dysentery",
+    "Rheumatism",
+    "Dropsy"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "gout",
+      "name": "Gout"
+    },
+    {
+      "id": "dysentery",
+      "name": "Dysentery"
+    },
+    {
+      "id": "rheumatism",
+      "name": "Rheumatism"
+    },
+    {
+      "id": "dropsy",
+      "name": "Dropsy"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1550931508-6cca79e4316a?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "natrum-carb",
+  "name": "Natrum Carbonicum",
+  "latinName": "Natrum carbonicum",
+  "family": "Mineral",
+  "origin": "Sodium Carbonate (Mineral)",
+  "description": "Natrum Carbonicum is a chilly remedy characterized by extreme debility and sensitivity to summer heat, sunstroke, and weather changes. It experiences marked and profound sensitivity to music, causing weeping, alongside highly weak digestive power with a complete aversion to milk.",
+  "keyCharacteristics": [
+    "Great debility caused by summer heat, sunstroke, or hot weather",
+    "Extreme sensitivity to music, causing sadness, anxiety and weeping",
+    "Very weak digestion; slightest error of diet - especially milk - causes diarrhea",
+    "Easy dislocation and spraining of ankles; foot bends under"
+  ],
+  "modalities": {
+    "better": [
+      "Moving",
+      "Boring in ears and nose",
+      "Eating",
+      "Spiced food"
+    ],
+    "worse": [
+      "Sitting",
+      "Music",
+      "Summer heat",
+      "Mental exertion",
+      "Thunderstorm",
+      "Least draught",
+      "Sun"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Great thirst for cold water, particularly with stomach complaints",
+  "mind": [
+    "Unable to think; difficult, slow comprehension",
+    "Mental weakness and depression; worries; sensitive to noise and colds",
+    "Anxious and restless during thunderstorm; worse from music"
+  ],
+  "physical": [
+    "Acid dyspepsia with sour eructations, heaviness, and water-brash",
+    "Posterior nasal catarrh; hawking much thick, yellow-green mucus from throat",
+    "Coldness between shoulders; icy cold up to knees"
+  ],
+  "clinicalApplications": [
+    "Sunstroke",
+    "Acid dyspepsia",
+    "Ankle weakness",
+    "Chronic nasal catarrh"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "sunstroke",
+      "name": "Sunstroke"
+    },
+    {
+      "id": "acid-dyspepsia",
+      "name": "Acid dyspepsia"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1518156677180-95a2893f3e9f?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "podophyllum",
+  "name": "Podophyllum Peltatum",
+  "latinName": "Podophyllum peltatum",
+  "family": "Plant",
+  "origin": "Mayapple (Berberidaceae)",
+  "description": "Podophyllum Peltatum acts principally on the duodenum, small intestines, liver, and rectum, producing classic cases of bilious vomiting and painless, profuse, gushing, highly offensive watery diarrhea. It has a notable torpid lever configuration and unique prolapsus ani signs.",
+  "keyCharacteristics": [
+    "Painless, profuse, offensive, gushing, yellowish-green watery diarrhea",
+    "Prolapsus ani, before or during stool, or after least motion",
+    "Torpidity of the liver; portal engorgement with jaundice, pain, and fullness",
+    "Alternation of headache with diarrhea (when diarrhea stops, headache comes)"
+  ],
+  "modalities": {
+    "better": [
+      "Lying on abdomen",
+      "Rubbing liver region",
+      "Warmth"
+    ],
+    "worse": [
+      "Early morning",
+      "Hot weather",
+      "During dentition",
+      "After eating acid fruits"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Thirst for large quantities of cold water during diarrhea or fever",
+  "mind": [
+    "Loquacity and delirium from eating acid fruits",
+    "Depression of spirits; feels very weak and languid",
+    "Restless, particularly during dentition in children"
+  ],
+  "physical": [
+    "Green, watery, fetid, profuse, gushing stools running right through",
+    "Grinding of teeth during sleep and difficult dentition",
+    "Sensation of empty weakness or sinking in abdomen, can lie comfortably only on stomach"
+  ],
+  "clinicalApplications": [
+    "Painless diarrhea",
+    "Cholera infantum",
+    "Prolapsus ani",
+    "Hepatic congestion"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "painless-diarrhea",
+      "name": "Painless diarrhea"
+    },
+    {
+      "id": "prolapsus-ani",
+      "name": "Prolapsus ani"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1501004318641-b39e6451bec6?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "kali-phos",
+  "name": "Kali Phosphoricum",
+  "latinName": "Potassium phosphate",
+  "family": "Mineral",
+  "origin": "Biochemic Tissue Salt (Mineral)",
+  "description": "Kali Phosphoricum is one of our greatest biochemic tissue salts, indicated primarily for loss of nerve power, severe mental and physical depression, neurasthenia, and offensive, putrid secretions. It is highly beneficial for the effects of overwork, worry, and excitement.",
+  "keyCharacteristics": [
+    "Conditions arising from want of nerve power, neurasthenia, mental and physical depression",
+    "All secretions and excretions are exceptionally foul-smelling, putrid, and dark",
+    "Irritable state, with nervous dread and extreme anxiety about health or business",
+    "Tension headache of students and those worn out by fatigue, better by gentle motion"
+  ],
+  "modalities": {
+    "better": [
+      "Warmth",
+      "Rest",
+      "Nourishment",
+      "Gentle motion"
+    ],
+    "worse": [
+      "Excitement",
+      "Worry",
+      "Mental and physical overexertion",
+      "Cold air",
+      "Early morning"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Moderate thirst with dry mouth",
+  "mind": [
+    "Brain-fag, loss of memory, and inability to concentrate from overwork or worry",
+    "Morbid dread of crowds, shadows, and darkness; shyness",
+    "Hysterical states, night terrors, and severe depression"
+  ],
+  "physical": [
+    "Paralytic lameness in back and extremities, worse from exertion",
+    "Nervous 'gone' sensation at pit of stomach; feels seasick without nausea",
+    "Putrid, offensive breath, and brownish coating on tongue resembling mustard"
+  ],
+  "clinicalApplications": [
+    "Neurasthenia",
+    "Insomnia",
+    "Brain fag",
+    "Mental depression"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "neurasthenia",
+      "name": "Neurasthenia"
+    },
+    {
+      "id": "insomnia",
+      "name": "Insomnia"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1507413245164-6160d8298b31?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "kali-sulph",
+  "name": "Kali Sulphuricum",
+  "latinName": "Potassium sulphate",
+  "family": "Mineral",
+  "origin": "Biochemic Tissue Salt (Mineral)",
+  "description": "Kali Sulphuricum is a key oxygenating tissue salt, highly applicable to later stages of inflammation with yellow, slimy, and mucous discharges. It bears a close resemblance to Pulsatilla with its strong dread of warm rooms and marked relief in cool open air.",
+  "keyCharacteristics": [
+    "Yellow, mucous and serous discharges, profuse and intermittent, from any membrane",
+    "Ailments accompanied by profuse desquamation and yellow scaly skin eruptions",
+    "Pains or joint soreness of a shifting, wandering character; worse in warm room",
+    "Dread of warm room; symptoms are strongly relieved in open cool air"
+  ],
+  "modalities": {
+    "better": [
+      "Cool open air",
+      "Cold breeze",
+      "Walking slowly"
+    ],
+    "worse": [
+      "Warm room",
+      "In the evening",
+      "Heated room",
+      "Resting quiet"
+    ]
+  },
+  "thermal": "Hot",
+  "thirst": "Thirstless",
+  "mind": [
+    "Irritable, anxious, and easily frightened",
+    "Lacks resolution; forgets names and words",
+    "Melancholy and low-spirited, especially in the evening"
+  ],
+  "physical": [
+    "Rattling of mucus in chest; bronchial asthma with yellow, slimy expectoration",
+    "Nasal catarrh with thick, yellow, slimy expectoration, and nose obstructed",
+    "Itching dry skin with yellow scales, resembling eczema, worse in warmth of bed"
+  ],
+  "clinicalApplications": [
+    "Eczema with yellow scales",
+    "Bronchitis",
+    "Chronic nasal catarrh",
+    "Shifting rheumatalgia"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "eczema-with-yellow-scales",
+      "name": "Eczema with yellow scales"
+    },
+    {
+      "id": "bronchitis",
+      "name": "Bronchitis"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1579783900882-c0d3dad7b119?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "natrum-phos",
+  "name": "Natrum Phosphoricum",
+  "latinName": "Sodium phosphate",
+  "family": "Mineral",
+  "origin": "Biochemic Tissue Salt (Mineral)",
+  "description": "Natrum Phosphoricum is the biochemic acid neutralizer for conditions arising from an excess of lactic acid, often due to sugar overindulgence. It is characterized by a thick, golden-yellow, moist coating on the tongue, sour eructations, and extreme gassiness.",
+  "keyCharacteristics": [
+    "Thick, moist, golden-yellow or honey-colored coating on the tongue and palate",
+    "Excess of acidity, leading to sour eructations, sour vomiting, and sour, greenish diarrhea",
+    "Acid-dyspepsia, with burning in stomach and intense heartburn, worse after sugar or milk",
+    "Yellow, creamy discharge of matter from the eyes, sealing lids in the morning"
+  ],
+  "modalities": {
+    "better": [
+      "Cool air",
+      "Cold water",
+      "Pressure"
+    ],
+    "worse": [
+      "Sugar",
+      "Milk",
+      "Thunderstorms",
+      "Mental or physical exertion"
+    ]
+  },
+  "thermal": "Ambi-thermal",
+  "thirst": "Craving for cold water or sour drinks",
+  "mind": [
+    "Anxious, irritable, and full of imaginary fears, especially at night",
+    "Imagines, on waking at night, that pieces of furniture are persons",
+    "Startled easily by noises; loss of memory with dullness"
+  ],
+  "physical": [
+    "Acid gassiness with flatulence, sour risings, and spitting up mouthful of food",
+    "Sore throat with feeling of a lump in throat, and thick, yellow, offensive mucus",
+    "Stinging hives or hives-like eruptions, worse in warmth; gouty joints"
+  ],
+  "clinicalApplications": [
+    "Hyperacidity",
+    "Sour indigestion",
+    "Intestinal parasites",
+    "Gouty diathesis"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "hyperacidity",
+      "name": "Hyperacidity"
+    },
+    {
+      "id": "sour-indigestion",
+      "name": "Sour indigestion"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800"
+},
+  {
+  "id": "natrum-sulph",
+  "name": "Natrum Sulphuricum",
+  "latinName": "Sodium sulphate",
+  "family": "Mineral",
+  "origin": "Biochemic Tissue Salt (Mineral)",
+  "description": "Natrum Sulphuricum is the hydrogenoid remedy, highly sensitive to water in any form, damp weather, and living in damp basements or cellars. It has a powerful action on the liver, as well as a celebrated morning diarrhea driving the patient out of bed shortly after rising.",
+  "keyCharacteristics": [
+    "Extreme sensitivity and aggravation from dampness, wet weather, water in any form, or living in damp rooms",
+    "Morning diarrhea, driving patient out of bed shortly after rising, with much flatulence",
+    "Chronic effects of head injuries, with vertigo, mental troubles, and epilepsy therefrom",
+    "Asthma worse with every damp, rainy spell, with rattling of mucus in chest"
+  ],
+  "modalities": {
+    "better": [
+      "Dry weather",
+      "Warm, dry air",
+      "Pressure",
+      "Changing position"
+    ],
+    "worse": [
+      "Dampness",
+      "Rainy weather",
+      "Water in any form",
+      "Living in basements or cells",
+      "Music",
+      "Sunset to sunrise"
+    ]
+  },
+  "thermal": "Chilly",
+  "thirst": "Thirst for ice cold water during fever",
+  "mind": [
+    "Lively music saddens; weeping and deep sadness, must exercise restraint from suicidal impulses",
+    "Irritation and mental dullness, particularly after head trauma",
+    "Inability to think; dislikes to speak, or to be spoken to"
+  ],
+  "physical": [
+    "Piercing pain in right hypochondrium; liver is swollen and sore to touch, cannot bear tight clothing",
+    "Thick, yellow-green, or greenish-yellow sputum, with painful soreness of chest on coughing",
+    "Bitter taste in mouth, with dirty greenish-yellow coating on tongue"
+  ],
+  "clinicalApplications": [
+    "Asthma in wet weather",
+    "Morning diarrhea",
+    "Head injury sequelae",
+    "Liver disorders"
+  ],
+  "comparisons": [],
+  "relatedAilments": [
+    {
+      "id": "asthma-in-wet-weather",
+      "name": "Asthma in wet weather"
+    },
+    {
+      "id": "morning-diarrhea",
+      "name": "Morning diarrhea"
+    }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=800"
+}
 ];

@@ -46,6 +46,7 @@ const ClinicalGuides = lazy(() => import('./pages/ClinicalGuides'));
 
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
+import PWAInstallBanner from './components/PWAInstallBanner';
 
 function LoadingScreen() {
   return (
@@ -93,6 +94,7 @@ function AppRoutes() {
       <CookieConsent />
       <MedicalDisclaimerModal />
       <GuidedTour />
+      <PWAInstallBanner />
       <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary flex flex-col transition-colors duration-300">
         <Header />
         <Breadcrumbs />

@@ -24,7 +24,8 @@ import {
   Square,
   RefreshCw,
   ClipboardList,
-  Heart
+  Heart,
+  Thermometer
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import ModalitiesCheatSheet from '../components/ModalitiesCheatSheet';
@@ -141,7 +142,7 @@ function GlossaryItem({ item }: { item: GlossaryTerm }) {
 
 export default function StudentResources() {
   const navigate = useNavigate();
-  const [activeTab, setActiveTab] = useState<'path' | 'glossary' | 'concepts' | 'guides' | 'quiz' | 'links'>('path');
+  const [activeTab, setActiveTab] = useState<'path' | 'glossary' | 'concepts' | 'guides' | 'quiz' | 'links' | 'modalities'>('path');
   const [searchTerm, setSearchTerm] = useState('');
   const [glossaryFilter, setGlossaryFilter] = useState<GlossaryTerm['category'] | 'All'>('All');
 
@@ -167,6 +168,38 @@ export default function StudentResources() {
   });
   const [savedCases, setSavedCases] = useState<{ id: string; date: string; data: typeof totalityInput }[]>([]);
   const [isCaseCompleted, setIsCaseCompleted] = useState(false);
+  const [copiedId, setCopiedId] = useState<string | null>(null);
+
+  const handleCopyCase = (savedCase: any) => {
+    const d = savedCase.data;
+    const text = `CURIVA CLINICAL CASE PROFILE #${savedCase.id}
+Compiled: ${savedCase.date}
+
+[CHIEF COMPLAINT & SENSATIONS]
+${d.chiefComplaint}
+
+[MODALITIES]
+Aggravations (<): ${d.modalitiesAgg || 'N/A'}
+Ameliorations (>): ${d.modalitiesAmel || 'N/A'}
+
+[MENTAL & EMOTIONAL SYMPTOMS]
+${d.mentalState || 'N/A'}
+
+[PHYSICAL GENERALS & THERMAL PATH]
+${d.physicalGenerals || 'N/A'}
+
+[PQRS / CHARACTERISTIC SYMPTOMS]
+${d.pqrsSymptom || 'N/A'}
+
+[DIFFERENTIAL DIAGNOSIS / TREATMENT PLANS]
+${d.remedyCandidates || 'N/A'}
+
+Generated via Curiva PWA Companion Core.`;
+
+    navigator.clipboard.writeText(text);
+    setCopiedId(savedCase.id);
+    setTimeout(() => setCopiedId(null), 2000);
+  };
 
   // Case Quiz interactive state
   const [selectedQuizId, setSelectedQuizId] = useState<string>("case-1");
@@ -301,6 +334,7 @@ export default function StudentResources() {
             { id: 'guides', label: 'Study Guides', icon: BookMarked },
             { id: 'quiz', label: 'Clinical Quizzes', icon: Zap },
             { id: 'concepts', label: 'Keynotes Matrix', icon: Bookmark },
+            { id: 'modalities', label: 'Symptom Modalities', icon: Thermometer },
             { id: 'glossary', label: 'Glossary Index', icon: BookOpen },
             { id: 'links', label: 'Core Literature', icon: Library },
           ].map((tab) => (
@@ -773,12 +807,21 @@ export default function StudentResources() {
                                 <span className="font-black text-[9px] text-text-tertiary uppercase tracking-wider block">Compiled {savedCase.date}</span>
                                 <span className="text-xs font-black uppercase tracking-wide text-primary">Case Profile #{savedCase.id}</span>
                               </div>
-                              <button 
-                                onClick={() => handleDeleteCase(savedCase.id)}
-                                className="text-red-500 font-bold hover:underline font-black text-[10px]"
-                              >
-                                Delete
-                              </button>
+                              <div className="flex items-center gap-3">
+                                <button 
+                                  onClick={() => handleCopyCase(savedCase)}
+                                  className="text-primary font-black text-[10px] uppercase tracking-wider hover:underline"
+                                >
+                                  {copiedId === savedCase.id ? 'Copied! ✓' : 'Copy Narrative'}
+                                </button>
+                                <span className="text-text-tertiary">|</span>
+                                <button 
+                                  onClick={() => handleDeleteCase(savedCase.id)}
+                                  className="text-red-500 font-bold hover:underline font-black text-[10px] uppercase tracking-wider"
+                                >
+                                  Delete
+                                </button>
+                              </div>
                             </div>
 
                             <p className="mb-2 text-text-primary">
@@ -1196,11 +1239,19 @@ export default function StudentResources() {
             </motion.div>
           )}
 
-        </section>
+          {/* TAB 7: SYMPTOM MODALITIES MATRIX */}
+          {activeTab === 'modalities' && (
+            <motion.div
+              layout
+              key="modalities"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+            >
+              <ModalitiesCheatSheet />
+            </motion.div>
+          )}
 
-        {/* Modalities Cheat Sheet Section (Maintained from previous beautiful implementation) */}
-        <section className="mt-32 border-t border-border pt-24">
-          <ModalitiesCheatSheet />
         </section>
 
       </main>

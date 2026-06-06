@@ -57,15 +57,17 @@
 }
 
 .dark {
-  --color-bg-primary: #1a0410;
-  --color-bg-secondary: #2d0a1b;
-  --color-bg-dark: #2d0a1b;
-  --color-text-primary: #fcf4f6;
-  --color-text-secondary: #f8dbe6;
-  --color-border: #5c0d3a;
+  --color-bg-primary: #060e0a;
+  --color-bg-secondary: #0f2118;
+  --color-bg-dark: #060e0a;
+  --color-text-primary: #f3faf6;
+  --color-text-secondary: #a4bea3;
+  --color-border: #173827;
   
-  --color-primary: #bd1576;
-  --color-primary-light: #ba1173;
+  --color-primary: #10b981;
+  --color-primary-light: #a7f3d0;
+  --color-primary-dark: #064e3b;
+  --color-accent: #e6bc73;
 }
 
 .markdown-body {

@@ -1,4 +1,8 @@
 import { 
+  db, 
+  auth, 
+  handleFirestoreError, 
+  OperationType,
   collection, 
   addDoc, 
   updateDoc, 
@@ -9,10 +13,8 @@ import {
   where, 
   orderBy, 
   serverTimestamp,
-  Timestamp,
   onSnapshot
-} from 'firebase/firestore';
-import { db, auth, handleFirestoreError, OperationType } from '../lib/firebase';
+} from '../lib/firebase';
 
 export enum QuestionStatus {
   PENDING = 'pending',

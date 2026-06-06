@@ -1,6 +1,53 @@
 import React from 'react';
 import { motion } from 'motion/react';
+import { Link } from 'react-router-dom';
 import { GitBranch, BrainCircuit, Activity, Heart, Shield, Zap } from 'lucide-react';
+
+function getRemedyId(name: string): string | null {
+  const normalized = name.toLowerCase().trim();
+  
+  if (normalized.includes('aconitum') || normalized.includes('aconite')) return 'aconite';
+  if (normalized.includes('arnica')) return 'arnica';
+  if (normalized.includes('arsenicum')) return 'arsenicum-album';
+  if (normalized.includes('belladonna')) return 'belladonna';
+  if (normalized.includes('bryonia')) return 'bryonia';
+  if (normalized.includes('pulsatilla')) return 'pulsatilla';
+  if (normalized.includes('lycopodium')) return 'lycopodium';
+  if (normalized.includes('nux vomica') || normalized.includes('nux')) return 'nux-vomica';
+  if (normalized.includes('natrum mur') || normalized.includes('nat-mur')) return 'nat-mur';
+  if (normalized.includes('sepia')) return 'sepia';
+  if (normalized.includes('chamomilla')) return 'chamomilla';
+  if (normalized.includes('gelsemium')) return 'gelsemium';
+  if (normalized.includes('ignatia')) return 'ignatia';
+  if (normalized.includes('merc sol') || normalized.includes('mercurius')) return 'merc-sol';
+  if (normalized.includes('phosphorus')) return 'phosphorus';
+  if (normalized.includes('sulphur')) return 'sulphur';
+  if (normalized.includes('silicea')) return 'silicea';
+  if (normalized.includes('thuja')) return 'thuja';
+  if (normalized.includes('hepar-sulph') || normalized.includes('hepar */') || normalized.includes('hepar sulph')) return 'hepar-sulph';
+  if (normalized.includes('calcarea carb') || normalized.includes('calc-carb')) return 'calc-carb';
+  if (normalized.includes('calcarea phos') || normalized.includes('calc-phos')) return 'calcarea-phos';
+  if (normalized.includes('kali bich') || normalized.includes('kali-bich')) return 'kali-bich';
+  if (normalized.includes('rhus-tox') || normalized.includes('rhus tox') || normalized.includes('toxicodendron')) return 'rhus-tox';
+  if (normalized.includes('causticum')) return 'causticum';
+  if (normalized.includes('graphites')) return 'graphites';
+  if (normalized.includes('lachesis')) return 'lachesis';
+  if (normalized.includes('apis')) return 'apis';
+  if (normalized.includes('chelidonium')) return 'chelidonium';
+  if (normalized.includes('allium-cepa') || normalized.includes('allium cepa')) return 'allium-cepa';
+  if (normalized.includes('euphrasia')) return 'euphrasia';
+  if (normalized.includes('glonoinum')) return 'glonoinum';
+  if (normalized.includes('carbo veg') || normalized.includes('carbo-veg') || normalized.includes('vegetabilis')) return 'carbo-veg';
+  if (normalized.includes('ipecac')) return 'ipecac';
+  if (normalized.includes('spongia')) return 'spongia';
+  if (normalized.includes('ruta')) return 'ruta';
+  if (normalized.includes('petroleum')) return 'petroleum';
+  if (normalized.includes('robinia')) return 'robinia';
+  if (normalized.includes('kali-mur') || normalized.includes('kali mur')) return 'kali-mur';
+  if (normalized.includes('drosera')) return 'drosera';
+  
+  return null;
+}
 
 interface TextMindMapProps {
   title: string;
@@ -389,30 +436,38 @@ export default function TextMindMap({
                 
                 <ul className="space-y-3">
                   {branch.data && branch.data.length > 0 ? (
-                    branch.data.slice(0, 3).map((item, idx) => (
-                      <motion.li 
-                        key={idx}
-                        initial={{ opacity: 0, x: -10 }}
-                        whileInView={{ opacity: 1, x: 0 }}
-                        transition={{ delay: idx * 0.1 }}
-                        className="flex items-start gap-3 text-[13px] font-bold text-text-secondary leading-tight"
-                      >
-                        <div className={`w-1.5 h-1.5 rounded-full ${branch.dot} mt-1.5 shrink-0 shadow-sm`} />
-                        <span className="group-hover:text-text-primary transition-colors">{item}</span>
-                      </motion.li>
-                    ))
+                    branch.data.map((item, idx) => {
+                      const remedyId = branch.id === 'remedies' ? getRemedyId(item) : null;
+                      return (
+                        <motion.li 
+                          key={idx}
+                          initial={{ opacity: 0, x: -10 }}
+                          whileInView={{ opacity: 1, x: 0 }}
+                          transition={{ delay: idx * 0.1 }}
+                          className="flex items-start gap-3 text-[13px] font-bold text-text-secondary leading-tight"
+                        >
+                          <div className={`w-1.5 h-1.5 rounded-full ${branch.dot} mt-1.5 shrink-0 shadow-sm`} />
+                          <span className="group-hover:text-text-primary transition-colors">
+                            {remedyId ? (
+                              <Link 
+                                to={`/remedy/${remedyId}`} 
+                                className="text-primary hover:underline hover:text-accent transition-colors underline decoration-dotted decoration-primary/40 underline-offset-4 cursor-pointer"
+                              >
+                                {item}
+                              </Link>
+                            ) : (
+                              item
+                            )}
+                          </span>
+                        </motion.li>
+                      );
+                    })
                   ) : (
                     <li className="text-[11px] font-bold text-text-secondary italic opacity-40 py-2">
                        Data integration pending...
                     </li>
                   )}
                 </ul>
-                
-                {branch.data.length > 3 && (
-                   <div className="mt-4 text-[9px] font-black text-text-secondary/40 uppercase tracking-widest">
-                     + {branch.data.length - 3} more connections
-                   </div>
-                )}
               </motion.div>
             ))}
           </div>

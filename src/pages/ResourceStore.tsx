@@ -17,8 +17,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { resources, Resource } from '../data/resources';
-import { auth, db, handleFirestoreError, OperationType } from '../lib/firebase';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { auth, db, handleFirestoreError, OperationType, collection, addDoc, serverTimestamp } from '../lib/firebase';
 
 const ResourceStore = () => {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(resources[0] || null);

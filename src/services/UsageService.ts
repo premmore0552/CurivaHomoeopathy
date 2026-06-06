@@ -1,5 +1,4 @@
-import { auth, db } from '../lib/firebase';
-import { doc, getDoc, updateDoc, increment, serverTimestamp } from 'firebase/firestore';
+import { auth, db, doc, getDoc, updateDoc, increment, serverTimestamp } from '../lib/firebase';
 
 const FREE_LIMIT = 5;
 const PREMIUM_REMEDY_LIMIT = 100; // Effectively "unlimited" for UI selection

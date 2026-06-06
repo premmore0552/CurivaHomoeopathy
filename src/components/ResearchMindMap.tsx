@@ -149,6 +149,64 @@ const data: MindMapNode = {
 const NODE_RADIUS = 40;
 const NODE_DISTANCE = 180;
 
+// Mobile Tree View Component
+const MobileTree = ({ 
+  node, 
+  depth = 0,
+  setSelectedNode
+}: { 
+  node: MindMapNode; 
+  depth?: number;
+  setSelectedNode: (node: MindMapNode) => void;
+}) => {
+  const [isExpanded, setIsExpanded] = useState(depth < 1);
+  const hasChildren = node.children && node.children.length > 0;
+
+  return (
+    <div className="w-full">
+      <div 
+        className={`flex items-center gap-3 p-4 border-b border-border hover:bg-primary/5 transition-colors ${depth === 0 ? 'bg-bg-secondary' : ''}`}
+        onClick={() => {
+          if (hasChildren) setIsExpanded(!isExpanded);
+          else setSelectedNode(node);
+        }}
+      >
+        <div className="flex-1 flex items-center gap-2">
+          <div style={{ marginLeft: `${depth * 20}px` }} className="flex items-center gap-3">
+            {hasChildren ? (
+              isExpanded ? <ChevronDown className="w-4 h-4 text-primary" /> : <ChevronRight className="w-4 h-4 text-text-secondary" />
+            ) : (
+              <div className="w-4 h-4 rounded-full border-2 border-primary/30 flex items-center justify-center">
+                <div className="w-1.5 h-1.5 bg-primary rounded-full" />
+              </div>
+            )}
+            <span className={`font-bold ${node.type === 'root' || node.type === 'category' ? 'text-primary uppercase tracking-widest text-xs' : 'text-text-primary text-sm'}`}>
+              {node.name}
+            </span>
+          </div>
+        </div>
+        {node.type === 'remedy' && (
+          <div className="px-2 py-0.5 bg-primary/10 text-primary text-[8px] font-black uppercase rounded tracking-tighter">
+            Remedy
+          </div>
+        )}
+      </div>
+      {hasChildren && isExpanded && (
+        <div className="w-full overflow-hidden">
+          {node.children?.map(child => (
+            <MobileTree 
+              key={child.id} 
+              node={child} 
+              depth={depth + 1} 
+              setSelectedNode={setSelectedNode}
+            />
+          ))}
+        </div>
+      )}
+    </div>
+  );
+};
+
 export default function ResearchMindMap() {
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
@@ -323,50 +381,7 @@ export default function ResearchMindMap() {
     }
   };
 
-  // Mobile Tree View Component
-  const MobileTree = ({ node, depth = 0 }: { node: MindMapNode, depth?: number }) => {
-    const [isExpanded, setIsExpanded] = useState(depth < 1);
-    const hasChildren = node.children && node.children.length > 0;
-
-    return (
-      <div className="w-full">
-        <div 
-          className={`flex items-center gap-3 p-4 border-b border-border hover:bg-primary/5 transition-colors ${depth === 0 ? 'bg-bg-secondary' : ''}`}
-          onClick={() => {
-            if (hasChildren) setIsExpanded(!isExpanded);
-            else setSelectedNode(node);
-          }}
-        >
-          <div className="flex-1 flex items-center gap-2">
-            <div style={{ marginLeft: `${depth * 20}px` }} className="flex items-center gap-3">
-              {hasChildren ? (
-                isExpanded ? <ChevronDown className="w-4 h-4 text-primary" /> : <ChevronRight className="w-4 h-4 text-text-secondary" />
-              ) : (
-                <div className="w-4 h-4 rounded-full border-2 border-primary/30 flex items-center justify-center">
-                  <div className="w-1.5 h-1.5 bg-primary rounded-full" />
-                </div>
-              )}
-              <span className={`font-bold ${node.type === 'root' || node.type === 'category' ? 'text-primary uppercase tracking-widest text-xs' : 'text-text-primary text-sm'}`}>
-                {node.name}
-              </span>
-            </div>
-          </div>
-          {node.type === 'remedy' && (
-            <div className="px-2 py-0.5 bg-primary/10 text-primary text-[8px] font-black uppercase rounded tracking-tighter">
-              Remedy
-            </div>
-          )}
-        </div>
-        {hasChildren && isExpanded && (
-          <div className="w-full overflow-hidden">
-            {node.children?.map(child => (
-              <MobileTree key={child.id} node={child} depth={depth + 1} />
-            ))}
-          </div>
-        )}
-      </div>
-    );
-  };
+  // Mobile Tree is now defined at the top level outside this component.
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10">
@@ -427,7 +442,7 @@ export default function ResearchMindMap() {
 
           {/* Mobile Tree View */}
           <div className="lg:hidden w-full h-full overflow-y-auto bg-bg-primary">
-            <MobileTree node={data} />
+            <MobileTree node={data} setSelectedNode={setSelectedNode} />
           </div>
 
           {/* Legend */}

@@ -18,6 +18,8 @@ import {
 } from 'lucide-react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
+  auth, 
+  googleProvider,
   signInWithPopup, 
   signInWithEmailAndPassword, 
   createUserWithEmailAndPassword, 
@@ -25,8 +27,7 @@ import {
   onAuthStateChanged,
   RecaptchaVerifier,
   signInWithPhoneNumber
-} from 'firebase/auth';
-import { auth, googleProvider } from '../lib/firebase';
+} from '../lib/firebase';
 import { userService } from '../services/userService';
 import SEO from '../components/SEO';
 

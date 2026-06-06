@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { BlogPost } from '../types';
-import { Bookmark as BookmarkIcon, ArrowLeft, Calendar, User, Tag, Share2, Link2, Check, ArrowRight, BookOpen, Clock, Zap, Target, Users, AlertTriangle, Search, MessageCircle, ArrowUpRight, CheckCircle2, ThumbsUp, ThumbsDown, Activity, BrainCircuit, LayoutGrid, Sparkles } from 'lucide-react';
+import { Bookmark as BookmarkIcon, ArrowLeft, Calendar, User, Tag, Share2, Link2, Check, ArrowRight, BookOpen, Clock, Zap, Target, Users, AlertTriangle, Search, MessageCircle, ArrowUpRight, CheckCircle2, ThumbsUp, ThumbsDown, Activity, BrainCircuit, LayoutGrid, Sparkles, ChevronDown, ChevronUp } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import SEO from './SEO';
 import { fetchPosts } from '../services/api';
@@ -10,6 +10,7 @@ import ModalityPill from './ModalityPill';
 import { MarkdownComponents, highlightModalities } from './MarkdownRenderers';
 import TextMindMap from './TextMindMap';
 import { useTheme } from '../context/ThemeContext';
+import { injectGlossaryLinks } from '../utils/glossaryLinker';
 import { Volume2, VolumeX, Play, Pause, BookmarkCheck } from 'lucide-react';
 import { useUser } from '../hooks/useUser';
 
@@ -60,6 +61,10 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
   const [emailCapture, setEmailCapture] = useState('');
   const [emailSubmitted, setEmailSubmitted] = useState(false);
   const [toc, setToc] = useState<{ id: string, text: string, level: number }[]>([]);
+  const [isModalitiesExpanded, setIsModalitiesExpanded] = useState(() => {
+    const saved = localStorage.getItem(`modalities_expanded_${post.id}`);
+    return saved !== 'false';
+  });
 
   useEffect(() => {
     // Basic markdown heading extraction for TOC with ID deduplication to prevent React key collision
@@ -363,7 +368,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
                 {highlightModalities(post.excerpt)}
               </p>
               
-              <ReactMarkdown components={MarkdownComponents}>{post.content}</ReactMarkdown>
+              <ReactMarkdown components={MarkdownComponents}>{injectGlossaryLinks(post.content)}</ReactMarkdown>
             </div>
 
             {/* Key Symptoms / Patterns */}
@@ -432,29 +437,67 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
 
             {/* Modalities: Better / Worse */}
             {post.modalities && (
-              <div className="my-12 grid md:grid-cols-2 gap-6">
-                <div className="p-6 bg-bg-secondary rounded-3xl border border-border">
-                  <h4 className="flex items-center gap-2 text-[#991B1B] dark:text-[#FEE2E2] font-bold mb-4">
-                    <ThumbsDown className="w-5 h-5" /> What makes it worse
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {post.modalities.worse.map((item, idx) => (
-                      <ModalityPill key={`${post.id}-mworse-${idx}`} type="worse">
-                        Worse from {item.toLowerCase()}
-                      </ModalityPill>
-                    ))}
+              <div className="my-12 p-6 md:p-8 bg-bg-secondary dark:bg-zinc-900/40 rounded-[2.5rem] border border-border shadow-sm">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+                  <div>
+                    <h3 className="text-2xl font-display font-medium text-text-primary italic">
+                      Symptom <span className="text-primary italic">Modalities</span>
+                    </h3>
+                    <p className="text-xs text-text-secondary mt-1">Legible under any lighting. Press to toggle view.</p>
                   </div>
+                  <button
+                    onClick={() => {
+                      const nextVal = !isModalitiesExpanded;
+                      setIsModalitiesExpanded(nextVal);
+                      localStorage.setItem(`modalities_expanded_${post.id}`, String(nextVal));
+                    }}
+                    className="flex items-center justify-center gap-2 px-4 py-2.5 bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 text-primary dark:text-primary-light font-black text-[10px] uppercase tracking-widest rounded-xl transition-all cursor-pointer select-none active:scale-95 border border-primary/20"
+                    title="Toggle Modalities Panel"
+                  >
+                    {isModalitiesExpanded ? (
+                      <>Collapse Panel <ChevronUp className="w-3.5 h-3.5 animate-bounce-slow" /></>
+                    ) : (
+                      <>Expand Panel <ChevronDown className="w-3.5 h-3.5 animate-bounce-slow" /></>
+                    )}
+                  </button>
                 </div>
-                <div className="p-6 bg-bg-secondary rounded-3xl border border-border">
-                  <h4 className="flex items-center gap-2 text-[#166534] dark:text-[#DCFCE7] font-bold mb-4">
-                    <ThumbsUp className="w-5 h-5" /> What makes it better
-                  </h4>
-                  <div className="flex flex-wrap gap-2">
-                    {post.modalities.better.map((item, idx) => (
-                      <ModalityPill key={`${post.id}-mbetter-${idx}`} type="better">
-                        Better by {item.toLowerCase()}
-                      </ModalityPill>
-                    ))}
+
+                <div 
+                  id="modalities-section" 
+                  className="grid md:grid-cols-2 gap-6 transition-all duration-500 ease-in-out origin-top overflow-hidden"
+                  style={{
+                    maxHeight: isModalitiesExpanded ? '2000px' : '0px',
+                    opacity: isModalitiesExpanded ? 1 : 0.02,
+                    pointerEvents: isModalitiesExpanded ? 'auto' : 'none',
+                    transform: isModalitiesExpanded ? 'scaleY(1)' : 'scaleY(0.95)',
+                    paddingTop: isModalitiesExpanded ? '0.5rem' : '0px',
+                    paddingBottom: isModalitiesExpanded ? '0.5rem' : '0px'
+                  }}
+                >
+                  <div className="p-6 bg-[#FEF2F2] dark:bg-rose-950/20 rounded-3xl border border-rose-100 dark:border-rose-900/30 shadow-soft">
+                    <h4 className="flex items-center gap-2 text-[#991B1B] dark:text-[#FCA5A5] font-black text-xs md:text-sm uppercase tracking-widest mb-4">
+                      <ThumbsDown className="w-4 h-4 text-[#B91C1C] dark:text-[#FCA5A5]" /> Aggravation (Worse Factors)
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {post.modalities.worse.map((item, idx) => (
+                        <ModalityPill key={`${post.id}-mworse-${idx}`} type="worse" className="font-bold text-xs md:text-sm shadow-sm border border-[#FCA5A5]/30">
+                          Worse from {item.toLowerCase()}
+                        </ModalityPill>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="p-6 bg-[#F0FDF4] dark:bg-emerald-950/20 rounded-3xl border border-emerald-100 dark:border-emerald-900/30 shadow-soft">
+                    <h4 className="flex items-center gap-2 text-[#166534] dark:text-[#86EFAC] font-black text-xs md:text-sm uppercase tracking-widest mb-4">
+                      <ThumbsUp className="w-4 h-4 text-[#15803D] dark:text-[#86EFAC]" /> Amelioration (Better Factors)
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {post.modalities.better.map((item, idx) => (
+                        <ModalityPill key={`${post.id}-mbetter-${idx}`} type="better" className="font-bold text-xs md:text-sm shadow-sm border border-[#86EFAC]/30">
+                          Better by {item.toLowerCase()}
+                        </ModalityPill>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>

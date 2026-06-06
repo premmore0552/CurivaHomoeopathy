@@ -107,7 +107,7 @@ const ConditionDetail: React.FC = () => {
                 </p>
               </div>
 
-              <div className="p-6 bg-white border border-border rounded-[2.5rem] shadow-soft">
+              <div className="p-6 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft">
                 <h5 className="text-[10px] font-black uppercase tracking-widest text-text-primary mb-4">On This Page</h5>
                 <nav className="space-y-1">
                   <a href="#understanding" className="block px-4 py-2 hover:bg-bg-secondary text-sm font-bold text-text-secondary rounded-xl transition-colors">Explanation</a>
@@ -165,7 +165,7 @@ const ConditionDetail: React.FC = () => {
                       <div className="md:w-72 space-y-3">
                         <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-1">Characteristic Modalities</h4>
                         {pattern.modalities.map((mod, mIdx) => (
-                          <div key={`${condition.id}-pattern-${idx}-mod-${mIdx}`} className="bg-white p-4 rounded-2xl border border-border text-[11px] font-bold text-text-primary flex items-start gap-4 shadow-soft">
+                          <div key={`${condition.id}-pattern-${idx}-mod-${mIdx}`} className="bg-white dark:bg-zinc-900/60 p-4 rounded-2xl border border-border text-[11px] font-bold text-text-primary flex items-start gap-4 shadow-soft">
                             <Sparkles className="w-4 h-4 text-primary shrink-0 opacity-40" />
                             {mod}
                           </div>
@@ -193,7 +193,7 @@ const ConditionDetail: React.FC = () => {
                     to={`/remedy/${remedy.id}`}
                     className="group"
                   >
-                    <div className="h-full p-8 bg-white border border-border rounded-[2.5rem] hover:border-primary hover:shadow-xl transition-all duration-300 relative overflow-hidden">
+                    <div className="h-full p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] hover:border-primary hover:shadow-xl transition-all duration-300 relative overflow-hidden">
                       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl group-hover:bg-primary/10 transition-all translate-x-1/2 -translate-y-1/2" />
                       <div className="relative z-10">
                         <Layout className="w-8 h-8 text-primary/40 group-hover:text-primary transition-colors mb-6" />

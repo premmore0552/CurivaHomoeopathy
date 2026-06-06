@@ -10,6 +10,14 @@
     <meta name="google-site-verification" content="45nENcH_Ct7FEzlIldWpoNjYdsKGhMsEv13KCEKJCYE" />
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
 
+    <!-- PWA Supporting Tags -->
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#10b981" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+    <meta name="apple-mobile-web-app-title" content="Curiva" />
+    <link rel="apple-touch-icon" href="/app_icon.png" />
+
     <!-- Performance Optimizations -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -20,6 +28,19 @@
   <body>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
+    <script>
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+          navigator.serviceWorker.register('/sw.js')
+            .then(function(reg) {
+              console.log('Service Worker registered with scope:', reg.scope);
+            })
+            .catch(function(err) {
+              console.error('Service Worker registration failed:', err);
+            });
+        });
+      }
+    </script>
   </body>
 </html>
 

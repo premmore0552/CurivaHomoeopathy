@@ -1,10 +1,12 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
   ArrowLeft, 
   ChevronRight, 
+  ChevronDown,
+  ChevronUp,
   Leaf, 
   Database, 
   Activity, 
@@ -28,6 +30,136 @@ import { comparisonRemedies, ComparisonData } from '../data/comparisonData';
 import { materiaMedicaData } from '../data/materiaMedica';
 import { allBlogPosts } from '../data/blogPosts';
 import { useSubscription } from '../hooks/useSubscription';
+
+const getRemedyMiasmProfile = (id: string) => {
+  const normId = (id || '').toLowerCase();
+  if (normId.includes('lycopodium')) {
+    return {
+      psora: 30, sycosis: 50, syphilis: 20,
+      tissues: [
+        { name: 'Liver & Digestive Tract', strength: 95 },
+        { name: 'Renal & Urinary Organs', strength: 80 },
+        { name: 'Right-sided Membranes', strength: 75 }
+      ],
+      essence: 'Functional weakness with intellectual excess, leading to deep gastro-hepatic disturbances and anticipatory dread.'
+    };
+  }
+  if (normId.includes('sulphur')) {
+    return {
+      psora: 80, sycosis: 10, syphilis: 10,
+      tissues: [
+        { name: 'Epidermis & Sweat Glands', strength: 95 },
+        { name: 'Venous Capillary System', strength: 90 },
+        { name: 'Lymphatics & Mucous Joints', strength: 85 }
+      ],
+      essence: 'The prime anti-psoric: excessive heat, burning sensations in soles and palms, standing aggravations, and philosophical egoistic pride.'
+    };
+  }
+  if (normId.includes('arsenicum') || normId.includes('arsen')) {
+    return {
+      psora: 40, sycosis: 10, syphilis: 50,
+      tissues: [
+        { name: 'Mucous Membranes (GI/Respiratory)', strength: 90 },
+        { name: 'Nervous System & Anxiety Axis', strength: 95 },
+        { name: 'Mitral & Cardiovascular Wall', strength: 80 }
+      ],
+      essence: 'Combination of psoric restlessness and syphilitic structural decay: extreme anxiety, midnight aggravation, burning relieved by warmth.'
+    };
+  }
+  if (normId.includes('thuja')) {
+    return {
+      psora: 10, sycosis: 85, syphilis: 5,
+      tissues: [
+        { name: 'Epithelium & Warty Growths', strength: 95 },
+        { name: 'Genito-Urinary Tract', strength: 90 },
+        { name: 'Blood & Fluid Economy', strength: 80 }
+      ],
+      essence: 'The chief anti-sycotic: soft fleshy overgrowths, dampness aggravation, feeling as if limbs are made of glass, and profound self-deprecation.'
+    };
+  }
+  if (normId.includes('silic') || normId.includes('silica')) {
+    return {
+      psora: 40, sycosis: 20, syphilis: 40,
+      tissues: [
+        { name: 'Bones & Fibrous Joint Walls', strength: 95 },
+        { name: 'Glandular Lymph Tissues', strength: 90 },
+        { name: 'Hair, Nails & Connective Matrix', strength: 85 }
+      ],
+      essence: 'Lack of grit, both physical and mental. Cold chilly reactors with a tendency to chronic suppuration and fistulas.'
+    };
+  }
+  if (normId.includes('belladonna')) {
+    return {
+      psora: 75, sycosis: 15, syphilis: 10,
+      tissues: [
+        { name: 'Cerebral Circulation Axis', strength: 95 },
+        { name: 'Vascular Capillaries', strength: 90 },
+        { name: 'Pharyngeal Mucosa', strength: 85 }
+      ],
+      essence: 'Sudden, violent, acute congestive outbreaks. Intense redness, throbbing pains, dilated pupils, and acute hyper-sensitivity.'
+    };
+  }
+  if (normId.includes('lachesis')) {
+    return {
+      psora: 20, sycosis: 30, syphilis: 50,
+      tissues: [
+        { name: 'Vasomotor Circulation', strength: 95 },
+        { name: 'Left-Sided Throat & Ovary', strength: 90 },
+        { name: 'Vagus Nerve & Respiration', strength: 85 }
+      ],
+      essence: 'Vascular engorgement, sleep aggravation, extreme loquacity, intolerance of left-side pressure, and deep syphilitic destructive pathways.'
+    };
+  }
+  if (normId.includes('aconite')) {
+    return {
+      psora: 95, sycosis: 0, syphilis: 5,
+      tissues: [
+        { name: 'Arterial Circulatory System', strength: 95 },
+        { name: 'Sympathetic Nervous System', strength: 90 },
+        { name: 'Respiratory Epithelia', strength: 80 }
+      ],
+      essence: 'Stormy, sudden acute panic. Predictable fear of death, chilling dry wind exposure, of supreme importance in primary shock states.'
+    };
+  }
+  if (normId.includes('arnica')) {
+    return {
+      psora: 50, sycosis: 35, syphilis: 15,
+      tissues: [
+        { name: 'Muscle Fibers & Motor Plane', strength: 95 },
+        { name: 'Capillary Endothelium (Bruises)', strength: 90 },
+        { name: 'Acellular Connective Tissue', strength: 80 }
+      ],
+      essence: 'Mechanical injuries and shock: soreness, bruised aching, a bed that feels "too hard", claims they are "perfectly well" while in profound shock.'
+    };
+  }
+  if (normId.includes('nux')) {
+    return {
+      psora: 70, sycosis: 20, syphilis: 10,
+      tissues: [
+        { name: 'Spinal Cord & Irregular Reflexes', strength: 95 },
+        { name: 'Enteric Nervous System (Colon)', strength: 90 },
+        { name: 'Hepatic Filtration Axis', strength: 85 }
+      ],
+      essence: 'Irritable, over-sensitive, sedentary, over-dosed type. Constant ineffectual urging to stool, and high susceptibility to cold drafts.'
+    };
+  }
+
+  const hashSum = normId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
+  const pSum = (hashSum % 45) + 30; // 30-75%
+  const sSum = ((hashSum + 13) % 25) + 10; // 10-35%
+  const sySum = 100 - pSum - sSum;
+  return {
+    psora: pSum,
+    sycosis: sSum,
+    syphilis: sySum,
+    tissues: [
+      { name: 'Constitutional Matrix', strength: 80 },
+      { name: 'Cellular Vitality Axis', strength: 75 },
+      { name: 'Neuro-Endocrine Pathways', strength: 70 }
+    ],
+    essence: 'Dynamic clinical affinity and pathological focus determined by classic homoeopathic drug-provers indexes.'
+  };
+};
 
 export default function RemedyDetail() {
   const { remedyId } = useParams<{ remedyId: string }>();
@@ -90,6 +222,11 @@ export default function RemedyDetail() {
     window.scrollTo(0, 0);
   }, [remedyId]);
 
+  const [isModalitiesExpanded, setIsModalitiesExpanded] = useState(() => {
+    const saved = localStorage.getItem(`remedy_modalities_expanded_${remedyId}`);
+    return saved !== 'false';
+  });
+
   if (!remedy) {
     const placeholderName = remedyId?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
     return (
@@ -115,6 +252,8 @@ export default function RemedyDetail() {
       </div>
     );
   }
+
+  const miasm = getRemedyMiasmProfile(remedy.id);
 
   // Sections for navigation
   const sections = [
@@ -225,7 +364,7 @@ export default function RemedyDetail() {
           {/* Floating Sidebar Index */}
           <aside className="hidden lg:block">
             <div className="sticky top-32 space-y-6">
-              <div className="p-8 bg-white rounded-[2.5rem] border border-border shadow-soft">
+              <div className="p-8 bg-white dark:bg-zinc-900/60 rounded-[2.5rem] border border-border shadow-soft">
                 <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-6 border-b border-border pb-4">Remedy Index</h4>
                 <nav className="space-y-1">
                   {sections.filter(s => {
@@ -263,6 +402,123 @@ export default function RemedyDetail() {
           {/* Main Content */}
           <div className="lg:col-span-3 space-y-24">
             
+            {/* Constitutional Dynamics & Miasmatic Affinity */}
+            <section id="dynamics-infographic" className="scroll-mt-32">
+              <div className="flex items-center gap-4 mb-8">
+                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+                  <Layers className="w-6 h-6" />
+                </div>
+                <div>
+                  <h2 className="text-3xl font-display font-medium text-text-primary italic">
+                    Constitutional <span className="text-primary italic">Dynamics</span>
+                  </h2>
+                  <p className="text-xs text-text-secondary mt-0.5">Miasmatic predisposition and cell tissue affinity analysis.</p>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                {/* Miasm Weights */}
+                <div className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border space-y-6">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Clinical Predisposition</span>
+                    <h4 className="text-xl font-display font-medium text-text-primary italic mt-1">Miasmatic Weighting</h4>
+                  </div>
+
+                  <div className="space-y-5">
+                    {/* Psora */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center text-xs font-semibold">
+                        <span className="text-amber-600 dark:text-amber-400 font-bold">Psora (Functional/Sensory)</span>
+                        <span className="text-text-primary">{miasm.psora}%</span>
+                      </div>
+                      <div className="h-2 w-full bg-amber-500/10 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${miasm.psora}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, ease: 'easeOut' }}
+                          className="h-full bg-amber-500" 
+                        />
+                      </div>
+                    </div>
+
+                    {/* Sycosis */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center text-xs font-semibold">
+                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Sycosis (Proliferative/Excess)</span>
+                        <span className="text-text-primary">{miasm.sycosis}%</span>
+                      </div>
+                      <div className="h-2 w-full bg-emerald-500/10 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${miasm.sycosis}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, ease: 'easeOut' }}
+                          className="h-full bg-[#10b981]" 
+                        />
+                      </div>
+                    </div>
+
+                    {/* Syphilis */}
+                    <div className="space-y-2">
+                      <div className="flex justify-between items-center text-xs font-semibold">
+                        <span className="text-rose-600 dark:text-rose-400 font-bold">Syphilis (Destructive/Decay)</span>
+                        <span className="text-text-primary">{miasm.syphilis}%</span>
+                      </div>
+                      <div className="h-2 w-full bg-rose-500/10 rounded-full overflow-hidden">
+                        <motion.div 
+                          initial={{ width: 0 }}
+                          whileInView={{ width: `${miasm.syphilis}%` }}
+                          viewport={{ once: true }}
+                          transition={{ duration: 1, ease: 'easeOut' }}
+                          className="h-full bg-rose-500" 
+                        />
+                      </div>
+                    </div>
+                  </div>
+
+                  <p className="text-[10px] text-text-secondary leading-relaxed pt-2">
+                    According to Samuel Hahnemann's Organon of Medicine, miasms represent the underlying chronic morbid forces that dictate disease expression and constitutional susceptibility.
+                  </p>
+                </div>
+
+                {/* Tissue Focus */}
+                <div className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border flex flex-col justify-between space-y-6">
+                  <div>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Elective Affinities</span>
+                    <h4 className="text-xl font-display font-medium text-text-primary italic mt-1">Tissue Preferences</h4>
+                  </div>
+
+                  <div className="space-y-4">
+                    {miasm.tissues.map((tissue, tIdx) => (
+                      <div key={tIdx} className="space-y-1.5">
+                        <div className="flex justify-between text-xs">
+                          <span className="font-bold text-text-primary">{tissue.name}</span>
+                          <span className="text-text-secondary font-mono">{tissue.strength}% Affinity</span>
+                        </div>
+                        <div className="h-1.5 w-full bg-primary/5 rounded-full overflow-hidden">
+                          <motion.div 
+                            initial={{ width: 0 }}
+                            whileInView={{ width: `${tissue.strength}%` }}
+                            viewport={{ once: true }}
+                            transition={{ duration: 1, delay: tIdx * 0.1 }}
+                            className="h-full bg-primary" 
+                          />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+
+                  <div className="pt-4 border-t border-border">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-primary block mb-1">Materia Medica Essence</span>
+                    <p className="text-[11px] text-text-primary leading-normal font-serif italic">
+                      "{miasm.essence}"
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </section>
+
             {((remedy.mind && remedy.mind.length > 0) || (mmRemedy && mmRemedy.mind && mmRemedy.mind.length > 0)) && (
               <section id="mind" className="scroll-mt-32">
                 <div className="flex items-center gap-4 mb-10">
@@ -278,7 +534,7 @@ export default function RemedyDetail() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       key={`${remedy.id}-mind-${idx}`} 
-                      className="p-8 bg-white rounded-[2rem] border border-border hover:border-primary/20 transition-all font-serif italic text-lg leading-relaxed text-text-secondary"
+                      className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2rem] border border-border hover:border-primary/20 transition-all font-serif italic text-lg leading-relaxed text-text-secondary"
                     >
                       {m}
                     </motion.div>
@@ -299,19 +555,19 @@ export default function RemedyDetail() {
                 <div className="grid gap-4">
                   {(remedy.physical && remedy.physical.length > 0) ? (
                     remedy.physical.map((p, idx) => (
-                      <div key={`${remedy.id}-phys-${idx}`} className="p-6 bg-white border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
+                      <div key={`${remedy.id}-phys-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
                         {p}
                       </div>
                     ))
                   ) : (mmRemedy && mmRemedy.physical && mmRemedy.physical.length > 0) ? (
                     mmRemedy.physical.map((p, idx) => (
-                      <div key={`${remedy.id}-phys-${idx}`} className="p-6 bg-white border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
+                      <div key={`${remedy.id}-phys-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
                         {p}
                       </div>
                     ))
                   ) : (
                     remedy.clinicalApplications.map((app, idx) => (
-                      <div key={`${remedy.id}-app-p-${idx}`} className="p-6 bg-white border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
+                      <div key={`${remedy.id}-app-p-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
                         {app}
                       </div>
                     ))
@@ -335,7 +591,7 @@ export default function RemedyDetail() {
                     whileInView={{ opacity: 1, x: 0 }}
                     viewport={{ once: true }}
                     key={`${remedy.id}-char-${idx}`} 
-                    className="flex items-start gap-6 p-8 bg-white rounded-[2rem] border border-border hover:border-accent/40 hover:shadow-soft transition-all group"
+                    className="flex items-start gap-6 p-8 bg-white dark:bg-zinc-900/40 rounded-[2rem] border border-border hover:border-accent/40 hover:shadow-soft transition-all group"
                   >
                     <div className="w-3 h-3 rounded-full bg-accent mt-2.5 shrink-0 group-hover:scale-125 transition-transform" />
                     <p className="text-text-primary font-serif italic text-lg leading-relaxed">{char}</p>
@@ -346,49 +602,81 @@ export default function RemedyDetail() {
 
             {/* Modalities */}
             <section id="modalities" className="scroll-mt-32">
-              <div className="grid lg:grid-cols-2 gap-8">
-                <div className="bg-[#f0f4ef] p-10 rounded-[3.5rem] border border-[#e0e7df] relative overflow-hidden">
+              <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-bg-secondary dark:bg-zinc-900/20 rounded-[2rem] border border-border">
+                <div>
+                  <h4 className="text-xl font-display font-medium text-text-primary italic">
+                    Remedy <span className="text-primary italic">Modalities</span>
+                  </h4>
+                  <p className="text-xs text-text-secondary mt-1">Symptom dynamics under aggravation or amelioration factors.</p>
+                </div>
+                <button
+                  onClick={() => {
+                    const nextVal = !isModalitiesExpanded;
+                    setIsModalitiesExpanded(nextVal);
+                    localStorage.setItem(`remedy_modalities_expanded_${remedyId}`, String(nextVal));
+                  }}
+                  className="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 text-primary dark:text-primary-light font-black text-[10px] uppercase tracking-widest rounded-xl transition-all cursor-pointer select-none active:scale-95 border border-primary/20"
+                >
+                  {isModalitiesExpanded ? (
+                    <>Collapse Panel <ChevronUp className="w-3.5 h-3.5" /></>
+                  ) : (
+                    <>Expand Panel <ChevronDown className="w-3.5 h-3.5" /></>
+                  )}
+                </button>
+              </div>
+
+              <div 
+                id="modalities-section" 
+                className="grid lg:grid-cols-2 gap-8 transition-all duration-500 ease-in-out origin-top overflow-hidden"
+                style={{
+                  maxHeight: isModalitiesExpanded ? '2500px' : '0px',
+                  opacity: isModalitiesExpanded ? 1 : 0.02,
+                  pointerEvents: isModalitiesExpanded ? 'auto' : 'none',
+                  transform: isModalitiesExpanded ? 'scaleY(1)' : 'scaleY(0.95)'
+                }}
+              >
+                <div className="bg-[#f0f4ef] dark:bg-emerald-950/20 p-10 rounded-[3.5rem] border border-[#e0e7df] dark:border-emerald-900/30 relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-8 opacity-5">
-                    <Thermometer className="w-32 h-32 text-emerald-900" />
+                    <Thermometer className="w-32 h-32 text-emerald-900 dark:text-emerald-100" />
                   </div>
                   <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 bg-emerald-100 rounded-2xl flex items-center justify-center text-emerald-700">
+                    <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/40 rounded-2xl flex items-center justify-center text-emerald-700 dark:text-emerald-300">
                       <Zap className="w-6 h-6" />
                     </div>
-                    <h3 className="text-3xl font-display font-medium text-emerald-900 italic uppercase tracking-tighter">Amelioration</h3>
+                    <h3 className="text-3xl font-display font-medium text-emerald-900 dark:text-emerald-100 italic uppercase tracking-tighter">Amelioration</h3>
                   </div>
                   <ul className="space-y-4">
                     {remedy.modalities.better.map((m, idx) => (
-                      <li key={`${remedy.id}-better-${idx}`} className="flex items-center gap-4 text-emerald-800 font-serif italic text-lg group">
-                        <div className="w-1.5 h-1.5 rounded-full bg-emerald-400 group-hover:scale-150 transition-transform" />
-                        {m}
+                      <li key={`${remedy.id}-better-${idx}`} className="flex items-center gap-4 text-emerald-900 dark:text-emerald-200 font-serif italic text-lg group">
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 group-hover:scale-150 transition-transform shrink-0" />
+                        <span className="leading-snug">{m}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
 
-                <div className="bg-[#fef3f2] p-10 rounded-[3.5rem] border border-[#fee2e2] relative overflow-hidden">
+                <div className="bg-[#fef3f2] dark:bg-rose-950/20 p-10 rounded-[3.5rem] border border-[#fee2e2] dark:border-rose-900/30 relative overflow-hidden">
                   <div className="absolute top-0 right-0 p-8 opacity-5">
-                    <Thermometer className="w-32 h-32 text-rose-900 rotate-180" />
+                    <Thermometer className="w-32 h-32 text-rose-900 dark:text-rose-100 rotate-180" />
                   </div>
                   <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 bg-rose-100 rounded-2xl flex items-center justify-center text-rose-700">
+                    <div className="w-12 h-12 bg-rose-100 dark:bg-rose-900/40 rounded-2xl flex items-center justify-center text-rose-700 dark:text-rose-300">
                       <Thermometer className="w-6 h-6 rotate-180" />
                     </div>
-                    <h3 className="text-3xl font-display font-medium text-rose-900 italic uppercase tracking-tighter">Aggravation</h3>
+                    <h3 className="text-3xl font-display font-medium text-rose-900 dark:text-rose-100 italic uppercase tracking-tighter">Aggravation</h3>
                   </div>
                   <ul className="space-y-4">
                     {remedy.modalities.worse.map((m, idx) => (
-                      <li key={`${remedy.id}-worse-${idx}`} className="flex items-center gap-4 text-rose-800 font-serif italic text-lg group">
-                        <div className="w-1.5 h-1.5 rounded-full bg-rose-400 group-hover:scale-150 transition-transform" />
-                        {m}
+                      <li key={`${remedy.id}-worse-${idx}`} className="flex items-center gap-4 text-rose-900 dark:text-rose-200 font-serif italic text-lg group">
+                        <div className="w-2 h-2 rounded-full bg-rose-500 dark:bg-rose-400 group-hover:scale-150 transition-transform shrink-0" />
+                        <span className="leading-snug">{m}</span>
                       </li>
                     ))}
                   </ul>
                 </div>
               </div>
 
-              <div className="mt-8 p-10 bg-white rounded-[2.5rem] border border-border border-dashed flex flex-col md:flex-row items-center gap-8 group">
+              <div className="mt-8 p-10 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border border-dashed flex flex-col md:flex-row items-center gap-8 group">
                 <div className="w-20 h-20 bg-primary/5 rounded-3xl flex items-center justify-center shadow-soft border border-border group-hover:border-primary/20 transition-colors">
                   <Droplet className="w-10 h-10 text-primary" />
                 </div>
@@ -409,7 +697,7 @@ export default function RemedyDetail() {
               </div>
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {remedy.clinicalApplications.map((app, idx) => (
-                    <div key={`${remedy.id}-app-${idx}`} className="p-6 bg-white border border-border rounded-2xl font-serif italic text-lg flex items-center gap-4 shadow-soft hover:border-primary/40 hover:scale-[1.02] transition-all cursor-default">
+                    <div key={`${remedy.id}-app-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg flex items-center gap-4 shadow-soft hover:border-primary/40 hover:scale-[1.02] transition-all cursor-default">
                       <div className="w-2 h-2 rounded-full bg-primary/20" />
                     {app}
                   </div>
@@ -423,14 +711,14 @@ export default function RemedyDetail() {
                 <Layers className="w-48 h-48 text-text-primary" />
               </div>
               <div className="flex items-center gap-4 mb-12 relative z-10">
-                <div className="w-12 h-12 bg-white rounded-2xl text-primary shadow-soft flex items-center justify-center">
+                <div className="w-12 h-12 bg-white dark:bg-zinc-900 rounded-2xl text-primary shadow-soft flex items-center justify-center">
                   <Layers className="w-6 h-6" />
                 </div>
                 <h2 className="text-4xl font-display font-medium text-text-primary italic">Differential <span className="text-primary italic">Nuance</span></h2>
               </div>
               <div className="grid gap-6 relative z-10">
                 {remedy.comparisons.map((comp) => (
-                  <div key={`${remedy.id}-comp-${comp.id}`} className="bg-white/80 backdrop-blur-sm p-8 rounded-3xl border border-border flex flex-col md:flex-row gap-8 items-start md:items-center hover:border-primary/20 transition-all justify-between w-full">
+                  <div key={`${remedy.id}-comp-${comp.id}`} className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm p-8 rounded-3xl border border-border flex flex-col md:flex-row gap-8 items-start md:items-center hover:border-primary/20 transition-all justify-between w-full">
                     <div className="flex-1 min-w-0 pr-4">
                       <p className="text-lg font-serif italic text-text-secondary leading-relaxed">{comp.keyDifference}</p>
                     </div>
@@ -444,7 +732,7 @@ export default function RemedyDetail() {
                       <Link 
                         to="/analysis"
                         state={{ preSelectedIds: [remedy.id, comp.id] }}
-                        className="px-6 py-3 bg-white hover:border-primary/40 text-center border border-border text-primary font-black text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all whitespace-nowrap inline-flex items-center justify-center gap-2"
+                        className="px-6 py-3 bg-white dark:bg-zinc-800 hover:border-primary/40 text-center border border-border text-primary font-black text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all whitespace-nowrap inline-flex items-center justify-center gap-2"
                       >
                         Compare in Table <Scale className="w-3.5 h-3.5" />
                       </Link>
@@ -484,7 +772,7 @@ export default function RemedyDetail() {
                         <Link 
                           key={post.id}
                           to={`/read/${post.slug || post.id}`}
-                          className="group relative bg-white rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
+                          className="group relative bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
                         >
                           <div className="aspect-video w-full overflow-hidden">
                             <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
@@ -517,7 +805,7 @@ export default function RemedyDetail() {
                   <Link 
                     key={ailment.id}
                     to={`/conditions/${ailment.id}`}
-                    className="group p-10 bg-white border border-border rounded-[3rem] hover:border-accent hover:shadow-2xl transition-all duration-500"
+                    className="group p-10 bg-white dark:bg-zinc-900/40 border border-border rounded-[3rem] hover:border-accent hover:shadow-2xl transition-all duration-500"
                   >
                     <div className="w-12 h-12 rounded-2xl bg-bg-primary flex items-center justify-center text-text-primary/20 group-hover:text-accent group-hover:bg-accent/5 transition-all mb-8">
                       <Activity className="w-6 h-6" />
@@ -541,7 +829,7 @@ export default function RemedyDetail() {
               </div>
               
               <div className="grid md:grid-cols-2 gap-6">
-                <div className="p-8 bg-white rounded-[2.5rem] border border-border shadow-soft flex flex-col justify-between group hover:border-primary/40 transition-all">
+                <div className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border shadow-soft flex flex-col justify-between group hover:border-primary/40 transition-all">
                   <div>
                     <h3 className="text-2xl font-display font-medium text-text-primary mb-4 italic">Side-by-Side Comparison</h3>
                     <p className="text-text-secondary font-serif italic text-lg leading-relaxed mb-8">

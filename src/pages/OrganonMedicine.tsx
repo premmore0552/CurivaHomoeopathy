@@ -121,6 +121,7 @@ const AphorismTree = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [activeCategory, setActiveCategory] = useState<OrganonAphorism['category'] | 'All'>('All');
   const [viewMode, setViewViewMode] = useState<'grid' | 'list'>('grid');
+  const [activeSlide, setActiveSlide] = useState(0);
 
   const filteredData = organonData.filter(a => {
     const matchesSearch = a.versions.some(v => v.content.toLowerCase().includes(searchTerm.toLowerCase())) || 
@@ -131,6 +132,17 @@ const AphorismTree = () => {
 
   const categories: (OrganonAphorism['category'] | 'All')[] = ['All', 'Philosophy', 'Clinical', 'Pharmacy', 'Historical'];
 
+  const filteredAphorismIds = Array.from({ length: 294 }, (_, i) => i + 1).filter(id => {
+    const data = organonData.find(a => a.id === id);
+    const isFiltered = data && (activeCategory === 'All' || data.category === activeCategory);
+    return activeCategory === 'All' || isFiltered;
+  });
+
+  const CHUNK_SIZE = 50;
+  const totalSlides = Math.max(1, Math.ceil(filteredAphorismIds.length / CHUNK_SIZE));
+  const currentSlide = Math.min(activeSlide, totalSlides - 1);
+  const visibleIds = filteredAphorismIds.slice(currentSlide * CHUNK_SIZE, (currentSlide + 1) * CHUNK_SIZE);
+
   const scrollToAphorism = (id: number) => {
     setSelectedId(id);
     if (viewMode === 'list') {
@@ -138,6 +150,18 @@ const AphorismTree = () => {
       if (element) {
         element.scrollIntoView({ behavior: 'smooth', block: 'center' });
       }
+    } else {
+      const itemIdx = filteredAphorismIds.indexOf(id);
+      if (itemIdx !== -1) {
+        const targetSl = Math.floor(itemIdx / CHUNK_SIZE);
+        setActiveSlide(targetSl);
+      }
+      setTimeout(() => {
+        const element = document.getElementById('active-aphorism-content');
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+      }, 120);
     }
   };
 
@@ -246,29 +270,83 @@ const AphorismTree = () => {
         </div>
 
         {viewMode === 'grid' ? (
-          <div className="space-y-16">
+          <div className="space-y-8">
             <div>
-               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-10 opacity-60 italic flex items-center gap-3">
-                 <span className="w-12 h-px bg-border" /> 
+               {/* Segment Control Info & Slider Bar */}
+               <div className="flex flex-col sm:flex-row items-center justify-between gap-4 bg-bg-secondary dark:bg-zinc-900 border border-border dark:border-zinc-800 p-5 rounded-[2.2rem] mb-8 shadow-sm">
+                 <div className="flex items-center gap-3">
+                   <div className="w-2 h-2 bg-primary rounded-full animate-ping shrink-0" />
+                   <span className="text-xs font-black uppercase tracking-widest text-text-primary">
+                     Segment {currentSlide + 1} of {totalSlides} (Showing §{visibleIds[0] || 0} - §{visibleIds[visibleIds.length - 1] || 0})
+                   </span>
+                 </div>
+                 
+                 <div className="flex items-center gap-2">
+                   <button
+                     type="button"
+                     disabled={currentSlide === 0}
+                     onClick={() => setActiveSlide(prev => Math.max(0, prev - 1))}
+                     className="px-4 py-2 bg-bg-primary dark:bg-zinc-800 hover:border-primary border border-border dark:border-zinc-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-30"
+                   >
+                     &larr; Prev
+                   </button>
+                   
+                   <div className="flex items-center gap-1.5 px-3">
+                     {Array.from({ length: totalSlides }, (_, idx) => (
+                       <button
+                         key={idx}
+                         type="button"
+                         onClick={() => setActiveSlide(idx)}
+                         className={`w-3.5 h-3.5 rounded-full transition-all border ${
+                           currentSlide === idx 
+                             ? 'bg-primary border-primary scale-125 shadow-sm shadow-primary/30' 
+                             : 'bg-bg-primary dark:bg-zinc-800 border-border dark:border-zinc-700 hover:border-primary/50'
+                         }`}
+                         title={`Segment ${idx + 1}`}
+                       />
+                     ))}
+                   </div>
+
+                   <button
+                     type="button"
+                     disabled={currentSlide >= totalSlides - 1}
+                     onClick={() => setActiveSlide(prev => Math.min(totalSlides - 1, prev + 1))}
+                     className="px-4 py-2 bg-bg-primary dark:bg-zinc-800 hover:border-primary border border-border dark:border-zinc-700 rounded-xl text-[10px] font-black uppercase tracking-widest transition-all disabled:opacity-30"
+                   >
+                     Next &rarr;
+                   </button>
+                 </div>
+               </div>
+
+               <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary mb-8 opacity-60 italic flex items-center gap-3">
+                 <span className="w-12 h-px bg-border dark:bg-zinc-800" /> 
                  Cognitive Grid Navigation
                </h4>
+
                <div className="grid grid-cols-6 sm:grid-cols-10 md:grid-cols-12 xl:grid-cols-[repeat(auto-fill,minmax(40px,1fr))] gap-3">
-                  {Array.from({ length: 294 }, (_, i) => i + 1).map(id => {
+                  {visibleIds.map(id => {
                     const data = organonData.find(a => a.id === id);
                     const isSelected = selectedId === id;
                     const hasData = !!data;
-                    const isFiltered = data && (activeCategory === 'All' || data.category === activeCategory);
-
-                    if (activeCategory !== 'All' && !isFiltered) return null;
 
                     return (
                       <button
                         key={id}
                         id={`aphorism-grid-${id}`}
-                        onClick={() => setSelectedId(isSelected ? null : id)}
+                        onClick={() => {
+                          setSelectedId(isSelected ? null : id);
+                          if (!isSelected) {
+                            setTimeout(() => {
+                              const element = document.getElementById('active-aphorism-content');
+                              if (element) {
+                                element.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                              }
+                            }, 150);
+                          }
+                        }}
                         className={`aspect-square rounded-xl flex items-center justify-center text-[10px] font-black transition-all border shadow-sm ${
                           isSelected 
-                          ? 'bg-primary text-white border-primary scale-125 z-10 shadow-2xl shadow-primary/40' 
+                          ? 'bg-primary text-white border-primary scale-125 z-10 shadow-2xl shadow-primary/40 font-bold' 
                           : hasData 
                             ? 'bg-[#ecfdf5] dark:bg-[#064e3b]/30 text-[#047857] dark:text-[#34d399] border-[#a7f3d0] dark:border-[#065f46]/50 hover:bg-[#d1fae5] hover:border-[#34d399] hover:-translate-y-1' 
                             : 'bg-bg-secondary/50 text-text-secondary/20 border-border/50'
@@ -286,10 +364,11 @@ const AphorismTree = () => {
               {selectedId && (
                 <motion.div
                   key={selectedId}
+                  id="active-aphorism-content"
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: -30 }}
-                  className="p-12 md:p-16 bg-white dark:bg-bg-secondary rounded-[4rem] border border-primary/20 shadow-[0_40px_100px_rgba(0,0,0,0.1)] relative overflow-hidden"
+                  className="p-12 md:p-16 bg-white dark:bg-bg-secondary rounded-[4rem] border border-primary/20 shadow-[0_40px_100px_rgba(0,0,0,0.1)] relative overflow-hidden mt-6"
                 >
                   <div className="absolute top-0 right-0 p-12 text-[15rem] font-black text-primary/5 italic pointer-events-none leading-none select-none" style={{ lineHeight: '0.8' }}>
                     §{selectedId}

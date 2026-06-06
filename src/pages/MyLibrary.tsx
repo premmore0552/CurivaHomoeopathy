@@ -22,8 +22,7 @@ import {
   Sparkles
 } from 'lucide-react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
-import { auth, db } from '../lib/firebase';
-import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
+import { auth, db, collection, query, where, getDocs, orderBy } from '../lib/firebase';
 import { resources, Resource } from '../data/resources';
 import { userService } from '../services/userService';
 import { allBlogPosts as blogPosts } from '../data/blogPosts';

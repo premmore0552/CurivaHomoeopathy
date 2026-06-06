@@ -11,6 +11,7 @@ import LanguageToggle from './LanguageToggle';
 import { useLanguage } from '../context/LanguageContext';
 import AuthButton from './AuthButton';
 import Logo from './Logo';
+import { useUser } from '../hooks/useUser';
 
 import SearchAutocomplete from './SearchAutocomplete';
 
@@ -106,7 +107,18 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
         }`}
         onClick={() => handleLinkClick(link.to)}
       >
-        <span className="text-lg leading-tight">{link.name}</span>
+        {link.isProfile ? (
+          <div className="flex items-center gap-3">
+            <img 
+              src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
+              alt="User Portrait" 
+              className="w-7 h-7 rounded-lg object-cover border border-white/20 shrink-0" 
+            />
+            <span className="text-lg leading-tight">Dashboard</span>
+          </div>
+        ) : (
+          <span className="text-lg leading-tight">{link.name}</span>
+        )}
         <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-white' : 'text-text-secondary'}`} />
       </Link>
     </motion.div>
@@ -114,6 +126,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
 };
 
 const Header: React.FC = () => {
+  const { profile } = useUser();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
@@ -220,6 +233,16 @@ const Header: React.FC = () => {
     { name: 'Library', to: '/library' },
   ];
 
+  const userNavLinks = [...navLinks] as any[];
+  if (profile) {
+    userNavLinks.push({
+      name: 'Dashboard',
+      to: '/profile',
+      isProfile: true,
+      photoURL: profile.photoURL
+    });
+  }
+
   const handleLinkClick = (to: string) => {
     setIsMenuOpen(false);
     if (to.startsWith('/#')) {
@@ -282,7 +305,7 @@ const Header: React.FC = () => {
 
             {/* Desktop Navigation */}
             <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
-              {navLinks.map((link: any, idx) => {
+              {userNavLinks.map((link: any, idx) => {
                 const isActive = location.pathname === link.to;
                 const hasDropdown = 'dropdown' in link;
                 
@@ -366,7 +389,18 @@ const Header: React.FC = () => {
                         : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
                       }`}
                     >
-                      {link.name}
+                      {link.isProfile ? (
+                        <div className="flex items-center gap-1.5">
+                          <img 
+                            src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
+                            alt="User Accent" 
+                            className="w-4.5 h-4.5 rounded-full object-cover border border-primary/20 shrink-0" 
+                          />
+                          <span>Dashboard</span>
+                        </div>
+                      ) : (
+                        link.name
+                      )}
                       {link.isNew && (
                         <span className="px-1.5 py-0.5 rounded-md bg-primary text-[7px] text-white font-black uppercase tracking-widest absolute -top-1 -right-1 shadow-sm">New</span>
                       )}
@@ -470,7 +504,7 @@ const Header: React.FC = () => {
                   Navigation
                 </h3>
                 <nav className="space-y-2">
-                  {navLinks.map((link: any, idx) => (
+                  {userNavLinks.map((link: any, idx) => (
                     <MobileNavLink
                       key={link.name || idx}
                       link={link}

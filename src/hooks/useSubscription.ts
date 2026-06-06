@@ -1,7 +1,17 @@
 import { useState, useEffect } from 'react';
-import { doc, getDoc, setDoc, updateDoc, onSnapshot, serverTimestamp } from 'firebase/firestore';
-import { auth, db, handleFirestoreError, OperationType } from '../lib/firebase';
-import { onAuthStateChanged } from 'firebase/auth';
+import { 
+  auth, 
+  db, 
+  handleFirestoreError, 
+  OperationType,
+  doc, 
+  getDoc, 
+  setDoc, 
+  updateDoc, 
+  onSnapshot, 
+  serverTimestamp,
+  onAuthStateChanged
+} from '../lib/firebase';
 
 export interface UserSubscription {
   uid: string;

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 type ModalityType = 'worse' | 'better' | 'ailment' | 'neutral';
 
@@ -9,10 +9,6 @@ interface ModalityPillProps {
 }
 
 export default function ModalityPill({ type, children, className = '' }: ModalityPillProps) {
-  const [isVisible, setIsVisible] = useState(true);
-
-  if (!isVisible) return null;
-
   let colorClasses = '';
   
   switch (type) {
@@ -30,12 +26,10 @@ export default function ModalityPill({ type, children, className = '' }: Modalit
   }
 
   return (
-    <button 
-      onClick={() => setIsVisible(false)}
-      className={`inline-flex items-center px-3 py-1 rounded-full text-sm font-semibold transition-all cursor-pointer select-none active:scale-95 ${colorClasses} ${className}`}
-      title="Click to hide"
+    <span 
+      className={`inline-flex items-center px-3 py-1 rounded-full text-xs md:text-sm font-semibold transition-all select-none ${colorClasses} ${className}`}
     >
       {children}
-    </button>
+    </span>
   );
 }

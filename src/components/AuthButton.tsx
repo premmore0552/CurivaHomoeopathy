@@ -2,11 +2,23 @@ import React, { useEffect } from 'react';
 import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Crown, ArrowRight, Sparkles, Library } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { auth, googleProvider } from '../lib/firebase';
-import { signInWithPopup, signOut, onAuthStateChanged, User as FirebaseUser } from 'firebase/auth';
-import { db, handleFirestoreError, OperationType } from '../lib/firebase';
-import { doc, getDoc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { 
+  auth, 
+  googleProvider,
+  db, 
+  handleFirestoreError, 
+  OperationType,
+  signInWithPopup, 
+  signOut, 
+  onAuthStateChanged, 
+  doc, 
+  getDoc, 
+  setDoc, 
+  serverTimestamp 
+} from '../lib/firebase';
 import { userService } from '../services/userService';
+
+type FirebaseUser = any;
 
 export default function AuthButton() {
   const [user, setUser] = React.useState<FirebaseUser | null>(null);
