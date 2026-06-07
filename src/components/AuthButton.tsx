@@ -84,7 +84,7 @@ export default function AuthButton() {
       >
         <div className="relative shrink-0">
           <img 
-            src={user.photoURL || ''} 
+            src={user.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80'} 
             alt={user.displayName || ''} 
             className="w-10 h-10 rounded-2xl border border-bg-primary shadow-md object-cover" 
           />
@@ -116,7 +116,7 @@ export default function AuthButton() {
               <div className="flex items-center gap-5 mb-6 relative z-10">
                 <div className="relative group/avatar">
                   <img 
-                    src={user.photoURL || ''} 
+                    src={user.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80'} 
                     alt={user.displayName || ''} 
                     className="w-16 h-16 rounded-[1.5rem] border-2 border-primary shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform" 
                   />

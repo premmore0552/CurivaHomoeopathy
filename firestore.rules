@@ -25,10 +25,12 @@ service cloud.firestore {
       return resource.data;
     }
 
+    // Checking if the user is authenticated and is the owner of the document
     function isOwner(userId) {
       return isSignedIn() && request.auth.uid == userId;
     }
 
+    // Checking if user is admin
     function isAdmin() {
       return isSignedIn() && (
         (request.auth.token.email == 'premmore0552@gmail.com' && request.auth.token.email_verified == true) ||
@@ -85,6 +87,8 @@ service cloud.firestore {
       allow update: if isAdmin() && 
                        incoming().diff(existing()).affectedKeys().hasAny(['updatedAt']) &&
                        incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
     }
 
     // --- Collection: Questions ---
@@ -99,6 +103,8 @@ service cloud.firestore {
       allow update: if isAdmin() && 
                        incoming().diff(existing()).affectedKeys().hasAny(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
                        incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
     }
 
     // --- Collection: Orders ---
@@ -113,13 +119,14 @@ service cloud.firestore {
                     isValidOrder(incoming()) &&
                     incoming().createdAt == request.time;
       
-      allow update, delete: if false;
+      allow update: if false;
+      allow delete: if isAdmin();
     }
 
     // --- Collection: Admins ---
     match /admins/{adminId} {
       allow read: if isAdmin();
-      allow write: if false;
+      allow write: if isAdmin();
     }
   }
 }

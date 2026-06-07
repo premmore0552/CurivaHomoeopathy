@@ -299,6 +299,16 @@ export async function addDoc(collectionRef: any, data: any) {
   return docRef;
 }
 
+// Deleting documents
+export async function deleteDoc(docRef: any) {
+  const col = getLocalCollection(docRef.collection);
+  if (col && col[docRef.id]) {
+    delete col[docRef.id];
+    setLocalCollection(docRef.collection, col);
+    triggerListeners(docRef.collection, docRef.id);
+  }
+}
+
 // Queries structures & execution
 export function query(collectionRef: any, ...constraints: any[]) {
   return { _type: 'query', collection: collectionRef.name, constraints };

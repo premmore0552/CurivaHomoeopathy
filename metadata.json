@@ -1,5 +1,6 @@
 {
   "name": "Curiva Homoeopathy",
   "description": "Premium educational marketplace and research repository for modern homoeopathy. Access clinical guides, research papers, and systematic study tools.",
-  "requestFramePermissions": []
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

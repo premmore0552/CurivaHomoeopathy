@@ -1,11 +1,11 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
-import Database from "better-sqlite3";
 import { allBlogPosts } from "./src/data/blogPosts";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
 import crypto from "crypto";
+import { GoogleGenAI, Type } from "@google/genai";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -35,37 +35,7 @@ async function startServer() {
   const app = express();
   const PORT = 3000;
 
-  // Database setup
-  const db = new Database(":memory:");
-  
-  // Initialize table if not exists
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS posts (
-      id TEXT PRIMARY KEY,
-      slug TEXT UNIQUE,
-      title TEXT,
-      excerpt TEXT,
-      content TEXT,
-      author TEXT,
-      date TEXT,
-      category TEXT,
-      image TEXT,
-      tags TEXT,
-      readingTime TEXT,
-      seoTitle TEXT,
-      quickSummary TEXT,
-      keyPatterns TEXT,
-      whoItSuits TEXT,
-      whenToConsider TEXT,
-      modalities TEXT,
-      comparisons TEXT,
-      relatedCarePlans TEXT,
-      citations TEXT,
-      relatedRemedies TEXT,
-      relatedConditions TEXT
-    )
-  `);
-
+  // Database setup (Pure JS In-Memory representation)
   // Helper to generate slug
   const generateSlug = (title: string, id: string) => {
     const slug = title.toLowerCase()
@@ -81,78 +51,35 @@ async function startServer() {
     return `${Math.max(1, Math.ceil(words / wordsPerMinute))} min read`;
   };
 
-  // Check if data exists before seeding
-  // Note: We'll recreate the table if columns are missing or just drop and recreate for simplicity in dev
-  db.exec("DROP TABLE IF EXISTS posts");
-  db.exec(`
-    CREATE TABLE IF NOT EXISTS posts (
-      id TEXT PRIMARY KEY,
-      slug TEXT UNIQUE,
-      title TEXT,
-      excerpt TEXT,
-      content TEXT,
-      author TEXT,
-      date TEXT,
-      category TEXT,
-      image TEXT,
-      tags TEXT,
-      readingTime TEXT,
-      seoTitle TEXT,
-      quickSummary TEXT,
-      keyPatterns TEXT,
-      whoItSuits TEXT,
-      whenToConsider TEXT,
-      modalities TEXT,
-      comparisons TEXT,
-      relatedCarePlans TEXT,
-      citations TEXT,
-      relatedRemedies TEXT,
-      relatedConditions TEXT
-    )
-  `);
-
-  console.log("Seeding database...");
-  const insert = db.prepare(`
-    INSERT OR IGNORE INTO posts (
-      id, slug, title, excerpt, content, author, date, category, image, tags, readingTime,
-      seoTitle, quickSummary, keyPatterns, whoItSuits, whenToConsider, modalities,
-      comparisons, relatedCarePlans, citations, relatedRemedies, relatedConditions
-    )
-    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-  `);
-
-  const transaction = db.transaction((posts) => {
-    for (const post of posts) {
-      const slug = (post as any).slug || generateSlug(post.title, post.id);
-      insert.run(
-        post.id,
-        slug,
-        post.title,
-        post.excerpt,
-        post.content,
-        post.author,
-        post.date,
-        post.category,
-        post.image,
-        JSON.stringify(post.tags || []),
-        estimateReadingTime(post.content),
-        post.seoTitle || null,
-        JSON.stringify((post as any).quickSummary || []),
-        JSON.stringify((post as any).keyPatterns || []),
-        (post as any).whoItSuits || null,
-        JSON.stringify((post as any).whenToConsider || []),
-        JSON.stringify((post as any).modalities || { better: [], worse: [] }),
-        JSON.stringify((post as any).comparisons || []),
-        JSON.stringify((post as any).relatedCarePlans || []),
-        JSON.stringify((post as any).citations || []),
-        JSON.stringify((post as any).relatedRemedies || []),
-        JSON.stringify((post as any).relatedConditions || [])
-      );
-    }
+  const postsDb: any[] = allBlogPosts.map(post => {
+    const slug = (post as any).slug || generateSlug(post.title, post.id);
+    return {
+      id: post.id,
+      slug: slug,
+      title: post.title,
+      excerpt: post.excerpt,
+      content: post.content,
+      author: post.author,
+      date: post.date,
+      category: post.category,
+      image: post.image,
+      tags: post.tags || [],
+      readingTime: estimateReadingTime(post.content),
+      seoTitle: post.seoTitle || null,
+      quickSummary: (post as any).quickSummary || [],
+      keyPatterns: (post as any).keyPatterns || [],
+      whoItSuits: (post as any).whoItSuits || null,
+      whenToConsider: (post as any).whenToConsider || [],
+      modalities: (post as any).modalities || { better: [], worse: [] },
+      comparisons: (post as any).comparisons || [],
+      relatedCarePlans: (post as any).relatedCarePlans || [],
+      citations: (post as any).citations || [],
+      relatedRemedies: (post as any).relatedRemedies || [],
+      relatedConditions: (post as any).relatedConditions || []
+    };
   });
 
-  transaction(allBlogPosts);
-  console.log("Database seeded with", allBlogPosts.length, "posts.");
+  console.log("Database seeded with", postsDb.length, "posts in-memory.");
 
   app.use(express.json());
   
@@ -230,89 +157,227 @@ async function startServer() {
     }
   });
 
+  // Gemini Proxy API Endpoints
+  function getGeminiClient() {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      throw new Error("GEMINI_API_KEY environment variable is required");
+    }
+    return new GoogleGenAI({
+      apiKey,
+      httpOptions: {
+        headers: {
+          'User-Agent': 'aistudio-build',
+        }
+      }
+    });
+  }
+
+  app.post("/api/gemini/search", async (req, res) => {
+    try {
+      const { query } = req.body;
+      if (!query) {
+        return res.status(400).json({ error: "Query is required" });
+      }
+      
+      const ai = getGeminiClient();
+      const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: `Search the homeopathic database for: "${query}". 
+        Return a JSON array of up to 5 suggested remedies or articles.
+        Include a "reason" field explaining why it matches.
+        
+        Format: [ { "title": "Remedy Name", "type": "remedy", "link": "/remedy/remedy-id", "reason": "Match reason" } ]`,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                title: { type: Type.STRING },
+                type: { type: Type.STRING },
+                link: { type: Type.STRING },
+                reason: { type: Type.STRING }
+              }
+            }
+          }
+        }
+      });
+
+      if (response && response.text) {
+        return res.json(JSON.parse(response.text));
+      }
+      return res.json([]);
+    } catch (error: any) {
+      console.error("Gemini Search Proxy Error:", error);
+      res.status(500).json({ error: error.message || "Failed to process search" });
+    }
+  });
+
+  app.post("/api/gemini/analyze-symptoms", async (req, res) => {
+    try {
+      const { symptoms } = req.body;
+      if (!symptoms) {
+        return res.status(400).json({ error: "Symptoms are required" });
+      }
+
+      const ai = getGeminiClient();
+      const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: `Analyse these symptoms for homeopathic remedies: "${symptoms}".
+        Suggest top 3 remedies and explain the differential logic part.
+        
+        Format: [ { "remedy": "Name", "logic": "Explain why", "keynotes": ["symptom1", "symptom2"] } ]`,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.ARRAY,
+            items: {
+              type: Type.OBJECT,
+              properties: {
+                remedy: { type: Type.STRING },
+                logic: { type: Type.STRING },
+                keynotes: { type: Type.ARRAY, items: { type: Type.STRING } }
+              }
+            }
+          }
+        }
+      });
+
+      if (response && response.text) {
+        return res.json(JSON.parse(response.text));
+      }
+      return res.json([]);
+    } catch (error: any) {
+      console.error("Gemini Analyse Symptoms Proxy Error:", error);
+      res.status(500).json({ error: error.message || "Failed to analyze symptoms" });
+    }
+  });
+
+  app.post("/api/gemini/case-simulation", async (req, res) => {
+    try {
+      const { messages, targetRemedy } = req.body;
+      if (!targetRemedy) {
+        return res.status(400).json({ error: "Target remedy is required" });
+      }
+
+      const ai = getGeminiClient();
+      const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: [
+          {
+            role: "user",
+            parts: [{ text: `You are a patient in a homeopathic clinic. 
+            Your secret condition is BEST treated by the remedy: ${targetRemedy}.
+            
+            Guidelines:
+            1. Act like a real person, using conversational language, not medical jargon.
+            2. Reveal symptoms gradually. Don't dump everything at once.
+            3. If the user asks about your symptoms, reveal specific keynotes of ${targetRemedy}.
+            4. Be consistent with the personality type typically associated with ${targetRemedy} (e.g. if Pulsatilla, be gentle/weepy; if Nux Vomica, be irritable).
+            5. Stay in character at all times.
+            
+            Context of previous conversation:
+            ${JSON.stringify((messages || []).slice(-5))}
+            ` }]
+          }
+        ]
+      });
+
+      return res.json({ text: response?.text || "" });
+    } catch (error: any) {
+      console.error("Gemini Case Simulation Proxy Error:", error);
+      res.status(500).json({ error: error.message || "Failed to prompt simulation" });
+    }
+  });
+
+  app.post("/api/gemini/simulation-feedback", async (req, res) => {
+    try {
+      const { targetRemedy, userPrescription, sessionSummary } = req.body;
+      if (!targetRemedy || !userPrescription) {
+        return res.status(400).json({ error: "Target remedy and user prescription are required" });
+      }
+
+      const ai = getGeminiClient();
+      const response = await ai.models.generateContent({
+        model: "gemini-3.5-flash",
+        contents: `Evaluate the student's prescription.
+        Target Remedy: ${targetRemedy}
+        Student's Prescription: ${userPrescription}
+        Case Summary: ${sessionSummary || ""}
+        
+        Provide a constructive critique in JSON format.
+        Include a "score" (0-100), "strengths", "weaknesses", and "lesson" (key takeaway).
+        
+        Format: { "score": number, "strengths": string[], "weaknesses": string[], "lesson": string }`,
+        config: {
+          responseMimeType: "application/json",
+          responseSchema: {
+            type: Type.OBJECT,
+            properties: {
+              score: { type: Type.NUMBER },
+              strengths: { type: Type.ARRAY, items: { type: Type.STRING } },
+              weaknesses: { type: Type.ARRAY, items: { type: Type.STRING } },
+              lesson: { type: Type.STRING }
+            }
+          }
+        }
+      });
+
+      if (response && response.text) {
+        return res.json(JSON.parse(response.text));
+      }
+      return res.json({ score: 0, strengths: [], weaknesses: [], lesson: "" });
+    } catch (error: any) {
+      console.error("Gemini Feedback Proxy Error:", error);
+      res.status(500).json({ error: error.message || "Failed to evaluate prescription" });
+    }
+  });
+
   // API Routes
   app.get("/api/posts", (req, res) => {
     const { category, search, tag } = req.query;
-    let query = "SELECT * FROM posts";
-    const params: any[] = [];
+    let filtered = [...postsDb];
 
-    if (category || search || tag) {
-      query += " WHERE";
-      const conditions: string[] = [];
-      
-      if (category && category !== "All") {
-        conditions.push("category = ?");
-        params.push(category);
-      }
-      
-      if (search) {
-        conditions.push("(title LIKE ? OR excerpt LIKE ? OR content LIKE ?)");
-        const searchParam = `%${search}%`;
-        params.push(searchParam, searchParam, searchParam);
-      }
-
-      if (tag) {
-        conditions.push("tags LIKE ?");
-        params.push(`%"${tag}"%`);
-      }
-      
-      query += " " + conditions.join(" AND ");
+    if (category && category !== "All") {
+      filtered = filtered.filter(p => p.category === category);
+    }
+    
+    if (search) {
+      const searchStr = (search as string).toLowerCase();
+      filtered = filtered.filter(p => 
+        (p.title && p.title.toLowerCase().includes(searchStr)) ||
+        (p.excerpt && p.excerpt.toLowerCase().includes(searchStr)) ||
+        (p.content && p.content.toLowerCase().includes(searchStr))
+      );
     }
 
-    const posts = db.prepare(query).all(...params) as any[];
-    const formattedPosts = posts.map(p => ({
-      ...p,
-      tags: p.tags ? JSON.parse(p.tags) : [],
-      quickSummary: p.quickSummary ? JSON.parse(p.quickSummary) : [],
-      keyPatterns: p.keyPatterns ? JSON.parse(p.keyPatterns) : [],
-      whenToConsider: p.whenToConsider ? JSON.parse(p.whenToConsider) : [],
-      modalities: p.modalities ? JSON.parse(p.modalities) : { better: [], worse: [] },
-      comparisons: p.comparisons ? JSON.parse(p.comparisons) : [],
-      relatedCarePlans: p.relatedCarePlans ? JSON.parse(p.relatedCarePlans) : [],
-      citations: p.citations ? JSON.parse(p.citations) : [],
-      relatedRemedies: p.relatedRemedies ? JSON.parse(p.relatedRemedies) : [],
-      relatedConditions: p.relatedConditions ? JSON.parse(p.relatedConditions) : []
-    }));
-    
-    res.json(formattedPosts);
+    if (tag) {
+      const tagStr = (tag as string).toLowerCase();
+      filtered = filtered.filter(p => 
+        p.tags && p.tags.some((t: string) => t.toLowerCase() === tagStr)
+      );
+    }
+
+    res.json(filtered);
   });
 
   app.get("/api/posts/slug/:slug", (req, res) => {
     try {
-      console.log(`[API] Fetching post by slug: ${req.params.slug}`);
-      let post = db.prepare("SELECT * FROM posts WHERE slug = ?").get(req.params.slug) as any;
+      const slugParam = req.params.slug;
+      console.log(`[API] Fetching post by slug: ${slugParam}`);
+      let post = postsDb.find(p => p.slug === slugParam);
       
       // Fallback to checking by ID if slug doesn't match
       if (!post) {
-        post = db.prepare("SELECT * FROM posts WHERE id = ?").get(req.params.slug) as any;
+        post = postsDb.find(p => p.id === slugParam);
       }
 
       if (post) {
-        const safeParse = (str: string | null, fallback: any = []) => {
-          if (!str) return fallback;
-          try {
-            return JSON.parse(str);
-          } catch (e) {
-            console.error(`Field parsing error for post ${post.id}:`, e);
-            return fallback;
-          }
-        };
-
-        res.json({
-          ...post,
-          tags: safeParse(post.tags),
-          quickSummary: safeParse(post.quickSummary),
-          keyPatterns: safeParse(post.keyPatterns),
-          whenToConsider: safeParse(post.whenToConsider),
-          modalities: safeParse(post.modalities, { better: [], worse: [] }),
-          comparisons: safeParse(post.comparisons),
-          relatedCarePlans: safeParse(post.relatedCarePlans),
-          citations: safeParse(post.citations),
-          relatedRemedies: safeParse(post.relatedRemedies),
-          relatedConditions: safeParse(post.relatedConditions)
-        });
+        res.json(post);
       } else {
-        console.warn(`[API] Post not found for slug or id: ${req.params.slug}`);
+        console.warn(`[API] Post not found for slug or id: ${slugParam}`);
         res.status(404).json({ error: "Post not found" });
       }
     } catch (error) {
@@ -323,31 +388,9 @@ async function startServer() {
 
   app.get("/api/posts/:id", (req, res) => {
     try {
-      const post = db.prepare("SELECT * FROM posts WHERE id = ?").get(req.params.id) as any;
-      
-      const safeParse = (str: string | null, fallback: any = []) => {
-        if (!str) return fallback;
-        try {
-          return JSON.parse(str);
-        } catch (e) {
-          return fallback;
-        }
-      };
-
+      const post = postsDb.find(p => p.id === req.params.id);
       if (post) {
-        res.json({
-          ...post,
-          tags: safeParse(post.tags),
-          quickSummary: safeParse(post.quickSummary),
-          keyPatterns: safeParse(post.keyPatterns),
-          whenToConsider: safeParse(post.whenToConsider),
-          modalities: safeParse(post.modalities, { better: [], worse: [] }),
-          comparisons: safeParse(post.comparisons),
-          relatedCarePlans: safeParse(post.relatedCarePlans),
-          citations: safeParse(post.citations),
-          relatedRemedies: safeParse(post.relatedRemedies),
-          relatedConditions: safeParse(post.relatedConditions)
-        });
+        res.json(post);
       } else {
         res.status(404).json({ error: "Post not found" });
       }
@@ -364,9 +407,10 @@ async function startServer() {
     });
     app.use(vite.middlewares);
   } else {
-    app.use(express.static(path.join(__dirname, "dist")));
+    const distPath = path.join(process.cwd(), "dist");
+    app.use(express.static(distPath));
     app.get("*", (req, res) => {
-      res.sendFile(path.join(__dirname, "dist", "index.html"));
+      res.sendFile(path.join(distPath, "index.html"));
     });
   }
 
