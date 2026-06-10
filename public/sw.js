@@ -1,4 +1,4 @@
-const CACHE_NAME = 'curiva-cache-v4';
+const CACHE_NAME = 'curiva-cache-v3';
 const ASSETS_TO_CACHE = [
   '/',
   '/?pwa=true',
@@ -35,18 +35,6 @@ self.addEventListener('fetch', (event) => {
   
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
-
-  // Do NOT intercept or cache dynamic scripts, stylesheets, hot updates, Maps, source files, or APIs
-  if (
-    url.pathname.startsWith('/api') ||
-    url.pathname.startsWith('/src/') ||
-    url.pathname.includes('/@') ||
-    url.pathname.includes('hot-update') ||
-    url.pathname.includes('node_modules') ||
-    (/\.(js|css|ts|tsx|map|json)$/i.test(url.pathname) && !url.pathname.endsWith('manifest.json'))
-  ) {
-    return;
-  }
 
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {

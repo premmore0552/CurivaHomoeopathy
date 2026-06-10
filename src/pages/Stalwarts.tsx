@@ -96,7 +96,7 @@ const Stalwarts: React.FC = () => {
                   <div className="relative shrink-0">
                     <div className="w-24 h-24 md:w-32 md:h-32 rounded-2xl md:rounded-3xl overflow-hidden grayscale group-hover:grayscale-0 transition-all duration-700 border-2 border-border group-hover:border-primary shadow-xl">
                       <img 
-                        src={stalwart.imageUrl || undefined} 
+                        src={stalwart.imageUrl} 
                         alt={stalwart.name}
                         className="w-full h-full object-cover transform scale-110 group-hover:scale-125 transition-transform duration-700"
                         referrerPolicy="no-referrer"
