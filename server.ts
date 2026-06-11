@@ -7,8 +7,27 @@ import Razorpay from "razorpay";
 import crypto from "crypto";
 import { GoogleGenAI, Type } from "@google/genai";
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+// Safe path resolution for both ES modules and CommonJS
+const getDirNameAndFileName = () => {
+  try {
+    if (typeof __filename !== "undefined" && typeof __dirname !== "undefined" && __filename && __dirname) {
+      return { filename: __filename, dirname: __dirname };
+    }
+  } catch (e) {}
+
+  try {
+    if (typeof import.meta !== "undefined" && import.meta.url) {
+      const filename = fileURLToPath(import.meta.url);
+      const dirname = path.dirname(filename);
+      return { filename, dirname };
+    }
+  } catch (e) {}
+
+  const cwd = process.cwd();
+  return { filename: path.join(cwd, "server.ts"), dirname: cwd };
+};
+
+const { filename: __filename, dirname: __dirname } = getDirNameAndFileName();
 
 // Initialize Razorpay lazily to avoid crash if keys are missing
 let razorpayInstance: Razorpay | null = null;
