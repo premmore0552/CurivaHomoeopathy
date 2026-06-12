@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, MessageSquare, ShieldCheck, ChevronRight, ArrowRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { questionService, Question } from '../services/questionService';
+import { safeFormatDate } from '../utils/date';
 
 const FeaturedQuestions: React.FC = () => {
   const [questions, setQuestions] = useState<Question[]>([]);
@@ -57,7 +58,7 @@ const FeaturedQuestions: React.FC = () => {
 
               <div className="flex items-center justify-between mb-8">
                  <div className="px-4 py-1 bg-bg-primary border border-border rounded-full text-[9px] font-black uppercase text-text-tertiary">
-                    {new Date(q.createdAt?.seconds * 1000).toLocaleDateString()}
+                    {safeFormatDate(q.createdAt)}
                  </div>
                  <div className="p-2.5 rounded-xl bg-primary text-white shadow-lg shadow-primary/20">
                     <ShieldCheck className="w-4 h-4" />

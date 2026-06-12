@@ -23,6 +23,7 @@ import { auth, db, onAuthStateChanged, doc, getDoc } from '../lib/firebase';
 import { questionService, Question, QuestionStatus } from '../services/questionService';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
+import { safeFormatDate } from '../utils/date';
 
 const AskHomeopath: React.FC = () => {
   const [user, setUser] = useState(auth.currentUser);
@@ -321,7 +322,7 @@ const AskHomeopath: React.FC = () => {
                   
                   <div className="flex flex-wrap items-center gap-3 mb-8">
                     <span className="px-5 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-black uppercase tracking-widest text-primary">Case Study</span>
-                    <span className="text-text-secondary/60 text-[10px] font-bold uppercase tracking-widest italic">{new Date(q.createdAt?.seconds * 1000).toLocaleDateString()}</span>
+                    <span className="text-text-secondary/60 text-[10px] font-bold uppercase tracking-widest italic">{safeFormatDate(q.createdAt)}</span>
                   </div>
 
                   <h3 className="text-3xl md:text-5xl font-display font-medium text-text-primary italic tracking-tight mb-8 leading-tight">
@@ -390,7 +391,7 @@ const AskHomeopath: React.FC = () => {
                         {q.status}
                       </span>
                       <span className="text-[10px] text-text-secondary font-bold uppercase tracking-tighter opacity-40">
-                         Ref: {q.id.substring(0, 8)} • {new Date(q.createdAt?.seconds * 1000).toLocaleDateString()}
+                         Ref: {q.id.substring(0, 8)} • {safeFormatDate(q.createdAt)}
                       </span>
                     </div>
                     <h4 className="text-2xl font-display font-medium text-text-primary italic mb-4">{q.subject}</h4>

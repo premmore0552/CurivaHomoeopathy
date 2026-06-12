@@ -20,7 +20,14 @@ interface AZIndexProps {
 
 export default function AZIndex({ items, onItemClick }: AZIndexProps) {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
-  const [searchQuery, setSearchQuery] = useState('');
+  const [searchQuery, setSearchQuery] = useState(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('search') || '';
+    } catch (e) {
+      return '';
+    }
+  });
   const navigate = useNavigate();
 
   const handleLinkClick = (e: React.MouseEvent, link: string) => {

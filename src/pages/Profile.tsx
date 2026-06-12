@@ -31,6 +31,7 @@ import { BlogPost } from '../types';
 import SEO from '../components/SEO';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPersonalizedRecommendations } from '../services/recommendationService';
+import { safeFormatDate } from '../utils/date';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -244,15 +245,7 @@ const Profile: React.FC = () => {
                 )}
                 <div className="flex items-center gap-2">
                    <Calendar className="w-4 h-4 text-primary dark:text-accent" />
-                   <span>
-                     Joined {profile.createdAt
-                       ? (profile.createdAt.seconds 
-                         ? new Date(profile.createdAt.seconds * 1000).toLocaleDateString() 
-                         : new Date(profile.createdAt).toLocaleDateString()
-                       )
-                       : new Date().toLocaleDateString()
-                     }
-                   </span>
+                   <span>Joined {safeFormatDate(profile.createdAt)}</span>
                 </div>
               </div>
               

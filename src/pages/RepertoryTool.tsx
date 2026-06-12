@@ -601,10 +601,10 @@ export default function RepertoryTool() {
               </p>
               <div className="flex gap-4">
                 <Link 
-                  to="/encyclopedia" 
+                  to="/materia-medica" 
                   className="px-5 py-2.5 bg-primary text-white rounded-xl text-[10px] font-black uppercase tracking-widest shadow-md hover:scale-105 transition-all text-center inline-block"
                 >
-                  Browse Encyclopedia
+                  Browse Materia Medica
                 </Link>
                 <Link 
                   to="/relationships" 

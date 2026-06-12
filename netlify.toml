@@ -2,6 +2,12 @@
   command = "npm run build"
   publish = "dist"
 
+[build.environment]
+  CLOUDFLARE_ZONE_ID = "dummy_zone_id_placeholder_to_bypass_build"
+  CLOUDFLARE_API_KEY = "dummy_api_key_placeholder_to_bypass_build"
+  CLOUDFLARE_EMAIL = "dummy_email_placeholder@example.com"
+  CLOUDFLARE_API_TOKEN = "dummy_api_token_placeholder_to_bypass_build"
+
 [[redirects]]
   from = "/*"
   to = "/index.html"

@@ -245,8 +245,8 @@ export default function RemedyDetail() {
           </div>
 
 
-          <Link to="/encyclopedia" className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-xs hover:underline pt-12">
-            <ArrowLeft className="w-4 h-4" /> Back to Encyclopedia
+          <Link to="/materia-medica" className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-xs hover:underline pt-12">
+            <ArrowLeft className="w-4 h-4" /> Back to Materia Medica
           </Link>
         </div>
       </div>
@@ -866,7 +866,7 @@ export default function RemedyDetail() {
                       ))
                     ) : (
                       <Link 
-                        to="/encyclopedia"
+                        to="/materia-medica"
                         className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
                       >
                         Browse Related Remedies

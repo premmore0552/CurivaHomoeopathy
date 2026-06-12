@@ -133,6 +133,7 @@ function AppRoutes() {
                 <Route path="/support" element={<PageWrapper><Contact /></PageWrapper>} />
 
                 {/* Legacy & Internal Page Routes */}
+                <Route path="/articles" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/remedy/:remedyId" element={<PageWrapper><RemedyDetail /></PageWrapper>} />
                 <Route path="/read/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/materia-medica/:slug" element={<PageWrapper><Articles /></PageWrapper>} />

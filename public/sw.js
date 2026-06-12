@@ -1,4 +1,4 @@
-const CACHE_NAME = 'curiva-cache-v3';
+const CACHE_NAME = 'curiva-cache-v4';
 const ASSETS_TO_CACHE = [
   '/',
   '/?pwa=true',
@@ -36,9 +36,31 @@ self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
 
+  // Network First Strategy for HTML documents (like /, /index.html, /ask-homeopath, etc.)
+  const isHTML = event.request.headers.get('accept')?.includes('text/html');
+
+  if (isHTML) {
+    event.respondWith(
+      fetch(event.request)
+        .then((networkResponse) => {
+          if (networkResponse && networkResponse.status === 200) {
+            const responseToCache = networkResponse.clone();
+            caches.open(CACHE_NAME).then((cache) => {
+              cache.put(event.request, responseToCache);
+            });
+          }
+          return networkResponse;
+        })
+        .catch(() => {
+          return caches.match(event.request) || caches.match('/');
+        })
+    );
+    return;
+  }
+
   event.respondWith(
     caches.match(event.request).then((cachedResponse) => {
-      // Stale-While-Revalidate Strategy
+      // Stale-While-Revalidate Strategy for all other static chunks and assets
       const fetchPromise = fetch(event.request).then((networkResponse) => {
         if (networkResponse && networkResponse.status === 200) {
           const responseToCache = networkResponse.clone();
@@ -48,10 +70,7 @@ self.addEventListener('fetch', (event) => {
         }
         return networkResponse;
       }).catch(() => {
-        // Return fallback page on network error for HTML navigation requests
-        if (event.request.headers.get('accept')?.includes('text/html')) {
-          return caches.match('/');
-        }
+        // Ignored fallback for static files
       });
 
       return cachedResponse || fetchPromise;

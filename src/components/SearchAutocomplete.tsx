@@ -60,7 +60,7 @@ export default function SearchAutocomplete() {
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     if (query.trim()) {
-      navigate(`/encyclopedia?search=${encodeURIComponent(query.trim())}`);
+      navigate(`/materia-medica?search=${encodeURIComponent(query.trim())}`);
       setIsOpen(false);
       setQuery('');
     }

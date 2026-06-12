@@ -29,16 +29,43 @@
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
     <script>
-      if ('serviceWorker' in navigator) {
-        window.addEventListener('load', function() {
-          navigator.serviceWorker.register('/sw.js')
-            .then(function(reg) {
-              console.log('Service Worker registered with scope:', reg.scope);
-            })
-            .catch(function(err) {
-              console.error('Service Worker registration failed:', err);
-            });
-        });
+      // Clear old caches and unregister service workers on version change to avoid blank screen / stale chunk assets
+      const APP_VERSION = 'v11';
+      if (localStorage.getItem('app_version') !== APP_VERSION) {
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (let reg of registrations) {
+              reg.unregister().then(() => {
+                console.log('Unregistered active service worker to clear cache.');
+              });
+            }
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(key => caches.delete(key));
+          });
+        }
+        localStorage.setItem('app_version', APP_VERSION);
+        console.log('System cache busted to version: ' + APP_VERSION);
+        
+        // Short delay to allow cleanup, then reload to guarantee completely fresh assets
+        setTimeout(function() {
+          window.location.reload();
+        }, 300);
+      } else {
+        // Register service worker if supported
+        if ('serviceWorker' in navigator) {
+          window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/sw.js')
+              .then(function(reg) {
+                console.log('Service Worker registered with scope:', reg.scope);
+              })
+              .catch(function(err) {
+                console.error('Service Worker registration failed:', err);
+              });
+          });
+        }
       }
     </script>
   </body>

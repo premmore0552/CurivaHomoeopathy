@@ -484,7 +484,7 @@ const StudyTool: React.FC = () => {
                   <RefreshCw className="w-4 h-4" /> Start New Session
                 </button>
                 <button 
-                  onClick={() => navigate('/encyclopedia')}
+                  onClick={() => navigate('/materia-medica')}
                   className="px-10 py-5 bg-white dark:bg-bg-primary text-text-primary border-2 border-border rounded-3xl font-black uppercase tracking-widest text-xs hover:border-primary/40 transition-all flex items-center justify-center gap-3"
                 >
                   <Layers className="w-4 h-4" /> Browse Materia Medica

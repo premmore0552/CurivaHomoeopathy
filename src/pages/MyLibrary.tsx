@@ -374,7 +374,7 @@ const MyLibrary = () => {
                   title="No bookmarks yet" 
                   desc="Save remedies and articles for quick access during your studies." 
                   cta="Explore Materia Medica" 
-                  link="/blog" 
+                  link="/articles" 
                 />
               )}
             </motion.div>
@@ -400,7 +400,7 @@ const MyLibrary = () => {
                   title="History is empty" 
                   desc="Articles you read will be tracked here automatically." 
                   cta="Start Learning" 
-                  link="/blog" 
+                  link="/articles" 
                 />
               )}
             </motion.div>
@@ -437,7 +437,7 @@ const PostCard = ({ post, type, onRemove }: any) => (
       </div>
       <h4 className="text-lg font-bold text-text-primary leading-tight mb-2 group-hover:text-primary transition-colors">{post.title}</h4>
       <div className="flex items-center gap-4">
-        <Link to={`/blog/${post.slug}`} className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1">
+        <Link to={`/read/${post.slug}`} className="text-[10px] font-black uppercase tracking-widest text-primary flex items-center gap-1">
           Read <ChevronRight className="w-3 h-3" />
         </Link>
         {type === 'bookmark' && (

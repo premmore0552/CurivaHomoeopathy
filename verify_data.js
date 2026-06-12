@@ -1,5 +1,5 @@
 
-const { enhancedRemedies } = require('./src/data/enhancedRemedies');
+import { enhancedRemedies } from './src/data/enhancedRemedies.js';
 
 const requiredKeys = [
   'keyCharacteristics',

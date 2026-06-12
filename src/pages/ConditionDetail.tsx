@@ -47,11 +47,11 @@ const ConditionDetail: React.FC = () => {
             </p>
           </div>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-            <Link to="/explore-symptoms" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-2xl hover:scale-105 transition-all">
-              <ArrowLeft className="w-4 h-4" /> Back to Symptoms
+            <Link to="/clinical-guides" className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-bold rounded-2xl hover:scale-105 transition-all">
+              <ArrowLeft className="w-4 h-4" /> Back to Clinical Guides
             </Link>
-            <Link to="/encyclopedia" className="inline-flex items-center gap-2 px-6 py-3 bg-bg-secondary text-text-primary font-bold rounded-2xl hover:bg-border transition-all">
-              Browse Encyclopedia <ChevronRight className="w-4 h-4" />
+            <Link to="/materia-medica" className="inline-flex items-center gap-2 px-6 py-3 bg-bg-secondary text-text-primary font-bold rounded-2xl hover:bg-border transition-all">
+              Browse Materia Medica <ChevronRight className="w-4 h-4" />
             </Link>
           </div>
         </div>
@@ -259,7 +259,7 @@ const ConditionDetail: React.FC = () => {
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Link 
-                    to="/encyclopedia"
+                    to="/materia-medica"
                     className="px-8 py-4 bg-white text-primary font-bold rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-xl shadow-black/10"
                   >
                     Encyclopedia A-Z
