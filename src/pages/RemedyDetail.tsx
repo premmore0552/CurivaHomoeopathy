@@ -412,106 +412,78 @@ export default function RemedyDetail() {
                   <h2 className="text-3xl font-display font-medium text-text-primary italic">
                     Constitutional <span className="text-primary italic">Dynamics</span>
                   </h2>
-                  <p className="text-xs text-text-secondary mt-0.5">Miasmatic predisposition and cell tissue affinity analysis.</p>
+                  <p className="text-xs text-text-secondary mt-0.5">Miasmatic predisposition analysis.</p>
                 </div>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              <div className="max-w-3xl">
                 {/* Miasm Weights */}
-                <div className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border space-y-6">
+                <div className="p-8 md:p-10 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border space-y-8 shadow-sm">
                   <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Clinical Predisposition</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C5A059]">Clinical Predisposition</span>
                     <h4 className="text-xl font-display font-medium text-text-primary italic mt-1">Miasmatic Weighting</h4>
                   </div>
 
-                  <div className="space-y-5">
+                  <div className="space-y-6">
                     {/* Psora */}
                     <div className="space-y-2">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-amber-600 dark:text-amber-400 font-bold">Psora (Functional/Sensory)</span>
-                        <span className="text-text-primary">{miasm.psora}%</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-[#B7791F] dark:text-[#F6AD55] font-black uppercase tracking-wider text-[11px]">Psora (Functional/Sensory)</span>
+                        <span className="text-text-primary font-mono font-bold">{miasm.psora}%</span>
                       </div>
-                      <div className="h-2 w-full bg-amber-500/10 rounded-full overflow-hidden">
+                      <div className="h-3 w-full bg-[#FEFCBF]/20 dark:bg-amber-950/10 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
                           whileInView={{ width: `${miasm.psora}%` }}
                           viewport={{ once: true }}
                           transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-amber-500" 
+                          className="h-full bg-gradient-to-r from-[#F6E05E] to-[#D69E2E]/80 rounded-full" 
                         />
                       </div>
                     </div>
 
                     {/* Sycosis */}
                     <div className="space-y-2">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-emerald-600 dark:text-emerald-400 font-bold">Sycosis (Proliferative/Excess)</span>
-                        <span className="text-text-primary">{miasm.sycosis}%</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-[#065F46] dark:text-[#34D399] font-black uppercase tracking-wider text-[11px]">Sycosis (Proliferative/Excess)</span>
+                        <span className="text-text-primary font-mono font-bold">{miasm.sycosis}%</span>
                       </div>
-                      <div className="h-2 w-full bg-emerald-500/10 rounded-full overflow-hidden">
+                      <div className="h-3 w-full bg-emerald-100/30 dark:bg-emerald-950/10 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
                           whileInView={{ width: `${miasm.sycosis}%` }}
                           viewport={{ once: true }}
                           transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-[#10b981]" 
+                          className="h-full bg-gradient-to-r from-[#A7F3D0] to-[#059669]/60 rounded-full" 
                         />
                       </div>
                     </div>
 
                     {/* Syphilis */}
                     <div className="space-y-2">
-                      <div className="flex justify-between items-center text-xs font-semibold">
-                        <span className="text-rose-600 dark:text-rose-400 font-bold">Syphilis (Destructive/Decay)</span>
-                        <span className="text-text-primary">{miasm.syphilis}%</span>
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="text-[#3730A3] dark:text-[#818CF8] font-black uppercase tracking-wider text-[11px]">Syphilis (Destructive/Decay)</span>
+                        <span className="text-text-primary font-mono font-bold">{miasm.syphilis}%</span>
                       </div>
-                      <div className="h-2 w-full bg-rose-500/10 rounded-full overflow-hidden">
+                      <div className="h-3 w-full bg-indigo-100/30 dark:bg-indigo-950/10 rounded-full overflow-hidden">
                         <motion.div 
                           initial={{ width: 0 }}
                           whileInView={{ width: `${miasm.syphilis}%` }}
                           viewport={{ once: true }}
                           transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-rose-500" 
+                          className="h-full bg-gradient-to-r from-[#C7D2FE] to-[#4F46E5]/60 rounded-full" 
                         />
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-[10px] text-text-secondary leading-relaxed pt-2">
+                  <p className="text-[11px] text-text-secondary leading-relaxed pt-2">
                     According to Samuel Hahnemann's Organon of Medicine, miasms represent the underlying chronic morbid forces that dictate disease expression and constitutional susceptibility.
                   </p>
-                </div>
 
-                {/* Tissue Focus */}
-                <div className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border flex flex-col justify-between space-y-6">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary">Elective Affinities</span>
-                    <h4 className="text-xl font-display font-medium text-text-primary italic mt-1">Tissue Preferences</h4>
-                  </div>
-
-                  <div className="space-y-4">
-                    {miasm.tissues.map((tissue, tIdx) => (
-                      <div key={tIdx} className="space-y-1.5">
-                        <div className="flex justify-between text-xs">
-                          <span className="font-bold text-text-primary">{tissue.name}</span>
-                          <span className="text-text-secondary font-mono">{tissue.strength}% Affinity</span>
-                        </div>
-                        <div className="h-1.5 w-full bg-primary/5 rounded-full overflow-hidden">
-                          <motion.div 
-                            initial={{ width: 0 }}
-                            whileInView={{ width: `${tissue.strength}%` }}
-                            viewport={{ once: true }}
-                            transition={{ duration: 1, delay: tIdx * 0.1 }}
-                            className="h-full bg-primary" 
-                          />
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-
-                  <div className="pt-4 border-t border-border">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-primary block mb-1">Materia Medica Essence</span>
-                    <p className="text-[11px] text-text-primary leading-normal font-serif italic">
+                  <div className="pt-6 border-t border-border">
+                    <span className="text-[9px] font-black uppercase tracking-widest text-[#C5A059] block mb-1">Materia Medica Essence</span>
+                    <p className="text-xs text-text-primary leading-relaxed font-serif italic">
                       "{miasm.essence}"
                     </p>
                   </div>

@@ -1,5 +1,5 @@
 import React, { Suspense, lazy } from 'react';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
@@ -43,6 +43,8 @@ const Profile = lazy(() => import('./pages/Profile'));
 const Auth = lazy(() => import('./pages/Auth'));
 const MCQPractice = lazy(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazy(() => import('./pages/ClinicalGuides'));
+const SymptomChecker = lazy(() => import('./pages/SymptomChecker'));
+const HairFallGuide = lazy(() => import('./pages/HairFallGuide'));
 
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
@@ -104,19 +106,28 @@ function AppRoutes() {
               <Routes location={location} key={location.pathname}>
                 <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
                 
-                {/* Glossary Routes */}
-                <Route path="/glossary" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/glossary/all" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/glossary/philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
-                <Route path="/glossary/clinical" element={<PageWrapper><TreatmentsPage /></PageWrapper>} />
-                <Route path="/glossary/historical" element={<PageWrapper><UnderstandingHomeopathy /></PageWrapper>} />
+                {/* Lexicon (formerly Glossary) Routes */}
+                <Route path="/lexicon" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
+                <Route path="/lexicon/all" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
+                <Route path="/lexicon/philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
+                <Route path="/lexicon/clinical" element={<PageWrapper><TreatmentsPage /></PageWrapper>} />
+                <Route path="/lexicon/historical" element={<PageWrapper><UnderstandingHomeopathy /></PageWrapper>} />
+                
+                {/* Legacy redirects for Glossary */}
+                <Route path="/glossary" element={<Navigate to="/lexicon" replace />} />
+                <Route path="/glossary/all" element={<Navigate to="/lexicon/all" replace />} />
+                <Route path="/glossary/philosophy" element={<Navigate to="/lexicon/philosophy" replace />} />
+                <Route path="/glossary/clinical" element={<Navigate to="/lexicon/clinical" replace />} />
+                <Route path="/glossary/historical" element={<Navigate to="/lexicon/historical" replace />} />
                 
                 {/* Research & Tools */}
                 <Route path="/research" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/repertory" element={<PageWrapper><RepertoryTool /></PageWrapper>} />
-                <Route path="/relationships" element={<PageWrapper><RelationshipVisualizer /></PageWrapper>} />
+                <Route path="/nexus" element={<PageWrapper><RelationshipVisualizer /></PageWrapper>} />
+                <Route path="/relationships" element={<Navigate to="/nexus" replace />} />
                 <Route path="/visualization" element={<PageWrapper><StudyTool /></PageWrapper>} />
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
+                <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/ask-homeopath" element={<PageWrapper><AskHomeopath /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
@@ -135,6 +146,7 @@ function AppRoutes() {
                 {/* Legacy & Internal Page Routes */}
                 <Route path="/articles" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/remedy/:remedyId" element={<PageWrapper><RemedyDetail /></PageWrapper>} />
+                <Route path="/read/hair-loss-homeopathy" element={<PageWrapper><HairFallGuide /></PageWrapper>} />
                 <Route path="/read/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/materia-medica/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/conditions/:slug" element={<PageWrapper><ConditionDetail /></PageWrapper>} />
@@ -148,6 +160,7 @@ function AppRoutes() {
                 <Route path="/community" element={<PageWrapper><Profile /></PageWrapper>} />
                 
                 {/* Redirects */}
+                <Route path="/remedy" element={<Navigate to="/materia-medica" replace />} />
                 <Route path="/pro-plans" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/student-resources" element={<PageWrapper><StudentResources /></PageWrapper>} />
                 <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />

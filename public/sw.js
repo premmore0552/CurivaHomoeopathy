@@ -1,4 +1,4 @@
-const CACHE_NAME = 'curiva-cache-v4';
+const CACHE_NAME = 'curiva-cache-v5';
 const ASSETS_TO_CACHE = [
   '/',
   '/?pwa=true',
@@ -35,6 +35,20 @@ self.addEventListener('fetch', (event) => {
   
   const url = new URL(event.request.url);
   if (url.origin !== self.location.origin) return;
+
+  // Do not cache development files, HMR, or local/preview development environments
+  if (
+    url.pathname.startsWith('/src/') ||
+    url.pathname.startsWith('/@') ||
+    url.pathname.includes('node_modules') ||
+    url.searchParams.has('import') ||
+    url.searchParams.has('v') ||
+    self.location.hostname === 'localhost' ||
+    self.location.hostname.includes('ais-dev') ||
+    self.location.hostname.includes('ais-pre')
+  ) {
+    return;
+  }
 
   // Network First Strategy for HTML documents (like /, /index.html, /ask-homeopath, etc.)
   const isHTML = event.request.headers.get('accept')?.includes('text/html');

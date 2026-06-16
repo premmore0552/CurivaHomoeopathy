@@ -170,6 +170,38 @@ export default function TextMindMap({
         ];
       }
     }
+    // Specific match for Hairfall / Hair Loss / Dandruff / Wiesbaden
+    else if (
+      t.includes('hairfall') || t.includes('hair fall') || t.includes('hair-loss') || 
+      t.includes('hair loss') || t.includes('alopecia') || t.includes('baldness') || 
+      t.includes('wiesbaden') || t.includes('dandruff')
+    ) {
+      if (outSymptoms.length === 0) {
+        outSymptoms = [
+          "Alopecia areata (hair falling out in defined, smooth, round spots)",
+          "Chronic progressive diffuse hair thinning with premature graying and dry scalp",
+          "Profuse hair loss during combing or after a long debilitating illness or fever",
+          "Severe dry scale dandruff with extreme itching and hair shedding"
+        ];
+      }
+      if (outRemedies.length === 0) {
+        outRemedies = ["Fluoricum Acidum", "Phosphorus", "Lycopodium Clavatum", "Natrum Muriaticum", "Wiesbaden"];
+      }
+      if (outLifestyle.length === 0) {
+        outLifestyle = [
+          "Massage the scalp daily with organic cold-pressed oil to stimulate follicular microcirculation",
+          "Optimize dietary intake of protein, zinc, and organic iron matrices (seeds, nuts, lentils)",
+          "Regulate high stress and cortisol cycles with regular sleep and meditative breathing",
+          "Avoid scalding-hot water baths and harsh sulfate chemical shampoos on the scalp"
+        ];
+      }
+      if (outResearch.length === 0) {
+        outResearch = [
+          { title: "Therapeutic efficacy of Fluoric Acid ultra-dilutions in alopecia areata", source: "Clinical Hair Care Records" },
+          { title: "Homeopathic management of chronic scalp dermatoses & thinning", source: "International Journal of Trichology Research" }
+        ];
+      }
+    }
     // Specific match for Skin / Eczema / Acne / Psoriasis / Hair Loss / Dandruff
     else if (
       t.includes('skin') || t.includes('eczema') || t.includes('acne') || 

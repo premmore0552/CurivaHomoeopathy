@@ -30,8 +30,27 @@
     <script type="module" src="/src/main.tsx"></script>
     <script>
       // Clear old caches and unregister service workers on version change to avoid blank screen / stale chunk assets
-      const APP_VERSION = 'v11';
-      if (localStorage.getItem('app_version') !== APP_VERSION) {
+      const APP_VERSION = 'v12';
+      const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('ais-dev') || window.location.hostname.includes('ais-pre');
+
+      if (isDev) {
+        // In development/preview sandbox, we strictly unregister the service worker to prevent source file caching
+        if ('serviceWorker' in navigator) {
+          navigator.serviceWorker.getRegistrations().then(function(registrations) {
+            for (let reg of registrations) {
+              reg.unregister().then(() => {
+                console.log('Unregistered service worker for development environment.');
+              });
+            }
+          });
+        }
+        if ('caches' in window) {
+          caches.keys().then(function(keys) {
+            keys.forEach(key => caches.delete(key));
+          });
+        }
+        localStorage.setItem('app_version', APP_VERSION);
+      } else if (localStorage.getItem('app_version') !== APP_VERSION) {
         if ('serviceWorker' in navigator) {
           navigator.serviceWorker.getRegistrations().then(function(registrations) {
             for (let reg of registrations) {

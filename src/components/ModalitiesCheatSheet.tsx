@@ -165,10 +165,15 @@ export default function ModalitiesCheatSheet() {
           </div>
           
           <div className="shrink-0">
-             <button className="w-40 h-40 rounded-full bg-primary text-white flex flex-col items-center justify-center gap-2 font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-primary/40 hover:scale-110 active:scale-95 transition-all group">
-                <Download className="w-8 h-8 group-hover:bounce" />
+             <a 
+               href="https://drive.google.com/file/d/1o_hf7hoxzvbVb7sR4MOLCfodkZfglice/view?usp=drivesdk" 
+               target="_blank" 
+               rel="noopener noreferrer"
+               className="w-40 h-40 rounded-full bg-primary text-white flex flex-col items-center justify-center gap-2 font-black uppercase tracking-widest text-[10px] shadow-2xl shadow-primary/40 hover:scale-110 active:scale-95 transition-all group select-none cursor-pointer text-center"
+             >
+                <Download className="w-8 h-8 group-hover:animate-bounce" />
                 <span>PDF Download</span>
-             </button>
+             </a>
           </div>
         </div>
       </div>

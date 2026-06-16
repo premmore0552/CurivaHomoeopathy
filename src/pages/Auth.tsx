@@ -52,11 +52,87 @@ export default function Auth() {
   
   // Status states
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState<React.ReactNode | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
 
   // Redirect path
   const redirectPath = location.state?.from || '/profile';
+
+  const handleAuthError = (err: any, actionName: string = 'Authentication') => {
+    console.error(err);
+    const code = err.code || '';
+    const message = err.message || '';
+
+    if (
+      code === 'auth/firebase-app-check-token-is-invalid' || 
+      message.includes('firebase-app-check-token-is-invalid') || 
+      code === 'auth/app-check-invalid-token' ||
+      message.includes('app-check-token-is-invalid')
+    ) {
+      setError(
+        <div className="space-y-3 text-left bg-red-500/5 p-4 rounded-xl border border-red-500/10">
+          <p className="font-extrabold text-red-600 uppercase tracking-wide text-[10px]">Firebase App Check Blocked Access</p>
+          <p className="text-[11px] leading-relaxed text-red-500">
+            Your Firebase project has <b>App Check Enforcement</b> active for Authentication & APIs. Since this development session runs inside a secure local sandbox, this request failed token validation:
+          </p>
+          <ul className="list-disc pl-4 text-[10px] space-y-1.5 text-red-600/90 font-bold leading-normal">
+            <li>
+              <b>Quick Sandbox Bypass:</b> Go to your <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-700">Firebase Console</a> &gt; <b>App Check</b> &gt; <b>APIs</b>. Under <b>Identity Toolkit API (Auth)</b>, change settings to "Monitor" or temporarily "Unenforce" App Check.
+            </li>
+            <li>
+              <b>Developer Solution:</b> If you need active App Check protection, please register a reCAPTCHA Enterprise/v3 site key on Firebase and initialize it using <code>initializeAppCheck()</code> in your client code.
+            </li>
+          </ul>
+        </div>
+      );
+      return;
+    }
+
+    if (
+      code === 'auth/internal-error' || 
+      code === 'auth/unauthorized-domain' || 
+      message.includes('internal-error') || 
+      message.includes('unauthorized-domain')
+    ) {
+      setError(
+        <div className="space-y-3 text-left bg-red-500/5 p-4 rounded-xl border border-red-500/10">
+          <p className="font-extrabold text-red-600 uppercase tracking-wide text-[10px]">Firebase Project Scope Config Error</p>
+          <p className="text-[11px] leading-relaxed text-red-500">
+            We encountered a Firebase configuration / connection error (<b>{code || 'auth/internal-error'}</b>). Please ensure your Firebase Console has the following active:
+          </p>
+          <ol className="list-decimal pl-4 text-[10px] space-y-1.5 text-red-600/90 font-bold leading-normal">
+            <li>Go to <b>Firebase Console</b> &gt; Authentication &gt; <b>Sign-in method</b>, edit and enable the providers (<b>Google</b> and <b>Phone</b>).</li>
+            <li>Go to Authentication &gt; <b>Settings</b> &gt; <b>Authorized domains</b>, and add <code>{window.location.hostname}</code>.</li>
+            <li>Make sure <b>Identity Toolkit API</b> is enabled on GCP Console (Project ID: <code>gen-lang-client-0830179867</code>).</li>
+            <li><b>Iframe Sandbox note:</b> If using Google/Phone authentication inside the embedded AI Studio iframe, third-party cookies or popups might be blocked by your browser. Open the application in a <b>new tab</b> (using the icon in the top right corner) or log in using <b>Email & Password</b>, which works perfectly inside the iframe.</li>
+          </ol>
+        </div>
+      );
+      return;
+    }
+
+    // Default friendly overrides
+    let friendlyMessage = message || `${actionName} failed.`;
+    if (code === 'auth/email-already-in-use') {
+      friendlyMessage = 'Email address already registered to another account.';
+    } else if (code === 'auth/weak-password') {
+      friendlyMessage = 'Choice of password is too weak. Ensure it is at least 6 characters.';
+    } else if (code === 'auth/invalid-email') {
+      friendlyMessage = 'Please enter a valid email address.';
+    } else if (code === 'auth/wrong-password' || code === 'auth/user-not-found' || code === 'auth/invalid-credential') {
+      friendlyMessage = 'Incorrect credentials. Verify your email and password combination.';
+    } else if (code === 'auth/invalid-phone-number') {
+      friendlyMessage = 'Format not recognized. Use the +[CountryCode][Number] format (e.g., +919012345678).';
+    } else if (code === 'auth/too-many-requests') {
+      friendlyMessage = 'Too many requests. This phone number is temporarily locked for security. Please try again later.';
+    } else if (code === 'auth/invalid-verification-code') {
+      friendlyMessage = 'The verification code entered is incorrect. Double check and try again.';
+    } else if (code === 'auth/code-expired') {
+      friendlyMessage = 'Security code has expired. Request a new verification code.';
+    }
+
+    setError(friendlyMessage);
+  };
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -88,8 +164,7 @@ export default function Auth() {
       await userService.syncAuthUser(profession);
       navigate(redirectPath);
     } catch (err: any) {
-      console.error(err);
-      setError(err.message || 'Failed to authenticate using Google.');
+      handleAuthError(err, 'Google Sign-In');
     } finally {
       setLoading(false);
     }
@@ -118,18 +193,7 @@ export default function Auth() {
       }
       navigate(redirectPath);
     } catch (err: any) {
-      console.error(err);
-      let friendlyMessage = err.message || 'Authentication error.';
-      if (err.code === 'auth/email-already-in-use') {
-        friendlyMessage = 'Email address already registered to another account.';
-      } else if (err.code === 'auth/weak-password') {
-        friendlyMessage = 'Choice of password is too weak. Ensure it is at least 6 characters.';
-      } else if (err.code === 'auth/invalid-email') {
-        friendlyMessage = 'Please enter a valid email address.';
-      } else if (err.code === 'auth/wrong-password' || err.code === 'auth/user-not-found' || err.code === 'auth/invalid-credential') {
-        friendlyMessage = 'Incorrect credentials. Verify your email and password combination.';
-      }
-      setError(friendlyMessage);
+      handleAuthError(err, 'Email submission');
     } finally {
       setLoading(false);
     }
@@ -156,8 +220,7 @@ export default function Auth() {
       (window as any).recaptchaVerifier = verifier;
       return verifier;
     } catch (err: any) {
-      console.error(err);
-      setError('Secure container initialization failed: ' + err.message);
+      handleAuthError(err, 'reCAPTCHA initialization');
       return null;
     }
   };
@@ -187,14 +250,7 @@ export default function Auth() {
       setVerificationId(result.verificationId);
       setSuccessMessage('A 6-digit confirmation code has been sent via SMS.');
     } catch (err: any) {
-      console.error(err);
-      let friendlyMessage = err.message || 'Failed to dispatch verification code SMS.';
-      if (err.code === 'auth/invalid-phone-number') {
-        friendlyMessage = 'Format not recognized. Use the +[CountryCode][Number] format (e.g., +919876543210).';
-      } else if (err.code === 'auth/too-many-requests') {
-        friendlyMessage = 'Too many requests. This phone number is temporarily locked for security. Please try again later.';
-      }
-      setError(friendlyMessage);
+      handleAuthError(err, 'Phone SMS dispatch');
     } finally {
       setLoading(false);
     }
@@ -219,14 +275,7 @@ export default function Auth() {
       await userService.syncAuthUser(profession);
       navigate(redirectPath);
     } catch (err: any) {
-      console.error(err);
-      let friendlyMessage = err.message || 'Verification of confirmation code failed.';
-      if (err.code === 'auth/invalid-verification-code') {
-        friendlyMessage = 'The verification code entered is incorrect. Double check and try again.';
-      } else if (err.code === 'auth/code-expired') {
-        friendlyMessage = 'Security code has expired. Request a new verification code.';
-      }
-      setError(friendlyMessage);
+      handleAuthError(err, 'Phone verification');
     } finally {
       setLoading(false);
     }
@@ -256,7 +305,7 @@ export default function Auth() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.04)_0%,transparent_60%)] pointer-events-none" />
 
       {/* reCAPTCHA anchor */}
-      <div id="recaptcha-container" className="fixed bottom-0 right-0 z-50 pointer-events-none opacity-0"></div>
+      <div id="recaptcha-container" className="fixed bottom-4 right-4 z-50"></div>
 
       <main className="max-w-md w-full mx-auto px-6 relative z-10 pt-32">
         
@@ -320,7 +369,7 @@ export default function Auth() {
                 className="p-5 bg-red-500/5 border border-red-500/20 text-red-600 rounded-2xl flex items-start gap-3 text-xs leading-relaxed"
               >
                 <AlertCircle className="w-5 h-5 shrink-0 mt-0.5" />
-                <p className="font-bold">{error}</p>
+                <div className="font-bold flex-grow">{error}</div>
               </motion.div>
             )}
 
@@ -344,120 +393,123 @@ export default function Auth() {
               {/* Register/Login Mode Selector */}
               <div className="flex justify-center gap-6 border-b border-border pb-4">
                 <button 
-                  onClick={() => setMode('login')} 
+                  type="button"
+                  onClick={() => { setMode('login'); }} 
                   className={`text-xs font-black uppercase tracking-widest pb-1 transition-all border-b-2 ${mode === 'login' ? 'text-primary border-primary' : 'text-text-tertiary border-transparent'}`}
                 >
                   Sign In
                 </button>
                 <button 
-                  onClick={() => setMode('register')} 
+                  type="button"
+                  onClick={() => { setMode('register'); }} 
                   className={`text-xs font-black uppercase tracking-widest pb-1 transition-all border-b-2 ${mode === 'register' ? 'text-primary border-primary' : 'text-text-tertiary border-transparent'}`}
                 >
                   Create Account
                 </button>
               </div>
 
+              {/* Classic Password Flow */}
               <form onSubmit={handleEmailSubmit} className="space-y-4">
                 <AnimatePresence mode="popLayout" initial={false}>
-                  {mode === 'register' && (
-                    <>
-                      <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.2 }}
-                        className="space-y-2"
-                      >
-                        <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Full Name</label>
-                        <div className="relative">
-                          <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
-                          <input
-                            type="text"
-                            placeholder="Dr. Samuel Hahnemann"
-                            required={mode === 'register'}
-                            value={name}
-                            onChange={(e) => setName(e.target.value)}
-                            className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
-                          />
-                        </div>
-                      </motion.div>
-
-                      <motion.div
-                        initial={{ opacity: 0, y: 15 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -15 }}
-                        transition={{ duration: 0.2, delay: 0.05 }}
-                        className="space-y-2"
-                      >
-                        <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">My Role / Profession</label>
-                        <div className="relative">
-                          <select
-                            value={profession}
-                            onChange={(e) => setProfession(e.target.value)}
-                            className="w-full px-5 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all appearance-none cursor-pointer"
-                          >
-                            <option value="doctor">🩺 Homoeopathy Doctor (BHMS, MD-Hom)</option>
-                            <option value="practitioner">🌿 Clinical Practitioner</option>
-                            <option value="student">🎓 Academic Student / Scholar</option>
-                            <option value="user">📖 General Reader & Enthusiast</option>
-                          </select>
-                          <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-tertiary">
-                            <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                    {mode === 'register' && (
+                      <>
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          transition={{ duration: 0.2 }}
+                          className="space-y-2"
+                        >
+                          <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Full Name</label>
+                          <div className="relative">
+                            <User className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                            <input
+                              type="text"
+                              placeholder="Dr. Samuel Hahnemann"
+                              required={mode === 'register'}
+                              value={name}
+                              onChange={(e) => setName(e.target.value)}
+                              className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                            />
                           </div>
-                        </div>
-                        <p className="text-[10px] text-text-tertiary block ml-1 leading-relaxed">
-                          We will customize your clinical workspace with information designed for your practice or reading scope.
-                        </p>
-                      </motion.div>
-                    </>
-                  )}
-                </AnimatePresence>
+                        </motion.div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Email Address</label>
-                  <div className="relative">
-                    <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
-                    <input
-                      type="email"
-                      placeholder="scholar@curiva.org"
-                      required
-                      value={email}
-                      onChange={(e) => setEmail(e.target.value)}
-                      className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
-                    />
+                        <motion.div
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          exit={{ opacity: 0, y: -15 }}
+                          transition={{ duration: 0.2, delay: 0.05 }}
+                          className="space-y-2"
+                        >
+                          <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">My Role / Profession</label>
+                          <div className="relative">
+                            <select
+                              value={profession}
+                              onChange={(e) => setProfession(e.target.value)}
+                              className="w-full px-5 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all appearance-none cursor-pointer"
+                            >
+                              <option value="doctor">🩺 Homoeopathy Doctor (BHMS, MD-Hom)</option>
+                              <option value="practitioner">🌿 Clinical Practitioner</option>
+                              <option value="student">🎓 Academic Student / Scholar</option>
+                              <option value="user">📖 General Reader & Enthusiast</option>
+                            </select>
+                            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-tertiary">
+                              <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>
+                            </div>
+                          </div>
+                          <p className="text-[10px] text-text-tertiary block ml-1 leading-relaxed">
+                            We will customize your clinical workspace with information designed for your practice or reading scope.
+                          </p>
+                        </motion.div>
+                      </>
+                    )}
+                  </AnimatePresence>
+
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Email Address</label>
+                    <div className="relative">
+                      <Mail className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                      <input
+                        type="email"
+                        placeholder="scholar@curiva.org"
+                        required
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <div className="space-y-2">
-                  <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Password</label>
-                  <div className="relative">
-                    <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
-                    <input
-                      type="password"
-                      placeholder="••••••••"
-                      required
-                      value={password}
-                      onChange={(e) => setPassword(e.target.value)}
-                      className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
-                    />
+                  <div className="space-y-2">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary block ml-1">Password</label>
+                    <div className="relative">
+                      <Lock className="absolute left-5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+                      <input
+                        type="password"
+                        placeholder="••••••••"
+                        required
+                        value={password}
+                        onChange={(e) => setPassword(e.target.value)}
+                        className="w-full pl-12 pr-6 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all"
+                      />
+                    </div>
                   </div>
-                </div>
 
-                <button
-                  type="submit"
-                  disabled={loading}
-                  className="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all cursor-pointer mt-4"
-                >
-                  {loading ? (
-                    <> <Loader2 className="w-4 h-4 animate-spin" /> Verifying Scholar... </>
-                  ) : mode === 'login' ? (
-                    <> Sign In <LogIn className="w-4 h-4" /> </>
-                  ) : (
-                    <> Create Account <ArrowRight className="w-4 h-4" /> </>
-                  )}
-                </button>
-              </form>
-            </div>
+                  <button
+                    type="submit"
+                    disabled={loading}
+                    className="w-full flex items-center justify-center gap-3 py-4 bg-primary text-white rounded-xl font-black text-xs uppercase tracking-widest shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] disabled:opacity-50 disabled:scale-100 transition-all cursor-pointer mt-4"
+                  >
+                    {loading ? (
+                      <> <Loader2 className="w-4 h-4 animate-spin" /> Verifying Scholar... </>
+                    ) : mode === 'login' ? (
+                      <> Sign In <LogIn className="w-4 h-4" /> </>
+                    ) : (
+                      <> Create Account <ArrowRight className="w-4 h-4" /> </>
+                    )}
+                  </button>
+                </form>
+              </div>
           ) : (
             // Phone Authentication Flow
             <div className="space-y-6">

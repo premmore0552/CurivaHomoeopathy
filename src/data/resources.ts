@@ -19,7 +19,7 @@ export const resources: Resource[] = [
     pageCount: 1,
     price: 120,
     thumbnail: 'https://ais-dev-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/assets/cheat_sheet_cover.png', // I'll assume this asset will be handled or use a generic one
-    fileUrl: '/downloads/modalities-cheat-sheet.pdf',
+    fileUrl: 'https://drive.google.com/file/d/1o_hf7hoxzvbVb7sR4MOLCfodkZfglice/view?usp=drivesdk',
     isPro: false
   }
 ];

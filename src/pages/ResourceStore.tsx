@@ -254,6 +254,19 @@ const ResourceStore = () => {
                       <p className="inline-block px-4 py-2 bg-primary/5 rounded-xl text-primary font-black tracking-tight">{email}</p>
                     </div>
 
+                    {selectedResource?.fileUrl && (
+                      <div className="pt-2">
+                        <a 
+                          href={selectedResource.fileUrl} 
+                          target="_blank" 
+                          rel="noopener noreferrer"
+                          className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl transition-all shadow-lg font-black uppercase tracking-widest text-[11px]"
+                        >
+                          <Download className="w-4 h-4" /> Download PDF Instantly
+                        </a>
+                      </div>
+                    )}
+
                     <div className="pt-6 flex justify-center">
                        <button 
                          onClick={() => navigate('/community')}

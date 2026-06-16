@@ -47,7 +47,7 @@ const Footer: React.FC = () => {
             <h4 className="text-text-primary font-display font-medium mb-10 italic text-[10px] uppercase tracking-[0.2em] opacity-50">Navigation</h4>
             <ul className="space-y-5 text-sm font-bold uppercase tracking-tight">
               <li><Link to="/" className="text-text-secondary hover:text-primary transition-colors">Home</Link></li>
-              <li><Link to="/glossary" className="text-text-secondary hover:text-primary transition-colors">Glossary</Link></li>
+              <li><Link to="/lexicon" className="text-text-secondary hover:text-primary transition-colors">Homeopathic Encyclopedia</Link></li>
               <li><Link to="/research" className="text-text-secondary hover:text-primary transition-colors">Research Database</Link></li>
               <li><Link to="/stalwarts" className="text-text-secondary hover:text-primary transition-colors">Stalwarts</Link></li>
               <li><Link to="/analysis" className="text-text-secondary hover:text-primary transition-colors">Analysis Tool</Link></li>

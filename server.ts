@@ -192,6 +192,64 @@ async function startServer() {
     });
   }
 
+  app.post("/api/gemini/hair-loss-coach", async (req, res) => {
+    try {
+      const { prompt, type, conversationHistory } = req.body;
+      if (!prompt) {
+        return res.status(400).json({ error: "Prompt is required" });
+      }
+
+      const coachSystemInstruction = `
+        You are the ✨ Curiva AI Scalp Coach, an empathetic, science-based, and holistic hair wellness advisor built by Curiva Homoeopathy. 
+        Your guidance must directly reflect the philosophy in the 'Hair Fall Recovery Guide' eBook:
+        - Real recovery is built from the bottom up: Sleep (Foundation), Nutrition (especially Protein), Stress Management, Hydration, and Scalp Care.
+        - Hair is non-essential for survival; the body starves the hair first under stress or nutritional lack.
+        - Demystify magic products, shampoo switching, and rapid quick-fixes.
+        - Explain traditional homeopathic perspectives (like individualization and constitutional support) in a balanced, grounded way.
+        - Encourage clinical investigations (blood checks for Iron/Ferritin, Vitamin D, B12, Thyroid, PCOS) for chronic issues.
+        - Always maintain a warm, friendly, companionable tone. Do not prescribe specific clinical drugs, but act as a coaching companion.
+        Keep answers conversational, positive, and formatted with light markdown where useful. Output should be straight advice, maximum 2-3 logical paragraphs or clear bullet lists.
+      `;
+
+      const blueprintSystemInstruction = `
+        You are the ✨ Curiva AI Blueprint Generator. Based on the user's details (diet, sleep, stress, lifestyle), generate a beautifully structured 7-day personalized Hair Recovery Plan.
+        Align directly with the Curiva philosophy (Holistic, bottom-up priority starting with Sleep & Nutrition, demystifying quick fixes).
+        Keep the steps concise, practical, highly encouraging, and realistic. Use markdown headings (##, ###) and clean bullet lists (-). Only print the plan, without administrative chatter.
+      `;
+
+      const instruction = type === "blueprint" ? blueprintSystemInstruction : coachSystemInstruction;
+
+      const ai = getGeminiClient();
+      
+      const contents: any[] = [];
+      if (conversationHistory && Array.isArray(conversationHistory)) {
+        conversationHistory.forEach((msg: any) => {
+          contents.push({
+            role: msg.role === "user" ? "user" : "model",
+            parts: [{ text: msg.text }]
+          });
+        });
+      }
+      contents.push({
+        role: "user",
+        parts: [{ text: prompt }]
+      });
+
+      const response = await ai.models.generateContent({
+        model: "gemini-2.5-flash",
+        contents: contents,
+        config: {
+          systemInstruction: instruction
+        }
+      });
+
+      res.json({ text: response?.text || "No response received from AI coach." });
+    } catch (error: any) {
+      console.error("Gemini Hair Loss Coach Proxy Error:", error);
+      res.status(500).json({ error: error.message || "Failed to process coach query" });
+    }
+  });
+
   app.post("/api/gemini/search", async (req, res) => {
     try {
       const { query } = req.body;

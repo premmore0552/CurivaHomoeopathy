@@ -280,6 +280,7 @@ export default function MCQPractice() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [questionCountLimit, setQuestionCountLimit] = useState<number>(3);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -307,9 +308,12 @@ export default function MCQPractice() {
   };
 
   const currentMCQs = useMemo(() => {
-    if (!selectedSubject) return subjectMCQs["Materia Medica"];
-    return subjectMCQs[selectedSubject] || subjectMCQs["Materia Medica"];
-  }, [selectedSubject]);
+    const baseList = selectedSubject ? (subjectMCQs[selectedSubject] || subjectMCQs["Materia Medica"]) : subjectMCQs["Materia Medica"];
+    if (questionCountLimit > 0 && questionCountLimit < baseList.length) {
+      return baseList.slice(0, questionCountLimit);
+    }
+    return baseList;
+  }, [selectedSubject, questionCountLimit]);
 
   const handleAnswer = (optionIndex: number) => {
     if (userAnswers[currentQuestionIndex] !== undefined) return;
@@ -339,14 +343,14 @@ export default function MCQPractice() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] pb-20">
+    <div className="min-h-screen bg-bg-primary pb-20">
       <SEO 
         title="MCQ Practice - AIAPGET Preparation"
         description="Practice 10,000+ Homoeopathic MCQs with detailed explanations for AIAPGET and competitive exams."
       />
 
       {/* Header */}
-      <header className="bg-white border-b border-border sticky top-0 z-50 px-4 py-4">
+      <header className="bg-bg-secondary/80 backdrop-blur-md border-b border-border/30 sticky top-0 z-50 px-4 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">
@@ -392,15 +396,33 @@ export default function MCQPractice() {
                 </p>
               </div>
 
+              {/* Dynamic Question Count Selector */}
+              <div className="flex flex-col items-center justify-center space-y-4 py-6 px-8 bg-bg-secondary/40 backdrop-blur-sm rounded-3xl border border-border/30 max-w-md mx-auto shadow-soft">
+                <span className="text-xs font-black uppercase tracking-widest text-[#c5a059] flex items-center gap-1.5 select-none">
+                  <BookOpen className="w-4 h-4 text-accent" /> Choose Question Quantity
+                </span>
+                <div className="flex gap-2">
+                  {[1, 2, 3].map((num) => (
+                    <button
+                      key={num}
+                      onClick={() => setQuestionCountLimit(num)}
+                      className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all ${questionCountLimit === num ? 'bg-primary text-white scale-105 shadow-md shadow-primary/10' : 'bg-bg-primary text-text-secondary hover:bg-bg-secondary border border-border/40 dark:border-border/10'}`}
+                    >
+                      {num === 3 ? 'All' : `${num} Questions`}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
               <div className="grid sm:grid-cols-2 gap-4">
                 {subjects.map((subject, idx) => (
                   <button
                     key={idx}
                     onClick={() => startQuiz(subject)}
-                    className="flex items-center justify-between p-6 bg-white border border-border rounded-3xl hover:border-primary hover:shadow-xl hover:shadow-primary/5 group transition-all text-left"
+                    className="flex items-center justify-between p-6 bg-bg-secondary/40 border border-border/30 rounded-3xl hover:border-primary hover:shadow-xl hover:shadow-primary/5 group transition-all text-left"
                   >
                     <div className="flex items-center gap-4">
-                      <div className="w-12 h-12 bg-bg-secondary rounded-2xl flex items-center justify-center text-text-primary group-hover:bg-primary/10 group-hover:text-primary transition-colors">
+                      <div className="w-12 h-12 bg-bg-primary rounded-2xl flex items-center justify-center text-text-primary group-hover:bg-primary/10 group-hover:text-primary transition-colors">
                         <BookOpen className="w-5 h-5" />
                       </div>
                       <span className="font-display font-medium text-lg text-text-primary">{subject}</span>
@@ -436,7 +458,7 @@ export default function MCQPractice() {
               </div>
 
               {/* Question Card */}
-              <div className="bg-white rounded-[3rem] border border-border shadow-soft p-8 md:p-12 space-y-10">
+              <div className="bg-bg-secondary/40 backdrop-blur-sm rounded-[3rem] border border-border/30 shadow-soft p-8 md:p-12 space-y-10">
                 <h3 className="text-2xl md:text-3xl font-display font-medium text-text-primary leading-tight">
                   {currentMCQs[currentQuestionIndex].question}
                 </h3>
@@ -447,11 +469,11 @@ export default function MCQPractice() {
                     const isCorrect = idx === currentMCQs[currentQuestionIndex].correctAnswer;
                     const hasAnswered = userAnswers[currentQuestionIndex] !== undefined;
 
-                    let statusClasses = "border-border hover:border-primary/40";
+                    let statusClasses = "border-border/50 hover:border-primary/40 text-text-primary bg-bg-primary/20 hover:bg-bg-primary/60";
                     if (hasAnswered) {
-                      if (isCorrect) statusClasses = "border-green-500 bg-green-50 text-green-700 ring-2 ring-green-100";
-                      else if (isSelected) statusClasses = "border-red-500 bg-red-50 text-red-700 ring-2 ring-red-100";
-                      else statusClasses = "border-border opacity-50";
+                      if (isCorrect) statusClasses = "border-emerald-500 bg-emerald-500/10 text-emerald-700 dark:text-emerald-400 ring-2 ring-emerald-500/15";
+                      else if (isSelected) statusClasses = "border-red-500 bg-red-500/10 text-red-700 dark:text-red-400 ring-2 ring-red-500/15";
+                      else statusClasses = "border-border/20 opacity-40 text-text-tertiary";
                     }
 
                     return (
@@ -462,12 +484,12 @@ export default function MCQPractice() {
                         className={`w-full flex items-center justify-between p-6 rounded-2xl border text-left transition-all relative ${statusClasses}`}
                       >
                         <div className="flex items-center gap-4">
-                          <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-primary text-white' : 'bg-bg-secondary text-text-secondary'}`}>
+                          <span className={`w-8 h-8 rounded-lg flex items-center justify-center font-bold text-sm ${isSelected ? 'bg-primary text-white' : 'bg-bg-secondary/80 text-text-secondary'}`}>
                             {String.fromCharCode(65 + idx)}
                           </span>
                           <span className="font-serif italic text-lg">{option}</span>
                         </div>
-                        {hasAnswered && isCorrect && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+                        {hasAnswered && isCorrect && <CheckCircle2 className="w-5 h-5 text-emerald-500" />}
                         {hasAnswered && isSelected && !isCorrect && <XCircle className="w-5 h-5 text-red-500" />}
                       </button>
                     );

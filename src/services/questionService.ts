@@ -11,7 +11,6 @@ import {
   getDoc,
   query, 
   where, 
-  orderBy, 
   serverTimestamp,
   onSnapshot
 } from '../lib/firebase';
@@ -39,6 +38,20 @@ export interface Question {
 }
 
 const COLLECTION_NAME = 'questions';
+
+function sortCreatedDesc(questions: Question[]): Question[] {
+  return [...questions].sort((a, b) => {
+    const getMs = (val: any) => {
+      if (!val) return 0;
+      if (val.seconds !== undefined) return val.seconds * 1000 + (val.nanoseconds ? val.nanoseconds / 1000000 : 0);
+      if (typeof val.toDate === 'function') return val.toDate().getTime();
+      if (val instanceof Date) return val.getTime();
+      const dateVal = new Date(val);
+      return isNaN(dateVal.getTime()) ? 0 : dateVal.getTime();
+    };
+    return getMs(b.createdAt) - getMs(a.createdAt);
+  });
+}
 
 export const questionService = {
   async submitQuestion(subject: string, content: string, isAnonymous: boolean) {
@@ -69,13 +82,13 @@ export const questionService = {
     
     const q = query(
       collection(db, COLLECTION_NAME),
-      where('userId', '==', auth.currentUser.uid),
-      orderBy('createdAt', 'desc')
+      where('userId', '==', auth.currentUser.uid)
     );
 
     try {
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      return sortCreatedDesc(docs);
     } catch (error) {
       handleFirestoreError(error, OperationType.LIST, COLLECTION_NAME);
     }
@@ -84,13 +97,13 @@ export const questionService = {
   async getFeaturedQuestions() {
     const q = query(
       collection(db, COLLECTION_NAME),
-      where('status', '==', QuestionStatus.FEATURED),
-      orderBy('createdAt', 'desc')
+      where('status', '==', QuestionStatus.FEATURED)
     );
 
     try {
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      return sortCreatedDesc(docs);
     } catch (error) {
       handleFirestoreError(error, OperationType.LIST, COLLECTION_NAME);
     }
@@ -98,13 +111,13 @@ export const questionService = {
 
   async getAllQuestionsForAdmin() {
     const q = query(
-      collection(db, COLLECTION_NAME),
-      orderBy('createdAt', 'desc')
+      collection(db, COLLECTION_NAME)
     );
 
     try {
       const snapshot = await getDocs(q);
-      return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      return sortCreatedDesc(docs);
     } catch (error) {
       handleFirestoreError(error, OperationType.LIST, COLLECTION_NAME);
     }
@@ -131,13 +144,12 @@ export const questionService = {
   subscribeToFeatured(callback: (questions: Question[]) => void) {
     const q = query(
       collection(db, COLLECTION_NAME),
-      where('status', '==', QuestionStatus.FEATURED),
-      orderBy('createdAt', 'desc')
+      where('status', '==', QuestionStatus.FEATURED)
     );
 
     return onSnapshot(q, (snapshot) => {
-      const questions = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
-      callback(questions);
+      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      callback(sortCreatedDesc(docs));
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, COLLECTION_NAME);
     });

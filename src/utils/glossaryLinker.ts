@@ -32,7 +32,7 @@ export function injectGlossaryLinks(content: string): string {
       const inLink = /\[[^\]]*$/.test(head) || /^\s*\]/.test(tail) || /^\s*\([^)]*\)/.test(tail);
       
       if (!inLink) {
-        linkedContent = head + `[${foundTerm}](/glossary?tab=glossary#${item.id})` + tail;
+        linkedContent = head + `[${foundTerm}](/lexicon?tab=lexicon#${item.id})` + tail;
       }
     }
   });

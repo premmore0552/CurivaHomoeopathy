@@ -33,7 +33,7 @@ service cloud.firestore {
     // Checking if user is admin
     function isAdmin() {
       return isSignedIn() && (
-        (request.auth.token.email == 'premmore0552@gmail.com' && request.auth.token.email_verified == true) ||
+        request.auth.token.email == 'premmore0552@gmail.com' ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
@@ -93,7 +93,8 @@ service cloud.firestore {
 
     // --- Collection: Questions ---
     match /questions/{questionId} {
-      allow read: if (isSignedIn() && (isOwner(resource.data.userId) || isAdmin())) || resource.data.status == 'featured';
+      allow read: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow create: if isSignedIn() && 
                       isValidQuestion(incoming()) &&
@@ -101,7 +102,7 @@ service cloud.firestore {
                       incoming().createdAt == request.time;
       
       allow update: if isAdmin() && 
-                       incoming().diff(existing()).affectedKeys().hasAny(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
                        incoming().updatedAt == request.time;
 
       allow delete: if isAdmin();
@@ -109,8 +110,7 @@ service cloud.firestore {
 
     // --- Collection: Orders ---
     match /orders/{orderId} {
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow create: if (
                       (isSignedIn() && incoming().userId == request.auth.uid) ||
@@ -121,6 +121,11 @@ service cloud.firestore {
       
       allow update: if false;
       allow delete: if isAdmin();
+    }
+
+    // --- Collection: Test for Connection ---
+    match /test/connection {
+      allow get: if true;
     }
 
     // --- Collection: Admins ---

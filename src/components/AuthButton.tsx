@@ -20,10 +20,16 @@ import { userService } from '../services/userService';
 
 type FirebaseUser = any;
 
-export default function AuthButton() {
+interface AuthButtonProps {
+  isMobile?: boolean;
+  onCloseMenu?: () => void;
+}
+
+export default function AuthButton({ isMobile, onCloseMenu }: AuthButtonProps) {
   const [user, setUser] = React.useState<FirebaseUser | null>(null);
   const [showDropdown, setShowDropdown] = React.useState(false);
   const [loading, setLoading] = React.useState(true);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -38,6 +44,20 @@ export default function AuthButton() {
     return () => unsubscribe();
   }, []);
 
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setShowDropdown(false);
+      }
+    }
+    if (showDropdown) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [showDropdown]);
+
   const handleLogin = async () => {
     try {
       await signInWithPopup(auth, googleProvider);
@@ -50,6 +70,7 @@ export default function AuthButton() {
     try {
       await signOut(auth);
       setShowDropdown(false);
+      if (onCloseMenu) onCloseMenu();
     } catch (error) {
       console.error("Logout failed:", error);
     }
@@ -63,17 +84,77 @@ export default function AuthButton() {
     return (
       <Link 
         to="/auth"
-        className="group relative flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden border border-zinc-800 dark:border-zinc-200"
+        onClick={() => {
+          if (onCloseMenu) onCloseMenu();
+        }}
+        className={`group relative flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden border border-zinc-800 dark:border-zinc-200 ${isMobile ? 'w-full justify-center' : ''}`}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 dark:via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
         <LogIn className="w-4 h-4 transition-transform group-hover:rotate-12" />
-        <span className="hidden sm:inline">Portal Access</span>
+        <span>Portal Access</span>
       </Link>
     );
   }
 
+  if (isMobile) {
+    return (
+      <div className="w-full bg-bg-secondary dark:bg-zinc-900 border border-border rounded-[2rem] p-6 space-y-4 shadow-sm">
+        <div className="flex items-center gap-4">
+          <img 
+            src={user.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80'} 
+            alt={user.displayName || ''} 
+            className="w-12 h-12 rounded-xl object-cover border border-border shadow-sm shrink-0" 
+          />
+          <div className="min-w-0 flex-1">
+            <h4 className="text-sm font-black text-text-primary uppercase tracking-tight truncate">{user.displayName || 'Scholar'}</h4>
+            <p className="text-[10px] text-text-secondary font-bold truncate opacity-60 leading-none mt-1">{user.email || ''}</p>
+          </div>
+        </div>
+        
+        <div className="grid gap-2 pt-1 border-t border-border/50">
+          <Link 
+            to="/profile"
+            className="w-full flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest text-text-secondary hover:text-primary hover:bg-primary/5 rounded-xl transition-all border border-transparent hover:border-primary/10"
+            onClick={() => {
+              if (onCloseMenu) onCloseMenu();
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <User className="w-4 h-4 text-primary" strokeWidth={3} />
+              <span>Study Profile</span>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary" />
+          </Link>
+
+          <Link 
+            to="/my-library"
+            className="w-full flex items-center justify-between px-4 py-3 text-[10px] font-black uppercase tracking-widest text-text-secondary hover:text-primary hover:bg-primary/5 rounded-xl transition-all border border-transparent hover:border-primary/10"
+            onClick={() => {
+              if (onCloseMenu) onCloseMenu();
+            }}
+          >
+            <div className="flex items-center gap-3">
+              <Library className="w-4 h-4 text-primary" strokeWidth={3} />
+              <span>My Study Library</span>
+            </div>
+            <ArrowRight className="w-4 h-4 text-primary" />
+          </Link>
+
+          <button 
+            type="button"
+            onClick={handleLogout}
+            className="w-full flex items-center gap-3 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-red-500 hover:bg-red-500/5 rounded-xl transition-all text-left"
+          >
+            <LogOut className="w-4 h-4 text-red-500" strokeWidth={3} />
+            <span>Secure Sign Out</span>
+          </button>
+        </div>
+      </div>
+    );
+  }
+
   return (
-    <div className="relative">
+    <div className="relative" ref={dropdownRef}>
       <button 
         onClick={() => setShowDropdown(!showDropdown)}
         className={`flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-[2rem] transition-all duration-500 border group shrink-0 ${
@@ -107,7 +188,7 @@ export default function AuthButton() {
              initial={{ opacity: 0, y: 15, scale: 0.9, rotateX: -15 }}
              animate={{ opacity: 1, y: 0, scale: 1, rotateX: 0 }}
              exit={{ opacity: 0, y: 15, scale: 0.9, rotateX: -15 }}
-             className="absolute top-full mt-4 right-[-10px] sm:right-0 w-[calc(100vw-2rem)] sm:w-80 max-w-[340px] bg-bg-primary border border-border rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_30px_70px_rgba(0,0,0,0.2)] z-[100] overflow-hidden origin-top-right backdrop-blur-2xl"
+             className="absolute top-full mt-4 right-0 w-[calc(100vw-2rem)] sm:w-80 max-w-[340px] bg-bg-primary border border-border rounded-[2rem] sm:rounded-[2.5rem] shadow-[0_30px_70px_rgba(0,0,0,0.2)] z-[100] overflow-hidden origin-top-right backdrop-blur-2xl"
           >
             <div className="p-8 bg-gradient-to-br from-bg-secondary via-bg-primary to-bg-secondary border-b border-border relative overflow-hidden">
               <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">

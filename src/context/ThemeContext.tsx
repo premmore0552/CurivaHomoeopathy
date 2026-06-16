@@ -5,6 +5,8 @@ type Theme = 'light' | 'dark';
 interface ThemeContextType {
   theme: Theme;
   toggleTheme: () => void;
+  isManual: boolean;
+  resetToAuto: () => void;
 }
 
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
@@ -37,9 +39,13 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       body.classList.remove('dark');
       root.setAttribute('data-theme', 'light');
     }
-    localStorage.setItem('theme', theme);
-    console.log('Theme applied to root and body:', theme);
-  }, [theme]);
+    if (isManual) {
+      localStorage.setItem('theme', theme);
+    } else {
+      localStorage.removeItem('theme');
+    }
+    console.log('Theme applied to root and body:', theme, 'manual:', isManual);
+  }, [theme, isManual]);
 
   // Auto-switch logic
   useEffect(() => {
@@ -53,6 +59,7 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       }
     };
 
+    checkTime(); // Run immediately on mount
     const interval = setInterval(checkTime, 60000); // Check every minute
     return () => clearInterval(interval);
   }, [isManual, theme]);
@@ -63,8 +70,15 @@ export const ThemeProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     setTheme(prev => (prev === 'light' ? 'dark' : 'light'));
   };
 
+  const resetToAuto = () => {
+    console.log('Resynced to Day/Night clock');
+    setIsManual(false);
+    const hour = new Date().getHours();
+    setTheme((hour >= 6 && hour < 18) ? 'light' : 'dark');
+  };
+
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
+    <ThemeContext.Provider value={{ theme, toggleTheme, isManual, resetToAuto }}>
       {children}
     </ThemeContext.Provider>
   );

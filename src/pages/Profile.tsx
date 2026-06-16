@@ -22,7 +22,8 @@ import {
   MapPin,
   Trophy,
   Key,
-  Check
+  Check,
+  Upload
 } from 'lucide-react';
 import { auth, db, onAuthStateChanged, signOut, doc, getDoc, collection, getDocs, deleteDoc } from '../lib/firebase';
 import { userService, UserProfile } from '../services/userService';
@@ -32,6 +33,7 @@ import SEO from '../components/SEO';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPersonalizedRecommendations } from '../services/recommendationService';
 import { safeFormatDate } from '../utils/date';
+import LearningPath from '../components/LearningPath';
 
 const Profile: React.FC = () => {
   const navigate = useNavigate();
@@ -39,7 +41,7 @@ const Profile: React.FC = () => {
   const [profile, setProfile] = useState<UserProfile | null>(null);
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'bookmarks' | 'history' | 'activities' | 'settings' | 'admin-db'>('bookmarks');
+  const [activeTab, setActiveTab] = useState<'bookmarks' | 'history' | 'activities' | 'settings' | 'learning-path' | 'admin-db'>('learning-path');
   const [isAdmin, setIsAdmin] = useState(false);
 
   // Form states for settings tab
@@ -258,6 +260,13 @@ const Profile: React.FC = () => {
                    <span className="text-xl font-display text-text-primary block leading-none mb-0.5">{profile.readingHistory?.length || 0}</span>
                    <span className="text-[9px] font-black uppercase tracking-widest text-text-secondary opacity-60">Case Studies Read</span>
                 </div>
+                <div className="px-5 py-2.5 bg-primary/10 border border-primary/25 rounded-2xl flex items-center gap-2 font-sans shadow-inner">
+                   <span className="text-xl leading-none">🔥</span>
+                   <div>
+                     <span className="text-xl font-display font-black text-primary dark:text-accent block leading-none mb-0.5">{profile.streakCount || 1}</span>
+                     <span className="text-[9px] font-black uppercase tracking-widest text-primary/80 dark:text-accent/80">Day Streak</span>
+                   </div>
+                </div>
               </div>
 
               <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start pt-2 border-t border-border/40">
@@ -296,6 +305,7 @@ const Profile: React.FC = () => {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 relative z-20">
         <div className="grid grid-cols-2 lg:flex lg:flex-wrap bg-bg-secondary dark:bg-zinc-900/60 backdrop-blur-xl p-1.5 md:p-2 rounded-2xl md:rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-2xl w-full lg:w-fit mb-12 gap-1 md:gap-2">
             {[
+              { id: 'learning-path', name: 'Study Curriculum', icon: Trophy },
               { id: 'bookmarks', name: 'Saved Inquiries', icon: Bookmark },
               { id: 'history', name: 'Reading Log', icon: History },
               { id: 'activities', name: 'Workspace Activities', icon: Activity },
@@ -318,6 +328,18 @@ const Profile: React.FC = () => {
         </div>
 
         <AnimatePresence mode="wait">
+          {activeTab === 'learning-path' && (
+            <motion.div
+              key="learning-path-pane"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="w-full"
+            >
+              <LearningPath profile={profile} />
+            </motion.div>
+          )}
+
           {activeTab === 'bookmarks' && (
             <motion.div
               key="bookmarks-pane"
@@ -529,6 +551,51 @@ const Profile: React.FC = () => {
                           <img src={pav.url} alt={pav.label} className="w-full h-full object-cover" />
                         </button>
                       ))}
+                    </div>
+
+                    {/* Custom Image Upload & URL input */}
+                    <div className="w-full mt-5 pt-5 border-t border-dashed border-border dark:border-zinc-800 space-y-4 text-left">
+                      <div className="space-y-2">
+                        <span className="text-[10px] font-black uppercase tracking-[0.15em] text-text-secondary block">Custom Photo Upload</span>
+                        <label className="flex items-center justify-center gap-2.5 px-4 py-3 bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-800/50 dark:hover:bg-zinc-800 border border-border dark:border-zinc-850 rounded-xl cursor-pointer transition-colors group">
+                          <Upload className="w-4 h-4 text-text-secondary group-hover:text-primary transition-colors" />
+                          <span className="text-xs font-bold text-text-secondary select-none">Upload Image File</span>
+                          <input 
+                            id="custom-avatar-file-upload"
+                            type="file" 
+                            accept="image/*" 
+                            onChange={(e) => {
+                              const file = e.target.files?.[0];
+                              if (file) {
+                                if (file.size > 2 * 1024 * 1024) {
+                                  alert("Please upload an image smaller than 2MB for storage performance.");
+                                  return;
+                                }
+                                const reader = new FileReader();
+                                reader.onloadend = () => {
+                                  if (typeof reader.result === 'string') {
+                                    setSelectedAvatar(reader.result);
+                                  }
+                                };
+                                reader.readAsDataURL(file);
+                              }
+                            }}
+                            className="hidden" 
+                          />
+                        </label>
+                      </div>
+
+                      <div className="space-y-1.5">
+                        <label htmlFor="custom-avatar-url-input" className="text-[10px] font-black uppercase tracking-[0.15em] text-text-secondary block">Or Paste Photo URL</label>
+                        <input
+                          id="custom-avatar-url-input"
+                          type="url"
+                          placeholder="https://example.com/avatar.jpg"
+                          value={selectedAvatar && !selectedAvatar.startsWith('data:') ? selectedAvatar : ''}
+                          onChange={(e) => setSelectedAvatar(e.target.value)}
+                          className="w-full px-3 py-2.5 text-xs bg-bg-secondary dark:bg-zinc-800/40 border border-border dark:border-zinc-800 rounded-xl outline-none focus:border-primary/40 focus:ring-1 focus:ring-primary/20 transition-all text-text-primary placeholder:text-text-tertiary"
+                        />
+                      </div>
                     </div>
                   </div>
 

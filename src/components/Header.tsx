@@ -147,6 +147,11 @@ const Header: React.FC = () => {
   }, [isMenuOpen]);
 
   React.useEffect(() => {
+    setIsMenuOpen(false);
+    setIsCategoriesOpen(false);
+  }, [location.pathname]);
+
+  React.useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -168,13 +173,13 @@ const Header: React.FC = () => {
     { name: 'Materia Medica', to: '/materia-medica' },
     { name: 'Clinical Guides', to: '/clinical-guides' },
     { 
-      name: 'Glossary', 
-      to: '/glossary',
+      name: 'Homeopathic Encyclopedia', 
+      to: '/lexicon',
       isGlossary: true,
       dropdown: [
         { 
           name: 'Organon & Philosophy', 
-          to: '/glossary/philosophy', 
+          to: '/lexicon/philosophy', 
           category: 'Organon',
           highlight: 'bg-amber-500/10 hover:bg-amber-500/15 border-amber-500/20 text-amber-700 dark:text-amber-400',
           badge: 'Organon',
@@ -182,7 +187,7 @@ const Header: React.FC = () => {
         },
         { 
           name: 'Materia Medica (Remedies)', 
-          to: '/glossary/all', 
+          to: '/lexicon/all', 
           category: 'Materia',
           highlight: 'bg-emerald-500/10 hover:bg-emerald-500/15 border-emerald-500/20 text-emerald-700 dark:text-emerald-400',
           badge: 'Materia',
@@ -190,7 +195,7 @@ const Header: React.FC = () => {
         },
         { 
           name: 'Clinical & Therapeutics', 
-          to: '/glossary/clinical', 
+          to: '/lexicon/clinical', 
           category: 'Clinical',
           highlight: 'bg-sky-500/10 hover:bg-sky-500/15 border-sky-500/20 text-sky-700 dark:text-sky-400',
           badge: 'Clinical',
@@ -198,7 +203,7 @@ const Header: React.FC = () => {
         },
         { 
           name: 'Historical Archives', 
-          to: '/glossary/historical', 
+          to: '/lexicon/historical', 
           category: 'Historical',
           highlight: 'bg-slate-500/10 hover:bg-slate-500/15 border-slate-500/20 text-slate-700 dark:text-slate-400',
           badge: 'History',
@@ -223,9 +228,10 @@ const Header: React.FC = () => {
       name: 'Analysis', 
       to: '/analysis',
       dropdown: [
+        { name: 'Symptom Checker', to: '/symptom-checker' },
         { name: 'Comparison Tool', to: '/analysis' },
         { name: 'Repertory Tool', to: '/repertory' },
-        { name: 'Relationship Map', to: '/relationships' },
+        { name: 'Remedy Nexus', to: '/nexus' },
         { name: 'Visualizer', to: '/visualization' },
       ]
     },
@@ -522,8 +528,8 @@ const Header: React.FC = () => {
                 <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] px-2 italic">
                   Account Portal & Workspace
                 </h3>
-                <div className="px-2 flex justify-start">
-                  <AuthButton />
+                <div className="px-2 flex justify-start w-full">
+                  <AuthButton isMobile={true} onCloseMenu={() => setIsMenuOpen(false)} />
                 </div>
               </motion.div>
 

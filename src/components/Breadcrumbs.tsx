@@ -11,6 +11,7 @@ const Breadcrumbs: React.FC = () => {
     '/',
     '/repertory',
     '/relationships',
+    '/nexus',
     '/visualization',
     '/analysis',
     '/ask-homeopath',
@@ -21,7 +22,12 @@ const Breadcrumbs: React.FC = () => {
     '/glossary/all',
     '/glossary/philosophy',
     '/glossary/clinical',
-    '/glossary/historical'
+    '/glossary/historical',
+    '/lexicon',
+    '/lexicon/all',
+    '/lexicon/philosophy',
+    '/lexicon/clinical',
+    '/lexicon/historical'
   ];
 
   // Don't show breadcrumbs on the homepage or major landing portals
@@ -48,7 +54,8 @@ const Breadcrumbs: React.FC = () => {
       'terms-of-service': 'Terms of Service',
       'topics': 'Research Database',
       'student-resources': 'Student Resources',
-      'glossary': 'Glossary',
+      'glossary': 'Homeopathic Encyclopedia',
+      'lexicon': 'Homeopathic Encyclopedia',
       'philosophy': 'Philosophy',
       'clinical': 'Clinical',
       'historical': 'Historical',
@@ -57,7 +64,8 @@ const Breadcrumbs: React.FC = () => {
       'conditions': 'Ailment',
       'explore-symptoms': 'Ailments',
       'repertory': 'Repertory Tool',
-      'relationships': 'Relationship Map',
+      'relationships': 'Remedy Nexus',
+      'nexus': 'Remedy Nexus',
       'visualization': 'Visualizer',
       'library': 'Library',
       'profile': 'Profile',
@@ -80,7 +88,12 @@ const Breadcrumbs: React.FC = () => {
       
       {pathnames.map((value, index) => {
         const last = index === pathnames.length - 1;
-        const to = `/${pathnames.slice(0, index + 1).join('/')}`;
+        let to = `/${pathnames.slice(0, index + 1).join('/')}`;
+        if (to === '/remedy') {
+          to = '/materia-medica';
+        } else if (to === '/conditions') {
+          to = '/explore-symptoms';
+        }
         const label = getBreadcrumbName(value);
 
         return (

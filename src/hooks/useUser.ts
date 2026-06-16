@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth, onAuthStateChanged } from '../lib/firebase';
+import { auth, onAuthStateChanged, onSnapshot, doc, db } from '../lib/firebase';
 import { userService, UserProfile } from '../services/userService';
 
 export function useUser() {
@@ -7,17 +7,51 @@ export function useUser() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (user) => {
+    let unsubscribeSnapshot: (() => void) | null = null;
+
+    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      if (unsubscribeSnapshot) {
+        unsubscribeSnapshot();
+        unsubscribeSnapshot = null;
+      }
+
       if (user) {
-        const userProfile = await userService.getProfile(user.uid);
-        setProfile(userProfile);
+        // Subscribe to live profile changes
+        unsubscribeSnapshot = onSnapshot(
+          doc(db, 'users', user.uid),
+          (snapshot) => {
+            if (snapshot.exists()) {
+              const data = snapshot.data();
+              setProfile({
+                ...data,
+                bookmarks: data.bookmarks || [],
+                readingHistory: data.readingHistory || [],
+                activities: data.activities || [],
+                interests: data.interests || [],
+                profession: data.profession || 'user',
+              } as UserProfile);
+            } else {
+              setProfile(null);
+            }
+            setLoading(false);
+          },
+          (error) => {
+            console.error("Profile subscription error:", error);
+            setLoading(false);
+          }
+        );
       } else {
         setProfile(null);
+        setLoading(false);
       }
-      setLoading(false);
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeSnapshot) {
+        unsubscribeSnapshot();
+      }
+    };
   }, []);
 
   const toggleBookmark = async (postId: string) => {

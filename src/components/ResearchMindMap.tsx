@@ -110,7 +110,8 @@ const data: MindMapNode = {
           summary: "Management of chronic eczema, acne, psoriasis, and deep tissue lesions.",
           children: [
             { id: "acne-clinical", name: "Acne Vulgaris", type: "research", articleId: "/read/acne-healing", summary: "Treating inflammatory pustules and scars with Berberis Aquifolium, Pulsatilla, and Sulfur." },
-            { id: "eczema-clinical", name: "Eczema & Dermatitis", type: "research", articleId: "/read/eczema-treatment", summary: "Calming dry, cracked skin eruptions and itching with Graphites, Mezereum, and Petroleum." }
+            { id: "eczema-clinical", name: "Eczema & Dermatitis", type: "research", articleId: "/read/eczema-treatment", summary: "Calming dry, cracked skin eruptions and itching with Graphites, Mezereum, and Petroleum." },
+            { id: "hair-loss-clinical", name: "Hairfall & Thinning", type: "research", articleId: "/read/hair-loss-homeopathy", summary: "Restoring hair follicle vitality and treating alopecia areata with Fluoric Acid, Phosphorus, and Lycopodium." }
           ]
         },
         {

@@ -9,7 +9,9 @@ import {
   updateDoc, 
   arrayUnion, 
   arrayRemove,
-  serverTimestamp 
+  serverTimestamp,
+  collection,
+  getDocs
 } from '../lib/firebase';
 
 export interface UserActivity {
@@ -38,6 +40,8 @@ export interface UserProfile {
     lastDifficulty: string;
     updatedAt: string;
   }>;
+  streakCount?: number;
+  lastActiveDate?: string;
   createdAt: any;
   updatedAt: any;
 }
@@ -69,10 +73,11 @@ export const userService = {
     const user = auth.currentUser;
     if (!user) return;
 
-    const docRef = doc(db, 'users', user.uid);
     try {
+      const docRef = doc(db, 'users', user.uid);
       const docSnap = await getDoc(docRef);
       const isNewUser = !docSnap.exists();
+
       const loginAct = {
         id: Math.random().toString(36).substring(2, 11),
         type: 'login' as const,
@@ -82,30 +87,80 @@ export const userService = {
         timestamp: new Date().toISOString()
       };
 
+      const todayStr = new Date().toISOString().split('T')[0];
+
       if (isNewUser) {
         const initialData: any = {
           uid: user.uid,
           email: user.email || user.phoneNumber || '',
-          displayName: user.displayName || user.phoneNumber || '',
+          phoneNumber: user.phoneNumber || '',
+          displayName: user.displayName || user.email?.split('@')[0] || user.phoneNumber || 'Scholar Homeopath',
           photoURL: user.photoURL || '',
           profession: profession || 'user',
           bookmarks: [],
           readingHistory: [],
           activities: [loginAct],
+          streakCount: 1,
+          lastActiveDate: todayStr,
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
         };
         await setDoc(docRef, initialData);
       } else {
+        const currentData = docSnap.data() || {};
+        
+        // Calculate daily study streak
+        let newStreakCount = currentData.streakCount || 0;
+        let lastActive = currentData.lastActiveDate || '';
+
+        if (!lastActive) {
+          newStreakCount = 1;
+          lastActive = todayStr;
+        } else if (lastActive !== todayStr) {
+          const lastActiveDateObj = new Date(lastActive);
+          const todayDateObj = new Date(todayStr);
+          const diffTime = Math.abs(todayDateObj.getTime() - lastActiveDateObj.getTime());
+          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+
+          if (diffDays === 1) {
+            newStreakCount += 1;
+          } else if (diffDays > 1) {
+            newStreakCount = 1;
+          }
+          lastActive = todayStr;
+        } else {
+          if (newStreakCount === 0) {
+            newStreakCount = 1;
+          }
+        }
+
+        let bookmarksToMerge = [...(currentData.bookmarks || [])];
+        let readingHistoryToMerge = [...(currentData.readingHistory || [])];
+        let interestsToMerge = [...(currentData.interests || [])];
+        let activitiesToMerge = [...(currentData.activities || []), loginAct];
+        let studyStatsToMerge = { ...(currentData.studyStats || {}) };
+
         const updateData: any = {
-          displayName: user.displayName || docSnap.data().displayName || '',
-          photoURL: user.photoURL || docSnap.data().photoURL || '',
-          activities: arrayUnion(loginAct),
+          displayName: user.displayName || currentData.displayName || '',
+          photoURL: user.photoURL || currentData.photoURL || '',
+          bookmarks: bookmarksToMerge,
+          readingHistory: readingHistoryToMerge,
+          interests: interestsToMerge,
+          activities: activitiesToMerge,
+          studyStats: studyStatsToMerge,
+          streakCount: newStreakCount,
+          lastActiveDate: lastActive,
           updatedAt: serverTimestamp()
         };
+
+        if (user.phoneNumber) {
+          updateData.phoneNumber = user.phoneNumber;
+        }
+
         if (profession) {
           updateData.profession = profession;
         }
+
         await updateDoc(docRef, updateData);
       }
     } catch (error) {

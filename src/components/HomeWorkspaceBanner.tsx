@@ -36,7 +36,7 @@ export const HomeWorkspaceBanner: React.FC<HomeWorkspaceBannerProps> = ({ profil
           shortcuts: [
             { name: 'Materia Medica A-Z', desc: 'Browse drug pictures, keynotes and modalities.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' },
             { name: 'Clinical Therapeutics', desc: 'Pathology-backed case management guides.', to: '/clinical-guides', icon: Activity, color: 'text-sky-500 bg-sky-500/5' },
-            { name: 'Relationship Map', desc: 'Analyze complementary/inimical remedies.', to: '/relationships', icon: Network, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Remedy Nexus', desc: 'Analyze complementary/inimical remedies.', to: '/nexus', icon: Network, color: 'text-indigo-500 bg-indigo-500/5' },
             { name: 'My Saved Library', desc: 'Saved clinical cases and references.', to: '/library', icon: FileText, color: 'text-amber-500 bg-amber-500/5' }
           ]
         };
@@ -49,7 +49,7 @@ export const HomeWorkspaceBanner: React.FC<HomeWorkspaceBannerProps> = ({ profil
           shortcuts: [
             { name: 'Interactive Repertory', desc: 'Map classical symptoms to exact remedies.', to: '/repertory', icon: Zap, color: 'text-orange-500 bg-orange-500/5' },
             { name: 'Comparative Analysis', desc: 'Compare modality & keynote details.', to: '/analysis', icon: Activity, color: 'text-teal-500 bg-teal-500/5' },
-            { name: 'Remedy Relations Map', desc: 'Navigate remedy antidotes and provers.', to: '/relationships', icon: Network, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Remedy Nexus', desc: 'Navigate remedy antidotes and provers.', to: '/nexus', icon: Network, color: 'text-indigo-500 bg-indigo-500/5' },
             { name: 'Materia Medica A-Z', desc: 'Reference classical drug books easily.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' }
           ]
         };
@@ -61,7 +61,7 @@ export const HomeWorkspaceBanner: React.FC<HomeWorkspaceBannerProps> = ({ profil
           description: 'Train with 10,000+ competitive Homeopathy PG MCQs, examine Organon principles and view anatomical remedy visualizers.',
           shortcuts: [
             { name: 'Targeted MCQ Practice', desc: 'Excel in PG access and BHMS tests.', to: '/mcq-practice', icon: ShieldCheck, color: 'text-indigo-500 bg-indigo-500/5' },
-            { name: 'Organon & Philosophy', desc: 'Examine 291 Hahnemannian aphorisms.', to: '/glossary/philosophy', icon: GraduationCap, color: 'text-amber-500 bg-amber-500/5' },
+            { name: 'Organon & Philosophy', desc: 'Examine 291 Hahnemannian aphorisms.', to: '/lexicon/philosophy', icon: GraduationCap, color: 'text-amber-500 bg-amber-500/5' },
             { name: 'Remedy Visualizer', desc: 'Interactive organ-based remedy mapping.', to: '/visualization', icon: Sparkles, color: 'text-purple-500 bg-purple-500/5' },
             { name: 'Symptoms Repertory', desc: 'Practice study lists of symptom rubrics.', to: '/repertory', icon: Zap, color: 'text-orange-500 bg-orange-500/5' }
           ]

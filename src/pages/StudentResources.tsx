@@ -702,7 +702,7 @@ Generated via Curiva PWA Companion Core.`;
                         />
                       </div>
                       <div>
-                        <label className="block text-[10px] font-black uppercase text-text-secondary tracking-widest mb-1 text-emerald-555 text-emerald-600">
+                        <label className="block text-[10px] font-black uppercase text-text-secondary tracking-widest mb-1 text-emerald-600">
                           Ameliorations (&gt;)
                         </label>
                         <input

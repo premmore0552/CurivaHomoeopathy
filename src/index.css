@@ -7,18 +7,20 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
   --color-primary: #2c4c3b;
-  --color-primary-light: #e8eee9;
-  --color-primary-dark: #1e3328;
+  --color-primary-light: #e6eee9;
+  --color-primary-dark: #1b3328;
   
   --color-accent: #c5a059;
-  --color-accent-light: #f4eee0;
+  --color-accent-light: #f7f4eb;
   
-  --color-bg-primary: #fdfbf7;
-  --color-bg-secondary: #f5f0e6;
-  --color-bg-dark: #1a2b23;
-  --color-text-primary: #1a2b23;
-  --color-text-secondary: #4a5d54;
-  --color-border: #e2dac8;
+  --color-bg-primary: #f6fbf7;
+  --color-bg-secondary: #eef4f0;
+  --color-bg-tertiary: #e2ede5;
+  --color-bg-dark: #152c21;
+  --color-text-primary: #152c21;
+  --color-text-secondary: #3b5247;
+  --color-text-tertiary: #6b8277;
+  --color-border: #d4e2d8;
 
   --shadow-soft: 0 4px 20px -2px rgba(44, 76, 59, 0.05);
   --shadow-header: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px -1px rgba(0, 0, 0, 0.05);
@@ -57,17 +59,79 @@
 }
 
 .dark {
-  --color-bg-primary: #060e0a;
-  --color-bg-secondary: #0f2118;
-  --color-bg-dark: #060e0a;
-  --color-text-primary: #f3faf6;
-  --color-text-secondary: #a4bea3;
-  --color-border: #173827;
+  --color-bg-primary: #0a130f;
+  --color-bg-secondary: #101f18;
+  --color-bg-tertiary: #172c21;
+  --color-bg-dark: #070d0a;
+  --color-text-primary: #e8f5ed;
+  --color-text-secondary: #a1b8ac;
+  --color-text-tertiary: #718d7f;
+  --color-border: #162a20;
   
-  --color-primary: #10b981;
-  --color-primary-light: #a7f3d0;
-  --color-primary-dark: #064e3b;
-  --color-accent: #e6bc73;
+  --color-primary: #3d795d;
+  --color-primary-light: #6fb291;
+  --color-primary-dark: #12281e;
+  --color-accent: #dcae5b;
+}
+
+/* Day/Night Theme Adaptive Overrides */
+.dark .bg-white {
+  background-color: var(--color-bg-secondary) !important;
+}
+.dark .bg-slate-50, 
+.dark .bg-slate-100/50,
+.dark .bg-stone-50,
+.dark .bg-gray-50,
+.dark .bg-slate-100 {
+  background-color: var(--color-bg-primary) !important;
+}
+.dark .bg-emerald-50, 
+.dark .bg-emerald-50/50,
+.dark .bg-emerald-53,
+.dark .bg-emerald-50/60 {
+  background-color: rgba(16, 185, 129, 0.08) !important;
+}
+.dark .bg-amber-50/60,
+.dark .bg-amber-50/50,
+.dark .bg-amber-50 {
+  background-color: rgba(230, 188, 115, 0.08) !important;
+}
+.dark .text-slate-900, 
+.dark .text-slate-800,
+.dark .text-stone-900,
+.dark .text-stone-800,
+.dark .text-gray-900,
+.dark .text-emerald-950 {
+  color: var(--color-text-primary) !important;
+}
+.dark .text-slate-700,
+.dark .text-slate-600,
+.dark .text-slate-500,
+.dark .text-gray-600,
+.dark .text-stone-600 {
+  color: var(--color-text-secondary) !important;
+}
+.dark .border-slate-200, 
+.dark .border-slate-100,
+.dark .border-gray-200,
+.dark .border-gray-100,
+.dark .border-stone-200,
+.dark .border-emerald-100,
+.dark .border-border {
+  border-color: var(--color-border) !important;
+}
+.dark .shadow-soft, 
+.dark .shadow-2xl,
+.dark .shadow-lg,
+.dark .shadow-sm {
+  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.7) !important;
+}
+
+/* Smooth Theme Transitions across components */
+body, header, aside, .card, button, input, select, textarea, div {
+  transition-property: color, background-color, border-color, text-decoration-color, box-shadow;
+  transition-duration: 350ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .markdown-body {

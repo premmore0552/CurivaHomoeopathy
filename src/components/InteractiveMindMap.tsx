@@ -108,8 +108,8 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
     zoomBehaviorRef.current = zoom;
 
     const link = g.append('g')
-      .attr('stroke', theme === 'dark' ? '#ba1173' : '#f2c9d6')
-      .attr('stroke-opacity', 0.4)
+      .attr('stroke', theme === 'dark' ? '#162a20' : '#d4e2d8')
+      .attr('stroke-opacity', 0.6)
       .selectAll('line')
       .data(links)
       .join('line')
@@ -121,14 +121,15 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
       .join('g')
       .attr('class', 'cursor-pointer')
       .call(d3.drag<SVGGElement, Node>()
-        .on('start', dragstarted)
-        .on('drag', dragged)
-        .on('end', dragended) as any);
+         .on('start', dragstarted)
+         .on('drag', dragged)
+         .on('end', dragended) as any);
 
     const colors = {
-      0: '#ba1173', // Main
-      1: theme === 'dark' ? '#df1d8d' : '#8c2d5d', // Branches
-      2: theme === 'dark' ? '#5c0d3a' : '#f8dbe6', // Sub-branches
+      0: theme === 'dark' ? '#c5a059' : '#2c4c3b', // Selected
+      1: '#10b981', // Complementary
+      2: '#ef4444', // Inimical
+      3: theme === 'dark' ? '#60a5fa' : '#3b82f6', // Follows Well
     };
 
     // Glow effect
@@ -141,8 +142,8 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
 
     node.append('circle')
       .attr('r', d => d.radius)
-      .attr('fill', d => (colors as any)[d.group] || colors[2])
-      .attr('stroke', theme === 'dark' ? '#fff' : '#ba1173')
+      .attr('fill', d => (colors as any)[d.group] || colors[3])
+      .attr('stroke', theme === 'dark' ? '#162a20' : '#d4e2d8')
       .attr('stroke-width', 2)
       .attr('class', 'transition-all duration-300 hover:opacity-80')
       .style('filter', d => d.group === 0 ? 'url(#glow)' : 'none');
@@ -150,10 +151,10 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
     node.append('text')
       .attr('text-anchor', 'middle')
       .attr('alignment-baseline', 'middle')
-      .attr('fill', d => d.group === 0 ? '#fff' : (theme === 'dark' ? '#fcf4f6' : '#2d0a1b'))
+      .attr('fill', d => d.group === 0 ? (theme === 'dark' ? '#0a130f' : '#fff') : (theme === 'dark' ? '#e8f5ed' : '#152c21'))
       .attr('font-size', d => d.group === 0 ? '12px' : '10px')
       .attr('font-weight', '800')
-      .attr('class', 'font-display uppercase tracking-widest pointer-events-none select-none')
+      .attr('class', 'font-sans uppercase tracking-widest pointer-events-none select-none')
       .text(d => d.name)
       .attr('dy', '0.3em');
 
