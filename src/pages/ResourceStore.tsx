@@ -117,7 +117,7 @@ const ResourceStore = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white text-center">
+      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white text-center">
         <div className="absolute inset-0 bg-[url('https://ais-dev-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/assets/cheat_sheet_cover.png')] bg-cover bg-center opacity-20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-text-primary/90 via-text-primary to-bg-primary pointer-events-none" />
         

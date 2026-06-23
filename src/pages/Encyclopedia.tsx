@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Filter, Leaf, Database, Activity, BookOpen, Search, ShieldCheck } from 'lucide-react';
+import { Sparkles, Leaf, Database, Activity, BookOpen, ShieldCheck } from 'lucide-react';
 import SEO from '../components/SEO';
 import AZIndex from '../components/AZIndex';
 import { enhancedRemedies } from '../data/enhancedRemedies';
@@ -9,6 +9,7 @@ import { materiaMedicaData } from '../data/materiaMedica';
 import HomeopathicGlossary from '../components/HomeopathicGlossary';
 import RemedyFinder from '../components/RemedyFinder';
 import ModalitiesCheatSheet from '../components/ModalitiesCheatSheet';
+import MateriaMedicaCanvas from '../components/MateriaMedicaCanvas';
 
 export default function Encyclopedia() {
   const [activeTab, setActiveTab] = useState(() => {
@@ -78,7 +79,7 @@ export default function Encyclopedia() {
         description="Browse our comprehensive A-Z database of remedies, drug pictures, symptoms, and classical definitions."
       />
 
-      <header className="relative pt-32 pb-48 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white">
+      <header className="relative pt-32 pb-48 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
         <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
         
@@ -203,42 +204,8 @@ export default function Encyclopedia() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
-              className="space-y-12"
             >
-              <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 border-b border-border/80 pb-6">
-                 <div>
-                    <h2 className="text-3xl font-display font-black text-text-primary uppercase tracking-tight italic">A–Z <span className="text-primary">Index</span></h2>
-                    <p className="text-text-secondary font-medium mt-1">Browse our holistic repository contents alphabetically.</p>
-                 </div>
-                 
-                 <div className="flex flex-wrap items-center gap-3">
-                    <div className="flex items-center gap-2 px-4 py-2 bg-white rounded-xl border border-border shadow-soft mr-2">
-                       <Filter className="w-4 h-4 text-primary" />
-                       <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">Filter Remedies</span>
-                    </div>
-                    <button 
-                      onClick={() => setActiveFamily(null)}
-                      className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer ${!activeFamily ? 'bg-primary text-white border-primary' : 'bg-bg-secondary text-text-secondary border-border hover:border-primary/50'}`}
-                    >
-                      All
-                    </button>
-                    {families.map(family => {
-                      const Icon = family.icon;
-                      return (
-                        <button 
-                          key={family.id}
-                          onClick={() => setActiveFamily(family.id === activeFamily ? null : family.id)}
-                          className={`flex items-center gap-2 px-4 py-2 rounded-xl text-xs font-bold transition-all border cursor-pointer ${activeFamily === family.id ? 'bg-primary text-white border-primary' : 'bg-bg-secondary text-text-secondary border-border hover:border-primary/50'}`}
-                        >
-                          <Icon className="w-3.5 h-3.5" />
-                          {family.id}
-                        </button>
-                      );
-                    })}
-                 </div>
-              </div>
-
-              <AZIndex items={encyclopediaItems} onItemClick={handleItemClick} />
+              <MateriaMedicaCanvas />
             </motion.div>
           )}
 

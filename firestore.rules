@@ -64,6 +64,21 @@ service cloud.firestore {
              data.status in ['paid', 'pending', 'failed'];
     }
 
+    function isValidKit(data) {
+      return data.keys().hasAll(['id', 'userId', 'userEmail', 'status', 'createdAt']) &&
+             data.id is string && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.userEmail is string && data.userEmail.size() <= 200 &&
+             data.status in ['ordered', 'shipped', 'delivered', 'active', 'sent_back', 'processing', 'completed'];
+    }
+
+    function isValidScreening(data) {
+      return data.keys().hasAll(['id', 'userId', 'riskLevel', 'createdAt']) &&
+             data.id is string && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.riskLevel in ['low', 'moderate', 'high'];
+    }
+
     // --- Collection: Users ---
     
     match /users/{userId} {
@@ -120,6 +135,25 @@ service cloud.firestore {
                     incoming().createdAt == request.time;
       
       allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Kits ---
+    match /kits/{kitId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && (
+        (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Screenings ---
+    match /screenings/{screeningId} {
+      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidScreening(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId;
       allow delete: if isAdmin();
     }
 

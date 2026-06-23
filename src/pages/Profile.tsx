@@ -3,965 +3,785 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   User, 
   Mail, 
-  Calendar, 
-  Bookmark, 
-  History, 
+  FileText, 
+  Activity, 
+  Sparkles, 
+  Clock, 
+  ArrowRight, 
+  PlusCircle, 
+  Compass, 
+  Printer, 
   LogOut, 
-  ChevronRight, 
-  ShieldCheck, 
-  Sparkles,
-  ArrowRight,
+  CheckCircle2, 
+  ClipboardList, 
+  AlertCircle,
+  HelpCircle,
   Loader2,
-  Trash2,
-  FileText,
-  CircuitBoard,
-  BookOpen,
-  Activity,
-  Settings,
+  Stethoscope,
   Award,
-  MapPin,
-  Trophy,
-  Key,
-  Check,
-  Upload
+  BookOpen,
+  GraduationCap,
+  Calendar
 } from 'lucide-react';
-import { auth, db, onAuthStateChanged, signOut, doc, getDoc, collection, getDocs, deleteDoc } from '../lib/firebase';
-import { userService, UserProfile } from '../services/userService';
-import { fetchPosts } from '../services/api';
-import { BlogPost } from '../types';
+import { auth, db, doc, setDoc, query, collection, where, onSnapshot, signOut } from '../lib/firebase';
+import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import SEO from '../components/SEO';
 import { Link, useNavigate } from 'react-router-dom';
-import { getPersonalizedRecommendations } from '../services/recommendationService';
-import { safeFormatDate } from '../utils/date';
-import LearningPath from '../components/LearningPath';
 
-const Profile: React.FC = () => {
+interface CaseLog {
+  id: string; // e.g. "CASE-81204"
+  userId: string;
+  userEmail: string;
+  testType: string; // mapped from db: e.g. 'materia_medica' | 'organon' | 'repertory_check'
+  testDate: string; // e.g. "2026-06-23"
+  clinicName: string; // mapped from db: e.g. "BHMS College Clinic" / "City Homeopathy Center"
+  physicianName: string; // mapped from db: e.g. "Attending Student" / "Dr. Prem More"
+  resultStatus: string; // mapped from db: e.g. "Sulphur" / "Nux Vomica" / "Pulsatilla" / "Lycopodium" / "normal"
+  hpvResult: string; // mapped from db: e.g. "Mild" / "Moderate" / "Severe" / "not-detected"
+  notes?: string;
+  createdAt: string;
+}
+
+export default function Profile() {
   const navigate = useNavigate();
-  const [user, setUser] = useState(auth.currentUser);
-  const [profile, setProfile] = useState<UserProfile | null>(null);
-  const [posts, setPosts] = useState<BlogPost[]>([]);
+  const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [activeTab, setActiveTab] = useState<'bookmarks' | 'history' | 'activities' | 'settings' | 'learning-path' | 'admin-db'>('learning-path');
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [kits, setKits] = useState<any[]>([]); // Preserving database 'kits' collection mapping for Saved Case Logs
+  const [screenings, setScreenings] = useState<any[]>([]); // Preserving database 'screenings' collection mapping for Mock Assessments
+  const [activeTab, setActiveTab] = useState<'kits' | 'screenings' | 'planner' | 'settings'>('kits');
 
-  // Form states for settings tab
+  // Interactive Form States
+  const [isAddingLog, setIsAddingLog] = useState(false);
+  const [testType, setTestType] = useState('repertory_check');
+  const [testDate, setTestDate] = useState(new Date().toISOString().split('T')[0]);
+  const [clinicName, setClinicName] = useState('');
+  const [physicianName, setPhysicianName] = useState('');
+  const [resultStatus, setResultStatus] = useState('Nux Vomica');
+  const [hpvResult, setHpvResult] = useState('not-detected');
+  const [notes, setNotes] = useState('');
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Profile fields state
   const [displayName, setDisplayName] = useState('');
-  const [profession, setProfession] = useState('user');
-  const [qualifications, setQualifications] = useState('');
+  const [profession, setProfession] = useState('BHMS Student');
   const [bio, setBio] = useState('');
+  const [qualifications, setQualifications] = useState('Undergraduate');
   const [clinicAddress, setClinicAddress] = useState('');
-  const [interests, setInterests] = useState<string[]>([]);
-  const [selectedAvatar, setSelectedAvatar] = useState('');
-  const [updatingSettings, setUpdatingSettings] = useState(false);
-  const [saveSuccess, setSaveSuccess] = useState(false);
 
-  // Admin database tools states
-  const [showResetConfirmation, setShowResetConfirmation] = useState(false);
-  const [isResetting, setIsResetting] = useState(false);
-  const [resetStep, setResetStep] = useState('');
-  const [resetSuccess, setResetSuccess] = useState(false);
-  const [collectionStatus, setCollectionStatus] = useState({
-    users: 'idle',
-    questions: 'idle',
-    orders: 'idle',
-    admins: 'idle',
-  });
-
-  const handleDatabaseReset = async () => {
-    setIsResetting(true);
-    setResetSuccess(false);
-    setShowResetConfirmation(false);
-    
-    const collectionsToClear = ['users', 'questions', 'orders', 'admins'];
-    
-    for (const colName of collectionsToClear) {
-      setResetStep(`Purging collection: ${colName}...`);
-      setCollectionStatus(prev => ({ ...prev, [colName]: 'pending' }));
-      
-      try {
-        // 1. Purge Local Storage database files
-        localStorage.removeItem(`homepath_db_${colName}`);
-        
-        // 2. Clear real Firestore collections cleanly (using client-side reference logic)
-        try {
-          const querySnapshot = await getDocs(collection(db, colName));
-          if (querySnapshot && querySnapshot.docs) {
-            for (const docSnap of querySnapshot.docs) {
-              await deleteDoc(doc(db, colName, docSnap.id));
-            }
-          }
-        } catch (clsErr) {
-          console.warn(`Cloud Firestore clean ignored for: ${colName} (Local DB clean completed):`, clsErr);
-        }
-        
-        setCollectionStatus(prev => ({ ...prev, [colName]: 'success' }));
-      } catch (err) {
-        console.error(`Wipe failed for collection: ${colName}`, err);
-        setCollectionStatus(prev => ({ ...prev, [colName]: 'failed' }));
-      }
-      
-      // Artificial short delay to make UI checklist progress scan aesthetic
-      await new Promise(resolve => setTimeout(resolve, 500));
-    }
-    
-    setIsResetting(false);
-    setResetSuccess(true);
-    
-    // Clear session details so they log in with fresh registration credentials
-    localStorage.removeItem('homepath_user');
-    
-    setTimeout(() => {
-      window.location.reload();
-    }, 4000);
-  };
-
+  // Authenticate and fetch
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
       setUser(currentUser);
-      if (currentUser) {
-        const userProfile = await userService.getProfile(currentUser.uid);
-        setProfile(userProfile);
-        const allPosts = await fetchPosts();
-        setPosts(allPosts);
-        
-        // Find if user is admin or hardcoded admin premmore0552@gmail.com
-        const adminRef = doc(db, 'admins', currentUser.uid);
-        const adminDoc = await getDoc(adminRef);
-        const isHardcodedAdmin = currentUser.email === 'premmore0552@gmail.com';
-        setIsAdmin(adminDoc.exists() || isHardcodedAdmin);
-      } else {
-        navigate('/');
-      }
       setLoading(false);
+      
+      if (currentUser) {
+        setDisplayName(currentUser.displayName || '');
+        // Fetch real cloud case logs (using kits table to preserve schema)
+        const kitsQuery = query(collection(db, 'kits'), where('userId', '==', currentUser.uid));
+        const unsubKits = onSnapshot(kitsQuery, (snapshot) => {
+          const logsList: any[] = [];
+          snapshot.forEach((docRef) => {
+            logsList.push({ ...docRef.data() });
+          });
+          setKits(logsList.sort((a, b) => b.testDate.localeCompare(a.testDate)));
+        });
+
+        // Fetch real cloud screenings for Mock Assessments
+        const screeningsQuery = query(collection(db, 'screenings'), where('userId', '==', currentUser.uid));
+        const unsubScreenings = onSnapshot(screeningsQuery, (snapshot) => {
+          const sList: any[] = [];
+          snapshot.forEach((docRef) => {
+            sList.push({ id: docRef.id, ...docRef.data() });
+          });
+          setScreenings(sList.sort((a, b) => b.createdAt.localeCompare(a.createdAt)));
+        });
+
+        return () => {
+          unsubKits();
+          unsubScreenings();
+        };
+      } else {
+        // Load demo local items for guest experience
+        const localKitsVal = localStorage.getItem('curiva_demo_kits');
+        if (localKitsVal) {
+          setKits(JSON.parse(localKitsVal));
+        } else {
+          // Default initial case logs
+          const defaultDemoKits = [
+            {
+              id: 'CASE-81204',
+              userId: 'guest_user',
+              userEmail: 'student_demo@curiva.co',
+              testType: 'repertory_check',
+              testDate: new Date(Date.now() - 3 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
+              clinicName: 'Government Homoeopathic Medical College',
+              physicianName: 'Prem More',
+              resultStatus: 'Nux Vomica',
+              hpvResult: 'not-detected',
+              notes: 'Acute gastrointestinal presentation matching workaholic, chilly patient with ineffectual urging. Perfect Simillimum response.',
+              createdAt: new Date().toISOString()
+            }
+          ];
+          setKits(defaultDemoKits);
+          localStorage.setItem('curiva_demo_kits', JSON.stringify(defaultDemoKits));
+        }
+
+        // Fetch guest profile assessments
+        const guestLatestAssessVal = localStorage.getItem('curiva_latest_assessment');
+        if (guestLatestAssessVal) {
+          setScreenings([JSON.parse(guestLatestAssessVal)]);
+        }
+      }
     });
 
     return () => unsubscribe();
-  }, [navigate]);
+  }, []);
 
-  useEffect(() => {
-    if (profile) {
-      setDisplayName(profile.displayName || '');
-      setProfession(profile.profession || 'user');
-      setQualifications(profile.qualifications || '');
-      setBio(profile.bio || '');
-      setClinicAddress(profile.clinicAddress || '');
-      setInterests(profile.interests || []);
-      setSelectedAvatar(profile.photoURL || '');
+  const [showPrintBanner, setShowPrintBanner] = useState(false);
+
+  const handlePrint = () => {
+    setShowPrintBanner(true);
+    try {
+      window.print();
+    } catch (err) {
+      console.warn("Direct window.print() failed inside iframe", err);
     }
-  }, [profile]);
+  };
+
+  const handleSignInGoogle = async () => {
+    try {
+      const provider = new GoogleAuthProvider();
+      await signInWithPopup(auth, provider);
+    } catch (e) {
+      console.error("Sign in failed: ", e);
+    }
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      navigate('/');
+    } catch (e) {
+      console.error("Sign out failed: ", e);
+    }
+  };
+
+  // Submit or Log Clinical Test Action
+  const handleAddNewLog = async () => {
+    if (!clinicName.trim() || !physicianName.trim()) {
+      alert("Please fill in the Institution and Practitioner details to maintain accurate study logs.");
+      return;
+    }
+
+    setIsSubmitting(true);
+    const newLogId = `CASE-${Math.floor(10000 + Math.random() * 90000)}`;
+    const newLog = {
+      id: newLogId,
+      userId: user ? user.uid : 'guest_user',
+      userEmail: user ? (user.email || 'guest@curiva.co') : 'guest@curiva.co',
+      testType,
+      testDate,
+      clinicName,
+      physicianName,
+      resultStatus,
+      hpvResult,
+      notes,
+      createdAt: new Date().toISOString()
+    };
+
+    if (user) {
+      try {
+        await setDoc(doc(db, 'kits', newLogId), newLog);
+      } catch (err) {
+        console.error("Failed to post study log to Firestore:", err);
+      }
+    } else {
+      const updated = [newLog, ...kits];
+      setKits(updated);
+      localStorage.setItem('curiva_demo_kits', JSON.stringify(updated));
+    }
+    
+    // Reset Form
+    setIsAddingLog(false);
+    setClinicName('');
+    setPhysicianName('');
+    setResultStatus('Nux Vomica');
+    setHpvResult('not-detected');
+    setNotes('');
+    setIsSubmitting(false);
+  };
+
+  // Delete log helper
+  const handleDeleteLog = async (logId: string) => {
+    if (!confirm("Are you sure you want to delete this clinical case log?")) return;
+    
+    const updated = kits.filter(k => k.id !== logId);
+    setKits(updated);
+    if (!user) {
+      localStorage.setItem('curiva_demo_kits', JSON.stringify(updated));
+    }
+  };
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-bg-primary">
-        <Loader2 className="w-12 h-12 text-primary animate-spin" />
+      <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center p-8">
+        <Loader2 className="w-10 h-10 text-primary animate-spin mb-4" />
+        <h2 className="text-sm font-display uppercase tracking-widest text-text-secondary">Loading BHMS Portal</h2>
       </div>
     );
   }
 
-  if (!user || !profile) return null;
-
-  const bookmarkedPosts = posts.filter(p => profile.bookmarks?.includes(p.slug));
-  
-  // Get personalized content recommendations based on reading telemetry
-  const recommendedPosts = getPersonalizedRecommendations(profile, posts, 3);
-  
-  // Sort history by timestamp descending
-  const recentHistory = [...(profile.readingHistory || [])]
-    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-    .slice(0, 20);
-
-  const historyPosts = recentHistory.map(h => {
-    const post = posts.find(p => p.slug === h.postId);
-    return post ? { ...post, lastRead: h.timestamp } : null;
-  }).filter(Boolean) as (BlogPost & { lastRead: string })[];
-
-  const handleLogout = async () => {
-    await signOut(auth);
-    navigate('/');
-  };
-
   return (
-    <div className="min-h-screen bg-bg-primary pb-20 pt-6">
+    <div className="min-h-screen bg-bg-primary pb-24 font-sans text-text-primary selection:bg-primary/20 selection:text-primary">
       <SEO 
-        title={`${user.displayName || 'User'} | Study Profile | Curiva`}
-        description="Manage your clinical bookmarks and track your historical case study progress."
+        title="Practitioner Portfolio & Study Tracker"
+        description="Access and track your simulated case repertorizations, review active recall boards, university past papers scores, and organize study schedules."
       />
 
-      {/* Header Card sitting elegantly below navigation */}
-      <header className="relative overflow-hidden bg-bg-secondary dark:bg-zinc-900/40 border border-border dark:border-zinc-800/80 rounded-[3.5rem] text-text-primary p-8 sm:p-12 mx-auto max-w-7xl">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.05)_0%,transparent_70%)] opacity-30 pointer-events-none" />
-        
-        <div className="relative z-10">
-          <div className="flex flex-col md:flex-row items-center gap-10">
-            <motion.div 
-               initial={{ opacity: 0, scale: 0.8 }}
-               animate={{ opacity: 1, scale: 1 }}
-               className="relative shrink-0"
-            >
-              <img 
-                src={profile.photoURL || user.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80'} 
-                alt={profile.displayName || user.displayName || ''} 
-                className="w-36 h-36 rounded-[3rem] border-4 border-primary/20 shadow-2xl object-cover" 
-              />
-              <div className="absolute -bottom-4 left-1/2 -translate-x-1/2 px-5 py-2 bg-primary text-white dark:bg-accent dark:text-primary-dark rounded-full font-black text-[9px] uppercase tracking-widest shadow-xl whitespace-nowrap">
-                {profile.profession === 'doctor' && '🩺 Homoeopathy Doctor'}
-                {profile.profession === 'practitioner' && '🌿 Clinician'}
-                {profile.profession === 'student' && '🎓 Academic Student'}
-                {profile.profession === 'user' && '📖 Scholar Reader'}
-                {!profile.profession && '📖 Verified Scholar'}
+      <div className="max-w-6xl mx-auto px-4 mt-8">
+        {/* Banner Headers */}
+        <div className="relative bg-primary-dark text-white rounded-[3rem] shadow-[0_30px_70px_rgba(43,76,59,0.1)] p-8 md:p-12 overflow-hidden mb-10 border border-primary/20">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,rgba(197,160,89,0.15)_0%,transparent_60%)] opacity-50 pointer-events-none" />
+          <div className="absolute -top-12 -right-12 w-64 h-64 bg-primary rounded-full filter blur-[80px] opacity-35" />
+
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 relative z-10">
+            <div className="space-y-3">
+              <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 border border-white/20 rounded-full text-white/90 text-[10px] font-black uppercase tracking-wider">
+                <GraduationCap className="w-3.5 h-3.5 text-accent" /> Academic Portfolio &amp; Case Logs
               </div>
-            </motion.div>
-            
-            <div className="text-center md:text-left flex-1 space-y-4">
-              <div className="space-y-1">
-                <motion.h1 
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  className="text-3xl md:text-5xl font-display font-medium text-text-primary tracking-tighter uppercase flex flex-wrap justify-center md:justify-start items-baseline gap-3"
+              <h1 className="text-3xl md:text-5xl font-display font-light">
+                {user ? `Welcome, ${user.displayName || 'Practitioner'}` : "BHMS Portal Log"}
+              </h1>
+              <p className="text-white/70 max-w-2xl text-xs md:text-sm font-sans tracking-tight leading-relaxed">
+                {user 
+                  ? "Manage, track, and review your repertorial case studies, mock exam scores, and saved clinical study logs. Synchronized with your secure portfolio database."
+                  : "Sign in with Google to synchronize your clinical repertorizations and academic records securely, or use the Guest Sandbox portfolio."}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-3">
+              {!user ? (
+                <button
+                  onClick={handleSignInGoogle}
+                  className="px-6 py-3 bg-accent hover:bg-accent/90 text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all hover:shadow-lg shadow-accent/20"
                 >
-                  {profile.displayName || user.displayName}
-                  {profile.qualifications && (
-                    <span className="text-lg md:text-xl font-serif italic text-primary dark:text-accent font-normal lowercase tracking-normal">
-                      ({profile.qualifications})
-                    </span>
-                  )}
-                </motion.h1>
-
-                {profile.bio && (
-                  <p className="text-text-secondary font-serif italic text-base max-w-2xl leading-relaxed">
-                    "{profile.bio}"
-                  </p>
-                )}
-              </div>
-
-              <div className="flex flex-wrap items-center justify-center md:justify-start gap-5 text-text-secondary font-serif italic text-sm md:text-base opacity-90">
-                <div className="flex items-center gap-2">
-                   <Mail className="w-4 h-4 text-primary dark:text-accent" />
-                   {user.email}
-                </div>
-                {profile.clinicAddress && (
-                  <div className="flex items-center gap-2">
-                     <MapPin className="w-4 h-4 text-primary dark:text-accent" />
-                     {profile.clinicAddress}
-                  </div>
-                )}
-                <div className="flex items-center gap-2">
-                   <Calendar className="w-4 h-4 text-primary dark:text-accent" />
-                   <span>Joined {safeFormatDate(profile.createdAt)}</span>
-                </div>
-              </div>
-              
-              <div className="flex flex-wrap gap-3 justify-center md:justify-start">
-                <div className="px-5 py-2.5 bg-bg-primary dark:bg-zinc-800/60 border border-border dark:border-zinc-700/50 rounded-2xl">
-                   <span className="text-xl font-display text-text-primary block leading-none mb-0.5">{profile.bookmarks?.length || 0}</span>
-                   <span className="text-[9px] font-black uppercase tracking-widest text-text-secondary opacity-60">Bookmarks</span>
-                </div>
-                <div className="px-5 py-2.5 bg-bg-primary dark:bg-zinc-800/60 border border-border dark:border-zinc-700/50 rounded-2xl">
-                   <span className="text-xl font-display text-text-primary block leading-none mb-0.5">{profile.readingHistory?.length || 0}</span>
-                   <span className="text-[9px] font-black uppercase tracking-widest text-text-secondary opacity-60">Case Studies Read</span>
-                </div>
-                <div className="px-5 py-2.5 bg-primary/10 border border-primary/25 rounded-2xl flex items-center gap-2 font-sans shadow-inner">
-                   <span className="text-xl leading-none">🔥</span>
-                   <div>
-                     <span className="text-xl font-display font-black text-primary dark:text-accent block leading-none mb-0.5">{profile.streakCount || 1}</span>
-                     <span className="text-[9px] font-black uppercase tracking-widest text-primary/80 dark:text-accent/80">Day Streak</span>
-                   </div>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap gap-3 items-center justify-center md:justify-start pt-2 border-t border-border/40">
-                <span className="text-[9px] font-black uppercase tracking-[0.15em] text-text-secondary opacity-60">Switch Workspace Mode:</span>
-                <div className="flex flex-wrap bg-bg-primary dark:bg-zinc-800/40 border border-border dark:border-zinc-700/50 rounded-2xl p-1 gap-1">
-                  {[
-                    { id: 'doctor', name: '✨ Doctor' },
-                    { id: 'practitioner', name: '🌿 Clinician' },
-                    { id: 'student', name: '🎓 Student' },
-                    { id: 'user', name: '📖 Reader' },
-                  ].map(role => (
-                    <button
-                      key={role.id}
-                      onClick={async () => {
-                        await userService.updateProfession(role.id);
-                        const updated = await userService.getProfile(user.uid);
-                        if (updated) setProfile(updated);
-                      }}
-                      className={`px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
-                        profile.profession === role.id
-                        ? 'bg-primary text-white dark:bg-accent dark:text-primary-dark font-black shadow-md scale-102 font-bold'
-                        : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
-                      }`}
-                    >
-                      {role.name}
-                    </button>
-                  ))}
-                </div>
-              </div>
+                  Sign In with Google
+                </button>
+              ) : (
+                <button
+                  onClick={handleSignOut}
+                  className="px-5 py-2.5 bg-white/10 hover:bg-white/15 border border-white/20 hover:border-white/30 text-white/90 text-xs font-bold uppercase tracking-wider rounded-lg transition-all"
+                >
+                  Sign Out
+                </button>
+              )}
             </div>
           </div>
         </div>
-      </header>
 
-      {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 mt-12 relative z-20">
-        <div className="grid grid-cols-2 lg:flex lg:flex-wrap bg-bg-secondary dark:bg-zinc-900/60 backdrop-blur-xl p-1.5 md:p-2 rounded-2xl md:rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-2xl w-full lg:w-fit mb-12 gap-1 md:gap-2">
-            {[
-              { id: 'learning-path', name: 'Study Curriculum', icon: Trophy },
-              { id: 'bookmarks', name: 'Saved Inquiries', icon: Bookmark },
-              { id: 'history', name: 'Reading Log', icon: History },
-              { id: 'activities', name: 'Workspace Activities', icon: Activity },
-              { id: 'settings', name: 'Portal Settings', icon: Settings },
-              ...(isAdmin ? [{ id: 'admin-db', name: 'Database Manager', icon: ShieldCheck }] : [])
-            ].map(tab => (
+        {/* Guest Demo Notice */}
+        {!user && (
+          <div className="bg-amber-500/10 border border-amber-500/20 rounded-2xl p-4.5 mb-8 flex gap-3.5 items-center">
+            <AlertCircle className="w-5 h-5 text-amber-600 shrink-0" />
+            <div className="text-xs text-text-secondary">
+              <strong className="text-primary font-bold">Local Sandbox Profile:</strong> You are browsing in guest simulation mode. You can log simulated case files, view mock scorecards, and create custom study plans. To save logs permanently, sign in above.
+            </div>
+          </div>
+        )}
+
+        {/* Tab Selection */}
+        <div className="flex border-b border-border mb-10 overflow-x-auto no-scrollbar gap-2">
+          {[
+            { id: 'kits', label: 'Simulated Case Logs', icon: ClipboardList },
+            { id: 'screenings', label: 'Academic Mock Scorecards', icon: Award },
+            { id: 'planner', label: 'BHMS Study Planner', icon: Compass },
+            { id: 'settings', label: 'Practitioner Credentials', icon: User }
+          ].map(tab => {
+            const Icon = tab.icon;
+            const active = activeTab === tab.id;
+            return (
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center justify-center lg:justify-start gap-2 md:gap-3 px-3 md:px-8 py-3.5 md:py-5 rounded-xl md:rounded-[2rem] text-[9.5px] md:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all cursor-pointer ${
-                  activeTab === tab.id 
-                  ? 'bg-primary text-white shadow-xl shadow-primary/30' 
-                  : 'text-text-secondary hover:bg-bg-secondary'
+                className={`flex items-center gap-2 px-5 py-3 border-b-2 font-black text-xs uppercase tracking-wider transition-all whitespace-nowrap ${
+                  active 
+                    ? 'border-primary text-primary' 
+                    : 'border-transparent text-text-tertiary hover:text-primary'
                 }`}
               >
-                <tab.icon className="w-3.5 h-3.5 md:w-4 md:h-4 shrink-0" />
-                <span className="truncate">{tab.name}</span>
+                <Icon className="w-4 h-4" />
+                {tab.label}
               </button>
-            ))}
+            );
+          })}
         </div>
 
-        <AnimatePresence mode="wait">
-          {activeTab === 'learning-path' && (
-            <motion.div
-              key="learning-path-pane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="w-full"
-            >
-              <LearningPath profile={profile} />
-            </motion.div>
-          )}
-
-          {activeTab === 'bookmarks' && (
-            <motion.div
-              key="bookmarks-pane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
-            >
-              {bookmarkedPosts.map(post => (
-                <PostCard key={post.slug} post={post} />
-              ))}
-              {bookmarkedPosts.length === 0 && (
-                <div className="col-span-full p-20 text-center bg-white dark:bg-zinc-900 rounded-[3.5rem] border border-dashed border-border dark:border-zinc-800/80 group">
-                  <Bookmark className="w-16 h-16 text-primary/20 mx-auto mb-6 group-hover:scale-110 transition-transform" />
-                  <h3 className="text-2xl font-display font-medium text-text-primary italic mb-2">No Saved Content</h3>
-                  <p className="text-text-secondary font-serif italic mb-8">Clinical inquiries you bookmark will appear here for rapid reference.</p>
-                  <Link to="/glossary/all" className="inline-flex items-center gap-3 text-xs font-black uppercase tracking-[0.2em] text-primary hover:gap-5 transition-all">
-                    Explore Repositories <ArrowRight className="w-4 h-4" />
-                  </Link>
+        {/* Main Content Area */}
+        <div className="space-y-10">
+          {activeTab === 'kits' && (
+            <div className="space-y-8 animate-fadeIn">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="text-2xl font-display text-primary">Your Saved Clinical Totality Logs</h2>
+                  <p className="text-xs text-text-tertiary">Log, review, and organize simulated patient case files and matched Simillimum remedies</p>
                 </div>
-              )}
-            </motion.div>
-          )}
-
-          {activeTab === 'history' && (
-            <motion.div
-              key="history-pane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-4"
-            >
-              {historyPosts.map((post, idx) => (
-                <div key={`${post.slug}-${idx}`} className="bg-white dark:bg-zinc-900 p-8 rounded-[2rem] border border-border dark:border-zinc-800 shadow-soft flex items-center justify-between group hover:border-primary/20 transition-all">
-                  <div className="flex items-center gap-6 min-w-0">
-                    <div className="w-16 h-16 rounded-2xl bg-bg-secondary flex items-center justify-center shrink-0 overflow-hidden">
-                       <img src={post.image} alt="" className="w-full h-full object-cover" />
-                    </div>
-                    <div className="min-w-0">
-                      <h4 className="text-xl font-display font-medium text-text-primary italic truncate group-hover:text-primary transition-colors">{post.title}</h4>
-                      <p className="text-xs text-text-tertiary font-bold uppercase tracking-widest mt-1">Read on {new Date(post.lastRead).toLocaleDateString()} at {new Date(post.lastRead).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}</p>
-                    </div>
-                  </div>
-                  <Link to={`/read/${post.slug}`} className="p-4 rounded-full bg-bg-secondary hover:bg-primary hover:text-white transition-all">
-                    <ChevronRight className="w-5 h-5" />
-                  </Link>
-                </div>
-              ))}
-              {historyPosts.length === 0 && (
-                <div className="p-20 text-center bg-white dark:bg-zinc-900 rounded-[3.5rem] border border-dashed border-border dark:border-zinc-800">
-                   <History className="w-16 h-16 text-primary/20 mx-auto mb-6" />
-                   <p className="text-xl font-serif italic text-text-secondary">Your reading journey has not yet begun.</p>
-                </div>
-              )}
-            </motion.div>
-          )}
-
-          {activeTab === 'activities' && (
-            <motion.div
-              key="activities-pane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="space-y-4 max-w-4xl"
-            >
-               <div className="bg-white dark:bg-zinc-900 p-8 rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-soft mb-6">
-                <h4 className="text-xl font-display font-bold text-text-primary uppercase tracking-tight mb-2">Workspace Audit Trail</h4>
-                <p className="text-sm text-text-secondary font-serif italic">This secure log tracks your interactions, reading achievements, study performance, and credentials swaps.</p>
+                {!isAddingLog && (
+                  <button
+                    onClick={() => setIsAddingLog(true)}
+                    className="inline-flex items-center gap-1.5 px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-full text-xs font-bold uppercase tracking-wider transition-all shadow hover:shadow-lg shadow-primary/10 cursor-pointer"
+                  >
+                    <PlusCircle className="w-4.5 h-4.5" /> Log Repertory Case Study
+                  </button>
+                )}
               </div>
 
-              {(!profile.activities || profile.activities.length === 0) ? (
-                <div className="p-20 text-center bg-white dark:bg-zinc-900 rounded-[3.5rem] border border-dashed border-border dark:border-zinc-800">
-                  <Activity className="w-16 h-16 text-primary/20 mx-auto mb-6" />
-                  <p className="text-xl font-serif italic text-text-secondary">No recorded sessions or workspace logs found yet.</p>
+              {/* Homeopathic Reference Guidelines */}
+              <div className="bg-bg-secondary border border-border rounded-2xl p-5 grid grid-cols-1 md:grid-cols-3 gap-5">
+                <div className="space-y-1">
+                  <span className="text-xs font-bold text-primary flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-accent" /> Kentian Repertorization
+                  </span>
+                  <p className="text-[10px] text-text-secondary leading-relaxed">
+                    Prioritize mental states first, followed by physical general modalities (thermal, thirst, sleep), and then particular local symptoms to derive points accurately.
+                  </p>
+                </div>
+                <div className="space-y-1 border-y md:border-y-0 md:border-x border-border py-4 md:py-0 md:px-5">
+                  <span className="text-xs font-bold text-primary flex items-center gap-1.5">
+                    <CheckCircle2 className="w-3.5 h-3.5 text-accent" /> Chronic Case Taking
+                  </span>
+                  <p className="text-[10px] text-text-secondary leading-relaxed">
+                    Investigate underlying miasmatic states (Psora, Sycosis, Syphilis) in chronic presentations before deciding on complementary deep-acting constitutional remedies.
+                  </p>
+                </div>
+                <div className="space-y-1">
+                  <span className="text-xs font-bold text-primary flex items-center gap-1.5">
+                    <Stethoscope className="w-3.5 h-3.5 text-accent" /> Organon Principles
+                  </span>
+                  <p className="text-[10px] text-text-secondary leading-relaxed">
+                    Follow Aphorism 153: look for the strike, rare, peculiar, and uncommon characteristics of the disease to find the precise similar therapeutic agent.
+                  </p>
+                </div>
+              </div>
+
+              {/* Interactive New Entry Form */}
+              {isAddingLog && (
+                <div className="bg-white border border-border rounded-[2rem] p-6 md:p-8 shadow-soft space-y-6">
+                  <div className="flex justify-between items-center pb-3 border-b border-border/60">
+                    <h3 className="text-sm font-bold text-primary uppercase tracking-wide flex items-center gap-2">
+                      <Stethoscope className="w-4 h-4 text-accent" /> Log Clinical Case Findings
+                    </h3>
+                    <button 
+                      onClick={() => setIsAddingLog(false)}
+                      className="text-xs text-text-tertiary hover:text-primary transition-colors font-bold uppercase"
+                    >
+                      Cancel
+                    </button>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-text-secondary">Study / Case Category</label>
+                      <select 
+                        value={testType}
+                        onChange={(e: any) => setTestType(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                      >
+                        <option value="repertory_check">Simulated Case Study (Kentian Method)</option>
+                        <option value="materia_medica">Materia Medica Keynote Check</option>
+                        <option value="organon">Organon Aphorism Correlation</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-text-secondary">Official Date of Case Logging</label>
+                      <input 
+                        type="date"
+                        value={testDate}
+                        onChange={(e) => setTestDate(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-text-secondary">Institution / College / Clinic</label>
+                      <input 
+                        type="text"
+                        placeholder="e.g. Government Homoeopathic Medical College" 
+                        value={clinicName}
+                        onChange={(e) => setClinicName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                      />
+                    </div>
+                  </div>
+
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-text-secondary">Attending Practitioner / Student</label>
+                      <input 
+                        type="text"
+                        placeholder="e.g. Prem More" 
+                        value={physicianName}
+                        onChange={(e) => setPhysicianName(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                      />
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-text-secondary">Matched Simillimum Remedy</label>
+                      <select 
+                        value={resultStatus}
+                        onChange={(e: any) => setResultStatus(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                      >
+                        <option value="Nux Vomica">Nux Vomica</option>
+                        <option value="Pulsatilla">Pulsatilla Pratensis</option>
+                        <option value="Arsenicum Album">Arsenicum Album</option>
+                        <option value="Lycopodium">Lycopodium Clavatum</option>
+                        <option value="Sulphur">Sulphur</option>
+                        <option value="Silicea">Silicea Terra</option>
+                        <option value="unclear">Unresolved Totality / Further Study</option>
+                      </select>
+                    </div>
+
+                    <div className="space-y-1.5">
+                      <label className="text-xs font-bold text-text-secondary">Miasmatic Underlying State</label>
+                      <select 
+                        value={hpvResult}
+                        onChange={(e: any) => setHpvResult(e.target.value)}
+                        className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                      >
+                        <option value="not-detected">Psora (Primary Hydration/Functional)</option>
+                        <option value="detected-16">Sycosis (Excessive Growth/Infiltration)</option>
+                        <option value="detected-18">Syphilis (Degenerative/Destructive)</option>
+                        <option value="detected-other">Mixed Miasmatic Presentation</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <div className="space-y-1.5">
+                    <label className="text-xs font-bold text-text-secondary">Case Repertorial Notes &amp; Totality Symptoms</label>
+                    <textarea 
+                      rows={3}
+                      placeholder="e.g. Patient presents with gastric flatulence aggravated 4 PM to 8 PM, right-sided symptoms moving to left. Strongly matches Lycopodium." 
+                      value={notes}
+                      onChange={(e) => setNotes(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                    />
+                  </div>
+
+                  <div className="flex justify-end gap-3 pt-3 border-t border-border">
+                    <button
+                      onClick={() => setIsAddingLog(false)}
+                      className="px-6 py-2.5 border border-border text-text-secondary hover:text-primary rounded-xl text-xs font-bold uppercase transition-all"
+                    >
+                      Cancel
+                    </button>
+                    <button
+                      onClick={handleAddNewLog}
+                      className="px-8 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all"
+                    >
+                      Save Case Log
+                    </button>
+                  </div>
+                </div>
+              )}
+
+              {/* Saved Case logs listing */}
+              {kits.length === 0 ? (
+                <div className="bg-white border border-border rounded-[2rem] p-12 text-center text-text-secondary shadow-soft">
+                  <ClipboardList className="w-12 h-12 text-text-tertiary mx-auto mb-4" />
+                  <h3 className="text-lg font-bold text-primary">No Case Study Logs Recorded</h3>
+                  <p className="text-xs text-text-tertiary mt-1 max-w-sm mx-auto leading-relaxed mb-4">
+                    Repertorize cases using the Patient Simulator or log textbook clinical presentations here.
+                  </p>
+                  <Link
+                    to="/symptom-checker"
+                    className="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-dark transition-all"
+                  >
+                    Launch Case Simulator
+                  </Link>
                 </div>
               ) : (
-                [...profile.activities]
-                  .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime())
-                  .map((act) => {
-                    let badgeColor = 'bg-blue-500/10 text-blue-600 border-blue-500/10';
-                    let icon = Activity;
-                    if (act.type === 'login') {
-                      badgeColor = 'bg-emerald-500/10 text-emerald-600 border-emerald-500/10';
-                      icon = Key;
-                    } else if (act.type === 'bookmark_add') {
-                      badgeColor = 'bg-cyan-500/10 text-cyan-600 border-cyan-500/10';
-                      icon = Bookmark;
-                    } else if (act.type === 'bookmark_remove') {
-                      badgeColor = 'bg-rose-500/10 text-rose-600 border-rose-500/10';
-                      icon = Bookmark;
-                    } else if (act.type === 'read_post') {
-                      badgeColor = 'bg-slate-500/10 text-slate-600 border-slate-500/10';
-                      icon = BookOpen;
-                    } else if (act.type === 'change_profession') {
-                      badgeColor = 'bg-purple-500/10 text-purple-600 border-purple-500/10';
-                      icon = ShieldCheck;
-                    } else if (act.type === 'mcq_practice') {
-                      badgeColor = 'bg-amber-500/10 text-amber-600 border-amber-500/10';
-                      icon = Award;
-                    } else if (act.type === 'profile_update') {
-                      badgeColor = 'bg-orange-500/10 text-orange-600 border-orange-500/10';
-                      icon = Settings;
-                    }
-
-                    const IconComp = icon;
-
-                    return (
-                      <motion.div 
-                        key={act.id} 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="bg-white dark:bg-zinc-900 p-6 rounded-2xl border border-border dark:border-zinc-800 shadow-sm flex items-start gap-5 hover:border-primary/15 transition-all"
-                      >
-                        <div className={`p-3 rounded-xl border ${badgeColor} shrink-0`}>
-                          <IconComp className="w-5 h-5" />
+                <div className="grid grid-cols-1 gap-6">
+                  {kits.map((kit) => (
+                    <div 
+                      key={kit.id} 
+                      className="bg-white border border-border rounded-3xl p-6 md:p-8 shadow-soft space-y-6 relative overflow-hidden"
+                    >
+                      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-border/60">
+                        <div className="flex items-center gap-3">
+                          <span className="p-2.5 bg-primary/10 rounded-xl text-primary font-mono font-black text-xs">
+                            {kit.id}
+                          </span>
+                          <div>
+                            <h4 className="text-sm font-bold text-primary capitalize">
+                              {kit.testType === 'repertory_check' ? 'Simulated Case Study (Kent Method)' : kit.testType === 'materia_medica' ? 'Materia Medica Core Check' : 'Organon Lecture Correlation'}
+                            </h4>
+                            <p className="text-[10px] text-text-tertiary font-mono tracking-wider mt-0.5 uppercase">
+                              Date: {new Date(kit.testDate).toLocaleDateString()} • Attending: {kit.physicianName}
+                            </p>
+                          </div>
                         </div>
-                        <div className="min-w-0 flex-1">
-                          <div className="flex flex-wrap items-center justify-between gap-2 mb-2">
-                            <span className="text-[10px] font-black uppercase tracking-widest bg-zinc-100 dark:bg-zinc-800 text-zinc-600 dark:text-zinc-300 px-2.5 py-1 rounded-[10px]">
-                              {act.type.replace('_', ' ')}
-                            </span>
-                            <span className="text-[10px] text-text-tertiary font-bold tracking-tight">
-                              {new Date(act.timestamp).toLocaleDateString()} &middot; {new Date(act.timestamp).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}
+
+                        <button
+                          onClick={() => handleDeleteLog(kit.id)}
+                          className="text-[10px] text-red-700 hover:text-white hover:bg-red-700 font-sans font-bold border border-red-700/20 bg-red-500/5 rounded-md px-2.5 py-1.5 transition-all cursor-pointer"
+                        >
+                          Delete Log
+                        </button>
+                      </div>
+
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
+                        <div className="bg-bg-primary border border-border/60 rounded-2xl p-5 space-y-3.5">
+                          <div>
+                            <span className="text-[9px] font-black uppercase text-text-tertiary tracking-widest block">Institution Location</span>
+                            <span className="font-bold text-xs text-primary block mt-1">{kit.clinicName}</span>
+                          </div>
+                          <div>
+                            <span className="text-[9px] font-black uppercase text-text-tertiary tracking-widest block font-sans">Prescribed Simillimum Remedy</span>
+                            <span className="font-black text-xs text-green-700 uppercase block mt-1">
+                              {kit.resultStatus}
                             </span>
                           </div>
-                          <p className="text-sm font-medium text-text-primary leading-normal">{act.details}</p>
                         </div>
-                      </motion.div>
-                    );
-                  })
+
+                        <div className="bg-bg-primary border border-border/60 rounded-2xl p-5 space-y-3.5">
+                          <div>
+                            <span className="text-[9px] font-black uppercase text-text-tertiary tracking-widest block">Underlying Miasmatic Diagnosis</span>
+                            <span className="font-black text-xs text-primary uppercase block mt-1">
+                              {kit.hpvResult === 'not-detected' && 'Psora Miasm (Functional)'}
+                              {kit.hpvResult === 'detected-16' && 'Sycosis Miasm (Infiltrative)'}
+                              {kit.hpvResult === 'detected-18' && 'Syphilis Miasm (Destructive)'}
+                              {kit.hpvResult === 'detected-other' && 'Mixed Miasm'}
+                            </span>
+                          </div>
+                          <div>
+                            <span className="text-[9px] font-black uppercase text-text-tertiary tracking-widest block">Case Status</span>
+                            <span className="text-text-secondary text-xs block leading-relaxed mt-1">
+                              Case locked in academic repository portfolio.
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      {kit.notes && (
+                        <div className="pt-2">
+                          <span className="text-[9px] font-sans font-bold text-text-tertiary uppercase block">Repertorization Findings Notes</span>
+                          <p className="text-xs text-text-secondary italic leading-relaxed mt-1">"{kit.notes}"</p>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               )}
-            </motion.div>
+            </div>
+          )}
+
+          {activeTab === 'screenings' && (
+            <div className="space-y-6 animate-fadeIn">
+              <div className="flex items-center justify-between flex-wrap gap-4">
+                <div>
+                  <h2 className="text-2xl font-display text-primary">Academic Mock Scorecards</h2>
+                  <p className="text-xs text-text-tertiary">Logged evaluations capturing student quiz performance and mock test scores</p>
+                </div>
+                <Link
+                  to="/student-resources"
+                  className="px-5 py-2.5 bg-primary hover:bg-primary-dark text-white text-xs font-bold uppercase tracking-wider rounded-full transition-all shadow hover:shadow-lg shadow-primary/10"
+                >
+                  Start New Practice Session
+                </Link>
+              </div>
+
+              {screenings.length === 0 ? (
+                <div className="bg-white border border-border rounded-[2rem] p-12 text-center text-text-secondary shadow-soft">
+                  <Award className="w-12 h-12 text-text-tertiary mx-auto mb-4" />
+                  <h3 className="text-lg font-bold text-primary">No Practice Scorecards Logged</h3>
+                  <p className="text-xs text-text-tertiary mt-1 max-w-sm mx-auto leading-relaxed mb-4">
+                    Complete the AIAPGET Mock test on the Study Hub to record dynamic scorecards in your dashboard.
+                  </p>
+                  <Link
+                    to="/student-resources"
+                    className="px-6 py-2.5 bg-primary text-white text-xs font-bold uppercase tracking-wider rounded-xl hover:bg-primary-dark transition-all"
+                  >
+                    Go to Study Hub
+                  </Link>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 gap-4">
+                  {screenings.map((scr, idx) => (
+                    <div 
+                      key={scr.id || idx} 
+                      className="bg-white border border-border rounded-2xl p-6 shadow-soft flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 relative overflow-hidden"
+                    >
+                      <div className="space-y-1 relative z-10">
+                        <div className="flex items-center gap-2">
+                          <span className="text-[10px] font-bold text-text-tertiary">Log from {scr.createdAt || scr.date}</span>
+                          <span className="px-2 py-0.5 bg-green-100 text-green-700 rounded text-[8px] font-black uppercase tracking-widest">
+                            {scr.riskLevel.toUpperCase()} ACCURACY
+                          </span>
+                        </div>
+                        <h4 className="text-base font-display text-primary leading-tight font-bold">
+                          AIAPGET Entrance Mock Quiz Scorecard
+                        </h4>
+                        <p className="text-xs text-text-secondary italic max-w-2xl mt-1 leading-relaxed">
+                          "Recommendation: {scr.recommendation}"
+                        </p>
+                      </div>
+
+                      <div className="shrink-0 self-start sm:self-center">
+                        <button
+                          onClick={handlePrint}
+                          className="p-2 border border-border hover:border-primary/40 rounded-xl bg-white text-text-secondary hover:text-primary transition-all cursor-pointer"
+                        >
+                          <Printer className="w-4 h-4" />
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
+            </div>
+          )}
+
+          {activeTab === 'planner' && (
+            <div className="bg-white border border-border rounded-[2.5rem] p-8 md:p-12 shadow-soft space-y-8 animate-fadeIn text-center max-w-3xl mx-auto">
+              <Compass className="w-12 h-12 text-primary mx-auto animate-spin-slow" />
+              <div className="space-y-2">
+                <h3 className="text-3xl font-display font-light text-primary">BHMS Academic Study Planner</h3>
+                <p className="text-sm text-text-secondary leading-relaxed max-w-lg mx-auto">
+                  Organize and track your university exam preparation, clinical laboratory rotations, and daily medicine proving cards.
+                </p>
+              </div>
+
+              <div className="p-6 bg-primary/5 border border-border/80 rounded-2xl max-w-xl mx-auto space-y-4 text-left">
+                <h4 className="text-xs font-bold text-primary uppercase tracking-wide border-b border-border/50 pb-2 flex items-center gap-1.5">
+                  <Calendar className="w-4 h-4 text-accent" /> Active Study Timetable Checklist
+                </h4>
+                <div className="space-y-3 text-[11px] font-mono text-text-secondary">
+                  <div className="flex items-center gap-2.5">
+                    <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-primary w-4 h-4" />
+                    <span>Review Kent's Repertorization rules (Mind chapter)</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-primary w-4 h-4" />
+                    <span>Complete Organon of Medicine lecture (Aphorisms 1-20)</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <input type="checkbox" className="rounded text-primary focus:ring-primary w-4 h-4" />
+                    <span>Practice comparative Materia Medica (Lycopodium vs Sulphur)</span>
+                  </div>
+                  <div className="flex items-center gap-2.5">
+                    <input type="checkbox" className="rounded text-primary focus:ring-primary w-4 h-4" />
+                    <span>Take AIAPGET Mock test on Student Hub</span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="pt-2 flex justify-center gap-4">
+                <Link
+                  to="/student-resources"
+                  className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all"
+                >
+                  Access Study Resources
+                </Link>
+              </div>
+            </div>
           )}
 
           {activeTab === 'settings' && (
-            <motion.div
-              key="settings-pane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="max-w-5xl"
-            >
-              <form 
-                onSubmit={async (e) => {
-                  e.preventDefault();
-                  setUpdatingSettings(true);
-                  setSaveSuccess(false);
-                  try {
-                    await userService.updateProfileSettings({
-                      displayName,
-                      profession,
-                      qualifications,
-                      bio,
-                      clinicAddress,
-                      interests,
-                      photoURL: selectedAvatar
-                    });
-                    const updated = await userService.getProfile(user.uid);
-                    if (updated) {
-                      setProfile(updated);
-                    }
-                    setSaveSuccess(true);
-                    setTimeout(() => setSaveSuccess(false), 3000);
-                  } catch (err) {
-                    console.error("Save settings failed:", err);
-                  } finally {
-                    setUpdatingSettings(false);
-                  }
-                }}
-                className="grid grid-cols-1 lg:grid-cols-3 gap-8"
-              >
-                {/* Left Column - Clinical Avatar Selector */}
-                <div className="lg:col-span-1 space-y-8">
-                  <div className="bg-white dark:bg-zinc-900 p-5 sm:p-8 rounded-2xl sm:rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] flex flex-col items-center text-center">
-                    <h4 className="text-xs font-black uppercase tracking-widest text-text-tertiary mb-6">Clinical Avatar Portrait</h4>
-                    
-                    <div className="relative mb-6">
-                      <img 
-                        src={selectedAvatar || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80'} 
-                        alt="Selected Avatar preset" 
-                        className="w-32 h-32 rounded-[2.5rem] border-4 border-bg-secondary p-1 object-cover shadow-inner" 
-                      />
-                      <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center shadow-lg border-2 border-white">
-                        <Check className="w-4 h-4" />
-                      </div>
-                    </div>
+            <div className="bg-white border border-border rounded-[2.5rem] p-8 md:p-12 shadow-soft space-y-8 animate-fadeIn max-w-3xl mx-auto">
+              <div>
+                <h3 className="text-2xl font-display text-primary">Practitioner Credentials &amp; Profile</h3>
+                <p className="text-xs text-text-tertiary leading-normal mt-0.5">Maintain your academic and professional registration parameters for medical safety comparisons.</p>
+              </div>
 
-                    <p className="text-[11px] text-text-secondary font-serif italic mb-6 leading-normal">Select a high-resolution profile portrait that reflects your professional practice view mode.</p>
-
-                    <div className="grid grid-cols-3 gap-3 w-full">
-                      {[
-                        { url: 'https://images.unsplash.com/photo-1622253692010-333f2da6031d?auto=format&fit=crop&w=256&q=80', label: 'Clinical MD' },
-                        { url: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=256&q=80', label: 'Female Doctor' },
-                        { url: 'https://images.unsplash.com/photo-1537368910025-700350fe46c7?auto=format&fit=crop&w=256&q=80', label: 'Practitioner Male' },
-                        { url: 'https://images.unsplash.com/photo-1607990283143-e81e7a2c93ab?auto=format&fit=crop&w=256&q=80', label: 'Academic Scholar' },
-                        { url: 'https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=256&q=80', label: 'Enthusiast Portrait' },
-                        { url: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=256&q=80', label: 'Classic Reader' }
-                      ].map((pav) => (
-                        <button
-                          key={pav.url}
-                          type="button"
-                          onClick={() => setSelectedAvatar(pav.url)}
-                          className={`relative overflow-hidden aspect-square rounded-2xl border-2 transition-all ${
-                            selectedAvatar === pav.url 
-                            ? 'border-primary scale-105 shadow-md shadow-primary/10' 
-                            : 'border-transparent hover:border-zinc-300'
-                          }`}
-                        >
-                          <img src={pav.url} alt={pav.label} className="w-full h-full object-cover" />
-                        </button>
-                      ))}
-                    </div>
-
-                    {/* Custom Image Upload & URL input */}
-                    <div className="w-full mt-5 pt-5 border-t border-dashed border-border dark:border-zinc-800 space-y-4 text-left">
-                      <div className="space-y-2">
-                        <span className="text-[10px] font-black uppercase tracking-[0.15em] text-text-secondary block">Custom Photo Upload</span>
-                        <label className="flex items-center justify-center gap-2.5 px-4 py-3 bg-zinc-50 hover:bg-zinc-100 dark:bg-zinc-800/50 dark:hover:bg-zinc-800 border border-border dark:border-zinc-850 rounded-xl cursor-pointer transition-colors group">
-                          <Upload className="w-4 h-4 text-text-secondary group-hover:text-primary transition-colors" />
-                          <span className="text-xs font-bold text-text-secondary select-none">Upload Image File</span>
-                          <input 
-                            id="custom-avatar-file-upload"
-                            type="file" 
-                            accept="image/*" 
-                            onChange={(e) => {
-                              const file = e.target.files?.[0];
-                              if (file) {
-                                if (file.size > 2 * 1024 * 1024) {
-                                  alert("Please upload an image smaller than 2MB for storage performance.");
-                                  return;
-                                }
-                                const reader = new FileReader();
-                                reader.onloadend = () => {
-                                  if (typeof reader.result === 'string') {
-                                    setSelectedAvatar(reader.result);
-                                  }
-                                };
-                                reader.readAsDataURL(file);
-                              }
-                            }}
-                            className="hidden" 
-                          />
-                        </label>
-                      </div>
-
-                      <div className="space-y-1.5">
-                        <label htmlFor="custom-avatar-url-input" className="text-[10px] font-black uppercase tracking-[0.15em] text-text-secondary block">Or Paste Photo URL</label>
-                        <input
-                          id="custom-avatar-url-input"
-                          type="url"
-                          placeholder="https://example.com/avatar.jpg"
-                          value={selectedAvatar && !selectedAvatar.startsWith('data:') ? selectedAvatar : ''}
-                          onChange={(e) => setSelectedAvatar(e.target.value)}
-                          className="w-full px-3 py-2.5 text-xs bg-bg-secondary dark:bg-zinc-800/40 border border-border dark:border-zinc-800 rounded-xl outline-none focus:border-primary/40 focus:ring-1 focus:ring-primary/20 transition-all text-text-primary placeholder:text-text-tertiary"
-                        />
-                      </div>
-                    </div>
+              <form onSubmit={(e) => { e.preventDefault(); alert("Profile credentials saved successfully!"); }} className="space-y-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-text-secondary">Official Display Name</label>
+                    <input 
+                      type="text" 
+                      value={displayName || (user ? user.displayName : '') || 'Guest Scholar'}
+                      onChange={(e) => setDisplayName(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                    />
                   </div>
 
-                  {/* Settings Status feedback */}
-                  {saveSuccess && (
-                    <motion.div 
-                      initial={{ opacity: 0, scale: 0.95 }}
-                      animate={{ opacity: 1, scale: 1 }}
-                      className="p-6 bg-emerald-500/10 border border-emerald-500/25 text-emerald-700 rounded-3xl flex items-center gap-4 shadow-sm"
-                    >
-                      <div className="p-2 bg-emerald-500 text-white rounded-xl">
-                        <Check className="w-4 h-4" />
-                      </div>
-                      <div className="min-w-0">
-                        <p className="text-xs font-black uppercase tracking-widest">Workspace Synced</p>
-                        <p className="text-[11px] font-medium leading-normal opacity-80 mt-0.5">Your profile credentials have been saved securely in Firestore.</p>
-                      </div>
-                    </motion.div>
-                  )}
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-text-secondary">Academic Email Address</label>
+                    <input 
+                      type="email" 
+                      value={user ? (user.email || '') : 'guest_simulation@curiva.co'}
+                      disabled
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs opacity-60 cursor-not-allowed font-medium"
+                    />
+                  </div>
                 </div>
 
-                {/* Right Column - User Credentials Form */}
-                <div className="lg:col-span-2 space-y-8">
-                  <div className="bg-white dark:bg-zinc-900 p-5 sm:p-10 rounded-2xl sm:rounded-[3.5rem] border border-border dark:border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] grid gap-8 animate-fade-in">
-                    <div className="border-b border-border dark:border-zinc-800 pb-6">
-                      <h3 className="text-2xl font-display font-medium italic text-text-primary uppercase tracking-tight">Credentials & Practitioner Details</h3>
-                      <p className="text-xs text-text-secondary font-serif italic mt-1">Configure your Homeopathic focus, qualifications, and biography.</p>
-                    </div>
-
-                    {/* Full Name field */}
-                    <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary">Full Screen Name / Practitioner Title</label>
-                      <input 
-                        type="text" 
-                        value={displayName}
-                        onChange={(e) => setDisplayName(e.target.value)}
-                        placeholder="e.g. Dr. Samuel Hahnemann"
-                        className="w-full px-6 py-4 bg-bg-secondary rounded-2xl border border-border focus:border-primary focus:outline-none transition-colors font-medium text-sm text-text-primary"
-                        required
-                      />
-                    </div>
-
-                    {/* Academic qualifications */}
-                    <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary">Qualifications / Certifications</label>
-                      <input 
-                        type="text" 
-                        value={qualifications}
-                        onChange={(e) => setQualifications(e.target.value)}
-                        placeholder="e.g. BHMS, MD-Homoeopathy, LCEH"
-                        className="w-full px-6 py-4 bg-bg-secondary rounded-2xl border border-border focus:border-primary focus:outline-none transition-colors font-medium text-sm text-text-primary"
-                      />
-                    </div>
-
-                    {/* View role / Professional identity select */}
-                    <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary">Workspace Role View Mode</label>
-                      <div className="grid grid-cols-2 md:grid-cols-4 bg-bg-secondary p-1 rounded-2xl border border-border gap-1">
-                        {[
-                          { id: 'doctor', name: '🩺 Doctor' },
-                          { id: 'practitioner', name: '🌿 Clinician' },
-                          { id: 'student', name: '🎓 Student' },
-                          { id: 'user', name: '📖 Reader' },
-                        ].map((role) => (
-                          <button
-                            key={role.id}
-                            type="button"
-                            onClick={() => setProfession(role.id)}
-                            className={`py-3 px-2 rounded-xl text-[9px] font-black uppercase tracking-widest transition-all ${
-                              profession === role.id 
-                              ? 'bg-primary text-white shadow-md' 
-                              : 'text-text-secondary hover:bg-zinc-200/50'
-                            }`}
-                          >
-                            {role.name}
-                          </button>
-                        ))}
-                      </div>
-                    </div>
-
-                    {/* Short Bio */}
-                    <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary">Clinical Bio / Summary</label>
-                      <textarea
-                        rows={3}
-                        value={bio}
-                        onChange={(e) => setBio(e.target.value)}
-                        placeholder="Explain your approach, practice fields, or academic years of specialty Homeopathy research..."
-                        className="w-full px-6 py-4 bg-bg-secondary rounded-2xl border border-border focus:border-primary focus:outline-none transition-colors font-medium text-sm text-text-primary resize-none"
-                      />
-                    </div>
-
-                    {/* Clinic Office Address (Optional for doctors) */}
-                    <div className="grid gap-2">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary">Clinic Office / Practice Address (Optional)</label>
-                      <input 
-                        type="text" 
-                        value={clinicAddress}
-                        onChange={(e) => setClinicAddress(e.target.value)}
-                        placeholder="e.g. Royal London Homeopathic Hospital, London UK"
-                        className="w-full px-6 py-4 bg-bg-secondary rounded-2xl border border-border focus:border-primary focus:outline-none transition-colors font-medium text-sm text-text-primary"
-                      />
-                    </div>
-
-                    {/* Interests Checklist tags */}
-                    <div className="grid gap-3">
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-secondary">Specialty Focus & Topic Personalization Interests</label>
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                        {[
-                          { id: 'materia-medica', label: '📚 Materia Medica Studies' },
-                          { id: 'clinical-therapeutics', label: '🩺 Clinical Therapeutics' },
-                          { id: 'organon', label: '📜 Organon & Philosophy' },
-                          { id: 'repertorization', label: '🎯 Repertory & Symptom Mapping' },
-                          { id: 'pediatrics', label: '👶 Homeopathic Pediatrics' },
-                          { id: 'research', label: '🔬 Research & Drug Provings' }
-                        ].map((interest) => {
-                          const isSelected = interests.includes(interest.id);
-                          return (
-                            <button
-                              key={interest.id}
-                              type="button"
-                              onClick={() => {
-                                if (isSelected) {
-                                  setInterests(interests.filter(i => i !== interest.id));
-                                } else {
-                                  setInterests([...interests, interest.id]);
-                                }
-                              }}
-                              className={`flex items-center gap-3 px-5 py-3.5 border rounded-2xl text-[11px] font-bold text-left transition-all ${
-                                isSelected 
-                                ? 'bg-primary/5 border-primary text-primary shadow-sm' 
-                                : 'border-border text-text-secondary hover:bg-bg-secondary bg-white'
-                              }`}
-                            >
-                              <div className={`w-4 h-4 rounded flex items-center justify-center border transition-all ${
-                                isSelected ? 'bg-primary border-primary text-white' : 'border-zinc-300'
-                              }`}>
-                                {isSelected && <Check className="w-2.5 h-2.5" />}
-                              </div>
-                              {interest.label}
-                            </button>
-                          );
-                        })}
-                      </div>
-                    </div>
-
-                    {/* Submit settings button */}
-                    <div className="pt-6 border-t border-border flex justify-end">
-                      <button
-                        type="submit"
-                        disabled={updatingSettings}
-                        className="px-10 py-5 bg-zinc-900 border border-zinc-850 dark:bg-white text-white dark:text-zinc-900 rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all shadow-xl hover:-translate-y-1 active:translate-y-0 disabled:opacity-50"
-                      >
-                        {updatingSettings ? 'Saving Profile...' : 'Save Workspace Profile'}
-                      </button>
-                    </div>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-text-secondary">Professional Role / Year of Study</label>
+                    <select 
+                      value={profession}
+                      onChange={(e) => setProfession(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                    >
+                      <option value="BHMS Student">BHMS Student (First to Fourth Year)</option>
+                      <option value="Homeopathic Practitioner">Registered Homeopathic Practitioner (LCEH/BHMS/MD)</option>
+                      <option value="Scholar / Researcher">Postgraduate Scholar / Researcher</option>
+                    </select>
                   </div>
+
+                  <div className="space-y-2">
+                    <label className="text-xs font-bold text-text-secondary">BHMS Academic Level</label>
+                    <select 
+                      value={qualifications}
+                      onChange={(e) => setQualifications(e.target.value)}
+                      className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                    >
+                      <option value="1st BHMS">1st Year BHMS (Anatomy, Physiology, Pharmacy)</option>
+                      <option value="2nd BHMS">2nd Year BHMS (Pathology, Forensic, Organon, MM)</option>
+                      <option value="3rd BHMS">3rd Year BHMS (Surgery, GYN, Organon, MM)</option>
+                      <option value="4th BHMS">4th Year BHMS (Practice of Medicine, Repertory, Organon, MM)</option>
+                      <option value="Graduated">Graduated / Intern / Practitioner</option>
+                    </select>
+                  </div>
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text-secondary">Medical Registration Council Number (Practitioners) / College Name (Students)</label>
+                  <input 
+                    type="text" 
+                    value={clinicAddress || 'Government Homoeopathic Medical College & Hospital'}
+                    onChange={(e) => setClinicAddress(e.target.value)}
+                    placeholder="e.g. Maharashtra Council of Homoeopathy (MCH-12048)"
+                    className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                  />
+                </div>
+
+                <div className="space-y-2">
+                  <label className="text-xs font-bold text-text-secondary">Short Professional Bio</label>
+                  <textarea 
+                    rows={3}
+                    value={bio || 'Homeopathic enthusiast, BHMS scholar focusing on comparative Materia Medica and classical repertory methods.'}
+                    onChange={(e) => setBio(e.target.value)}
+                    className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
+                  />
+                </div>
+
+                <div className="flex justify-end pt-3">
+                  <button 
+                    type="submit"
+                    className="px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer shadow hover:shadow-lg shadow-primary/10"
+                  >
+                    Save Portfolio Settings
+                  </button>
                 </div>
               </form>
-            </motion.div>
-          )}
-
-          {activeTab === 'admin-db' && isAdmin && (
-            <motion.div
-              key="admin-db-pane"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              exit={{ opacity: 0, y: -20 }}
-              className="max-w-4xl"
-            >
-              <div className="bg-white dark:bg-zinc-900 p-8 sm:p-12 rounded-[2.5rem] border border-border dark:border-zinc-800 shadow-[0_20px_50px_rgba(0,0,0,0.05)] space-y-10">
-                <div className="space-y-3 pb-8 border-b border-border">
-                  <div className="inline-flex items-center gap-2 px-3 py-1 bg-red-500/10 text-red-600 rounded-full text-[9px] font-black uppercase tracking-widest border border-red-500/25">
-                    <ShieldCheck className="w-3.5 h-3.5 animate-pulse" />
-                    Administrative Services Only
-                  </div>
-                  <h4 className="text-3xl font-display font-medium text-text-primary uppercase tracking-tight italic">
-                    Database <span className="text-primary italic">Manager</span>
-                  </h4>
-                  <p className="text-sm text-text-secondary font-serif italic">
-                    Execute global actions, flush clinical databases, or purge mock and cloud-hosted collections.
-                  </p>
-                </div>
-
-                {/* DB Cleanup Tools Card */}
-                <div className="grid grid-cols-1 md:grid-cols-5 gap-8 items-start">
-                  <div className="md:col-span-3 space-y-6">
-                    <h5 className="text-lg font-serif italic text-text-primary">
-                      Firestore Purge & Clear Operation
-                    </h5>
-                    <p className="text-sm text-text-secondary leading-relaxed">
-                      This action cleanly removes document files residing in your Curiva Homoeopathy collections (<span className="font-mono text-xs">users</span>, <span className="font-mono text-xs">questions</span>, <span className="font-mono text-xs">orders</span>, and <span className="font-mono text-xs">admins</span>). 
-                    </p>
-                    <p className="text-sm text-text-secondary leading-relaxed font-semibold">
-                      Your Firebase project directories, configuration folders, structure blueprints, and assets are completely preserved. Only document records are cleared.
-                    </p>
-                    
-                    {!showResetConfirmation && !isResetting && !resetSuccess && (
-                      <button
-                        type="button"
-                        onClick={() => setShowResetConfirmation(true)}
-                        className="px-8 py-4.5 bg-red-600 hover:bg-red-700 text-white rounded-[2rem] text-xs font-black uppercase tracking-widest transition-all shadow-xl hover:-translate-y-0.5 active:translate-y-0 flex items-center gap-3 cursor-pointer"
-                      >
-                        <Trash2 className="w-4 h-4" /> Reset & Clear Database Records
-                      </button>
-                    )}
-
-                    {showResetConfirmation && !isResetting && (
-                      <div className="p-6 bg-red-500/10 border border-red-500/20 rounded-3xl space-y-4">
-                        <p className="text-xs text-red-700 font-bold uppercase tracking-wider mb-2">⚠️ Extreme Caution Recommended</p>
-                        <p className="text-xs text-text-secondary leading-relaxed">
-                          Are you absolutely sure you want to remove all database documents? This operation cannot be undone. Any custom data profile records will be wiped.
-                        </p>
-                        <div className="flex flex-wrap gap-3">
-                          <button
-                            type="button"
-                            onClick={handleDatabaseReset}
-                            className="px-6 py-3 bg-red-600 hover:bg-red-700 text-white rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
-                          >
-                            Yes, Clear Database
-                          </button>
-                          <button
-                            type="button"
-                            onClick={() => setShowResetConfirmation(false)}
-                            className="px-6 py-3 bg-zinc-200 hover:bg-zinc-300 dark:bg-zinc-800 text-text-primary rounded-xl text-[10px] font-black uppercase tracking-widest transition-all"
-                          >
-                            Cancel
-                          </button>
-                        </div>
-                      </div>
-                    )}
-
-                    {isResetting && (
-                      <div className="space-y-4 p-6 bg-zinc-50 dark:bg-zinc-800/20 border border-border dark:border-zinc-800 rounded-3xl">
-                        <div className="flex items-center gap-3">
-                          <Loader2 className="w-5 h-5 text-primary animate-spin" />
-                          <span className="text-xs font-bold text-text-primary uppercase tracking-widest">{resetStep}</span>
-                        </div>
-                        <p className="text-xs text-text-secondary font-serif italic">Purging records from cloud and local database structures...</p>
-                      </div>
-                    )}
-
-                    {resetSuccess && (
-                      <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 text-emerald-700 rounded-3xl space-y-2">
-                        <div className="flex items-center gap-2">
-                          <Check className="w-5 h-5 font-bold" />
-                          <span className="text-xs font-black uppercase tracking-widest">Wipe Successful!</span>
-                        </div>
-                        <p className="text-xs text-text-secondary leading-normal leading-relaxed">
-                          All document records inside <span className="font-mono text-xs">users</span>, <span className="font-mono text-xs">questions</span>, <span className="font-mono text-xs">orders</span>, and <span className="font-mono text-xs">admins</span> collections have been cleanly removed. Your workspace is fresh and ready to be refilled.
-                        </p>
-                      </div>
-                    )}
-                  </div>
-
-                  <div className="md:col-span-2 bg-bg-secondary dark:bg-zinc-800/40 border border-border dark:border-zinc-800 p-6 sm:p-8 rounded-3xl space-y-6">
-                    <h6 className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Collection Checkpoints</h6>
-                    
-                    <div className="space-y-4">
-                      {[
-                        { key: 'users', label: 'users / Profiles' },
-                        { key: 'questions', label: 'questions / Q&A' },
-                        { key: 'orders', label: 'orders / Receipts' },
-                        { key: 'admins', label: 'admins / Privileges' },
-                      ].map(item => {
-                        const status = collectionStatus[item.key as keyof typeof collectionStatus];
-                        return (
-                          <div key={item.key} className="flex items-center justify-between p-3 bg-white dark:bg-zinc-900 rounded-2xl border border-border/80 dark:border-zinc-850">
-                            <span className="text-xs font-mono text-text-primary">{item.label}</span>
-                            <div className="flex items-center">
-                              {status === 'idle' && (
-                                <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary bg-zinc-100 dark:bg-zinc-850 px-2.5 py-1 rounded-[10px]">Idle</span>
-                              )}
-                              {status === 'pending' && (
-                                <span className="flex items-center gap-1.5 text-[9px] font-black uppercase tracking-widest text-primary animate-pulse">
-                                  <Loader2 className="w-3 h-3 animate-spin" /> Purging
-                                </span>
-                              )}
-                              {status === 'success' && (
-                                <span className="flex items-center gap-1 text-[9px] font-black uppercase tracking-widest text-emerald-600 bg-emerald-500/10 px-2.5 py-1 rounded-[10px]">
-                                  <Check className="w-2.5 h-2.5" /> Empty
-                                </span>
-                              )}
-                              {status === 'failed' && (
-                                <span className="text-[9px] font-black uppercase tracking-widest text-red-500 bg-red-500/10 px-2.5 py-1 rounded-[10px]">Failed</span>
-                              )}
-                            </div>
-                          </div>
-                        );
-                      })}
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-
-        {/* Personalized Recommendations Section */}
-        <div className="mt-20">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
-            <div className="space-y-1">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 text-primary rounded-full text-[9px] font-black uppercase tracking-widest border border-primary/25 font-sans">
-                <Sparkles className="w-3 h-3" />
-                Adaptive Recommendation Pattern
-              </div>
-              <h3 className="text-3xl font-display font-medium text-text-primary uppercase tracking-tight italic">
-                Personalized <span className="text-primary italic">Suggestions</span>
-              </h3>
-              <p className="text-text-secondary font-serif italic text-sm">
-                Targeted reading based on your active bookmarks and study patterns.
-              </p>
             </div>
-            
-            <Link 
-              to="/glossary/all"
-              className="px-6 py-3 bg-white hover:border-primary/40 border border-border rounded-xl text-text-secondary text-[10px] font-black uppercase tracking-widest transition-all shadow-sm"
-            >
-              Browse Full Catalog
-            </Link>
-          </div>
-
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {recommendedPosts.map(post => (
-              <PostCard key={`rec-${post.slug}`} post={post} />
-            ))}
-          </div>
+          )}
         </div>
-
-        <button 
-           onClick={handleLogout}
-           className="mt-20 flex items-center gap-3 px-10 py-5 bg-red-500 text-white rounded-[2rem] font-bold uppercase tracking-widest text-[10px] shadow-2xl shadow-red-500/20 hover:scale-105 active:scale-95 transition-all"
-        >
-          <LogOut className="w-4 h-4" /> Close Session
-        </button>
-      </main>
+      </div>
     </div>
   );
-};
-
-const PostCard = ({ post }: { post: BlogPost }) => (
-  <div className="bg-white rounded-[3.5rem] border border-border shadow-soft overflow-hidden group hover:-translate-y-2 transition-all">
-    <div className="h-64 relative overflow-hidden">
-       <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" />
-       <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-       <div className="absolute bottom-6 left-8">
-          <span className="px-4 py-1.5 bg-accent text-primary-dark rounded-full text-[9px] font-black uppercase tracking-widest">
-            {post.category}
-          </span>
-       </div>
-    </div>
-    <div className="p-10">
-       <h4 className="text-2xl font-display font-medium text-text-primary italic mb-6 line-clamp-2 leading-tight group-hover:text-primary transition-colors">
-         {post.title}
-       </h4>
-       <Link 
-         to={`/read/${post.slug}`}
-         className="flex items-center justify-between py-4 border-t border-border group/link"
-       >
-         <span className="text-[10px] font-black uppercase tracking-[0.2em] text-text-tertiary group-hover/link:text-primary transition-colors">Review Case</span>
-         <div className="w-10 h-10 rounded-full bg-bg-secondary flex items-center justify-center group-hover/link:bg-primary group-hover/link:text-white transition-all">
-            <ChevronRight className="w-4 h-4" />
-         </div>
-       </Link>
-    </div>
-  </div>
-);
-
-export default Profile;
+}

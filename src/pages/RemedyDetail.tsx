@@ -22,9 +22,20 @@ import {
   Shield,
   Scale,
   Search,
-  Brain
+  Brain,
+  Sun,
+  Moon,
+  Type,
+  BookOpenText,
+  Clock,
+  Bookmark as BookmarkIcon,
+  BookmarkCheck,
+  Check,
+  Copy,
+  ArrowRight
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import { useUser } from '../hooks/useUser';
 import { enhancedRemedies, RemedyDetailData } from '../data/enhancedRemedies';
 import { comparisonRemedies, ComparisonData } from '../data/comparisonData';
 import { materiaMedicaData } from '../data/materiaMedica';
@@ -164,6 +175,37 @@ const getRemedyMiasmProfile = (id: string) => {
 export default function RemedyDetail() {
   const { remedyId } = useParams<{ remedyId: string }>();
   const { incrementUsage, subscription, loading } = useSubscription();
+  const { profile, toggleBookmark } = useUser();
+  const [citationCopied, setCitationCopied] = useState(false);
+
+  const isLoggedIn = !!profile;
+  const isBookmarked = profile?.bookmarks?.includes(remedyId || '') || false;
+
+  const handleToggleBookmark = () => {
+    if (remedyId) {
+      toggleBookmark(remedyId);
+    }
+  };
+
+  const handleCopyCitation = () => {
+    if (!remedy) return;
+    const currentYear = new Date().getFullYear();
+    const formattedUrl = window.location.href;
+    const citation = `Curiva Encyclopedia of Homoeopathy. (${currentYear}). ${remedy.name} (${remedy.family} family). Retrieved from ${formattedUrl}`;
+    navigator.clipboard.writeText(citation);
+    setCitationCopied(true);
+    setTimeout(() => setCitationCopied(false), 2000);
+  };
+
+  const getRemedyReadingTime = () => {
+    if (!remedy) return '3 min read';
+    let wordCount = (remedy.description || '').split(/\s+/).length;
+    wordCount += (remedy.keyCharacteristics || []).join(' ').split(/\s+/).length;
+    wordCount += (remedy.mind || []).join(' ').split(/\s+/).length;
+    wordCount += (remedy.physical || []).join(' ').split(/\s+/).length;
+    if (wordCount < 100) wordCount = 450;
+    return `${Math.ceil(wordCount / 200)} min read`;
+  };
   
   useEffect(() => {
     // Only increment for non-pro users on initial mount of a remedy
@@ -226,6 +268,27 @@ export default function RemedyDetail() {
     const saved = localStorage.getItem(`remedy_modalities_expanded_${remedyId}`);
     return saved !== 'false';
   });
+
+  const [readerFontSize, setReaderFontSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('md');
+  const [readerTheme, setReaderTheme] = useState<'default' | 'sepia' | 'dark-contrast'>('default');
+
+  const getFontSizeClass = (sz: 'sm' | 'md' | 'lg' | 'xl') => {
+    switch (sz) {
+      case 'sm': return 'text-sm [&_p]:text-sm [&_li]:text-sm [&_h2]:text-2xl [&_h3]:text-xl [&_div]:text-sm';
+      case 'md': return 'text-base [&_p]:text-base [&_li]:text-base [&_h2]:text-3xl [&_h3]:text-2xl';
+      case 'lg': return 'text-lg [&_p]:text-lg [&_li]:text-lg [&_h2]:text-4xl [&_h3]:text-3xl';
+      case 'xl': return 'text-xl [&_p]:text-xl [&_li]:text-xl [&_h2]:text-5xl [&_h3]:text-4xl';
+      default: return '';
+    }
+  };
+
+  const getThemeClass = (theme: 'default' | 'sepia' | 'dark-contrast') => {
+    switch (theme) {
+      case 'sepia': return 'bg-[#FAF6EE] dark:bg-[#FAF6EE] text-[#433422] dark:text-[#433422] p-8 md:p-12 rounded-[2.5rem] border border-[#E9DFCB] shadow-inner';
+      case 'dark-contrast': return 'bg-[#121212] dark:bg-[#121212] text-[#F1F1F1] dark:text-[#F1F1F1] p-8 md:p-12 rounded-[2.5rem] border border-zinc-800 shadow-inner';
+      default: return '';
+    }
+  };
 
   if (!remedy) {
     const placeholderName = remedyId?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
@@ -297,6 +360,9 @@ export default function RemedyDetail() {
              <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
                {remedy.thermal}
              </span>
+             <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 flex items-center gap-1.5">
+               <Clock className="w-3.5 h-3.5 text-accent animate-pulse" /> {getRemedyReadingTime()}
+             </span>
            </motion.div>
 
            <motion.h1 
@@ -317,9 +383,58 @@ export default function RemedyDetail() {
              transition={{ delay: 0.2 }}
              className="grid lg:grid-cols-2 gap-12 items-end"
            >
-             <p className="text-xl md:text-2xl text-white/70 font-serif italic leading-tight max-w-2xl">
-               {remedy.description}
-             </p>
+             <div>
+               <p className="text-xl md:text-2xl text-white/70 font-serif italic leading-tight max-w-2xl">
+                 {remedy.description}
+               </p>
+
+               <div className="flex flex-wrap items-center gap-4 mt-8">
+                 {/* Bookmark Toggle Button */}
+                 {isLoggedIn ? (
+                   <button 
+                     onClick={handleToggleBookmark}
+                     className={`flex items-center gap-2.5 px-6 py-3.5 rounded-full text-[10.5px] font-black uppercase tracking-widest transition-all cursor-pointer shadow-lg ${
+                       isBookmarked
+                       ? 'bg-accent text-primary-dark shadow-accent/20 scale-102 border-transparent'
+                       : 'bg-white/15 border border-white/20 text-white hover:bg-white/25 hover:border-white/30'
+                     }`}
+                   >
+                     {isBookmarked ? (
+                       <>
+                         <BookmarkCheck className="w-4 h-4 text-primary-dark" />
+                         Saved to Profile
+                       </>
+                     ) : (
+                       <>
+                         <BookmarkIcon className="w-4 h-4 text-accent" />
+                         Save Remedy
+                       </>
+                     )}
+                   </button>
+                 ) : (
+                   <Link
+                     to="/subscription"
+                     className="flex items-center gap-2.5 px-6 py-3.5 bg-white/15 border border-white/20 text-white rounded-full text-[10.5px] font-black uppercase tracking-widest hover:bg-white/25 transition-all shadow-lg"
+                   >
+                     <BookmarkIcon className="w-4 h-4 text-accent" />
+                     Sign In to Save
+                   </Link>
+                 )}
+
+                 {/* Copy Citation Button */}
+                 <button 
+                   onClick={handleCopyCitation}
+                   className={`flex items-center gap-2.5 px-6 py-3.5 rounded-full text-[10.5px] font-black uppercase tracking-widest transition-all cursor-pointer shadow-lg ${
+                     citationCopied
+                     ? 'bg-emerald-600 text-white shadow-emerald-500/20'
+                     : 'bg-white/10 hover:bg-white/15 border border-white/10 text-white hover:border-white/20'
+                   }`}
+                 >
+                   {citationCopied ? <Check className="w-4 h-4 text-white" /> : <Copy className="w-4 h-4 text-accent" />}
+                   {citationCopied ? 'Citation Copied!' : 'Copy APA Citation'}
+                 </button>
+               </div>
+             </div>
              <div className="hidden lg:flex justify-end gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40 italic">
                 <div className="flex flex-col gap-2">
                   <span className="text-accent">Origin</span>
@@ -400,7 +515,74 @@ export default function RemedyDetail() {
           </aside>
 
           {/* Main Content */}
-          <div className="lg:col-span-3 space-y-24">
+          <div className={`lg:col-span-3 space-y-24 ${getFontSizeClass(readerFontSize)}`}>
+            
+            {/* Accessibility Reader Toolbar */}
+            <div id="reader-settings" className="p-6 bg-bg-secondary rounded-3xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-primary/10 text-primary rounded-2xl">
+                  <BookOpenText className="w-5 h-5 shrink-0" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.15em] text-primary block mb-0.5">Reader Accessibility</span>
+                  <p className="text-xs text-text-secondary">Optimize text sizing and eye-comfort themes for active researchers.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {/* Font Size Adjuster */}
+                <div className="flex items-center gap-1.5 bg-bg-primary p-1.5 rounded-2xl border border-border">
+                  <span className="text-[10px] font-black text-text-secondary px-2 uppercase tracking-wider">A—</span>
+                  {(['sm', 'md', 'lg', 'xl'] as const).map((sz) => (
+                    <button
+                      key={`font-sz-${sz}`}
+                      onClick={() => setReaderFontSize(sz)}
+                      className={`px-3 py-1.5 text-xs rounded-xl font-bold uppercase transition-all cursor-pointer ${
+                        readerFontSize === sz 
+                          ? 'bg-primary text-white shadow-md' 
+                          : 'text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      {sz}
+                    </button>
+                  ))}
+                  <span className="text-[10px] font-black text-text-secondary px-2 uppercase tracking-wider">A+</span>
+                </div>
+
+                {/* Theme Selector */}
+                <div className="flex items-center gap-1.5 bg-bg-primary p-1.5 rounded-2xl border border-border">
+                  {[
+                    { id: 'default', label: 'Default', icon: Sun },
+                    { id: 'sepia', label: 'Warm Sepia', icon: Type },
+                    { id: 'dark-contrast', label: 'Cozy Dark', icon: Moon }
+                  ].map((preset) => {
+                    const Icon = preset.icon;
+                    return (
+                      <button
+                        key={`reader-theme-${preset.id}`}
+                        onClick={() => setReaderTheme(preset.id as any)}
+                        style={{ contentVisibility: 'auto' }}
+                        className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+                          readerTheme === preset.id
+                            ? preset.id === 'sepia'
+                              ? 'bg-[#E9DFCB] text-[#433422] shadow-md border border-[#D5C6A9]'
+                              : preset.id === 'dark-contrast'
+                                ? 'bg-zinc-800 text-zinc-100 shadow-md border border-zinc-700'
+                                : 'bg-primary text-white shadow-md'
+                            : 'text-text-secondary hover:text-text-primary'
+                        }`}
+                        title={preset.label}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">{preset.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
+            <div className={`transition-all duration-300 space-y-24 ${getThemeClass(readerTheme)}`}>
             
             {/* Constitutional Dynamics & Miasmatic Affinity */}
             <section id="dynamics-infographic" className="scroll-mt-32">
@@ -719,7 +901,6 @@ export default function RemedyDetail() {
               </div>
             </section>
 
-            {/* Related Research (Blog Posts) */}
             {(() => {
               const dynamicBlogPosts = allBlogPosts.filter(post => 
                 post.id === remedy.id || 
@@ -728,37 +909,88 @@ export default function RemedyDetail() {
                 (remedy.relatedBlogPosts && remedy.relatedBlogPosts.includes(post.id))
               );
 
-              if (dynamicBlogPosts.length === 0) return null;
+              const relatedRemedies = (() => {
+                const allRems = [
+                  ...enhancedRemedies.map(r => ({ id: r.id, name: r.name, family: r.family, description: r.description })),
+                  ...materiaMedicaData.map(r => ({ id: r.id, name: r.name, family: r.family, description: r.keynotes[0] || r.commonName })),
+                  ...comparisonRemedies.map(r => ({ id: r.id, name: r.name, family: (r.origin.includes('Plant') ? 'Plant' : r.origin.includes('Animal') ? 'Animal' : 'Mineral') as any, description: r.origin }))
+                ];
+                let list = allRems
+                  .filter(r => r.id !== remedy.id && r.family === remedy.family)
+                  .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+                if (list.length < 3) {
+                  const others = allRems
+                    .filter(r => r.id !== remedy.id && r.family !== remedy.family)
+                    .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
+                  list = [...list, ...others];
+                }
+                return list.slice(0, 3);
+              })();
 
               return (
-                <section id="research" className="scroll-mt-32">
-                  <div className="flex items-center gap-4 mb-12">
-                    <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                      <Sparkles className="w-6 h-6" />
+                <section id="research" className="scroll-mt-32 space-y-12">
+                  <div>
+                    <div className="flex items-center gap-4 mb-4">
+                      <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
+                        <Sparkles className="w-6 h-6" />
+                      </div>
+                      <h2 className="text-4xl font-display font-medium text-text-primary italic">Scholarly <span className="text-primary italic">Insights & Related Research</span></h2>
                     </div>
-                    <h2 className="text-4xl font-display font-medium text-text-primary italic">Scholarly <span className="text-primary italic">Insights</span></h2>
+                    <p className="text-text-secondary font-serif italic text-base mt-1">Explore relevant cases and companion remedies from the same therapeutic family.</p>
                   </div>
-                  <div className="grid md:grid-cols-2 gap-8">
-                    {dynamicBlogPosts.map(post => {
-                      return (
+
+                  {/* Scholarly Article publications if any */}
+                  {dynamicBlogPosts.length > 0 && (
+                    <div className="space-y-6">
+                      <h3 className="text-xs font-black uppercase tracking-widest text-[#c5a059]">1. Associated Case Inquiries & Publications</h3>
+                      <div className="grid md:grid-cols-2 gap-8">
+                        {dynamicBlogPosts.map(post => {
+                          return (
+                            <Link 
+                              key={post.id}
+                              to={`/read/${post.slug || post.id}`}
+                              className="group relative bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
+                            >
+                              <div className="aspect-video w-full overflow-hidden">
+                                <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+                              </div>
+                              <div className="p-8">
+                                <span className="text-[10px] font-black uppercase text-accent tracking-[0.3em] mb-3 block">Publication</span>
+                                <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors line-clamp-2 italic leading-tight mb-4">{post.title}</h4>
+                                <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
+                                  Read Article <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                                </div>
+                              </div>
+                            </Link>
+                          )
+                        })}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Related Remedies of the same family */}
+                  <div className="space-y-6 pt-6 border-t border-border/40">
+                    <h3 className="text-xs font-black uppercase tracking-widest text-[#c5a059]">Companion Remedies (Same {remedy.family} Family)</h3>
+                    <div className="grid md:grid-cols-3 gap-8">
+                      {relatedRemedies.map(relRem => (
                         <Link 
-                          key={post.id}
-                          to={`/read/${post.slug || post.id}`}
-                          className="group relative bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
+                          key={relRem.id}
+                          to={`/remedy/${relRem.id}`}
+                          className="group bg-white dark:bg-zinc-900/40 p-8 rounded-[2.5rem] border border-border hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all flex flex-col justify-between"
                         >
-                          <div className="aspect-video w-full overflow-hidden">
-                            <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
+                          <div>
+                            <span className="text-[10px] font-black uppercase tracking-widest text-[#c5a059] mb-4 block">{relRem.family} Family</span>
+                            <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors italic line-clamp-1 mb-4">{relRem.name}</h4>
+                            <p className="text-xs text-text-secondary font-serif italic line-clamp-3 leading-relaxed mb-6 font-medium">
+                              {relRem.description}
+                            </p>
                           </div>
-                          <div className="p-8">
-                            <span className="text-[10px] font-black uppercase text-accent tracking-[0.3em] mb-3 block">Publication</span>
-                            <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors line-clamp-2 italic leading-tight mb-4">{post.title}</h4>
-                            <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
-                              Read Article <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                            </div>
+                          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-text-tertiary group-hover:text-primary transition-colors border-t border-border/40 pt-4">
+                            Review Remedy <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
                           </div>
                         </Link>
-                      )
-                    })}
+                      ))}
+                    </div>
                   </div>
                 </section>
               );
@@ -849,6 +1081,7 @@ export default function RemedyDetail() {
               </div>
             </section>
 
+            </div>
           </div>
         </div>
       </div>

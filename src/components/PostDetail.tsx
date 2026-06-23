@@ -11,7 +11,7 @@ import { MarkdownComponents, highlightModalities } from './MarkdownRenderers';
 import TextMindMap from './TextMindMap';
 import { useTheme } from '../context/ThemeContext';
 import { injectGlossaryLinks } from '../utils/glossaryLinker';
-import { Volume2, VolumeX, Play, Pause, BookmarkCheck } from 'lucide-react';
+import { Volume2, VolumeX, Play, Pause, BookmarkCheck, Sun, Moon, Type, BookOpenText } from 'lucide-react';
 import { useUser } from '../hooks/useUser';
 
 import RelatedArticles from './RelatedArticles';
@@ -25,7 +25,28 @@ interface PostDetailProps {
 
 const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSelectPost }) => {
   const { profile, toggleBookmark, addToHistory } = useUser();
+  const [readerFontSize, setReaderFontSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('md');
+  const [readerTheme, setReaderTheme] = useState<'default' | 'sepia' | 'dark-contrast'>('default');
+
+  const getFontSizeClass = (sz: 'sm' | 'md' | 'lg' | 'xl') => {
+    switch (sz) {
+      case 'sm': return 'text-sm md:text-sm leading-normal [&_p]:text-sm [&_li]:text-sm [&_h2]:text-2xl [&_h3]:text-xl';
+      case 'md': return 'text-lg md:text-lg leading-relaxed [&_p]:text-lg [&_li]:text-lg [&_h2]:text-3xl [&_h3]:text-2xl';
+      case 'lg': return 'text-xl md:text-xl leading-relaxed [&_p]:text-xl [&_li]:text-xl [&_h2]:text-4xl [&_h3]:text-3xl';
+      case 'xl': return 'text-2xl md:text-2xl leading-loose [&_p]:text-2xl [&_li]:text-2xl [&_h2]:text-5xl [&_h3]:text-4xl';
+      default: return 'text-lg';
+    }
+  };
+
+  const getThemeClass = (theme: 'default' | 'sepia' | 'dark-contrast') => {
+    switch (theme) {
+      case 'sepia': return 'bg-[#FAF6EE] dark:bg-[#FAF6EE] text-[#433422] dark:text-[#433422] p-8 md:p-12 rounded-[2.5rem] border border-[#E9DFCB] shadow-inner';
+      case 'dark-contrast': return 'bg-[#121212] dark:bg-[#121212] text-[#F1F1F1] dark:text-[#F1F1F1] p-8 md:p-12 rounded-[2.5rem] border border-zinc-800 shadow-inner';
+      default: return '';
+    }
+  };
   const [copied, setCopied] = useState(false);
+  const [copiedCitation, setCopiedCitation] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [relatedPosts, setRelatedPosts] = useState<BlogPost[]>([]);
   const [isPlaying, setIsPlaying] = useState(false);
@@ -354,6 +375,71 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
               </div>
             )}
 
+            {/* Accessibility Reader Toolbar */}
+            <div id="reader-settings" className="mb-8 p-6 bg-bg-secondary rounded-3xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-6">
+              <div className="flex items-center gap-3">
+                <div className="p-2.5 bg-primary/10 text-primary rounded-2xl">
+                  <BookOpenText className="w-5 h-5 shrink-0" />
+                </div>
+                <div>
+                  <span className="text-[10px] font-black uppercase tracking-[0.15em] text-primary block mb-0.5">Reader Accessibility</span>
+                  <p className="text-xs text-text-secondary">Optimize text sizing and eye-comfort themes for active researchers.</p>
+                </div>
+              </div>
+
+              <div className="flex flex-wrap items-center gap-4">
+                {/* Font Size Adjuster */}
+                <div className="flex items-center gap-1.5 bg-bg-primary p-1.5 rounded-2xl border border-border">
+                  <span className="text-[10px] font-black text-text-secondary px-2 uppercase tracking-wider">A—</span>
+                  {(['sm', 'md', 'lg', 'xl'] as const).map((sz) => (
+                    <button
+                      key={`font-sz-${sz}`}
+                      onClick={() => setReaderFontSize(sz)}
+                      className={`px-3 py-1.5 text-xs rounded-xl font-bold uppercase transition-all cursor-pointer ${
+                        readerFontSize === sz 
+                          ? 'bg-primary text-white shadow-md' 
+                          : 'text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      {sz}
+                    </button>
+                  ))}
+                  <span className="text-[10px] font-black text-text-secondary px-2 uppercase tracking-wider">A+</span>
+                </div>
+
+                {/* Theme Selector */}
+                <div className="flex items-center gap-1.5 bg-bg-primary p-1.5 rounded-2xl border border-border">
+                  {[
+                    { id: 'default', label: 'Default', icon: Sun },
+                    { id: 'sepia', label: 'Warm Sepia', icon: Type },
+                    { id: 'dark-contrast', label: 'Cozy Dark', icon: Moon }
+                  ].map((preset) => {
+                    const Icon = preset.icon;
+                    return (
+                      <button
+                        key={`reader-theme-${preset.id}`}
+                        onClick={() => setReaderTheme(preset.id as any)}
+                        style={{ contentVisibility: 'auto' }}
+                        className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
+                          readerTheme === preset.id
+                            ? preset.id === 'sepia'
+                              ? 'bg-[#E9DFCB] text-[#433422] shadow-md border border-[#D5C6A9]'
+                              : preset.id === 'dark-contrast'
+                                ? 'bg-zinc-800 text-zinc-100 shadow-md border border-zinc-700'
+                                : 'bg-primary text-white shadow-md'
+                            : 'text-text-secondary hover:text-text-primary'
+                        }`}
+                        title={preset.label}
+                      >
+                        <Icon className="w-3.5 h-3.5" />
+                        <span className="hidden sm:inline">{preset.label}</span>
+                      </button>
+                    );
+                  })}
+                </div>
+              </div>
+            </div>
+
             <TextMindMap 
               title={post.title.split(':')[0]} 
               category={post.category} 
@@ -363,12 +449,14 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
               research={post.citations}
             />
 
-            <div className="markdown-body prose prose-lg md:prose-xl max-w-none dark:prose-invert">
-              <p className="text-xl md:text-2xl text-text-primary font-medium leading-relaxed mb-10">
-                {highlightModalities(post.excerpt)}
-              </p>
-              
-              <ReactMarkdown components={MarkdownComponents}>{injectGlossaryLinks(post.content)}</ReactMarkdown>
+            <div className={`transition-all duration-300 ${getThemeClass(readerTheme)}`}>
+              <div className={`markdown-body prose max-w-none dark:prose-invert ${getFontSizeClass(readerFontSize)} transition-all duration-200`}>
+                <p className="text-xl md:text-2xl font-serif text-text-primary font-medium leading-relaxed mb-10">
+                  {highlightModalities(post.excerpt)}
+                </p>
+                
+                <ReactMarkdown components={MarkdownComponents}>{injectGlossaryLinks(post.content)}</ReactMarkdown>
+              </div>
             </div>
 
             {/* Key Symptoms / Patterns */}
@@ -739,7 +827,7 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
 
           <aside className="lg:w-72 shrink-0">
             <div className="sticky top-28 space-y-8">
-              <div className="p-6 bg-bg-secondary rounded-3xl border border-border">
+              <div className="p-6 bg-bg-secondary rounded-3xl border border-border space-y-4">
                 {profile ? (
                   <button 
                     onClick={() => toggleBookmark(post.slug)}
@@ -763,6 +851,26 @@ const PostDetail: React.FC<PostDetailProps> = ({ post, onBack, onTagClick, onSel
                     <BookmarkIcon className="w-4 h-4" /> Sign In to Save
                   </Link>
                 )}
+
+                {/* Copy APA Citation Button */}
+                <button 
+                  onClick={() => {
+                    const currentYear = new Date().getFullYear();
+                    const formattedUrl = window.location.href;
+                    const citation = `${post.author || 'Anonymous Classical Scholar'}. (${post.date ? new Date(post.date).getFullYear() : currentYear}). ${post.title}. Curiva Homoeopathic Clinical Library. Retrieved from ${formattedUrl}`;
+                    navigator.clipboard.writeText(citation);
+                    setCopiedCitation(true);
+                    setTimeout(() => setCopiedCitation(false), 2000);
+                  }}
+                  className={`w-full flex items-center justify-center gap-3 py-4 rounded-2xl font-black text-[10px] uppercase tracking-widest transition-all ${
+                    copiedCitation
+                    ? 'bg-emerald-600 text-white shadow-xl shadow-emerald-500/20 scale-102 border-transparent'
+                    : 'bg-bg-primary border border-border text-text-primary hover:border-emerald-600 hover:text-emerald-600 shadow-sm'
+                  }`}
+                >
+                  <CheckCircle2 className={`w-4 h-4 ${copiedCitation ? 'text-white' : 'text-text-tertiary transition-colors'}`} />
+                  {copiedCitation ? 'Citation Copied!' : 'Copy APA Citation'}
+                </button>
               </div>
 
               <div className="p-6 bg-bg-secondary rounded-3xl border border-border">

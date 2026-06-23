@@ -246,7 +246,7 @@ const MyLibrary = () => {
       />
 
       {/* Header Space */}
-      <section className="relative pt-48 pb-24 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white">
+      <section className="relative pt-48 pb-24 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-12 text-center lg:text-left">

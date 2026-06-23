@@ -1,529 +1,782 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { 
-  Heart, 
-  Search, 
-  Activity, 
-  Brain, 
-  Droplet, 
-  Sparkles, 
-  X, 
+  ShieldCheck, 
+  ChevronRight, 
+  ChevronLeft, 
   Check, 
-  HelpCircle,
-  AlertTriangle, 
-  BookOpen, 
-  ArrowRight, 
-  Scale, 
-  Stethoscope,
+  AlertCircle, 
+  Heart, 
+  Activity, 
+  Sparkles, 
+  FileText, 
+  Stethoscope, 
+  ArrowRight,
   RefreshCw,
-  Info,
-  ChevronRight,
+  Clock,
+  Printer,
   ShieldAlert,
-  Flame,
-  Wind
+  ClipboardList,
+  Layers,
+  Award
 } from 'lucide-react';
 import SEO from '../components/SEO';
-import { symptomList, performSymptomMatching, Symptom, MatchResult } from '../utils/symptomMatcher';
-import { enhancedRemedies } from '../data/enhancedRemedies';
 
-// Categorized icons mapping
-const CATEGORY_ICONS: Record<string, React.ReactNode> = {
-  head: <Brain className="w-5 h-5" />,
-  chest: <Wind className="w-5 h-5" />,
-  abdomen: <Flame className="w-5 h-5" />,
-  limbs: <Activity className="w-5 h-5" />,
-  skin: <Droplet className="w-5 h-5" />,
-  general: <Sparkles className="w-5 h-5" />
-};
+interface CaseInputs {
+  mentalState: string;
+  thermalPreference: string;
+  thirstLevel: string;
+  sideAffinity: string;
+  aggravationFactor: string;
+  chiefComplaint: string;
+}
 
-const CATEGORY_NAMES: Record<string, string> = {
-  head: "Mind & Head",
-  chest: "Chest & Breathing",
-  abdomen: "Digestive & Belly",
-  limbs: "Limbs & Stiffness",
-  skin: "Skin & Eruptions",
-  general: "General Modalities"
-};
+interface RemedyScore {
+  name: string;
+  fullName: string;
+  symptomsMatched: string[];
+  totalPoints: number;
+  grade: string;
+  keynotes: string;
+}
 
 export default function SymptomChecker() {
-  const [selectedSymptoms, setSelectedSymptoms] = useState<string[]>([]);
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeCategory, setActiveCategory] = useState<'all' | 'head' | 'chest' | 'abdomen' | 'limbs' | 'skin' | 'general'>('all');
+  const [hasStarted, setHasStarted] = useState(false);
+  const [currentStep, setCurrentStep] = useState(1);
   const [acceptedDisclaimer, setAcceptedDisclaimer] = useState(false);
-  const [showFullDisclaimer, setShowFullDisclaimer] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showResult, setShowResult] = useState(false);
 
-  // Filter symptoms based on search query and category
-  const filteredSymptoms = useMemo(() => {
-    return symptomList.filter(sym => {
-      const matchesSearch = sym.name.toLowerCase().includes(searchQuery.toLowerCase()) || 
-                            (sym.description && sym.description.toLowerCase().includes(searchQuery.toLowerCase()));
-      const matchesCategory = activeCategory === 'all' || sym.category === activeCategory;
-      return matchesSearch && matchesCategory;
-    });
-  }, [searchQuery, activeCategory]);
+  // Homeopathic Case State
+  const [caseData, setCaseData] = useState<CaseInputs>({
+    mentalState: '',
+    thermalPreference: '',
+    thirstLevel: '',
+    sideAffinity: '',
+    aggravationFactor: '',
+    chiefComplaint: ''
+  });
 
-  // Compute matched remedies in real-time
-  const matchResults = useMemo(() => {
-    return performSymptomMatching(selectedSymptoms);
-  }, [selectedSymptoms]);
+  const [repertorizationResult, setRepertorizationResult] = useState<RemedyScore[]>([]);
 
-  // Handle active symptom selection toggle
-  const toggleSymptom = (id: string) => {
-    setSelectedSymptoms(prev => {
-      if (prev.includes(id)) {
-        return prev.filter(item => item !== id);
-      } else {
-        return [...prev, id];
-      }
-    });
+  const handleStart = () => {
+    if (!acceptedDisclaimer) return;
+    setHasStarted(true);
   };
 
-  const clearAllSymptoms = () => {
-    setSelectedSymptoms([]);
+  const handleSelectValue = (field: keyof CaseInputs, value: string) => {
+    setCaseData(prev => ({
+      ...prev,
+      [field]: value
+    }));
   };
 
-  // Helper to fetch details from enhanced remedies profile for cards
-  const getRemedyDetails = (id: string) => {
-    return enhancedRemedies.find(r => r.id === id);
+  const handleNextStep = () => {
+    if (currentStep < 4) {
+      setCurrentStep(prev => prev + 1);
+    } else {
+      calculateRepertorization();
+    }
+  };
+
+  const handlePrevStep = () => {
+    if (currentStep > 1) {
+      setCurrentStep(prev => prev - 1);
+    }
+  };
+
+  const calculateRepertorization = () => {
+    setIsSubmitting(true);
+    
+    // Simulate real clinical algorithm latency
+    setTimeout(() => {
+      const remedies: RemedyScore[] = [
+        {
+          name: "Nux Vomica",
+          fullName: "Nux Vomica (Poison Nut)",
+          symptomsMatched: [],
+          totalPoints: 0,
+          grade: "Polychrest - Gastrointestinal & Nervous Driver",
+          keynotes: "Intense irritability, workaholic tendencies, extremely chilly, constant ineffectual urge for stool, hyper-sensitiveness to noise, light, and drafts."
+        },
+        {
+          name: "Pulsatilla",
+          fullName: "Pulsatilla Pratensis (Wind Flower)",
+          symptomsMatched: [],
+          totalPoints: 0,
+          grade: "Polychrest - Venous & Mucosal Driver",
+          keynotes: "Mild, yielding disposition, weeping tendencies, craves fresh air, intensely hot / warm, completely thirstless with dry mouth, shifting symptoms."
+        },
+        {
+          name: "Arsenicum Album",
+          fullName: "Arsenicum Album (White Oxide of Arsenic)",
+          symptomsMatched: [],
+          totalPoints: 0,
+          grade: "Polychrest - Immune & Epithelial Driver",
+          keynotes: "Severe anxiety with restlessness, fastidious cleanliness, deeply chilly, burning pains temporarily relieved by heat, thirst for small sips of cold water at short intervals."
+        },
+        {
+          name: "Lycopodium",
+          fullName: "Lycopodium Clavatum (Club Moss)",
+          symptomsMatched: [],
+          totalPoints: 0,
+          grade: "Polychrest - Hepatic & Nutritive Driver",
+          keynotes: "Intellectual with lack of confidence, right-sided symptoms moving to left, hot, craves warm drinks and sweets, flatulence, aggravated 4 PM to 8 PM."
+        },
+        {
+          name: "Rhus Tox",
+          fullName: "Rhus Toxicodendron (Poison Ivy)",
+          symptomsMatched: [],
+          totalPoints: 0,
+          grade: "Polychrest - Fibrous Tissue & Locomotor Driver",
+          keynotes: "Physical restlessness, chilly, tearing joint pains aggravated by initial motion and cold damp air, significantly relieved by continuous moderate motion."
+        },
+        {
+          name: "Bryonia Alba",
+          fullName: "Bryonia Alba (Wild Hops)",
+          symptomsMatched: [],
+          totalPoints: 0,
+          grade: "Polychrest - Serous Membrane Driver",
+          keynotes: "Extremely irritable, craves absolute quiet, aggravated by the slightest physical movement, relieved by firm pressure, intense thirst for large quantities of cold water."
+        }
+      ];
+
+      // Scored matrix based on Kent's Repertory grading (3 = Bold Red, 2 = Italic, 1 = Plain)
+      const { mentalState, thermalPreference, thirstLevel, sideAffinity, aggravationFactor, chiefComplaint } = caseData;
+
+      remedies.forEach(rem => {
+        // Mental state mapping
+        if (mentalState === 'irritable_ambitious') {
+          if (rem.name === 'Nux Vomica') { rem.symptomsMatched.push("Irritable & Ambitious (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Bryonia Alba') { rem.symptomsMatched.push("Irritable & Ambitious (Grade 2)"); rem.totalPoints += 2; }
+          if (rem.name === 'Lycopodium') { rem.symptomsMatched.push("Irritable & Ambitious (Grade 1)"); rem.totalPoints += 1; }
+        } else if (mentalState === 'mild_yielding') {
+          if (rem.name === 'Pulsatilla') { rem.symptomsMatched.push("Mild, Yielding & Weeping (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Rhus Tox') { rem.symptomsMatched.push("Mild & Restless (Grade 1)"); rem.totalPoints += 1; }
+        } else if (mentalState === 'anxious_fastidious') {
+          if (rem.name === 'Arsenicum Album') { rem.symptomsMatched.push("Anxious & Fastidious (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Nux Vomica') { rem.symptomsMatched.push("Anxious & Fastidious (Grade 2)"); rem.totalPoints += 2; }
+        } else if (mentalState === 'reserved_intellectual') {
+          if (rem.name === 'Lycopodium') { rem.symptomsMatched.push("Intellectual with Lack of Confidence (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Bryonia Alba') { rem.symptomsMatched.push("Reserved & Quiet (Grade 2)"); rem.totalPoints += 2; }
+        }
+
+        // Thermal mapping
+        if (thermalPreference === 'chilly') {
+          if (rem.name === 'Nux Vomica' || rem.name === 'Arsenicum Album' || rem.name === 'Rhus Tox') {
+            rem.symptomsMatched.push("Highly Chilly (Grade 3)"); rem.totalPoints += 3;
+          }
+        } else if (thermalPreference === 'hot') {
+          if (rem.name === 'Pulsatilla' || rem.name === 'Lycopodium') {
+            rem.symptomsMatched.push("Warm / Hot (Grade 2)"); rem.totalPoints += 2;
+          }
+          if (rem.name === 'Bryonia Alba') {
+            rem.symptomsMatched.push("Warm (Grade 1)"); rem.totalPoints += 1;
+          }
+        }
+
+        // Thirst mapping
+        if (thirstLevel === 'thirstless') {
+          if (rem.name === 'Pulsatilla') { rem.symptomsMatched.push("Thirstless (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Nux Vomica') { rem.symptomsMatched.push("Thirstless (Grade 1)"); rem.totalPoints += 1; }
+        } else if (thirstLevel === 'sips') {
+          if (rem.name === 'Arsenicum Album') { rem.symptomsMatched.push("Thirst for small sips often (Grade 3)"); rem.totalPoints += 3; }
+        } else if (thirstLevel === 'large_amounts') {
+          if (rem.name === 'Bryonia Alba') { rem.symptomsMatched.push("Thirst for large quantities (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Lycopodium') { rem.symptomsMatched.push("Thirst for warm liquids (Grade 2)"); rem.totalPoints += 2; }
+          if (rem.name === 'Rhus Tox') { rem.symptomsMatched.push("Thirst for cold water (Grade 2)"); rem.totalPoints += 2; }
+        }
+
+        // Side affinity
+        if (sideAffinity === 'right') {
+          if (rem.name === 'Lycopodium') { rem.symptomsMatched.push("Right-sided affinity (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Nux Vomica') { rem.symptomsMatched.push("Right-sided affinity (Grade 1)"); rem.totalPoints += 1; }
+        } else if (sideAffinity === 'left') {
+          if (rem.name === 'Arsenicum Album') { rem.symptomsMatched.push("Left-sided affinity (Grade 1)"); rem.totalPoints += 1; }
+        }
+
+        // Aggravations
+        if (aggravationFactor === 'cold_draft') {
+          if (rem.name === 'Nux Vomica' || rem.name === 'Arsenicum Album' || rem.name === 'Rhus Tox') {
+            rem.symptomsMatched.push("Aggravated by Cold Drafts (Grade 3)"); rem.totalPoints += 3;
+          }
+        } else if (aggravationFactor === 'warm_room') {
+          if (rem.name === 'Pulsatilla') { rem.symptomsMatched.push("Aggravated by Warm Room (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Lycopodium') { rem.symptomsMatched.push("Aggravated by Warm Room (Grade 1)"); rem.totalPoints += 1; }
+        } else if (aggravationFactor === 'slight_motion') {
+          if (rem.name === 'Bryonia Alba') { rem.symptomsMatched.push("Aggravated by slightest movement (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Nux Vomica') { rem.symptomsMatched.push("Aggravated by motion (Grade 2)"); rem.totalPoints += 2; }
+        } else if (aggravationFactor === 'rest_initial_motion') {
+          if (rem.name === 'Rhus Tox') { rem.symptomsMatched.push("Aggravated by rest, relieved by movement (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Pulsatilla') { rem.symptomsMatched.push("Aggravated by rest (Grade 2)"); rem.totalPoints += 2; }
+        }
+
+        // Chief Complaints mapped to therapeutic affinities
+        if (chiefComplaint === 'gastrointestinal') {
+          if (rem.name === 'Nux Vomica' || rem.name === 'Lycopodium') {
+            rem.symptomsMatched.push("Gastric organ affinity (Grade 3)"); rem.totalPoints += 3;
+          }
+          if (rem.name === 'Pulsatilla' || rem.name === 'Arsenicum Album') {
+            rem.symptomsMatched.push("Gastric organ affinity (Grade 2)"); rem.totalPoints += 2;
+          }
+        } else if (chiefComplaint === 'respiratory') {
+          if (rem.name === 'Arsenicum Album') { rem.symptomsMatched.push("Respiratory/Asthma affinity (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Pulsatilla') { rem.symptomsMatched.push("Mucous congestion (Grade 2)"); rem.totalPoints += 2; }
+        } else if (chiefComplaint === 'locomotor') {
+          if (rem.name === 'Rhus Tox') { rem.symptomsMatched.push("Joints/Tendons affinity (Grade 3)"); rem.totalPoints += 3; }
+          if (rem.name === 'Bryonia Alba') { rem.symptomsMatched.push("Articular/Serous affinity (Grade 3)"); rem.totalPoints += 3; }
+        } else if (chiefComplaint === 'febrile') {
+          if (rem.name === 'Arsenicum Album' || rem.name === 'Nux Vomica') {
+            rem.symptomsMatched.push("Fever/Chill cycle affinity (Grade 3)"); rem.totalPoints += 3;
+          }
+          if (rem.name === 'Pulsatilla' || rem.name === 'Bryonia Alba') {
+            rem.symptomsMatched.push("Fever heat affinity (Grade 2)"); rem.totalPoints += 2;
+          }
+        }
+      });
+
+      // Sort by total points descending
+      const sorted = remedies
+        .filter(r => r.symptomsMatched.length > 0)
+        .sort((a, b) => b.totalPoints - a.totalPoints);
+
+      setRepertorizationResult(sorted);
+      setIsSubmitting(false);
+      setShowResult(true);
+    }, 1200);
+  };
+
+  const handlePrint = () => {
+    try {
+      window.print();
+    } catch (err) {
+      console.warn("Direct window.print() failed inside iframe", err);
+    }
+  };
+
+  const restartSimulator = () => {
+    setCaseData({
+      mentalState: '',
+      thermalPreference: '',
+      thirstLevel: '',
+      sideAffinity: '',
+      aggravationFactor: '',
+      chiefComplaint: ''
+    });
+    setRepertorizationResult([]);
+    setCurrentStep(1);
+    setShowResult(false);
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary pb-24">
+    <div className="min-h-screen bg-bg-primary pt-12 pb-24 font-sans text-text-primary selection:bg-primary/20 selection:text-primary">
       <SEO 
-        title="Interactive Symptom Checker | Curiva Homoeopathy"
-        description="Explore potential homeopathic remedies based on your matching aggregate symptoms, modalities, and constitutional keynotes."
+        title="Clinical Case Repertorizer & Patient Simulator"
+        description="Interactive clinical case taking and symptom repertorization sandbox. Grade polychrests based on physical modalities and constitutional mentals using Kent's methods."
       />
 
-      {/* Modern Curiva Banner Header */}
-      <header className="relative pt-32 pb-48 overflow-hidden bg-primary-dark text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.15)_0%,transparent_70%)] opacity-40 pointer-events-none" />
-        <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
-           <Activity className="w-96 h-96 text-accent" />
+      <div className="max-w-4xl mx-auto px-4 mt-6">
+        
+        {/* Top Header */}
+        <div className="flex flex-col md:flex-row md:items-center justify-between border-b border-border pb-6 mb-8 gap-4">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-primary/10 rounded-xl text-primary animate-pulse">
+              <Stethoscope className="w-6.5 h-6.5" />
+            </div>
+            <div>
+              <h1 id="symptom-checker-title" className="text-xl md:text-2xl font-display font-medium text-primary">Case Repertorizer Simulator</h1>
+              <p className="text-xs text-text-tertiary">Interactive student simulator for homeopathic case taking &amp; repertory matrices</p>
+            </div>
+          </div>
+          <Link to="/student-resources" className="text-xs text-primary hover:text-accent font-bold transition-colors">
+            Access study cards
+          </Link>
         </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-           <motion.div 
-             initial={{ opacity: 0, scale: 0.9 }}
-             animate={{ opacity: 1, scale: 1 }}
-             className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/5 border border-white/10 rounded-full shadow-2xl mb-10"
-           >
-             <Sparkles className="w-4 h-4 text-accent-light" />
-             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent-light">Therapeutic Co-relation</span>
-           </motion.div>
-           <h1 className="text-6xl md:text-8xl lg:text-[8rem] font-display font-medium text-white tracking-tighter leading-[0.8] uppercase flex flex-col">
-             <span>Symptom</span>
-             <span className="text-accent italic lg:ml-24">Checker</span>
-           </h1>
-           <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-tight mt-12">
-             An interactive diagnostic ledger matching physical modalities, keynotes, and emotional states with organic Homoeopathic remedies.
-           </p>
-         </div>
-      </header>
 
-      {/* Main Interactive Stage */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-20">
-        
-        {/* Step 1: Medical Disclaimer (Enforced Before Search) */}
-        {!acceptedDisclaimer ? (
+        {!hasStarted ? (
+          /* Introduction Screen */
           <motion.div 
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="bg-white rounded-[3rem] border border-border/80 shadow-2xl overflow-hidden max-w-4xl mx-auto"
+            initial={{ opacity: 0, scale: 0.98 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white dark:bg-gray-950 border border-border rounded-3xl p-8 space-y-6 shadow-soft text-center max-w-2xl mx-auto"
           >
-            <div className="p-8 sm:p-12 space-y-6">
-              <div className="flex items-center gap-4 text-amber-600">
-                <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center border border-amber-200">
-                  <ShieldAlert className="w-6 h-6" />
-                </div>
-                <div>
-                  <span className="text-[10px] uppercase tracking-widest font-black text-amber-500">Legal Duty & Safe Use</span>
-                  <p className="font-display font-bold text-2xl text-text-primary uppercase tracking-tight">Clinical Self-Assessment Disclaimer</p>
-                </div>
-              </div>
+            <div className="w-16 h-16 bg-primary/5 text-primary rounded-2xl flex items-center justify-center mx-auto">
+              <ClipboardList className="w-8 h-8 text-primary" />
+            </div>
 
-              <div className="space-y-4 text-text-secondary font-serif text-base leading-relaxed border-t border-b border-border py-6">
-                <p>
-                  Welcome to the Curiva Interactive Symptom Checker. Before you begin cataloging physical signs and sensory modalities, please acknowledge the strictly academic scope of this engine:
-                </p>
-                <p className="font-bold text-text-primary">
-                  1. Clinical Non-Substitute:
-                </p>
-                <p>
-                  This analyzer is designed as a study ledger mapping constitutional patterns with therapeutic materia medica. It does <b>NOT</b> constitute medical advice, physical diagnosis, or a prescription protocol.
-                </p>
-                <p className="font-bold text-text-primary">
-                  2. Red Flag Emergency Notice:
-                </p>
-                <p>
-                  If you are suffering from severe acute symptoms—including chest pressure, sudden breathing failure, heavy hemorrhaging, or severe high fevers—do not utilize home remedy matching. Consult a physician, dial emergency services (such as 911), or seek direct urgent care immediately.
+            <div className="space-y-2">
+              <h2 className="text-2xl font-display font-bold text-primary">Clinical Modal Repertorizer</h2>
+              <p className="text-xs text-text-secondary leading-relaxed max-w-lg mx-auto">
+                Train your clinical judgment. Enter an active patient's constitutional temperament, thermal states, precise physical modalities, and chief complaints to generate a real Kentian-style repertorization grid.
+              </p>
+            </div>
+
+            {/* Disclaimer Callout */}
+            <div className="bg-amber-500/5 border border-amber-500/15 p-4 rounded-2xl flex items-start gap-3.5 text-left text-xs text-amber-800 dark:text-amber-200">
+              <ShieldAlert className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
+              <div className="space-y-1">
+                <p className="font-bold">Academic Educational Sandbox Only</p>
+                <p className="leading-relaxed opacity-90">
+                  This simulator is designed exclusively as an educational study tool for BHMS students and homeopathic scholars. It does not replace professional clinical diagnosis or medical consultations.
                 </p>
               </div>
+            </div>
 
-              <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pt-2">
-                <div className="flex items-start gap-3">
-                  <input 
-                    type="checkbox" 
-                    id="accept-check" 
-                    checked={acceptedDisclaimer}
-                    onChange={(e) => setAcceptedDisclaimer(e.target.checked)}
-                    className="mt-1.5 h-4 w-4 rounded border-border-strong text-primary focus:ring-primary cursor-pointer"
-                  />
-                  <label htmlFor="accept-check" className="text-xs font-medium text-text-secondary select-none cursor-pointer leading-tight">
-                    I explicitly understand that this tool is for <b>informational purposes only</b>, does not construct a diagnosis, and I agree to use it as a reference study ledger.
-                  </label>
-                </div>
+            <div className="pt-2 border-t border-border flex flex-col items-center gap-4">
+              <label className="flex items-center gap-3 text-xs font-bold text-text-secondary select-none cursor-pointer">
+                <input 
+                  type="checkbox"
+                  checked={acceptedDisclaimer}
+                  onChange={(e) => setAcceptedDisclaimer(e.target.checked)}
+                  className="rounded border-border text-primary focus:ring-primary w-4.5 h-4.5"
+                />
+                I certify that I am a BHMS student, scholar, or practitioner.
+              </label>
 
-                <button
-                  type="button"
-                  disabled={!acceptedDisclaimer}
-                  onClick={() => setAcceptedDisclaimer(true)}
-                  className={`w-full sm:w-auto px-10 py-5 rounded-full text-xs font-black uppercase tracking-widest transition-all shrink-0 ${
-                    acceptedDisclaimer 
-                    ? 'bg-primary text-white shadow-lg hover:scale-105 active:scale-95' 
-                    : 'bg-bg-tertiary text-text-tertiary border border-border cursor-not-allowed'
-                  }`}
-                >
-                  Enter Symtomatology Stage
-                </button>
-              </div>
+              <button
+                disabled={!acceptedDisclaimer}
+                onClick={handleStart}
+                className={`px-10 py-3.5 rounded-xl text-xs font-black uppercase tracking-widest text-white transition-all flex items-center gap-2 ${
+                  acceptedDisclaimer ? 'bg-primary hover:bg-primary-dark cursor-pointer' : 'bg-primary/40 cursor-not-allowed'
+                }`}
+              >
+                Launch Patient Simulator
+                <ArrowRight className="w-4 h-4" />
+              </button>
             </div>
           </motion.div>
-        ) : (
-          /* Active Symptom Stage Interface */
-          <div className="grid lg:grid-cols-12 gap-8 items-start">
-            
-            {/* LEFT COLUMN: Symptom Selector & Filter Board (8 Cols) */}
-            <div className="lg:col-span-7 space-y-6">
-              
-              {/* Dynamic Interactive Panel */}
-              <div className="bg-white rounded-[2.5rem] border border-border shadow-soft p-6 sm:p-8 space-y-6">
-                
-                {/* Search & Tool Metadata */}
-                <div className="space-y-3">
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-                    <h2 className="text-2xl font-display font-medium text-text-primary uppercase tracking-tight italic">
-                      Identify <span className="text-primary italic">active expressions</span>
-                    </h2>
-                    {selectedSymptoms.length > 0 && (
-                      <button 
-                        onClick={clearAllSymptoms}
-                        className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-text-tertiary hover:text-red-500 transition-colors"
-                      >
-                        <RefreshCw className="w-3 h-3" />
-                        Reset Checklist ({selectedSymptoms.length})
-                      </button>
-                    )}
+        ) : !showResult ? (
+          /* Multi-step Case Entry */
+          <div className="bg-white dark:bg-gray-950 border border-border rounded-3xl p-6 sm:p-8 space-y-8 shadow-soft">
+            {/* Step indicators */}
+            <div className="flex items-center justify-between border-b border-border pb-4">
+              <div className="flex items-center gap-2">
+                <span className="w-6 h-6 rounded-full bg-primary/10 text-primary text-[10px] font-black flex items-center justify-center">
+                  {currentStep}
+                </span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+                  {currentStep === 1 && "1. Constitutional Mentals"}
+                  {currentStep === 2 && "2. Physical Generals"}
+                  {currentStep === 3 && "3. Modalities & Aggravations"}
+                  {currentStep === 4 && "4. Chief Pathology Affinity"}
+                </span>
+              </div>
+              <span className="text-xs font-mono font-black text-text-tertiary">
+                STEP {currentStep} OF 4
+              </span>
+            </div>
+
+            <AnimatePresence mode="wait">
+              {currentStep === 1 && (
+                <motion.div
+                  key="step1"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="space-y-5"
+                >
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-display font-bold text-primary">Select Patient's Prominent Mental State</h3>
+                    <p className="text-xs text-text-secondary">Homeopathic remedy prescription is highly dependent on psychological traits and emotional expressions.</p>
                   </div>
-                  <p className="text-text-secondary text-xs sm:text-sm font-serif">
-                    Toggle individual bodily regions or use instant indexing to quickly find active symptoms or modalities.
-                  </p>
-                </div>
-
-                {/* Instant Search Bar */}
-                <div className="relative">
-                  <span className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none text-text-tertiary">
-                    <Search className="w-4 h-4" />
-                  </span>
-                  <input 
-                    type="text"
-                    value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
-                    placeholder="Search symptoms or modalities (e.g., 'fever', 'headache', 'acidity', 'burning')..."
-                    className="w-full pl-11 pr-4 py-4 rounded-[1.5rem] bg-bg-secondary border border-border text-xs focus:ring-1 focus:ring-primary focus:border-primary outline-none transition-all placeholder:text-text-tertiary"
-                  />
-                  {searchQuery && (
-                    <button 
-                      onClick={() => setSearchQuery('')}
-                      className="absolute inset-y-0 right-0 pr-4 flex items-center text-text-tertiary hover:text-text-primary"
-                    >
-                      <X className="w-4 h-4" />
-                    </button>
-                  )}
-                </div>
-
-                {/* Segmented Bodily Filters */}
-                <div className="flex flex-wrap gap-2 pb-2 overflow-x-auto scrollbar-none border-b border-border">
-                  <button
-                    onClick={() => setActiveCategory('all')}
-                    className={`px-4 py-2.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all border shrink-0 ${
-                      activeCategory === 'all'
-                      ? 'bg-primary text-white border-primary shadow-sm'
-                      : 'bg-bg-secondary text-text-secondary border-transparent hover:border-primary/20'
-                    }`}
-                  >
-                    All Spheres ({symptomList.length})
-                  </button>
-                  {Object.keys(CATEGORY_NAMES).map((catName) => {
-                    const count = symptomList.filter(s => s.category === catName).length;
-                    return (
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    {[
+                      { val: 'irritable_ambitious', label: 'Irritable, Ambitious, Angry, Workaholic', desc: 'Highly driven, angry when contradicted, seeks stimulants (Nux V, Bry)' },
+                      { val: 'mild_yielding', label: 'Mild, Yielding, Weeping, Desires Sympathy', desc: 'Gentle, weeps easily while explaining symptoms, desires consolation (Puls, Rhus-t)' },
+                      { val: 'anxious_fastidious', label: 'Anxious, Restless, Fastidious', desc: 'Intense anxiety about health, absolute fastidious neatness (Ars, Nux)' },
+                      { val: 'reserved_intellectual', label: 'Reserved, Quiet, Lacks Confidence', desc: 'Highly intellectual, reserved, dreads public speaking but performs well (Lyc, Bry)' }
+                    ].map((opt) => (
                       <button
-                        key={catName}
-                        onClick={() => setActiveCategory(catName as any)}
-                        className={`flex items-center gap-1.5 px-4 py-2.5 rounded-full text-[10px] font-black uppercase tracking-wider transition-all border shrink-0 ${
-                          activeCategory === catName
-                          ? 'bg-primary text-white border-primary shadow-sm'
-                          : 'bg-bg-secondary text-text-secondary border-transparent hover:border-primary/20'
+                        key={opt.val}
+                        onClick={() => handleSelectValue('mentalState', opt.val)}
+                        className={`p-4.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                          caseData.mentalState === opt.val 
+                            ? 'border-primary bg-primary/5 text-primary shadow-sm' 
+                            : 'border-border hover:border-primary/45 bg-bg-primary text-text-primary'
                         }`}
                       >
-                        {CATEGORY_ICONS[catName]}
-                        <span>{CATEGORY_NAMES[catName]}</span>
+                        <h4 className="text-xs font-bold">{opt.label}</h4>
+                        <p className="text-[10px] text-text-tertiary mt-1 font-medium leading-relaxed">{opt.desc}</p>
                       </button>
-                    );
-                  })}
-                </div>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
 
-                {/* Grid list of Matching symptoms */}
-                <div className="space-y-3 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar">
-                  <AnimatePresence mode="popLayout">
-                    {filteredSymptoms.length > 0 ? (
-                      filteredSymptoms.map((sym) => {
-                        const isChecked = selectedSymptoms.includes(sym.id);
-                        return (
-                          <motion.div
-                            key={sym.id}
-                            layout
-                            initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
-                            exit={{ opacity: 0, scale: 0.95 }}
-                            onClick={() => toggleSymptom(sym.id)}
-                            className={`p-4 rounded-2xl border transition-all cursor-pointer flex items-start gap-4 h-full select-none group ${
-                              isChecked
-                              ? 'bg-primary/5 border-primary/40 shadow-sm'
-                              : 'bg-bg-primary/40 border-border/60 hover:bg-bg-secondary hover:border-border'
+              {currentStep === 2 && (
+                <motion.div
+                  key="step2"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="space-y-6"
+                >
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-display font-bold text-primary">Core Physical General Symptoms</h3>
+                    
+                    {/* Thermal selection */}
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-text-tertiary">A. Thermal Reactions (Reaction to Heat/Cold):</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { val: 'chilly', label: 'Chilly Patient', desc: 'Extremely sensitive to cold drafts, cold climate, and warm coverings feel comforting.' },
+                          { val: 'hot', label: 'Hot / Warm Patient', desc: 'Cannot tolerate warm rooms or thick blankets, deeply craves fresh open air.' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.val}
+                            onClick={() => handleSelectValue('thermalPreference', opt.val)}
+                            className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                              caseData.thermalPreference === opt.val 
+                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-bold' 
+                                : 'border-border hover:border-primary/40 bg-bg-primary text-text-primary'
                             }`}
                           >
-                            <div className={`mt-0.5 w-5 h-5 rounded-md border flex items-center justify-center shrink-0 transition-all ${
-                              isChecked 
-                              ? 'bg-primary border-primary text-white' 
-                              : 'border-border-strong group-hover:border-primary/50 bg-white'
-                            }`}>
-                              {isChecked && <Check className="w-3.5 h-3.5 stroke-[3]" />}
-                            </div>
-
-                            <div className="space-y-1">
-                              <div className="flex items-center gap-2">
-                                <span className="text-xs font-bold text-text-primary leading-snug">
-                                  {sym.name}
-                                </span>
-                                <span className="px-1.5 py-0.5 rounded text-[8px] uppercase tracking-wider bg-bg-secondary border border-border text-text-tertiary">
-                                  {CATEGORY_NAMES[sym.category]}
-                                </span>
-                              </div>
-                              {sym.description && (
-                                <p className="text-[11px] leading-relaxed text-text-secondary font-serif italic">
-                                  {sym.description}
-                                </p>
-                              )}
-                            </div>
-                          </motion.div>
-                        );
-                      })
-                    ) : (
-                      <div className="text-center py-16 space-y-4">
-                        <div className="w-12 h-12 rounded-full bg-bg-secondary border border-border flex items-center justify-center text-text-tertiary mx-auto">
-                          <Search className="w-5 h-5" />
-                        </div>
-                        <div>
-                          <p className="text-xs font-bold uppercase tracking-wider text-text-secondary">No Matching Clinical Signs</p>
-                          <p className="text-text-tertiary text-xs font-serif italic mt-1">Try broad keywords, spelling, or switch the bodily sphere filter.</p>
-                        </div>
+                            <span className="text-xs block font-bold">{opt.label}</span>
+                            <span className="text-[9px] text-text-tertiary font-medium block mt-1 leading-normal">{opt.desc}</span>
+                          </button>
+                        ))}
                       </div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              </div>
+                    </div>
 
-              {/* Informational Guidance Section */}
-              <div className="bg-bg-secondary rounded-[2rem] border border-border p-6 flex flex-col sm:flex-row items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-orange-500/10 text-orange-600 flex items-center justify-center border border-orange-500/20 shrink-0">
-                  <Info className="w-5 h-5" />
-                </div>
-                <div className="space-y-2">
-                  <h4 className="text-xs font-black uppercase tracking-wider text-text-primary">How does mapping work?</h4>
-                  <p className="text-[11px] leading-normal text-text-secondary font-serif italic">
-                    Homeopathy relies on structural totality—matching all bodily physical symptoms, mental mood changes, local sensations, and aggravating/relieving modalities (heat, movement, pressure) to find the most indicated remedy. The matching scores above display proximity factors based on classical Materia Medica correlations.
-                  </p>
-                </div>
-              </div>
-            </div>
-
-            {/* RIGHT COLUMN: Diagnostic Recommendations & Results (5 Cols) */}
-            <div className="lg:col-span-5 space-y-6 lg:sticky lg:top-24">
-              
-              {/* Dynamic Remedy list Card wrapper */}
-              <div className="bg-white rounded-[2.5rem] border border-border shadow-soft p-6 sm:p-8 space-y-6">
-                
-                <div className="flex items-center justify-between border-b border-border pb-4">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">Indications Ledger</span>
-                    <h3 className="text-xl font-display font-medium text-text-primary uppercase tracking-tight leading-none italic">
-                      Matched <span className="text-primary italic">Remedies</span>
-                    </h3>
-                  </div>
-                  <span className="px-3 py-1.5 rounded-full text-[9px] font-black uppercase tracking-wider bg-bg-secondary border border-border text-text-secondary">
-                    Active Matches: {matchResults.length}
-                  </span>
-                </div>
-
-                <AnimatePresence mode="wait">
-                  {selectedSymptoms.length === 0 ? (
-                    <motion.div 
-                      key="empty-state"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      exit={{ opacity: 0 }}
-                      className="py-16 text-center space-y-4"
-                    >
-                      <div className="w-12 h-12 rounded-[1rem] bg-primary/10 border border-primary/20 flex items-center justify-center text-primary mx-auto">
-                        <Activity className="w-6 h-6 animate-pulse" />
-                      </div>
-                      <div className="space-y-1.5 max-w-xs mx-auto">
-                        <p className="text-xs font-black uppercase tracking-wider text-text-secondary">Awaiting Symptom Input</p>
-                        <p className="text-text-tertiary text-[11px] font-serif leading-relaxed">
-                          Please select one or more symptoms from the bodily spheres on the left. The compiler will display therapeutic remedies dynamically.
-                        </p>
-                      </div>
-                    </motion.div>
-                  ) : (
-                    <motion.div 
-                      key="results-found"
-                      initial={{ opacity: 0 }}
-                      animate={{ opacity: 1 }}
-                      className="space-y-4 h-[550px] overflow-y-auto pr-1 custom-scrollbar"
-                    >
-                      {matchResults.slice(0, 10).map((res, index) => {
-                        const remedyMeta = getRemedyDetails(res.remedyId);
-                        // Determine score color
-                        let scoreColorClass = "bg-emerald-500 text-white";
-                        let scoreBorderClass = "border-emerald-500/15";
-                        let strengthText = "Highly Indicated";
-                        if (res.matchPercentage < 40) {
-                          scoreColorClass = "bg-slate-500 text-white";
-                          scoreBorderClass = "border-slate-500/15";
-                          strengthText = "Constitutional Support";
-                        } else if (res.matchPercentage < 70) {
-                          scoreColorClass = "bg-amber-500 text-white";
-                          scoreBorderClass = "border-amber-500/15";
-                          strengthText = "Moderately Indicated";
-                        }
-
-                        return (
-                          <div 
-                            key={res.remedyId}
-                            className={`p-5 rounded-2xl border bg-bg-secondary/40 border-border/60 hover:bg-bg-secondary transition-all space-y-4`}
+                    {/* Thirst selection */}
+                    <div className="space-y-2 pt-2">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-text-tertiary">B. Thirst Characteristics:</h4>
+                      <div className="grid grid-cols-3 gap-2.5">
+                        {[
+                          { val: 'thirstless', label: 'Thirstless', desc: 'Completely absent thirst even with dry mouth.' },
+                          { val: 'sips', label: 'Small Sips Often', desc: 'Thirst for tiny quantities of cold water very frequently.' },
+                          { val: 'large_amounts', label: 'Large Amounts', desc: 'Thirst for huge quantities of cold water at long intervals.' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.val}
+                            onClick={() => handleSelectValue('thirstLevel', opt.val)}
+                            className={`p-3.5 rounded-xl border text-left transition-all cursor-pointer ${
+                              caseData.thirstLevel === opt.val 
+                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-bold' 
+                                : 'border-border hover:border-primary/40 bg-bg-primary text-text-primary'
+                            }`}
                           >
-                            
-                            {/* Remedy Metadata Header */}
-                            <div className="flex items-start justify-between gap-4">
-                              <div className="space-y-1">
-                                <div className="flex items-center gap-2">
-                                  <h4 className="text-sm font-bold text-text-primary uppercase leading-tight hover:text-primary transition-colors">
-                                    <Link to={`/remedy/${res.remedyId}`}>
-                                      {remedyMeta?.name || res.remedyId.replace('-', ' ')}
-                                    </Link>
-                                  </h4>
-                                </div>
-                                {remedyMeta?.latinName && (
-                                  <p className="text-[10px] leading-tight text-text-tertiary font-serif italic">
-                                    {remedyMeta.latinName} — {remedyMeta.family} Family
-                                  </p>
-                                )}
-                              </div>
-
-                              <div className="flex flex-col items-end gap-1 select-none">
-                                <div className={`px-2.5 py-1 rounded-lg text-xs font-black tracking-tight ${scoreColorClass}`}>
-                                  {res.matchPercentage}% Limit
-                                </div>
-                                <span className="text-[8px] font-black uppercase tracking-wider text-text-tertiary grayscale">
-                                  {strengthText}
-                                </span>
-                              </div>
-                            </div>
-
-                            {/* Remedy Description */}
-                            {remedyMeta?.description && (
-                              <p className="text-[11px] leading-relaxed text-text-secondary font-serif line-clamp-2 italic">
-                                {remedyMeta.description}
-                              </p>
-                            )}
-
-                            {/* Why it matches */}
-                            <div className="space-y-1.5 pt-2 border-t border-border/50">
-                              <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">Triggering Symptoms:</span>
-                              <div className="space-y-1">
-                                {res.matchedSymptoms.map((msym) => (
-                                  <div key={msym.symptomId} className="flex gap-1.5 items-start text-[10px] leading-relaxed text-text-secondary">
-                                    <div className="w-1 h-1 rounded-full bg-primary mt-1.5 shrink-0" />
-                                    <span>
-                                      <b>{msym.symptomName}:</b> {msym.reason}
-                                    </span>
-                                  </div>
-                                ))}
-                              </div>
-                            </div>
-
-                            {/* Dynamic Read Article link */}
-                            <div className="pt-2">
-                              <Link 
-                                to={`/remedy/${res.remedyId}`}
-                                className="inline-flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-primary hover:text-primary-dark transition-colors"
-                              >
-                                View Detailed Drug Profile
-                                <ArrowRight className="w-3.5 h-3.5" />
-                              </Link>
-                            </div>
-
-                          </div>
-                        );
-                      })}
-                    </motion.div>
-                  )}
-                </AnimatePresence>
-                
-                {/* Informational Warning block in the result card */}
-                {selectedSymptoms.length > 0 && (
-                  <div className="mt-4 p-4.5 bg-amber-500/5 rounded-2xl border border-amber-500/10 text-amber-600 text-[10px] leading-relaxed font-serif italic">
-                    <b>Informational Use Guard:</b> Matching results reflect basic Materia Medica associations. Homeopathy is highly individualized. To proceed with dosage, scheduling, or potency selection, consult a qualified homeopath or physician.
+                            <span className="text-xs block font-bold">{opt.label}</span>
+                            <span className="text-[9px] text-text-tertiary font-medium block mt-1 leading-snug">{opt.desc}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
                   </div>
-                )}
+                </motion.div>
+              )}
 
+              {currentStep === 3 && (
+                <motion.div
+                  key="step3"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="space-y-6"
+                >
+                  <div className="space-y-4">
+                    <h3 className="text-lg font-display font-bold text-primary">Chief Modalities &amp; Side Affinities</h3>
+                    
+                    {/* Aggravation factor */}
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-text-tertiary">A. Leading Aggravating/Ameliorating Modality:</h4>
+                      <div className="grid grid-cols-2 gap-3">
+                        {[
+                          { val: 'cold_draft', label: 'Aggravation by Cold Draft / Damp', desc: 'Symptoms significantly worsen when exposed to cold winter drafts or damp rain.' },
+                          { val: 'warm_room', label: 'Aggravation by Warm / Stuffy Room', desc: 'Feelings of constriction, respiratory distress, or headache in a heated unventilated room.' },
+                          { val: 'slight_motion', label: 'Aggravation by Slightest Motion', desc: 'Any physical shift or joint motion triggers acute agony; absolute rest is demanded.' },
+                          { val: 'rest_initial_motion', label: 'Aggravation by Rest / Initial Motion', desc: 'Stiffness worsens during absolute rest. Relieved by continuous moderate movement.' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.val}
+                            onClick={() => handleSelectValue('aggravationFactor', opt.val)}
+                            className={`p-4 rounded-xl border text-left transition-all cursor-pointer ${
+                              caseData.aggravationFactor === opt.val 
+                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-bold' 
+                                : 'border-border hover:border-primary/40 bg-bg-primary text-text-primary'
+                            }`}
+                          >
+                            <span className="text-xs block font-bold">{opt.label}</span>
+                            <span className="text-[9px] text-text-tertiary font-medium block mt-1 leading-normal">{opt.desc}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+
+                    {/* Side affinity selection */}
+                    <div className="space-y-2 pt-2">
+                      <h4 className="text-xs font-black uppercase tracking-wider text-text-tertiary">B. Side of Body Affinity:</h4>
+                      <div className="grid grid-cols-3 gap-2.5">
+                        {[
+                          { val: 'right', label: 'Right Sided', desc: 'Symptoms begin on or affect the right side.' },
+                          { val: 'left', label: 'Left Sided', desc: 'Symptoms begin on or affect the left side.' },
+                          { val: 'symmetrical', label: 'No Specific Affinity', desc: 'Symmetrical general symptoms.' }
+                        ].map((opt) => (
+                          <button
+                            key={opt.val}
+                            onClick={() => handleSelectValue('sideAffinity', opt.val)}
+                            className={`p-3 rounded-xl border text-left transition-all cursor-pointer ${
+                              caseData.sideAffinity === opt.val 
+                                ? 'border-primary bg-primary/5 text-primary shadow-sm font-bold' 
+                                : 'border-border hover:border-primary/40 bg-bg-primary text-text-primary'
+                            }`}
+                          >
+                            <span className="text-xs block font-bold">{opt.label}</span>
+                            <span className="text-[9px] text-text-tertiary font-medium block mt-1 leading-snug">{opt.desc}</span>
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+
+              {currentStep === 4 && (
+                <motion.div
+                  key="step4"
+                  initial={{ opacity: 0, x: 10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -10 }}
+                  className="space-y-5"
+                >
+                  <div className="space-y-1">
+                    <h3 className="text-lg font-display font-bold text-primary">Chief Clinical Pathology Selection</h3>
+                    <p className="text-xs text-text-secondary">Determine which primary diagnostic sphere of the patient matches the current consultation focus.</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+                    {[
+                      { val: 'gastrointestinal', label: 'Gastrointestinal & Gastric Disorders', desc: 'Sour eructations, burning peptic cramps, dyspeptic flatulence, constipation or spasmodic colic.' },
+                      { val: 'respiratory', label: 'Respiratory & Coryza Congestions', desc: 'Acute watery coryza, sneezing fits, dyspnea, suffocative dry cough in stuffy atmospheres.' },
+                      { val: 'locomotor', label: 'Locomotor & Rheumatic Joint Pain', desc: 'Inflammatory articular flares, fibrositis, muscular aches, bone pains matching climate shifts.' },
+                      { val: 'febrile', label: 'Febrile Cycles & Heat/Cold Stages', desc: 'Febrile states, acute matching chill cycles, thirst patterns accompanying temperature flares.' }
+                    ].map((opt) => (
+                      <button
+                        key={opt.val}
+                        onClick={() => handleSelectValue('chiefComplaint', opt.val)}
+                        className={`p-4.5 rounded-2xl border text-left transition-all cursor-pointer ${
+                          caseData.chiefComplaint === opt.val 
+                            ? 'border-primary bg-primary/5 text-primary shadow-sm' 
+                            : 'border-border hover:border-primary/45 bg-bg-primary text-text-primary'
+                        }`}
+                      >
+                        <h4 className="text-xs font-bold">{opt.label}</h4>
+                        <p className="text-[10px] text-text-tertiary mt-1 font-medium leading-relaxed">{opt.desc}</p>
+                      </button>
+                    ))}
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
+
+            {/* Stepper Footer Controls */}
+            <div className="flex justify-between items-center pt-6 border-t border-border">
+              <button
+                disabled={currentStep === 1}
+                onClick={handlePrevStep}
+                className={`flex items-center gap-1.5 px-4.5 py-2.5 rounded-xl text-xs font-bold border transition-all ${
+                  currentStep === 1 
+                    ? 'border-border/30 text-text-tertiary/40 cursor-not-allowed' 
+                    : 'border-border hover:border-primary hover:text-primary cursor-pointer'
+                }`}
+              >
+                <ChevronLeft className="w-4 h-4" />
+                Previous Step
+              </button>
+
+              <button
+                onClick={handleNextStep}
+                disabled={
+                  isSubmitting ||
+                  (currentStep === 1 && !caseData.mentalState) ||
+                  (currentStep === 2 && (!caseData.thermalPreference || !caseData.thirstLevel)) ||
+                  (currentStep === 3 && (!caseData.aggravationFactor || !caseData.sideAffinity)) ||
+                  (currentStep === 4 && !caseData.chiefComplaint)
+                }
+                className={`px-8 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all flex items-center gap-1.5 cursor-pointer ${
+                  isSubmitting ? 'animate-pulse' : ''
+                }`}
+              >
+                {isSubmitting ? (
+                  <>
+                    <RefreshCw className="w-4 h-4 animate-spin" /> Repertorizing...
+                  </>
+                ) : currentStep === 4 ? (
+                  <>
+                    Generate Repertory Grid <Activity className="w-4 h-4" />
+                  </>
+                ) : (
+                  <>
+                    Next Step <ChevronRight className="w-4 h-4" />
+                  </>
+                )}
+              </button>
+            </div>
+          </div>
+        ) : (
+          /* Repertorization Grid and Case Study Results */
+          <motion.div 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="space-y-8 print:bg-white print:text-black"
+          >
+            {/* Main Result Sheet Card */}
+            <div className="bg-white dark:bg-gray-950 border border-border rounded-3xl p-6 sm:p-8 space-y-6 shadow-soft relative overflow-hidden print:border-none print:shadow-none">
+              
+              {/* Header Details */}
+              <div className="flex flex-col sm:flex-row justify-between items-start gap-4 border-b border-border pb-6">
+                <div>
+                  <span className="text-[9px] font-mono uppercase bg-primary/10 text-primary px-2.5 py-0.5 rounded font-black print:hidden">
+                    Repertorization Matrix Sheet
+                  </span>
+                  <h2 className="text-xl font-display font-bold text-primary mt-1">Homoeopathic Simillimum Scorecard</h2>
+                  <p className="text-xs text-text-tertiary">Assembled based on Kent's Evaluation Principles</p>
+                </div>
+
+                <div className="flex gap-2 print:hidden">
+                  <button 
+                    onClick={handlePrint}
+                    className="flex items-center gap-2 px-4 py-2 border border-border hover:border-primary rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer"
+                  >
+                    <Printer className="w-4 h-4 text-text-secondary" /> Print Report
+                  </button>
+                  <button 
+                    onClick={restartSimulator}
+                    className="flex items-center gap-2 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-black uppercase tracking-wider transition-all cursor-pointer"
+                  >
+                    <RefreshCw className="w-4 h-4" /> Reset Case
+                  </button>
+                </div>
               </div>
 
-              {/* Consultation Navigation block */}
-              <div className="bg-primary-dark rounded-[2.5rem] p-8 text-white relative overflow-hidden">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.1)_0%,transparent_50%)]" />
-                <div className="w-12 h-12 rounded-2xl bg-white/10 flex items-center justify-center text-accent mb-6 relative z-10">
-                  <BookOpen className="w-6 h-6" />
+              {/* Case Summary Panel */}
+              <div className="bg-bg-primary dark:bg-gray-900 border border-border p-5 rounded-2xl space-y-3">
+                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Matched Patient Modalities:</h3>
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs font-medium">
+                  <div>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Mental temperament:</span>
+                    <span className="capitalize">{caseData.mentalState.replace('_', ' ')}</span>
+                  </div>
+                  <div>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Thermals:</span>
+                    <span className="capitalize">{caseData.thermalPreference}</span>
+                  </div>
+                  <div>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Thirst levels:</span>
+                    <span className="capitalize">{caseData.thirstLevel.replace('_', ' ')}</span>
+                  </div>
+                  <div>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Body side affinity:</span>
+                    <span className="capitalize">{caseData.sideAffinity}</span>
+                  </div>
+                  <div>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Worse (Aggravation):</span>
+                    <span className="capitalize">{caseData.aggravationFactor.replace(/_/g, ' ')}</span>
+                  </div>
+                  <div>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Main pathology focus:</span>
+                    <span className="capitalize">{caseData.chiefComplaint}</span>
+                  </div>
                 </div>
-                <h3 className="text-2xl font-display font-medium mb-3 relative z-10 italic">Need clinical verification?</h3>
-                <p className="text-white/80 leading-relaxed font-serif italic text-sm relative z-10 mb-6">
-                  Discuss symptoms anonymously or arrange an virtual diagnostic checkup with a credentialed clinical homeopath.
-                </p>
-                <div className="flex flex-col gap-2 relative z-10">
-                  <Link 
-                    to="/ask-homeopath"
-                    className="w-full inline-flex items-center justify-between p-4 bg-white/10 border border-white/20 hover:bg-white/15 active:scale-[0.99] transition-all rounded-2xl font-bold text-xs uppercase tracking-widest text-white leading-tight"
-                  >
-                    <span>Connect with expert homeopath</span>
-                    <ChevronRight className="w-4 h-4 text-accent" />
-                  </Link>
-                  <Link 
-                    to="/repertory"
-                    className="w-full inline-flex items-center justify-between p-4 bg-white/10 border border-white/20 hover:bg-white/15 active:scale-[0.99] transition-all rounded-2xl font-bold text-xs uppercase tracking-widest text-white leading-tight"
-                  >
-                    <span>Open classical repertory tool</span>
-                    <ChevronRight className="w-4 h-4 text-accent" />
-                  </Link>
+              </div>
+
+              {/* Kent's Repertorization Matrix Table */}
+              <div className="space-y-3">
+                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Kentian Repertory Scoring Grid:</h3>
+                <div className="border border-border rounded-2xl overflow-hidden bg-white dark:bg-gray-950 shadow-sm overflow-x-auto">
+                  <table className="w-full border-collapse text-left text-xs">
+                    <thead>
+                      <tr className="bg-bg-secondary border-b border-border text-[9px] font-black uppercase text-primary tracking-wider">
+                        <th className="p-4 min-w-[140px]">Remedy / Polychrest</th>
+                        <th className="p-4">Covered Modalities &amp; Grades</th>
+                        <th className="p-4 text-center min-w-[100px]">Aggregate Score</th>
+                        <th className="p-4 text-right min-w-[120px]">Matched Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-border/60">
+                      {repertorizationResult.map((rem, idx) => (
+                        <tr key={rem.name} className={idx === 0 ? "bg-primary/5" : ""}>
+                          <td className="p-4 font-bold text-primary">
+                            <span className="block">{rem.name}</span>
+                            <span className="text-[9px] text-text-tertiary font-medium block truncate max-w-[120px]">{rem.fullName}</span>
+                          </td>
+                          <td className="p-4">
+                            <div className="flex flex-wrap gap-1.5">
+                              {rem.symptomsMatched.map((s, sIdx) => (
+                                <span key={sIdx} className="px-2 py-0.5 bg-bg-secondary text-[9.5px] border border-border rounded font-semibold text-text-secondary">
+                                  {s}
+                                </span>
+                              ))}
+                            </div>
+                          </td>
+                          <td className="p-4 text-center font-black text-sm text-primary">
+                            {rem.totalPoints}
+                          </td>
+                          <td className="p-4 text-right">
+                            {idx === 0 ? (
+                              <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 rounded-full font-black text-[9px] uppercase tracking-wider border border-emerald-500/20">
+                                Simillimum Candidate
+                              </span>
+                            ) : (
+                              <span className="px-2 py-1 bg-primary/5 text-primary rounded-full font-bold text-[9px] uppercase tracking-wider border border-primary/10">
+                                Match Grade {3 - idx > 0 ? 3 - idx : 1}
+                              </span>
+                            )}
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
                 </div>
+              </div>
+
+              {/* Detailed Prescription Notes */}
+              <div className="space-y-4 pt-3 border-t border-border">
+                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Active Remedy Therapeutics:</h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  {repertorizationResult.slice(0, 2).map((rem, i) => (
+                    <div key={rem.name} className="bg-bg-primary dark:bg-gray-900 border border-border p-5 rounded-2xl space-y-2">
+                      <div className="flex justify-between items-center border-b border-border/40 pb-2">
+                        <h4 className="text-xs font-black text-primary">{rem.fullName}</h4>
+                        <span className="text-[9px] font-mono text-accent uppercase font-bold">
+                          {i === 0 ? "Lead Prescription" : "Secondary Prescription"}
+                        </span>
+                      </div>
+                      <p className="text-xs text-text-secondary leading-relaxed font-medium">
+                        {rem.keynotes}
+                      </p>
+                      <div className="text-[10px] font-bold text-text-tertiary">
+                        {rem.grade}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Study Quiz Redirect Footer */}
+              <div className="bg-emerald-500/5 border border-emerald-500/15 p-5 rounded-2xl flex flex-col sm:flex-row items-center justify-between gap-4 pt-6 print:hidden">
+                <div className="flex items-center gap-3">
+                  <div className="w-10 h-10 bg-emerald-500/10 text-emerald-600 rounded-xl flex items-center justify-center">
+                    <Award className="w-5 h-5" />
+                  </div>
+                  <div>
+                    <h4 className="text-xs font-bold text-emerald-800 dark:text-emerald-200">Repertorization Complete</h4>
+                    <p className="text-[11px] text-emerald-700/80 dark:text-emerald-300/80">Practised case studies help with post-graduate BHMS board questions.</p>
+                  </div>
+                </div>
+                <Link 
+                  to="/student-resources"
+                  className="px-5 py-2 bg-emerald-600 hover:bg-emerald-700 text-white text-[11px] font-black uppercase tracking-widest rounded-xl transition-all"
+                >
+                  Take Practice MCQs
+                </Link>
               </div>
 
             </div>
-
-          </div>
+          </motion.div>
         )}
 
-      </main>
+      </div>
     </div>
   );
 }

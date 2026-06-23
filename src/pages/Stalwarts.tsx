@@ -21,7 +21,7 @@ const Stalwarts: React.FC = () => {
         description="Learn about the pioneers and historical figures who shaped the principles of homoeopathic medicine."
       />
 
-      <header className="relative pt-24 pb-32 md:pt-32 md:pb-48 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white">
+      <header className="relative pt-24 pb-32 md:pt-32 md:pb-48 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/30 via-transparent to-transparent opacity-60 pointer-events-none" />
         <div className="absolute -bottom-48 -left-48 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
         
@@ -101,7 +101,7 @@ const Stalwarts: React.FC = () => {
                         className="w-full h-full object-cover transform scale-110 group-hover:scale-125 transition-transform duration-700"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(stalwart.name)}&background=2c4c3b&color=fff&size=512`;
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(stalwart.name)}&background=C2187A&color=fff&size=512`;
                         }}
                       />
                     </div>

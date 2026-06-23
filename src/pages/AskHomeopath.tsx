@@ -1,574 +1,337 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { 
-  MessageSquare, 
-  Send, 
-  History, 
-  HelpCircle, 
-  ShieldCheck, 
-  User, 
-  Clock, 
-  CheckCircle, 
-  ChevronRight,
-  Filter,
-  Check,
-  X,
-  AlertCircle,
-  Sparkles,
-  Lock,
-  Eye,
-  EyeOff
-} from 'lucide-react';
-import { auth, db, onAuthStateChanged, doc, getDoc } from '../lib/firebase';
-import { questionService, Question, QuestionStatus } from '../services/questionService';
-import SEO from '../components/SEO';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import { safeFormatDate } from '../utils/date';
+import { motion } from 'motion/react';
+import { 
+  Send, 
+  Sparkles, 
+  Loader2, 
+  User, 
+  HelpCircle, 
+  AlertCircle, 
+  ShieldCheck, 
+  BookOpen, 
+  ArrowRight,
+  Heart
+} from 'lucide-react';
+import { auth } from '../lib/firebase';
+import { onAuthStateChanged } from 'firebase/auth';
+import SEO from '../components/SEO';
+import ReactMarkdown from 'react-markdown';
 
-const AskHomeopath: React.FC = () => {
-  const [user, setUser] = useState(auth.currentUser);
-  const [isAdmin, setIsAdmin] = useState(false);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
-  const [activeTab, setActiveTab] = useState<'ask' | 'my-questions' | 'featured' | 'admin'>('ask');
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'model';
+  text: string;
+  timestamp: Date;
+}
+
+export default function AskHomeopath() {
+  const [currentUser, setCurrentUser] = useState<any>(null);
+  const [messages, setMessages] = useState<ChatMessage[]>([]);
+  const [inputText, setInputText] = useState('');
+  const [isTyping, setIsTyping] = useState(false);
+  const [errorText, setErrorText] = useState('');
   
-  // Form State
-  const [subject, setSubject] = useState('');
-  const [content, setContent] = useState('');
-  const [isAnonymous, setIsAnonymous] = useState(false);
-  const [successMessage, setSuccessMessage] = useState('');
-  const [errorMessage, setErrorMessage] = useState('');
+  const bottomRef = useRef<HTMLDivElement>(null);
 
-  // Data State
-  const [myQuestions, setMyQuestions] = useState<Question[]>([]);
-  const [featuredQuestions, setFeaturedQuestions] = useState<Question[]>([]);
-  const [adminQuestions, setAdminQuestions] = useState<Question[]>([]);
+  // Suggested starting dialogue variables
+  const suggestedPrompts = [
+    { label: "What is constitutional prescribing?", query: "Can you explain what constitutional prescribing means in homeopathy, and how a remedy is selected?" },
+    { label: "How do dilutions and potencies work?", query: "How do homeopathic dilutions (like 30C or 200C) work if they are so diluted?" },
+    { label: "Are remedies safe with allopathy?", query: "Is it safe to take homeopathic remedies of high dilutions alongside my prescribed allopathic medications?" },
+    { label: "What is the Law of Similars?", query: "What is the core baseline philosophy behind the 'Law of Similars' in classical homeopathy?" }
+  ];
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      setUser(currentUser);
-      if (currentUser) {
-        // Check if user is admin
-        const adminRef = doc(db, 'admins', currentUser.uid);
-        const adminDoc = await getDoc(adminRef);
-        
-        // Hardcoded admin for dev (as per rules)
-        const isHardcodedAdmin = currentUser.email === 'premmore0552@gmail.com';
-        
-        setIsAdmin(adminDoc.exists() || isHardcodedAdmin);
-        fetchMyQuestions();
-      }
-      setLoading(false);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setCurrentUser(user);
     });
 
-    fetchFeatured();
+    // Populate initial friendly greeting
+    setMessages([
+      {
+        id: 'initial_greet',
+        role: 'model',
+        text: `Hello! I am your ✨ **Curiva Homeopathic Consultation Companion**. 
+
+I am here to guide you through classical homeopathic principles, help you understand constitutional remedy selecting, clarify potency questions, and explain how natural therapeutic triggers can restore balance to your vital force.
+
+Feel free to click one of the quick prompts below or ask me about any holistic health philosophies directly! How can I support your healing journey today?`,
+        timestamp: new Date()
+      }
+    ]);
 
     return () => unsubscribe();
   }, []);
 
-  const fetchMyQuestions = async () => {
-    const questions = await questionService.getMyQuestions();
-    if (questions) setMyQuestions(questions);
-  };
-
-  const fetchFeatured = async () => {
-    const questions = await questionService.getFeaturedQuestions();
-    if (questions) setFeaturedQuestions(questions);
-  };
-
-  const fetchAdminQuestions = async () => {
-    if (!isAdmin) return;
-    const questions = await questionService.getAllQuestionsForAdmin();
-    if (questions) setAdminQuestions(questions);
-  };
-
   useEffect(() => {
-    if (activeTab === 'admin' && isAdmin) {
-      fetchAdminQuestions();
-    }
-  }, [activeTab, isAdmin]);
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages, isTyping]);
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!user) {
-      setErrorMessage('Please sign in to ask a question.');
-      return;
-    }
+  const handleSendMessage = async (userQuery: string) => {
+    if (!userQuery.trim() || isTyping) return;
 
-    setSubmitting(true);
-    setErrorMessage('');
-    
+    const userMsg: ChatMessage = {
+      id: `usr_${Date.now()}`,
+      role: 'user',
+      text: userQuery,
+      timestamp: new Date()
+    };
+
+    setMessages(prev => [...prev, userMsg]);
+    setInputText('');
+    setIsTyping(true);
+    setErrorText('');
+
     try {
-      await questionService.submitQuestion(subject, content, isAnonymous);
-      setSuccessMessage('Your question has been submitted successfully! Our experts will review it soon.');
-      setSubject('');
-      setContent('');
-      setIsAnonymous(false);
-      fetchMyQuestions();
-      setTimeout(() => setSuccessMessage(''), 5000);
-    } catch (error: any) {
-      setErrorMessage('Failed to submit question. Please try again.');
+      // Map stateful message arrays for API consistency
+      const conversationHistory = messages.map(msg => ({
+        role: msg.role === 'model' ? 'model' : 'user',
+        text: msg.text
+      }));
+
+      const res = await fetch('/api/gemini/curiva-care', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          prompt: userQuery,
+          conversationHistory
+        })
+      });
+
+      const data = await res.json();
+      if (res.ok && data.text) {
+        setMessages(prev => [...prev, {
+          id: `ai_${Date.now()}`,
+          role: 'model',
+          text: data.text,
+          timestamp: new Date()
+        }]);
+      } else {
+        throw new Error(data.error || "Failed back-end retrieval.");
+      }
+    } catch (err: any) {
+      console.error(err);
+      setErrorText("Our clinical server is currently syncing connection layers. Please retry your message.");
     } finally {
-      setSubmitting(false);
-    }
-  };
-
-  const handleAnswerSubmit = async (questionId: string, answer: string, feature: boolean) => {
-    try {
-      await questionService.answerQuestion(
-        questionId, 
-        answer, 
-        feature ? QuestionStatus.FEATURED : QuestionStatus.ANSWERED
-      );
-      fetchAdminQuestions();
-    } catch (error) {
-      alert('Failed to submit answer');
+      setIsTyping(false);
     }
   };
 
   return (
-    <div className="min-h-screen bg-bg-primary pb-20">
+    <div className="min-h-screen bg-bg-primary pt-8 pb-24 font-sans text-text-primary">
       <SEO 
-        title="Ask a Homeopath | Expert Clinical Guidance | Curiva"
-        description="Submit your questions to qualified homeopathic professionals and explore our featured clinical case studies."
+        title="Interactive Homeopathy AI Assistant | Curiva Homoeopathy"
+        description="Connect with Curiva's AI Consultation Companion to explore constitutional remedies, potentization, and holistic healing philosophy safely."
       />
 
-      {/* Header */}
-      <header className="relative pt-32 pb-48 overflow-hidden bg-primary-dark text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.15)_0%,transparent_70%)] opacity-40 pointer-events-none" />
-        <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
-           <MessageSquare className="w-96 h-96 text-accent" />
-        </div>
+      <div className="max-w-6xl mx-auto px-4 mt-6">
         
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-           <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/5 border border-white/10 rounded-full shadow-2xl mb-10"
-           >
-             <ShieldCheck className="w-4 h-4 text-accent-light" />
-             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent-light">Expert Consultations</span>
-           </motion.div>
-           <h1 className="text-6xl md:text-8xl lg:text-[9rem] font-display font-medium text-white tracking-tighter leading-[0.8] uppercase flex flex-col">
-             <span>Consult</span>
-             <span className="text-accent italic lg:ml-24">Experts</span>
-           </h1>
-           <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-tight mt-12">
-             Bridge the gap between theory and practice. Get direct insights from seasoned clinical practitioners.
-           </p>
-        </div>
-      </header>
-
-      {/* Navigation Tabs */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20">
-        <div className="flex flex-wrap gap-2 p-2 bg-white/10 backdrop-blur-3xl border border-white/20 rounded-[2.5rem] shadow-2xl w-fit mb-12">
-          {[
-            { id: 'ask', name: 'Ask a Question', icon: HelpCircle },
-            { id: 'featured', name: 'Clinical Q&A', icon: Sparkles },
-            { id: 'my-questions', name: 'My History', icon: History, auth: true },
-            { id: 'admin', name: 'Admin Panel', icon: ShieldCheck, admin: true },
-          ].filter(tab => (!tab.auth || user) && (!tab.admin || isAdmin)).map(tab => {
-            const Icon = tab.icon;
-            return (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id as any)}
-                className={`flex items-center gap-3 px-8 py-4 rounded-[2rem] text-[10px] font-black uppercase tracking-widest transition-all ${
-                  activeTab === tab.id 
-                  ? 'bg-primary text-white shadow-xl shadow-primary/30' 
-                  : 'bg-white/5 text-white/60 hover:bg-white/10'
-                }`}
-              >
-                <Icon className="w-4 h-4" />
-                {tab.name}
-              </button>
-            )
-          })}
+        {/* Top Header Row */}
+        <div className="flex items-center justify-between border-b border-border pb-6 mb-10">
+          <div className="flex items-center gap-3">
+            <div className="p-2.5 bg-primary/10 rounded-xl text-primary animate-pulse">
+              <Heart className="w-5.5 h-5.5 text-primary" />
+            </div>
+            <div>
+              <h1 className="text-xl md:text-2xl font-display font-medium text-primary">Homeopathy AI Assistant</h1>
+              <p className="text-xs text-text-tertiary">Real-time classical therapeutics &amp; organon guidelines</p>
+            </div>
+          </div>
+          <Link to="/" className="text-xs text-primary hover:text-accent font-bold transition-colors">
+            Back to Home
+          </Link>
         </div>
 
-        <AnimatePresence mode="wait">
-          {activeTab === 'ask' && (
-            <motion.div
-              key="ask-tab"
-              initial={{ opacity: 0, scale: 0.95 }}
-              animate={{ opacity: 1, scale: 1 }}
-              exit={{ opacity: 0, scale: 0.95 }}
-              className="grid lg:grid-cols-2 gap-12"
-            >
-              <div className="bg-white p-12 rounded-[3.5rem] border border-border shadow-soft">
-                <h2 className="text-4xl font-display font-medium text-text-primary italic mb-8">Submit Your <span className="text-primary italic">Inquiry</span></h2>
-                
-                {!user ? (
-                  <div className="p-12 text-center bg-bg-secondary rounded-[2.5rem] border border-dashed border-border group">
-                    <Lock className="w-16 h-16 text-primary/30 mx-auto mb-6 group-hover:scale-110 transition-transform" />
-                    <h3 className="text-2xl font-display font-medium text-text-primary italic mb-4">Authentication Required</h3>
-                    <p className="text-text-secondary font-serif italic mb-8">You must be logged into your Curiva account to submit clinical inquiries for professional review.</p>
-                    <button className="px-12 py-5 bg-primary text-white rounded-[2rem] font-black uppercase tracking-widest text-[10px] hover:scale-105 active:scale-95 transition-all shadow-xl shadow-primary/20">
-                      Sign In to Continue
-                    </button>
-                  </div>
-                ) : (
-                  <form onSubmit={handleSubmit} className="space-y-8">
-                    <div>
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-3 block">Subject</label>
-                      <input 
-                        type="text" 
-                        required
-                        value={subject}
-                        onChange={(e) => setSubject(e.target.value)}
-                        placeholder="e.g., Differential between Lycopodium and Chelidonium in Liver Case"
-                        className="w-full px-8 py-5 bg-bg-secondary border border-border rounded-3xl font-serif italic text-lg focus:border-primary focus:ring-0 transition-all outline-none"
-                      />
-                    </div>
-                    <div>
-                      <label className="text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-3 block">Question Details</label>
-                      <textarea 
-                        required
-                        rows={6}
-                        value={content}
-                        onChange={(e) => setContent(e.target.value)}
-                        placeholder="Please provide clinical context, keynotes observed, and your specific dilemma..."
-                        className="w-full px-8 py-5 bg-bg-secondary border border-border rounded-3xl font-serif italic text-lg focus:border-primary focus:ring-0 transition-all outline-none resize-none"
-                      />
-                    </div>
-                    <div className="flex items-center gap-4 p-6 bg-bg-secondary rounded-[2rem] border border-border">
-                      <button
-                        type="button"
-                        onClick={() => setIsAnonymous(!isAnonymous)}
-                        className={`w-12 h-6 rounded-full relative transition-colors ${isAnonymous ? 'bg-primary' : 'bg-border'}`}
-                      >
-                        <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${isAnonymous ? 'left-7' : 'left-1'}`} />
-                      </button>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-text-primary block">Ask Anonymously</span>
-                        <span className="text-[10px] text-text-secondary opacity-60">Your identity will be hidden if selected for the public blog.</span>
-                      </div>
-                    </div>
+        {/* Outer Split Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+          
+          {/* Chat Window Frame (8 cols) */}
+          <div className="lg:col-span-8 bg-white border border-border rounded-[2.5rem] shadow-soft overflow-hidden flex flex-col h-[650px] relative">
+            <div className="absolute top-0 right-0 w-36 h-36 bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.04)_0%,transparent_70%)] pointer-events-none" />
 
-                    {successMessage && (
-                      <div className="p-6 bg-emerald-500/10 border border-emerald-500/20 rounded-[2rem] flex items-center gap-4 text-emerald-700">
-                        <CheckCircle className="w-6 h-6 shrink-0" />
-                        <p className="text-sm font-serif italic">{successMessage}</p>
-                      </div>
-                    )}
-
-                    {errorMessage && (
-                      <div className="p-6 bg-rose-500/10 border border-rose-500/20 rounded-[2rem] flex items-center gap-4 text-rose-700">
-                        <AlertCircle className="w-6 h-6 shrink-0" />
-                        <p className="text-sm font-serif italic">{errorMessage}</p>
-                      </div>
-                    )}
-
-                    <button 
-                      type="submit"
-                      disabled={submitting}
-                      className="w-full py-6 bg-primary text-white rounded-[2.5rem] font-black uppercase tracking-widest text-[11px] flex items-center justify-center gap-3 shadow-2xl shadow-primary/30 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50"
-                    >
-                      {submitting ? (
-                        <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      ) : (
-                        <Send className="w-4 h-4" />
-                      )}
-                      Dispatch Clinical Inquiry
-                    </button>
-                  </form>
-                )}
+            {/* Chat Room Status Header */}
+            <div className="px-6 py-4.5 border-b border-border bg-bg-primary/50 flex items-center justify-between">
+              <div className="flex items-center gap-2">
+                <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                <span className="text-xs font-black uppercase tracking-wider text-primary">Companion Consultation Online</span>
               </div>
+              <span className="text-[10px] font-mono text-text-tertiary">Secured SSL Session</span>
+            </div>
 
-              <div className="space-y-8">
-                <div className="p-10 bg-primary-dark rounded-[3.5rem] text-white shadow-soft relative overflow-hidden group">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.1)_0%,transparent_50%)]" />
-                  <ShieldCheck className="w-12 h-12 mb-8 text-accent opacity-50 group-hover:scale-110 transition-transform duration-500" />
-                  <h3 className="text-3xl font-display font-medium text-accent italic mb-4">Professional Ethics</h3>
-                  <p className="text-lg text-white/70 font-serif italic leading-relaxed">
-                    Our panel consists of registered homeopathic practitioners. While we provide clinical insights, these consultations do not replace formal medical advice or emergency care.
-                  </p>
-                </div>
-
-                <div className="p-10 bg-white rounded-[3.5rem] border border-border shadow-soft relative overflow-hidden group">
-                  <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-8 border-b border-border pb-4">Consultation Workflow</h4>
-                  <div className="space-y-8">
-                    {[
-                      { step: '01', title: 'Submission', desc: 'Detail your inquiry with as much clinical data as possible.' },
-                      { step: '02', title: 'Review', desc: 'Case distributed to relevant clinical expert for analysis.' },
-                      { step: '03', title: 'Resolution', desc: 'Expert reply added to your clinical history within 48-72h.' }
-                    ].map(item => (
-                      <div key={item.step} className="flex gap-6">
-                        <span className="text-3xl font-display font-medium text-primary italic opacity-20">{item.step}</span>
-                        <div>
-                          <h5 className="text-[11px] font-black uppercase tracking-widest text-text-primary mb-1">{item.title}</h5>
-                          <p className="text-sm text-text-secondary font-serif italic opacity-70">{item.desc}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </motion.div>
-          )}
-
-          {activeTab === 'featured' && (
-            <motion.div
-              key="featured-tab"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="grid gap-8"
-            >
-              {featuredQuestions.map((q) => (
-                <div key={q.id} className="bg-white rounded-[3.5rem] border border-border shadow-soft p-12 overflow-hidden relative group">
-                  <div className="absolute top-0 right-0 p-12 opacity-[0.03] group-hover:opacity-[0.06] transition-opacity">
-                    <Sparkles className="w-64 h-64 text-primary" />
-                  </div>
-                  
-                  <div className="flex flex-wrap items-center gap-3 mb-8">
-                    <span className="px-5 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-black uppercase tracking-widest text-primary">Case Study</span>
-                    <span className="text-text-secondary/60 text-[10px] font-bold uppercase tracking-widest italic">{safeFormatDate(q.createdAt)}</span>
-                  </div>
-
-                  <h3 className="text-3xl md:text-5xl font-display font-medium text-text-primary italic tracking-tight mb-8 leading-tight">
-                    {q.subject}
-                  </h3>
-
-                  <div className="grid lg:grid-cols-2 gap-12">
-                    <div className="space-y-6">
-                      <div className="flex flex-col gap-2">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-primary opacity-50">Observation</span>
-                        <p className="text-lg text-text-primary font-serif italic leading-relaxed bg-bg-primary p-8 rounded-[2.5rem] border border-border">"{q.content}"</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                         <User className="w-4 h-4 text-primary/40" />
-                         <span className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">Inquiry by {q.isAnonymous ? 'Anonymous Practitioner' : q.userName}</span>
-                      </div>
-                    </div>
-
-                    <div className="space-y-6">
-                      <div className="flex flex-col gap-2">
-                        <span className="text-[10px] font-black uppercase tracking-widest text-accent">Professional Synthesis</span>
-                        <div className="text-lg text-text-primary font-serif italic leading-relaxed bg-accent/5 p-8 rounded-[2.5rem] border border-accent/20 border-dashed">
-                          {q.answer ? q.answer : 'Expert synthesis pending review...'}
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-3">
-                         <ShieldCheck className="w-4 h-4 text-accent" />
-                         <span className="text-[10px] font-bold text-accent uppercase tracking-widest italic">Clinical Reply by {q.answeredBy || 'Curiva Panel'}</span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              ))}
-              {featuredQuestions.length === 0 && (
-                <div className="p-20 text-center bg-white rounded-[3.5rem] border border-border">
-                   <HelpCircle className="w-16 h-16 text-primary/20 mx-auto mb-6" />
-                   <p className="text-xl font-serif italic text-text-secondary">No featured clinical Q&As available at this moment.</p>
-                </div>
-              )}
-            </motion.div>
-          )}
-
-          {activeTab === 'my-questions' && (
-            <motion.div
-              key="history-tab"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-6"
-            >
-              {myQuestions.map((q) => (
-                <div key={q.id} className="bg-white p-10 rounded-[3rem] border border-border shadow-soft flex flex-col md:flex-row gap-8 items-start">
-                  <div className={`w-20 h-20 rounded-[1.5rem] shrink-0 flex items-center justify-center border ${
-                    q.status === 'pending' ? 'bg-amber-500/10 border-amber-500/20 text-amber-600' :
-                    q.status === 'answered' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600' :
-                    'bg-primary/10 border-primary/20 text-primary'
+            {/* Message Area */}
+            <div className="flex-grow overflow-y-auto p-6 space-y-6 no-scrollbar">
+              {messages.map((msg) => (
+                <div 
+                  key={msg.id}
+                  className={`flex gap-3.5 max-w-[85%] ${
+                    msg.role === 'user' ? 'ml-auto flex-row-reverse' : ''
+                  }`}
+                >
+                  <div className={`w-8.5 h-8.5 rounded-full shrink-0 flex items-center justify-center text-xs font-bold ${
+                    msg.role === 'user' ? 'bg-accent text-white' : 'bg-primary text-white'
                   }`}>
-                    {q.status === 'pending' ? <Clock className="w-8 h-8" /> : <CheckCircle className="w-8 h-8" />}
+                    {msg.role === 'user' ? <User className="w-4 h-4" /> : <Sparkles className="w-4 h-4 text-accent" />}
                   </div>
-                  <div className="flex-1">
-                    <div className="flex flex-wrap items-center gap-3 mb-4">
-                      <span className={`px-4 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border ${
-                        q.status === 'pending' ? 'bg-amber-500/10 border-amber-500/20 text-amber-600' :
-                        q.status === 'answered' ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-600' :
-                        'bg-primary/10 border-primary/20 text-primary'
-                      }`}>
-                        {q.status}
-                      </span>
-                      <span className="text-[10px] text-text-secondary font-bold uppercase tracking-tighter opacity-40">
-                         Ref: {q.id.substring(0, 8)} • {safeFormatDate(q.createdAt)}
-                      </span>
-                    </div>
-                    <h4 className="text-2xl font-display font-medium text-text-primary italic mb-4">{q.subject}</h4>
-                    <p className="text-text-secondary font-serif italic mb-6 line-clamp-2">"{q.content}"</p>
-                    {q.answer && (
-                      <div className="mt-6 p-8 bg-bg-secondary rounded-[2rem] border border-border">
-                        <div className="flex items-center gap-2 text-primary font-black text-[9px] uppercase tracking-widest mb-4">
-                          <Check className="w-3 h-3" /> Professional Reply
+
+                  <div className="space-y-1">
+                    <div className={`p-4.5 rounded-2xl text-xs md:text-sm leading-relaxed prose prose-slate max-w-none ${
+                       msg.role === 'user' 
+                        ? 'bg-accent/10 border border-accent/20 text-primary rounded-tr-none font-medium' 
+                        : 'bg-bg-primary border border-border text-text-secondary rounded-tl-none'
+                    }`}>
+                      {msg.role === 'user' ? (
+                        <div className="whitespace-pre-wrap">{msg.text}</div>
+                      ) : (
+                        <div className="markdown-body">
+                          <ReactMarkdown
+                            components={{
+                              a: ({node, ...props}) => {
+                                const isInternal = props.href?.startsWith('/');
+                                if (isInternal) {
+                                  return (
+                                    <Link 
+                                      to={props.href || '/'} 
+                                      className="text-accent hover:text-primary font-bold underline transition-colors"
+                                    >
+                                      {props.children}
+                                    </Link>
+                                  );
+                                }
+                                return (
+                                  <a 
+                                    {...props} 
+                                    target="_blank" 
+                                    rel="noopener noreferrer" 
+                                    className="text-accent hover:text-primary font-bold underline transition-colors"
+                                  />
+                                );
+                              }
+                            }}
+                          >
+                            {msg.text}
+                          </ReactMarkdown>
                         </div>
-                        <p className="text-lg text-text-primary font-serif italic leading-relaxed">{q.answer}</p>
-                      </div>
-                    )}
+                      )}
+                    </div>
+                    <span className="text-[8px] text-text-tertiary block font-mono">
+                      {msg.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                    </span>
                   </div>
                 </div>
               ))}
-              {myQuestions.length === 0 && (
-                <div className="p-20 text-center bg-white rounded-[3.5rem] border border-border">
-                   <History className="w-16 h-16 text-primary/20 mx-auto mb-6" />
-                   <p className="text-xl font-serif italic text-text-secondary">Your clinical consultation history is empty.</p>
-                   <button 
-                     onClick={() => setActiveTab('ask')}
-                     className="mt-8 px-10 py-4 bg-primary text-white rounded-[2rem] font-black uppercase tracking-widest text-[10px]"
-                   >
-                     Submit Your First Inquiry
-                   </button>
+
+              {isTyping && (
+                <div className="flex gap-3.5 max-w-[85%] animate-pulse">
+                  <div className="w-8.5 h-8.5 rounded-full bg-primary text-white shrink-0 flex items-center justify-center">
+                    <Loader2 className="w-4.5 h-4.5 animate-spin" />
+                  </div>
+                  <div className="bg-bg-primary border border-border p-4 rounded-2xl rounded-tl-none text-xs text-text-tertiary">
+                    Reviewing classical pharmacopoeia guidelines...
+                  </div>
                 </div>
               )}
-            </motion.div>
-          )}
 
-          {activeTab === 'admin' && isAdmin && (
-            <motion.div
-              key="admin-tab"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              className="space-y-8"
-            >
-              <div className="flex items-center justify-between">
-                <h2 className="text-4xl font-display font-medium text-text-primary italic">Expert <span className="text-primary">Control Desk</span></h2>
-                <div className="p-3 bg-bg-secondary rounded-2xl border border-border font-bold text-xs">
-                   Logged in as: <span className="text-primary">{user?.email}</span>
+              {errorText && (
+                <div className="p-4 bg-red-100 border border-red-200 rounded-xl text-xs text-red-800 flex items-center gap-2">
+                  <AlertCircle className="w-4.5 h-4.5" />
+                  {errorText}
                 </div>
-              </div>
-              
-              <div className="grid gap-6">
-                {adminQuestions.map((q) => (
-                  <AdminQuestionItem key={q.id} question={q} onAnswer={handleAnswerSubmit} />
+              )}
+
+              <div ref={bottomRef} />
+            </div>
+
+            {/* Suggested Prompt Rails */}
+            {messages.length <= 2 && !isTyping && (
+              <div className="px-6 py-3 border-t border-border bg-bg-primary/20 flex flex-wrap gap-2.5">
+                {suggestedPrompts.map((p, pIdx) => (
+                  <button
+                    key={pIdx}
+                    onClick={() => handleSendMessage(p.query)}
+                    className="text-[10px] font-bold text-primary hover:text-white bg-white border border-border hover:bg-primary hover:border-primary px-3.5 py-1.5 rounded-full transition-all cursor-pointer whitespace-nowrap active:scale-95"
+                  >
+                    {p.label}
+                  </button>
                 ))}
               </div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-      </div>
-    </div>
-  );
-};
+            )}
 
-const AdminQuestionItem: React.FC<{ 
-  question: Question, 
-  onAnswer: (id: string, answer: string, feature: boolean) => Promise<void> 
-}> = ({ question: q, onAnswer }) => {
-  const [answer, setAnswer] = useState(q.answer || '');
-  const [isFeatured, setIsFeatured] = useState(q.status === QuestionStatus.FEATURED);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(q.status === QuestionStatus.PENDING);
-
-  const handleSubmit = async () => {
-    setIsSubmitting(true);
-    try {
-      await onAnswer(q.id, answer, isFeatured);
-      setIsExpanded(false);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <div className={`bg-white rounded-[3rem] border transition-all duration-500 overflow-hidden ${isExpanded ? 'border-primary ring-4 ring-primary/5 shadow-2xl' : 'border-border'}`}>
-      <div 
-        className="p-8 flex flex-col md:flex-row gap-6 items-start md:items-center cursor-pointer"
-        onClick={() => setIsExpanded(!isExpanded)}
-      >
-        <div className={`w-14 h-14 rounded-2xl shrink-0 flex items-center justify-center ${
-          q.status === QuestionStatus.PENDING ? 'bg-amber-500/10 text-amber-600' : 
-          q.status === QuestionStatus.ANSWERED ? 'bg-emerald-500/10 text-emerald-600' : 'bg-primary/10 text-primary'
-        }`}>
-          {q.status === QuestionStatus.PENDING ? <Clock className="w-6 h-6" /> : <CheckCircle className="w-6 h-6" />}
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center gap-3 mb-2">
-            <span className="text-[9px] font-black uppercase text-text-tertiary">Patient ID: {q.userId.substring(0, 8)}</span>
-            <span className="text-[9px] font-black uppercase text-primary">Status: {q.status}</span>
+            {/* Input Form Box */}
+            <form 
+              onSubmit={(e) => { e.preventDefault(); handleSendMessage(inputText); }} 
+              className="p-4.5 border-t border-border bg-white flex gap-3 items-center"
+            >
+              <input
+                type="text"
+                value={inputText}
+                onChange={(e) => setInputText(e.target.value)}
+                placeholder="Ask about constitutional remedies, Organon guidelines, or chronic miasms..."
+                disabled={isTyping}
+                className="flex-grow px-5 py-3 rounded-xl border border-border bg-bg-primary focus:outline-none focus:border-primary text-xs md:text-sm font-medium"
+              />
+              <button
+                type="submit"
+                disabled={!inputText.trim() || isTyping}
+                className={`p-3.5 rounded-xl transition-all ${
+                  inputText.trim() && !isTyping 
+                    ? 'bg-primary text-white hover:bg-primary-dark cursor-pointer' 
+                    : 'bg-border text-text-tertiary cursor-not-allowed'
+                }`}
+              >
+                <Send className="w-4.5 h-4.5" />
+              </button>
+            </form>
           </div>
-          <h4 className="text-xl font-display font-medium text-text-primary italic truncate">{q.subject}</h4>
-        </div>
-        <button className={`p-4 rounded-full transition-transform ${isExpanded ? 'rotate-90 text-primary' : 'text-text-tertiary opacity-30'}`}>
-          <ChevronRight className="w-6 h-6" />
-        </button>
-      </div>
 
-      <AnimatePresence>
-        {isExpanded && (
-          <motion.div
-            initial={{ height: 0, opacity: 0 }}
-            animate={{ height: 'auto', opacity: 1 }}
-            exit={{ height: 0, opacity: 0 }}
-            className="border-t border-border overflow-hidden"
-          >
-            <div className="p-10 space-y-10">
-              <div className="grid lg:grid-cols-2 gap-10">
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3">
-                     <User className="w-5 h-5 text-primary" />
-                     <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-text-primary">Clinical Context</h5>
-                  </div>
-                  <div className="p-8 bg-bg-secondary rounded-[2.5rem] border border-border font-serif italic text-lg leading-relaxed shadow-inner">
-                    "{q.content}"
-                  </div>
-                  <div className="flex flex-wrap gap-4">
-                    <div className="px-4 py-2 bg-white border border-border rounded-xl text-xs font-bold flex items-center gap-2">
-                       <span className="opacity-40">User:</span> {q.userName}
-                    </div>
-                    <div className="px-4 py-2 bg-white border border-border rounded-xl text-xs font-bold flex items-center gap-2">
-                       <span className="opacity-40">Email:</span> {q.userEmail}
-                    </div>
-                  </div>
-                </div>
+          {/* Clinical Context Sidebar (4 cols) */}
+          <div className="lg:col-span-4 space-y-6">
+            
+            <div className="bg-white border border-border rounded-[2rem] p-6.5 shadow-soft space-y-4">
+              <h4 className="text-sm font-display text-[#c5a059] uppercase font-black tracking-widest flex items-center gap-1.5 leading-none">
+                <ShieldCheck className="w-4 h-4" /> Science &amp; Safety
+              </h4>
+              <p className="text-xs text-text-secondary leading-relaxed">
+                Homeopathy is a gentle complementary therapeutic art. Registered remedies are prepared in accordance with official Homeopathic Pharmacopoeias. They stimulate wellness and do not substitute standard emergency medical settings.
+              </p>
+            </div>
 
-                <div className="space-y-6">
-                  <div className="flex items-center gap-3">
-                     <ShieldCheck className="w-5 h-5 text-accent" />
-                     <h5 className="text-[10px] font-black uppercase tracking-[0.2em] text-accent">Formal Response</h5>
+            <div className="bg-white border border-border rounded-[2rem] p-6.5 shadow-soft space-y-4">
+              <h4 className="text-sm font-display text-primary uppercase font-bold tracking-tight">Core Healing Principles</h4>
+              
+              <div className="space-y-3">
+                {[
+                  { name: 'Similia Similibus Curentur', desc: 'Like cures like: substances causing physical symptoms in healthy provers can cure similar symptoms in patients.' },
+                  { name: 'The Single Remedy Rule', desc: 'Classical homeopathy mandates prescribing one unified remedy at any time to preserve clean symptom pictures.' },
+                  { name: 'The Minimum Dose Law', desc: 'Remedies are repetitively succussed and diluted, capturing energetic signatures while neutralizing toxicity.' },
+                  { name: 'Miasmatic Foundation', desc: 'Evaluating chronic illness layers of Psoric, Sycotic, and Syphilitic inherited disease tendencies.' }
+                ].map((bio, bioIdx) => (
+                  <div key={bioIdx} className="border-l-2 border-primary/20 pl-3 space-y-0.5">
+                    <span className="text-[11px] font-bold text-primary block">{bio.name}</span>
+                    <span className="text-[9px] text-text-tertiary block leading-tight">{bio.desc}</span>
                   </div>
-                  <textarea 
-                    value={answer}
-                    onChange={(e) => setAnswer(e.target.value)}
-                    placeholder="Enter professional clinical synthesis..."
-                    className="w-full p-8 bg-accent/5 border border-accent/20 rounded-[2.5rem] font-serif italic text-lg focus:border-accent focus:ring-0 transition-all outline-none resize-none min-h-[250px]"
-                  />
-                  <div className="flex items-center gap-4 p-6 bg-accent/5 rounded-[2rem] border border-accent/10 border-dashed">
-                      <button
-                        type="button"
-                        onClick={() => setIsFeatured(!isFeatured)}
-                        className={`w-12 h-6 rounded-full relative transition-colors ${isFeatured ? 'bg-accent' : 'bg-border'}`}
-                      >
-                        <div className={`absolute top-1 w-4 h-4 rounded-full bg-white transition-all ${isFeatured ? 'left-7' : 'left-1'}`} />
-                      </button>
-                      <div>
-                        <span className="text-[10px] font-black uppercase tracking-widest text-accent block">Feature on Blog</span>
-                        <span className="text-[10px] text-text-secondary opacity-60 italic">Marks this Q&A as publicly visible (Anonymized).</span>
-                      </div>
-                    </div>
-                </div>
-              </div>
-
-              <div className="flex justify-end gap-4">
-                <button 
-                  onClick={() => setIsExpanded(false)}
-                  className="px-10 py-5 bg-bg-secondary text-text-secondary rounded-[2rem] font-black uppercase tracking-widest text-[10px] hover:bg-border transition-all"
-                >
-                  Cancel
-                </button>
-                <button 
-                  onClick={handleSubmit}
-                  disabled={isSubmitting || !answer}
-                  className="px-12 py-5 bg-accent text-primary-dark rounded-[2rem] font-black uppercase tracking-widest text-[10px] flex items-center gap-3 shadow-xl shadow-accent/20 hover:scale-105 active:scale-95 transition-all disabled:opacity-50"
-                >
-                  {isSubmitting ? <Lock className="w-4 h-4 animate-spin" /> : <Check className="w-4 h-4" />}
-                  Finalize Response
-                </button>
+                ))}
               </div>
             </div>
-          </motion.div>
-        )}
-      </AnimatePresence>
+
+            {/* Quick Action Box */}
+            <div className="bg-primary text-white border border-primary/20 rounded-[2rem] p-6 shadow-soft text-center space-y-4">
+              <span className="text-[9px] font-black uppercase tracking-widest text-[#c5a059]">PRACTITIONER ASSISTANCE</span>
+              <h4 className="text-base font-display font-light">Enter our verified Medical Professional AI Suite</h4>
+              <Link 
+                to="/clinical-ai" 
+                className="w-full inline-flex items-center justify-center gap-1 bg-white text-primary text-[10px] font-bold uppercase tracking-wider p-3 rounded-xl hover:bg-accent hover:text-white transition-all cursor-pointer"
+              >
+                Launch AI Suite <ArrowRight className="w-3.5 h-3.5" />
+              </Link>
+            </div>
+
+          </div>
+
+        </div>
+      </div>
     </div>
   );
-};
-
-export default AskHomeopath;
+}

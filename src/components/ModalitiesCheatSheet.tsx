@@ -136,7 +136,7 @@ export default function ModalitiesCheatSheet() {
 
   return (
     <div className="space-y-12">
-      <div className="bg-[#1a2b23] dark:bg-[#11010a] p-12 md:p-20 rounded-[4rem] relative overflow-hidden group shadow-2xl">
+      <div className="bg-[#0F3D75] dark:bg-[#0B0F19] p-12 md:p-20 rounded-[4rem] relative overflow-hidden group shadow-2xl">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-60" />
         
         <div className="relative z-10 flex flex-col md:flex-row items-center justify-between gap-12">

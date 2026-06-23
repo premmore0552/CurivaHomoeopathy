@@ -1,463 +1,472 @@
-import React, { useEffect, useState } from 'react';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { motion } from 'motion/react';
 import { 
   ArrowRight, 
   Activity, 
-  BookOpen, 
-  GraduationCap, 
-  HelpCircle, 
-  Users, 
-  ShoppingBag, 
-  Sparkles, 
   ShieldCheck, 
-  History, 
-  Award, 
-  Network, 
-  Zap,
-  Flame, 
-  Trophy, 
+  Sparkles, 
   CheckCircle2, 
-  RefreshCw,
-  TrendingUp,
-  BrainCircuit,
-  Lock,
-  Layers
+  HelpCircle, 
+  Heart,
+  ChevronRight,
+  ChevronDown,
+  Clock,
+  BookOpen,
+  Cpu,
+  GraduationCap,
+  FileText,
+  Search,
+  BookMarked,
+  Layers,
+  Zap,
+  Info
 } from 'lucide-react';
-import Hero from '../components/Hero';
-import FeaturedArticles from '../components/FeaturedArticles';
-import FeaturedQuestions from '../components/FeaturedQuestions';
 import SEO from '../components/SEO';
-import { BlogPost } from '../types';
-import { useUser } from '../hooks/useUser';
-import { HomeWorkspaceBanner } from '../components/HomeWorkspaceBanner';
-import LearningPath from '../components/LearningPath';
+import StudyQuickReferenceModal, { StudyTopic } from '../components/StudyQuickReferenceModal';
 
-const funnelSteps = [
+const activeFAQ = [
   {
-    id: 'organon',
-    title: 'The Foundation',
-    subtitle: 'Organon of Medicine',
-    description: 'Master the logic and philosophy of homoeopathy. Explore 291 aphorisms with historical context and clinical insights.',
-    icon: GraduationCap,
-    link: '/lexicon/philosophy',
-    color: 'bg-primary'
+    q: "How does Curiva support Homeopathic Students & BHMS Learners?",
+    a: "Curiva provides an integrated suite of study aids: a fully indexed classical Materia Medica (with Allen's Keynotes and Kent's lectures), an interactive Organon & Philosophy tool for learning Hahnemann's aphorisms, high-yield Student Reference Guides, and mock clinical MCQ practice boards tailored for AIAPGET exam preparations."
   },
   {
-    id: 'materia-medica',
-    title: 'The Materia Medica',
-    subtitle: 'Materia Medica A-Z',
-    description: 'A comprehensive alphabetical study of homoeopathic drug pictures. Explore detailed keynotes, modalities, and standard drug provers representations for all major remedies.',
-    icon: BookOpen,
-    link: '/materia-medica',
-    color: 'bg-emerald-600'
+    q: "What clinical AI tools are available for professionals and students?",
+    a: "Curiva simplifies practitioner cases with smart clinical decision-support modules, an advanced symptomatic checker, a Kent repertory calculator to compute remedy weights, and a side-by-side comparative analyzer to differentiate sister remedies."
   },
   {
-    id: 'clinical-guides',
-    title: 'The Therapeutics',
-    subtitle: 'Clinical Materia Medica',
-    description: 'Explore detailed therapeutic guides, clinical articles, and pathology-backed disease indices designed for evidence-based practice and case management.',
-    icon: Activity,
-    link: '/clinical-guides',
-    color: 'bg-accent'
+    q: "Can normal citizens or patients use Curiva?",
+    a: "Yes! Curiva offers safe homeopathic self-assessment symptom checkers, myth-busting resources, and educational guides to understand classical homeopathy, without replacing professional medical advice."
   },
   {
-    id: 'repertory',
-    title: 'The Analysis',
-    subtitle: 'Interactive Repertory',
-    description: 'Dynamic symptom-to-remedy mapping. Filter thousands of clinical indications to find the most accurate medicinal match.',
-    icon: Zap,
-    link: '/repertory',
-    color: 'bg-orange-600'
-  },
-  {
-    id: 'relationships',
-    title: 'The Mapping',
-    subtitle: 'Remedy Nexus',
-    description: "Visualize 'Complementary', 'Inimical', and 'Antidotal' networks. Refine your long-term clinical strategy.",
-    icon: Network,
-    link: '/nexus',
-    color: 'bg-indigo-600'
-  },
-  {
-    id: 'mcq-practice',
-    title: 'The Evaluation',
-    subtitle: 'Competitive MCQs',
-    description: 'Prepare for AIAPGET and competitive exams with 10,000+ targeted MCQs. Simulate exam conditions with timed sessions.',
-    icon: ShieldCheck,
-    link: '/mcq-practice',
-    color: 'bg-slate-700'
+    q: "Is Curiva's library authentic and verified?",
+    a: "Absolutely. All reference materials, rubrics, and lectures are derived directly from centuries of peer-verified classical literature, including Organon of Medicine, Kent's lectures, Boericke's Materia Medica, and Allen's Keynotes."
   }
 ];
 
-// Curated homeopathic riddles for gamification
-const mysteryRiddles = [
+const studyPathTopics: StudyTopic[] = [
   {
-    id: 1,
-    clue: "I am extremely sensitive to cold air, yet my headaches are relieved by tight bandaging. My key emotional state is intense sadness, crying when describing symptoms, but I am warm-blooded and crave fresh open air.",
-    options: ["Pulsatilla", "Hepar Sulph", "Silicea"],
-    correct: "Pulsatilla",
-    explanation: "Pulsatilla prates of tears and wind; warm-blooded but loves open, fresh air, and feels relieved by soft open breezes."
+    id: "foundations",
+    category: "Academic Stage 1",
+    title: "Foundations of Homeopathy",
+    subtitle: "The Core Philosophical Principles of Healing",
+    distilledSummary: "Homeopathy stimulates the body’s own healing system rather than suppressing individual symptoms. Treatment must always match the absolute totality of symptoms, delivering individualized care via simple, single, and minimum medicinal doses.",
+    coreConcepts: [
+      { name: "Law of Similars (Similia)", description: "Like cures like. A substance that causes symptoms in health can stimulate a cure for similar symptoms in illness." },
+      { name: "Totality of Symptoms", description: "Evaluating complete physical, mental, and constitutional details of the person rather than isolated local pains." },
+      { name: "Minimum Dose", description: "Using micro-diluted potentized remedies to spark positive healing reactions while fully ensuring safety." },
+      { name: "The Vital Force", description: "The internal energetic engine governing physical health. Remedies aim to assist and clear vital blocks." }
+    ],
+    practicalTip: "Prioritize mental symptoms (fears, temperature responses, desires) over standard local pathology during evaluation.",
+    quickFact: "Established in 1796, Hahnemann's laws remain verified guidelines for finding correct homeopathic matches.",
+    targetLink: "/organon-philosophy",
+    linkLabel: "Read Organon Philosophy"
   },
   {
-    id: 2,
-    clue: "I have an extraordinary craving for salt and a profound aversion to the heat of the sun. Deeply introverted, my grief is silent, and consolation only makes my anger or annoyance worse.",
-    options: ["Lycopodium", "Natrum Mur", "Arsenicum Alb"],
-    correct: "Natrum Mur",
-    explanation: "Natrum Muriaticum is famous for mapped tongue, salt cravings, introverted grief, and aggravation from direct sun and consolation."
+    id: "materia-medica",
+    category: "Academic Stage 2",
+    title: "Materia Medica Studies",
+    subtitle: "Remedy Symptom Archetypes & Drug Provings",
+    distilledSummary: "Homeopathic Materia Medica compiles verified environmental, thermal, and emotional changes documented during pure healthy drug trials. It lists safe natural remedies and their comprehensive systemic symptoms.",
+    coreConcepts: [
+      { name: "Polychrest Remedies", description: "Broad-acting remedies (like Lachesis, Nux Vomica) with wide therapeutic effects across multiple organ networks." },
+      { name: "Modalities (Better / Worse)", description: "Thermal, postural, or temporal settings that cause symptom levels to fluctuate (such as 'better in cool open air')." },
+      { name: "Keynotes & Characteristics", description: "Rare, striking personal symptoms that point directly to specific remedy profiles with high accuracy." },
+      { name: "Verified Drug Provings", description: "Comprehensive historic trials mapping biological and sensory changes produced by organic compounds in healthy human provers." }
+    ],
+    practicalTip: "Check for unique modifiers or thermal affinities. Differentiating remedy states is the key to constitutional matches.",
+    quickFact: "A single classic polychrest remedy profile can contain over four thousand distinct physical and emotional symptom nodes.",
+    targetLink: "/materia-medica",
+    linkLabel: "Explore Materia Medica"
   },
   {
-    id: 3,
-    clue: "I am highly meticulous, extremely anxious about health, and neat to a fault. I feel chilly, crave sips of warm water, and experience burning pains that are paradoxically relieved by heat.",
-    options: ["Arsenicum Alb", "Phosphorus", "Sulphur"],
-    correct: "Arsenicum Alb",
-    explanation: "Arsenicum Album exhibits classic restlessness, need for warm sips, extreme chilly nature, and burning relieved by hot applications."
+    id: "clinical-practice",
+    category: "Academic Stage 3",
+    title: "Clinical Repertorization",
+    subtitle: "Symptom Logic, Kent Rubrics & Posology",
+    distilledSummary: "Clinical practice relies on accurate symptom synthesis. We translate natural patient details into official repertory indexes (rubrics), perform logical symptom weight assessments, and select matching potencies and dosages safely.",
+    coreConcepts: [
+      { name: "Holistic Case Recording", description: "Documenting patient history, sleep indices, temperaments, and somatic patterns without preconceptions." },
+      { name: "Rubric Translation", description: "Converting raw symptom expressions into formal repertory titles mapped in Kent's historical indexes." },
+      { name: "Mathematical Synthesis", description: "Ranking candidates based on the scale of matched symptom categories, modal generalities, and clinical scores." },
+      { name: "Syllabus Posology", description: "Gauging exact remedy strengths (e.g., 30C vs 200C vs LM) matching the defensive strength of the body." }
+    ],
+    practicalTip: "Be thorough with underlying chronic disease patterns (Miasmatic roots). Overcoming obstacles is key to lasting vitality.",
+    quickFact: "Kent's classical repertorization system simplifies clinical lists from over 1,500 substances down to the target top matches.",
+    targetLink: "/repertory",
+    linkLabel: "Search Kent Repertory"
   }
 ];
 
 export default function Home() {
-  const { hash } = useLocation();
-  const navigate = useNavigate();
-  const { profile } = useUser();
+  const [openFaqIdx, setOpenFaqIdx] = useState<number | null>(null);
+  const [selectedTopic, setSelectedTopic] = useState<StudyTopic | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Gamified States (persisted locally)
-  const [xp, setXp] = useState(() => Number(localStorage.getItem('curiva_xp') || 150));
-  const [level, setLevel] = useState(() => Number(localStorage.getItem('curiva_level') || 1));
-  const [streak, setStreak] = useState(() => Number(localStorage.getItem('curiva_streak') || 3));
-  const [riddleIndex, setRiddleIndex] = useState(() => Number(localStorage.getItem('curiva_riddle_idx') || 0));
-  const [selectedOption, setSelectedOption] = useState<string | null>(null);
-  const [quizFeedback, setQuizFeedback] = useState<{ success: boolean; msg: string } | null>(null);
-  const [unlockedBadges, setUnlockedBadges] = useState<string[]>(() => {
-    const raw = localStorage.getItem('curiva_badges');
-    return raw ? JSON.parse(raw) : ['initiated'];
-  });
-
-  const handleSelectPost = (post: BlogPost) => {
-    navigate(`/read/${post.slug}`);
+  const toggleFaq = (idx: number) => {
+    setOpenFaqIdx(prev => prev === idx ? null : idx);
   };
 
-  useEffect(() => {
-    if (hash) {
-      const element = document.getElementById(hash.substring(1));
-      if (element) {
-        element.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-  }, [hash]);
-
-  // Persist gamified data
-  useEffect(() => {
-    localStorage.setItem('curiva_xp', xp.toString());
-    localStorage.setItem('curiva_level', level.toString());
-    localStorage.setItem('curiva_streak', streak.toString());
-    localStorage.setItem('curiva_riddle_idx', riddleIndex.toString());
-    localStorage.setItem('curiva_badges', JSON.stringify(unlockedBadges));
-  }, [xp, level, streak, riddleIndex, unlockedBadges]);
-
-  const awardXp = (amount: number, badgeName?: string) => {
-    setXp(prev => {
-      const newXp = prev + amount;
-      const nextLevelThreshold = level * 1000;
-      if (newXp >= nextLevelThreshold) {
-        setLevel(l => l + 1);
-        setQuizFeedback(f => f ? { ...f, msg: `🎉 LEVEL UP! You are now Level ${level + 1}! ${f.msg}` } : null);
-        if (!unlockedBadges.includes('level_up')) {
-          setUnlockedBadges(b => [...b, 'level_up']);
-        }
-      }
-      return newXp;
-    });
-
-    if (badgeName && !unlockedBadges.includes(badgeName)) {
-      setUnlockedBadges(prev => [...prev, badgeName]);
-    }
+  const openQuickStudy = (topic: StudyTopic) => {
+    setSelectedTopic(topic);
+    setIsModalOpen(true);
   };
-
-  const handleAnswerSubmit = (option: string) => {
-    if (selectedOption) return; // Prevent secondary clicks
-    setSelectedOption(option);
-    const currRiddle = mysteryRiddles[riddleIndex];
-    if (option === currRiddle.correct) {
-      setQuizFeedback({ success: true, msg: `Excellent! ${currRiddle.explanation}` });
-      awardXp(300, 'riddle_master');
-      setStreak(s => s + 1);
-    } else {
-      setQuizFeedback({ success: false, msg: `Not quite right! That refers to another remedy. Give it another thought!` });
-    }
-  };
-
-  const cycleRiddle = () => {
-    setRiddleIndex(prev => (prev + 1) % mysteryRiddles.length);
-    setSelectedOption(null);
-    setQuizFeedback(null);
-  };
-
-  const currentRiddle = mysteryRiddles[riddleIndex];
-  const rankNames = [
-    'Acolyte Prescriber',
-    'Repertory Disciple',
-    'Miasm Combatant',
-    'Therapeutic Scholar',
-    'Hahnemann Stalwart'
-  ];
-  const rankName = rankNames[Math.min(level - 1, rankNames.length - 1)];
 
   return (
-    <>
+    <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary pb-24">
       <SEO 
-        title="Curiva Homoeopathy | Precision Learning & Clinical Excellence"
-        description="The ultimate funnel for homoeopathic mastery. From Organon principles to Materia Medica depth and historical stalwarts."
+        title="Curiva Homoeopathy | Study Center & Professional Clinical AI Tools"
+        description="Learn classical homeopathy with our Materia Medica suite and prepare for exams. Practice with advanced AI symptom-checkers and repertory tools."
       />
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.5 }}
-        className="bg-bg-primary"
-      >
-        <Hero />
 
-        {profile && <HomeWorkspaceBanner profile={profile} />}
+      {/* Hero Section */}
+      <section className="relative pt-20 pb-24 md:pt-32 md:pb-36 bg-white dark:bg-zinc-950 overflow-hidden">
+        {/* Decorative background gradients */}
+        <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_top_right,rgba(194,24,122,0.03)_0%,transparent_70%)] pointer-events-none" />
+        <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent rounded-full filter blur-[100px] opacity-10 pointer-events-none" />
 
-        {/* Dynamic Gamified Study Arena Dashboard Section */}
-        <section className="py-16 bg-bg-secondary/40 border-y border-border/10">
-          <div className="max-w-[1400px] mx-auto px-6">
-            <div className="text-center mb-16">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-accent/15 text-accent text-[10px] font-black uppercase tracking-widest mb-4 border border-accent/20"
-              >
-                <BrainCircuit className="w-4 h-4 text-accent" /> Active Study Arena
-              </motion.div>
-              <h2 className="text-4xl md:text-6xl font-display font-medium text-text-primary tracking-tight">
-                Gamified <span className="text-primary italic">Learning Hub</span>
-              </h2>
-              <p className="text-text-secondary font-serif italic text-lg mt-3 max-w-xl mx-auto">
-                Test your Materia Medica instincts, build streaks, unlock ranks, and claim classical accomplishments.
-              </p>
+        <div className="max-w-5xl mx-auto px-4 relative z-10 text-center space-y-6 md:space-y-8 animate-fadeIn">
+          {/* Logo badge */}
+          <div className="mednix-section-subtitle mx-auto">
+            <Sparkles className="w-3.5 h-3.5 animate-pulse" /> Curiva Clinical Homoeopathy
+          </div>
+
+          <h1 className="text-4xl sm:text-5xl md:text-6xl font-display font-medium text-primary leading-tight max-w-4xl mx-auto">
+            Classical Healing, <br />
+            <span className="font-medium italic text-accent">Simplified for All</span>.
+          </h1>
+
+          <p className="text-text-secondary text-sm md:text-lg leading-relaxed max-w-3xl mx-auto">
+            Welcome to a direct, simple learning space. Master classical homeopathic principles, search comprehensive remedies, and apply advanced AI clinical tools built for students and practitioners alike.
+          </p>
+
+          <div className="pt-4 flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="#learning-path"
+              className="btn-premium btn-premium-primary"
+            >
+              Start Studying &amp; Learning <GraduationCap className="w-4 h-4 text-accent" />
+            </a>
+            <a
+              href="#clinical-workspace"
+              className="btn-premium btn-premium-secondary"
+            >
+              Clinical AI Tools <Cpu className="w-4 h-4 text-primary" />
+            </a>
+          </div>
+
+          {/* Quick direct metrics */}
+          <div className="pt-10 grid grid-cols-2 md:grid-cols-4 gap-4 text-center border-t border-border mt-12 max-w-3xl mx-auto">
+            <div>
+              <span className="text-2xl font-bold text-primary block">100+</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-text-tertiary">Remedies Mapped</span>
             </div>
+            <div>
+              <span className="text-2xl font-bold text-accent block">290+</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-text-tertiary">Organon Aphorisms</span>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-primary block">10k+</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-text-tertiary">Practice Questions</span>
+            </div>
+            <div>
+              <span className="text-2xl font-bold text-accent block">4+</span>
+              <span className="text-[10px] uppercase font-black tracking-wider text-text-tertiary">Expert AI Systems</span>
+            </div>
+          </div>
+        </div>
+      </section>
 
-            <div className="grid lg:grid-cols-12 gap-8 items-stretch">
-              
-              {/* Gamified Rank Card */}
-              <div className="lg:col-span-5 p-8 md:p-10 bg-gradient-to-br from-bg-secondary to-bg-primary rounded-[3rem] border border-border/30 shadow-soft flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-8">
-                    <span className="text-accent font-black uppercase tracking-[0.2em] text-[10px]">Your Academic Rank</span>
-                    <div className="flex items-center gap-1.5 px-3 py-1 bg-amber-500/10 text-amber-600 rounded-full text-xs font-black">
-                      <Flame className="w-3.5 h-3.5 text-orange-500 fill-orange-500" /> {streak} day streak
-                    </div>
+      {/* SECTION: Progressive Student Learning Path (Displays stages for students, simplified without jargon) */}
+      <section id="learning-path" className="py-20 bg-bg-primary/45 dark:bg-zinc-900/40 border-y border-border">
+        <div className="max-w-5xl mx-auto px-4 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="mednix-section-subtitle mx-auto">Student Roadmap</span>
+            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
+              Your Professional Learning Path
+            </h2>
+            <p className="text-xs md:text-sm text-text-secondary leading-normal">
+              A progressive, simplified guide to mastering classical homeopathy step-by-step. Click on any stage to see a quick study reference summary.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {studyPathTopics.map((topic, index) => (
+              <div 
+                key={topic.id} 
+                className={`mednix-card mednix-float float-delay-${(index % 3) + 1} mednix-card-hover-float flex flex-col justify-between`}
+              >
+                <div className="space-y-4">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[9px] font-black uppercase text-accent tracking-widest bg-accent-light dark:bg-accent-dark/20 px-2 py-0.5 rounded">
+                      {topic.category}
+                    </span>
+                    <span className="text-xs font-black text-text-tertiary">Stage 0{index + 1}</span>
                   </div>
-
-                  <div className="flex items-center gap-6 mb-8">
-                    <div className="w-16 h-16 rounded-2xl bg-primary/10 border border-primary/20 flex items-center justify-center text-primary shadow-inner">
-                      <Trophy className="w-8 h-8" />
-                    </div>
-                    <div>
-                      <div className="text-[10px] font-black uppercase tracking-widest text-[#c5a059]">Level {level}</div>
-                      <h3 className="text-2xl md:text-3xl font-display font-medium text-text-primary italic">
-                        {rankName}
-                      </h3>
-                    </div>
-                  </div>
-
-                  {/* Level Progress-Bar */}
-                  <div className="space-y-2 mb-8">
-                    <div className="flex justify-between text-xs font-bold text-text-secondary uppercase tracking-widest">
-                      <span>XP Progress</span>
-                      <span>{xp} / {level * 1000} XP</span>
-                    </div>
-                    <div className="h-2.5 w-full bg-border/40 rounded-full overflow-hidden">
-                      <motion.div 
-                        initial={{ width: 0 }}
-                        animate={{ width: `${Math.min(100, (xp / (level * 1000)) * 100)}%` }}
-                        transition={{ duration: 1 }}
-                        className="h-full bg-gradient-to-r from-primary to-[#428c68] rounded-full" 
-                      />
-                    </div>
-                  </div>
-                </div>
-
-                {/* Achievements Showcase */}
-                <div>
-                  <div className="text-xs font-black uppercase tracking-[0.25em] text-[#c5a059] mb-4">Milestone Accomplishments</div>
-                  <div className="grid grid-cols-3 gap-3">
-                    <div className={`p-4 rounded-2xl border text-center transition-all ${unlockedBadges.includes('initiated') ? 'bg-primary/5 border-primary/20 text-text-primary' : 'bg-bg-primary/30 border-border/10 opacity-40'}`}>
-                      <Award className="w-6 h-6 mx-auto mb-2 text-primary" />
-                      <div className="text-[8px] font-black uppercase tracking-wider">Acolyte</div>
-                    </div>
-                    <div className={`p-4 rounded-2xl border text-center transition-all ${unlockedBadges.includes('riddle_master') ? 'bg-accent/10 border-accent/30 text-text-primary' : 'bg-bg-primary/30 border-border/10 opacity-40'}`}>
-                      <BrainCircuit className="w-6 h-6 mx-auto mb-2 text-accent" />
-                      <div className="text-[8px] font-black uppercase tracking-wider">Riddler</div>
-                    </div>
-                    <div className={`p-4 rounded-2xl border text-center transition-all ${unlockedBadges.includes('level_up') ? 'bg-purple-500/10 border-purple-500/20 text-text-primary' : 'bg-bg-primary/30 border-border/10 opacity-40'}`}>
-                      <CheckCircle2 className="w-6 h-6 mx-auto mb-2 text-purple-500" />
-                      <div className="text-[8px] font-black uppercase tracking-wider">Ascended</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              {/* Dynamic Interactive Daily Riddle */}
-              <div className="lg:col-span-7 p-8 md:p-10 bg-gradient-to-br from-bg-primary via-bg-secondary/40 to-bg-primary rounded-[3rem] border border-border/30 shadow-soft flex flex-col justify-between">
-                <div>
-                  <div className="flex items-center justify-between mb-8 border-b border-border/20 pb-4">
-                    <div className="flex items-center gap-3">
-                      <span className="w-2.5 h-2.5 bg-accent rounded-full animate-pulse" />
-                      <span className="text-text-primary font-display italic text-lg font-medium">Daily Keynote Mystery</span>
-                    </div>
-                    <button 
-                      onClick={cycleRiddle}
-                      className="p-2 hover:bg-bg-secondary rounded-xl text-text-secondary hover:text-primary transition-all duration-300"
-                      title="Next Riddle"
-                    >
-                      <RefreshCw className="w-4 h-4" />
-                    </button>
-                  </div>
-
-                  <p className="text-lg text-text-primary font-serif italic leading-relaxed mb-8">
-                    "{currentRiddle.clue}"
+                  <h3 className="text-lg font-bold text-primary">{topic.title}</h3>
+                  <p className="text-xs text-text-secondary leading-relaxed">
+                    {topic.subtitle}. Explore primary concepts, tips, and guidelines directly.
                   </p>
                 </div>
-
-                <div>
-                  <div className="text-[10px] font-black uppercase tracking-widest text-[#c5a059] mb-4">Formulate Your Diagnosis</div>
-                  <div className="grid sm:grid-cols-3 gap-3 mb-6">
-                    {currentRiddle.options.map(option => {
-                      const isCorrect = option === currentRiddle.correct;
-                      const isSelected = selectedOption === option;
-                      let btnStyle = "bg-bg-primary border-border hover:border-primary/50 text-text-secondary";
-                      
-                      if (selectedOption) {
-                        if (isCorrect) {
-                          btnStyle = "bg-emerald-500/10 border-emerald-500 text-emerald-700 dark:text-emerald-300";
-                        } else if (isSelected) {
-                          btnStyle = "bg-red-500/10 border-red-500 text-red-700 dark:text-red-300";
-                        } else {
-                          btnStyle = "bg-bg-primary/25 border-border/10 opacity-50 text-text-tertiary pointer-events-none";
-                        }
-                      }
-
-                      return (
-                        <button
-                          key={option}
-                          onClick={() => handleAnswerSubmit(option)}
-                          className={`p-4 rounded-2xl border text-xs font-black uppercase tracking-widest text-center transition-all ${btnStyle}`}
-                          disabled={!!selectedOption}
-                        >
-                          {option}
-                        </button>
-                      );
-                    })}
-                  </div>
-
-                  <AnimatePresence mode="wait">
-                    {quizFeedback && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        exit={{ opacity: 0, y: -10 }}
-                        className={`p-5 rounded-2xl text-xs leading-relaxed border ${quizFeedback.success ? 'bg-emerald-500/5 border-emerald-500/20 text-emerald-700 dark:text-emerald-400 font-serif italic' : 'bg-red-500/5 border-red-500/20 text-red-600 dark:text-red-400 font-serif italic'}`}
-                      >
-                        {quizFeedback.msg}
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                <div className="pt-6 space-y-3">
+                  <button 
+                    onClick={() => openQuickStudy(topic)}
+                    className="w-full text-center px-4 py-2 text-[10px] border border-border dark:border-zinc-800 hover:border-primary text-text-secondary hover:text-primary rounded-xl font-bold uppercase tracking-wider bg-white dark:bg-zinc-900 shadow-sm transition-colors cursor-pointer"
+                  >
+                    Quick Study Reference
+                  </button>
+                  <Link 
+                    to={topic.targetLink} 
+                    className="text-[10px] font-black uppercase text-primary tracking-widest inline-flex items-center gap-1.5 hover:text-accent transition-colors pl-1"
+                  >
+                    Launch Full Study Suite <ArrowRight className="w-3 h-3" />
+                  </Link>
                 </div>
               </div>
+            ))}
+          </div>
 
+          {/* Practical Board and Study Guide quick links */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
+            {/* Board Practice */}
+            <div className="p-6 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <GraduationCap className="w-5 h-5 text-accent" />
+                  <h4 className="text-sm font-bold text-primary">MCQ Board Practice &amp; Exam Prep</h4>
+                </div>
+                <p className="text-xs text-text-secondary max-w-md">Practice over 10k BHMS &amp; AIAPGET syllabus questions with explanation logs.</p>
+              </div>
+              <Link 
+                to="/mcq-practice" 
+                className="btn-premium btn-premium-primary text-[9px] py-2 px-4 whitespace-nowrap"
+              >
+                Start Quiz Practice
+              </Link>
+            </div>
+
+            {/* Student Guides */}
+            <div className="p-6 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+              <div className="space-y-1">
+                <div className="flex items-center gap-2">
+                  <FileText className="w-5 h-5 text-emerald-650" />
+                  <h4 className="text-sm font-bold text-primary">Student Reference Guides &amp; Notes</h4>
+                </div>
+                <p className="text-xs text-text-secondary max-w-md">Download cheat sheets, study schedules, and student-curated summaries.</p>
+              </div>
+              <Link 
+                to="/student-resources" 
+                className="btn-premium btn-premium-secondary text-[9px] py-2 px-4 whitespace-nowrap"
+              >
+                Access Resources
+              </Link>
             </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Interactive Learning Path Skill Tree Section */}
-        <section className="py-20 border-t border-border/10 bg-bg-primary">
-          <div className="max-w-[1400px] mx-auto px-6">
-            <div className="text-center mb-16">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.95 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary/10 text-primary text-[10px] font-black uppercase tracking-widest mb-4 border border-primary/20"
-              >
-                <Layers className="w-4 h-4 text-primary" /> Educational Blueprint
-              </motion.div>
-              <h2 className="text-4xl md:text-6xl font-display font-medium text-text-primary tracking-tight">
-                Interactive <span className="text-primary italic">Learning Path</span>
-              </h2>
-              <p className="text-text-secondary font-serif italic text-lg mt-3 max-w-xl mx-auto">
-                Unlock, explore, and master each classical branch of homoeopathic science. Track your real-time academic progression.
-              </p>
-            </div>
-
-            <LearningPath profile={profile} />
+      {/* SECTION: Clinical Tools (Easy clinical tool shortcuts for practitioners and advanced students) */}
+      <section id="clinical-workspace" className="py-20 bg-white dark:bg-zinc-950">
+        <div className="max-w-5xl mx-auto px-4 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="mednix-section-subtitle mx-auto">Practitioner workspace</span>
+            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
+              Advanced Clinical AI Tools
+            </h2>
+            <p className="text-xs md:text-sm text-text-secondary leading-normal">
+              Apply scientific homeopathic repertorization. Translate case symptoms, compare complex remedies, and gain decision support in real-time.
+            </p>
           </div>
-        </section>
 
-        {/* Spacious Funnel Modules Container */}
-        <section className="py-28 md:py-36 relative overflow-hidden">
-          <div className="max-w-[1400px] mx-auto px-6 relative z-10">
-            
-            <div className="text-center mb-20">
-              <motion.div
-                initial={{ opacity: 0, scale: 0.9 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-[#c5a059]/10 text-[#c5a059] text-[10px] font-black uppercase tracking-widest mb-6"
-              >
-                <Sparkles className="w-3.5 h-3.5" /> Classical Homoeopathy Curriculum
-              </motion.div>
-              <h2 className="text-5xl md:text-7xl font-display font-medium text-text-primary tracking-tight leading-[0.9]">
-                Evidence-Based <br/> <span className="text-primary italic">Intelligence</span>
-              </h2>
-            </div>
-
-            {/* Grid Layout of Academy Paths - Upgraded for pristine spacing and layout symmetry */}
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
-              {funnelSteps.map((step, index) => (
-                <motion.div
-                  key={step.id}
-                  initial={{ opacity: 0, y: 40 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.7, ease: "easeOut", delay: index * 0.05 }}
-                  className="group relative h-full"
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* 1. Clinical AI Suite */}
+            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider rounded-md">Smart decision</span>
+                  <span className="px-2.5 py-1 bg-[#06B6D4]/10 text-[#06B6D4] text-[10px] font-black uppercase tracking-wider rounded-md">Pro tool</span>
+                </div>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Clinical AI Expert Workstation</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Submit detailed cases, extract major rubric points, calculate constitutional miasmatic influences, and get candidate remedy rankings instantly.
+                </p>
+              </div>
+              <div>
+                <Link 
+                  to="/clinical-ai"
+                  className="w-full text-center px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-2xl text-xs font-bold uppercase tracking-wider block transition-all"
                 >
-                  <div className="flex flex-col h-full p-8 md:p-10 bg-bg-secondary/40 rounded-[2.5rem] border border-border/20 shadow-soft transition-all duration-500 hover:shadow-lg hover:border-accent/40 hover:-translate-y-1 bg-gradient-to-b from-bg-secondary/30 to-bg-primary/20">
-                     <div className={`w-14 h-14 ${step.color} rounded-2xl flex items-center justify-center mb-8 shadow-md group-hover:scale-105 transition-transform duration-300`}>
-                       <step.icon className="w-7 h-7 text-white" />
-                     </div>
-                     <div className="text-accent font-black uppercase tracking-[0.25em] text-[9px] mb-3">{step.title}</div>
-                     <h3 className="text-2xl md:text-3xl font-display font-medium text-text-primary mb-4 italic tracking-tight leading-none">
-                       {step.subtitle}
-                     </h3>
-                     <p className="text-base text-text-secondary leading-relaxed mb-8 flex-grow font-serif italic">
-                       {step.description}
-                     </p>
-                     
-                     <div className="pt-4 border-t border-border/10">
-                       <Link 
-                         to={step.link}
-                         className="inline-flex items-center gap-2.5 text-primary dark:text-[#6fb291] font-black uppercase tracking-widest text-[10px] hover:gap-4 transition-all"
-                       >
-                         Enter Domain <ArrowRight className="w-3.5 h-3.5" />
-                       </Link>
-                     </div>
-                  </div>
-                </motion.div>
-              ))}
+                  Launch Clinical AI Suite
+                </Link>
+              </div>
             </div>
 
+            {/* 2. Interactive symptom checker */}
+            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2.5">
+                  <span className="px-2.5 py-1 bg-accent/10 text-accent text-[10px] font-black uppercase tracking-wider rounded-md">Safe assessment</span>
+                  <span className="px-2.5 py-1 bg-[#0F3D75]/10 text-[#0F3D75] text-[10px] font-black uppercase tracking-wider rounded-md">Self check</span>
+                </div>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Symptom Checker &amp; Map</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Safely cross-check mental and physical symptoms against recorded natural modalities. Gain structured educational insights for case synthesis.
+                </p>
+              </div>
+              <div>
+                <Link 
+                  to="/symptom-checker"
+                  className="w-full text-center px-6 py-3 border border-primary text-primary hover:bg-primary/5 rounded-2xl text-xs font-bold uppercase tracking-wider block transition-all"
+                >
+                  Start Symptom Checker
+                </Link>
+              </div>
+            </div>
+
+            {/* 3. Repertory Search */}
+            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Rubric Synthesis</span>
+                <h4 className="text-base font-bold text-primary">Kent's Repertory &amp; Rubric Finder</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Select and synthesize symptoms numerically. Search Kent's rubrics easily to build patient profiles with exact remedy rankings.
+                </p>
+              </div>
+              <div className="pt-2">
+                <Link 
+                  to="/repertory"
+                  className="text-xs font-bold text-primary hover:text-accent flex items-center gap-1.5 transition-colors"
+                >
+                  Search Kent Rubrics <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
+
+            {/* 4. Comparative Analyzer */}
+            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <span className="text-[10px] font-black uppercase tracking-widest text-[#06B6D4]">Remedy Differentiator</span>
+                <h4 className="text-base font-bold text-primary">Comparative Remedy Matrix</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Differentiate sister remedies side by side. Highlight complementary interactions, food cravings, aggregate modalities, and lock-and-key points.
+                </p>
+              </div>
+              <div className="pt-2">
+                <Link  
+                  to="/analysis"
+                  className="text-xs font-bold text-accent hover:text-primary flex items-center gap-1.5 transition-colors"
+                >
+                  Compare Remedies Now <ArrowRight className="w-3.5 h-3.5" />
+                </Link>
+              </div>
+            </div>
           </div>
-        </section>
+        </div>
+      </section>
 
-        {/* Visualizers & Community Sections */}
-        <section className="py-20 border-t border-border/15 bg-bg-secondary/25">
-          <FeaturedQuestions />
-        </section>
+      {/* Comparisons Grid */}
+      <section className="py-20 bg-bg-primary/30 border-y border-border">
+        <div className="max-w-5xl mx-auto px-4 space-y-12">
+          <div className="text-center max-w-2xl mx-auto space-y-2">
+            <span className="mednix-section-subtitle mx-auto">Philosophy Matrix</span>
+            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">Classical vs. Conventional Pathways</h2>
+            <p className="text-xs md:text-sm text-text-secondary leading-normal">
+              Compare conventional suppression-based drug interactions against the restorative, holistic focus of homeopathy.
+            </p>
+          </div>
 
-        <section className="py-20">
-          <FeaturedArticles onSelectPost={handleSelectPost} />
-        </section>
-      </motion.div>
-    </>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            {/* Conventional Medicine */}
+            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Conventional Medicine (Allopathy)</span>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Temporary Symptom Relief (Suppression)</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Standard prescription medicines often focus on just one organ or symptom to quickly block discomfort or signs of illness. While this works fast, it can overlook the deeper constitutional cause.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-text-secondary">
+                <li className="flex items-center gap-2">
+                  <ShieldCheck className="w-4 h-4 text-red-700" /> Focuses on isolated pathology rather than whole vitality
+                </li>
+                <li className="flex items-center gap-2">
+                  <Clock className="w-4 h-4 text-text-tertiary" /> Risk of recurring chronic conditions once doses stop
+                </li>
+                <li className="flex items-center gap-2">
+                  <Activity className="w-4 h-4 text-text-tertiary" /> Fixed formulas lacking personalized holistic mapping
+                </li>
+              </ul>
+            </div>
+
+            {/* Curiva Homoeopathy */}
+            <div className="border border-primary/20 rounded-3xl p-8 bg-primary/5 flex flex-col justify-between space-y-6 relative overflow-hidden">
+              <div className="absolute top-0 right-0 p-4 font-display font-black text-[9px] tracking-widest text-primary bg-primary/10 rounded-bl-3xl">curiva holistic</div>
+              <div className="space-y-4">
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary">Classical Homeopathy</span>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Whole-Vitality Natural Recovery (Constitutional)</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Homeopathy treats the complete individual; evaluating mental states, metabolic preferences, and chronic patterns. By selecting a single matched remedy, we gently stimulate the body's native vital energy to heal itself.
+                </p>
+              </div>
+              <ul className="space-y-2.5 text-xs text-primary font-medium">
+                <li className="flex items-center gap-2 text-green-850">
+                  <CheckCircle2 className="w-4 h-4 text-green-700" /> 100% safe, non-toxic, organic individual preparations
+                </li>
+                <li className="flex items-center gap-2 text-green-800">
+                  <CheckCircle2 className="w-4 h-4 text-green-700" /> Root-cause focus addressing underlying chronic trends
+                </li>
+                <li className="flex items-center gap-2 text-green-800">
+                  <CheckCircle2 className="w-4 h-4 text-green-700" /> Wholly customized dosage strengths matched to patient vitality
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Accordion Section */}
+      <section className="py-20 bg-bg-secondary/40">
+        <div className="max-w-3xl mx-auto px-4 space-y-12">
+          <div className="text-center space-y-2">
+            <span className="mednix-section-subtitle mx-auto">SUPPORT RESOURCES</span>
+            <h2 className="text-3xl font-display font-light text-primary">Frequently Asked Questions</h2>
+          </div>
+
+          <div className="space-y-4">
+            {activeFAQ.map((faq, idx) => {
+              const isOpen = openFaqIdx === idx;
+              return (
+                <div 
+                  key={idx} 
+                  className="bg-white dark:bg-zinc-900 border border-border rounded-2xl overflow-hidden transition-all duration-300"
+                >
+                  <button
+                    onClick={() => toggleFaq(idx)}
+                    className="w-full px-5 py-4 text-left font-bold text-xs md:text-sm text-text-primary dark:text-white flex items-center justify-between gap-4 cursor-pointer hover:bg-bg-primary/20 dark:hover:bg-zinc-800/20"
+                  >
+                    <span>{faq.q}</span>
+                    <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform duration-305 ${isOpen ? 'rotate-180' : ''}`} />
+                  </button>
+                  
+                  {isOpen && (
+                    <div className="px-5 pb-5 pt-1 text-xs text-text-secondary dark:text-text-secondary leading-relaxed border-t border-border/40 animate-slideDown">
+                      {faq.a}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      </section>
+
+      {/* Study Quick-Reference Modal */}
+      <StudyQuickReferenceModal 
+        isOpen={isModalOpen} 
+        onClose={() => setIsModalOpen(false)} 
+        topic={selectedTopic} 
+      />
+    </div>
   );
 }
+

@@ -638,7 +638,7 @@ const ChronologySection = () => {
         ))}
       </div>
       
-      <div className="p-12 bg-[#1a2b23] dark:bg-[#11010a] text-white rounded-[4rem] text-center border-t-8 border-primary relative overflow-hidden">
+      <div className="p-12 bg-[#0F3D75] dark:bg-[#0B0F19] text-white rounded-[4rem] text-center border-t-8 border-primary relative overflow-hidden">
          <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
          <h4 className="text-2xl font-display font-black uppercase italic mb-4 relative z-10">The Gap of Silence</h4>
          <p className="text-white/60 max-w-3xl mx-auto italic leading-relaxed relative z-10">
@@ -899,7 +899,7 @@ const OrganonMedicine = () => {
       </Helmet>
 
       {/* Modern Hero */}
-      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#1a2b23] dark:bg-[#11010a] text-white">
+      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
         <div className="absolute inset-x-0 top-0 h-full bg-gradient-radial from-primary/10 to-transparent opacity-50 pointer-events-none" />
         <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
            <Book className="w-96 h-96 text-white" />
@@ -977,7 +977,7 @@ const OrganonMedicine = () => {
       
       {/* Visual Quote */}
       <section className="max-w-5xl mx-auto px-4 mt-40">
-         <div className="p-20 rounded-[5rem] bg-[#1a2b23] dark:bg-[#11010a] text-white text-center relative overflow-hidden group">
+         <div className="p-20 rounded-[5rem] bg-[#0F3D75] dark:bg-[#0B0F19] text-white text-center relative overflow-hidden group">
             <Quote className="absolute top-10 left-10 w-40 h-40 opacity-5 pointer-events-none group-hover:scale-125 transition-transform duration-700" />
             <div className="relative z-10 space-y-8">
                <h3 className="text-4xl font-display font-black italic tracking-tight leading-tight">

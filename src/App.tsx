@@ -39,6 +39,7 @@ const StudentResources = lazy(() => import('./pages/StudentResources'));
 const StudyTool = lazy(() => import('./pages/StudyTool'));
 const Stalwarts = lazy(() => import('./pages/Stalwarts'));
 const AskHomeopath = lazy(() => import('./pages/AskHomeopath'));
+const ClinicalAITools = lazy(() => import('./pages/ClinicalAITools'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Auth = lazy(() => import('./pages/Auth'));
 const MCQPractice = lazy(() => import('./pages/MCQPractice'));
@@ -49,20 +50,35 @@ const HairFallGuide = lazy(() => import('./pages/HairFallGuide'));
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
 import PWAInstallBanner from './components/PWAInstallBanner';
+import Logo from './components/Logo';
 
 function LoadingScreen() {
   return (
-    <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center p-8">
-       <motion.div
-         animate={{ rotate: 360 }}
-         transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-         className="mb-6"
-       >
-         <Loader2 className="w-12 h-12 text-primary" />
-       </motion.div>
-       <h2 className="text-xl font-display font-black text-text-primary uppercase tracking-tight italic">
-         Loading <span className="text-primary italic">Curiva</span>
-       </h2>
+    <div className="min-h-[60vh] flex flex-col items-center justify-center p-8 space-y-6">
+       <div className="relative">
+         <div className="absolute inset-0 rounded-full bg-primary/10 blur-xl scale-125 animate-pulse" />
+         <motion.div
+           animate={{ rotate: 360 }}
+           transition={{ repeat: Infinity, duration: 2, ease: "linear" }}
+           className="w-20 h-20 rounded-full border-2 border-primary/10 border-t-primary"
+         />
+         <div className="absolute inset-0 flex items-center justify-center">
+           <Logo size="xs" className="scale-110 transform pointer-events-none select-none" />
+         </div>
+       </div>
+       <div className="text-center space-y-1">
+         <h4 className="text-xs font-bold text-text-secondary uppercase tracking-wider">
+           Loading Content
+         </h4>
+         <div className="w-12 h-1 bg-primary/10 rounded-full mx-auto overflow-hidden relative">
+           <motion.div
+             initial={{ left: "-100%" }}
+             animate={{ left: "100%" }}
+             transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+             className="absolute inset-y-0 w-1/2 bg-primary rounded-full"
+           />
+         </div>
+       </div>
     </div>
   );
 }
@@ -129,6 +145,7 @@ function AppRoutes() {
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/ask-homeopath" element={<PageWrapper><AskHomeopath /></PageWrapper>} />
+                <Route path="/clinical-ai" element={<PageWrapper><ClinicalAITools /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
@@ -177,9 +194,62 @@ function AppRoutes() {
 }
 
 export default function App() {
+  const [initiallyLoading, setInitiallyLoading] = React.useState(true);
+
+  React.useEffect(() => {
+    // 1.5 seconds smooth startup spinner
+    const timer = setTimeout(() => {
+      setInitiallyLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Router>
-      <AppRoutes />
+      <AnimatePresence mode="wait">
+        {initiallyLoading ? (
+          <motion.div
+            key="splash-screen"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0, scale: 0.98 }}
+            transition={{ duration: 0.4, ease: "easeInOut" }}
+            className="fixed inset-0 z-50 flex flex-col items-center justify-center bg-bg-secondary"
+          >
+            <div className="flex flex-col items-center max-w-sm text-center p-8 space-y-6">
+              {/* Spinning path ring surrounding the Curiva Logo */}
+              <div className="relative">
+                <div className="absolute inset-0 rounded-full bg-primary/20 blur-2xl scale-125 animate-pulse" />
+                <motion.div
+                  animate={{ rotate: 360 }}
+                  transition={{ repeat: Infinity, duration: 2.2, ease: "linear" }}
+                  className="w-24 h-24 rounded-full border-2 border-primary/10 border-t-primary"
+                />
+                <div className="absolute inset-0 flex items-center justify-center scale-[1.1]">
+                  <Logo size="xs" className="scale-125 transform pointer-events-none select-none" />
+                </div>
+              </div>
+              <div className="space-y-2">
+                <h3 className="text-xl font-display font-semibold text-primary tracking-wide uppercase">
+                  Curiva
+                </h3>
+                <p className="text-xs text-text-secondary">
+                  Loading safe, natural healing paths...
+                </p>
+                <div className="w-20 h-1 bg-primary/10 rounded-full mx-auto overflow-hidden relative">
+                  <motion.div
+                    initial={{ left: "-100%" }}
+                    animate={{ left: "100%" }}
+                    transition={{ repeat: Infinity, duration: 1.2, ease: "easeInOut" }}
+                    className="absolute inset-y-0 w-1/2 bg-primary rounded-full"
+                  />
+                </div>
+              </div>
+            </div>
+          </motion.div>
+        ) : (
+          <AppRoutes key="app-main" />
+        )}
+      </AnimatePresence>
     </Router>
   );
 }

@@ -19,6 +19,25 @@
     <link rel="apple-touch-icon" href="/app_icon.png" />
 
     <!-- Performance Optimizations -->
+    <script>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var theme = 'light';
+        if (saved === 'light' || saved === 'dark') {
+          theme = saved;
+        } else {
+          var hour = new Date().getHours();
+          theme = (hour >= 6 && hour < 18) ? 'light' : 'dark';
+        }
+        if (theme === 'dark') {
+          document.documentElement.classList.add('dark');
+          document.documentElement.setAttribute('data-theme', 'dark');
+        } else {
+          document.documentElement.classList.remove('dark');
+          document.documentElement.setAttribute('data-theme', 'light');
+        }
+      })();
+    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="preconnect" href="https://picsum.photos" />

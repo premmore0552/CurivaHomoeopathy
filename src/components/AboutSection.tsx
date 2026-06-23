@@ -23,7 +23,7 @@ const AboutSection: React.FC = () => {
   ];
 
   return (
-    <section id="about" className="py-24 bg-bg-primary overflow-hidden transition-colors duration-300">
+    <section id="about" className="py-24 bg-bg-primary dark:bg-zinc-950 overflow-hidden transition-colors duration-300">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="lg:grid lg:grid-cols-2 lg:gap-16 items-center">
           <motion.div
@@ -32,18 +32,18 @@ const AboutSection: React.FC = () => {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            <div className="flex items-center gap-3 mb-8">
-              <Info className="w-8 h-8 text-primary" />
-              <h2 className="text-3xl md:text-5xl font-display font-extrabold text-text-primary">
+            <div className="space-y-4 mb-8">
+              <div className="mednix-section-subtitle">
+                <Info className="w-3.5 h-3.5 text-primary" /> BHMS Student Resource
+              </div>
+              <h2 className="mednix-section-title">
                 About <span className="text-primary italic">Curiva</span>
               </h2>
             </div>
-            <div className="mb-6 inline-block px-3 py-1 bg-primary/5 text-primary text-[10px] font-black uppercase tracking-widest border border-primary/20 rounded-lg">
-              BHMS Student Resource
-            </div>
+            
             <p className="text-lg md:text-xl text-text-secondary mb-8 leading-relaxed font-medium">
               Curiva is an educational project dedicated to spreading awareness about the profound healing patterns of homoeopathy. 
-              We bridge traditional research with modern wellness literacry, offering a student-curated repository for holistic study.
+              We bridge traditional research with modern wellness literacy, offering a student-curated repository for holistic study.
             </p>
             
             <div className="space-y-6 mb-10">

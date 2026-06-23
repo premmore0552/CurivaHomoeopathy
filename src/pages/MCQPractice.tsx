@@ -23,6 +23,7 @@ interface MCQ {
   explanation: string;
   category: string;
   subject: string;
+  credits?: string;
 }
 
 const subjects = [
@@ -75,7 +76,8 @@ const subjectMCQs: Record<string, MCQ[]> = {
       correctAnswer: 1,
       explanation: "Dr. Samuel Hahnemann (1755-1843) discovered and formulated the therapeutic system of Homoeopathy.",
       category: "General",
-      subject: "Organon of Medicine"
+      subject: "Organon of Medicine",
+      credits: "Samuel Hahnemann's Historical Biographies"
     },
     {
       id: 'om_2',
@@ -84,16 +86,58 @@ const subjectMCQs: Record<string, MCQ[]> = {
       correctAnswer: 0,
       explanation: "The first edition of 'The Chronic Diseases, their Peculiar Nature and their Homoeopathic Cure' was published in 1828.",
       category: "History",
-      subject: "Organon of Medicine"
+      subject: "Organon of Medicine",
+      credits: "National Institute of Homoeopathy (NIH) Entrance Archives"
     },
     {
       id: 'om_3',
-      question: "In which aphorism of the Organon of Medicine (6th Edition) does Hahnemann define the concept of the 'Vital Force' (Vital Principle) as animating the material organism?",
+      question: "In which aphorism of the Organon of Medicine (6th Edition) does Hahnemann define the concept of 'Vital Principle' (previously Vital Force) as animating the material organism in health?",
       options: ["Aphorism 1", "Aphorism 9", "Aphorism 26", "Aphorism 70"],
       correctAnswer: 1,
       explanation: "Aphorism 9 establishes that in the healthy condition, the spiritual vital force animates the material organism, keeping all parts in harmonious play.",
       category: "Philosophy",
-      subject: "Organon of Medicine"
+      subject: "Organon of Medicine",
+      credits: "Samuel Hahnemann, Organon of Medicine (6th Edition)"
+    },
+    {
+      id: 'om_4',
+      question: "According to Samuel Hahnemann in Aphorism 26, the 'therapeutic law of nature' states that a weaker dynamic affection is permanently extinguished in the living organism by a stronger one, if the latter is:",
+      options: ["Of an identical substance", "Of a higher decimal scale", "Of a similar kind, though different in nature", "Of an opposite clinical action"],
+      correctAnswer: 2,
+      explanation: "Hahnemann's therapeutic law of nature (Aphorism 26) states: 'A weaker dynamic affection is permanently extinguished in the living organism by a stronger one, if the latter (deviating in kind) is very similar in its manifestations.'",
+      category: "Therapeutic Laws",
+      subject: "Organon of Medicine",
+      credits: "Sourced from AIAPGET (All India Ayush Post Graduate Entrance Test) Homoeopathic Archives"
+    },
+    {
+      id: 'om_5',
+      question: "Which edition of Organon of Medicine introduced the doctrine of Vital Force for the first time?",
+      options: ["First Edition", "Third Edition", "Fifth Edition", "Sixth Edition"],
+      correctAnswer: 2,
+      explanation: "The Fifth Edition (published in 1833) introduced the concept of the 'Vital Force' (Lebenskraft) as a spiritual, dynamic principle.",
+      category: "History",
+      subject: "Organon of Medicine",
+      credits: "All India Ayush Post Graduate Entrance Test (AIAPGET) Preparation Guide"
+    },
+    {
+      id: 'om_6',
+      question: "According to Organon Aphorism 210-230, which of the following is true regarding the homeopathic perspective on mental diseases?",
+      options: ["They are completely distinct from bodily physical states", "They are almost all modified corporeal or physical diseases, where physical symptoms decline as mental symptoms grow", "They should be treated solely with low decimal scale mineral compounds", "They require high dosage crude narcotic palliation exclusively"],
+      correctAnswer: 1,
+      explanation: "Hahnemann states in Aphorisms 210-216 that mental diseases are actually modified physical diseases where somatic symptoms have diminished while the mental symptoms have become exceptionally one-sidedly prominent.",
+      category: "Mental Diseases",
+      subject: "Organon of Medicine",
+      credits: "Stuart Close, Lectures on Homoeopathic Philosophy"
+    },
+    {
+      id: 'om_7',
+      question: "In the 6th edition of Organon of Medicine, which potency scale was introduced by Hahnemann to secure gentle, continuous curative cycles without severe aggravation?",
+      options: ["Centesimal Potencies (C)", "Decimal Potencies (X)", "LM Potencies (50-millesimal scale)", "Korsakovian Single-Vial Potencies"],
+      correctAnswer: 2,
+      explanation: "LM potencies (dilution factor of 50,000) are introduced in the 6th edition of the Organon (specifically Aphorism 270) to allow safer, frequent repetition of homeopathic remedies.",
+      category: "Posology",
+      subject: "Organon of Medicine",
+      credits: "Joint Ayurvedic and Homoeopathic Academic Council of India Prep Syllabus"
     }
   ],
   "Homoeopathic Pharmacy": [
@@ -280,7 +324,7 @@ export default function MCQPractice() {
   const [showExplanation, setShowExplanation] = useState(false);
   const [timer, setTimer] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
-  const [questionCountLimit, setQuestionCountLimit] = useState<number>(3);
+  const [questionCountLimit, setQuestionCountLimit] = useState<number>(5);
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -401,14 +445,14 @@ export default function MCQPractice() {
                 <span className="text-xs font-black uppercase tracking-widest text-[#c5a059] flex items-center gap-1.5 select-none">
                   <BookOpen className="w-4 h-4 text-accent" /> Choose Question Quantity
                 </span>
-                <div className="flex gap-2">
-                  {[1, 2, 3].map((num) => (
+                <div className="flex flex-wrap gap-2 justify-center">
+                  {[3, 5, 10, 0].map((num) => (
                     <button
                       key={num}
                       onClick={() => setQuestionCountLimit(num)}
                       className={`px-4 py-2.5 rounded-xl text-xs font-black transition-all ${questionCountLimit === num ? 'bg-primary text-white scale-105 shadow-md shadow-primary/10' : 'bg-bg-primary text-text-secondary hover:bg-bg-secondary border border-border/40 dark:border-border/10'}`}
                     >
-                      {num === 3 ? 'All' : `${num} Questions`}
+                      {num === 0 ? 'All' : `${num} Questions`}
                     </button>
                   ))}
                 </div>
@@ -511,6 +555,12 @@ export default function MCQPractice() {
                         <p className="text-text-primary font-serif italic leading-relaxed">
                           {currentMCQs[currentQuestionIndex].explanation}
                         </p>
+                        {currentMCQs[currentQuestionIndex].credits && (
+                          <div className="pt-2 border-t border-primary/10 flex items-center justify-between text-[11px] text-text-secondary">
+                            <span>Sourced Credits:</span>
+                            <span className="font-mono font-medium text-primary select-all">{currentMCQs[currentQuestionIndex].credits}</span>
+                          </div>
+                        )}
                       </div>
                     </motion.div>
                   )}

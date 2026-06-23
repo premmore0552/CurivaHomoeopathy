@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
@@ -18,6 +18,7 @@ import SearchAutocomplete from './SearchAutocomplete';
 const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location }: any) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const hasDropdown = 'dropdown' in link;
+  const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
 
   if (hasDropdown) {
     return (
@@ -34,7 +35,10 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
             : 'bg-bg-secondary text-text-primary border-transparent shadow-sm'
           }`}
         >
-          <span className="text-lg leading-tight">{link.name}</span>
+          <div className="flex items-center gap-3">
+            {LinkIcon && <LinkIcon className="w-5 h-5 text-accent shrink-0" />}
+            <span className="text-lg leading-tight">{link.name}</span>
+          </div>
           <ChevronDown className={`w-5 h-5 transition-transform ${isSubMenuOpen ? 'rotate-180' : ''}`} />
         </button>
         
@@ -100,7 +104,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
     >
       <Link
         to={link.to}
-        className={`flex items-center justify-between p-5 rounded-3xl font-black transition-all border group ${
+         className={`flex items-center justify-between p-5 rounded-3xl font-black transition-all border group ${
           isActive 
           ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' 
           : 'bg-bg-secondary text-text-primary border-transparent hover:border-primary/20 shadow-sm'
@@ -117,7 +121,10 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
             <span className="text-lg leading-tight">Dashboard</span>
           </div>
         ) : (
-          <span className="text-lg leading-tight">{link.name}</span>
+          <div className="flex items-center gap-3">
+            {LinkIcon && <LinkIcon className="w-5 h-5 text-accent shrink-0" />}
+            <span className="text-lg leading-tight">{link.name}</span>
+          </div>
         )}
         <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-white' : 'text-text-secondary'}`} />
       </Link>
@@ -134,6 +141,7 @@ const Header: React.FC = () => {
   const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
+  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   React.useEffect(() => {
     if (isMenuOpen) {
@@ -169,74 +177,44 @@ const Header: React.FC = () => {
 
 
   const navLinks = [
-    { name: 'Home', to: '/' },
-    { name: 'Materia Medica', to: '/materia-medica' },
-    { name: 'Clinical Guides', to: '/clinical-guides' },
+    { name: 'Home', to: '/', icon: 'Home' },
     { 
-      name: 'Homeopathic Encyclopedia', 
+      name: 'Symptoms', 
+      to: '/symptom-checker',
+      icon: 'Activity',
+      tooltip: 'Map patient symptoms and modalities to locate aligned homeopathic remedies in real-time.'
+    },
+    { 
+      name: 'Ask AI', 
+      to: '/ask-homeopath',
+      icon: 'HelpCircle',
+      tooltip: 'Submit direct physical and emotional queries for expert homeopathic analysis and guidance.'
+    },
+    { 
+      name: 'Clinic Pro', 
+      to: '/clinical-ai',
+      icon: 'Cpu',
+      tooltip: 'Utilize 25+ advanced academic AI engines to decode remedy personalities, miasms, and exam questions.'
+    },
+    { 
+      name: 'Study Hub', 
       to: '/lexicon',
       isGlossary: true,
+      icon: 'BookOpen',
+      tooltip: 'Access classical texts, remedy relationship charts, and interactive comparative study guides.',
       dropdown: [
-        { 
-          name: 'Organon & Philosophy', 
-          to: '/lexicon/philosophy', 
-          category: 'Organon',
-          highlight: 'bg-amber-500/10 hover:bg-amber-500/15 border-amber-500/20 text-amber-700 dark:text-amber-400',
-          badge: 'Organon',
-          desc: 'Explore Hahnemannian principles & philosophies'
-        },
-        { 
-          name: 'Materia Medica (Remedies)', 
-          to: '/lexicon/all', 
-          category: 'Materia',
-          highlight: 'bg-emerald-500/10 hover:bg-emerald-500/15 border-emerald-500/20 text-emerald-700 dark:text-emerald-400',
-          badge: 'Materia',
-          desc: 'Comprehensive A-Z homeopathic drug pictures'
-        },
-        { 
-          name: 'Clinical & Therapeutics', 
-          to: '/lexicon/clinical', 
-          category: 'Clinical',
-          highlight: 'bg-sky-500/10 hover:bg-sky-500/15 border-sky-500/20 text-sky-700 dark:text-sky-400',
-          badge: 'Clinical',
-          desc: 'Diagnostic guides & therapeutic protocols'
-        },
-        { 
-          name: 'Historical Archives', 
-          to: '/lexicon/historical', 
-          category: 'Historical',
-          highlight: 'bg-slate-500/10 hover:bg-slate-500/15 border-slate-500/20 text-slate-700 dark:text-slate-400',
-          badge: 'History',
-          desc: 'The genesis and evolution of homeopathy'
-        }
+        { name: 'Materia Medica Canvas', to: '/lexicon/all', desc: 'Interactive AI-assisted study workspace' },
+        { name: 'Organon & Philosophy', to: '/lexicon/philosophy', desc: "Read Samuel Hahnemann's aphorisms & laws" },
+        { name: 'Interactive Study Maps', to: '/visualization', desc: 'Visualize remedy systems and connections' },
+        { name: 'Relationship Nexus', to: '/nexus', desc: 'Explore remedy concordances & drug linkages' },
+        { name: 'Comparative Analyzer', to: '/analysis', desc: 'Side-by-side remedy clinical comparer' },
+        { name: 'MCQ Practice Board', to: '/mcq-practice', desc: 'Mock BHMS & AIAPGET exam board preps' },
+        { name: 'Clinical Therapeutics Guide', to: '/clinical-guides', desc: 'High-yield practical disease therapeutics' },
+        { name: 'Historical Pioneers', to: '/lexicon/historical', desc: 'Timelines of stalwarts and milestones' }
       ]
     },
-    { name: 'Research', to: '/research' },
-    { 
-      name: 'Stalwarts', 
-      to: '/stalwarts',
-      dropdown: [
-        { name: 'Samuel Hahnemann', to: '/stalwarts/hahnemann' },
-        { name: 'J.T. Kent', to: '/stalwarts/kent' },
-        { name: 'C.M. Boger', to: '/stalwarts/boger' },
-        { name: 'Richard Hughes', to: '/stalwarts/hughes' },
-        { name: 'Boenninghausen', to: '/stalwarts/boenninghausen' },
-        { name: 'Constantine Hering', to: '/stalwarts/hering' },
-      ]
-    },
-    { 
-      name: 'Analysis', 
-      to: '/analysis',
-      dropdown: [
-        { name: 'Symptom Checker', to: '/symptom-checker' },
-        { name: 'Comparison Tool', to: '/analysis' },
-        { name: 'Repertory Tool', to: '/repertory' },
-        { name: 'Remedy Nexus', to: '/nexus' },
-        { name: 'Visualizer', to: '/visualization' },
-      ]
-    },
-    { name: 'Ask Expert', to: '/ask-homeopath' },
-    { name: 'Library', to: '/library' },
+    { name: 'Student Guides', to: '/student-resources', icon: 'GraduationCap' },
+    { name: 'Patient Hub', to: '/profile', icon: 'User' }
   ];
 
   const userNavLinks = [...navLinks] as any[];
@@ -310,77 +288,20 @@ const Header: React.FC = () => {
             <div className="hidden lg:block w-px h-8 bg-border/50" />
 
             {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center space-x-1" aria-label="Main Navigation">
-              {userNavLinks.map((link: any, idx) => {
+            <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+              {userNavLinks.map((link: any, idx: number) => {
                 const isActive = location.pathname === link.to;
                 const hasDropdown = 'dropdown' in link;
+                const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
+                const isHovered = hoveredIndex === idx;
                 
-                if (hasDropdown) {
-                  return (
-                    <div key={link.name || idx} className="relative group/nav-item">
-                      <button
-                        aria-haspopup="true"
-                        aria-expanded="false"
-                        className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-[0.15em] transition-all whitespace-nowrap border border-transparent ${
-                          isActive || link.dropdown?.some((d: any) => location.pathname === d.to)
-                          ? 'text-primary bg-primary/5 border-primary/10' 
-                          : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
-                        }`}
-                      >
-                        {link.name}
-                        <ChevronDown className="w-3 h-3 transition-transform group-hover/nav-item:rotate-180 opacity-50" />
-                      </button>
-                      <div className={`absolute top-full left-0 mt-3 bg-bg-primary border border-border rounded-[2.5rem] shadow-[0_30px_80px_rgba(0,0,0,0.15)] p-3.5 opacity-0 invisible group-hover/nav-item:opacity-100 group-hover/nav-item:visible transition-all duration-500 z-50 translate-y-4 group-hover/nav-item:translate-y-0 ${
-                        link.isGlossary ? 'w-80' : 'w-64'
-                      }`}>
-                        <div className="grid gap-1.5 font-sans">
-                          {link.dropdown?.map((sub: any) => {
-                            const isSubActive = location.pathname === sub.to;
-                            const hasHighlight = link.isGlossary && sub.highlight;
-                            return (
-                              <Link
-                                key={sub.name}
-                                to={sub.to}
-                                aria-current={isSubActive ? 'page' : undefined}
-                                className={`flex flex-col items-start px-5 py-3 rounded-2xl transition-all border group/sub text-left ${
-                                  isSubActive 
-                                  ? 'text-primary bg-primary/5 border-primary/20 shadow-sm' 
-                                  : hasHighlight 
-                                    ? `${sub.highlight} border hover:shadow-soft hover:scale-[1.01]`
-                                    : 'text-text-secondary hover:text-primary hover:bg-bg-secondary border-transparent'
-                                }`}
-                                onClick={() => {
-                                  trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
-                                  handleLinkClick(sub.to);
-                                }}
-                              >
-                                <div className="flex items-center justify-between w-full">
-                                  <div className="flex items-center gap-2">
-                                    <span className="text-[11px] font-black uppercase tracking-wider leading-none whitespace-nowrap">{sub.name}</span>
-                                    {sub.badge && (
-                                      <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-widest bg-current/10 border border-current/20">
-                                        {sub.badge}
-                                      </span>
-                                    )}
-                                  </div>
-                                  <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover/sub:opacity-100 -translate-x-2 group-hover/sub:translate-x-0 transition-all text-current" />
-                                </div>
-                                {sub.desc && (
-                                  <span className="text-[10px] text-text-tertiary mt-1 group-hover/sub:text-current font-serif italic font-medium leading-tight text-left">
-                                    {sub.desc}
-                                  </span>
-                                )}
-                              </Link>
-                            );
-                          })}
-                        </div>
-                      </div>
-                    </div>
-                  );
-                }
-
                 return (
-                  <div key={link.name || idx} className="relative">
+                  <div 
+                    key={link.name || idx} 
+                    className="relative"
+                    onMouseEnter={() => setHoveredIndex(idx)}
+                    onMouseLeave={() => setHoveredIndex(null)}
+                  >
                     <Link
                       to={link.to}
                       onClick={() => {
@@ -388,11 +309,13 @@ const Header: React.FC = () => {
                         trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
                         handleLinkClick(link.to);
                       }}
-                      aria-current={isActive ? 'page' : undefined}
-                      className={`flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] font-black uppercase tracking-[0.15em] transition-all relative group whitespace-nowrap border border-transparent ${
-                        isActive 
+                      aria-current={isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to)) ? 'page' : undefined}
+                      className={`flex items-center gap-1.5 xl:gap-2 px-3 xl:px-4.5 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-[0.1em] xl:tracking-[0.15em] transition-all relative whitespace-nowrap border ${
+                        isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to))
                         ? 'text-primary bg-primary/5 border-primary/10' 
-                        : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
+                        : isHovered 
+                          ? 'text-primary bg-bg-secondary border-transparent' 
+                          : 'text-text-secondary border-transparent hover:text-primary'
                       }`}
                     >
                       {link.isProfile ? (
@@ -405,12 +328,101 @@ const Header: React.FC = () => {
                           <span>Dashboard</span>
                         </div>
                       ) : (
-                        link.name
+                        <div className="flex items-center gap-1.5">
+                          {LinkIcon && <LinkIcon className="w-3.5 h-3.5 text-accent shrink-0" />}
+                          <span>{link.name}</span>
+                        </div>
+                      )}
+                      {hasDropdown && (
+                        <ChevronDown className={`w-3 h-3 transition-transform duration-300 opacity-60 ${isHovered ? 'rotate-180 text-primary' : ''}`} />
                       )}
                       {link.isNew && (
                         <span className="px-1.5 py-0.5 rounded-md bg-primary text-[7px] text-white font-black uppercase tracking-widest absolute -top-1 -right-1 shadow-sm">New</span>
                       )}
                     </Link>
+
+                    {/* Smooth AnimatePresence Dropdown */}
+                    {hasDropdown && (
+                      <AnimatePresence>
+                        {isHovered && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 12, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 12, scale: 0.95 }}
+                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                            className={`absolute top-full left-0 mt-3 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-[2rem] shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-4 z-50 ${
+                              link.isGlossary ? 'w-80' : 'w-64'
+                            }`}
+                          >
+                            <div className="grid gap-1.5 font-sans">
+                              {link.dropdown?.map((sub: any) => {
+                                const isSubActive = location.pathname === sub.to;
+                                const hasHighlight = link.isGlossary && sub.highlight;
+                                return (
+                                  <Link
+                                    key={sub.name}
+                                    to={sub.to}
+                                    aria-current={isSubActive ? 'page' : undefined}
+                                    className={`flex flex-col items-start px-4.5 py-2.5 rounded-2xl transition-all border group/sub text-left ${
+                                      isSubActive 
+                                      ? 'text-primary bg-primary/5 border-primary/20 shadow-sm' 
+                                      : hasHighlight 
+                                        ? `${sub.highlight} border hover:shadow-soft hover:scale-[1.01]`
+                                        : 'text-text-secondary hover:text-primary hover:bg-bg-secondary border-transparent'
+                                    }`}
+                                    onClick={() => {
+                                      trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
+                                      handleLinkClick(sub.to);
+                                    }}
+                                  >
+                                    <div className="flex items-center justify-between w-full">
+                                      <div className="flex items-center gap-2">
+                                        <span className="text-[11px] font-black uppercase tracking-wider leading-none whitespace-nowrap">{sub.name}</span>
+                                        {sub.badge && (
+                                          <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-widest bg-current/10 border border-current/20">
+                                            {sub.badge}
+                                          </span>
+                                        )}
+                                      </div>
+                                      <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover/sub:opacity-100 -translate-x-2 group-hover/sub:translate-x-0 transition-all text-current" />
+                                    </div>
+                                    {sub.desc && (
+                                      <span className="text-[10px] text-text-tertiary mt-1.5 group-hover/sub:text-current font-serif italic font-medium leading-tight text-left">
+                                        {sub.desc}
+                                      </span>
+                                    )}
+                                  </Link>
+                                );
+                              })}
+                            </div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
+
+                    {/* Smooth Tooltip Section */}
+                    {link.tooltip && !hasDropdown && (
+                      <AnimatePresence>
+                        {isHovered && (
+                          <motion.div
+                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                            animate={{ opacity: 1, y: 0, scale: 1 }}
+                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                            transition={{ duration: 0.2, ease: 'easeOut' }}
+                            className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 p-3.5 bg-zinc-950 dark:bg-zinc-900 border border-zinc-850 dark:border-zinc-800 text-white rounded-2xl shadow-xl z-50 pointer-events-none origin-top"
+                          >
+                            <div className="text-[9px] font-black text-accent uppercase tracking-widest mb-1 select-none flex items-center gap-1">
+                              <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" /> Clinical Hub Resource
+                            </div>
+                            <div className="text-[10.5px] font-medium leading-relaxed text-zinc-200">
+                              {link.tooltip}
+                            </div>
+                            {/* Arrow Indicator */}
+                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-2.5 h-2.5 rotate-45 bg-zinc-950 dark:bg-zinc-900 border-t border-l border-zinc-850 dark:border-zinc-800"></div>
+                          </motion.div>
+                        )}
+                      </AnimatePresence>
+                    )}
                   </div>
                 );
               })}

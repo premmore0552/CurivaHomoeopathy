@@ -98,6 +98,45 @@
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["userId", "userEmail", "resourceId", "resourceTitle", "paymentId", "status", "createdAt"]
+    },
+    "Kit": {
+      "title": "Dia Test Kit",
+      "description": "Wearable diagnostic biomarker-capture kit logs and lab reports",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "userEmail": { "type": "string" },
+        "status": { "type": "string", "enum": ["ordered", "shipped", "delivered", "active", "sent_back", "processing", "completed"] },
+        "trackingNumber": { "type": "string" },
+        "activatedAt": { "type": "string", "format": "date-time" },
+        "lastLoggedAt": { "type": "string", "format": "date-time" },
+        "wearDuration": { "type": "number" },
+        "dischargeType": { "type": "string" },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "labReport": { "type": "object" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "userEmail", "status", "createdAt"]
+    },
+    "Screening": {
+      "title": "Self-Assessment Screening",
+      "description": "Cervical pre-cancer risk evaluation scorecards",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "userId": { "type": "string" },
+        "age": { "type": "string" },
+        "hpvVaxStatus": { "type": "string" },
+        "lastPapSmearYears": { "type": "string" },
+        "symptoms": { "type": "array", "items": { "type": "string" } },
+        "familyHistory": { "type": "boolean" },
+        "riskLevel": { "type": "string", "enum": ["low", "moderate", "high"] },
+        "recommendation": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["id", "userId", "riskLevel", "createdAt"]
     }
   },
   "firestore": {
@@ -116,6 +155,14 @@
     "/orders/{orderId}": {
       "schema": "Order",
       "description": "Digital resource orders and customer records"
+    },
+    "/kits/{kitId}": {
+      "schema": "Kit",
+      "description": "Active Dia diagnostic biomarker kit trackers and reporting"
+    },
+    "/screenings/{screeningId}": {
+      "schema": "Screening",
+      "description": "Risk assessment quiz histories and scores"
     }
   }
 }

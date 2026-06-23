@@ -26,7 +26,7 @@ const LeadCapture: React.FC = () => {
   };
 
   return (
-    <div className="bg-[#1a2b23] dark:bg-[#11010a] p-12 md:p-20 rounded-[4rem] relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
+    <div className="bg-[#0F3D75] dark:bg-[#0B0F19] p-12 md:p-20 rounded-[4rem] relative overflow-hidden group shadow-[0_30px_100px_rgba(0,0,0,0.2)]">
       <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
       <div className="absolute top-0 right-0 p-12 opacity-5 pointer-events-none group-hover:scale-110 transition-transform duration-1000 grayscale">
         <Send size={180} className="text-white rotate-6" />
