@@ -1,35 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-display: "Poppins", "Inter", sans-serif;
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
 
-  --color-primary: #C2187A;
-  --color-primary-light: #FCE8F3;
-  --color-primary-dark: #910C57;
+  --color-primary: #0F766E;
+  --color-primary-light: #ECFDF5;
+  --color-primary-dark: #115E59;
   
-  --color-secondary: #0F3D75;
-  --color-secondary-light: #EEF4FC;
-  --color-secondary-dark: #0A254A;
+  --color-secondary: #2563EB;
+  --color-secondary-light: #EFF6FF;
+  --color-secondary-dark: #1D4ED8;
 
-  --color-accent: #06B6D4;
-  --color-accent-light: #ECFEFF;
-  --color-accent-dark: #0891B2;
+  --color-accent: #22C55E;
+  --color-accent-light: #F0FDF4;
+  --color-accent-dark: #15803D;
   
-  --color-bg-primary: #F8FAFC;
-  --color-bg-secondary: #FFFFFF;
+  --color-bg-primary: #FFFFFF;
+  --color-bg-secondary: #F8FAFC;
   --color-bg-tertiary: #F1F5F9;
   --color-bg-dark: #0F172A;
-  --color-text-primary: #1E293B;
-  --color-text-secondary: #475569;
-  --color-text-tertiary: #64748B;
-  --color-border: #E2E8F0;
+  --color-text-primary: #1F2937;
+  --color-text-secondary: #64748B;
+  --color-text-tertiary: #94A3B8;
+  --color-border: #E5E7EB;
 
-  --shadow-soft: 0 15px 40px -10px rgba(15, 61, 117, 0.08), 0 5px 15px -5px rgba(15, 61, 117, 0.04);
-  --shadow-header: 0 10px 40px -15px rgba(15, 61, 117, 0.12);
-  --shadow-hover-card: 0 30px 60px -15px rgba(194, 24, 122, 0.15);
+  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.05);
+  --shadow-header: 0 10px 40px -15px rgba(15, 23, 42, 0.03);
+  --shadow-hover-card: 0 12px 32px rgba(15, 23, 42, 0.08);
 }
 
 @layer base {
@@ -62,220 +62,6 @@
     -ms-overflow-style: none; /* IE and Edge */
     scrollbar-width: none; /* Firefox */
   }
-}
-
-.dark {
-  --color-bg-primary: #0F172A;
-  --color-bg-secondary: #1E293B;
-  --color-bg-tertiary: #334155;
-  --color-bg-dark: #0B0F19;
-  --color-text-primary: #F8FAFC;
-  --color-text-secondary: #CBD5E1;
-  --color-text-tertiary: #94A3B8;
-  --color-border: #334155;
-  
-  --color-primary: #E21D8D;
-  --color-primary-light: #301024;
-  --color-primary-dark: #A20A61;
-  
-  --color-accent: #06B6D4;
-  --color-accent-light: #08333D;
-  --color-accent-dark: #0E7490;
-}
-
-/* Day/Night Theme Adaptive Overrides */
-.dark .bg-white {
-  background-color: var(--color-bg-secondary) !important;
-}
-.dark .bg-slate-50, 
-.dark .bg-slate-100/50,
-.dark .bg-stone-50,
-.dark .bg-gray-50,
-.dark .bg-zinc-50,
-.dark .bg-neutral-50,
-.dark .bg-slate-100,
-.dark .bg-gray-100,
-.dark .bg-zinc-100,
-.dark .bg-neutral-100,
-.dark .bg-stone-100,
-.dark .bg-emerald-500/5,
-.dark .bg-amber-50/20,
-.dark .bg-[#FAF8F5],
-.dark .bg-[#faf8f5]/40 {
-  background-color: var(--color-bg-primary) !important;
-}
-.dark .bg-slate-200,
-.dark .bg-gray-200,
-.dark .bg-zinc-200,
-.dark .bg-neutral-200,
-.dark .bg-stone-200 {
-  background-color: var(--color-bg-tertiary) !important;
-}
-.dark .bg-emerald-50, 
-.dark .bg-emerald-50/50,
-.dark .bg-emerald-53,
-.dark .bg-emerald-50/60 {
-  background-color: rgba(16, 185, 129, 0.08) !important;
-}
-.dark .bg-amber-50/60,
-.dark .bg-amber-50/50,
-.dark .bg-amber-50 {
-  background-color: rgba(230, 188, 115, 0.08) !important;
-}
-.dark .text-slate-950,
-.dark .text-slate-900, 
-.dark .text-slate-800,
-.dark .text-stone-950,
-.dark .text-stone-900,
-.dark .text-stone-800,
-.dark .text-gray-950,
-.dark .text-gray-900,
-.dark .text-gray-800,
-.dark .text-zinc-950,
-.dark .text-zinc-900,
-.dark .text-zinc-800,
-.dark .text-neutral-950,
-.dark .text-neutral-900,
-.dark .text-neutral-800,
-.dark .text-emerald-950,
-.dark .text-[#433422] {
-  color: var(--color-text-primary) !important;
-}
-.dark .text-slate-700,
-.dark .text-slate-600,
-.dark .text-slate-500,
-.dark .text-gray-700,
-.dark .text-gray-600,
-.dark .text-gray-500,
-.dark .text-stone-700,
-.dark .text-stone-600,
-.dark .text-stone-500,
-.dark .text-zinc-700,
-.dark .text-zinc-600,
-.dark .text-zinc-500,
-.dark .text-neutral-700,
-.dark .text-neutral-600,
-.dark .text-neutral-500 {
-  color: var(--color-text-secondary) !important;
-}
-.dark .text-slate-400,
-.dark .text-gray-400,
-.dark .text-zinc-400,
-.dark .text-neutral-400,
-.dark .text-stone-400 {
-  color: var(--color-text-tertiary) !important;
-}
-.dark .border-slate-200, 
-.dark .border-slate-150,
-.dark .border-slate-100,
-.dark .border-gray-200,
-.dark .border-gray-150,
-.dark .border-gray-100,
-.dark .border-stone-200,
-.dark .border-stone-150,
-.dark .border-stone-100,
-.dark .border-zinc-200,
-.dark .border-zinc-150,
-.dark .border-zinc-100,
-.dark .border-neutral-200,
-.dark .border-neutral-150,
-.dark .border-neutral-100,
-.dark .border-emerald-100,
-.dark .border-border {
-  border-color: var(--color-border) !important;
-}
-.dark input,
-.dark textarea,
-.dark select {
-  background-color: var(--color-bg-secondary) !important;
-  color: var(--color-text-primary) !important;
-  border-color: var(--color-border) !important;
-}
-.dark .shadow-soft, 
-.dark .shadow-2xl,
-.dark .shadow-lg,
-.dark .shadow-sm {
-  box-shadow: 0 4px 24px -2px rgba(0, 0, 0, 0.7) !important;
-}
-
-/* Dark Mode Alert & Intentional Accents Overrides */
-.dark .bg-red-50,
-.dark .bg-rose-50,
-.dark .bg-red-100/50,
-.dark .bg-red-50/50,
-.dark .bg-[#FEF2F2],
-.dark .bg-[#FEE2E2],
-.dark .bg-[#FEF2F2]/40,
-.dark .bg-[#FEE2E2]/40 {
-  background-color: rgba(239, 68, 68, 0.15) !important;
-  color: #fca5a5 !important;
-  border-color: rgba(239, 68, 68, 0.3) !important;
-}
-.dark .bg-red-50 *,
-.dark .bg-rose-50 *,
-.dark .text-red-950,
-.dark .text-red-900,
-.dark .text-red-800,
-.dark .text-[#991B1B] {
-  color: #fecaca !important;
-}
-
-.dark .bg-amber-50,
-.dark .bg-yellow-50,
-.dark .bg-yellow-105/50,
-.dark .bg-amber-50/50,
-.dark .bg-yellow-50/50,
-.dark .bg-[#FEF9C3],
-.dark .bg-[#FEF9C3]/40 {
-  background-color: rgba(245, 158, 11, 0.15) !important;
-  color: #fde047 !important;
-  border-color: rgba(245, 158, 11, 0.3) !important;
-}
-.dark .bg-amber-50 *,
-.dark .bg-yellow-50 *,
-.dark .text-amber-950,
-.dark .text-amber-900,
-.dark .text-amber-800,
-.dark .text-[#854D0E] {
-  color: #fef08a !important;
-}
-
-.dark .bg-emerald-50,
-.dark .bg-green-50,
-.dark .bg-emerald-100/50,
-.dark .bg-emerald-50/50,
-.dark .bg-green-50/50,
-.dark .bg-[#F0FDF4],
-.dark .bg-[#DCFCE7],
-.dark .bg-[#F0FDF4]/40,
-.dark .bg-[#DCFCE7]/40 {
-  background-color: rgba(16, 185, 129, 0.15) !important;
-  color: #a7f3d0 !important;
-  border-color: rgba(16, 185, 129, 0.3) !important;
-}
-.dark .bg-emerald-50 *,
-.dark .bg-green-50 *,
-.dark .text-emerald-950,
-.dark .text-emerald-900,
-.dark .text-emerald-800,
-.dark .text-[#166534] {
-  color: #a7f3d0 !important;
-}
-
-.dark .bg-blue-50,
-.dark .bg-blue-100/50,
-.dark .bg-blue-50/50,
-.dark .bg-[#EFF6FF],
-.dark .bg-[#EFF6FF]/40 {
-  background-color: rgba(59, 130, 246, 0.15) !important;
-  color: #bfdbfe !important;
-  border-color: rgba(59, 130, 246, 0.3) !important;
-}
-.dark .bg-blue-50 *,
-.dark .text-blue-950,
-.dark .text-blue-900,
-.dark .text-blue-800 {
-  color: #bfdbfe !important;
 }
 
 /* Smooth Theme Transitions across components */
@@ -416,15 +202,7 @@ body, header, aside, .card, button, input, select, textarea, div {
   background-color: rgba(6, 182, 212, 0.1) !important;
   border-color: rgba(6, 182, 212, 0.2) !important;
 }
-.dark [class*="text-[#c5a059]"],
-.dark [class*="text-[#C5A059]"] {
-  color: #06B6D4 !important;
-}
-.dark [class*="bg-[#c5a059]"],
-.dark [class*="bg-[#C5A059]"] {
-  background-color: rgba(6, 182, 212, 0.15) !important;
-  border-color: rgba(6, 182, 212, 0.3) !important;
-}
+
 
 [class*="text-[#2c4c3b]"],
 [class*="text-[#2C4C3B]"] {
@@ -432,18 +210,10 @@ body, header, aside, .card, button, input, select, textarea, div {
 }
 [class*="bg-[#2c4c3b]"],
 [class*="bg-[#2C4C3B]"] {
-  background-color: rgba(194, 24, 122, 0.1) !important;
-  border-color: rgba(194, 24, 122, 0.2) !important;
+  background-color: rgba(15, 118, 110, 0.1) !important;
+  border-color: rgba(15, 118, 110, 0.2) !important;
 }
-.dark [class*="text-[#2c4c3b]"],
-.dark [class*="text-[#2C4C3B]"] {
-  color: #E21D8D !important;
-}
-.dark [class*="bg-[#2c4c3b]"],
-.dark [class*="bg-[#2C4C3B]"] {
-  background-color: rgba(226, 29, 141, 0.15) !important;
-  border-color: rgba(226, 29, 141, 0.3) !important;
-}
+
 
 /* Base custom interactive cards and button elevations */
 .card-lift {
@@ -464,21 +234,17 @@ body, header, aside, .card, button, input, select, textarea, div {
   letter-spacing: 0.25em;
   color: var(--color-primary);
   background-color: var(--color-primary-light);
-  border: 1px solid rgba(194, 24, 122, 0.15);
+  border: 1px solid rgba(15, 118, 110, 0.15);
   padding: 6px 16px;
   border-radius: 9999px;
   display: inline-flex;
   align-items: center;
   gap: 8px;
   width: fit-content;
-  box-shadow: 0 4px 10px rgba(194, 24, 122, 0.03);
+  box-shadow: 0 4px 10px rgba(15, 118, 110, 0.03);
 }
 
-.dark .mednix-section-subtitle {
-  background-color: rgba(194, 24, 122, 0.15);
-  color: #FCE8F3;
-  border-color: rgba(194, 24, 122, 0.3);
-}
+
 
 .mednix-section-title {
   font-family: var(--font-display);
@@ -489,9 +255,7 @@ body, header, aside, .card, button, input, select, textarea, div {
   color: var(--color-secondary);
 }
 
-.dark .mednix-section-title {
-  color: #FFFFFF;
-}
+
 
 /* 2. Mednix Premium Card Styles with Custom Hover Transitions */
 .mednix-card {
@@ -519,7 +283,7 @@ body, header, aside, .card, button, input, select, textarea, div {
 
 .mednix-card:hover {
   transform: translateY(-8px);
-  border-color: rgba(194, 24, 122, 0.25);
+  border-color: rgba(15, 118, 110, 0.25);
   box-shadow: var(--shadow-hover-card);
 }
 
@@ -584,10 +348,7 @@ body, header, aside, .card, button, input, select, textarea, div {
   border: 1px solid var(--color-secondary);
 }
 
-.dark .btn-premium-secondary {
-  color: #F8FAFC;
-  border-color: rgba(255, 255, 255, 0.2);
-}
+
 
 .btn-premium-secondary::after {
   content: '';
@@ -640,17 +401,11 @@ body, header, aside, .card, button, input, select, textarea, div {
 .mednix-input:focus {
   outline: none;
   border-color: var(--color-primary);
-  box-shadow: 0 0 0 4px rgba(194, 24, 122, 0.1);
+  box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.1);
   background-color: #FFFFFF;
 }
 
-.dark .mednix-input {
-  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.2);
-}
 
-.dark .mednix-input:focus {
-  background-color: var(--color-bg-secondary);
-}
 
 /* Subtle Floating Animations & Keyframes */
 @keyframes mednix-float {
@@ -686,8 +441,39 @@ body, header, aside, .card, button, input, select, textarea, div {
 
 .mednix-card-hover-float:hover {
   transform: translateY(-12px) scale(1.01);
-  border-color: rgba(194, 24, 122, 0.35);
+  border-color: rgba(22, 163, 74, 0.35);
   box-shadow: var(--shadow-hover-card);
+}
+
+/* 6. High-Precision 3D Card Flip Utilities */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+.transform-style-preserve-3d {
+  transform-style: preserve-3d;
+}
+
+.backface-hidden {
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+.rotate-y-180 {
+  transform: rotateY(180deg);
+}
+
+.animate-spin-slow {
+  animation: spin 8s linear infinite;
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
 

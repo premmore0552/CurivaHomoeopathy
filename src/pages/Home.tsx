@@ -24,6 +24,7 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import StudyQuickReferenceModal, { StudyTopic } from '../components/StudyQuickReferenceModal';
+import { conditionsData } from '../data/conditionsData';
 
 const activeFAQ = [
   {
@@ -31,7 +32,7 @@ const activeFAQ = [
     a: "Curiva provides an integrated suite of study aids: a fully indexed classical Materia Medica (with Allen's Keynotes and Kent's lectures), an interactive Organon & Philosophy tool for learning Hahnemann's aphorisms, high-yield Student Reference Guides, and mock clinical MCQ practice boards tailored for AIAPGET exam preparations."
   },
   {
-    q: "What clinical AI tools are available for professionals and students?",
+    q: "What clinical research & study tools are available for professionals and students?",
     a: "Curiva simplifies practitioner cases with smart clinical decision-support modules, an advanced symptomatic checker, a Kent repertory calculator to compute remedy weights, and a side-by-side comparative analyzer to differentiate sister remedies."
   },
   {
@@ -115,12 +116,12 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary pb-24">
       <SEO 
-        title="Curiva Homoeopathy | Study Center & Professional Clinical AI Tools"
+        title="Curiva Homoeopathy | Academic & Clinical Study Center"
         description="Learn classical homeopathy with our Materia Medica suite and prepare for exams. Practice with advanced AI symptom-checkers and repertory tools."
       />
 
       {/* Hero Section */}
-      <section className="relative pt-20 pb-24 md:pt-32 md:pb-36 bg-white dark:bg-zinc-950 overflow-hidden">
+      <section className="relative pt-20 pb-24 md:pt-32 md:pb-36 bg-white overflow-hidden">
         {/* Decorative background gradients */}
         <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_top_right,rgba(194,24,122,0.03)_0%,transparent_70%)] pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-80 h-80 bg-accent rounded-full filter blur-[100px] opacity-10 pointer-events-none" />
@@ -151,7 +152,7 @@ export default function Home() {
               href="#clinical-workspace"
               className="btn-premium btn-premium-secondary"
             >
-              Clinical AI Tools <Cpu className="w-4 h-4 text-primary" />
+              Clinical Study Tools <Cpu className="w-4 h-4 text-primary" />
             </a>
           </div>
 
@@ -178,7 +179,7 @@ export default function Home() {
       </section>
 
       {/* SECTION: Progressive Student Learning Path (Displays stages for students, simplified without jargon) */}
-      <section id="learning-path" className="py-20 bg-bg-primary/45 dark:bg-zinc-900/40 border-y border-border">
+      <section id="learning-path" className="py-20 bg-bg-primary/45 border-y border-border">
         <div className="max-w-5xl mx-auto px-4 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <span className="mednix-section-subtitle mx-auto">Student Roadmap</span>
@@ -198,7 +199,7 @@ export default function Home() {
               >
                 <div className="space-y-4">
                   <div className="flex items-center justify-between">
-                    <span className="text-[9px] font-black uppercase text-accent tracking-widest bg-accent-light dark:bg-accent-dark/20 px-2 py-0.5 rounded">
+                    <span className="text-[9px] font-black uppercase text-accent tracking-widest bg-accent-light px-2 py-0.5 rounded">
                       {topic.category}
                     </span>
                     <span className="text-xs font-black text-text-tertiary">Stage 0{index + 1}</span>
@@ -211,7 +212,7 @@ export default function Home() {
                 <div className="pt-6 space-y-3">
                   <button 
                     onClick={() => openQuickStudy(topic)}
-                    className="w-full text-center px-4 py-2 text-[10px] border border-border dark:border-zinc-800 hover:border-primary text-text-secondary hover:text-primary rounded-xl font-bold uppercase tracking-wider bg-white dark:bg-zinc-900 shadow-sm transition-colors cursor-pointer"
+                    className="w-full text-center px-4 py-2 text-[10px] border border-border hover:border-primary text-text-secondary hover:text-primary rounded-xl font-bold uppercase tracking-wider bg-white shadow-sm transition-colors cursor-pointer"
                   >
                     Quick Study Reference
                   </button>
@@ -229,7 +230,7 @@ export default function Home() {
           {/* Practical Board and Study Guide quick links */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 pt-4">
             {/* Board Practice */}
-            <div className="p-6 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="p-6 bg-white border border-border rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <GraduationCap className="w-5 h-5 text-accent" />
@@ -246,7 +247,7 @@ export default function Home() {
             </div>
 
             {/* Student Guides */}
-            <div className="p-6 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div className="p-6 bg-white border border-border rounded-3xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
               <div className="space-y-1">
                 <div className="flex items-center gap-2">
                   <FileText className="w-5 h-5 text-emerald-650" />
@@ -265,13 +266,111 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SECTION: Disease Hub (Grid layout using the new premium card design with consistent image-to-text ratios) */}
+      <section id="disease-hub" className="py-20 bg-bg-secondary/35 border-b border-border">
+        <div className="max-w-5xl mx-auto px-4 space-y-12 animate-fadeIn">
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="mednix-section-subtitle mx-auto">Therapeutics Explorer</span>
+            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
+              The Interactive Disease Hub
+            </h2>
+            <p className="text-xs md:text-sm text-text-secondary leading-normal">
+              Explore dynamic therapeutics and clinical patterns of major chronic and acute ailments mapped with proven homeopathic remedies.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {conditionsData.slice(0, 6).map((condition) => {
+              const ConditionIcon = condition.icon || Activity;
+              return (
+                <div 
+                  key={condition.id} 
+                  className="mednix-card bg-white border border-border rounded-3xl overflow-hidden hover:shadow-xl hover:border-primary/20 transition-all flex flex-col h-full group"
+                >
+                  {/* Consistent image ratio container */}
+                  <div className="h-48 w-full overflow-hidden relative shrink-0">
+                    <img 
+                      src={condition.imageUrl || "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=1000"} 
+                      alt={condition.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 ease-out"
+                      referrerPolicy="no-referrer"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-85" />
+                    
+                    {/* Category overlay */}
+                    <span className="absolute top-4 left-4 bg-white/95 text-primary text-[9px] font-black uppercase tracking-wider px-2.5 py-1 rounded-md shadow-sm border border-primary/5">
+                      {condition.category}
+                    </span>
+                  </div>
+
+                  {/* Card Content portion */}
+                  <div className="p-6 flex-grow flex flex-col justify-between">
+                    <div className="space-y-3">
+                      <div className="flex items-center gap-2">
+                        <div className="p-1.5 rounded-lg bg-primary-light text-primary shrink-0">
+                          <ConditionIcon className="w-4 h-4" />
+                        </div>
+                        <h3 className="text-base font-bold text-text-primary group-hover:text-primary transition-colors truncate">
+                          {condition.title}
+                        </h3>
+                      </div>
+                      <p className="text-xs text-text-secondary line-clamp-3 leading-relaxed">
+                        {condition.excerpt || condition.description}
+                      </p>
+                    </div>
+
+                    {/* Footer list with remedies and link */}
+                    <div className="pt-5 mt-5 border-t border-border/65 space-y-4">
+                      {condition.relatedRemedies && condition.relatedRemedies.length > 0 && (
+                        <div className="space-y-1.5">
+                          <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary block">
+                            Key Candidate Remedies
+                          </span>
+                          <div className="flex flex-wrap gap-1">
+                            {condition.relatedRemedies.slice(0, 3).map((rem) => (
+                              <Link 
+                                key={rem.id} 
+                                to={`/remedy/${rem.id}`}
+                                className="text-[10px] font-semibold bg-primary-light/60 text-primary hover:bg-primary hover:text-white transition-colors px-2.5 py-0.5 rounded-md"
+                              >
+                                {rem.name}
+                              </Link>
+                            ))}
+                          </div>
+                        </div>
+                      )}
+
+                      <Link 
+                        to={`/conditions/${condition.id}`}
+                        className="w-full text-center py-2.5 border border-border hover:border-primary text-text-secondary hover:text-primary rounded-xl text-[10px] font-bold uppercase tracking-wider bg-bg-secondary hover:bg-white transition-all block cursor-pointer"
+                      >
+                        Explore Clinical Patterns
+                      </Link>
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          <div className="text-center pt-4">
+            <Link 
+              to="/disease-hub"
+              className="inline-flex items-center gap-2 text-xs font-bold text-primary hover:text-accent transition-colors group/all"
+            >
+              Browse All Therapeutics Areas <ArrowRight className="w-4 h-4 group-hover/all:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+        </div>
+      </section>
+
       {/* SECTION: Clinical Tools (Easy clinical tool shortcuts for practitioners and advanced students) */}
-      <section id="clinical-workspace" className="py-20 bg-white dark:bg-zinc-950">
+      <section id="clinical-workspace" className="py-20 bg-white">
         <div className="max-w-5xl mx-auto px-4 space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-3">
             <span className="mednix-section-subtitle mx-auto">Practitioner workspace</span>
             <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
-              Advanced Clinical AI Tools
+              Advanced Clinical Study Tools
             </h2>
             <p className="text-xs md:text-sm text-text-secondary leading-normal">
               Apply scientific homeopathic repertorization. Translate case symptoms, compare complex remedies, and gain decision support in real-time.
@@ -279,24 +378,24 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* 1. Clinical AI Suite */}
+            {/* 1. AI Homeopathic Assistant */}
             <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider rounded-md">Smart decision</span>
-                  <span className="px-2.5 py-1 bg-[#06B6D4]/10 text-[#06B6D4] text-[10px] font-black uppercase tracking-wider rounded-md">Pro tool</span>
+                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider rounded-md">Smart consultation</span>
+                  <span className="px-2.5 py-1 bg-[#06B6D4]/10 text-[#06B6D4] text-[10px] font-black uppercase tracking-wider rounded-md">AI Guidance</span>
                 </div>
-                <h4 className="text-xl font-display text-primary leading-tight font-bold">Clinical AI Expert Workstation</h4>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Interactive Ask AI Homeopathic Assistant</h4>
                 <p className="text-xs text-text-secondary leading-relaxed">
-                  Submit detailed cases, extract major rubric points, calculate constitutional miasmatic influences, and get candidate remedy rankings instantly.
+                  Submit comprehensive health queries, physical patterns, and emotional modalities to receive customized educational analysis and remedy profiles instantly.
                 </p>
               </div>
               <div>
                 <Link 
-                  to="/clinical-ai"
+                  to="/ask-homeopath"
                   className="w-full text-center px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-2xl text-xs font-bold uppercase tracking-wider block transition-all"
                 >
-                  Launch Clinical AI Suite
+                  Consult AI Assistant
                 </Link>
               </div>
             </div>
@@ -438,18 +537,18 @@ export default function Home() {
               return (
                 <div 
                   key={idx} 
-                  className="bg-white dark:bg-zinc-900 border border-border rounded-2xl overflow-hidden transition-all duration-300"
+                  className="bg-white border border-border rounded-2xl overflow-hidden transition-all duration-300"
                 >
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="w-full px-5 py-4 text-left font-bold text-xs md:text-sm text-text-primary dark:text-white flex items-center justify-between gap-4 cursor-pointer hover:bg-bg-primary/20 dark:hover:bg-zinc-800/20"
+                    className="w-full px-5 py-4 text-left font-bold text-xs md:text-sm text-text-primary flex items-center justify-between gap-4 cursor-pointer hover:bg-bg-primary/20"
                   >
                     <span>{faq.q}</span>
                     <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform duration-305 ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
                   
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs text-text-secondary dark:text-text-secondary leading-relaxed border-t border-border/40 animate-slideDown">
+                    <div className="px-5 pb-5 pt-1 text-xs text-text-secondary leading-relaxed border-t border-border/40 animate-slideDown">
                       {faq.a}
                     </div>
                   )}

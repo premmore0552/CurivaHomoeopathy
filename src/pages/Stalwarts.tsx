@@ -101,7 +101,7 @@ const Stalwarts: React.FC = () => {
                         className="w-full h-full object-cover transform scale-110 group-hover:scale-125 transition-transform duration-700"
                         referrerPolicy="no-referrer"
                         onError={(e) => {
-                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(stalwart.name)}&background=C2187A&color=fff&size=512`;
+                          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=${encodeURIComponent(stalwart.name)}&background=16A34A&color=fff&size=512`;
                         }}
                       />
                     </div>

@@ -106,7 +106,7 @@ const Hero: React.FC = () => {
                 <Link
                   to="/profile"
                   onClick={() => trackEvent('cta_click', { cta_id: 'hero_portal_profile' })}
-                  className="px-10 py-6 bg-emerald-600 text-white font-bold uppercase tracking-widest text-xs rounded-2xl hover:scale-105 hover:shadow-2xl hover:shadow-emerald-600/20 active:scale-95 transition-all flex items-center justify-center gap-2 group shadow-sm"
+                  className="px-10 py-6 bg-primary text-white font-bold uppercase tracking-widest text-xs rounded-2xl hover:scale-105 hover:shadow-2xl hover:shadow-primary/20 active:scale-95 transition-all flex items-center justify-center gap-2 group shadow-sm"
                 >
                   <User className="w-4 h-4 text-white" />
                   My Workspace Panel

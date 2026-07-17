@@ -158,5 +158,156 @@ export const universityPYQs: UniversityPYQ[] = [
       "Used to address a history of suppressed skin eruptions or discharges.",
       "Helps clear the case so constitutional remedies can resume their curative action."
     ]
+  },
+  {
+    id: "PYQ-011",
+    question: "Discuss the indications of Arsenicum Album in Food Poisoning and Gastrointestinal disorders.",
+    subject: "Materia Medica",
+    year: "2024",
+    marks: 10,
+    university: "MUHS (Maharashtra University of Health Sciences)",
+    answer: "Arsenicum Album is a paramount remedy for acute gastrointestinal irritation, gastroenteritis, and food poisoning. Its clinical picture is defined by extreme burning, anxiety, restlessness, and unique thirst modalities:\n\n1. Etiology: Ailments from eating cold fruits, ice cream, rancid or decayed meat, bad water, or fish.\n2. Key Symptoms:\n   - Burning Pain: Intense burning pain in the entire alimentary canal (stomach, esophagus, abdomen), as if from hot coals. Ironically, this burning is temporarily relieved by warm drinks or applications.\n   - Thirst: Intense thirst for cold water, but the patient can only drink in small quantities at frequent intervals (sips water frequently) because large amounts aggravate the nausea and vomiting.\n   - Vomiting and Diarrhea: Simultaneous purging and vomiting. Stools are small, dark, offensive, watery, and followed by extreme exhaustion out of proportion to the loss of fluids.\n3. Mental State: Extreme anxiety, restlessness (moves from bed to bed), fear of death (believes his illness is incurable), and fastidiousness (demands absolute cleanliness around him).\n4. Modalities: Aggravation after midnight (1 AM to 2 AM), from cold food/drinks, and from the smell or sight of food. Amelioration from heat, warm drinks, and lying down.",
+    keyPoints: [
+      "Indicated for acute gastroenteritis and food poisoning from decayed meat, cold fruits, or bad water.",
+      "Characterized by intense burning pains in stomach and abdomen, paradoxically relieved by warmth.",
+      "Thirst for cold water in small quantities (sips) at frequent intervals.",
+      "Mental sphere exhibits extreme anxiety, fear of death, restlessness, and fastidiousness.",
+      "Marked aggravation from midnight to 2 AM and from cold applications."
+    ]
+  },
+  {
+    id: "PYQ-012",
+    question: "State and explain Aphorism 26 (The Therapeutic Law of Nature) with natural and clinical examples.",
+    subject: "Organon & Philosophy",
+    year: "2025",
+    marks: 10,
+    university: "RGUHS (Rajiv Gandhi University of Health Sciences)",
+    answer: "Aphorism 26 of the Organon of Medicine presents the Therapeutic Law of Nature: 'A weaker dynamic affection is permanently extinguished in the living organism by a stronger one, if the latter (whilst differing in kind) is very similar to it in its manifestations.'\n\nExplanation:\nThis law dictates how homeopathic cure occurs. When a medicine is administered, it creates an artificial, temporary medicinal disease in the Vital Force. If this medicinal disease is extremely similar to the natural disease but slightly stronger in dynamic intensity, it occupies the same receptors on the Vital Force and permanently extinguishes (annihilates) the weaker natural disease. Once the natural disease is gone, the temporary medicinal disease naturally fades away because of the highly diluted, non-toxic nature of the potency, leaving the patient completely cured.\n\nExamples from Nature:\n1. Light: The dim light of the morning stars is permanently extinguished in our eyes by the stronger, yet similar light of the rising sun.\n2. Sound: A weaker whisper is drowned out or made imperceptible by a louder, similar sound nearby.\n3. Physical: Smallpox infection prevents or cures cowpox, and vice versa, because of their extreme similarity in cutaneous eruptions, with the stronger infection extinguishing the weaker one.",
+    keyPoints: [
+      "Aphorism 26 defines the natural curative law: a stronger similar dynamic disease extinguishes a weaker one.",
+      "The homeopathic remedy produces a slightly stronger but temporary artificial medicinal disease.",
+      "Once the weaker natural disease is extinguished, the medicinal state naturally dissolves.",
+      "Natural analog: The rising sun's stronger light extinguishes the weaker starlight in our eyes."
+    ]
+  },
+  {
+    id: "PYQ-013",
+    question: "Explain the construction, layout, and philosophical background of Kent's Repertory.",
+    subject: "Repertory",
+    year: "2024",
+    marks: 20,
+    university: "BHU (Banaras Hindu University)",
+    answer: "Repertory of the Homoeopathic Materia Medica by Dr. James Tyler Kent is the most widely utilized classical repertory. It was first published in 1897 and is based on a structured, logical philosophy.\n\n1. Philosophical Background:\nKent's Repertory is based on the philosophy of 'Generals to Particulars' (Deductive reasoning). It aligns with Swedenborg's philosophy that 'man is the mind, and the mind is the man.' Thus, Kent prioritizes mental symptoms first, physical general symptoms (sleep, food cravings, weather reactions) second, and local particulars (headache, liver pain) last.\n\n2. Plan and Construction:\nKent's Repertory is divided into 37 distinct chapters, starting with 'Mind' and ending with 'Generals'. The layout inside each chapter follows a strict alphabetical hierarchy of sub-rubrics based on the mnemonic: Time, Circumstance (Modality), and Locality/Extension.\n\n3. Grading of Remedies:\nKent uses three distinct typographic grades to represent the clinical frequency of a remedy's action:\n- Bold (3 points): The symptom was produced by almost all provers and repeatedly verified clinically.\n- Italics (2 points): The symptom was produced by several provers and occasionally verified.\n- Roman (1 point): The symptom was produced by few provers or has minor clinical confirmations.",
+    keyPoints: [
+      "Based on the philosophy of Generals to Particulars (deductive reasoning).",
+      "Prioritizes mental symptoms first, physical generals second, and local particulars third.",
+      "Structured into 37 chapters, beginning with Mind and ending with Generals.",
+      "Uses three grades of remedies: Bold (3 points), Italics (2 points), and Roman (1 point)."
+    ]
+  },
+  {
+    id: "PYQ-014",
+    question: "Explain the characteristic symptoms, keynotes, and clinical modalities of Gelsemium Sempervirens.",
+    subject: "Materia Medica",
+    year: "2023",
+    marks: 10,
+    university: "WBUHS (West Bengal University of Health Sciences)",
+    answer: "Gelsemium Sempervirens (Yellow Jasmine) is an outstanding remedy for nervous disorders, acute infectious fevers (influenza), and anticipatory anxiety. Its clinical profile is dominated by profound muscular and nervous prostration:\n\n1. The Three 'D's (Core Keynotes):\n   - Dullness: Complete lack of mental alertness; slow comprehension and apathy.\n   - Dizziness: Vertigo originating in the occiput, making walking difficult and unsteady.\n   - Drowsiness: Soporose sleepiness; the patient can hardly keep their heavy eyelids open (ptosis).\n2. Characteristic Physical Symptoms:\n   - Trembling: Marked muscular weakness and trembling of hands, tongue, or knees under physical or emotional exertion.\n   - Thirstlessness: Intense fever with a dry skin, yet there is absolute thirstlessness.\n   - Headache: Congestive, bursting headache starting in the neck/occiput and radiating forward to settle over the eyes, characteristically relieved by a profuse flow of pale urine.\n3. Mental Sphere: Anticipatory anxiety (stage fright, exam fear) leading to nervous diarrhea or trembling. Complete absence of fear, but a strong desire to be left alone.\n4. Modalities: Aggravation from bad news, emotional excitement, damp weather, and thinking of symptoms. Amelioration from profuse urination, open air, and continuous motion.",
+    keyPoints: [
+      "Characterized by the three Ds: Dullness, Dizziness, and Drowsiness with muscular trembling.",
+      "Fever is accompanied by dry heat and absolute thirstlessness.",
+      "Nervous diarrhea triggered by anticipatory anxiety, stage fright, or bad news.",
+      "Occipital headache that spreads over the head, dramatically relieved by profuse urination."
+    ]
+  },
+  {
+    id: "PYQ-015",
+    question: "Describe the preparation of Mother Tinctures under Class I of the Old Method of Homeopathic Pharmacopoeia.",
+    subject: "Pharmacy",
+    year: "2022",
+    marks: 10,
+    university: "MUHS (Maharashtra University of Health Sciences)",
+    answer: "Under the Old Hahnemannian Method of preparation, Class I is designated for preparing Mother Tinctures from fresh, highly succulent plants (containing the greatest amount of plant moisture). \n\nFormula and Ratio:\nClass I uses equal parts by weight of the fresh plant juice and Strong Alcohol (1:1 drug strength ratio).\n\nStep-by-Step Procedure:\n1. Extraction of Juice: The fresh succulent plant parts are finely chopped, placed in a clean linen cloth, and pressed in a screw-press to extract the pure plant juice.\n2. Mixing: Equal parts of this freshly extracted plant juice and Strong Alcohol are mixed thoroughly in a clean, sterile glass bottle.\n3. Maceration: The bottle is tightly stoppered and kept in a cool, dark place for 8 days, shaking it vigorously twice daily to ensure complete dynamic extraction.\n4. Filtration: On the 9th day, the mixture is filtered through sterile filter paper. The resulting clear liquid is the Mother Tincture, designated as 'Ø' with a drug strength of 1/2.",
+    keyPoints: [
+      "Class I is used for fresh, highly succulent plants with maximum plant moisture.",
+      "Employs equal parts by weight of fresh plant juice and Strong Alcohol.",
+      "The mixture is macerated for 8 days with daily succussions.",
+      "Filtered on the 9th day, resulting in a Mother Tincture of 1/2 drug strength."
+    ]
+  },
+  {
+    id: "PYQ-016",
+    question: "Discuss the classification of Chronic Diseases as described by Samuel Hahnemann in the Organon of Medicine.",
+    subject: "Organon & Philosophy",
+    year: "2024",
+    marks: 20,
+    university: "RGUHS (Rajiv Gandhi University of Health Sciences)",
+    answer: "Hahnemann defines chronic diseases as those that arise from dynamic infection by a chronic miasm, progress continuously if untreated, and gradually destroy the organism despite a healthy lifestyle (Aphorisms 72-82).\n\nHahnemann classifies Chronic Diseases into three major categories:\n\n1. Pseudo-Chronic Diseases (Aphorisms 74-77):\nThese are not true chronic diseases but rather chronic sufferings induced by maintaining causes (Causa Occasionalis), such as prolonged exposure to unhygienic environments, bad diets, alcoholism, or poor sanitation. They disappear naturally when these maintaining factors are removed, without requiring anti-miasmatic treatment.\n\n2. Artificial Chronic Diseases (Aphorisms 74-76):\nThese are severe, hard-to-cure diseases produced by the prolonged, inappropriate use of large doses of toxic allopathic drugs (e.g., steroid suppressions, heavy metals). They are often incurable because they structurally ruin the organs and vital force.\n\n3. True Chronic Diseases (Aphorisms 78-81):\nThese are caused by dynamic infection by chronic infectious miasms. They cannot be cured by the vital force alone or a healthy lifestyle. They are classified by their underlying miasm:\n   - Non-Venereal: Psora (the mother of 90% of chronic diseases, manifesting as functional irritation and skin eruptions).\n   - Venereal: Sycosis (the retentive miasm, causing warts/fibroids) and Syphilis (the destructive miasm, causing ulceration/necrosis).",
+    keyPoints: [
+      "Pseudo-chronic diseases are caused by maintaining factors (lifestyle) and resolve when they are removed.",
+      "Artificial chronic diseases are drug-induced suppressions and are extremely difficult to treat.",
+      "True chronic diseases are dynamic, miasmatic, and progress indefinitely if untreated.",
+      "True chronic diseases are categorized into Psora (non-venereal), Sycosis, and Syphilis (venereal)."
+    ]
+  },
+  {
+    id: "PYQ-017",
+    question: "Compare and contrast the mental states of Ignatia Amara and Natrum Muriaticum in cases of silent grief.",
+    subject: "Materia Medica",
+    year: "2025",
+    marks: 10,
+    university: "MUHS (Maharashtra University of Health Sciences)",
+    answer: "Both Ignatia Amara and Natrum Muriaticum are premier remedies for silent grief, emotional shocks, and disappointed love. However, they present distinct psychological patterns in clinical practice:\n\n1. Ignatia Amara (Acute Grief):\n   - Nature of State: Ignatia represents acute, recent, or volatile grief. The emotional state is highly paradoxical, unstable, and changeable.\n   - Behavior: The patient is highly hysterical, moves rapidly from tears to laughter, sighs deeply and involuntarily, and has a constant lump in the throat (globus hystericus). They are highly artistic, easily offended, and seek solitude to weep, but their emotional outbursts are sudden.\n   - Consolation: Consolation is tolerated but does not resolve the hysterical swings.\n\n2. Natrum Muriaticum (Chronic, Deep Grief):\n   - Nature of State: Natrum Muriaticum represents chronic, old, deep-seated, and suppressed emotional wounds that have hardened over time.\n   - Behavior: The patient is highly closed, reserved, and introverted. They harbor quiet resentment, dwell constantly on past unpleasant events, and build an emotional wall to prevent getting hurt again.\n   - Consolation: Consolation is absolutely intolerable. Any attempt to console or sympathize with the patient makes them intensely angry and tearful.\n   - Concomitants: Prone to a mapped tongue, intense craving for salt, and bursting headaches worse in the sun.",
+    keyPoints: [
+      "Ignatia is indicated for recent, acute grief with volatile, paradoxical hysterical swings and sighing.",
+      "Natrum Mur is for chronic, deep-seated, suppressed grief with silent brooding over past painful memories.",
+      "Ignatia is unpredictable; Natrum Mur is highly reserved, rigid, and builds emotional barriers.",
+      "Consolation is tolerated in Ignatia, but completely intolerable in Natrum Mur, provoking anger."
+    ]
+  },
+  {
+    id: "PYQ-018",
+    question: "Describe the clinical features of Acute Tonsillitis and discuss the indications of Belladonna and Baryta Carbonica.",
+    subject: "Practice of Medicine",
+    year: "2024",
+    marks: 10,
+    university: "RGUHS (Rajiv Gandhi University of Health Sciences)",
+    answer: "Acute Tonsillitis is the acute inflammation of the palatine tonsils, typically caused by viral or bacterial infections (Streptococcus pyogenes). Clinical features include severe sore throat, difficulty in swallowing (dysphagia), high-grade fever, tender cervical lymphadenopathy, and enlarged, erythematous tonsils with or without purulent exudates.\n\nHomeopathic Indications:\n\n1. Belladonna (Atropa Belladonna):\n   - Stage: Early, acute, sudden onset with violent congestion.\n   - Throat: Tonsils are bright red, dry, shiny, and swollen. Sensation of constriction; throat feels extremely narrow. Right-sided tonsillitis is most prominent.\n   - Swallowing: Painful swallowing, especially of liquids; patient constant throat clearing.\n   - Concomitants: High-grade fever with a hot, red face, dilated pupils, throbbing carotids, cold extremities, and absolute lack of thirst.\n\n2. Baryta Carbonica (Barium Carbonate):\n   - Stage: Subacute, chronic, or recurrent tonsillitis in children.\n   - Throat: Tonsils are chronically enlarged, hard, and prone to suppurate (quinsy) upon the slightest exposure to cold.\n   - Constitution: Children with physically and mentally stunted growth (dwarfishness, slow learning, takes a long time to comprehend). Extremely shy around strangers.\n   - Swallowing: Can only swallow liquids; solid foods cause severe pain and choking.\n   - Modalities: Aggravation from cold damp air, swallowing, and empty throat clearing.",
+    keyPoints: [
+      "Acute tonsillitis presents with sore throat, dysphagia, fever, and erythematous palatine swelling.",
+      "Belladonna is for sudden, highly congested early stages with bright red tonsils, hot face, and no thirst.",
+      "Baryta Carb is for chronic, recurrent tonsillitis in children with stunted mental or physical growth.",
+      "Baryta Carb tonsils suppurate easily from cold and swallow only liquids."
+    ]
+  },
+  {
+    id: "PYQ-019",
+    question: "Discuss the evaluation of symptoms according to J.T. Kent and Boenninghausen.",
+    subject: "Repertory",
+    year: "2023",
+    marks: 10,
+    university: "BHU (Banaras Hindu University)",
+    answer: "Evaluation of symptoms is the process of grading and organizing symptoms hierarchically to repertorize a case. Dr. Kent and Dr. Boenninghausen utilized divergent, yet scientifically sound, methodologies:\n\n1. Kent's Evaluation (Generals to Particulars):\nKent prioritizes the patient as a whole rather than the local diseased parts. His hierarchy is:\n   - Mental Generals: The highest value. Includes Will (loves/hates, suicidal), Intellect (confusion, memory), and Morals (deceitful, cursing).\n   - Physical Generals: Reactions of the whole body to the environment. Includes weather/thermal states, food cravings/aversions, sleep/dreams, and menstruation.\n   - Particulars: Symptoms of individual organs (e.g., headache, stomach ache). Rated lowest unless they are highly peculiar (PQRS).\n\n2. Boenninghausen's Evaluation (The Complete Symptom):\nBoenninghausen focuses on reconstructing a complete symptom from fragments. He evaluates symptoms based on:\n   - Location: The specific anatomical site or organ affected.\n   - Sensation: The quality of pain or experience (e.g., burning, stitching).\n   - Modality: Aggravation or amelioration from weather, posture, time (the most crucial factor for Boenninghausen).\n   - Concomitant: Co-existing symptoms that have no pathological connection to the main complaint.",
+    keyPoints: [
+      "Kent prioritizes Mental Generals (Will, Intellect) followed by Physical Generals and Particulars.",
+      "Boenninghausen focuses on Location, Sensation, Modality, and Concomitants.",
+      "Kent values the patient's individual personality; Boenninghausen values the exact symptom qualifiers.",
+      "Kent uses deductive reasoning; Boenninghausen utilizes inductive grand generalizations."
+    ]
+  },
+  {
+    id: "PYQ-020",
+    question: "Define 'Doctrine of Signatures'. Provide four examples showing its historical and therapeutic relevance.",
+    subject: "Pharmacy",
+    year: "2024",
+    marks: 10,
+    university: "WBUHS (West Bengal University of Health Sciences)",
+    answer: "The Doctrine of Signatures is an ancient, pre-scientific belief that the physical characteristics, colors, habitats, behaviors, or textures of natural substances contain a signature or sign from nature indicating their medicinal values.\n\nWhile Hahnemann cautioned that clinical prescription must solely rely on systematic drug provings rather than signatures, many homeopathic provings have validated these natural analogies:\n\n1. Chelidonium Majus (Celandine):\n   - Signature: The plant has a bright yellow, milky juice.\n   - Relevance: Homeopathic proving established it as a premier remedy for jaundice, liver disorders, and yellow stools, where bile flows in excess.\n2. Lachesis Mutus (Bushmaster Snake):\n   - Signature: The snake is extremely hyperactive, loquacious before striking, and constricts its prey to choke them.\n   - Relevance: Proven to treat highly loquacious patients who suffer from severe choking sensations and cannot tolerate any constriction around the neck.\n3. Bellis Perennis (Daisy):\n   - Signature: Grows flat on the ground and is repeatedly stepped on or crushed, yet rises back up undamaged.\n   - Relevance: Highly effective for deep muscular soreness, trauma, and mechanical bruising of pelvic tissues.\n4. Calcarea Carbonica (Calcium Carbonate):\n   - Signature: Obtained from the hard, protective shell of the oyster, protecting a soft, vulnerable interior.\n   - Relevance: Indicated for patients who are soft, flabby, vulnerable to stress, and build a protective mental or physical shell around themselves.",
+    keyPoints: [
+      "Doctrine of Signatures links a substance's physical traits or habitat to its curative effects.",
+      "Hahnemann insisted that drug provings are the only scientific criteria for clinical use.",
+      "Chelidonium's yellow sap matches its use in jaundice and biliary tract disorders.",
+      "Lachesis's snake constriction matches its use in choking throat sensations."
+    ]
   }
 ];

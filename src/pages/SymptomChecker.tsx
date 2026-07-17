@@ -22,6 +22,7 @@ import {
   Award
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import PremiumTable from '../components/PremiumTable';
 
 interface CaseInputs {
   mentalState: string;
@@ -683,51 +684,40 @@ export default function SymptomChecker() {
               {/* Kent's Repertorization Matrix Table */}
               <div className="space-y-3">
                 <h3 className="text-xs font-black text-primary uppercase tracking-wider">Kentian Repertory Scoring Grid:</h3>
-                <div className="border border-border rounded-2xl overflow-hidden bg-white dark:bg-gray-950 shadow-sm overflow-x-auto">
-                  <table className="w-full border-collapse text-left text-xs">
-                    <thead>
-                      <tr className="bg-bg-secondary border-b border-border text-[9px] font-black uppercase text-primary tracking-wider">
-                        <th className="p-4 min-w-[140px]">Remedy / Polychrest</th>
-                        <th className="p-4">Covered Modalities &amp; Grades</th>
-                        <th className="p-4 text-center min-w-[100px]">Aggregate Score</th>
-                        <th className="p-4 text-right min-w-[120px]">Matched Status</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-border/60">
-                      {repertorizationResult.map((rem, idx) => (
-                        <tr key={rem.name} className={idx === 0 ? "bg-primary/5" : ""}>
-                          <td className="p-4 font-bold text-primary">
-                            <span className="block">{rem.name}</span>
-                            <span className="text-[9px] text-text-tertiary font-medium block truncate max-w-[120px]">{rem.fullName}</span>
-                          </td>
-                          <td className="p-4">
-                            <div className="flex flex-wrap gap-1.5">
-                              {rem.symptomsMatched.map((s, sIdx) => (
-                                <span key={sIdx} className="px-2 py-0.5 bg-bg-secondary text-[9.5px] border border-border rounded font-semibold text-text-secondary">
-                                  {s}
-                                </span>
-                              ))}
-                            </div>
-                          </td>
-                          <td className="p-4 text-center font-black text-sm text-primary">
-                            {rem.totalPoints}
-                          </td>
-                          <td className="p-4 text-right">
-                            {idx === 0 ? (
-                              <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 rounded-full font-black text-[9px] uppercase tracking-wider border border-emerald-500/20">
-                                Simillimum Candidate
-                              </span>
-                            ) : (
-                              <span className="px-2 py-1 bg-primary/5 text-primary rounded-full font-bold text-[9px] uppercase tracking-wider border border-primary/10">
-                                Match Grade {3 - idx > 0 ? 3 - idx : 1}
-                              </span>
-                            )}
-                          </td>
-                        </tr>
+                <PremiumTable
+                  headers={[
+                    "Remedy / Polychrest",
+                    "Covered Modalities & Grades",
+                    "Aggregate Score",
+                    "Matched Status"
+                  ]}
+                  headerAligns={['left', 'left', 'center', 'right']}
+                  data={repertorizationResult.map((rem, idx) => [
+                    <div key={rem.name}>
+                      <span className="block font-bold text-primary">{rem.name}</span>
+                      <span className="text-[9px] text-text-tertiary font-medium block truncate max-w-[120px]">{rem.fullName}</span>
+                    </div>,
+                    <div className="flex flex-wrap gap-1.5" key={`${rem.name}-sym`}>
+                      {rem.symptomsMatched.map((s, sIdx) => (
+                        <span key={sIdx} className="px-2 py-0.5 bg-bg-secondary text-[9.5px] border border-border rounded font-semibold text-text-secondary">
+                          {s}
+                        </span>
                       ))}
-                    </tbody>
-                  </table>
-                </div>
+                    </div>,
+                    <span className="font-black text-sm text-primary" key={`${rem.name}-pts`}>{rem.totalPoints}</span>,
+                    <div className="text-right" key={`${rem.name}-status`}>
+                      {idx === 0 ? (
+                        <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 rounded-full font-black text-[9px] uppercase tracking-wider border border-emerald-500/20">
+                          Simillimum Candidate
+                        </span>
+                      ) : (
+                        <span className="px-2 py-1 bg-primary/5 text-primary rounded-full font-bold text-[9px] uppercase tracking-wider border border-primary/10">
+                          Match Grade {3 - idx > 0 ? 3 - idx : 1}
+                        </span>
+                      )}
+                    </div>
+                  ])}
+                />
               </div>
 
               {/* Detailed Prescription Notes */}

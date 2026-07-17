@@ -77,13 +77,13 @@ const Breadcrumbs: React.FC = () => {
   };
 
   return (
-    <nav className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-6 pb-2 flex items-center flex-wrap gap-2 text-[10px] font-black uppercase tracking-widest text-text-secondary select-none">
+    <nav className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-1 flex items-center flex-wrap gap-1 text-xs font-medium text-text-secondary select-none" aria-label="Breadcrumb">
       <Link 
         to="/" 
-        className="flex items-center gap-1.5 hover:text-primary transition-colors hover:bg-primary/5 px-2.5 py-1.5 rounded-lg border border-transparent hover:border-primary/10"
+        className="flex items-center gap-1.5 text-text-secondary hover:text-primary transition-colors py-1 px-2 rounded-md hover:bg-bg-secondary"
       >
         <Home className="w-3.5 h-3.5" />
-        Home
+        <span className="font-sans">Home</span>
       </Link>
       
       {pathnames.map((value, index) => {
@@ -98,19 +98,17 @@ const Breadcrumbs: React.FC = () => {
 
         return (
           <React.Fragment key={to}>
-            <ChevronRight className="w-3 h-3 opacity-40 shrink-0 text-text-secondary" />
-            {last ? (
-              <span className="text-primary font-black px-2.5 py-1.5 bg-primary/5 rounded-lg border border-primary/10 truncate max-w-[180px] sm:max-w-xs md:max-w-md">
-                {label}
-              </span>
-            ) : (
-              <Link 
-                to={to} 
-                className="hover:text-primary transition-colors hover:bg-primary/5 px-2.5 py-1.5 rounded-lg border border-transparent hover:border-primary/10 truncate max-w-[124px] sm:max-w-xs"
-              >
-                {label}
-              </Link>
-            )}
+            <ChevronRight className="w-3.5 h-3.5 text-text-tertiary opacity-60 shrink-0 mx-0.5" />
+            <Link 
+              to={to} 
+              className={`py-1 px-2 rounded-md transition-colors truncate max-w-[150px] sm:max-w-xs ${
+                last 
+                  ? 'text-primary font-semibold bg-primary-light/40 border border-primary/10 hover:bg-primary-light/60' 
+                  : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
+              }`}
+            >
+              {label}
+            </Link>
           </React.Fragment>
         );
       })}

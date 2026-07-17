@@ -318,13 +318,13 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
 
             {/* Quick Action Box */}
             <div className="bg-primary text-white border border-primary/20 rounded-[2rem] p-6 shadow-soft text-center space-y-4">
-              <span className="text-[9px] font-black uppercase tracking-widest text-[#c5a059]">PRACTITIONER ASSISTANCE</span>
-              <h4 className="text-base font-display font-light">Enter our verified Medical Professional AI Suite</h4>
+              <span className="text-[9px] font-black uppercase tracking-widest text-emerald-300">STUDENT ASSISTANCE</span>
+              <h4 className="text-base font-display font-light">Explore symptoms on our interactive study maps</h4>
               <Link 
-                to="/clinical-ai" 
+                to="/symptom-checker" 
                 className="w-full inline-flex items-center justify-center gap-1 bg-white text-primary text-[10px] font-bold uppercase tracking-wider p-3 rounded-xl hover:bg-accent hover:text-white transition-all cursor-pointer"
               >
-                Launch AI Suite <ArrowRight className="w-3.5 h-3.5" />
+                Launch Symptom Checker <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 

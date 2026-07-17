@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useTheme } from '../context/ThemeContext';
 import ThemeToggle from './ThemeToggle';
 import { categories } from '../data/mockData';
 import * as Icons from 'lucide-react';
@@ -53,11 +52,19 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
               {link.dropdown.map((sub: any) => {
                 const isSubActive = location.pathname === sub.to;
                 const hasHighlight = link.isGlossary && sub.highlight;
+                const isExternal = typeof sub.to === 'string' && sub.to.startsWith('http');
+                const LinkComponent = (isExternal ? 'a' : Link) as any;
+                const linkProps = isExternal 
+                  ? { href: sub.to, target: "_blank", rel: "noopener noreferrer" }
+                  : { to: sub.to };
+
                 return (
-                  <Link
+                  <LinkComponent
                     key={sub.name}
-                    to={sub.to}
-                    onClick={() => handleLinkClick(sub.to)}
+                    {...linkProps}
+                    onClick={() => {
+                      if (!isExternal) handleLinkClick(sub.to);
+                    }}
                     className={`flex flex-col items-start p-4.5 rounded-2xl text-sm border font-bold transition-all ${
                       isSubActive
                       ? 'bg-primary text-white border-primary shadow-md'
@@ -86,7 +93,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
                         {sub.desc}
                       </span>
                     )}
-                  </Link>
+                  </LinkComponent>
                 );
               })}
             </motion.div>
@@ -102,32 +109,44 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
       variants={itemVariants}
       whileTap={{ scale: 0.98 }}
     >
-      <Link
-        to={link.to}
-         className={`flex items-center justify-between p-5 rounded-3xl font-black transition-all border group ${
-          isActive 
-          ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' 
-          : 'bg-bg-secondary text-text-primary border-transparent hover:border-primary/20 shadow-sm'
-        }`}
-        onClick={() => handleLinkClick(link.to)}
-      >
-        {link.isProfile ? (
-          <div className="flex items-center gap-3">
-            <img 
-              src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
-              alt="User Portrait" 
-              className="w-7 h-7 rounded-lg object-cover border border-white/20 shrink-0" 
-            />
-            <span className="text-lg leading-tight">Dashboard</span>
-          </div>
-        ) : (
-          <div className="flex items-center gap-3">
-            {LinkIcon && <LinkIcon className="w-5 h-5 text-accent shrink-0" />}
-            <span className="text-lg leading-tight">{link.name}</span>
-          </div>
-        )}
-        <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-white' : 'text-text-secondary'}`} />
-      </Link>
+      {(() => {
+        const isExternal = typeof link.to === 'string' && link.to.startsWith('http');
+        const LinkComponent = (isExternal ? 'a' : Link) as any;
+        const linkProps = isExternal 
+          ? { href: link.to, target: "_blank", rel: "noopener noreferrer" }
+          : { to: link.to };
+
+        return (
+          <LinkComponent
+            {...linkProps}
+            className={`flex items-center justify-between p-5 rounded-3xl font-black transition-all border group ${
+              isActive 
+              ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20' 
+              : 'bg-bg-secondary text-text-primary border-transparent hover:border-primary/20 shadow-sm'
+            }`}
+            onClick={() => {
+              if (!isExternal) handleLinkClick(link.to);
+            }}
+          >
+            {link.isProfile ? (
+              <div className="flex items-center gap-3">
+                <img 
+                  src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
+                  alt="User Portrait" 
+                  className="w-7 h-7 rounded-lg object-cover border border-white/20 shrink-0" 
+                />
+                <span className="text-lg leading-tight">Dashboard</span>
+              </div>
+            ) : (
+              <div className="flex items-center gap-3">
+                {LinkIcon && <LinkIcon className="w-5 h-5 text-accent shrink-0" />}
+                <span className="text-lg leading-tight">{link.name}</span>
+              </div>
+            )}
+            <ChevronRight className={`w-5 h-5 transition-transform group-hover:translate-x-1 ${isActive ? 'text-white' : 'text-text-secondary'}`} />
+          </LinkComponent>
+        );
+      })()}
     </motion.div>
   );
 };
@@ -138,10 +157,18 @@ const Header: React.FC = () => {
   const [isCategoriesOpen, setIsCategoriesOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
-  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const navigate = useNavigate();
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+
+  const [showEduBanner, setShowEduBanner] = useState(() => {
+    return localStorage.getItem('curiva_edu_banner_dismissed') !== 'true';
+  });
+
+  const handleDismissEduBanner = () => {
+    localStorage.setItem('curiva_edu_banner_dismissed', 'true');
+    setShowEduBanner(false);
+  };
 
   React.useEffect(() => {
     if (isMenuOpen) {
@@ -191,14 +218,8 @@ const Header: React.FC = () => {
       tooltip: 'Submit direct physical and emotional queries for expert homeopathic analysis and guidance.'
     },
     { 
-      name: 'Clinic Pro', 
-      to: '/clinical-ai',
-      icon: 'Cpu',
-      tooltip: 'Utilize 25+ advanced academic AI engines to decode remedy personalities, miasms, and exam questions.'
-    },
-    { 
       name: 'Study Hub', 
-      to: '/lexicon',
+      to: '/student-resources',
       isGlossary: true,
       icon: 'BookOpen',
       tooltip: 'Access classical texts, remedy relationship charts, and interactive comparative study guides.',
@@ -207,9 +228,13 @@ const Header: React.FC = () => {
         { name: 'Organon & Philosophy', to: '/lexicon/philosophy', desc: "Read Samuel Hahnemann's aphorisms & laws" },
         { name: 'Interactive Study Maps', to: '/visualization', desc: 'Visualize remedy systems and connections' },
         { name: 'Relationship Nexus', to: '/nexus', desc: 'Explore remedy concordances & drug linkages' },
+        { name: 'Miasms Encyclopedia', to: '/miasms', desc: 'Detailed chronic miasms study portal' },
+        { name: 'Public Education Center', to: '/public-education', desc: 'Beginner-friendly guides & FAQs' },
         { name: 'Comparative Analyzer', to: '/analysis', desc: 'Side-by-side remedy clinical comparer' },
         { name: 'MCQ Practice Board', to: '/mcq-practice', desc: 'Mock BHMS & AIAPGET exam board preps' },
         { name: 'Clinical Therapeutics Guide', to: '/clinical-guides', desc: 'High-yield practical disease therapeutics' },
+        { name: 'CBC Diagnostic Handbook', to: '/cbc-handbook', desc: 'Interactive hemogram analyzer & miasm mapping' },
+        { name: 'Clinical Conditions Handbook', to: '/clinical-handbook', desc: 'Comprehensive diagnostic guide & simulator for 15 major conditions' },
         { name: 'Historical Pioneers', to: '/lexicon/historical', desc: 'Timelines of stalwarts and milestones' }
       ]
     },
@@ -267,11 +292,41 @@ const Header: React.FC = () => {
   };
 
   return (
-    <header className={`sticky top-0 z-50 transition-all duration-500 ${
-      isScrolled 
-      ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-20' 
-      : 'bg-bg-primary border-b border-transparent h-24'
-    }`}>
+    <>
+      {showEduBanner && (
+        <div className="bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex flex-col md:flex-row items-center justify-center gap-3 shadow-md">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
+          <div className="flex items-center gap-2 relative z-10 text-[11px] md:text-xs font-semibold">
+            <GraduationCap className="w-4 h-4 text-[#10B981] animate-pulse shrink-0" />
+            <span className="text-[#a7f3d0] font-black uppercase tracking-widest text-[9px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">Academic Portal</span>
+            <p className="text-zinc-200 font-sans tracking-tight text-center md:text-left">
+              All BHMS study notes, preparations, and Materia Medica references are unified in our local <strong>Student Resources</strong> guides!
+            </p>
+          </div>
+          <div className="flex items-center gap-3 relative z-10 shrink-0">
+            <Link 
+              to="/student-resources" 
+              className="px-3 py-1 bg-emerald-500 hover:bg-emerald-400 text-black text-[9px] font-black uppercase tracking-widest rounded-full transition-all shadow-lg shadow-emerald-500/20 active:scale-95 flex items-center gap-1 group"
+            >
+              <span>Visit Guides</span>
+              <ArrowRight className="w-3 h-3 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+            <button 
+              onClick={handleDismissEduBanner}
+              className="p-1 text-zinc-400 hover:text-white transition-colors hover:bg-white/5 rounded-lg"
+              aria-label="Dismiss banner"
+            >
+              <X className="w-3.5 h-3.5" />
+            </button>
+          </div>
+        </div>
+      )}
+
+      <header className={`sticky top-0 z-50 transition-all duration-500 ${
+        isScrolled 
+        ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-20' 
+        : 'bg-bg-primary border-b border-transparent h-24'
+      }`}>
       <div className="max-w-[1600px] mx-auto px-6 h-full">
         <div className="flex justify-between items-center h-full gap-8">
           {/* Logo Section */}
@@ -302,44 +357,54 @@ const Header: React.FC = () => {
                     onMouseEnter={() => setHoveredIndex(idx)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    <Link
-                      to={link.to}
-                      onClick={() => {
-                        const trackLabel = (typeof link.name === 'string' ? link.name : 'Unknown');
-                        trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
-                        handleLinkClick(link.to);
-                      }}
-                      aria-current={isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to)) ? 'page' : undefined}
-                      className={`flex items-center gap-1.5 xl:gap-2 px-3 xl:px-4.5 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-[0.1em] xl:tracking-[0.15em] transition-all relative whitespace-nowrap border ${
-                        isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to))
-                        ? 'text-primary bg-primary/5 border-primary/10' 
-                        : isHovered 
-                          ? 'text-primary bg-bg-secondary border-transparent' 
-                          : 'text-text-secondary border-transparent hover:text-primary'
-                      }`}
-                    >
-                      {link.isProfile ? (
-                        <div className="flex items-center gap-1.5">
-                          <img 
-                            src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
-                            alt="User Accent" 
-                            className="w-4.5 h-4.5 rounded-full object-cover border border-primary/20 shrink-0" 
-                          />
-                          <span>Dashboard</span>
-                        </div>
-                      ) : (
-                        <div className="flex items-center gap-1.5">
-                          {LinkIcon && <LinkIcon className="w-3.5 h-3.5 text-accent shrink-0" />}
-                          <span>{link.name}</span>
-                        </div>
-                      )}
-                      {hasDropdown && (
-                        <ChevronDown className={`w-3 h-3 transition-transform duration-300 opacity-60 ${isHovered ? 'rotate-180 text-primary' : ''}`} />
-                      )}
-                      {link.isNew && (
-                        <span className="px-1.5 py-0.5 rounded-md bg-primary text-[7px] text-white font-black uppercase tracking-widest absolute -top-1 -right-1 shadow-sm">New</span>
-                      )}
-                    </Link>
+                    {(() => {
+                      const isExternal = typeof link.to === 'string' && link.to.startsWith('http');
+                      const LinkComponent = (isExternal ? 'a' : Link) as any;
+                      const linkProps = isExternal 
+                        ? { href: link.to, target: "_blank", rel: "noopener noreferrer" }
+                        : { to: link.to };
+
+                      return (
+                        <LinkComponent
+                          {...linkProps}
+                          onClick={() => {
+                            const trackLabel = (typeof link.name === 'string' ? link.name : 'Unknown');
+                            trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
+                            if (!isExternal) handleLinkClick(link.to);
+                          }}
+                          aria-current={isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to)) ? 'page' : undefined}
+                          className={`flex items-center gap-1.5 xl:gap-2 px-3 xl:px-4.5 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-[0.1em] xl:tracking-[0.15em] transition-all relative whitespace-nowrap border ${
+                            isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to))
+                            ? 'text-primary bg-primary/5 border-primary/10' 
+                            : isHovered 
+                              ? 'text-primary bg-bg-secondary border-transparent' 
+                              : 'text-text-secondary border-transparent hover:text-primary'
+                          }`}
+                        >
+                          {link.isProfile ? (
+                            <div className="flex items-center gap-1.5">
+                              <img 
+                                src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
+                                alt="User Accent" 
+                                className="w-4.5 h-4.5 rounded-full object-cover border border-primary/20 shrink-0" 
+                              />
+                              <span>Dashboard</span>
+                            </div>
+                          ) : (
+                            <div className="flex items-center gap-1.5">
+                              {LinkIcon && <LinkIcon className="w-3.5 h-3.5 text-accent shrink-0" />}
+                              <span>{link.name}</span>
+                            </div>
+                          )}
+                          {hasDropdown && (
+                            <ChevronDown className={`w-3 h-3 transition-transform duration-300 opacity-60 ${isHovered ? 'rotate-180 text-primary' : ''}`} />
+                          )}
+                          {link.isNew && (
+                            <span className="px-1.5 py-0.5 rounded-md bg-primary text-[7px] text-white font-black uppercase tracking-widest absolute -top-1 -right-1 shadow-sm">New</span>
+                          )}
+                        </LinkComponent>
+                      );
+                    })()}
 
                     {/* Smooth AnimatePresence Dropdown */}
                     {hasDropdown && (
@@ -358,10 +423,16 @@ const Header: React.FC = () => {
                               {link.dropdown?.map((sub: any) => {
                                 const isSubActive = location.pathname === sub.to;
                                 const hasHighlight = link.isGlossary && sub.highlight;
+                                const isExternal = typeof sub.to === 'string' && sub.to.startsWith('http');
+                                const LinkComponent = (isExternal ? 'a' : Link) as any;
+                                const linkProps = isExternal 
+                                  ? { href: sub.to, target: "_blank", rel: "noopener noreferrer" }
+                                  : { to: sub.to };
+
                                 return (
-                                  <Link
+                                  <LinkComponent
                                     key={sub.name}
-                                    to={sub.to}
+                                    {...linkProps}
                                     aria-current={isSubActive ? 'page' : undefined}
                                     className={`flex flex-col items-start px-4.5 py-2.5 rounded-2xl transition-all border group/sub text-left ${
                                       isSubActive 
@@ -372,7 +443,7 @@ const Header: React.FC = () => {
                                     }`}
                                     onClick={() => {
                                       trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
-                                      handleLinkClick(sub.to);
+                                      if (!isExternal) handleLinkClick(sub.to);
                                     }}
                                   >
                                     <div className="flex items-center justify-between w-full">
@@ -391,7 +462,7 @@ const Header: React.FC = () => {
                                         {sub.desc}
                                       </span>
                                     )}
-                                  </Link>
+                                  </LinkComponent>
                                 );
                               })}
                             </div>
@@ -544,30 +615,6 @@ const Header: React.FC = () => {
                   <AuthButton isMobile={true} onCloseMenu={() => setIsMenuOpen(false)} />
                 </div>
               </motion.div>
-
-              {/* Quick Actions */}
-              <motion.div variants={itemVariants} className="space-y-4">
-                <h3 className="text-[10px] font-bold text-text-secondary uppercase tracking-[0.2em] px-2 italic">
-                  Preferences
-                </h3>
-                <motion.button
-                  whileHover={{ scale: 1.02, rotateX: 5 }}
-                  whileTap={{ scale: 0.98 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    toggleTheme();
-                  }}
-                  className="flex items-center justify-between w-full px-4 py-4 bg-bg-secondary hover:bg-border rounded-2xl text-text-primary font-bold transition-all border border-transparent shadow-sm"
-                  aria-label="Toggle theme"
-                >
-                  <div className="flex items-center gap-3">
-                    <div className="p-2 rounded-xl bg-bg-primary border border-border shadow-sm">
-                      {theme === 'light' ? <Moon className="w-5 h-5 text-primary" /> : <Sun className="w-5 h-5 text-primary" />}
-                    </div>
-                    <span>{theme === 'light' ? 'Switch to Dark Mode' : 'Switch to Light Mode'}</span>
-                  </div>
-                </motion.button>
-              </motion.div>
             </div>
 
             <motion.div 
@@ -582,6 +629,7 @@ const Header: React.FC = () => {
         )}
       </AnimatePresence>
     </header>
+  </>
   );
 };
 

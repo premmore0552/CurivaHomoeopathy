@@ -22,7 +22,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md' }) => {
         className="h-full w-auto object-contain transition-transform group-hover:scale-110"
         onError={(e) => {
           // Fallback to placeholder if image is not found
-          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=Curiva&background=C2187A&color=fff&rounded=true`;
+          (e.target as HTMLImageElement).src = `https://ui-avatars.com/api/?name=Curiva&background=16A34A&color=fff&rounded=true`;
         }}
       />
       {size !== 'xs' && (

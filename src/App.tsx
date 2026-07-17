@@ -39,18 +39,23 @@ const StudentResources = lazy(() => import('./pages/StudentResources'));
 const StudyTool = lazy(() => import('./pages/StudyTool'));
 const Stalwarts = lazy(() => import('./pages/Stalwarts'));
 const AskHomeopath = lazy(() => import('./pages/AskHomeopath'));
-const ClinicalAITools = lazy(() => import('./pages/ClinicalAITools'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Auth = lazy(() => import('./pages/Auth'));
 const MCQPractice = lazy(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazy(() => import('./pages/ClinicalGuides'));
+const DiseaseHub = lazy(() => import('./pages/DiseaseHub'));
 const SymptomChecker = lazy(() => import('./pages/SymptomChecker'));
 const HairFallGuide = lazy(() => import('./pages/HairFallGuide'));
+const Miasms = lazy(() => import('./pages/Miasms'));
+const PublicEducation = lazy(() => import('./pages/PublicEducation'));
+const CbcHandbook = lazy(() => import('./pages/CbcHandbook'));
+const ClinicalHandbook = lazy(() => import('./pages/ClinicalHandbook'));
 
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
 import PWAInstallBanner from './components/PWAInstallBanner';
 import Logo from './components/Logo';
+import QuickNav from './components/QuickNav';
 
 function LoadingScreen() {
   return (
@@ -109,6 +114,7 @@ function AppRoutes() {
       <RouteScrollToTop />
       <ScrollToTop />
       <ScrollToTopButton />
+      <QuickNav />
       <CookieConsent />
       <MedicalDisclaimerModal />
       <GuidedTour />
@@ -145,7 +151,6 @@ function AppRoutes() {
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/ask-homeopath" element={<PageWrapper><AskHomeopath /></PageWrapper>} />
-                <Route path="/clinical-ai" element={<PageWrapper><ClinicalAITools /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
@@ -181,8 +186,13 @@ function AppRoutes() {
                 <Route path="/pro-plans" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/student-resources" element={<PageWrapper><StudentResources /></PageWrapper>} />
                 <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/clinical-guides" element={<PageWrapper><ClinicalGuides /></PageWrapper>} />
+                <Route path="/clinical-guides" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
+                <Route path="/disease-hub" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
                 <Route path="/organon-philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
+                <Route path="/miasms" element={<PageWrapper><Miasms /></PageWrapper>} />
+                <Route path="/public-education" element={<PageWrapper><PublicEducation /></PageWrapper>} />
+                <Route path="/cbc-handbook" element={<PageWrapper><CbcHandbook /></PageWrapper>} />
+                <Route path="/clinical-handbook" element={<PageWrapper><ClinicalHandbook /></PageWrapper>} />
             </Routes>
           </Suspense>
         </AnimatePresence>

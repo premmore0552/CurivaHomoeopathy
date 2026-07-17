@@ -635,5 +635,179 @@ export const homeopathicFlashcards: Flashcard[] = [
     subType: "Materia Medica",
     definition: "Insupportable, burning, tearing pains in malignant boils, carbuncles, or cellulitis.",
     clinicalSignificance: "A powerful nosode prepared from anthrax poison; septicemia."
+  },
+  {
+    term: "Boger's Synoptic Key",
+    subType: "Repertory",
+    definition: "A concise repertorial work by Dr. C.M. Boger focusing on pathological generalities, clinical rubrics, and time modalities.",
+    clinicalSignificance: "Highly effective for rapid bedside prescribing when complete subjective symptoms are missing."
+  },
+  {
+    term: "Centesimal Scale",
+    subType: "Pharmacy",
+    definition: "The dilution scale introduced by Hahnemann where the first potency (1C) contains 1 part of medicine and 99 parts of vehicle (1:100).",
+    clinicalSignificance: "Denoted by 'C' or 'CH'. The most widely used potency scale globally."
+  },
+  {
+    term: "Decimal Scale",
+    subType: "Pharmacy",
+    definition: "The dilution scale introduced by Dr. Constantine Hering based on the ratio of 1 part medicine to 9 parts vehicle (1:10).",
+    clinicalSignificance: "Denoted by 'X' or 'D'. Common in low-potency physical organ therapeutics."
+  },
+  {
+    term: "Alternation of Remedies",
+    subType: "Philosophy & Organon",
+    definition: "The un-Hahnemannian practice of prescribing two remedies alternately at short intervals.",
+    clinicalSignificance: "Prohibited in classical practice (Aphorism 272) as it disrupts clean secondary action tracking."
+  },
+  {
+    term: "Intercurrent Remedy",
+    subType: "Philosophy & Organon",
+    definition: "A remedy prescribed to clear chronic miasmatic blocks, susceptibility stagnations, or constitutional drug-storing barriers.",
+    clinicalSignificance: "Often a nosode like Psorinum, Sulphur, or Thuja to restart reaction to the primary remedy."
+  },
+  {
+    term: "Boenninghausen's Repertory",
+    subType: "Repertory",
+    definition: "The Therapeutic Pocket Book, based on the doctrine of grand generalization, structured into Location, Sensation, Modality, and Concomitants.",
+    clinicalSignificance: "Allows transferring a modality from one part of the body to another to build complete symptoms."
+  },
+  {
+    term: "Hering's Law of Cure",
+    subType: "Philosophy & Organon",
+    definition: "The direction of cure: From above downwards, from within outwards, from more important to less important organs, and symptoms disappear in reverse order of appearance.",
+    clinicalSignificance: "The ultimate yardstick to distinguish genuine curative response from mere suppression."
+  },
+  {
+    term: "Vital Force",
+    subType: "Philosophy & Organon",
+    definition: "The spiritual, autocratic, dynamic, and unintelligent force that animates the physical human body in health and disease (Aphorisms 9-10).",
+    clinicalSignificance: "Diseases originate dynamically in the Vital Force, and dynamic homeopathic remedies cure through it."
+  },
+  {
+    term: "Apis Mellifica",
+    subType: "Materia Medica",
+    definition: "Prepared from the honey bee; characterized by stinging, burning pains, swelling, bag-like puffiness under eyes, and thirstlessness.",
+    clinicalSignificance: "Worse from heat and touch; better from cold applications and cool air. Prone to severe anaphylaxis."
+  },
+  {
+    term: "Lachesis Mutus",
+    subType: "Materia Medica",
+    definition: "Prepared from bushmaster snake venom; symptoms are left-sided, worse after sleep, and intolerant to any tight constriction around throat/waist.",
+    clinicalSignificance: "Prone to severe jealousy, loquacity, and hot flushes. Highly effective for menopausal disorders."
+  },
+  {
+    term: "Gelsemium Drowsiness",
+    subType: "Materia Medica",
+    definition: "The three 'D's: Dullness, Dizziness, and Drowsiness. Extreme physical weakness, muscular relaxation, and trembling.",
+    clinicalSignificance: "Anticipatory anxiety; thirstless; headache relieved by copious urination."
+  },
+  {
+    term: "Plumbum Metallicum",
+    subType: "Materia Medica",
+    definition: "Severe, violent abdominal colic radiating in all directions, with a sensation as if the navel were pulled back by a string.",
+    clinicalSignificance: "Lead poisoning symptoms: constipation with sheep-dung stools, local paralysis of extensors (wrist drop)."
+  },
+  {
+    term: "Silicea Suppuration",
+    subType: "Materia Medica",
+    definition: "The 'homeopathic lancet'. Promotes the rapid suppuration and expulsion of foreign bodies (splinters, needles) from tissues.",
+    clinicalSignificance: "Chilly, sweats on feet (highly offensive), lacks self-confidence, but highly headstrong. Worse in cold."
+  },
+  {
+    term: "Hepar Sulphur Sensitivity",
+    subType: "Materia Medica",
+    definition: "Extreme, hyper-sensitiveness to cold air, drafts, pain, and touch. Prone to easy suppuration and sour-smelling sweat.",
+    clinicalSignificance: "Patient is irritable, violent, and chilly (wants to be wrapped up to the chin). Splinter-like pains."
+  },
+  {
+    term: "Conium Maculatum",
+    subType: "Materia Medica",
+    definition: "Induration and stony hardness of glands (especially breasts and testicles) following mechanical bruising or injury.",
+    clinicalSignificance: "Characteristic ascending paralysis; photophobia; vertigo when turning over in bed."
+  },
+  {
+    term: "Phytolacca Decandra",
+    subType: "Materia Medica",
+    definition: "Prepared from poke root; intensive sore throat with a dark red or bluish appearance, pain shooting to ears on swallowing.",
+    clinicalSignificance: "Severe mastitis with stony-hard breasts; aching all over like bruises; better from cold."
+  },
+  {
+    term: "Kali Carbonicum",
+    subType: "Materia Medica",
+    definition: "Stitching pains in chest or kidneys, independent of motion; puffiness or bag-like swelling between upper eyelid and eyebrow.",
+    clinicalSignificance: "Chilly, weak-backed, highly conservative, and aggravated characteristically at 3 AM."
+  },
+  {
+    term: "Chamomilla Irritability",
+    subType: "Materia Medica",
+    definition: "Extremely sensitive, irritable, and angry state. Child demands toys only to throw them away; relieved only when carried.",
+    clinicalSignificance: "One cheek red and hot, the other pale and cold. Pains are unbearable and accompanied by numbness."
+  },
+  {
+    term: "Colocynthis Colic",
+    subType: "Materia Medica",
+    definition: "Agonizing cutting pain in the abdomen, causing the patient to bend double or press firmly against something hard for relief.",
+    clinicalSignificance: "Brought on by anger or indignation. Relief from warmth and strong physical pressure."
+  },
+  {
+    term: "Digitalis Purpurea Pulse",
+    subType: "Materia Medica",
+    definition: "Extremely slow, weak, irregular pulse, with a constant feeling as if the heart would stop beating if the patient moved.",
+    clinicalSignificance: "Prone to cardiac failure, dropsy, and bluish discoloration of skin (cyanosis)."
+  },
+  {
+    term: "Tuberculinum Bovinum",
+    subType: "Materia Medica",
+    definition: "Deep dynamic nosode; patient has a constant desire to travel, changes jobs, and catches cold very easily.",
+    clinicalSignificance: "Indicated in hereditary tubercular histories; symptoms fluctuate rapidly; rapid weight loss despite good appetite."
+  },
+  {
+    term: "Psorinum Chilly State",
+    subType: "Materia Medica",
+    definition: "Extremely chilly patient; wears a warm fur cap in summer. All excretions (sweat, stool, skin discharge) have an intensely filthy, offensive odor.",
+    clinicalSignificance: "Pessimistic, hopeless of recovery, with severe dry skin itching worse from warmth of bed."
+  },
+  {
+    term: "Graphites Constipation",
+    subType: "Materia Medica",
+    definition: "Constipation with large, knotty stools united by mucus threads. Skin is dry, rough, and oozes a sticky, honey-like gelatinous fluid.",
+    clinicalSignificance: "Suits fleshy, chilly, constipated women with delayed menses who are prone to skin cracks."
+  },
+  {
+    term: "Carbo Vegetabilis Flatulence",
+    subType: "Materia Medica",
+    definition: "The 'corpse reviver'. Extreme flatulence with upper abdominal distension, relieved by loud belching. Patient craves to be fanned rapidly.",
+    clinicalSignificance: "Coldness of skin, cold breath, and complete collapse from oxygen hunger."
+  },
+  {
+    term: "Repertory Synthesis",
+    subType: "Repertory",
+    definition: "A modern, comprehensive repertory edited by Dr. Frederik Schroyens, based on Kent's Repertory but updated with clinical additions.",
+    clinicalSignificance: "Widely used in digital homeopathy software for precise cross-referencing and structural clarity."
+  },
+  {
+    term: "Kent's Repertory",
+    subType: "Repertory",
+    definition: "The monumental work by Dr. J.T. Kent, structured hierarchically from Generals (Mind, Generals) to Particulars (Head, Eyes, Chest, etc.).",
+    clinicalSignificance: "Serves as the gold standard for constitutional repertorization in classical homeopathy."
+  },
+  {
+    term: "Boericke's Repertory",
+    subType: "Repertory",
+    definition: "A pocket clinical repertory attached to Boericke's Materia Medica, organized indexically by clinical conditions and organs.",
+    clinicalSignificance: "Extremely practical for quick, physiological or pathology-based remedy selection in acute situations."
+  },
+  {
+    term: "Miasmatic Cleansing",
+    subType: "Philosophy & Organon",
+    definition: "The clinical process of prescribing anti-miasmatic remedies to clear genetic blocks, inherited diseases, or chronic suppressions.",
+    clinicalSignificance: "Restores standard susceptibility so constitutional remedies can execute their curative action."
+  },
+  {
+    term: "External Applications",
+    subType: "Pharmacy",
+    definition: "The use of homeopathic mother tinctures or low potencies in ointments/lotions (e.g. Arnica, Calendula) on local tissues.",
+    clinicalSignificance: "Authorized only for external mechanical injuries with unbroken skin (Aphorism 285)."
   }
 ];

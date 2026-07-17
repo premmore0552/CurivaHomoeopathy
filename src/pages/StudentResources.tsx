@@ -33,7 +33,9 @@ import { universityPYQs, UniversityPYQ } from '../data/pyqs_data';
 import { getAIAPGETQuestionBank, AIAPGETQuestion } from '../data/aiapget_questions';
 
 export default function StudentResources() {
-  const [activeTab, setActiveTab] = useState<'pyqs' | 'flashcards' | 'quiz' | 'therapeutics'>('pyqs');
+  const [activeTab, setActiveTab] = useState<'pyqs' | 'flashcards' | 'quiz' | 'therapeutics' | 'subjects'>('subjects');
+  const [activeSubjectId, setActiveSubjectId] = useState<string>('organon');
+  const [activeSubjectSubTab, setActiveSubjectSubTab] = useState<'notes' | 'important' | 'viva' | 'revision'>('notes');
 
   // --- UNIVERSITY PYQS & ANSWERS MODULE ---
   const [pyqSearch, setPyqSearch] = useState('');
@@ -219,8 +221,9 @@ export default function StudentResources() {
         </div>
 
         {/* Tab Controls */}
-        <div className="flex flex-wrap gap-2 mb-10 bg-white dark:bg-gray-950 border border-border p-1.5 rounded-2xl max-w-3xl mx-auto justify-center shadow-sm">
+        <div className="flex flex-wrap gap-2 mb-10 bg-white dark:bg-gray-950 border border-border p-1.5 rounded-2xl max-w-4xl mx-auto justify-center shadow-sm">
           {[
+            { id: 'subjects', label: 'Subject-wise Study Center', icon: BookOpen },
             { id: 'pyqs', label: 'University Blueprints & Answers', icon: FileText },
             { id: 'flashcards', label: '100+ Homeopathic Flashcards', icon: Layers },
             { id: 'quiz', label: '5000+ AIAPGET MCQ Simulator', icon: Award },
@@ -1003,6 +1006,446 @@ export default function StudentResources() {
                   </div>
                 </div>
               </div>
+
+              {/* CBC HANDBOOK CALLOUT BANNER */}
+              <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 mt-8">
+                <div className="space-y-2 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-primary" /> Interactive Lab Tool
+                  </div>
+                  <h3 className="text-lg font-display font-bold text-text-primary">Complete Blood Count (CBC) Diagnostic Handbook</h3>
+                  <p className="text-xs text-text-secondary max-w-xl">
+                    Our dynamic laboratory analyzer lets you drag sliders to see real-time pathological evaluations, miasmatic trends, and homeopathic remedy matching alongside peripheral blood smear guides and BHMS viva trainers.
+                  </p>
+                </div>
+                <Link 
+                  to="/cbc-handbook" 
+                  className="px-5 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow-md shadow-primary/15 transition-all cursor-pointer"
+                >
+                  Launch CBC Analyzer <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+
+              {/* CLINICAL CONDITIONS HANDBOOK CALLOUT BANNER */}
+              <div className="bg-gradient-to-r from-primary/10 via-primary/5 to-transparent border border-primary/20 rounded-3xl p-6 md:p-8 flex flex-col md:flex-row items-center justify-between gap-6 mt-6">
+                <div className="space-y-2 text-center md:text-left">
+                  <div className="inline-flex items-center gap-2 px-2.5 py-1 bg-primary/10 text-primary rounded-full text-[10px] font-black uppercase tracking-wider">
+                    <Sparkles className="w-3.5 h-3.5 text-primary" /> Comprehensive Diagnostic Guide
+                  </div>
+                  <h3 className="text-lg font-display font-bold text-text-primary">Clinical Conditions Handbook</h3>
+                  <p className="text-xs text-text-secondary max-w-xl">
+                    Explore detailed pathophysiology, clinical presentation, chronic miasmatic mapping, and keynote homeopathic therapeutics for 15 major conditions including Diabetes, Stroke, AKI, and more.
+                  </p>
+                </div>
+                <Link 
+                  to="/clinical-handbook" 
+                  className="px-5 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-1.5 shrink-0 shadow-md shadow-primary/15 transition-all cursor-pointer"
+                >
+                  Open Clinical Handbook <ArrowRight className="w-4 h-4" />
+                </Link>
+              </div>
+            </motion.div>
+          )}
+
+          {/* TAB 5: SUBJECT-WISE STUDY CENTER */}
+          {activeTab === 'subjects' && (
+            <motion.div
+              key="subjects"
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -15 }}
+              className="space-y-8"
+            >
+              <div className="max-w-3xl mx-auto text-center space-y-2">
+                <span className="text-[10px] font-black uppercase tracking-wider text-accent">BHMS Curriculum Navigator</span>
+                <h2 className="text-2xl md:text-3xl font-display font-medium text-primary">Subject-Wise Academic Portals</h2>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Select any B.H.M.S. academic subject to review high-yield syllabus notes, critical examination questions, clinical viva-voce keynotes, and rapid revision guides.
+                </p>
+              </div>
+
+              {/* Subject Navigation Grid */}
+              <div className="flex flex-wrap gap-2.5 justify-center max-w-5xl mx-auto">
+                {[
+                  { id: "organon", label: "Organon of Medicine" },
+                  { id: "materia", label: "Materia Medica" },
+                  { id: "repertory", label: "Repertory" },
+                  { id: "pharmacy", label: "Homoeopathic Pharmacy" },
+                  { id: "anatomy", label: "Anatomy" },
+                  { id: "physiology", label: "Physiology" },
+                  { id: "pathology", label: "Pathology" },
+                  { id: "surgery", label: "Surgery" },
+                  { id: "gynecology", label: "Gynecology & Obst." },
+                  { id: "practice", label: "Practice of Medicine" }
+                ].map((subj) => (
+                  <button
+                    key={subj.id}
+                    onClick={() => {
+                      setActiveSubjectId(subj.id);
+                      setActiveSubjectSubTab('notes');
+                    }}
+                    className={`px-4 py-2.5 rounded-xl text-[11px] font-black uppercase tracking-wider border cursor-pointer transition-all ${
+                      activeSubjectId === subj.id
+                        ? "bg-primary border-primary text-white shadow-md shadow-primary/15"
+                        : "bg-white border-border text-text-secondary hover:border-primary/40 hover:text-primary"
+                    }`}
+                  >
+                    {subj.label}
+                  </button>
+                ))}
+              </div>
+
+              {/* Subject Data Container */}
+              {(() => {
+                const subjectsDB: Record<string, {
+                  name: string;
+                  notes: { title: string; desc: string }[];
+                  questions: string[];
+                  viva: { q: string; a: string }[];
+                  revision: string[];
+                }> = {
+                  organon: {
+                    name: "Organon of Medicine & Philosophy",
+                    notes: [
+                      { title: "The Mission of a Physician", desc: "Aphorism 1 establishes that the physician's high and only mission is to restore the sick to health, to cure, as it is termed. It forbids theoretical speculations on the inner mechanism of diseases." },
+                      { title: "Understanding the Vital Force", desc: "Aphorisms 9-11 define Vital Force (Dynamis) as the spirit-like force that animates the material body in health, maintaining a harmonious state. Disease is initiated solely by dynamic derangements of this vital principle." },
+                      { title: "Primary vs. Secondary Action", desc: "Aphorisms 59-65 explain that every medicine produces a primary action (the drug effect on the vital force) followed by a secondary counter-action (the reaction of the vital force, either counteractive or curative)." }
+                    ],
+                    questions: [
+                      "What is the therapeutic law of nature? Elaborate on how Hahnemann discovered it.",
+                      "Discuss the classification of chronic diseases as described in the Organon.",
+                      "Contrast classical Centesimal, Decimal, and LM scales of potentization."
+                    ],
+                    viva: [
+                      { q: "What is Aphorism 1?", a: "The physician's high and only mission is to restore the sick to health, to cure, as it is termed." },
+                      { q: "What is the difference between Aphorism 26 and Aphorism 5?", a: "Aphorism 26 details the therapeutic law of nature (a weaker dynamic affection is permanently extinguished by a stronger, similar one), while Aphorism 5 focuses on the exciting and fundamental causes of chronic diseases." },
+                      { q: "What is a Nosode?", a: "A homeopathic remedy prepared from diseased tissues, secretions, or discharges, e.g., Psorinum, Tuberculinum." }
+                    ],
+                    revision: [
+                      "Focus on Aphorisms 1-18 for the foundational laws of Vital Force.",
+                      "Review Aphorisms 72-82 for the complete classification of Acute and Chronic miasms.",
+                      "Memorize the rules of drug proving in human volunteers (Aphorisms 105-145)."
+                    ]
+                  },
+                  materia: {
+                    name: "Homoeopathic Materia Medica",
+                    notes: [
+                      { title: "The Concept of Polycrest Remedies", desc: "Polychrests are deep, broad-acting remedies that have affinity for multiple physiological systems (e.g., Sulphur, Lycopodium, Calc-carb). They cover a wide spectrum of physical, mental, and constitutional symptoms." },
+                      { title: "Vegetable vs. Mineral Kingdoms", desc: "Vegetable remedies often show high sensitivity and rapid, active symptom shifts (e.g., Pulsatilla, Aconite). Mineral remedies tend to show slower, deeper, structural, or metabolic patterns (e.g., Silicea, Natrum Mur)." }
+                    ],
+                    questions: [
+                      "Discuss the physical generals, mental keynotes, and modalities of Lycopodium Clavatum.",
+                      "Differentiate between Apis Mellifica and Lachesis Mutus in acute inflammatory conditions.",
+                      "Elaborate on the 'triad of burning remedies' in Homoeopathic Materia Medica."
+                    ],
+                    viva: [
+                      { q: "What is the key difference between Arsenicum and Phosphorus in thirst?", a: "Arsenicum craves warm sips of water frequently, whereas Phosphorus craves large quantities of ice-cold water, which is vomited as soon as it becomes warm in the stomach." },
+                      { q: "Name three remedies with a prominent 'left-to-right' direction of symptoms.", a: "Lachesis, Sabadilla, and Sepia." },
+                      { q: "What is the typical thermal relationship of Pulsatilla?", a: "Pulsatilla is a highly warm/hot remedy; the patient is aggravated by a warm room and relieved by open, cool air." }
+                    ],
+                    revision: [
+                      "Study the 'Triad of Restlessness' remedies: Aconite, Arsenicum, and Rhus Tox.",
+                      "Understand the core constitutional features of the 'Calc-carb, Lycopodium, Sulphur' trio.",
+                      "Review Allen's Keynotes and Boericke's Materia Medica for quick comparative study."
+                    ]
+                  },
+                  repertory: {
+                    name: "Homoeopathic Repertory & Case Taking",
+                    notes: [
+                      { title: "The Art of Case Taking", desc: "Guided by Aphorisms 83-104. The practitioner must listen without interrupting, write down symptoms exactly as expressed, and observe objective signs without leading the patient." },
+                      { title: "Symptom Hierarchy", desc: "Mental generals are ranked highest, followed by physical generals (sleep, thirst, appetite, thermals), and lastly, particular localized symptoms." }
+                    ],
+                    questions: [
+                      "Detail the philosophical background and layout of Kent's Repertory.",
+                      "What is Boenninghausen's Therapeutic Pocket Book concept of complete symptoms?",
+                      "Differentiate between the structural arrangement of Kent's, Boger's, and Synthesis repertories."
+                    ],
+                    viva: [
+                      { q: "What is a rubric?", a: "A rubric is a standardized symptom listed in a repertory, followed by the group of homeopathic remedies associated with it." },
+                      { q: "What does a complete symptom contain?", a: "According to Boenninghausen, a complete symptom must include Location, Sensation, Modality, and Concomitant." },
+                      { q: "Define Concomitant Symptom.", a: "A symptom that occurs alongside the main complaint but has no direct pathological or anatomical connection to it." }
+                    ],
+                    revision: [
+                      "Memorize the 37 chapters of Kent's Repertory in alphabetical/structural order.",
+                      "Review the grading of remedies: 3 points (Bold), 2 points (Italics), 1 point (Roman).",
+                      "Practice repertorizing cases with multiple mental generals and modalities."
+                    ]
+                  },
+                  pharmacy: {
+                    name: "Homoeopathic Pharmacy & Pharmacopoeia",
+                    notes: [
+                      { title: "Preparation of Mother Tinctures", desc: "Mother tinctures (Q) are prepared by maceration or percolation of raw botanical materials in strong purified alcohol, following strict pharmacopoeia regulations." },
+                      { title: "Trituration Process", desc: "Used for preparing insoluble dry substances like metals (e.g., Aurum, Silicea) by rubbing them in a porcelain mortar with lactose for a specific duration to reduce molecular size." }
+                    ],
+                    questions: [
+                      "Describe the complete process of preparation of Decimal scale potencies.",
+                      "Discuss the difference between German (GHP), United States (HPUS), and Indian (HPI) pharmacopoeias.",
+                      "Define and explain drug proving, drug standardization, and drug dynamic action."
+                    ],
+                    viva: [
+                      { q: "What is Succussion?", a: "The vigorous downward strokes against a resilient leather pad used during serial dilution to potentize soluble remedies." },
+                      { q: "What vehicle is used for trituration?", a: "Saccharum Lactis (Milk Sugar or Lactose)." },
+                      { q: "Define Placebo in Homoeopathic clinical dispensing.", a: "Non-medicinal sugar globules or lactose pills dispensed to maintain patient compliance while the previous remedy's action continues." }
+                    ],
+                    revision: [
+                      "Learn the rules of prescription writing (Inscription, Subscription, Signatura).",
+                      "Understand the sources of homeopathic drugs: Plant, Animal, Mineral, Nosodes, Sarcodes, Imponderabilia.",
+                      "Memorize the legal drug licenses and legislative protocols for dispensing pharmacies."
+                    ]
+                  },
+                  anatomy: {
+                    name: "Human Anatomy",
+                    notes: [
+                      { title: "Coronary Blood Supply", desc: "The heart is supplied by the Left and Right Coronary Arteries, which arise from the ascending aorta. Obstruction leads to myocardial ischemia or infarction." },
+                      { title: "The Portal Venous System", desc: "Formed by the union of the Superior Mesenteric and Splenic veins behind the neck of the pancreas. It carries nutrient-rich blood to the liver before reaching systemic circulation." }
+                    ],
+                    questions: [
+                      "Describe the origin, course, relations, and branches of the Sciatic Nerve.",
+                      "Detail the anatomical structures passing through the inguinal canal in males.",
+                      "Discuss the boundaries, contents, and clinical significance of the Femoral Triangle."
+                    ],
+                    viva: [
+                      { q: "Which nerve is known as the musician's nerve?", a: "The Ulnar Nerve, because it controls fine movements of the fingers." },
+                      { q: "What is the weight of a normal adult liver?", a: "Approximately 1.2 to 1.5 kilograms." },
+                      { q: "Name the muscles forming the Rotator Cuff.", a: "Supraspinatus, Infraspinatus, Teres Minor, and Subscapularis (SITS)." }
+                    ],
+                    revision: [
+                      "Review cranial nerves (III, VII, IX, X) and their corresponding clinical palsies.",
+                      "Study the pleural boundaries of lungs and structures of the mediastinum.",
+                      "Sketch the arterial supply of the brain (Circle of Willis)."
+                    ]
+                  },
+                  physiology: {
+                    name: "Human Physiology & Biochemistry",
+                    notes: [
+                      { title: "Glomerular Filtration Rate (GFR)", desc: "The volume of fluid filtered from the renal glomerular capillaries into the Bowman's capsule per unit time. Normal GFR is approximately 125 ml/min." },
+                      { title: "The Cardiac Cycle Phases", desc: "Divided into Systole (isovolumetric contraction, ventricular ejection) and Diastole (isovolumetric relaxation, rapid filling, atrial systole), taking roughly 0.8 seconds." }
+                    ],
+                    questions: [
+                      "Discuss the oxygen-hemoglobin dissociation curve and factors shifting it to the right.",
+                      "Detail the mechanism of neuromuscular transmission at the skeletal neuromuscular junction.",
+                      "Elaborate on the hormonal regulation of blood calcium levels by PTH and Calcitonin."
+                    ],
+                    viva: [
+                      { q: "What is the normal pH of human blood?", a: "Strictly regulated between 7.35 and 7.45." },
+                      { q: "Which hormone is responsible for the ejection of milk?", a: "Oxytocin, secreted by the posterior pituitary." },
+                      { q: "What is the primary pacemaker of the human heart?", a: "The Sinoatrial (SA) Node, located in the right atrium." }
+                    ],
+                    revision: [
+                      "Study the cardiac conduction pathway and normal ECG wave relationships.",
+                      "Review digestion and absorption mechanisms of lipids in the small intestine.",
+                      "Review the blood coagulation cascade (Intrinsic, Extrinsic, and Common pathways)."
+                    ]
+                  },
+                  pathology: {
+                    name: "Pathology & Microbiology",
+                    notes: [
+                      { title: "Infarction and Coagulative Necrosis", desc: "A type of accidental cell death caused by ischemia or infarction. The structural outline of the tissue is preserved for several days while protein denaturation occurs." },
+                      { title: "Pathogenesis of Lobar Pneumonia", desc: "Characterized by four distinct stages: Congestion (Day 1-2), Red Hepatization (Day 3-4), Gray Hepatization (Day 5-7), and Resolution (Day 8-21)." }
+                    ],
+                    questions: [
+                      "Describe the steps of acute inflammation, including vascular changes and cellular events.",
+                      "Discuss the etiology, laboratory diagnosis, and complications of Typhoid Fever.",
+                      "Detail the differences between benign and malignant neoplasms."
+                    ],
+                    viva: [
+                      { q: "What are the hallmarks of chronic inflammation?", a: "Infiltration with mononuclear cells (macrophages, lymphocytes, plasma cells), tissue destruction, and attempts at healing (angiogenesis, fibrosis)." },
+                      { q: "Which immunoglobulins are involved in Type I Hypersensitivity?", a: "IgE antibodies, which bind to mast cells and trigger histamine release." },
+                      { q: "What is the causative agent of Tuberculosis?", a: "Mycobacterium tuberculosis, an acid-fast bacillus." }
+                    ],
+                    revision: [
+                      "Review the microscopic difference between apoptosis and necrosis.",
+                      "Understand cellular adaptation patterns: Hypertrophy, Hyperplasia, Atrophy, Metaplasia, Dysplasia.",
+                      "Review serological tests for enteric fever (Widal test) and rheumatoid factor."
+                    ]
+                  },
+                  surgery: {
+                    name: "Surgery & Systemic Therapeutics",
+                    notes: [
+                      { title: "Classification of Appendicitis", desc: "Begins as acute focal appendicitis, progressing to gangrenous, suppurative, and perforated appendicitis if surgical intervention is delayed." },
+                      { title: "The Glasgow Coma Scale (GCS)", desc: "A clinical scale used to assess a patient's level of consciousness after head injury. It scores Eye (1-4), Verbal (1-5), and Motor (1-6) responses (GCS 3 to 15)." }
+                    ],
+                    questions: [
+                      "Discuss the clinical features, etiology, diagnosis, and surgical management of acute Cholecystitis.",
+                      "Describe the pathophysiology, staging, and diagnostic approach of breast carcinomas.",
+                      "Detail the fluid resuscitation protocol (Parkland Formula) in major burn patients."
+                    ],
+                    viva: [
+                      { q: "What is McBurney's Point?", a: "A point located one-third of the distance from the anterior superior iliac spine (ASIS) to the umbilicus; site of maximum tenderness in acute appendicitis." },
+                      { q: "What is the classic triad of intestinal obstruction?", a: "Abdominal pain, distension, vomiting, and absolute constipation." },
+                      { q: "Define direct vs. indirect inguinal hernia.", a: "Direct hernias protrude through Hesselbach's triangle medial to inferior epigastric vessels; indirect hernias pass through the deep inguinal ring lateral to those vessels." }
+                    ],
+                    revision: [
+                      "Review postoperative wound healing stages and classification of shock (hypovolemic, septic, cardiogenic).",
+                      "Understand surgical asepsis, sterilization techniques, and basic anesthetic agents.",
+                      "Study clinical signs of acute pancreatitis (Cullen's sign, Grey Turner's sign)."
+                    ]
+                  },
+                  gynecology: {
+                    name: "Gynecology & Obstetrics",
+                    notes: [
+                      { title: "Phases of the Menstrual Cycle", desc: "Consists of the Follicular (proliferative) phase, ovulation triggered by LH surge, and the Luteal (secretory) phase driven by progesterone." },
+                      { title: "Preeclampsia Diagnostic Criteria", desc: "New-onset hypertension (BP >= 140/90) after 20 weeks of gestation accompanied by proteinuria, platelet deficiency, or renal/hepatic impairment." }
+                    ],
+                    questions: [
+                      "Describe the stages of normal labor and active management of the third stage.",
+                      "Discuss the clinical features, diagnostic workup, and complications of Polycystic Ovarian Syndrome (PCOS).",
+                      "Detail the etiology, symptoms, and emergency management of Ectopic Pregnancy rupture."
+                    ],
+                    viva: [
+                      { q: "What is the duration of a normal pregnancy?", a: "Approximately 280 days or 40 weeks from the first day of the last menstrual period (LMP)." },
+                      { q: "What is Placenta Previa?", a: "A condition where the placenta implants in the lower uterine segment, partially or completely covering the internal cervical os, causing painless bleeding." },
+                      { q: "Name three major symptoms of Endometriosis.", a: "Dysmenorrhea, dyspareunia, and chronic pelvic pain." }
+                    ],
+                    revision: [
+                      "Review physiological maternal changes during normal pregnancy.",
+                      "Memorize the APGAR score system for evaluating newborn infants at 1 and 5 minutes.",
+                      "Study common homeopathic therapeutics for labor arrest and severe postpartum hemorrhage."
+                    ]
+                  },
+                  practice: {
+                    name: "Practice of Medicine & Therapeutics",
+                    notes: [
+                      { title: "Type 2 Diabetes Mellitus Patophysiology", desc: "Characterized by insulin resistance in skeletal muscles and adipose tissue combined with relative beta-cell secretory defect, leading to chronic hyperglycemia." },
+                      { title: "Management of Essential Hypertension", desc: "Sustained elevation of systemic arterial pressure (>= 130/80) requiring lifestyle modifications and systemic screening for target organ damage (retina, kidneys, brain)." }
+                    ],
+                    questions: [
+                      "Discuss the clinical features, diagnosis, classification, and homeopathic management of Bronchial Asthma.",
+                      "Describe the pathophysiology, diagnostic criteria, and management of Rheumatic Heart Disease.",
+                      "Detail the clinical approach, staging, and lab findings in Chronic Kidney Disease (CKD)."
+                    ],
+                    viva: [
+                      { q: "What is the clinical presentation of Myocardial Infarction?", a: "Severe, crushing retrosternal chest pain radiating to left arm/jaw, unrelieved by rest or nitrites, accompanied by diaphoresis and dyspnea." },
+                      { q: "What are the key diagnostic features of Pulmonary Tuberculosis?", a: "Chronic cough for over 2 weeks, hemoptysis, night sweats, low-grade evening fever, weight loss, and acid-fast bacilli on sputum smear." },
+                      { q: "Define Asthma-COPD Overlap Syndrome.", a: "A clinical syndrome characterized by persistent airflow limitation with several features associated with both asthma and COPD." }
+                    ],
+                    revision: [
+                      "Understand the clinical interpretation of liver function tests and renal clearance tests.",
+                      "Review the stages of heart failure (NYHA classification) and acute pulmonary edema signs.",
+                      "Practice matching clinical symptoms with deep antipsoric and antisycotic polychrest remedies."
+                    ]
+                  }
+                };
+
+                const currentSubject = subjectsDB[activeSubjectId] || subjectsDB.organon;
+
+                return (
+                  <div className="bg-white dark:bg-gray-950 border border-border rounded-[2.5rem] p-8 md:p-12 shadow-soft space-y-8 max-w-5xl mx-auto">
+                    {/* Header */}
+                    <div className="border-b border-border/60 pb-6">
+                      <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">
+                        Active Syllabus Module
+                      </span>
+                      <h3 className="text-xl md:text-2xl font-display font-bold text-primary mt-1">
+                        {currentSubject.name}
+                      </h3>
+                    </div>
+
+                    {/* Sub Tab Buttons */}
+                    <div className="flex gap-2.5 border-b border-border/40 pb-4 max-w-lg">
+                      {[
+                        { id: 'notes', label: 'High-Yield Notes' },
+                        { id: 'important', label: 'Exam Questions' },
+                        { id: 'viva', label: 'Viva-Voce Keys' },
+                        { id: 'revision', label: 'Revision Guide' }
+                      ].map((subTab) => (
+                        <button
+                          key={subTab.id}
+                          onClick={() => setActiveSubjectSubTab(subTab.id as any)}
+                          className={`px-3 py-1.5 rounded-lg text-[10px] font-black uppercase tracking-wider cursor-pointer transition-colors ${
+                            activeSubjectSubTab === subTab.id
+                              ? "bg-primary/10 text-primary"
+                              : "text-text-secondary hover:text-primary hover:bg-bg-secondary"
+                          }`}
+                        >
+                          {subTab.label}
+                        </button>
+                      ))}
+                    </div>
+
+                    {/* Sub Tab Viewport */}
+                    <div className="min-h-[250px] pt-4">
+                      {/* Sub-tab 1: Notes */}
+                      {activeSubjectSubTab === 'notes' && (
+                        <div className="space-y-6">
+                          {currentSubject.notes.map((note, i) => (
+                            <div key={i} className="p-6 bg-bg-secondary border border-border/50 rounded-2xl space-y-2">
+                              <h4 className="text-sm font-black text-primary uppercase tracking-tight flex items-center gap-2">
+                                <span className="w-5 h-5 rounded-full bg-primary/10 text-primary flex items-center justify-center font-bold text-[10px] shrink-0">
+                                  {i + 1}
+                                </span>
+                                {note.title}
+                              </h4>
+                              <p className="text-xs md:text-sm text-text-secondary leading-relaxed pl-7">
+                                {note.desc}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Sub-tab 2: Important Questions */}
+                      {activeSubjectSubTab === 'important' && (
+                        <div className="space-y-4">
+                          <p className="text-xs text-text-tertiary italic font-medium mb-2">
+                            Highly repeating questions in major BHMS University examination papers:
+                          </p>
+                          {currentSubject.questions.map((q, i) => (
+                            <div key={i} className="p-5 bg-white dark:bg-zinc-900 border border-border rounded-xl flex items-start gap-4">
+                              <div className="p-2 bg-red-500/10 text-red-600 rounded-lg text-xs font-black uppercase tracking-wider">
+                                Essay Q
+                              </div>
+                              <p className="text-xs md:text-sm font-bold text-text-primary mt-1">
+                                {q}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Sub-tab 3: Viva Voce */}
+                      {activeSubjectSubTab === 'viva' && (
+                        <div className="space-y-6">
+                          {currentSubject.viva.map((v, i) => (
+                            <div key={i} className="space-y-2 border-l-2 border-accent pl-5">
+                              <span className="text-[10px] font-black text-accent uppercase tracking-widest block">
+                                Examiner Question {i + 1}
+                              </span>
+                              <h5 className="text-xs md:text-sm font-bold text-text-primary">
+                                "{v.q}"
+                              </h5>
+                              <p className="text-xs text-text-secondary italic font-serif leading-relaxed">
+                                <strong className="text-primary not-italic font-sans font-bold block mb-1">Model Student Answer:</strong>
+                                {v.a}
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      )}
+
+                      {/* Sub-tab 4: Revision Guide */}
+                      {activeSubjectSubTab === 'revision' && (
+                        <div className="p-6 bg-[#10B981]/5 border border-[#10B981]/15 rounded-2xl space-y-4">
+                          <div className="flex items-center gap-2">
+                            <Sparkles className="w-5 h-5 text-[#10B981] animate-pulse" />
+                            <h4 className="text-sm font-black text-[#10B981] uppercase tracking-wider">
+                              Topic-wise High Yield Revision Checklist
+                            </h4>
+                          </div>
+                          <ul className="space-y-3 pl-1">
+                            {currentSubject.revision.map((rev, i) => (
+                              <li key={i} className="flex items-start gap-3 text-xs md:text-sm text-text-secondary leading-relaxed">
+                                <CheckCircle className="w-4 h-4 text-[#10B981] shrink-0 mt-0.5" />
+                                <span>{rev}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                );
+              })()}
             </motion.div>
           )}
 

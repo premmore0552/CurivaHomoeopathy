@@ -27,6 +27,241 @@ import { Helmet } from 'react-helmet-async';
 // Removed old aphorisms import to use full organonData structure
 import { organonData, OrganonAphorism } from '../data/organon_data';
 import { prefacesData, westernPhilosophyData } from '../data/prefacesData';
+import { getProfessorLecture } from '../data/professor_lectures';
+
+const getAphorismStudyAid = (id: number) => {
+  const aids: Record<number, { simplified: string; clinical: string; exam: string }> = {
+    1: {
+      simplified: "The physician's sole duty is to heal sick people, not to waste time on speculative theories about disease inner mechanisms.",
+      clinical: "Focus on observable symptom patterns and clinical outcomes rather than speculative diagnostic labels.",
+      exam: "Essential five-mark question. Contrast 'Mission' (acting to cure) with theoretical 'speculative systems'."
+    },
+    2: {
+      simplified: "A perfect cure must be rapid, gentle, permanent, and carried out through clear, logical principles.",
+      clinical: "A guide for safe, non-violent therapeutics. If a treatment causes severe secondary aggravations, it fails the 'gentle' requirement.",
+      exam: "Memorize the exact definition of the highest ideal of cure. Crucial for first-year BHMS exams."
+    },
+    3: {
+      simplified: "A true practitioner must possess clear knowledge of: disease indications, curative drug powers, exact dosage, and obstacles to recovery.",
+      clinical: "This aphorism outlines the complete clinical process from history-taking to remedy selection and long-term management.",
+      exam: "Most common 10-mark essay question. Draw a flowchart connecting knowledge of disease, knowledge of medicine, and application of the two."
+    },
+    4: {
+      simplified: "The physician is also a preserver of health by understanding what causes disease and how to keep healthy people well.",
+      clinical: "Emphasizes hygiene, nutrition, stress management, and preventive constitutional care.",
+      exam: "Short-note question. Relates closely to Hahnemann's views on sanitation and epidemics."
+    },
+    5: {
+      simplified: "Identify exciting causes for acute complaints, and fundamental causes (which are usually chronic miasms) for chronic disease.",
+      clinical: "Mandates deep constitutional history-taking to map chronic hereditary/miasmatic tendencies.",
+      exam: "Discuss exciting vs. fundamental cause. Crucial for introducing the chronic miasms theory."
+    },
+    6: {
+      simplified: "The physician must be an unprejudiced observer, recording only changes in mind and body perceived through the senses.",
+      clinical: "Do not let preconceived diagnosis labels blind you to the peculiar symptom portrait of the patient.",
+      exam: "What makes an observer 'unprejudiced'? Explain the role of the senses and the danger of speculative pathology."
+    }
+  };
+
+  return aids[id] || {
+    simplified: `Aphorism §${id} clarifies the detailed administrative and scientific rules of homeopathic practice, expanding on Hahnemann's classical system.`,
+    clinical: "Apply this aphorism to ensure precise case-taking, dosage repeating, or dynamic drug testing.",
+    exam: `Focus on the connection between this paragraph and Hahnemann's overarching laws of simillimum.`
+  };
+};
+
+const ProfessorMasterclassPanel = ({ 
+  id, 
+  onNavigateToAphorism 
+}: { 
+  id: number; 
+  onNavigateToAphorism: (relId: number) => void; 
+}) => {
+  const lecture = getProfessorLecture(id);
+  const aph = organonData.find(a => a.id === id);
+  const originalText = aph?.versions[0]?.content || "Original text available in standard edition.";
+
+  return (
+    <div className="space-y-10">
+      {/* SEO Preview Panel */}
+      <div className="p-6 bg-primary/[0.02] border border-primary/10 rounded-3xl space-y-3">
+        <div className="flex items-center gap-2 text-primary">
+          <Globe className="w-4 h-4 text-primary animate-pulse" />
+          <span className="text-[10px] font-black uppercase tracking-widest text-primary">SEO Metadata & Google Search Preview</span>
+        </div>
+        <div className="bg-white dark:bg-[#121214] p-5 rounded-2xl border border-border shadow-inner max-w-2xl">
+          <div className="text-[#1a0dab] dark:text-[#8ab4f8] text-lg font-medium hover:underline cursor-pointer font-sans leading-snug">
+            {lecture.seoTitle}
+          </div>
+          <div className="text-[#006621] dark:text-[#34a853] text-xs font-sans mt-0.5 flex items-center gap-1">
+            <span>https://curiva.edu/organon/aphorism-{id}</span>
+            <span className="text-[8px] border border-emerald-500/30 px-1 rounded uppercase font-black text-emerald-600 scale-90">SEO Friendly</span>
+          </div>
+          <p className="text-[#4d5156] dark:text-[#bdc1c6] text-xs font-sans mt-1.5 leading-relaxed">
+            {lecture.metaDesc}
+          </p>
+        </div>
+      </div>
+
+      {/* Hero Header */}
+      <div className="flex items-start justify-between border-b border-border pb-6">
+        <div>
+          <span className="text-[10px] font-black uppercase tracking-[0.25em] text-accent">BHMS Curriculum Masterclass</span>
+          <h3 className="text-3xl font-display font-black text-primary mt-1 flex items-center gap-3">
+            <span className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center font-serif italic text-lg shadow-md shrink-0">§{id}</span>
+            Professor's Lecture Series
+          </h3>
+        </div>
+        <div className="flex flex-wrap gap-1.5 justify-end max-w-xs md:max-w-md">
+          {lecture.importantConcepts.map((concept) => (
+            <span 
+              key={concept} 
+              className="px-3 py-1 bg-primary/10 text-primary border border-primary/15 rounded-full text-[9px] font-black uppercase tracking-wider shadow-sm"
+            >
+              {concept}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* Original Aphorism */}
+      <div className="space-y-3">
+        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary italic flex items-center gap-2">
+          <Quote className="w-3.5 h-3.5 text-primary" /> Verbatim Original Text (6th Edition)
+        </h4>
+        <div className="p-8 bg-primary/5 rounded-[2.5rem] border border-primary/10 italic font-serif text-lg md:text-xl leading-relaxed text-text-secondary text-justify relative">
+          <Quote className="absolute top-6 left-6 w-12 h-12 text-primary/5 pointer-events-none" />
+          "{originalText}"
+          {aph?.versions[0]?.footnotes && aph.versions[0].footnotes.length > 0 && (
+            <div className="mt-6 pt-6 border-t border-primary/10 space-y-3">
+              {aph.versions[0].footnotes.map((fn) => (
+                <div key={fn.id} className="text-xs text-text-secondary/70 bg-bg-secondary/50 p-4 rounded-xl border border-border/50">
+                  <strong className="text-primary mr-1">Footnote {fn.id}:</strong> {fn.text}
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Grid Layout for Explanations */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Simple Explanation */}
+        <div className="p-8 bg-amber-50/40 dark:bg-amber-950/10 border border-amber-200/50 dark:border-amber-900/30 rounded-[2.5rem] space-y-4">
+          <h4 className="text-xs font-black uppercase tracking-wider text-amber-800 dark:text-amber-400 flex items-center gap-2">
+            <Book className="w-4 h-4" /> Simplified Explanation
+          </h4>
+          <p className="text-sm md:text-base text-text-secondary leading-relaxed font-serif italic">
+            {lecture.simpleExplanation}
+          </p>
+        </div>
+
+        {/* Concept Explained Box */}
+        {lecture.conceptExplained && (
+          <div className="p-8 bg-[#10B981]/5 border border-[#10B981]/15 rounded-[2.5rem] space-y-4">
+            <div className="flex items-center gap-2">
+              <Sparkles className="w-4.5 h-4.5 text-[#10B981] animate-pulse" />
+              <h4 className="text-xs font-black text-[#10B981] uppercase tracking-wider">
+                Concept Explained: {lecture.conceptExplained.concept}
+              </h4>
+            </div>
+            <div className="space-y-3">
+              <p className="text-xs text-text-secondary leading-relaxed">
+                <strong className="text-primary uppercase tracking-tight text-[9px] font-black block">Core Meaning:</strong>
+                {lecture.conceptExplained.simplified}
+              </p>
+              <p className="text-xs text-text-secondary leading-relaxed italic">
+                <strong className="text-emerald-600 uppercase tracking-tight text-[9px] font-black block not-italic">Everyday Analogy:</strong>
+                {lecture.conceptExplained.analogy}
+              </p>
+              <div className="p-3.5 bg-emerald-500/10 rounded-xl border border-emerald-500/20">
+                <span className="text-[9px] font-black uppercase tracking-widest text-emerald-600 block mb-1">Visual Learning Tip:</span>
+                <p className="text-[11px] text-text-secondary font-medium leading-relaxed">
+                  {lecture.conceptExplained.visualSuggestion}
+                </p>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* Detailed Understanding */}
+      <div className="space-y-4">
+        <h4 className="text-[10px] font-black uppercase tracking-[0.3em] text-text-secondary italic flex items-center gap-2">
+          <Info className="w-3.5 h-3.5 text-primary" /> Professor's Detailed Commentary
+        </h4>
+        <div className="prose prose-lg max-w-none text-text-secondary leading-relaxed text-justify font-sans bg-bg-secondary p-8 rounded-[2.5rem] border border-border">
+          <p>{lecture.detailedUnderstanding}</p>
+        </div>
+      </div>
+
+      {/* Practical and Clinical */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="p-8 bg-blue-50/30 dark:bg-blue-950/10 border border-blue-200/50 dark:border-blue-900/20 rounded-[2.5rem] space-y-3">
+          <span className="text-[9px] font-black uppercase tracking-wider text-blue-600 block">Clinical Importance</span>
+          <p className="text-xs md:text-sm text-text-secondary leading-relaxed font-medium">
+            {lecture.clinicalRelevance}
+          </p>
+        </div>
+        <div className="p-8 bg-purple-50/30 dark:bg-purple-950/10 border border-purple-200/50 dark:border-purple-900/20 rounded-[2.5rem] space-y-3">
+          <span className="text-[9px] font-black uppercase tracking-wider text-purple-600 block">Practical Example</span>
+          <p className="text-xs md:text-sm text-text-secondary leading-relaxed italic font-serif">
+            {lecture.practicalExample}
+          </p>
+        </div>
+      </div>
+
+      {/* Key Takeaways & Exam Notes */}
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        {/* Key Takeaways */}
+        <div className="p-8 bg-emerald-50/20 dark:bg-emerald-950/10 border border-emerald-200/40 dark:border-emerald-900/20 rounded-[2.5rem] space-y-4">
+          <h4 className="text-xs font-black uppercase tracking-wider text-emerald-800 dark:text-emerald-400 flex items-center gap-2">
+            <LucideCheckCircle className="w-4 h-4 text-emerald-500" /> Key Takeaways
+          </h4>
+          <ul className="space-y-3">
+            {lecture.keyTakeaways.map((takeaway, index) => (
+              <li key={index} className="flex items-start gap-3 text-xs md:text-sm text-text-secondary leading-relaxed">
+                <span className="w-5 h-5 rounded-full bg-emerald-500/10 text-emerald-600 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                  {index + 1}
+                </span>
+                <span>{takeaway}</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        {/* Examination Notes */}
+        <div className="p-8 bg-red-50/30 dark:bg-red-950/10 border border-red-200/50 dark:border-red-900/20 rounded-[2.5rem] space-y-4">
+          <h4 className="text-xs font-black uppercase tracking-wider text-red-800 dark:text-red-400 flex items-center gap-2">
+            <Award className="w-4 h-4 text-red-500" /> BHMS Examination Focus
+          </h4>
+          <p className="text-xs md:text-sm text-text-secondary leading-relaxed font-semibold bg-white dark:bg-[#15151a] p-5 rounded-2xl border border-red-500/15 border-l-4 border-l-red-500 shadow-sm">
+            {lecture.examNotes}
+          </p>
+        </div>
+      </div>
+
+      {/* Related Aphorisms mapping */}
+      {lecture.relatedIds.length > 0 && (
+        <div className="pt-8 border-t border-border">
+          <h5 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-6 italic">Relational Node Navigation</h5>
+          <div className="flex flex-wrap gap-3">
+            {lecture.relatedIds.map(relId => (
+              <button
+                key={relId}
+                onClick={() => onNavigateToAphorism(relId)}
+                className="px-6 py-3.5 bg-bg-secondary border border-border hover:border-primary rounded-2xl flex items-center gap-3 transition-all group cursor-pointer shadow-sm hover:shadow-md"
+              >
+                <Network className="w-4 h-4 text-text-tertiary group-hover:text-primary transition-colors" />
+                <span className="text-[10px] font-black text-text-primary">Study Related Aphorism §{relId}</span>
+              </button>
+            ))}
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
 
 const AphorismItem = ({ 
   aphorism, 
@@ -38,6 +273,7 @@ const AphorismItem = ({
   onToggle: () => void; 
 }) => {
   const [activeVersion, setActiveVersion] = useState(0);
+  const aid = getAphorismStudyAid(aphorism.id);
 
   return (
     <div className={`border rounded-3xl overflow-hidden mb-4 bg-bg-secondary group transition-all ${isOpen ? 'border-primary shadow-xl ring-4 ring-primary/5' : 'border-border hover:border-primary/30'}`}>
@@ -92,6 +328,28 @@ const AphorismItem = ({
                 <p className="text-lg text-text-secondary leading-relaxed font-serif italic">
                   {aphorism.versions[activeVersion]?.content}
                 </p>
+
+                {/* Highly Polished Academic Study Aid Panel */}
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4 pt-6 border-t border-border">
+                  <div className="p-4 bg-primary/5 rounded-2xl border border-primary/10">
+                    <span className="text-[9px] font-black uppercase tracking-wider text-primary block mb-1">Simplified Explanation</span>
+                    <p className="text-xs text-text-secondary leading-relaxed font-medium">
+                      {aid.simplified}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-accent/5 rounded-2xl border border-accent/10">
+                    <span className="text-[9px] font-black uppercase tracking-wider text-accent block mb-1">Clinical Importance</span>
+                    <p className="text-xs text-text-secondary leading-relaxed font-medium">
+                      {aid.clinical}
+                    </p>
+                  </div>
+                  <div className="p-4 bg-emerald-500/5 rounded-2xl border border-emerald-500/10">
+                    <span className="text-[9px] font-black uppercase tracking-wider text-emerald-600 block mb-1">Examination Notes</span>
+                    <p className="text-xs text-text-secondary leading-relaxed font-medium">
+                      {aid.exam}
+                    </p>
+                  </div>
+                </div>
 
                 {aphorism.versions[activeVersion]?.footnotes.length > 0 && (
                   <div className="space-y-4 pt-6 border-t border-border">
@@ -386,33 +644,10 @@ const AphorismTree = () => {
                     </div>
                     
                     {organonData.find(a => a.id === selectedId) ? (
-                      <div className="space-y-10">
-                         <div className="prose prose-2xl max-w-none">
-                            <AphorismItem 
-                              aphorism={organonData.find(a => a.id === selectedId)!} 
-                              isOpen={true}
-                              onToggle={() => setSelectedId(null)}
-                            />
-                         </div>
-
-                         {organonData.find(a => a.id === selectedId)?.relatedIds && (
-                           <div className="pt-10 border-t border-border">
-                              <h5 className="text-[10px] font-black uppercase tracking-[0.3em] text-primary mb-6 italic">Relational Node Mapping</h5>
-                              <div className="flex flex-wrap gap-4">
-                                {organonData.find(a => a.id === selectedId)?.relatedIds?.map(relId => (
-                                  <button
-                                    key={relId}
-                                    onClick={() => setSelectedId(relId)}
-                                    className="px-6 py-3 bg-bg-primary border border-border rounded-2xl flex items-center gap-3 hover:border-primary transition-all group"
-                                  >
-                                    <Network className="w-4 h-4 text-text-tertiary group-hover:text-primary transition-colors" />
-                                    <span className="text-[10px] font-black text-text-primary">Aphorism §{relId}</span>
-                                  </button>
-                                ))}
-                              </div>
-                           </div>
-                         )}
-                      </div>
+                      <ProfessorMasterclassPanel 
+                        id={selectedId} 
+                        onNavigateToAphorism={(relId) => scrollToAphorism(relId)} 
+                      />
                     ) : (
                       <div className="space-y-8">
                         <h4 className="text-4xl font-display font-black text-text-primary italic tracking-tight">Logical mapping pending.</h4>
