@@ -298,7 +298,7 @@ export default function Miasms() {
             {/* Column 1 & 2: Main Info */}
             <div className="lg:col-span-2 space-y-8">
               {/* Core summary card */}
-              <div className={`p-8 md:p-12 bg-white dark:bg-zinc-950 border border-border rounded-[3rem] shadow-soft relative overflow-hidden bg-gradient-to-br ${activeMiasm.bgGrad}`}>
+              <div className={`p-8 md:p-12 bg-white border border-border rounded-[3rem] shadow-soft relative overflow-hidden bg-gradient-to-br ${activeMiasm.bgGrad}`}>
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
                   <div>
                     <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">
@@ -335,7 +335,7 @@ export default function Miasms() {
               {/* Mental & Physical features tabs */}
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 {/* Mental */}
-                <div className="p-8 bg-white dark:bg-zinc-950 border border-border rounded-[2.5rem] shadow-soft">
+                <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft">
                   <h3 className="text-sm font-black text-primary uppercase tracking-[0.15em] mb-6 flex items-center gap-2">
                     <Brain className="w-4 h-4 text-accent" /> Mental Characteristics
                   </h3>
@@ -350,7 +350,7 @@ export default function Miasms() {
                 </div>
 
                 {/* Physical */}
-                <div className="p-8 bg-white dark:bg-zinc-950 border border-border rounded-[2.5rem] shadow-soft">
+                <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft">
                   <h3 className="text-sm font-black text-primary uppercase tracking-[0.15em] mb-6 flex items-center gap-2">
                     <Activity className="w-4 h-4 text-accent" /> Physical Generals
                   </h3>
@@ -377,7 +377,7 @@ export default function Miasms() {
                   {activeMiasm.remedies.map((r) => (
                     <div 
                       key={r.id} 
-                      className="p-4 bg-white dark:bg-zinc-900 border border-border/60 rounded-2xl flex items-center justify-between shadow-sm hover:border-primary/20 transition-all group"
+                      className="p-4 bg-white border border-border/60 rounded-2xl flex items-center justify-between shadow-sm hover:border-primary/20 transition-all group"
                     >
                       <div className="space-y-0.5">
                         <div className="text-xs font-black text-text-primary group-hover:text-primary transition-colors">
@@ -400,7 +400,7 @@ export default function Miasms() {
               </div>
 
               {/* Clinical Apps */}
-              <div className="p-8 bg-white dark:bg-zinc-950 border border-border rounded-[2.5rem] shadow-soft space-y-6">
+              <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6">
                 <h3 className="text-xs font-black text-primary uppercase tracking-[0.2em] flex items-center gap-2">
                   <ShieldAlert className="w-4 h-4 text-red-600 animate-pulse" /> Clinical Applications
                 </h3>

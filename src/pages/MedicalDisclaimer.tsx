@@ -23,10 +23,10 @@ export default function MedicalDisclaimer() {
             <h1 className="text-4xl font-serif font-bold text-primary">Medical Disclaimer</h1>
           </div>
           
-          <div className="prose prose-lg max-w-none text-text-secondary space-y-6 dark:prose-invert">
-            <div className="bg-amber-50 dark:bg-amber-900/20 border-l-4 border-amber-400 p-6 mb-8 rounded-r-lg">
-              <p className="text-amber-900 dark:text-amber-200 font-bold mb-2 uppercase tracking-wider text-sm">Educational Notice & Student Project</p>
-              <p className="text-amber-800 dark:text-amber-300">
+          <div className="prose prose-lg max-w-none text-text-secondary space-y-6">
+            <div className="bg-amber-50 border-l-4 border-amber-400 p-6 mb-8 rounded-r-lg">
+              <p className="text-amber-900 font-bold mb-2 uppercase tracking-wider text-sm">Educational Notice & Student Project</p>
+              <p className="text-amber-800">
                 Curiva Homoeopathy is an educational research platform maintained and curated by a BHMS student. The information provided is for educational and informational purposes only and is not intended as medical advice, professional diagnosis, or treatment. We do not offer or facilitate medical consultations.
               </p>
             </div>

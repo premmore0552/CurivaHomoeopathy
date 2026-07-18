@@ -178,6 +178,181 @@ export default function Home() {
         </div>
       </section>
 
+      {/* SECTION: Featured Interactive eBook Publication */}
+      <section className="py-20 bg-bg-secondary/40 border-b border-border relative overflow-hidden">
+        {/* Subtle background decorative shapes */}
+        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
+        <div className="absolute top-10 right-10 w-72 h-72 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+
+        <div className="max-w-5xl mx-auto px-4 relative z-10 space-y-12 animate-fadeIn">
+          
+          <div className="text-center max-w-2xl mx-auto space-y-3">
+            <span className="mednix-section-subtitle mx-auto">
+              <BookOpen className="w-3.5 h-3.5" /> Featured Publication
+            </span>
+            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
+              The Interactive eBook Series
+            </h2>
+            <p className="text-xs md:text-sm text-text-secondary leading-normal">
+              Read our complete, professionally curated publications directly in your browser. Fully integrated with comfort controls, progress tracking, and supportive AI systems.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+            
+            {/* Left: 3D-styled physical Book Cover Mockup built purely with Tailwind CSS */}
+            <div className="lg:col-span-5 flex justify-center">
+              <Link 
+                to="/read/hair-loss-homeopathy" 
+                className="group relative block w-72 sm:w-80 h-[400px] sm:h-[450px] rounded-r-3xl rounded-l-md shadow-2xl transition-transform duration-500 ease-out hover:-rotate-1 hover:scale-[1.02] cursor-pointer"
+                style={{
+                  background: 'linear-gradient(135deg, #1b3028 0%, #325b4b 50%, #1b3028 100%)',
+                  boxShadow: '0 25px 50px -12px rgba(0,0,0,0.4), -6px 0 0px #0c1814'
+                }}
+              >
+                {/* Book spine lighting overlay */}
+                <div className="absolute top-0 left-0 w-3.5 h-full bg-gradient-to-r from-black/40 via-white/10 to-transparent rounded-l-md" />
+                <div className="absolute top-0 left-3.5 w-1 h-full bg-black/25" />
+
+                {/* Cover Frame Border */}
+                <div className="absolute inset-4 sm:inset-5 border border-white/10 rounded-r-2xl pointer-events-none" />
+
+                {/* Cover Content */}
+                <div className="h-full p-8 sm:p-10 flex flex-col justify-between items-center text-center text-white select-none">
+                  <div className="space-y-1">
+                    <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-emerald-350 block">CURIVA ACADEMIC PRESS</span>
+                    <div className="h-0.5 w-10 bg-emerald-400 mx-auto opacity-60" />
+                  </div>
+
+                  <div className="space-y-3">
+                    <h3 className="text-2xl sm:text-3xl font-serif font-black leading-tight tracking-tight text-white/95">
+                      HAIR FALL<br />
+                      <span className="text-emerald-450 font-normal italic font-serif">RECOVERY GUIDE</span>
+                    </h3>
+                    <p className="text-[10px] sm:text-xs text-emerald-100/70 font-serif italic max-w-[200px] mx-auto leading-relaxed">
+                      Understanding Hair Loss, Building Better Habits &amp; Supporting Healthier Hair Naturally
+                    </p>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-wider border border-white/15">
+                      <Sparkles className="w-3 h-3 text-emerald-300 animate-pulse" /> Interactive Edition
+                    </div>
+                    <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-emerald-250 block">By Curiva Homoeopathy</span>
+                  </div>
+                </div>
+
+                {/* Animated hover highlight layer */}
+                <div className="absolute inset-0 rounded-r-3xl rounded-l-md bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
+              </Link>
+            </div>
+
+            {/* Right: eBook Highlights, Quick links, & Direct button */}
+            <div className="lg:col-span-7 space-y-6">
+              <div className="space-y-2">
+                <span className="text-xs font-bold text-accent uppercase tracking-wider flex items-center gap-1.5">
+                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
+                  Best-selling Guide &bull; Complete Reference
+                </span>
+                <h3 className="text-2xl md:text-3xl font-display font-semibold text-primary">
+                  Hair Fall Recovery Guide
+                </h3>
+                <p className="text-xs md:text-sm text-text-secondary leading-relaxed">
+                  A high-yield, step-by-step practical publication written in an approachable, warm, and professional tone. Get past commercial miracle oil myths and understand the exact biological triggers of hair thinning, nutrition guidelines, and authentic homeopathic constitutional analysis.
+                </p>
+              </div>
+
+              {/* Grid of highlights */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="flex items-start gap-2.5">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <div>
+                    <span className="text-xs font-bold text-primary block">25 Structured Chapters</span>
+                    <span className="text-[11px] text-text-secondary block">Full comfort controls (Light, Cream, and Dark eye-safe reading themes).</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <Sparkles className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <div>
+                    <span className="text-xs font-bold text-primary block">Built-in AI Scalp Coach</span>
+                    <span className="text-[11px] text-text-secondary block">Ask custom questions about stress, sleep, or individualization side-by-side.</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <Activity className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <div>
+                    <span className="text-xs font-bold text-primary block">Risk Quiz &amp; Habit Trackers</span>
+                    <span className="text-[11px] text-text-secondary block">Interactive scorecard tools to calculate risks and build weekly check-off schedules.</span>
+                  </div>
+                </div>
+                <div className="flex items-start gap-2.5">
+                  <ShieldCheck className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                  <div>
+                    <span className="text-xs font-bold text-primary block">Copy Protection Enabled</span>
+                    <span className="text-[11px] text-text-secondary block">Secure DRM platform ensures copyright safety and clean academic standards.</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Jump Straight to Chapters section */}
+              <div className="p-5 bg-white border border-border rounded-2xl space-y-3">
+                <span className="text-[10px] font-black uppercase tracking-wider text-text-tertiary block">
+                  Jump Straight to High-Yield Chapters:
+                </span>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
+                  <Link 
+                    to="/read/hair-loss-homeopathy?chapter=0"
+                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
+                  >
+                    <span>📖 Cover &amp; Core Overview</span>
+                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
+                  </Link>
+                  <Link 
+                    to="/read/hair-loss-homeopathy?chapter=4"
+                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
+                  >
+                    <span>🔬 Ch 5: The Hair Growth Cycle</span>
+                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
+                  </Link>
+                  <Link 
+                    to="/read/hair-loss-homeopathy?chapter=19"
+                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
+                  >
+                    <span>📅 Ch 20: 90-Day Blueprint Plan</span>
+                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
+                  </Link>
+                  <Link 
+                    to="/read/hair-loss-homeopathy?chapter=20"
+                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
+                  >
+                    <span>🌿 Ch 21: Homeopathy Expectations</span>
+                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
+                  </Link>
+                </div>
+              </div>
+
+              <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
+                <Link 
+                  to="/read/hair-loss-homeopathy" 
+                  className="btn-premium btn-premium-primary text-xs font-bold uppercase tracking-wider px-6 py-3 w-full sm:w-auto text-center flex items-center justify-center gap-2"
+                >
+                  Launch Interactive eBook Reader <ArrowRight className="w-4 h-4 text-accent" />
+                </Link>
+                <Link 
+                  to="/read/hair-loss-homeopathy?chapter=23"
+                  className="w-full sm:w-auto text-center px-5 py-3 border border-border hover:border-primary text-text-secondary hover:text-primary rounded-2xl text-xs font-bold uppercase tracking-wider bg-white hover:bg-bg-primary/10 transition cursor-pointer"
+                >
+                  Take Interactive Hair Quiz
+                </Link>
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+      </section>
+
       {/* SECTION: Progressive Student Learning Path (Displays stages for students, simplified without jargon) */}
       <section id="learning-path" className="py-20 bg-bg-primary/45 border-y border-border">
         <div className="max-w-5xl mx-auto px-4 space-y-12">
@@ -378,24 +553,24 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* 1. AI Homeopathic Assistant */}
+            {/* 1. Public Education Center */}
             <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
                 <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider rounded-md">Smart consultation</span>
-                  <span className="px-2.5 py-1 bg-[#06B6D4]/10 text-[#06B6D4] text-[10px] font-black uppercase tracking-wider rounded-md">AI Guidance</span>
+                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider rounded-md">Public Resource</span>
+                  <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 text-[10px] font-black uppercase tracking-wider rounded-md">General Wellness</span>
                 </div>
-                <h4 className="text-xl font-display text-primary leading-tight font-bold">Interactive Ask AI Homeopathic Assistant</h4>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Public Education Hub &amp; FAQ</h4>
                 <p className="text-xs text-text-secondary leading-relaxed">
-                  Submit comprehensive health queries, physical patterns, and emotional modalities to receive customized educational analysis and remedy profiles instantly.
+                  Explore how classical homoeopathy works, read comprehensive disease education guides, and find authoritative answers to common questions about holistic natural health.
                 </p>
               </div>
               <div>
                 <Link 
-                  to="/ask-homeopath"
+                  to="/public-education"
                   className="w-full text-center px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-2xl text-xs font-bold uppercase tracking-wider block transition-all"
                 >
-                  Consult AI Assistant
+                  Explore Education Hub
                 </Link>
               </div>
             </div>

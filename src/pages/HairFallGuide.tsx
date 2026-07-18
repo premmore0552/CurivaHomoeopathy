@@ -808,12 +808,46 @@ export default function HairFallGuide() {
     return 0;
   });
 
+  const [readingTheme, setReadingTheme] = useState<"cream" | "light" | "dark" | "default">(() => {
+    return (localStorage.getItem("curiva_reading_theme") as any) || "cream";
+  });
+
+  const [fontStyle, setFontStyle] = useState<"serif" | "sans">(() => {
+    return (localStorage.getItem("curiva_font_style") as any) || "serif";
+  });
+
   const [fontSizeMultiplier, setFontSizeMultiplier] = useState<number>(0);
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
   const [isCoachOpen, setIsCoachOpen] = useState<boolean>(false);
   const [isSearchOpen, setIsSearchOpen] = useState<boolean>(false);
   const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchResults, setSearchResults] = useState<any[]>([]);
+
+  const getThemeClasses = () => {
+    switch (readingTheme) {
+      case "cream":
+        return "ebook-theme-cream bg-[#fbf9f4] text-[#2c2520] border-[#dfd5c2] shadow-soft font-serif-reader";
+      case "dark":
+        return "ebook-theme-dark bg-[#0f172a] text-[#f1f5f9] border-[#334155] shadow-soft";
+      case "light":
+        return "ebook-theme-light bg-white text-slate-800 border-slate-200/60 shadow-soft";
+      default:
+        return "bg-bg-primary text-text-primary border-border shadow-soft";
+    }
+  };
+
+  const getProseThemeClasses = () => {
+    switch (readingTheme) {
+      case "cream":
+        return "prose-stone prose-headings:text-[#2c2520] prose-p:text-[#433932] prose-strong:text-[#2c2520] prose-blockquote:border-primary prose-blockquote:text-[#433932] prose-blockquote:bg-[#f3ede2]/60";
+      case "dark":
+        return "prose-invert prose-headings:text-slate-100 prose-p:text-slate-350 prose-strong:text-white prose-blockquote:border-primary prose-blockquote:bg-slate-900/40";
+      case "light":
+        return "prose-slate prose-headings:text-slate-900 prose-p:text-slate-600 prose-strong:text-slate-900 prose-blockquote:border-primary prose-blockquote:bg-slate-50";
+      default:
+        return "prose-slate dark:prose-invert prose-blockquote:border-primary";
+    }
+  };
 
   // Habits Scorecard State (Chapter 20)
   const [checkedHabits, setCheckedHabits] = useState<boolean[]>([false, false, false, false, false]);
@@ -855,6 +889,24 @@ export default function HairFallGuide() {
   });
 
   const chatMessagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Parse direct chapter query link on mount
+  useEffect(() => {
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const chParam = params.get("chapter");
+      if (chParam !== null) {
+        const idx = parseInt(chParam, 10);
+        if (idx >= 0 && idx < BOOK_DATA.length) {
+          setCurrentChapterIndex(idx);
+          // Clean the query parameters from URL so refreshes don't lock the chapter
+          window.history.replaceState({}, document.title, window.location.pathname);
+        }
+      }
+    } catch (e) {
+      console.error("Error reading chapter query param:", e);
+    }
+  }, [BOOK_DATA.length]);
 
   // Sync scroll on chat messages
   useEffect(() => {
@@ -911,6 +963,37 @@ export default function HairFallGuide() {
     window.addEventListener("keydown", handleKeyDown);
     return () => window.removeEventListener("keydown", handleKeyDown);
   }, [currentChapterIndex, BOOK_DATA.length]);
+
+  // eBook Copy and Security Protection Interceptions (from PDF rules)
+  useEffect(() => {
+    const handleContextMenu = (e: MouseEvent) => {
+      e.preventDefault();
+      triggerToast("🔒 eBook Copy Protection: Right-click is disabled to protect materials.");
+    };
+
+    const handleCopy = (e: ClipboardEvent) => {
+      e.preventDefault();
+      triggerToast("🔒 eBook Copy Protection: Copying content is disabled.");
+    };
+
+    const handleKeyDownSecurity = (e: KeyboardEvent) => {
+      const forbiddenKeys = ["c", "x", "s", "u", "p", "a"];
+      if ((e.ctrlKey || e.metaKey) && forbiddenKeys.includes(e.key.toLowerCase())) {
+        e.preventDefault();
+        triggerToast("🔒 Reader Security: Copying or printing this work is protected.");
+      }
+    };
+
+    document.addEventListener("contextmenu", handleContextMenu);
+    document.addEventListener("copy", handleCopy);
+    document.addEventListener("keydown", handleKeyDownSecurity);
+
+    return () => {
+      document.removeEventListener("contextmenu", handleContextMenu);
+      document.removeEventListener("copy", handleCopy);
+      document.removeEventListener("keydown", handleKeyDownSecurity);
+    };
+  }, []);
 
   // Search filter
   const handleSearchInput = (val: string) => {
@@ -1126,13 +1209,15 @@ export default function HairFallGuide() {
         description="Explore the complete comprehensive eBook Guide with practical advice, scorecards, custom planners and real-time AI Scalp Coaching."
       />
 
-      <div className="min-h-screen bg-bg-primary text-text-primary font-sans flex flex-col relative overflow-hidden transition-colors duration-300">
+      <div className="min-h-screen bg-bg-secondary text-text-primary font-sans flex flex-col relative overflow-hidden transition-colors duration-300">
         
         {/* Top Progress bar tracker */}
-        <div className="fixed top-0 left-0 w-full h-1 bg-border/40 z-50">
-          <div 
-            className="h-full bg-emerald-600 dark:bg-emerald-500 transition-all duration-300"
-            style={{ width: `${readingProgressPercent}%` }}
+        <div className="fixed top-0 left-0 w-full h-1.5 bg-border/40 z-50">
+          <motion.div 
+            className="h-full bg-primary"
+            initial={{ width: 0 }}
+            animate={{ width: `${readingProgressPercent}%` }}
+            transition={{ duration: 0.35, ease: "easeOut" }}
           />
         </div>
 
@@ -1141,13 +1226,13 @@ export default function HairFallGuide() {
           <div className="flex items-center gap-2">
             <button 
               onClick={() => setIsSidebarOpen(true)}
-              className="p-2.5 hover:bg-bg-secondary rounded-xl transition text-emerald-700 dark:text-emerald-500"
+              className="p-2.5 hover:bg-bg-secondary rounded-xl transition text-primary hover:text-primary-dark"
               title="Table of Contents"
             >
               <Menu className="w-5 h-5" />
             </button>
             <div className="flex flex-col">
-              <span className="text-[10px] uppercase tracking-widest font-black text-emerald-800 dark:text-emerald-500">CURIVA HOMOEOPATHY</span>
+              <span className="text-[10px] uppercase tracking-widest font-black text-primary">CURIVA HOMOEOPATHY</span>
               <span className="text-sm font-display font-black hidden md:inline text-text-primary">
                 Hair Fall Recovery Guide
               </span>
@@ -1155,6 +1240,58 @@ export default function HairFallGuide() {
           </div>
 
           <div className="flex items-center gap-1.5">
+            {/* Theme Selectors */}
+            <div className="flex items-center space-x-1.5 border-r border-border pr-2.5 mr-1 hidden lg:flex">
+              <button 
+                onClick={() => {
+                  setReadingTheme("cream");
+                  localStorage.setItem("curiva_reading_theme", "cream");
+                }} 
+                className={`w-6 h-6 rounded-full bg-[#fbf9f4] border transition ${readingTheme === "cream" ? "border-primary ring-2 ring-primary/20 scale-110 shadow-sm" : "border-stone-300 hover:scale-105"}`}
+                title="Cream Theme"
+              />
+              <button 
+                onClick={() => {
+                  setReadingTheme("light");
+                  localStorage.setItem("curiva_reading_theme", "light");
+                }} 
+                className={`w-6 h-6 rounded-full bg-white border transition ${readingTheme === "light" ? "border-primary ring-2 ring-primary/20 scale-110 shadow-sm" : "border-slate-300 hover:scale-105"}`}
+                title="Light Theme"
+              />
+              <button 
+                onClick={() => {
+                  setReadingTheme("dark");
+                  localStorage.setItem("curiva_reading_theme", "dark");
+                }} 
+                className={`w-6 h-6 rounded-full bg-slate-900 border transition ${readingTheme === "dark" ? "border-primary ring-2 ring-primary/20 scale-110 shadow-sm" : "border-slate-700 hover:scale-105"}`}
+                title="Dark Theme"
+              />
+            </div>
+
+            {/* Font Style Selectors */}
+            <div className="flex items-center border border-border rounded-lg overflow-hidden bg-bg-secondary mr-1 hidden md:flex">
+              <button 
+                onClick={() => {
+                  setFontStyle("serif");
+                  localStorage.setItem("curiva_font_style", "serif");
+                }}
+                className={`px-2.5 py-1 text-xs transition border-r border-border font-serif-reader ${fontStyle === "serif" ? "bg-primary-light text-primary font-bold" : "hover:bg-border/60 text-text-secondary"}`}
+                title="Serif Font"
+              >
+                Serif
+              </button>
+              <button 
+                onClick={() => {
+                  setFontStyle("sans");
+                  localStorage.setItem("curiva_font_style", "sans");
+                }}
+                className={`px-2.5 py-1 text-xs transition font-sans-book ${fontStyle === "sans" ? "bg-primary-light text-primary font-bold" : "hover:bg-border/60 text-text-secondary"}`}
+                title="Sans Font"
+              >
+                Sans
+              </button>
+            </div>
+
             {/* Search index button */}
             <button 
               onClick={() => setIsSearchOpen(true)}
@@ -1170,7 +1307,7 @@ export default function HairFallGuide() {
               className="p-2 hover:bg-bg-secondary rounded-xl transition text-text-secondary"
               title="Bookmark Chapter"
             >
-              <Bookmark className={`w-4.5 h-4.5 ${bookmarks.includes(currentChapter.id) ? "fill-emerald-600 text-emerald-600" : ""}`} />
+              <Bookmark className={`w-4.5 h-4.5 ${bookmarks.includes(currentChapter.id) ? "fill-primary text-primary" : ""}`} />
             </button>
 
             {/* Adjust font size */}
@@ -1194,12 +1331,12 @@ export default function HairFallGuide() {
             {/* AI Coach Trigger button */}
             <button 
               onClick={() => setIsCoachOpen(true)}
-              className="p-2 bg-emerald-100 hover:bg-emerald-200 dark:bg-emerald-950/40 dark:hover:bg-emerald-900/50 text-emerald-800 dark:text-emerald-400 rounded-xl transition flex items-center gap-1.5 font-bold text-xs shadow-sm"
+              className="p-2 bg-primary-light hover:bg-primary/20 text-primary rounded-xl transition flex items-center gap-1.5 font-bold text-xs shadow-sm"
               title="Consult AI Scalp Coach"
             >
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-600"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-dark"></span>
               </span>
               <Sparkles className="w-3.5 h-3.5" />
               <span className="hidden sm:inline">AI Coach</span>
@@ -1216,22 +1353,29 @@ export default function HairFallGuide() {
         </div>
 
         {/* Main Book Frame */}
-        <div className="flex-1 flex max-w-7xl mx-auto w-full relative z-10 px-4 py-8">
+        <div className="flex-grow flex max-w-5xl mx-auto w-full relative z-10 px-4 py-8 items-stretch justify-center">
           
-          {/* Main Book Content Container */}
-          <div className="flex-grow max-w-3xl mx-auto w-full flex flex-col justify-between min-h-[75vh]">
-            <article className="animate-fade-in-up py-4">
-              <div 
-                className="prose dark:prose-invert max-w-none transition-all duration-200"
-                style={{ fontSize: `${18 + fontSizeMultiplier * 2}px`, lineHeight: "1.85" }}
-              >
-                <div dangerouslySetInnerHTML={{ __html: currentChapter.content }} />
-              </div>
+          {/* Elegant Book Canvas mimicking a real printed hardcover page */}
+          <div className={`flex-grow max-w-3xl w-full flex flex-col justify-between min-h-[80vh] p-6 md:p-12 rounded-2xl border transition-all duration-300 ${getThemeClasses()} ${fontStyle === "serif" ? "font-serif-reader" : "font-sans-book"}`}>
+            <article className="py-4">
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentChapterIndex}
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -15 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+                  className={`max-w-none transition-all duration-200 prose ${getProseThemeClasses()}`}
+                  style={{ fontSize: `${18 + fontSizeMultiplier * 2}px`, lineHeight: "1.85" }}
+                >
+                  <div dangerouslySetInnerHTML={{ __html: currentChapter.content }} />
+                </motion.div>
+              </AnimatePresence>
 
               {/* Dynamic Scorecard for Chapter 20 */}
               {currentChapter.id === "ch20" && (
-                <div className="bg-bg-secondary p-6 rounded-2xl border border-border my-8 shadow-sm">
-                  <span className="text-[10px] uppercase font-black tracking-wider text-emerald-800 dark:text-emerald-500 block mb-2">
+                <div className="bg-bg-secondary/40 dark:bg-zinc-900/40 p-6 rounded-2xl border border-border my-8 shadow-sm animate-fade-in-up">
+                  <span className="text-[10px] uppercase font-black tracking-wider text-primary dark:text-primary block mb-2">
                     📋 INTERACTIVE DAILY HABITS SCORECARD
                   </span>
                   <p className="text-xs text-text-secondary mb-4">
@@ -1248,13 +1392,13 @@ export default function HairFallGuide() {
                     ].map((habit, idx) => (
                       <label 
                         key={idx}
-                        className={`flex items-start gap-3 p-3 rounded-xl cursor-pointer transition border border-transparent ${checkedHabits[idx] ? "bg-emerald-50 dark:bg-emerald-950/20 border-emerald-100" : "hover:bg-border/30"}`}
+                        className={`flex items-start gap-3 p-3 rounded-xl cursor-pointer transition border border-transparent ${checkedHabits[idx] ? "bg-primary-light/50 dark:bg-primary/10 border-primary/20" : "hover:bg-border/30"}`}
                       >
                         <input
                           type="checkbox"
                           checked={checkedHabits[idx]}
                           onChange={() => toggleHabit(idx)}
-                          className="mt-1 rounded text-emerald-600 focus:ring-emerald-500 border-border"
+                          className="mt-1 rounded text-primary focus:ring-primary border-border"
                         />
                         <span className="text-sm">
                           <strong>{habit.title}:</strong> <span className="text-text-secondary">{habit.text}</span>
@@ -1265,7 +1409,7 @@ export default function HairFallGuide() {
 
                   <div className="mt-6 pt-4 border-t border-border flex flex-col sm:flex-row justify-between items-center gap-2">
                     <span className="text-sm font-bold">
-                      Your Score: <span className="text-lg text-emerald-600">{completedScore}</span>/5
+                      Your Score: <span className="text-lg text-primary">{completedScore}</span>/5
                     </span>
                     <span className={`text-xs font-semibold ${getScorecardFeedback().color}`}>
                       {getScorecardFeedback().text}
@@ -1276,11 +1420,11 @@ export default function HairFallGuide() {
 
               {/* Dynamic Module for Chapter 24 */}
               {currentChapter.id === "ch24" && (
-                <div className="space-y-8 my-8">
+                <div className="space-y-8 my-8 animate-fade-in-up">
                   
                   {/* Step 1: Mission selection layout */}
-                  <div className="bg-bg-secondary p-6 rounded-2xl border border-border">
-                    <span className="text-[10px] uppercase font-black tracking-wider text-emerald-800 dark:text-emerald-500 block mb-3">
+                  <div className="bg-bg-secondary/40 dark:bg-zinc-900/40 p-6 rounded-2xl border border-border">
+                    <span className="text-[10px] uppercase font-black tracking-wider text-primary dark:text-primary block mb-3">
                       🎯 STEP 1: SELECT YOUR WELLNESS FOCUS
                     </span>
                     
@@ -1294,7 +1438,7 @@ export default function HairFallGuide() {
                         <button
                           key={mission.key}
                           onClick={() => setSelectedMission(mission.key)}
-                          className={`p-4 rounded-xl border text-left transition flex flex-col justify-between h-28 ${selectedMission === mission.key ? "ring-2 ring-emerald-600 bg-emerald-50 dark:bg-emerald-950/20 border-emerald-500/50" : "bg-bg-primary border-border hover:bg-border/30"}`}
+                          className={`p-4 rounded-xl border text-left transition flex flex-col justify-between h-28 ${selectedMission === mission.key ? "ring-2 ring-primary bg-primary-light/50 dark:bg-primary/10 border-primary/40" : "bg-bg-primary border-border hover:bg-border/30"}`}
                         >
                           <span className="text-2xl">{mission.icon}</span>
                           <div>
@@ -1321,11 +1465,11 @@ export default function HairFallGuide() {
                             {focusPlans[selectedMission].desc}
                           </p>
                           <div className="h-px bg-border my-2" />
-                          <span className="text-[10px] font-black uppercase text-emerald-800 dark:text-emerald-400 block mb-2">Focus Guidelines:</span>
+                          <span className="text-[10px] font-black uppercase text-primary dark:text-primary-light block mb-2">Focus Guidelines:</span>
                           <ul className="space-y-2">
                             {focusPlans[selectedMission].items.map((item, idx) => (
                               <li key={idx} className="text-xs text-text-secondary flex items-start gap-2">
-                                <span className="text-emerald-600 font-bold mt-0.5">•</span>
+                                <span className="text-primary font-bold mt-0.5">•</span>
                                 <span>{item}</span>
                               </li>
                             ))}
@@ -1336,9 +1480,9 @@ export default function HairFallGuide() {
                   </div>
 
                   {/* Step 2: Personalized AI Plan customized using Gemini */}
-                  <div className="bg-bg-secondary p-6 rounded-2xl border-2 border-dashed border-border">
-                    <span className="text-[10px] uppercase font-black tracking-wider text-emerald-800 dark:text-emerald-500 flex items-center gap-1.5 mb-2">
-                      <Sparkles className="w-3.5 h-3.5 text-emerald-600" />
+                  <div className="bg-bg-secondary/40 dark:bg-zinc-900/40 p-6 rounded-2xl border-2 border-dashed border-border">
+                    <span className="text-[10px] uppercase font-black tracking-wider text-primary dark:text-primary flex items-center gap-1.5 mb-2">
+                      <Sparkles className="w-3.5 h-3.5 text-primary" />
                       <span>STEP 2: CUSTOMIZE PERSONAL BLUEPRINT</span>
                     </span>
                     <h3 className="font-serif font-black text-lg text-text-primary mb-1">
@@ -1355,13 +1499,13 @@ export default function HairFallGuide() {
                         rows={3}
                         maxLength={400}
                         placeholder="e.g. Vegetarian diet, sleep at 2 AM for 6 hours, drink 3 cups of coffee daily, high exam stress."
-                        className="w-full p-3.5 bg-bg-primary rounded-xl border border-border text-xs md:text-sm outline-none focus:ring-1 focus:ring-emerald-600 transition resize-none"
+                        className="w-full p-3.5 bg-bg-primary rounded-xl border border-border text-xs md:text-sm outline-none focus:ring-1 focus:ring-primary transition resize-none"
                       />
 
                       <button
                         onClick={generateCustomAIPlan}
                         disabled={isGeneratingPlan}
-                        className="w-full py-3 bg-emerald-800 hover:bg-emerald-950 dark:bg-emerald-600 dark:hover:bg-emerald-700 disabled:opacity-50 text-white font-bold rounded-xl text-xs md:text-sm transition flex items-center justify-center gap-2"
+                        className="w-full py-3 bg-primary hover:bg-primary-dark disabled:opacity-50 text-white font-bold rounded-xl text-xs md:text-sm transition flex items-center justify-center gap-2"
                       >
                         {isGeneratingPlan ? (
                           <>
@@ -1380,7 +1524,7 @@ export default function HairFallGuide() {
                     {/* AI plan results renderer */}
                     {isGeneratingPlan && (
                       <div className="mt-4 p-4 bg-bg-primary rounded-xl border border-border flex items-center gap-2.5 text-xs text-text-secondary animate-pulse">
-                        <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+                        <Loader2 className="w-4 h-4 animate-spin text-primary" />
                         <span>Analysing schedule vectors & compiling hair-wellness regimens...</span>
                       </div>
                     )}
@@ -1397,7 +1541,7 @@ export default function HairFallGuide() {
                     {aiPlanOutput && (
                       <div className="mt-6 p-5 bg-card/60 rounded-xl border border-border prose dark:prose-invert max-w-none text-xs md:text-sm">
                         <div className="border-b border-border pb-2 mb-3 flex items-center justify-between">
-                          <span className="font-bold text-[10px] tracking-wide text-emerald-800 dark:text-emerald-500 uppercase">✨ Personalized Wellness Regimen</span>
+                          <span className="font-bold text-[10px] tracking-wide text-primary dark:text-primary uppercase">✨ Personalized Wellness Regimen</span>
                           <button onClick={() => setAiPlanOutput("")} className="text-[10px] text-text-secondary hover:text-text-primary">Dismiss</button>
                         </div>
                         {renderFormattedMarkdown(aiPlanOutput)}
@@ -1413,7 +1557,7 @@ export default function HairFallGuide() {
               <button 
                 onClick={() => setCurrentChapterIndex(prev => Math.max(0, prev - 1))}
                 disabled={currentChapterIndex === 0}
-                className="flex items-center gap-1.5 text-xs md:text-sm font-semibold text-emerald-800 dark:text-emerald-400 hover:text-emerald-950 dark:hover:text-emerald-300 disabled:opacity-40 transition"
+                className="flex items-center gap-1.5 text-xs md:text-sm font-semibold text-primary dark:text-primary hover:text-primary-dark dark:hover:text-primary-light disabled:opacity-40 transition"
               >
                 <ArrowLeft className="w-4 h-4" />
                 <span>Prev Chapter</span>
@@ -1426,7 +1570,7 @@ export default function HairFallGuide() {
               <button 
                 onClick={() => setCurrentChapterIndex(prev => Math.min(BOOK_DATA.length - 1, prev + 1))}
                 disabled={currentChapterIndex === BOOK_DATA.length - 1}
-                className="flex items-center gap-1.5 text-xs md:text-sm font-semibold text-emerald-800 dark:text-emerald-400 hover:text-emerald-950 dark:hover:text-emerald-300 disabled:opacity-40 transition"
+                className="flex items-center gap-1.5 text-xs md:text-sm font-semibold text-primary dark:text-primary hover:text-primary-dark dark:hover:text-primary-light disabled:opacity-40 transition"
               >
                 <span>Next Chapter</span>
                 <ArrowRight className="w-4 h-4" />
@@ -1458,7 +1602,7 @@ export default function HairFallGuide() {
               >
                 <div className="p-4 border-b border-border flex justify-between items-center bg-bg-secondary">
                   <span className="font-serif font-black text-text-primary flex items-center gap-2">
-                    <BookOpen className="w-5 h-5 text-emerald-600" />
+                    <BookOpen className="w-5 h-5 text-primary" />
                     <span>eBook Index</span>
                   </span>
                   <button 
@@ -1480,16 +1624,16 @@ export default function HairFallGuide() {
                           setCurrentChapterIndex(idx);
                           setIsSidebarOpen(false);
                         }}
-                        className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between group ${isActive ? "bg-emerald-50 dark:bg-emerald-950/20 border-l-4 border-emerald-600 font-bold" : "hover:bg-bg-secondary"}`}
+                        className={`w-full text-left p-2.5 rounded-xl transition flex items-center justify-between group ${isActive ? "bg-primary-light/50 dark:bg-primary/10 border-l-4 border-primary font-bold" : "hover:bg-bg-secondary"}`}
                       >
                         <div className="flex flex-col text-left max-w-[85%]">
-                          <span className={`text-[10px] uppercase font-black ${isActive ? "text-emerald-800 dark:text-emerald-400" : "text-text-secondary group-hover:text-text-primary"}`}>
+                          <span className={`text-[10px] uppercase font-black ${isActive ? "text-primary dark:text-primary-light" : "text-text-secondary group-hover:text-text-primary"}`}>
                             {ch.title}
                           </span>
                           <span className="text-xs font-serif text-text-primary truncate">{ch.subtitle}</span>
                         </div>
                         {hasBmk && (
-                          <Bookmark className="w-3 h-3 text-emerald-600 fill-emerald-600 shrink-0 select-none" />
+                          <Bookmark className="w-3 h-3 text-primary fill-primary shrink-0 select-none" />
                         )}
                       </button>
                     );
@@ -1498,7 +1642,7 @@ export default function HairFallGuide() {
 
                 <div className="p-4 border-t border-border bg-bg-secondary/40 text-center">
                   <p className="text-[10px] uppercase text-text-secondary tracking-widest">&copy; 2026 Curiva Homoeopathy</p>
-                  <p className="text-[10px] font-black text-emerald-600 tracking-wider mt-1">Tiny Doses. True Shifts.</p>
+                  <p className="text-[10px] font-black text-primary tracking-wider mt-1">Tiny Doses. True Shifts.</p>
                 </div>
               </motion.aside>
             </>
@@ -1525,9 +1669,9 @@ export default function HairFallGuide() {
                 transition={{ type: "spring", damping: 25, stiffness: 220 }}
                 className="fixed top-0 right-0 h-full w-96 max-w-[90vw] bg-bg-primary border-l border-border z-50 flex flex-col"
               >
-                <div className="p-4 border-b border-border flex justify-between items-center bg-emerald-50 dark:bg-zinc-900">
-                  <span className="font-serif font-black text-emerald-950 dark:text-emerald-400 flex items-center gap-1.5 text-sm uppercase">
-                    <Sparkles className="w-4.5 h-4.5 text-emerald-600" />
+                <div className="p-4 border-b border-border flex justify-between items-center bg-primary-light/60 dark:bg-zinc-900">
+                  <span className="font-serif font-black text-primary dark:text-primary-light flex items-center gap-1.5 text-sm uppercase">
+                    <Sparkles className="w-4.5 h-4.5 text-primary" />
                     <span>Curiva AI Scalp Coach</span>
                   </span>
                   <button 
@@ -1545,9 +1689,9 @@ export default function HairFallGuide() {
                       key={idx} 
                       className={`flex ${msg.sender === "user" ? "justify-end" : "justify-start"}`}
                     >
-                      <div className={`p-3.5 rounded-2xl max-w-[85%] shadow-sm ${msg.sender === "user" ? "bg-emerald-800 text-white rounded-tr-none" : msg.isError ? "bg-red-50 dark:bg-red-950/20 text-red-900 border-l-4 border-red-500 rounded-tl-none text-xs" : "bg-bg-primary rounded-tl-none"}`}>
+                      <div className={`p-3.5 rounded-2xl max-w-[85%] shadow-sm ${msg.sender === "user" ? "bg-primary text-white rounded-tr-none" : msg.isError ? "bg-red-50 dark:bg-red-950/20 text-red-900 border-l-4 border-red-500 rounded-tl-none text-xs" : "bg-bg-primary rounded-tl-none"}`}>
                         {msg.sender === "coach" && (
-                          <span className="text-[10px] uppercase font-black text-emerald-800 dark:text-emerald-400 block mb-1">
+                          <span className="text-[10px] uppercase font-black text-primary dark:text-primary-light block mb-1">
                             ✨ AI Coach
                           </span>
                         )}
@@ -1562,7 +1706,7 @@ export default function HairFallGuide() {
                   {isCoachTyping && (
                     <div className="flex justify-start">
                       <div className="p-3 bg-bg-primary border border-border rounded-2xl rounded-tl-none flex items-center gap-2 text-xs text-text-secondary">
-                        <Loader2 className="w-4 h-4 animate-spin text-emerald-600" />
+                        <Loader2 className="w-4 h-4 animate-spin text-primary" />
                         <span>AI Coach is reading Ebook parameters...</span>
                       </div>
                     </div>
@@ -1583,7 +1727,7 @@ export default function HairFallGuide() {
                       <button
                         key={i}
                         onClick={() => handleSendChatMessage(btnText.q)}
-                        className="w-full text-left p-2.5 bg-bg-primary hover:bg-emerald-50 hover:text-emerald-950 border border-border rounded-xl text-[11px] font-semibold text-text-primary transition flex justify-between items-center"
+                        className="w-full text-left p-2.5 bg-bg-primary hover:bg-primary-light/50 hover:text-primary border border-border rounded-xl text-[11px] font-semibold text-text-primary transition flex justify-between items-center"
                       >
                         <span>💡 {btnText.l}</span>
                         <ChevronRight className="w-3.5 h-3.5 opacity-60" />
@@ -1602,11 +1746,11 @@ export default function HairFallGuide() {
                       if (e.key === "Enter") handleSendChatMessage();
                     }}
                     placeholder="Ask about stress, nutrition, or homoeopathy..."
-                    className="flex-1 p-2.5 bg-bg-secondary rounded-xl border border-border text-xs md:text-sm outline-none focus:ring-1 focus:ring-emerald-600 focus:bg-bg-primary transition"
+                    className="flex-1 p-2.5 bg-bg-secondary rounded-xl border border-border text-xs md:text-sm outline-none focus:ring-1 focus:ring-primary focus:bg-bg-primary transition"
                   />
                   <button
                     onClick={() => handleSendChatMessage()}
-                    className="p-2.5 bg-emerald-800 hover:bg-emerald-950 text-white rounded-xl transition flex justify-center items-center h-10 w-10 shrink-0"
+                    className="p-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl transition flex justify-center items-center h-10 w-10 shrink-0"
                   >
                     <Send className="w-4 h-4" />
                   </button>
@@ -1666,7 +1810,7 @@ export default function HairFallGuide() {
                           }}
                           className="py-3 px-2 rounded-xl hover:bg-bg-secondary/40 cursor-pointer transition flex flex-col justify-start text-left"
                         >
-                          <span className="font-bold text-emerald-800 dark:text-emerald-400 block text-[10px] uppercase tracking-wider">
+                          <span className="font-bold text-primary dark:text-primary-light block text-[10px] uppercase tracking-wider">
                             {match.chapterTitle}
                           </span>
                           <p className="text-xs text-text-secondary mt-1.5 italic line-clamp-2">
@@ -1689,9 +1833,9 @@ export default function HairFallGuide() {
               initial={{ y: 50, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               exit={{ y: 50, opacity: 0 }}
-              className="fixed bottom-6 right-6 bg-emerald-800 dark:bg-emerald-700 text-white px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 z-50 text-xs font-bold"
+              className="fixed bottom-6 right-6 bg-primary dark:bg-primary-dark text-white px-4 py-2.5 rounded-xl shadow-lg flex items-center gap-2 z-50 text-xs font-bold"
             >
-              <Info className="w-4 h-4 text-emerald-300" />
+              <Info className="w-4 h-4 text-primary-light" />
               <span>{toastMessage}</span>
             </motion.div>
           )}

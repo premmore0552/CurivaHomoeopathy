@@ -161,23 +161,24 @@ export default function RepertoryTool() {
       />
 
       {/* Modern High-End Hero Section */}
-      <header className="relative pt-32 pb-44 overflow-hidden bg-primary-dark text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.15)_0%,transparent_70%)] opacity-40 pointer-events-none" />
+      <header className="relative pt-32 pb-44 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-60 pointer-events-none" />
+        <div className="absolute -bottom-48 -left-48 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
            <motion.div 
              initial={{ opacity: 0, scale: 0.9 }}
              animate={{ opacity: 1, scale: 1 }}
-             className="inline-flex items-center gap-3 px-6 py-2.5 bg-white/5 border border-white/10 rounded-full shadow-2xl mb-8"
+             className="inline-flex items-center gap-3 px-6 py-2.5 bg-primary/10 border border-primary/20 rounded-full shadow-md mb-8"
            >
-             <Stethoscope className="w-4 h-4 text-accent-light" />
-             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-accent-light">Expert Clinical Portal</span>
+             <Stethoscope className="w-4 h-4 text-primary" />
+             <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Expert Clinical Portal</span>
            </motion.div>
-           <h1 className="text-5xl md:text-7xl lg:text-[7.5rem] font-display font-medium text-white tracking-tighter leading-[0.85] uppercase flex flex-col items-center">
+           <h1 className="text-5xl md:text-7xl lg:text-[7.5rem] font-display font-medium text-text-primary tracking-tighter leading-[0.85] uppercase flex flex-col items-center">
              <span>Homeopathic</span>
-             <span className="text-accent italic lg:ml-24 -mt-2">Repertory</span>
+             <span className="text-primary italic lg:ml-24 -mt-2">Repertory</span>
            </h1>
-           <p className="text-lg md:text-xl text-white/70 max-w-3xl mx-auto font-serif italic leading-relaxed mt-10">
+           <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto font-serif italic leading-relaxed mt-10">
              Explore the comprehensive classical repertory compiled from expert sources. Filter by sections, explore sub-categories, analyze keynotes, and cross-reference multiple symptoms.
            </p>
         </div>

@@ -246,28 +246,29 @@ const MyLibrary = () => {
       />
 
       {/* Header Space */}
-      <section className="relative pt-48 pb-24 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
+      <section className="relative pt-48 pb-24 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-60 pointer-events-none" />
+        <div className="absolute -bottom-48 -left-48 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 relative z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-12 text-center lg:text-left">
           <div className="space-y-8">
-            <div className="inline-flex items-center gap-3 px-6 py-2 bg-white/5 rounded-full border border-white/10 mb-2 mx-auto lg:mx-0">
+            <div className="inline-flex items-center gap-3 px-6 py-2 bg-primary/10 rounded-full border border-primary/20 mb-2 mx-auto lg:mx-0">
               <ShieldCheck className="w-4 h-4 text-primary" />
-              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Personal Archive</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary">Personal Archive</span>
             </div>
-            <h1 className="text-6xl md:text-[8rem] font-display font-black text-white tracking-tighter leading-[0.8] uppercase flex flex-col">
+            <h1 className="text-6xl md:text-[8rem] font-display font-black text-text-primary tracking-tighter leading-[0.8] uppercase flex flex-col">
               My <span className="text-primary italic lg:ml-12">Library</span>
             </h1>
           </div>
 
           <div className="relative w-full lg:w-[450px] group">
-            <Search className="absolute left-8 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-primary transition-colors" />
+            <Search className="absolute left-8 top-1/2 -translate-y-1/2 w-5 h-5 text-text-tertiary group-focus-within:text-primary transition-colors" />
             <input 
               type="text"
               placeholder={`Search in ${activeTab}...`}
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-20 pr-8 py-7 bg-white/5 border border-white/10 rounded-[2.5rem] focus:outline-none focus:border-primary/50 transition-all text-lg font-bold text-white placeholder:text-white/10 shadow-2xl"
+              className="w-full pl-20 pr-8 py-7 bg-white border border-border rounded-[2.5rem] focus:outline-none focus:border-primary/50 transition-all text-lg font-bold text-text-primary placeholder:text-text-tertiary shadow-2xl"
             />
           </div>
         </div>

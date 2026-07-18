@@ -145,7 +145,7 @@ export default function PotencyChart() {
       {/* Interactive Potency Estimator Tool */}
       <div 
         id="potency-estimator-tool" 
-        className="bg-white dark:bg-zinc-950 p-8 md:p-12 rounded-[3.5rem] border border-border shadow-soft relative overflow-hidden"
+        className="bg-white p-8 md:p-12 rounded-[3.5rem] border border-border shadow-soft relative overflow-hidden"
       >
         <div className="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
         
@@ -187,7 +187,7 @@ export default function PotencyChart() {
                   step="1"
                   value={vitalForce}
                   onChange={(e) => setVitalForce(Number(e.target.value))}
-                  className="w-full h-2 bg-bg-secondary dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-primary"
+                  className="w-full h-2 bg-bg-secondary rounded-lg appearance-none cursor-pointer accent-primary"
                 />
                 <div className="flex justify-between text-[10px] text-text-secondary italic">
                   <span>Weak / Deficient</span>
@@ -217,7 +217,7 @@ export default function PotencyChart() {
                   step="1"
                   value={pathology}
                   onChange={(e) => setPathology(Number(e.target.value))}
-                  className="w-full h-2 bg-bg-secondary dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-rose-500"
+                  className="w-full h-2 bg-bg-secondary rounded-lg appearance-none cursor-pointer accent-rose-500"
                 />
                 <div className="flex justify-between text-[10px] text-text-secondary italic">
                   <span>Functional (Safe)</span>
@@ -247,7 +247,7 @@ export default function PotencyChart() {
                   step="1"
                   value={similarity}
                   onChange={(e) => setSimilarity(Number(e.target.value))}
-                  className="w-full h-2 bg-bg-secondary dark:bg-zinc-800 rounded-lg appearance-none cursor-pointer accent-emerald-500"
+                  className="w-full h-2 bg-bg-secondary rounded-lg appearance-none cursor-pointer accent-emerald-500"
                 />
                 <div className="flex justify-between text-[10px] text-text-secondary italic">
                   <span>Vague (Lower Match)</span>
@@ -259,7 +259,7 @@ export default function PotencyChart() {
               <div className="pt-2">
                 <button
                   onClick={resetEstimator}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#10b981] hover:text-emerald-400 transition-colors cursor-pointer select-none"
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#10b981] hover:text-[#059669] transition-colors cursor-pointer select-none"
                 >
                   <RefreshCw className="w-3 h-3" /> Reset Estimation Knobs
                 </button>
@@ -267,7 +267,7 @@ export default function PotencyChart() {
             </div>
 
             {/* Recommendation Display Panel */}
-            <div className="w-full lg:w-1/2 flex flex-col justify-between p-8 bg-bg-secondary dark:bg-zinc-900/40 border border-border rounded-[2.5rem] relative">
+            <div className="w-full lg:w-1/2 flex flex-col justify-between p-8 bg-bg-secondary border border-border rounded-[2.5rem] relative">
               <div className="space-y-6">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-widest text-text-secondary block">Computed Result</span>

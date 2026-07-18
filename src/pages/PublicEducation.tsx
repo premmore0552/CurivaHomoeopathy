@@ -132,32 +132,36 @@ export default function PublicEducation() {
   const selectedDisease = DISEASE_EDUCATION_DATA.find(d => d.id === selectedDiseaseId) || DISEASE_EDUCATION_DATA[0];
 
   return (
-    <div className="min-h-screen bg-bg-primary pt-28 pb-20">
+    <div className="min-h-screen bg-bg-primary pb-20">
       <SEO 
         title="Public Education & Wellness Center | Curiva Homoeopathy"
         description="Learn the basics of homoeopathy, its core principles, FAQs, and read safe, evidence-based disease education guides."
       />
 
       {/* Hero Header */}
-      <header className="relative pb-16 text-center max-w-4xl mx-auto space-y-4 px-4">
-        <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-[#10B981]">
-          <ShieldCheck className="w-3.5 h-3.5" /> General Public Resource
+      <header className="relative pt-32 pb-36 md:pt-40 md:pb-40 overflow-hidden bg-bg-secondary border-b border-border text-text-primary text-center mb-16">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
+        
+        <div className="max-w-4xl mx-auto px-4 relative z-10 space-y-4 flex flex-col items-center">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-[#10B981] mx-auto">
+            <ShieldCheck className="w-3.5 h-3.5" /> General Public Resource
+          </div>
+          <h1 className="text-4xl md:text-6xl font-display font-medium text-text-primary tracking-tighter uppercase">
+            Understanding <span className="text-primary italic">Homoeopathy</span>
+          </h1>
+          <p className="text-sm md:text-base text-text-secondary max-w-2xl mx-auto leading-relaxed">
+            Welcome to Curiva’s Public Education Hub. Explore how classical homoeopathy works, read disease education guides, and find answers to common questions about holistic natural health.
+          </p>
         </div>
-        <h1 className="text-4xl md:text-6xl font-display font-medium text-primary">
-          Understanding <span className="text-accent italic">Homoeopathy</span>
-        </h1>
-        <p className="text-sm md:text-base text-text-secondary max-w-2xl mx-auto leading-relaxed">
-          Welcome to Curiva’s Public Education Hub. Explore how classical homoeopathy works, read disease education guides, and find answers to common questions about holistic natural health.
-        </p>
       </header>
 
       {/* Disclaimer Alert banner */}
       <div className="max-w-4xl mx-auto px-4 mb-16">
-        <div className="p-6 bg-amber-50 dark:bg-amber-950/20 border border-amber-200 dark:border-amber-900/40 rounded-3xl flex gap-4 items-start shadow-sm">
+        <div className="p-6 bg-amber-50 border border-amber-200 rounded-3xl flex gap-4 items-start shadow-sm">
           <AlertTriangle className="w-6 h-6 text-amber-600 shrink-0 mt-0.5" />
           <div className="space-y-1">
-            <h4 className="text-sm font-black text-amber-850 dark:text-amber-450 uppercase tracking-wider">Educational Disclosure &amp; Medical Disclaimer</h4>
-            <p className="text-xs text-amber-800/80 dark:text-amber-200/70 leading-relaxed font-medium">
+            <h4 className="text-sm font-black text-amber-800 uppercase tracking-wider">Educational Disclosure &amp; Medical Disclaimer</h4>
+            <p className="text-xs text-amber-800/80 leading-relaxed font-medium">
               Curiva provides alternative medicine educational materials for academic and research purposes only. The information provided here does not constitute medical advice, diagnosis, treatment, or cure claims. Always seek the advice of your physician or other qualified health providers with any questions you may have regarding a medical condition.
             </p>
           </div>
@@ -173,7 +177,7 @@ export default function PublicEducation() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="p-8 bg-white dark:bg-zinc-950 border border-border rounded-[2.5rem] shadow-soft space-y-5">
+            <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-5">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
                 <Compass className="w-6 h-6" />
               </div>
@@ -183,7 +187,7 @@ export default function PublicEducation() {
               </p>
             </div>
 
-            <div className="p-8 bg-white dark:bg-zinc-950 border border-border rounded-[2.5rem] shadow-soft space-y-5">
+            <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-5">
               <div className="w-12 h-12 rounded-2xl bg-accent/10 flex items-center justify-center text-accent">
                 <Activity className="w-6 h-6" />
               </div>
@@ -193,7 +197,7 @@ export default function PublicEducation() {
               </p>
             </div>
 
-            <div className="p-8 bg-white dark:bg-zinc-950 border border-border rounded-[2.5rem] shadow-soft space-y-5">
+            <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-5">
               <div className="w-12 h-12 rounded-2xl bg-emerald-500/10 flex items-center justify-center text-emerald-600">
                 <ShieldCheck className="w-6 h-6" />
               </div>
@@ -236,7 +240,7 @@ export default function PublicEducation() {
             </div>
 
             {/* Detail viewport */}
-            <div className="lg:col-span-3 p-8 md:p-12 bg-white dark:bg-zinc-950 border border-border rounded-[3rem] shadow-soft space-y-8">
+            <div className="lg:col-span-3 p-8 md:p-12 bg-white border border-border rounded-[3rem] shadow-soft space-y-8">
               <div>
                 <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">
                   {selectedDisease.system}
@@ -335,11 +339,11 @@ export default function PublicEducation() {
               return (
                 <div 
                   key={idx} 
-                  className="bg-white dark:bg-zinc-900 border border-border rounded-2xl overflow-hidden transition-all duration-300 shadow-sm"
+                  className="bg-white border border-border rounded-2xl overflow-hidden transition-all duration-300 shadow-sm"
                 >
                   <button
                     onClick={() => setActiveFaqIdx(prev => prev === idx ? null : idx)}
-                    className="w-full px-6 py-5 text-left font-bold text-xs md:text-sm text-text-primary dark:text-white flex items-center justify-between gap-4 cursor-pointer hover:bg-bg-primary/20 dark:hover:bg-zinc-800/20"
+                    className="w-full px-6 py-5 text-left font-bold text-xs md:text-sm text-text-primary flex items-center justify-between gap-4 cursor-pointer hover:bg-bg-primary/20"
                   >
                     <span>{faq.q}</span>
                     <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform duration-300 ${isOpen ? 'rotate-180 text-primary' : ''}`} />

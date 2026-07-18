@@ -212,12 +212,6 @@ const Header: React.FC = () => {
       tooltip: 'Map patient symptoms and modalities to locate aligned homeopathic remedies in real-time.'
     },
     { 
-      name: 'Ask AI', 
-      to: '/ask-homeopath',
-      icon: 'HelpCircle',
-      tooltip: 'Submit direct physical and emotional queries for expert homeopathic analysis and guidance.'
-    },
-    { 
       name: 'Study Hub', 
       to: '/student-resources',
       isGlossary: true,

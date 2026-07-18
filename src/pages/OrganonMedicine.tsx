@@ -711,12 +711,12 @@ const AphorismTree = () => {
            </div>
         </div>
         
-        <div className="p-8 bg-zinc-900 rounded-[3rem] text-white">
+        <div className="p-8 bg-primary-light/50 border border-primary/20 rounded-[3rem] text-text-primary">
            <h4 className="flex items-center gap-3 text-lg font-bold mb-4">
-              <Sparkles className="w-5 h-5 text-primary-light" />
+              <Sparkles className="w-5 h-5 text-primary" />
               6th Edition Discovery
            </h4>
-           <p className="text-sm text-white/60 leading-relaxed italic">
+           <p className="text-sm text-text-secondary leading-relaxed italic">
               "In the new edition, the treatment of chronic diseases is brought to such perfection that they can be cured with almost certain success." — Hahnemann, 1842.
            </p>
         </div>
@@ -873,10 +873,10 @@ const ChronologySection = () => {
         ))}
       </div>
       
-      <div className="p-12 bg-[#0F3D75] dark:bg-[#0B0F19] text-white rounded-[4rem] text-center border-t-8 border-primary relative overflow-hidden">
-         <div className="absolute inset-0 bg-gradient-to-br from-primary/20 to-transparent pointer-events-none" />
-         <h4 className="text-2xl font-display font-black uppercase italic mb-4 relative z-10">The Gap of Silence</h4>
-         <p className="text-white/60 max-w-3xl mx-auto italic leading-relaxed relative z-10">
+      <div className="p-12 bg-bg-secondary border border-border text-text-primary rounded-[4rem] text-center border-t-8 border-primary relative overflow-hidden">
+         <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent pointer-events-none" />
+         <h4 className="text-2xl font-display font-black uppercase italic mb-4 relative z-10 text-primary">The Gap of Silence</h4>
+         <p className="text-text-secondary max-w-3xl mx-auto italic leading-relaxed relative z-10">
            The 6th edition remained hidden with Melanie Hahnemann and later her descendants for nearly 80 years before finally being released to the world in 1921 by William Boericke and Richard Haehl.
          </p>
          <ArrowRight className="w-8 h-8 text-primary mx-auto mt-8 animate-bounce relative z-10" />
@@ -944,22 +944,22 @@ const OrganonMedicine = () => {
                    ))}
                 </ul>
              </div>
-             <div className="p-10 bg-zinc-900 rounded-[3rem] text-white overflow-hidden relative shadow-soft">
+             <div className="p-10 bg-bg-secondary rounded-[3rem] text-text-primary border border-border overflow-hidden relative shadow-soft">
                 <div className="absolute top-0 right-0 p-10 opacity-10 pointer-events-none">
-                   <Book className="w-48 h-48" />
+                   <Book className="w-48 h-48 text-primary" />
                 </div>
-                <h3 className="text-2xl font-black italic text-white flex items-center gap-3 mb-8 relative z-10">
-                   <Award className="w-6 h-6 text-primary-light" />
+                <h3 className="text-2xl font-black italic text-text-primary flex items-center gap-3 mb-8 relative z-10">
+                   <Award className="w-6 h-6 text-primary" />
                    6th Ed. Perfection
                 </h3>
-                <p className="text-white/60 leading-relaxed mb-8 italic relative z-10">
+                <p className="text-text-secondary leading-relaxed mb-8 italic relative z-10">
                    "This edition teaches that the doses can be prepared so delicate that they will not cause any primary actions of the medicines, and yet their curative action will be more rapid than that of the coarser doses of the previous editions."
                 </p>
                 <div className="space-y-4 relative z-10">
                    {['Dynamization (Potentization)', 'LM Potencies (0/1 to 0/30)', 'The Healing Dynamis', 'Systematic Case Registration'].map((f, i) => (
-                     <div key={i} className="flex items-center gap-3 p-3 bg-white/5 rounded-2xl border border-white/10 group hover:bg-primary hover:border-primary transition-all cursor-default">
-                        <User className="w-4 h-4 text-primary-light group-hover:text-white" />
-                        <span className="text-xs font-black uppercase tracking-widest">{f}</span>
+                     <div key={i} className="flex items-center gap-3 p-3 bg-white rounded-2xl border border-border group hover:bg-primary hover:border-primary transition-all cursor-default">
+                        <User className="w-4 h-4 text-primary group-hover:text-white" />
+                        <span className="text-xs font-black uppercase tracking-widest text-text-primary group-hover:text-white">{f}</span>
                      </div>
                    ))}
                 </div>
@@ -1134,10 +1134,10 @@ const OrganonMedicine = () => {
       </Helmet>
 
       {/* Modern Hero */}
-      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
-        <div className="absolute inset-x-0 top-0 h-full bg-gradient-radial from-primary/10 to-transparent opacity-50 pointer-events-none" />
+      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
+        <div className="absolute inset-x-0 top-0 h-full bg-gradient-radial from-primary/5 to-transparent opacity-50 pointer-events-none" />
         <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
-           <Book className="w-96 h-96 text-white" />
+           <Book className="w-96 h-96 text-primary" />
         </div>
         
         <div className="max-w-7xl mx-auto relative z-10">
@@ -1146,17 +1146,17 @@ const OrganonMedicine = () => {
             animate={{ opacity: 1, y: 0 }}
             className="text-center space-y-12"
           >
-            <div className="inline-flex items-center gap-4 px-6 py-2.5 bg-white/5 border border-white/10 rounded-full shadow-2xl mx-auto">
+            <div className="inline-flex items-center gap-4 px-6 py-2.5 bg-primary/10 border border-primary/20 rounded-full shadow-sm mx-auto">
                <span className="w-2 h-2 bg-primary rounded-full animate-ping" />
-               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary-light">Core Philosophy</span>
+               <span className="text-[10px] font-black uppercase tracking-[0.4em] text-primary">Core Philosophy</span>
             </div>
             
-            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-black text-white tracking-tighter leading-[0.8] uppercase flex flex-col items-center">
+            <h1 className="text-6xl md:text-8xl lg:text-[10rem] font-display font-black text-text-primary tracking-tighter leading-[0.8] uppercase flex flex-col items-center">
               <span>Organon</span>
               <span className="text-primary italic lg:ml-24 -mt-4 opacity-100">Medicine</span>
             </h1>
             
-            <p className="text-xl md:text-3xl text-white/60 max-w-4xl mx-auto font-medium leading-tight tracking-tight">
+            <p className="text-xl md:text-3xl text-text-secondary max-w-4xl mx-auto font-medium leading-tight tracking-tight">
               Master the logic of healing through Samuel Hahnemann's definitive work.
             </p>
           </motion.div>
@@ -1212,14 +1212,14 @@ const OrganonMedicine = () => {
       
       {/* Visual Quote */}
       <section className="max-w-5xl mx-auto px-4 mt-40">
-         <div className="p-20 rounded-[5rem] bg-[#0F3D75] dark:bg-[#0B0F19] text-white text-center relative overflow-hidden group">
+         <div className="p-20 rounded-[5rem] bg-primary-light/50 border border-primary/20 text-text-primary text-center relative overflow-hidden group">
             <Quote className="absolute top-10 left-10 w-40 h-40 opacity-5 pointer-events-none group-hover:scale-125 transition-transform duration-700" />
             <div className="relative z-10 space-y-8">
-               <h3 className="text-4xl font-display font-black italic tracking-tight leading-tight">
+               <h3 className="text-4xl font-display font-black text-text-primary italic tracking-tight leading-tight">
                  "The truth we mortals need... <br/>The all-wise slightly covered over, <br/>but did not bury deep."
                </h3>
                <div className="w-20 h-1 bg-primary mx-auto" />
-               <p className="text-xs font-black uppercase tracking-[0.3em] opacity-60">Dr. Samuel Hahnemann</p>
+               <p className="text-xs font-black uppercase tracking-[0.3em] text-primary">Dr. Samuel Hahnemann</p>
             </div>
          </div>
       </section>

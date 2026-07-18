@@ -301,6 +301,7 @@ export default function ClinicalHandbook() {
   
   // Custom states for interactive elements
   const [explainingAbbr, setExplainingAbbr] = useState<{ term: string; definition: string } | null>(null);
+  const [hoveredAbbr, setHoveredAbbr] = useState<{ term: string; definition: string; x: number; y: number } | null>(null);
   const [activeMiasmStage, setActiveMiasmStage] = useState<'psora' | 'sycosis' | 'syphilis' | 'tubercular'>('psora');
   
   // Quiz states
@@ -310,6 +311,28 @@ export default function ClinicalHandbook() {
   const [quizIsCorrect, setQuizIsCorrect] = useState<boolean | null>(null);
   const [quizScore, setQuizScore] = useState<number>(0);
   const [quizShowScore, setQuizShowScore] = useState<boolean>(false);
+
+  // Scroll animation configurations
+  const pAnimation = {
+    initial: { opacity: 0, y: 15 },
+    whileInView: { opacity: 1, y: 0 },
+    viewport: { once: true, margin: "-20px" },
+    transition: { duration: 0.5, ease: "easeOut" as any }
+  };
+
+  const handleMouseEnter = (e: React.MouseEvent<HTMLButtonElement>, part: string) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    setHoveredAbbr({
+      term: part,
+      definition: ABBREVIATIONS_DICT[part],
+      x: rect.left + rect.width / 2,
+      y: rect.top
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setHoveredAbbr(null);
+  };
 
   // Dynamic Humanized Text Parser wrapping abbreviations with interactive explainers
   const renderHumanizedText = (text: string) => {
@@ -338,6 +361,8 @@ export default function ClinicalHandbook() {
                 definition: ABBREVIATIONS_DICT[part]
               });
             }}
+            onMouseEnter={(e) => handleMouseEnter(e, part)}
+            onMouseLeave={handleMouseLeave}
             className="inline-block px-1.5 py-0.5 mx-0.5 bg-primary/10 text-primary hover:bg-primary hover:text-white rounded-md font-mono font-bold border-b-2 border-primary/30 hover:border-primary cursor-pointer transition-all hover:scale-105 active:scale-95 text-[11px] leading-none"
             title={`Click to show meaning of ${part}`}
           >
@@ -480,12 +505,18 @@ export default function ClinicalHandbook() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
           
           {/* SIDEBAR SEARCH & SELECTOR */}
-          <div className="lg:col-span-4 bg-white p-5 rounded-3xl border border-border shadow-soft flex flex-col space-y-5">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-4 bg-white p-5 rounded-3xl border border-border shadow-soft flex flex-col space-y-5"
+          >
             <div>
               <h2 className="text-sm font-bold text-text-primary uppercase tracking-wider mb-1 flex items-center gap-1.5">
                 <BookOpen className="w-4 h-4 text-primary" /> Conditions Index
               </h2>
-              <p className="text-[11px] text-text-secondary font-medium">Search and select from 15 high-yield clinical conditions</p>
+              <motion.p {...pAnimation} className="text-[11px] text-text-secondary font-medium">Search and select from 15 high-yield clinical conditions</motion.p>
             </div>
 
             {/* Search Input */}
@@ -521,8 +552,8 @@ export default function ClinicalHandbook() {
                       }}
                       className={`w-full text-left p-3.5 rounded-xl border transition-all duration-200 flex items-center justify-between gap-3 ${
                         isSelected 
-                          ? 'bg-primary/5 border-primary/40 shadow-sm' 
-                          : 'border-transparent hover:bg-bg-secondary hover:border-border'
+                      ? 'bg-primary/5 border-primary/40 shadow-sm' 
+                      : 'border-transparent hover:bg-bg-secondary hover:border-border'
                       }`}
                     >
                       <div className="flex items-center gap-3">
@@ -553,12 +584,18 @@ export default function ClinicalHandbook() {
               <span className="font-bold text-[10px] uppercase tracking-wider text-text-primary block flex items-center gap-1">
                 <Lightbulb className="w-3.5 h-3.5 text-primary" /> Dynamic Integration
               </span>
-              <p className="leading-relaxed">All clinical notes are humanized. You can click any medical abbreviation to display clear, friendly dictionary definitions immediately.</p>
+              <motion.p {...pAnimation} className="leading-relaxed">All clinical notes are humanized. You can click any medical abbreviation to display clear, friendly dictionary definitions immediately.</motion.p>
             </div>
-          </div>
+          </motion.div>
 
           {/* MAIN CONDITIONS DIAGNOSTIC CANVAS */}
-          <div className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-border shadow-soft flex flex-col space-y-6">
+          <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="lg:col-span-8 bg-white p-6 sm:p-8 rounded-3xl border border-border shadow-soft flex flex-col space-y-6"
+          >
             
             {/* Condition Header Banner */}
             <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-6 border-b border-border">
@@ -629,9 +666,9 @@ export default function ClinicalHandbook() {
                     <div className="space-y-6">
                       <div className="space-y-2">
                         <h3 className="text-sm font-extrabold text-text-primary uppercase tracking-wider">Clinical Description</h3>
-                        <p className="text-xs text-text-secondary leading-relaxed font-normal">
+                        <motion.p {...pAnimation} className="text-xs text-text-secondary leading-relaxed font-normal">
                           {renderHumanizedText(selectedCondition.overview)}
-                        </p>
+                        </motion.p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
@@ -644,8 +681,9 @@ export default function ClinicalHandbook() {
                             {selectedCondition.symptoms.map((symp, i) => (
                               <motion.li 
                                 initial={{ opacity: 0, x: -10 }}
-                                animate={{ opacity: 1, x: 0 }}
-                                transition={{ delay: i * 0.05 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-10px" }}
+                                transition={{ delay: i * 0.05, duration: 0.4 }}
                                 key={i} 
                                 className="flex items-start gap-2"
                               >
@@ -668,10 +706,17 @@ export default function ClinicalHandbook() {
                               </span>
                               <ul className="space-y-1 text-[11px] text-text-secondary">
                                 {crit.values.map((v, key) => (
-                                  <li key={key} className="flex items-start gap-1.5 leading-normal">
+                                  <motion.li 
+                                    key={key} 
+                                    initial={{ opacity: 0, x: -10 }}
+                                    whileInView={{ opacity: 1, x: 0 }}
+                                    viewport={{ once: true, margin: "-10px" }}
+                                    transition={{ delay: key * 0.05, duration: 0.4 }}
+                                    className="flex items-start gap-1.5 leading-normal"
+                                  >
                                     <span className="text-emerald-500 mt-0.5">✓</span>
                                     <span>{renderHumanizedText(v)}</span>
-                                  </li>
+                                  </motion.li>
                                 ))}
                               </ul>
                             </div>
@@ -695,9 +740,9 @@ export default function ClinicalHandbook() {
                     <div className="space-y-6">
                       <div className="space-y-2">
                         <h3 className="text-sm font-extrabold text-text-primary uppercase tracking-wider">Pathophysiology &amp; Etiology</h3>
-                        <p className="text-xs text-text-secondary leading-relaxed font-normal">
+                        <motion.p {...pAnimation} className="text-xs text-text-secondary leading-relaxed font-normal">
                           {renderHumanizedText(selectedCondition.pathophysiology)}
-                        </p>
+                        </motion.p>
                       </div>
 
                       <div className="space-y-3 p-5 bg-bg-secondary rounded-2xl border border-border">
@@ -733,9 +778,9 @@ export default function ClinicalHandbook() {
                         <h3 className="text-sm font-extrabold text-text-primary uppercase tracking-wider flex items-center gap-2">
                           <Dna className="w-4 h-4 text-primary animate-pulse" /> Interactive Miasm Progression Simulator
                         </h3>
-                        <p className="text-[11px] text-text-secondary leading-relaxed">
+                        <motion.p {...pAnimation} className="text-[11px] text-text-secondary leading-relaxed">
                           Follow the progression of this disease from dynamic nervous irritability up to complete physical tissue degeneration. Select a phase to simulate its pathology:
-                        </p>
+                        </motion.p>
                       </div>
 
                       {/* Simulator Stage Buttons */}
@@ -803,9 +848,9 @@ export default function ClinicalHandbook() {
                             <h4 className="text-xs font-bold text-text-primary uppercase tracking-wide">
                               Pathological Nature inside {selectedCondition.title}:
                             </h4>
-                            <p className="text-xs text-text-secondary leading-relaxed font-medium">
+                            <motion.p {...pAnimation} className="text-xs text-text-secondary leading-relaxed font-medium">
                               {renderHumanizedText(selectedCondition.miasmaticAnalysis[activeMiasmStage] || "")}
-                            </p>
+                            </motion.p>
                           </div>
 
                           {/* Right Interactive Animation column */}
@@ -910,14 +955,15 @@ export default function ClinicalHandbook() {
                     <div className="space-y-6">
                       <div className="space-y-1">
                         <h3 className="text-sm font-extrabold text-text-primary uppercase tracking-wider">Homoeopathic Clinical Therapeutics</h3>
-                        <p className="text-[11px] text-text-secondary leading-relaxed">Keynote clinical remedies mapped to {selectedCondition.title} clinical indications.</p>
+                        <motion.p {...pAnimation} className="text-[11px] text-text-secondary leading-relaxed">Keynote clinical remedies mapped to {selectedCondition.title} clinical indications.</motion.p>
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                         {selectedCondition.remedies.map((remedy, idx) => (
                           <motion.div 
                             initial={{ opacity: 0, y: 10 }}
-                            animate={{ opacity: 1, y: 0 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true, margin: "-10px" }}
                             transition={{ delay: idx * 0.05 }}
                             key={idx} 
                             className="bg-bg-secondary p-4 rounded-2xl border border-border space-y-3 hover:border-primary/25 transition-all duration-200 shadow-sm"
@@ -932,10 +978,17 @@ export default function ClinicalHandbook() {
                             </div>
                             <ul className="space-y-2 text-[11px] text-text-secondary leading-normal font-medium">
                               {remedy.keynotes.map((note, kIdx) => (
-                                <li key={kIdx} className="flex items-start gap-1.5">
+                                <motion.li 
+                                  key={kIdx}
+                                  initial={{ opacity: 0, x: -10 }}
+                                  whileInView={{ opacity: 1, x: 0 }}
+                                  viewport={{ once: true, margin: "-10px" }}
+                                  transition={{ delay: kIdx * 0.05, duration: 0.4 }}
+                                  className="flex items-start gap-1.5"
+                                >
                                   <span className="text-primary mt-0.5">•</span>
                                   <span>{renderHumanizedText(note)}</span>
-                                </li>
+                                </motion.li>
                               ))}
                             </ul>
                           </motion.div>
@@ -956,10 +1009,17 @@ export default function ClinicalHandbook() {
                           </h4>
                           <ul className="space-y-2.5 text-xs text-text-secondary font-medium">
                             {selectedCondition.lifestyle.map((life, i) => (
-                              <li key={i} className="flex items-start gap-2 leading-relaxed">
+                              <motion.li 
+                                key={i}
+                                initial={{ opacity: 0, x: -10 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-10px" }}
+                                transition={{ delay: i * 0.05, duration: 0.4 }}
+                                className="flex items-start gap-2 leading-relaxed"
+                              >
                                 <span className="text-emerald-500 mt-0.5">✓</span>
                                 <span>{renderHumanizedText(life)}</span>
-                              </li>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
@@ -971,10 +1031,17 @@ export default function ClinicalHandbook() {
                           </h4>
                           <ul className="space-y-2.5 text-xs text-text-secondary font-medium">
                             {selectedCondition.complications.map((comp, i) => (
-                              <li key={i} className="flex items-start gap-2 leading-relaxed">
+                              <motion.li 
+                                key={i}
+                                initial={{ opacity: 0, x: -10 }}
+                                whileInView={{ opacity: 1, x: 0 }}
+                                viewport={{ once: true, margin: "-10px" }}
+                                transition={{ delay: i * 0.05, duration: 0.4 }}
+                                className="flex items-start gap-2 leading-relaxed"
+                              >
                                 <span className="text-red-500 mt-0.5">⚠️</span>
                                 <span>{renderHumanizedText(comp)}</span>
-                              </li>
+                              </motion.li>
                             ))}
                           </ul>
                         </div>
@@ -987,32 +1054,42 @@ export default function ClinicalHandbook() {
               </AnimatePresence>
             </div>
 
-          </div>
+          </motion.div>
 
         </div>
 
         {/* SECTION 2: CLINICAL FLASHCARDS (TAPPING FLIP CARDS) */}
         <section className="mt-20 space-y-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+          <motion.div 
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5 }}
+            className="flex flex-col sm:flex-row sm:items-center justify-between gap-3"
+          >
             <div>
               <h2 className="text-lg font-black text-text-primary tracking-tight uppercase italic flex items-center gap-2">
                 <Layers className="w-5 h-5 text-primary" /> Interactive <span className="text-primary">Clinical Flashcards</span>
               </h2>
-              <p className="text-xs text-text-secondary mt-1 font-medium">
+              <motion.p {...pAnimation} className="text-xs text-text-secondary mt-1 font-medium">
                 Tap any flashcard to flip and reveal high-yield clinical board &amp; viva examination secrets.
-              </p>
+              </motion.p>
             </div>
             <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 bg-bg-secondary border border-border rounded-lg text-text-secondary">
               Total Cards: {CLINICAL_FLASHCARDS.length}
             </span>
-          </div>
+          </motion.div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {CLINICAL_FLASHCARDS.map((card, idx) => {
               const isFlipped = flippedCards[idx];
               return (
-                <div 
+                <motion.div 
                   key={idx} 
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ duration: 0.5, delay: (idx % 4) * 0.1 }}
                   onClick={() => toggleCard(idx)}
                   className="w-full h-56 cursor-pointer [perspective:1000px] group"
                 >
@@ -1032,14 +1109,14 @@ export default function ClinicalHandbook() {
                     <div className="absolute inset-0 [backface-visibility:hidden] [transform:rotateY(180deg)] bg-primary/5 border border-primary/20 text-text-primary p-5 rounded-3xl flex flex-col justify-between shadow-soft">
                       <span className="text-[9px] uppercase font-black text-primary-dark tracking-widest">Clinical Answer</span>
                       <div className="text-[11px] space-y-2 text-text-secondary overflow-y-auto max-h-[120px] scrollbar-thin pr-1 leading-relaxed font-medium">
-                        <p>{renderHumanizedText(card.answer)}</p>
+                        <motion.p {...pAnimation}>{renderHumanizedText(card.answer)}</motion.p>
                       </div>
                       <span className="text-[9px] text-primary-dark/60 flex items-center gap-1 font-mono">
                         Tap to reset ↺
                       </span>
                     </div>
                   </div>
-                </div>
+                </motion.div>
               );
             })}
           </div>
@@ -1047,16 +1124,27 @@ export default function ClinicalHandbook() {
 
         {/* SECTION 3: SOCIAL CLINICAL KIT SLIDES (CAROUSEL) */}
         <section className="mt-20 space-y-6">
-          <div>
+          <motion.div
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.5 }}
+          >
             <h2 className="text-lg font-black text-text-primary tracking-tight uppercase italic">
               Curiva Clinical Case <span className="text-primary">Toolkit</span>
             </h2>
-            <p className="text-xs text-text-secondary mt-1">
+            <motion.p {...pAnimation} className="text-xs text-text-secondary mt-1">
               High-yield slide deck summarized beautifully for rapid bedside revisions and viva preps.
-            </p>
-          </div>
+            </motion.p>
+          </motion.div>
 
-          <div className="relative bg-bg-secondary text-text-primary rounded-3xl p-6 sm:p-10 shadow-soft overflow-hidden min-h-[360px] flex flex-col justify-between border border-border">
+          <motion.div 
+            initial={{ opacity: 0, y: 35 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="relative bg-bg-secondary text-text-primary rounded-3xl p-6 sm:p-10 shadow-soft overflow-hidden min-h-[360px] flex flex-col justify-between border border-border"
+          >
             {/* Glowing orb details */}
             <div className="absolute -top-12 -left-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -bottom-12 -right-12 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
@@ -1085,16 +1173,23 @@ export default function ClinicalHandbook() {
                   <h3 className="text-lg md:text-xl font-bold tracking-tight text-text-primary leading-snug">
                     {CASE_SLIDES[currentSlide].title}
                   </h3>
-                  <p className="text-xs text-primary-dark italic leading-relaxed max-w-md mx-auto">
+                  <motion.p {...pAnimation} className="text-xs text-primary-dark italic leading-relaxed max-w-md mx-auto">
                     {CASE_SLIDES[currentSlide].subtitle}
-                  </p>
+                  </motion.p>
                   
                   <ul className="text-left max-w-md mx-auto space-y-2.5">
                     {CASE_SLIDES[currentSlide].bullets.map((bullet, index) => (
-                      <li key={index} className="text-xs sm:text-sm text-text-secondary leading-normal flex items-start gap-2 font-medium">
+                      <motion.li 
+                        key={index}
+                        initial={{ opacity: 0, x: -10 }}
+                        whileInView={{ opacity: 1, x: 0 }}
+                        viewport={{ once: true, margin: "-10px" }}
+                        transition={{ delay: index * 0.05, duration: 0.4 }}
+                        className="text-xs sm:text-sm text-text-secondary leading-normal flex items-start gap-2 font-medium"
+                      >
                         <span className="text-primary mt-0.5">•</span>
                         <span>{renderHumanizedText(bullet)}</span>
-                      </li>
+                      </motion.li>
                     ))}
                   </ul>
                 </motion.div>
@@ -1129,12 +1224,18 @@ export default function ClinicalHandbook() {
                 Next <ChevronRight className="w-4.5 h-4.5" />
               </button>
             </div>
-          </div>
+          </motion.div>
         </section>
 
         {/* SECTION 4: INTERACTIVE DIAGNOSTIC CHALLENGE (NEW HIGHLY ANIMATED QUIZ) */}
         <section className="mt-20">
-          <div className="bg-gradient-to-br from-primary/95 to-primary-dark text-white rounded-3xl p-6 sm:p-10 shadow-xl border border-primary-dark/30 relative overflow-hidden">
+          <motion.div 
+            initial={{ opacity: 0, y: 40 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.6 }}
+            className="bg-gradient-to-br from-primary/95 to-primary-dark text-white rounded-3xl p-6 sm:p-10 shadow-xl border border-primary-dark/30 relative overflow-hidden"
+          >
             {/* Background floating particles */}
             <div className="absolute inset-0 opacity-10 pointer-events-none">
               <div className="absolute top-1/4 left-1/4 w-2 h-2 bg-white rounded-full animate-ping" />
@@ -1177,9 +1278,9 @@ export default function ClinicalHandbook() {
                       <h4 className="text-xs font-extrabold uppercase tracking-widest text-white/90 flex items-center gap-1.5 mb-2.5">
                         <HelpCircle className="w-4 h-4 text-white" /> Presentation &amp; Diagnostics:
                       </h4>
-                      <p className="text-xs sm:text-sm leading-relaxed text-white font-medium italic">
+                      <motion.p {...pAnimation} className="text-xs sm:text-sm leading-relaxed text-white font-medium italic">
                         "{QUIZ_QUESTIONS[quizIndex].scenario}"
-                      </p>
+                      </motion.p>
                     </div>
 
                     {/* Options Grid */}
@@ -1235,9 +1336,9 @@ export default function ClinicalHandbook() {
                           Therapeutic Solution: {QUIZ_QUESTIONS[quizIndex].correctAnswer}
                         </h4>
                       </div>
-                      <p className="text-xs text-text-secondary leading-relaxed font-semibold">
+                      <motion.p {...pAnimation} className="text-xs text-text-secondary leading-relaxed font-semibold">
                         {QUIZ_QUESTIONS[quizIndex].explanation}
-                      </p>
+                      </motion.p>
                       <button
                         onClick={handleNextQuizQuestion}
                         className="mt-2 w-full py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-1.5 shadow-md hover:scale-[1.01] transition-all cursor-pointer"
@@ -1290,7 +1391,7 @@ export default function ClinicalHandbook() {
                 </button>
               </motion.div>
             )}
-          </div>
+          </motion.div>
         </section>
 
       </main>
@@ -1327,12 +1428,12 @@ export default function ClinicalHandbook() {
               
               <div className="space-y-2">
                 <h4 className="text-sm font-bold text-text-primary uppercase tracking-widest text-primary font-mono">Clinical Abbreviation</h4>
-                <p className="text-xs text-text-secondary leading-relaxed font-bold bg-bg-secondary p-4 rounded-xl border border-border">
+                <motion.p {...pAnimation} className="text-xs text-text-secondary leading-relaxed font-bold bg-bg-secondary p-4 rounded-xl border border-border">
                   {explainingAbbr.definition}
-                </p>
+                </motion.p>
               </div>
               
-              <p className="text-[10px] text-text-tertiary">Tap anywhere outside or click below to close</p>
+              <motion.p {...pAnimation} className="text-[10px] text-text-tertiary">Tap anywhere outside or click below to close</motion.p>
               
               <button
                 onClick={() => setExplainingAbbr(null)}
@@ -1341,6 +1442,35 @@ export default function ClinicalHandbook() {
                 Got it, thanks!
               </button>
             </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* FLOATING HOVER TOOLTIP SYSTEM FOR MEDICAL TERMINOLOGY */}
+      <AnimatePresence>
+        {hoveredAbbr && !explainingAbbr && (
+          <motion.div
+            initial={{ opacity: 0, y: 10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 10, scale: 0.95 }}
+            transition={{ duration: 0.15, ease: "easeOut" }}
+            className="fixed z-50 pointer-events-none px-4 py-3 bg-zinc-900/95 text-zinc-100 rounded-2xl shadow-xl border border-zinc-800/80 text-xs max-w-[280px] w-max font-normal leading-relaxed text-center backdrop-blur-md"
+            style={{
+              left: `${hoveredAbbr.x}px`,
+              top: `${hoveredAbbr.y - 8}px`,
+              transform: 'translate(-50%, -100%)',
+            }}
+          >
+            <div className="font-mono font-bold text-primary text-[10px] uppercase tracking-wider mb-1">
+              {hoveredAbbr.term}
+            </div>
+            <div className="text-zinc-200 text-[11px] leading-snug">
+              {hoveredAbbr.definition}
+            </div>
+            {/* Tooltip Arrow */}
+            <div 
+              className="absolute bottom-0 left-1/2 -translate-x-1/2 translate-y-full w-0 h-0 border-x-4 border-x-transparent border-t-4 border-t-zinc-900"
+            />
           </motion.div>
         )}
       </AnimatePresence>

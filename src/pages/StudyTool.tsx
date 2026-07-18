@@ -407,40 +407,40 @@ const StudyTool: React.FC = () => {
   const CategoryIcon = categoryInfo ? categoryInfo.icon : HelpCircle;
 
   return (
-    <div className="min-h-screen bg-bg-primary dark:bg-zinc-950 pb-20 transition-colors duration-300">
+    <div className="min-h-screen bg-bg-primary pb-20 transition-colors duration-300">
       <SEO 
         title="Clinical Recall Tool | Curiva Homoeopathy"
         description="Master Materia Medica with our dynamic study system. Test your knowledge on keynotes, clinical modalities, and detailed case studies."
       />
 
       {/* Styled Header */}
-      <header className="relative pt-24 pb-36 md:pt-32 md:pb-40 overflow-hidden bg-primary-dark dark:bg-zinc-900 border-b border-border dark:border-zinc-800 text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(52,211,153,0.1)_0%,transparent_70%)] opacity-40 pointer-events-none" />
+      <header className="relative pt-24 pb-36 md:pt-32 md:pb-40 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 flex flex-col items-center text-center">
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="inline-flex items-center gap-3 px-5 py-2 bg-white/5 rounded-full border border-white/10 mb-6 md:mb-8 backdrop-blur-md"
+            className="inline-flex items-center gap-3 px-5 py-2 bg-primary/10 rounded-full border border-primary/20 mb-6 md:mb-8 shadow-sm text-primary"
           >
-            <Brain className="w-4 h-4 text-emerald-400" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-emerald-400">Homoeopathic Memory Palace</span>
+            <Brain className="w-4 h-4 text-primary" />
+            <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Homoeopathic Memory Palace</span>
           </motion.div>
           
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl lg:text-6.5xl font-display font-medium text-white tracking-tighter uppercase mb-4"
+            className="text-3xl md:text-5xl lg:text-6.5xl font-display font-medium text-text-primary tracking-tighter uppercase mb-4"
           >
-            Clinical <span className="text-emerald-400 italic font-serif">Recall</span>
+            Clinical <span className="text-primary italic font-serif">Recall</span>
           </motion.h1>
           
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.2 }}
-            className="text-sm md:text-base text-white/70 max-w-2xl font-serif italic leading-relaxed"
+            className="text-sm md:text-base text-text-secondary max-w-2xl font-serif italic leading-relaxed"
           >
             High-speed clinical mental training. Toggle between dynamic interactive quizzes and classical self-study cards to master organic drug pictures.
           </motion.p>
@@ -456,23 +456,23 @@ const StudyTool: React.FC = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
-              className="bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 p-6 md:p-10 rounded-[2.5rem] shadow-xl max-w-2xl mx-auto space-y-10"
+              className="bg-white border border-border p-6 md:p-10 rounded-[2.5rem] shadow-xl max-w-2xl mx-auto space-y-10"
             >
               <div className="text-center space-y-2">
-                <div className="w-12 h-12 rounded-2xl bg-primary/10 dark:bg-emerald-500/10 flex items-center justify-center text-primary dark:text-emerald-400 mx-auto">
+                <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mx-auto">
                   <Sliders className="w-6 h-6" />
                 </div>
-                <h2 className="text-2xl md:text-3.5xl font-display font-bold text-text-primary dark:text-zinc-100">
-                  Configure <span className="text-primary dark:text-emerald-400 italic">Recall Session</span>
+                <h2 className="text-2xl md:text-3.5xl font-display font-bold text-text-primary">
+                  Configure <span className="text-primary italic">Recall Session</span>
                 </h2>
-                <p className="text-xs text-text-secondary dark:text-zinc-400 font-serif italic">
+                <p className="text-xs text-text-secondary font-serif italic">
                   Select your metrics. The system dynamically pulls quality case histories matching your choices.
                 </p>
               </div>
 
               {/* 1. DIFFICULTY LEVEL (TAB SELECTOR WITH VIBRANT INTERACTIVES) */}
               <div className="space-y-4">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary dark:text-zinc-400">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary">
                   Practice Difficulty Level
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-3">
@@ -486,8 +486,8 @@ const StudyTool: React.FC = () => {
                         desc: 'Keynotes & Onset',
                         color: 'from-emerald-500 to-teal-500',
                         shadow: 'shadow-emerald-500/20',
-                        bg: 'bg-emerald-50 dark:bg-emerald-950/20',
-                        text: 'text-emerald-700 dark:text-emerald-400'
+                        bg: 'bg-emerald-50',
+                        text: 'text-emerald-700'
                       },
                       Advanced: {
                         icon: Compass,
@@ -495,8 +495,8 @@ const StudyTool: React.FC = () => {
                         desc: 'Thermal & Modalities',
                         color: 'from-indigo-500 to-blue-500',
                         shadow: 'shadow-indigo-500/20',
-                        bg: 'bg-indigo-50 dark:bg-indigo-950/20',
-                        text: 'text-indigo-700 dark:text-indigo-400'
+                        bg: 'bg-indigo-50',
+                        text: 'text-indigo-700'
                       },
                       Expert: {
                         icon: Award,
@@ -504,8 +504,8 @@ const StudyTool: React.FC = () => {
                         desc: 'Clinical Cases & Origin',
                         color: 'from-amber-500 to-rose-500',
                         shadow: 'shadow-amber-500/20',
-                        bg: 'bg-amber-50 dark:bg-amber-950/20',
-                        text: 'text-amber-700 dark:text-amber-400'
+                        bg: 'bg-amber-50',
+                        text: 'text-amber-700'
                       }
                     }[level];
 
@@ -519,7 +519,7 @@ const StudyTool: React.FC = () => {
                         className={`relative flex items-center gap-3.5 p-4 rounded-2xl transition-all text-left group cursor-pointer border ${
                           isActive 
                             ? `bg-gradient-to-r ${levelMeta.color} text-white shadow-lg ${levelMeta.shadow} border-transparent`
-                            : `border-border dark:border-zinc-800 text-text-secondary dark:text-zinc-400 hover:bg-bg-secondary dark:hover:bg-zinc-800/30`
+                            : `border-border text-text-secondary hover:bg-bg-secondary`
                         }`}
                       >
                         <div className={`p-2.5 rounded-xl transition-all ${
@@ -534,7 +534,7 @@ const StudyTool: React.FC = () => {
                             {levelMeta.label}
                           </span>
                           <span className={`block text-[10px] leading-none ${
-                            isActive ? 'text-white/80' : 'text-text-tertiary dark:text-text-tertiary'
+                            isActive ? 'text-white/80' : 'text-text-tertiary'
                           }`}>
                             {levelMeta.desc}
                           </span>
@@ -547,7 +547,7 @@ const StudyTool: React.FC = () => {
 
               {/* 2. CHOOSE QUANTITY */}
               <div className="space-y-4">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary dark:text-zinc-400">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary">
                   Target Question Quantity
                 </label>
                 <div className="flex flex-wrap gap-2">
@@ -562,7 +562,7 @@ const StudyTool: React.FC = () => {
                         className={`px-4.5 py-3 rounded-xl text-xs font-black uppercase tracking-wider transition-all border ${
                           isActive
                             ? 'bg-primary border-primary text-white shadow-md'
-                            : 'bg-bg-secondary dark:bg-zinc-800/35 border-transparent hover:border-border text-text-secondary dark:text-zinc-400'
+                            : 'bg-bg-secondary border-transparent hover:border-border text-text-secondary'
                         }`}
                       >
                         {qty === -1 ? '✨ Maximum Pool' : `${qty} Cases`}
@@ -574,7 +574,7 @@ const StudyTool: React.FC = () => {
 
               {/* 3. CHOOSE PRACTICE MODE */}
               <div className="space-y-4">
-                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary dark:text-zinc-400">
+                <label className="block text-[10px] font-black uppercase tracking-[0.2em] text-text-secondary">
                   Select Training Format
                 </label>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-3.5">
@@ -583,12 +583,12 @@ const StudyTool: React.FC = () => {
                     onClick={() => setStudyMode('quiz')}
                     className={`p-5 rounded-2xl text-left border transition-all flex items-start gap-4 ${
                       studyMode === 'quiz'
-                        ? 'bg-primary/5 dark:bg-emerald-500/5 border-primary dark:border-emerald-500 text-text-primary dark:text-zinc-100 ring-1 ring-primary/20'
-                        : 'border-border dark:border-zinc-800 bg-bg-secondary/40 dark:bg-zinc-800/20 text-text-secondary dark:text-zinc-400 hover:border-primary/30'
+                        ? 'bg-primary/5 border-primary text-text-primary ring-1 ring-primary/20'
+                        : 'border-border bg-bg-secondary/40 text-text-secondary hover:border-primary/30'
                     }`}
                   >
                     <div className={`p-2 rounded-xl border ${
-                      studyMode === 'quiz' ? 'bg-primary/10 border-primary/20 text-primary dark:text-emerald-400' : 'bg-white dark:bg-zinc-800 border-border'
+                      studyMode === 'quiz' ? 'bg-primary/10 border-primary/20 text-primary' : 'bg-white border-border'
                     }`}>
                       <Activity className="w-4 h-4" />
                     </div>
@@ -607,12 +607,12 @@ const StudyTool: React.FC = () => {
                     onClick={() => setStudyMode('flashcard')}
                     className={`p-5 rounded-2xl text-left border transition-all flex items-start gap-4 ${
                       studyMode === 'flashcard'
-                        ? 'bg-primary/5 dark:bg-emerald-500/5 border-primary dark:border-emerald-500 text-text-primary dark:text-zinc-100 ring-1 ring-primary/20'
-                        : 'border-border dark:border-zinc-800 bg-bg-secondary/40 dark:bg-zinc-800/20 text-text-secondary dark:text-zinc-400 hover:border-primary/30'
+                        ? 'bg-primary/5 border-primary text-text-primary ring-1 ring-primary/20'
+                        : 'border-border bg-bg-secondary/40 text-text-secondary hover:border-primary/30'
                     }`}
                   >
                     <div className={`p-2 rounded-xl border ${
-                      studyMode === 'flashcard' ? 'bg-primary/10 border-primary/20 text-primary dark:text-emerald-400' : 'bg-white dark:bg-zinc-800 border-border'
+                      studyMode === 'flashcard' ? 'bg-primary/10 border-primary/20 text-primary' : 'bg-white border-border'
                     }`}>
                       <Crown className="w-4 h-4" />
                     </div>
@@ -629,10 +629,10 @@ const StudyTool: React.FC = () => {
               </div>
 
               {/* INTEGRATIVE TEMPERATURE BANNER (ADAPTIVE AMBIENT ENVIRONMENT DESIGN) */}
-              <div className="bg-bg-secondary dark:bg-zinc-800/20 border border-border dark:border-zinc-800 p-4.5 rounded-2xl flex gap-3 text-xs text-text-secondary dark:text-zinc-450 font-serif italic leading-relaxed items-center">
+              <div className="bg-bg-secondary border border-border p-4.5 rounded-2xl flex gap-3 text-xs text-text-secondary font-serif italic leading-relaxed items-center">
                 <Thermometer className="w-5 h-5 text-amber-500 shrink-0" />
                 <span>
-                  <strong>Tip:</strong> Curiva is in real-time sync with day-night cycles. Ambient colors dynamically shift contrast parameters so your eyes stay fresh during prolonged sessions.
+                  <strong>Tip:</strong> Curiva is designed with perfect contrast. High density typography ensures your eyes stay fresh during prolonged sessions.
                 </span>
               </div>
 

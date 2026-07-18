@@ -425,7 +425,7 @@ export default function RemedyComparison({ remedies, preSelectedId, preSelectedI
                           <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
                             <div className="flex flex-wrap gap-2">
                               {remedy.betterWith.map((item, idx) => (
-                                <span key={`${remedy.id}-better-${idx}`} className="px-3 py-1 bg-[#DCFCE7] text-[#166534] dark:bg-[#14532D] dark:text-[#DCFCE7] rounded-lg text-xs font-bold border border-[#166534]/10">
+                                <span key={`${remedy.id}-better-${idx}`} className="px-3 py-1 bg-[#DCFCE7] text-[#166534] rounded-lg text-xs font-bold border border-[#166534]/10">
                                   {item}
                                 </span>
                               ))}
@@ -446,7 +446,7 @@ export default function RemedyComparison({ remedies, preSelectedId, preSelectedI
                           <td key={remedy.id} className="p-8 border-r border-border last:border-r-0">
                             <div className="flex flex-wrap gap-2">
                               {remedy.worseWith.map((item, idx) => (
-                                <span key={`${remedy.id}-worse-${idx}`} className="px-3 py-1 bg-[#FEE2E2] text-[#991B1B] dark:bg-[#7F1D1D] dark:text-[#FEE2E2] rounded-lg text-xs font-bold border border-[#991B1B]/10">
+                                <span key={`${remedy.id}-worse-${idx}`} className="px-3 py-1 bg-[#FEE2E2] text-[#991B1B] rounded-lg text-xs font-bold border border-[#991B1B]/10">
                                   {item}
                                 </span>
                               ))}
@@ -495,7 +495,7 @@ export default function RemedyComparison({ remedies, preSelectedId, preSelectedI
               {/* Mobile View (sm / xs) */}
               <div className="md:hidden space-y-6">
                 {selectedRemedies.map(remedy => (
-                  <div key={remedy.id} className="bg-white dark:bg-zinc-900 rounded-[2.5rem] border border-border overflow-hidden shadow-xl p-6 space-y-6">
+                  <div key={remedy.id} className="bg-white rounded-[2.5rem] border border-border overflow-hidden shadow-xl p-6 space-y-6">
                     <div className="flex items-center gap-4 border-b border-border pb-4">
                       <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary">
                         <Info className="w-6 h-6" />

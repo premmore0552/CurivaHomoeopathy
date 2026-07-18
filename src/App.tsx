@@ -10,7 +10,7 @@ import Footer from './components/Footer';
 import RouteScrollToTop from './components/RouteScrollToTop';
 import ScrollToTop from './components/ScrollToTop';
 import { ScrollToTopButton } from './components/ScrollToTopButton';
-import CookieConsent from './components/CookieConsent';
+// removed CookieConsent import
 import { Loader2 } from 'lucide-react';
 
 const Home = lazy(() => import('./pages/Home'));
@@ -38,7 +38,6 @@ const MyLibrary = lazy(() => import('./pages/MyLibrary'));
 const StudentResources = lazy(() => import('./pages/StudentResources'));
 const StudyTool = lazy(() => import('./pages/StudyTool'));
 const Stalwarts = lazy(() => import('./pages/Stalwarts'));
-const AskHomeopath = lazy(() => import('./pages/AskHomeopath'));
 const Profile = lazy(() => import('./pages/Profile'));
 const Auth = lazy(() => import('./pages/Auth'));
 const MCQPractice = lazy(() => import('./pages/MCQPractice'));
@@ -53,7 +52,7 @@ const ClinicalHandbook = lazy(() => import('./pages/ClinicalHandbook'));
 
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import GuidedTour from './components/GuidedTour';
-import PWAInstallBanner from './components/PWAInstallBanner';
+// removed PWAInstallBanner import
 import Logo from './components/Logo';
 import QuickNav from './components/QuickNav';
 
@@ -115,10 +114,8 @@ function AppRoutes() {
       <ScrollToTop />
       <ScrollToTopButton />
       <QuickNav />
-      <CookieConsent />
       <MedicalDisclaimerModal />
       <GuidedTour />
-      <PWAInstallBanner />
       <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary flex flex-col transition-colors duration-300">
         <Header />
         <Breadcrumbs />
@@ -150,7 +147,6 @@ function AppRoutes() {
                 <Route path="/visualization" element={<PageWrapper><StudyTool /></PageWrapper>} />
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
-                <Route path="/ask-homeopath" element={<PageWrapper><AskHomeopath /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />

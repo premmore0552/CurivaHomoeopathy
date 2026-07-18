@@ -36,7 +36,7 @@ const FeaturedQuestions: React.FC = () => {
             </h2>
           </div>
           <Link 
-            to="/ask-homeopath"
+            to="/public-education"
             className="group flex items-center gap-4 text-xs font-black uppercase tracking-[0.2em] text-text-primary hover:text-primary transition-all"
           >
             Consult Expert <ArrowRight className="w-5 h-5 group-hover:translate-x-2 transition-transform" />
@@ -79,7 +79,7 @@ const FeaturedQuestions: React.FC = () => {
                   <span className="text-[10px] font-bold text-text-primary uppercase tracking-tighter italic">{q.answeredBy || 'Curiva Panel'}</span>
                 </div>
                 <Link 
-                  to="/ask-homeopath"
+                  to="/public-education"
                   className="w-10 h-10 rounded-full bg-bg-secondary flex items-center justify-center text-text-tertiary group-hover:bg-primary group-hover:text-white group-hover:scale-110 transition-all"
                 >
                   <ChevronRight className="w-5 h-5" />

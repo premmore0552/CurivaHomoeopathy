@@ -55,31 +55,31 @@ export default function ClinicalGuides() {
         description="Explore detailed clinical guides, therapeutics, and holistic care pathways for common and chronic ailments."
       />
 
-      <header className="relative pt-32 pb-48 overflow-hidden bg-[#13222e] dark:bg-[#070e14] text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
-        <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <header className="relative pt-32 pb-48 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-60 pointer-events-none" />
+        <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] mb-10 border border-white/15 text-accent-light"
+             className="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] mb-10 text-primary"
            >
-             <Sparkles className="w-4 h-4" /> Therapeutics Reference
+             <Sparkles className="w-4 h-4 text-primary" /> Therapeutics Reference
            </motion.div>
            <motion.h1 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.1 }}
-             className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white tracking-tighter leading-[0.85] mb-12"
+             className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-text-primary tracking-tighter leading-[0.85] mb-12 uppercase"
            >
-             Clinical <br/> <span className="text-accent italic">Guides</span>
+             Clinical <br/> <span className="text-primary italic">Guides</span>
            </motion.h1>
            <motion.p 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
              transition={{ delay: 0.2 }}
-             className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-relaxed"
+             className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed"
            >
              Centralized therapeutic strategies, clinical patterns, and evidence-supported management of diseases and conditions.
            </motion.p>

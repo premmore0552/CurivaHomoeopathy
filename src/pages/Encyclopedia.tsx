@@ -79,15 +79,15 @@ export default function Encyclopedia() {
         description="Browse our comprehensive A-Z database of remedies, drug pictures, symptoms, and classical definitions."
       />
 
-      <header className="relative pt-32 pb-48 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/20 via-transparent to-transparent opacity-60 pointer-events-none" />
-        <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/10 rounded-full blur-[120px] pointer-events-none" />
+      <header className="relative pt-32 pb-48 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
+        <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-transparent opacity-60 pointer-events-none" />
+        <div className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
         
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
-             className="inline-flex items-center gap-3 px-4 py-2 bg-white/5 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] mb-10 border border-white/15 text-accent-light"
+             className="inline-flex items-center gap-3 px-4 py-2 bg-primary/10 rounded-full text-[10px] font-bold uppercase tracking-[0.25em] mb-10 border border-primary/20 text-primary"
            >
              <Sparkles className="w-4 h-4" /> Living Archive
            </motion.div>
@@ -101,10 +101,10 @@ export default function Encyclopedia() {
                  exit={{ opacity: 0, y: -15 }}
                  className="space-y-6"
                >
-                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white tracking-tighter leading-[0.85]">
-                   Materia <br/> <span className="text-accent italic">Medica</span>
+                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-text-primary tracking-tighter leading-[0.85]">
+                   Materia <br/> <span className="text-primary italic">Medica</span>
                  </h1>
-                 <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-relaxed">
+                 <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
                    Your centralized gateway for evidence-based homeopathic remedy profiles, keynotes, and clinical indications.
                  </p>
                </motion.div>
@@ -118,10 +118,10 @@ export default function Encyclopedia() {
                  exit={{ opacity: 0, y: -15 }}
                  className="space-y-6"
                >
-                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white tracking-tighter leading-[0.85]">
-                   Homeopathic <br/> <span className="text-accent italic">Glossary</span>
+                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-text-primary tracking-tighter leading-[0.85]">
+                   Homeopathic <br/> <span className="text-primary italic">Glossary</span>
                  </h1>
-                 <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-relaxed">
+                 <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
                    Explore foundational concepts, dynamic energetic definitions, and primary remedy designations linked to authentic sources.
                  </p>
                </motion.div>
@@ -135,10 +135,10 @@ export default function Encyclopedia() {
                   exit={{ opacity: 0, y: -15 }}
                   className="space-y-6"
                 >
-                  <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white tracking-tighter leading-[0.85]">
-                    Symptom <br/> <span className="text-accent italic">Modalities</span>
+                  <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-text-primary tracking-tighter leading-[0.85]">
+                    Symptom <br/> <span className="text-primary italic">Modalities</span>
                   </h1>
-                  <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-relaxed">
+                  <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
                     Browse exact homeopathic aggravations and ameliorations. Filter major remedies by temporal, thermal, positional, and environmental dynamics.
                   </p>
                 </motion.div>
@@ -152,21 +152,21 @@ export default function Encyclopedia() {
                  exit={{ opacity: 0, y: -15 }}
                  className="space-y-6"
                >
-                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-white tracking-tighter leading-[0.85]">
-                   Remedy <br/> <span className="text-accent italic">Finder</span>
+                 <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-text-primary tracking-tighter leading-[0.85]">
+                   Remedy <br/> <span className="text-primary italic">Finder</span>
                  </h1>
-                 <p className="text-xl md:text-2xl text-white/60 max-w-2xl font-serif italic leading-relaxed">
+                 <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
                    An interactive clinical symptom mapping configuration tool. Match holistic indications to remedies using weighted correlations.
                  </p>
                </motion.div>
              )}
            </AnimatePresence>
-        </div>
+         </div>
       </header>
 
       {/* Dynamic Sub-navigation Tab Selector */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-30">
-        <div className="flex flex-col sm:flex-row bg-white dark:bg-zinc-900 border border-border p-2 rounded-[2rem] shadow-2xl items-center justify-between gap-4">
+        <div className="flex flex-col sm:flex-row bg-white border border-border p-2 rounded-[2rem] shadow-2xl items-center justify-between gap-4">
           <div className="flex flex-wrap gap-1 bg-bg-secondary p-1 rounded-[1.5rem] w-full sm:w-auto">
             {[
               { id: 'remedies', label: '📖 Materia Index' },

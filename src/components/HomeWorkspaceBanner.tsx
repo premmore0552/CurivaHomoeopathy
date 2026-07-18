@@ -76,7 +76,7 @@ export const HomeWorkspaceBanner: React.FC<HomeWorkspaceBannerProps> = ({ profil
           shortcuts: [
             { name: 'Materia Medica Guides', desc: 'A-Z introduction to homeopathic remedies.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' },
             { name: 'Stalwarts Biography', desc: 'Learn the genesis & classical works.', to: '/stalwarts', icon: GraduationCap, color: 'text-slate-500 bg-slate-500/5' },
-            { name: 'Consult an Expert', desc: 'Ask peer practitioners medical inquiries.', to: '/ask-homeopath', icon: HelpCircle, color: 'text-red-500 bg-red-500/5' },
+            { name: 'Public Education', desc: 'Learn the principles & read wellness FAQs.', to: '/public-education', icon: HelpCircle, color: 'text-red-500 bg-red-500/5' },
             { name: 'My Saved Library', desc: 'Bookmarks of useful remedies or articles.', to: '/library', icon: FileText, color: 'text-amber-500 bg-amber-500/5' }
           ]
         };
