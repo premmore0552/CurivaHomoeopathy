@@ -311,61 +311,108 @@ export default function UniversityBlueprints() {
           {/* Active Year Details */}
           {activeBlueprint && (
             <div className="space-y-6">
-              <div className="flex items-center justify-between">
+              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-bg-secondary p-5 rounded-3xl border border-border">
                 <div>
-                  <h2 className="text-2xl font-serif font-bold text-text-primary">
+                  <h2 className="text-xl sm:text-2xl font-serif font-bold text-text-primary">
                     {activeBlueprint.year} Subject-Wise Exam Blueprints
                   </h2>
-                  <p className="text-xs text-text-tertiary">
+                  <p className="text-xs text-text-tertiary mt-1">
                     Official NCH Paper Blueprints, Marks Allocation &amp; High-Yield Units
                   </p>
                 </div>
-                <Link
-                  to={`/subjects?year=${encodeURIComponent(activeBlueprint.year)}`}
-                  className="px-4 py-2 bg-primary/10 hover:bg-primary text-primary hover:text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5"
-                >
-                  <span>Open {activeBlueprint.year} Subjects</span>
-                  <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
+                <div className="flex flex-wrap items-center gap-2.5">
+                  <Link
+                    to={
+                      activeBlueprint.year === '1st BHMS' ? '/portal/1st-bhms' :
+                      activeBlueprint.year === '2nd BHMS' ? '/portal/2nd-bhms' :
+                      activeBlueprint.year === '3rd BHMS' ? '/portal/3rd-bhms' :
+                      '/portal/4th-bhms'
+                    }
+                    className="px-4 py-2.5 bg-primary hover:bg-primary/90 text-white rounded-xl text-xs font-bold transition-all flex items-center gap-1.5 shadow-sm"
+                  >
+                    <span>Open {activeBlueprint.year} Study Portal</span>
+                    <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                  <Link
+                    to={`/subjects?year=${encodeURIComponent(activeBlueprint.year)}`}
+                    className="px-4 py-2.5 bg-bg-primary hover:bg-primary/10 text-text-secondary hover:text-primary rounded-xl text-xs font-bold transition-all border border-border flex items-center gap-1.5"
+                  >
+                    <BookOpen className="w-3.5 h-3.5" />
+                    <span>All {activeBlueprint.year} Subjects</span>
+                  </Link>
+                </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                {activeBlueprint.subjects.map((sub, idx) => (
-                  <div key={idx} className="bg-bg-secondary border border-border rounded-3xl p-6 shadow-sm hover:border-primary/30 transition-all space-y-5">
-                    <div className="flex items-center justify-between border-b border-border pb-3">
-                      <div>
-                        <span className="text-[10px] font-mono font-bold text-primary px-2 py-0.5 rounded bg-primary/10 mr-2">
-                          {sub.code}
-                        </span>
-                        <h3 className="text-lg sm:text-xl font-serif font-bold text-primary inline">
-                          {sub.name}
-                        </h3>
+                {activeBlueprint.subjects.map((sub, idx) => {
+                  const subjectRoute = 
+                    sub.code.includes('Anat') ? '/subject/anatomy' :
+                    sub.code.includes('Physio') ? '/subject/physiology' :
+                    sub.code.includes('Pharm') ? '/subject/pharmacy' :
+                    sub.code.includes('Path') ? '/subject/pathology' :
+                    sub.code.includes('FMT') ? '/subject/forensic-medicine' :
+                    sub.code.includes('HMM') ? '/subject/materia-medica' :
+                    sub.code.includes('OM') ? '/subject/organon' :
+                    sub.code.includes('Surg') ? '/subject/surgery' :
+                    sub.code.includes('OBG') ? '/subject/gynecology-obstetrics' :
+                    sub.code.includes('PM') ? '/subject/practice-of-medicine' :
+                    sub.code.includes('Rep') ? '/subject/repertory' : '/subjects';
+
+                  return (
+                    <div key={idx} className="bg-bg-secondary border border-border rounded-3xl p-6 shadow-sm hover:border-primary/30 transition-all space-y-5 flex flex-col justify-between">
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between border-b border-border pb-3">
+                          <div>
+                            <span className="text-[10px] font-mono font-bold text-primary px-2 py-0.5 rounded bg-primary/10 mr-2">
+                              {sub.code}
+                            </span>
+                            <h3 className="text-lg sm:text-xl font-serif font-bold text-primary inline">
+                              {sub.name}
+                            </h3>
+                          </div>
+                          <span className="text-xs font-bold px-2.5 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 rounded-lg shrink-0">
+                            {sub.totalMarks} Marks
+                          </span>
+                        </div>
+
+                        <div className="space-y-2">
+                          <strong className="text-xs text-text-primary font-bold uppercase tracking-wider block">Question Paper Pattern:</strong>
+                          <p className="text-xs text-text-secondary font-mono bg-bg-primary p-3 rounded-xl border border-border/60 leading-relaxed">
+                            {sub.pattern}
+                          </p>
+                        </div>
+
+                        <div className="space-y-3">
+                          <strong className="text-xs text-text-primary font-bold uppercase tracking-wider block">High-Yield Exam Topics:</strong>
+                          <ul className="space-y-2 text-xs text-text-secondary">
+                            {sub.highYieldTopics.map((topic, i) => (
+                              <li key={i} className="flex items-start gap-2 bg-bg-primary p-2.5 rounded-xl border border-border/60">
+                                <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
+                                <span className="leading-relaxed">{topic}</span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
                       </div>
-                      <span className="text-xs font-bold px-2.5 py-1 bg-blue-100 text-blue-800 dark:bg-blue-900/40 dark:text-blue-300 rounded-lg shrink-0">
-                        {sub.totalMarks} Marks
-                      </span>
-                    </div>
 
-                    <div className="space-y-2">
-                      <strong className="text-xs text-text-primary font-bold uppercase tracking-wider block">Question Paper Pattern:</strong>
-                      <p className="text-xs text-text-secondary font-mono bg-bg-primary p-3 rounded-xl border border-border/60 leading-relaxed">
-                        {sub.pattern}
-                      </p>
+                      <div className="pt-3 border-t border-border flex items-center justify-between">
+                        <Link
+                          to={subjectRoute}
+                          className="text-xs font-bold text-primary hover:underline flex items-center gap-1"
+                        >
+                          <span>Study {sub.name} Chapter Notes</span>
+                          <ArrowRight className="w-3.5 h-3.5" />
+                        </Link>
+                        <Link
+                          to="/aiapget-mcq-simulator"
+                          className="text-[11px] font-bold text-text-tertiary hover:text-primary transition-colors"
+                        >
+                          Practice MCQs →
+                        </Link>
+                      </div>
                     </div>
-
-                    <div className="space-y-3">
-                      <strong className="text-xs text-text-primary font-bold uppercase tracking-wider block">High-Yield Exam Topics:</strong>
-                      <ul className="space-y-2 text-xs text-text-secondary">
-                        {sub.highYieldTopics.map((topic, i) => (
-                          <li key={i} className="flex items-start gap-2 bg-bg-primary p-2.5 rounded-xl border border-border/60">
-                            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                            <span className="leading-relaxed">{topic}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-                ))}
+                  );
+                })}
               </div>
             </div>
           )}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { GitBranch, BrainCircuit, Activity, Heart, Shield, Zap } from 'lucide-react';
@@ -66,10 +66,10 @@ export default function TextMindMap({
   lifestyle = [], 
   research = [] 
 }: TextMindMapProps) {
-  const [activeBranch, setActiveBranch] = React.useState<string | null>(null);
+  const [activeBranch, setActiveBranch] = useState<string | null>(null);
 
   // Dynamic fallback generator to ensure full clinical maps for remedies & clinical blogs
-  const resolvedData = React.useMemo(() => {
+  const resolvedData = useMemo(() => {
     const t = title.toLowerCase();
     const c = category.toLowerCase();
     

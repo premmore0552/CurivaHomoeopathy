@@ -1,4 +1,4 @@
-import React, { Suspense, lazy } from 'react';
+import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HelmetProvider } from 'react-helmet-async';
@@ -10,6 +10,10 @@ import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
 import RouteScrollToTop from './components/RouteScrollToTop';
 import ScrollToTop from './components/ScrollToTop';
+import Breadcrumbs from './components/Breadcrumbs';
+import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
+import Logo from './components/Logo';
+import FloatingQuickActions from './components/FloatingQuickActions';
 import { Loader2 } from 'lucide-react';
 
 function lazyLoad<T extends React.ComponentType<any>>(
@@ -104,10 +108,7 @@ const FirstBhmsPortal = lazyLoad(() => import('./pages/FirstBhmsPortal'));
 const SecondBhmsPortal = lazyLoad(() => import('./pages/SecondBhmsPortal'));
 const ThirdBhmsPortal = lazyLoad(() => import('./pages/ThirdBhmsPortal'));
 const FourthBhmsPortal = lazyLoad(() => import('./pages/FourthBhmsPortal'));
-
-import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
-import Logo from './components/Logo';
-import FloatingQuickActions from './components/FloatingQuickActions';
+const AllSubjectsHub = lazyLoad(() => import('./pages/AllSubjectsHub'));
 
 function LoadingScreen() {
   return (
@@ -215,8 +216,6 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
-import Breadcrumbs from './components/Breadcrumbs';
-
 function AppRoutes() {
   const location = useLocation();
   return (
@@ -236,6 +235,8 @@ function AppRoutes() {
                 <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
                 
                 {/* Subject-Wise Study Center Routes */}
+                <Route path="/subjects" element={<PageWrapper><AllSubjectsHub /></PageWrapper>} />
+                <Route path="/all-subjects" element={<Navigate to="/subjects" replace />} />
                 <Route path="/subject/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
                 <Route path="/subject/repertory" element={<PageWrapper><RepertorySubject /></PageWrapper>} />
@@ -264,10 +265,38 @@ function AppRoutes() {
                 <Route path="/portal/2nd-bhms" element={<PageWrapper><SecondBhmsPortal /></PageWrapper>} />
                 <Route path="/portal/3rd-bhms" element={<PageWrapper><ThirdBhmsPortal /></PageWrapper>} />
                 <Route path="/portal/4th-bhms" element={<PageWrapper><FourthBhmsPortal /></PageWrapper>} />
+                <Route path="/portal/first-bhms" element={<Navigate to="/portal/1st-bhms" replace />} />
+                <Route path="/portal/second-bhms" element={<Navigate to="/portal/2nd-bhms" replace />} />
+                <Route path="/portal/third-bhms" element={<Navigate to="/portal/3rd-bhms" replace />} />
+                <Route path="/portal/fourth-bhms" element={<Navigate to="/portal/4th-bhms" replace />} />
+                <Route path="/portal/final-bhms" element={<Navigate to="/portal/4th-bhms" replace />} />
                 <Route path="/bhms-portal/1st" element={<Navigate to="/portal/1st-bhms" replace />} />
                 <Route path="/bhms-portal/2nd" element={<Navigate to="/portal/2nd-bhms" replace />} />
                 <Route path="/bhms-portal/3rd" element={<Navigate to="/portal/3rd-bhms" replace />} />
                 <Route path="/bhms-portal/4th" element={<Navigate to="/portal/4th-bhms" replace />} />
+                <Route path="/bhms-portal/1st-bhms" element={<Navigate to="/portal/1st-bhms" replace />} />
+                <Route path="/bhms-portal/2nd-bhms" element={<Navigate to="/portal/2nd-bhms" replace />} />
+                <Route path="/bhms-portal/3rd-bhms" element={<Navigate to="/portal/3rd-bhms" replace />} />
+                <Route path="/bhms-portal/4th-bhms" element={<Navigate to="/portal/4th-bhms" replace />} />
+                <Route path="/bhms/1st-bhms" element={<Navigate to="/portal/1st-bhms" replace />} />
+                <Route path="/bhms/2nd-bhms" element={<Navigate to="/portal/2nd-bhms" replace />} />
+                <Route path="/bhms/3rd-bhms" element={<Navigate to="/portal/3rd-bhms" replace />} />
+                <Route path="/bhms/4th-bhms" element={<Navigate to="/portal/4th-bhms" replace />} />
+                <Route path="/bhms/1st" element={<Navigate to="/portal/1st-bhms" replace />} />
+                <Route path="/bhms/2nd" element={<Navigate to="/portal/2nd-bhms" replace />} />
+                <Route path="/bhms/3rd" element={<Navigate to="/portal/3rd-bhms" replace />} />
+                <Route path="/bhms/4th" element={<Navigate to="/portal/4th-bhms" replace />} />
+
+                {/* Subject Aliases */}
+                <Route path="/subject/gynecology" element={<Navigate to="/subject/gynecology-obstetrics" replace />} />
+                <Route path="/subject/obstetrics" element={<Navigate to="/subject/gynecology-obstetrics" replace />} />
+                <Route path="/subject/obg" element={<Navigate to="/subject/gynecology-obstetrics" replace />} />
+                <Route path="/subject/fmt" element={<Navigate to="/subject/forensic-medicine" replace />} />
+                <Route path="/subject/organon-of-medicine" element={<Navigate to="/subject/organon" replace />} />
+                <Route path="/bhms-course/1st-bhms" element={<Navigate to="/portal/1st-bhms" replace />} />
+                <Route path="/bhms-course/2nd-bhms" element={<Navigate to="/portal/2nd-bhms" replace />} />
+                <Route path="/bhms-course/3rd-bhms" element={<Navigate to="/portal/3rd-bhms" replace />} />
+                <Route path="/bhms-course/4th-bhms" element={<Navigate to="/portal/4th-bhms" replace />} />
 
                 {/* BHMS Course Hierarchical Routes */}
                 <Route path="/bhms-course" element={<PageWrapper><StudentResources /></PageWrapper>} />
@@ -392,9 +421,9 @@ function AppRoutes() {
 }
 
 export default function App() {
-  const [initiallyLoading, setInitiallyLoading] = React.useState(true);
+  const [initiallyLoading, setInitiallyLoading] = useState(true);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const timer = setTimeout(() => {
       setInitiallyLoading(false);
     }, 1200);

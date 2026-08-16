@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   User, 
@@ -17,7 +17,7 @@ import { useRole, UserRole } from '../context/RoleContext';
 
 export default function RoleOnboardingModal() {
   const { onboardingCompleted, completeOnboarding, currentRole, setCurrentRole } = useRole();
-  const [isOpen, setIsOpen] = React.useState(!onboardingCompleted);
+  const [isOpen, setIsOpen] = useState(!onboardingCompleted);
 
   useEffect(() => {
     setIsOpen(!onboardingCompleted);
@@ -179,5 +179,3 @@ export default function RoleOnboardingModal() {
     </div>
   );
 }
-
-import { useEffect } from 'react';

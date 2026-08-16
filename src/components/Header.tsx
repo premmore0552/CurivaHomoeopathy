@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User, ShieldCheck } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
@@ -21,7 +21,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
   const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
   const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
 
-  const dropdownItems = React.useMemo(() => {
+  const dropdownItems = useMemo(() => {
     if (link.dropdown) return link.dropdown;
     const items = [];
     if (link.popular) items.push(...link.popular);
@@ -180,7 +180,7 @@ const Header: React.FC = () => {
     setShowEduBanner(false);
   };
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (isMenuOpen) {
       document.body.style.overflow = 'hidden';
     } else {
@@ -191,12 +191,12 @@ const Header: React.FC = () => {
     };
   }, [isMenuOpen]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setIsMenuOpen(false);
     setIsCategoriesOpen(false);
   }, [location.pathname]);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -234,10 +234,10 @@ const Header: React.FC = () => {
         icon: 'Compass'
       },
       popular: [
-        { name: '1st BHMS Portal', to: '/student-resources', desc: 'Anatomy, Physiology, Pharmacy, MM & Organon', badge: 'Foundations', icon: 'BookOpen' },
+        { name: '1st BHMS Portal', to: '/portal/1st-bhms', desc: 'Anatomy, Physiology, Pharmacy, MM & Organon', badge: 'Foundations', icon: 'BookOpen' },
         { name: '2nd BHMS Portal', to: '/portal/2nd-bhms', desc: 'Pathology, FMT, MM, Organon, Surgery, ObGyn & PM', badge: 'Active Hub', icon: 'Layers' },
-        { name: '3rd BHMS Portal', to: '/coming-soon?topic=3rd BHMS&status=coming-soon', desc: 'Surgery, OBG, MM & Organon', badge: 'Clinical', icon: 'Heart' },
-        { name: '4th BHMS Portal', to: '/coming-soon?topic=4th BHMS&status=coming-soon', desc: 'Medicine, Repertory, MM & Organon', badge: 'Professional', icon: 'ShieldCheck' }
+        { name: '3rd BHMS Portal', to: '/portal/3rd-bhms', desc: 'Surgery, OBG, MM & Organon', badge: 'Clinical Mastery', icon: 'Heart' },
+        { name: '4th BHMS Portal', to: '/portal/4th-bhms', desc: 'Medicine, Repertory, MM & Organon', badge: 'Practice & Rep', icon: 'ShieldCheck' }
       ],
       pinned: [
         { name: '1st BHMS Crash Course', to: '/first-bhms-crash-course', desc: 'Flagship exam preparation for 1st Year', badge: 'Flagship', icon: 'Zap' },

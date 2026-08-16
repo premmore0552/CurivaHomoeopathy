@@ -12,6 +12,9 @@ import {
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
+import { CBDC_TOPIC_STUDY_DATABASE, TopicStudyDetail } from '../data/cbdc_topics_study_data';
+import { COMPLETE_SUBJECT_CURRICULUM_DATA, SUBJECT_ROUTE_MAPPINGS } from '../data/cbdc_subject_curriculum_data';
+import { materiaMedicaData } from '../data/materiaMedica';
 
 // ----------------------------------------------------
 // Interfaces & Helper Components
@@ -73,9 +76,9 @@ export interface YearMateriaMedica {
 export interface Topic {
   id: string;
   name: string;
-  status: 'Available' | 'Coming Soon' | 'Under Revision' | 'Updated';
+  status: 'Available' | 'Coming Soon' | 'Under Revision' | 'Updated' | string;
   link?: string;
-  resources: {
+  resources?: {
     notes?: boolean;
     diagrams?: boolean;
     flowcharts?: boolean;
@@ -86,6 +89,8 @@ export interface Topic {
     practicals?: boolean;
     cheatsheets?: boolean;
     revision?: boolean;
+    blueprints?: boolean;
+    [key: string]: boolean | undefined;
   };
   subtopics: string[];
 }
@@ -94,8 +99,9 @@ export interface Chapter {
   id: string;
   number: number;
   name: string;
-  examPriority: 'High' | 'Medium' | 'Low';
-  studyTime: string;
+  examPriority?: 'Very High' | 'High' | 'Medium' | 'Low' | string;
+  priority?: 'Very High' | 'High' | 'Medium' | 'Low' | string;
+  studyTime?: string;
   topics: Topic[];
 }
 
@@ -1220,6 +1226,155 @@ export default function CbdcSyllabus() {
   const [selectedSubjectId, setSelectedSubjectId] = useState<string>(CBDC_SYLLABUS_DATA[0].subjects[0].id);
   const [activeSidebarSection, setActiveSidebarSection] = useState<string>('overview');
 
+  // Interactive Topic & Remedy Study Modals
+  const [activeStudyTopic, setActiveStudyTopic] = useState<TopicStudyDetail | null>(null);
+  const [activeStudyRemedy, setActiveStudyRemedy] = useState<any | null>(null);
+
+  const toggleUnit = (unitKey: string) => {
+    setExpandedUnits(prev => ({
+      ...prev,
+      [unitKey]: prev[unitKey] === false ? true : false
+    }));
+  };
+
+  const toggleChapter = (chapKey: string) => {
+    setExpandedChapters(prev => ({
+      ...prev,
+      [chapKey]: prev[chapKey] === false ? true : false
+    }));
+  };
+
+  const toggleYear = (yearId: string) => {
+    setExpandedYears(prev => ({
+      ...prev,
+      [yearId]: !prev[yearId]
+    }));
+  };
+
+  const handleOpenTopic = (top: Topic, chapName?: string, unitName?: string, subjectName?: string, yearName?: string) => {
+    // 1. Direct key match
+    if (CBDC_TOPIC_STUDY_DATABASE[top.id]) {
+      setActiveStudyTopic(CBDC_TOPIC_STUDY_DATABASE[top.id]);
+      return;
+    }
+
+    // 2. Fuzzy match in database
+    const foundKey = Object.keys(CBDC_TOPIC_STUDY_DATABASE).find(k => {
+      const item = CBDC_TOPIC_STUDY_DATABASE[k];
+      const title = (item.topicTitle || item.name || '').toLowerCase();
+      const search = top.name.toLowerCase();
+      return title.includes(search) || search.includes(title);
+    });
+    if (foundKey && CBDC_TOPIC_STUDY_DATABASE[foundKey]) {
+      setActiveStudyTopic(CBDC_TOPIC_STUDY_DATABASE[foundKey]);
+      return;
+    }
+
+    // 3. Fallback route lookup
+    const subKey = Object.keys(SUBJECT_ROUTE_MAPPINGS).find(k => 
+      subjectName?.toLowerCase().includes(k) || (subjectName && SUBJECT_ROUTE_MAPPINGS[k].name.toLowerCase().includes(subjectName.toLowerCase()))
+    ) || 'pathology';
+    const subConfig = SUBJECT_ROUTE_MAPPINGS[subKey] || {
+      code: 'NCH-CBDC',
+      name: subjectName || 'BHMS Subject',
+      year: yearName || 'BHMS',
+      mainRoute: '/subjects',
+      portalRoute: '/portal/1st-bhms',
+      blueprintRoute: '/university-blueprints',
+      mcqRoute: '/aiapget-mcq-simulator'
+    };
+
+    // 4. Dynamic comprehensive study profile
+    const dynamicDetail: TopicStudyDetail = {
+      topicId: top.id,
+      topicTitle: top.name,
+      subjectCode: subConfig.code,
+      subjectName: subConfig.name,
+      year: subConfig.year,
+      competencyDomain: 'Cognitive & Clinical Application',
+      competencyLevel: 'Must Know (K/KH/SH)',
+      teachingHours: '4–6 Hours',
+      studyHubLink: subConfig.mainRoute,
+      overview: `Official NCH Competency-Based Dynamic Curriculum (CBDC) study module for "${top.name}". This module covers essential theoretical definitions, diagnostic evaluation, physiological/pathological mechanisms, and clinical homoeopathic management.`,
+      whyItMatters: `A clear understanding of ${top.name} is vital for developing accurate clinical diagnosis, understanding disease progression, passing university written and viva voce examinations, and prescribing indicated homoeopathic remedies based on totality.`,
+      coreConcepts: top.subtopics && top.subtopics.length > 0 
+        ? top.subtopics.map(st => `Detailed clinical examination, structural correlation, and practical management of: ${st}.`)
+        : [
+            `Fundamental definitions, etiology, classification and staging parameters of ${top.name}.`,
+            `Pathophysiological mechanisms, structural tissue changes and symptom manifestation.`,
+            `Diagnostic criteria, laboratory investigations, clinical signs and differential diagnosis.`
+          ],
+      clinicalPearls: [
+        `Assess the complete symptom totality, modalities, and individual constitution rather than treating the named pathology in isolation.`,
+        `Differentiate acute functional presentations (Psora) from destructive/suppressive organic lesions (Syphilis / Sycosis).`,
+        `Recognize red-flag danger signs requiring urgent hospital stabilization or operative surgical intervention.`
+      ],
+      examBlueprint: {
+        longAnswerQuestions: [
+          `Discuss the etiopathogenesis, clinical features, diagnostic evaluation and homoeopathic management of ${top.name}. (10 Marks)`,
+          `Describe the differential diagnosis, systemic investigations, and prognostic staging of ${top.name}. (10 Marks)`
+        ],
+        shortAnswerQuestions: [
+          `Write short notes on the clinical classification and diagnostic criteria of ${top.name}. (5 Marks)`,
+          `Highlight the indications for 3 key homoeopathic remedies in ${top.name}. (5 Marks)`
+        ],
+        vivaVoceQuestions: [
+          `What is the definition and primary clinical sign of ${top.name}?`,
+          `How do you differentiate this condition from its closest clinical mimic in bedside examination?`
+        ]
+      },
+      referenceTextbooks: [
+        'NCH Prescribed Standard Subject Textbooks',
+        'Curiva Homoeopathy High-Yield Clinical Handbooks & Blueprints'
+      ]
+    };
+
+    setActiveStudyTopic(dynamicDetail);
+  };
+
+  const handleOpenRemedy = (remedyName: string, term?: string, yearTitle?: string) => {
+    const cleanName = remedyName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const match = (materiaMedicaData as any[]).find((r: any) => 
+      r.id?.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanName ||
+      r.name?.toLowerCase().includes(remedyName.toLowerCase()) ||
+      remedyName.toLowerCase().includes(r.name?.toLowerCase())
+    );
+
+    if (match) {
+      setActiveStudyRemedy(match);
+    } else {
+      setActiveStudyRemedy({
+        id: cleanName,
+        name: remedyName,
+        commonName: 'Homoeopathic Remedy',
+        family: 'Prescribed in NCH CBDC Syllabus',
+        source: 'Materia Medica',
+        thermalState: 'Thermal & Modality Specific',
+        miasm: 'Psora / Sycosis / Syphilis',
+        keynotes: [
+          `Official NCH CBDC prescribed remedy for ${yearTitle || 'BHMS Curriculum'}.`,
+          'Constitutional, keynote, and modal therapeutic profile.',
+          'Requires complete symptom totality, modalities, and miasmatic evaluation.'
+        ],
+        mind: [
+          'Characteristic mental generals, anxieties, fears, and irritability or apathy.',
+          'Emotional triggers and cognitive state under disease stress.'
+        ],
+        physicalGeneral: [
+          'Organ affinities, thirst, hunger, sleep, thermal reaction, and side affinity.',
+          'Characteristic discharges, sensations (burning, stitching, throbbing), and periodicities.'
+        ],
+        modalities: {
+          aggravation: 'Weather changes, time modalities, motion or rest',
+          amelioration: 'Rest, open air, warm applications, discharges'
+        },
+        clinical: [
+          'Acute emergencies, constitutional ailments, sub-acute pathologies and first-line prescribing.'
+        ]
+      });
+    }
+  };
+
   // Copy Feedback State
   const [copiedText, setCopiedText] = useState<boolean>(false);
 
@@ -1951,13 +2106,23 @@ export default function CbdcSyllabus() {
                                                 <span className="text-text-tertiary font-mono">
                                                   BHMS {year.yearId} Year
                                                 </span>
-                                                <Link 
-                                                  to="/homoeopathy/materia-medica"
-                                                  className="font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
-                                                >
-                                                  <span>Drug Portrait</span>
-                                                  <ChevronRight className="w-3 h-3" />
-                                                </Link>
+                                                <div className="flex items-center gap-2">
+                                                  <button 
+                                                    type="button"
+                                                    onClick={() => handleOpenRemedy(med.name, med.term, year.yearTitle)}
+                                                    className="font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                                                  >
+                                                    <span>Quick Study</span>
+                                                    <Sparkles className="w-3 h-3 text-amber-500" />
+                                                  </button>
+                                                  <Link 
+                                                    to="/homoeopathy/materia-medica"
+                                                    className="font-bold text-text-secondary hover:text-primary flex items-center gap-0.5 cursor-pointer"
+                                                  >
+                                                    <span>Hub</span>
+                                                    <ChevronRight className="w-3 h-3" />
+                                                  </Link>
+                                                </div>
                                               </div>
                                             </div>
                                           );
@@ -2050,14 +2215,24 @@ export default function CbdcSyllabus() {
                                                     className="space-y-2.5 pl-3 border-l-2 border-primary/20 pt-1"
                                                   >
                                                     {chap.topics.map(top => (
-                                                      <div key={top.id} className="p-3 bg-bg-secondary/30 rounded-xl border border-border/30 text-xs space-y-1.5">
+                                                      <div 
+                                                        key={top.id} 
+                                                        onClick={() => handleOpenTopic(top, chap.name, unit.name, 'Homoeopathic Materia Medica', year.yearTitle)}
+                                                        className="p-3 bg-bg-secondary/30 hover:bg-primary/5 hover:border-primary/40 rounded-xl border border-border/30 text-xs space-y-1.5 cursor-pointer transition-all group"
+                                                      >
                                                         <div className="flex items-center justify-between gap-2">
-                                                          <span className="font-bold text-text-primary">
+                                                          <span className="font-bold text-text-primary group-hover:text-primary transition-colors flex items-center gap-1.5">
                                                             <HighlightText text={top.name} query={searchQuery} />
+                                                            <Sparkles className="w-3 h-3 text-amber-500 opacity-0 group-hover:opacity-100 transition-opacity" />
                                                           </span>
-                                                          <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold shrink-0">
-                                                            {top.status}
-                                                          </span>
+                                                          <div className="flex items-center gap-1.5 shrink-0">
+                                                            <span className="px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 text-[9px] font-bold">
+                                                              {top.status}
+                                                            </span>
+                                                            <span className="text-[10px] text-primary font-bold hidden sm:inline-block">
+                                                              Study Notes &rarr;
+                                                            </span>
+                                                          </div>
                                                         </div>
 
                                                         {top.subtopics && top.subtopics.length > 0 && (
@@ -2240,118 +2415,816 @@ export default function CbdcSyllabus() {
       {/* ====================================================
           VIEW MODE 2: ALL BHMS SUBJECTS CURRICULUM
          ==================================================== */}
-      {primaryViewMode === 'all-subjects' && (
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-          
-          {/* LEFT SIDEBAR NAVIGATION */}
-          <div className="lg:col-span-3 lg:sticky lg:top-24 space-y-4">
+      {primaryViewMode === 'all-subjects' && (() => {
+        const activeSubjectUnits = COMPLETE_SUBJECT_CURRICULUM_DATA[activeSubject.id] || SUBJECT_CURRICULUM_DATA[activeSubject.id] || [];
+        const subjectConfig = SUBJECT_ROUTE_MAPPINGS[activeSubject.id] || {
+          code: 'NCH-CBDC',
+          name: activeSubject.name,
+          year: activeYearData.year,
+          mainRoute: '/subjects',
+          portalRoute: `/portal/${activeYearData.year.toLowerCase().replace(/[^a-z0-9]/g, '')}-bhms`,
+          blueprintRoute: '/university-blueprints',
+          mcqRoute: '/aiapget-mcq-simulator'
+        };
+
+        const totalTopicsCount = activeSubjectUnits.reduce(
+          (acc, u) => acc + u.chapters.reduce((cAcc, c) => cAcc + c.topics.length, 0),
+          0
+        );
+
+        return (
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 mt-8 grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             
-            {/* Year Selector Buttons */}
-            <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl p-4 shadow-sm space-y-2">
-              <span className="text-[9px] font-black uppercase text-text-tertiary block px-2">Select BHMS Year</span>
-              <div className="grid grid-cols-2 gap-1.5">
-                {CBDC_SYLLABUS_DATA.map((y, idx) => (
-                  <button
-                    key={y.year}
-                    onClick={() => {
-                      setSelectedYearIndex(idx);
-                      setSelectedSubjectId(CBDC_SYLLABUS_DATA[idx].subjects[0].id);
-                    }}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${
-                      selectedYearIndex === idx
-                        ? "bg-primary text-white shadow-sm"
-                        : "bg-bg-secondary text-text-secondary hover:text-text-primary"
-                    }`}
-                  >
-                    {y.year}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Subjects List */}
-            <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl p-4 shadow-sm space-y-2">
-              <span className="text-[9px] font-black uppercase text-text-tertiary block px-2">
-                {activeYearData.year} Subjects
-              </span>
-              <div className="space-y-1">
-                {activeYearData.subjects.map(sub => (
-                  <button
-                    key={sub.id}
-                    onClick={() => setSelectedSubjectId(sub.id)}
-                    className={`w-full text-left px-3 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${
-                      selectedSubjectId === sub.id
-                        ? "bg-primary/10 text-primary border border-primary/25"
-                        : "text-text-secondary hover:bg-bg-secondary"
-                    }`}
-                  >
-                    <span className="truncate pr-2">{sub.name}</span>
-                    <ChevronRight className="w-3.5 h-3.5 shrink-0" />
-                  </button>
-                ))}
-              </div>
-            </div>
-          </div>
-
-          {/* RIGHT CONTENT PANEL */}
-          <div className="lg:col-span-9 space-y-6">
-            <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-[2.5rem] p-6 sm:p-8 shadow-sm space-y-6">
+            {/* LEFT SIDEBAR NAVIGATION */}
+            <div className="lg:col-span-3 lg:sticky lg:top-24 space-y-4">
               
-              <div className="border-b border-border/30 pb-4">
-                <span className="text-xs font-bold text-primary uppercase font-mono">{activeYearData.year} Subject</span>
-                <h2 className="text-2xl font-black text-text-primary mt-1">{activeSubject.name}</h2>
-                <p className="text-xs text-text-secondary mt-2 leading-relaxed">{activeSubject.description}</p>
-              </div>
-
-              {/* Subject High-Yield Note */}
-              <div className="p-4 bg-amber-500/5 border border-amber-500/10 rounded-2xl space-y-1">
-                <div className="flex items-center gap-2 text-amber-600">
-                  <Sparkles className="w-4 h-4" />
-                  <h4 className="text-[10px] font-black uppercase">Clinical High-Yield Pearl</h4>
-                </div>
-                <p className="text-xs text-text-secondary italic leading-relaxed pl-6">
-                  "{activeSubject.pearls}"
-                </p>
-              </div>
-
-              {/* Hours & Exam Summary */}
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-                <div className="p-3 bg-bg-secondary/30 rounded-xl border border-border/40">
-                  <span className="text-[8px] uppercase text-text-tertiary block font-bold">Theory Hours</span>
-                  <span className="text-xs font-extrabold text-text-primary mt-1 block">{activeSubject.theoryHours} Hours</span>
-                </div>
-                <div className="p-3 bg-bg-secondary/30 rounded-xl border border-border/40">
-                  <span className="text-[8px] uppercase text-text-tertiary block font-bold">Practical Hours</span>
-                  <span className="text-xs font-extrabold text-emerald-600 mt-1 block">{activeSubject.practicalHours} Hours</span>
-                </div>
-                <div className="p-3 bg-bg-secondary/30 rounded-xl border border-border/40">
-                  <span className="text-[8px] uppercase text-text-tertiary block font-bold">Exam Papers</span>
-                  <span className="text-xs font-extrabold text-text-primary mt-1 block">{activeSubject.examPattern.theoryPapers} Paper(s)</span>
-                </div>
-                <div className="p-3 bg-bg-secondary/30 rounded-xl border border-border/40">
-                  <span className="text-[8px] uppercase text-text-tertiary block font-bold">Total Exam Marks</span>
-                  <span className="text-xs font-extrabold text-rose-600 dark:text-rose-400 mt-1 block">{activeSubject.examPattern.totalMarks} Marks</span>
-                </div>
-              </div>
-
-              {/* Textbooks */}
-              <div className="space-y-2">
-                <h3 className="text-xs font-bold text-text-primary uppercase tracking-wider">Recommended Textbooks</h3>
-                <ul className="space-y-1">
-                  {activeSubject.books.map((b, i) => (
-                    <li key={i} className="text-xs text-text-secondary flex items-center gap-2">
-                      <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0" />
-                      <span>{b}</span>
-                    </li>
+              {/* Year Selector Buttons */}
+              <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl p-4 shadow-sm space-y-2">
+                <span className="text-[9px] font-black uppercase text-text-tertiary block px-2">Select BHMS Year</span>
+                <div className="grid grid-cols-2 gap-1.5">
+                  {CBDC_SYLLABUS_DATA.map((y, idx) => (
+                    <button
+                      key={y.year}
+                      onClick={() => {
+                        setSelectedYearIndex(idx);
+                        setSelectedSubjectId(CBDC_SYLLABUS_DATA[idx].subjects[0].id);
+                      }}
+                      className={`px-3 py-2 rounded-xl text-xs font-bold transition-all text-center cursor-pointer ${
+                        selectedYearIndex === idx
+                          ? "bg-primary text-white shadow-sm"
+                          : "bg-bg-secondary text-text-secondary hover:text-text-primary"
+                      }`}
+                    >
+                      {y.year}
+                    </button>
                   ))}
-                </ul>
+                </div>
+              </div>
+
+              {/* Subjects List */}
+              <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl p-4 shadow-sm space-y-2">
+                <span className="text-[9px] font-black uppercase text-text-tertiary block px-2">
+                  {activeYearData.year} Subjects
+                </span>
+                <div className="space-y-1">
+                  {activeYearData.subjects.map(sub => (
+                    <button
+                      key={sub.id}
+                      onClick={() => setSelectedSubjectId(sub.id)}
+                      className={`w-full text-left px-3 py-2.5 rounded-xl text-xs font-bold transition-all flex items-center justify-between cursor-pointer ${
+                        selectedSubjectId === sub.id
+                          ? "bg-primary/10 text-primary border border-primary/25"
+                          : "text-text-secondary hover:bg-bg-secondary"
+                      }`}
+                    >
+                      <span className="truncate pr-2">{sub.name}</span>
+                      <ChevronRight className="w-3.5 h-3.5 shrink-0" />
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              {/* Quick Links Card */}
+              <div className="p-4 bg-primary/5 border border-primary/20 rounded-3xl space-y-2.5">
+                <span className="text-[10px] font-black uppercase text-primary tracking-wider block">
+                  Study Resources
+                </span>
+                <div className="space-y-1.5 text-xs">
+                  <Link
+                    to={subjectConfig.mainRoute}
+                    className="w-full flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-border/40 hover:border-primary/40 font-bold text-text-primary hover:text-primary transition-all"
+                  >
+                    <span>Full Study Center</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                  </Link>
+                  <Link
+                    to={subjectConfig.portalRoute}
+                    className="w-full flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-border/40 hover:border-primary/40 font-bold text-text-primary hover:text-primary transition-all"
+                  >
+                    <span>{activeYearData.year} Academic Portal</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                  </Link>
+                  <Link
+                    to="/university-blueprints"
+                    className="w-full flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-border/40 hover:border-primary/40 font-bold text-text-primary hover:text-primary transition-all"
+                  >
+                    <span>University Blueprints</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                  </Link>
+                  <Link
+                    to="/aiapget-mcq-simulator"
+                    className="w-full flex items-center justify-between p-2 rounded-xl bg-white dark:bg-zinc-900 border border-border/40 hover:border-primary/40 font-bold text-text-primary hover:text-primary transition-all"
+                  >
+                    <span>MCQ Simulator</span>
+                    <ArrowUpRight className="w-3.5 h-3.5 text-primary" />
+                  </Link>
+                </div>
               </div>
 
             </div>
-          </div>
 
-        </div>
-      )}
+            {/* RIGHT CONTENT PANEL */}
+            <div className="lg:col-span-9 space-y-6">
+              
+              {/* Subject Hero Header & Action Hub */}
+              <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-[2.5rem] p-6 sm:p-8 shadow-sm space-y-6">
+                
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/30 pb-6">
+                  <div className="space-y-1.5">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase font-mono bg-primary/10 text-primary border border-primary/20">
+                        {subjectConfig.code}
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-bg-secondary text-text-secondary">
+                        {activeYearData.year}
+                      </span>
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                        {activeSubjectUnits.length} Units • {totalTopicsCount} Prescribed Topics
+                      </span>
+                    </div>
+                    <h2 className="text-2xl sm:text-3xl font-black text-text-primary">{activeSubject.name}</h2>
+                    <p className="text-xs sm:text-sm text-text-secondary leading-relaxed max-w-3xl">
+                      {activeSubject.description}
+                    </p>
+                  </div>
+
+                  {/* Primary Action Buttons */}
+                  <div className="flex flex-wrap sm:flex-nowrap items-center gap-2.5 shrink-0">
+                    <Link
+                      to={subjectConfig.mainRoute}
+                      className="px-4 py-2.5 rounded-xl bg-primary text-white text-xs font-extrabold flex items-center gap-1.5 shadow-sm hover:opacity-90 transition-all cursor-pointer"
+                    >
+                      <BookOpen className="w-4 h-4" />
+                      <span>Open Full Study Center</span>
+                      <ArrowUpRight className="w-3.5 h-3.5" />
+                    </Link>
+                    <Link
+                      to={subjectConfig.portalRoute}
+                      className="px-3.5 py-2.5 rounded-xl bg-bg-secondary hover:bg-bg-tertiary text-text-primary text-xs font-bold flex items-center gap-1.5 border border-border/40 transition-all cursor-pointer"
+                    >
+                      <GraduationCap className="w-4 h-4 text-primary" />
+                      <span>Year Portal</span>
+                    </Link>
+                  </div>
+                </div>
+
+                {/* Subject High-Yield Note */}
+                <div className="p-4 bg-amber-500/5 border border-amber-500/15 rounded-2xl space-y-1">
+                  <div className="flex items-center gap-2 text-amber-600 dark:text-amber-400">
+                    <Sparkles className="w-4 h-4" />
+                    <h4 className="text-[10px] font-black uppercase">Clinical &amp; University High-Yield Pearl</h4>
+                  </div>
+                  <p className="text-xs text-text-secondary italic leading-relaxed pl-6">
+                    "{activeSubject.pearls}"
+                  </p>
+                </div>
+
+                {/* Hours & Exam Summary */}
+                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                  <div className="p-3.5 bg-bg-secondary/30 rounded-2xl border border-border/40">
+                    <span className="text-[9px] uppercase text-text-tertiary block font-bold">Theory Hours</span>
+                    <span className="text-sm font-extrabold text-text-primary mt-1 block">{activeSubject.theoryHours} Hours</span>
+                  </div>
+                  <div className="p-3.5 bg-bg-secondary/30 rounded-2xl border border-border/40">
+                    <span className="text-[9px] uppercase text-text-tertiary block font-bold">Practical / Clinical</span>
+                    <span className="text-sm font-extrabold text-emerald-600 dark:text-emerald-400 mt-1 block">{activeSubject.practicalHours} Hours</span>
+                  </div>
+                  <div className="p-3.5 bg-bg-secondary/30 rounded-2xl border border-border/40">
+                    <span className="text-[9px] uppercase text-text-tertiary block font-bold">Exam Papers</span>
+                    <span className="text-sm font-extrabold text-text-primary mt-1 block">{activeSubject.examPattern.theoryPapers} Paper(s)</span>
+                  </div>
+                  <div className="p-3.5 bg-bg-secondary/30 rounded-2xl border border-border/40">
+                    <span className="text-[9px] uppercase text-text-tertiary block font-bold">Total Exam Marks</span>
+                    <span className="text-sm font-extrabold text-rose-600 dark:text-rose-400 mt-1 block">{activeSubject.examPattern.totalMarks} Marks</span>
+                  </div>
+                </div>
+
+              </div>
+
+              {/* Interactive Syllabus Units & Topics List */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between px-2">
+                  <div>
+                    <h3 className="text-base font-black text-text-primary">Official CBDC Syllabus Units &amp; Topics</h3>
+                    <p className="text-xs text-text-tertiary">Click any topic card to view comprehensive study notes, competencies, and university exam blueprints.</p>
+                  </div>
+                  <span className="text-xs font-mono font-bold text-primary bg-primary/10 px-2.5 py-1 rounded-lg">
+                    {activeSubjectUnits.length} Units
+                  </span>
+                </div>
+
+                {activeSubjectUnits.length === 0 ? (
+                  <div className="p-8 text-center bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl space-y-3">
+                    <Info className="w-8 h-8 text-text-tertiary mx-auto" />
+                    <p className="text-sm font-bold text-text-primary">Curriculum data loaded into Subject Study Center.</p>
+                    <Link
+                      to={subjectConfig.mainRoute}
+                      className="inline-flex items-center gap-1.5 text-xs font-bold text-primary hover:underline"
+                    >
+                      <span>Open {activeSubject.name} Study Hub</span>
+                      <ArrowRight className="w-3.5 h-3.5" />
+                    </Link>
+                  </div>
+                ) : (
+                  activeSubjectUnits.map((unit, uIdx) => {
+                    const unitKey = `sub_unit_${uIdx}_${unit.id}`;
+                    const isUnitExpanded = expandedUnits[unitKey] !== false; // default expanded
+
+                    return (
+                      <div 
+                        key={unit.id || uIdx}
+                        className="bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl overflow-hidden shadow-xs"
+                      >
+                        {/* Unit Accordion Header */}
+                        <button
+                          type="button"
+                          onClick={() => toggleUnit(unitKey)}
+                          className="w-full p-4 sm:p-5 flex items-center justify-between gap-3 text-left hover:bg-bg-secondary/40 transition-colors cursor-pointer border-b border-border/30"
+                        >
+                          <div className="flex items-center gap-3">
+                            <div className="w-8 h-8 rounded-xl bg-primary/10 text-primary flex items-center justify-center font-black text-xs shrink-0">
+                              U{uIdx + 1}
+                            </div>
+                            <div>
+                              <h4 className="text-sm sm:text-base font-extrabold text-text-primary">
+                                {unit.name}
+                              </h4>
+                              <p className="text-[11px] text-text-tertiary">
+                                {unit.chapters.length} Chapters • {unit.chapters.reduce((a, c) => a + c.topics.length, 0)} Topics
+                              </p>
+                            </div>
+                          </div>
+
+                          <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform ${isUnitExpanded ? 'rotate-180' : ''}`} />
+                        </button>
+
+                        {/* Unit Chapters & Topics */}
+                        <AnimatePresence initial={false}>
+                          {isUnitExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="p-4 sm:p-5 space-y-5"
+                            >
+                              {unit.chapters.map((chap, cIdx) => {
+                                const chapKey = `sub_chap_${chap.id}`;
+                                const isChapOpen = expandedChapters[chapKey] !== false;
+
+                                return (
+                                  <div 
+                                    key={chap.id || cIdx}
+                                    className="p-4 rounded-2xl bg-bg-secondary/30 border border-border/40 space-y-3.5"
+                                  >
+                                    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-border/30 pb-2.5">
+                                      <div className="flex items-center gap-2">
+                                        <BookOpen className="w-4 h-4 text-primary shrink-0" />
+                                        <h5 className="text-xs sm:text-sm font-bold text-text-primary">
+                                          {chap.name}
+                                        </h5>
+                                      </div>
+                                      
+                                      <div className="flex items-center gap-2">
+                                        {chap.priority && (
+                                          <span className={`px-2 py-0.5 rounded text-[9px] font-black uppercase ${
+                                            chap.priority === 'High' 
+                                              ? 'bg-rose-500/10 text-rose-600 dark:text-rose-400'
+                                              : 'bg-primary/10 text-primary'
+                                          }`}>
+                                            {chap.priority} Priority
+                                          </span>
+                                        )}
+                                        {chap.studyTime && (
+                                          <span className="text-[10px] text-text-tertiary font-mono">
+                                            {chap.studyTime}
+                                          </span>
+                                        )}
+                                      </div>
+                                    </div>
+
+                                    {/* Topics Cards Grid */}
+                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                                      {chap.topics.map(top => {
+                                        const isDone = !!completedTopics[top.id];
+                                        const isBookmarked = !!bookmarkedTopics[top.id];
+
+                                        return (
+                                          <div
+                                            key={top.id}
+                                            className={`p-3.5 rounded-2xl border transition-all flex flex-col justify-between gap-3 ${
+                                              isDone
+                                                ? "bg-emerald-500/5 border-emerald-500/30 text-text-primary"
+                                                : "bg-white dark:bg-zinc-900 border-border/50 hover:border-primary/40 shadow-xs"
+                                            }`}
+                                          >
+                                            <div className="space-y-2">
+                                              <div className="flex items-start justify-between gap-2">
+                                                <div className="flex items-start gap-2 min-w-0">
+                                                  {/* Mark Done Checkbox */}
+                                                  <button
+                                                    type="button"
+                                                    onClick={() => toggleTopicCompletion(top.id)}
+                                                    className="mt-0.5 shrink-0 cursor-pointer"
+                                                    title={isDone ? "Mark as uncompleted" : "Mark as completed"}
+                                                  >
+                                                    {isDone ? (
+                                                      <CheckSquare2 className="w-4 h-4 text-emerald-600 dark:text-emerald-400" />
+                                                    ) : (
+                                                      <div className="w-4 h-4 rounded border border-border flex items-center justify-center bg-bg-secondary hover:border-primary" />
+                                                    )}
+                                                  </button>
+                                                  
+                                                  <div className="min-w-0">
+                                                    <h6 className={`text-xs font-bold leading-snug ${isDone ? 'line-through text-text-tertiary' : 'text-text-primary'}`}>
+                                                      {top.name}
+                                                    </h6>
+                                                  </div>
+                                                </div>
+
+                                                <button
+                                                  type="button"
+                                                  onClick={() => toggleTopicBookmark(top.id)}
+                                                  className="text-text-tertiary hover:text-amber-500 transition-colors shrink-0"
+                                                  title="Bookmark topic"
+                                                >
+                                                  <Bookmark className={`w-3.5 h-3.5 ${isBookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
+                                                </button>
+                                              </div>
+
+                                              {/* Subtopic Pills */}
+                                              {top.subtopics && top.subtopics.length > 0 && (
+                                                <div className="flex flex-wrap gap-1 pl-6">
+                                                  {top.subtopics.slice(0, 3).map((st, sidx) => (
+                                                    <span 
+                                                      key={sidx}
+                                                      className="px-2 py-0.5 rounded-md bg-bg-secondary text-[9px] text-text-secondary font-medium truncate max-w-[200px]"
+                                                    >
+                                                      {st}
+                                                    </span>
+                                                  ))}
+                                                  {top.subtopics.length > 3 && (
+                                                    <span className="px-1.5 py-0.5 rounded-md bg-bg-secondary text-[8px] text-text-tertiary">
+                                                      +{top.subtopics.length - 3} more
+                                                    </span>
+                                                  )}
+                                                </div>
+                                              )}
+                                            </div>
+
+                                            {/* Action bar for topic */}
+                                            <div className="flex items-center justify-between border-t border-border/30 pt-2.5 text-[11px] pl-6">
+                                              <span className="text-[9px] font-bold uppercase tracking-wider text-emerald-600 dark:text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded">
+                                                {top.status || 'Must Know'}
+                                              </span>
+
+                                              <button
+                                                type="button"
+                                                onClick={() => handleOpenTopic(top, chap.name, unit.name, activeSubject.name, activeYearData.year)}
+                                                className="font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
+                                              >
+                                                <span>Study Blueprint</span>
+                                                <Sparkles className="w-3 h-3 text-amber-500" />
+                                              </button>
+                                            </div>
+                                          </div>
+                                        );
+                                      })}
+                                    </div>
+
+                                  </div>
+                                );
+                              })}
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+
+                      </div>
+                    );
+                  })
+                )}
+              </div>
+
+              {/* Textbooks & References Section */}
+              <div className="bg-white dark:bg-zinc-950 border border-border/50 rounded-3xl p-6 shadow-sm space-y-3">
+                <h3 className="text-xs font-black text-text-primary uppercase tracking-wider flex items-center gap-2">
+                  <BookMarked className="w-4 h-4 text-primary" />
+                  <span>NCH Recommended Standard Textbooks</span>
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+                  {activeSubject.books.map((b, i) => (
+                    <div key={i} className="text-xs text-text-secondary flex items-start gap-2 p-2.5 rounded-xl bg-bg-secondary/40 border border-border/30">
+                      <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                      <span>{b}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+            </div>
+
+          </div>
+        );
+      })()}
+
+      {/* ====================================================
+          TOPIC STUDY GUIDE & EXAM BLUEPRINT MODAL
+         ==================================================== */}
+      <AnimatePresence>
+        {activeStudyTopic && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveStudyTopic(null)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
+            />
+
+            {/* Modal Dialog */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-3xl max-h-[90vh] bg-white dark:bg-zinc-950 rounded-3xl border border-border/60 shadow-2xl overflow-y-auto flex flex-col z-10"
+            >
+              {/* Header */}
+              <div className="sticky top-0 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md p-5 sm:p-6 border-b border-border/30 flex items-start justify-between gap-4 z-20">
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase font-mono bg-primary/10 text-primary border border-primary/20">
+                      {activeStudyTopic.subjectCode || activeStudyTopic.subjectId || 'CBDC'}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-bg-secondary text-text-secondary">
+                      {activeStudyTopic.subjectName || 'BHMS Subject'}
+                    </span>
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase bg-emerald-500/10 text-emerald-600 dark:text-emerald-400">
+                      {activeStudyTopic.competencyLevel || 'Must Know'}
+                    </span>
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-text-primary pt-1">
+                    {activeStudyTopic.topicTitle || activeStudyTopic.name}
+                  </h3>
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveStudyTopic(null)}
+                  className="p-2 rounded-xl bg-bg-secondary hover:bg-bg-tertiary text-text-tertiary hover:text-text-primary transition-colors cursor-pointer shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Body Content */}
+              <div className="p-5 sm:p-7 space-y-6 text-text-primary overflow-y-auto flex-1">
+                
+                {/* Overview Box */}
+                {activeStudyTopic.overview && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-black uppercase text-text-tertiary tracking-wider flex items-center gap-1.5">
+                      <Info className="w-3.5 h-3.5 text-primary" />
+                      <span>Topic Overview &amp; Learning Scope</span>
+                    </h4>
+                    <p className="text-xs sm:text-sm text-text-secondary leading-relaxed bg-bg-secondary/40 p-4 rounded-2xl border border-border/30">
+                      {activeStudyTopic.overview}
+                    </p>
+                  </div>
+                )}
+
+                {/* Why It Matters */}
+                {(activeStudyTopic.whyItMatters || activeStudyTopic.whyImportant) && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-black uppercase text-text-tertiary tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5 text-amber-500" />
+                      <span>Why It Matters for BHMS &amp; Clinical Practice</span>
+                    </h4>
+                    <p className="text-xs sm:text-sm text-text-secondary leading-relaxed p-4 rounded-2xl bg-amber-500/5 border border-amber-500/15">
+                      {activeStudyTopic.whyItMatters || activeStudyTopic.whyImportant}
+                    </p>
+                  </div>
+                )}
+
+                {/* Core Concepts */}
+                {activeStudyTopic.coreConcepts && activeStudyTopic.coreConcepts.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-black uppercase text-text-tertiary tracking-wider flex items-center gap-1.5">
+                      <BookOpenCheck className="w-3.5 h-3.5 text-primary" />
+                      <span>Core Concepts &amp; Key Syllabus Points</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {activeStudyTopic.coreConcepts.map((item, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-bg-secondary/30 border border-border/30 text-xs text-text-secondary">
+                          <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                          <span className="leading-relaxed">{item}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Clinical Pearls */}
+                {activeStudyTopic.clinicalPearls && activeStudyTopic.clinicalPearls.length > 0 && (
+                  <div className="space-y-3">
+                    <h4 className="text-xs font-black uppercase text-emerald-600 dark:text-emerald-400 tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Clinical Pearls &amp; Homoeopathic Indications</span>
+                    </h4>
+                    <div className="space-y-2">
+                      {activeStudyTopic.clinicalPearls.map((pearl, idx) => (
+                        <div key={idx} className="flex items-start gap-2.5 p-3 rounded-xl bg-emerald-500/5 border border-emerald-500/20 text-xs text-text-secondary">
+                          <Award className="w-4 h-4 text-emerald-600 dark:text-emerald-400 shrink-0 mt-0.5" />
+                          <span className="leading-relaxed font-medium">{pearl}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Exam Blueprint Section */}
+                {(() => {
+                  const laqs = activeStudyTopic.examBlueprint?.longAnswerQuestions || activeStudyTopic.examLAQs || [];
+                  const saqs = activeStudyTopic.examBlueprint?.shortAnswerQuestions || activeStudyTopic.examSAQs || [];
+                  const viva = activeStudyTopic.examBlueprint?.vivaVoceQuestions || activeStudyTopic.vivaQuestions || [];
+
+                  if (laqs.length === 0 && saqs.length === 0 && viva.length === 0) return null;
+
+                  return (
+                    <div className="space-y-3 p-5 rounded-2xl bg-primary/5 border border-primary/20">
+                      <h4 className="text-xs font-black uppercase text-primary tracking-wider flex items-center gap-1.5">
+                        <GraduationCap className="w-4 h-4" />
+                        <span>University Exam Blueprint (10M / 5M / Viva Questions)</span>
+                      </h4>
+                      
+                      {laqs.length > 0 && (
+                        <div className="space-y-1.5 pt-1">
+                          <span className="text-[10px] font-black uppercase text-text-tertiary">Probable Long Answer Questions (LAQs - 10 Marks):</span>
+                          {laqs.map((q, i) => (
+                            <p key={i} className="text-xs text-text-primary font-semibold pl-3 border-l-2 border-primary/40">
+                              {q}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+
+                      {saqs.length > 0 && (
+                        <div className="space-y-1.5 pt-2">
+                          <span className="text-[10px] font-black uppercase text-text-tertiary">Short Answer Questions (SAQs - 5 Marks):</span>
+                          {saqs.map((q, i) => (
+                            <p key={i} className="text-xs text-text-secondary pl-3 border-l-2 border-amber-500/40">
+                              {q}
+                            </p>
+                          ))}
+                        </div>
+                      )}
+
+                      {viva.length > 0 && (
+                        <div className="space-y-1.5 pt-2">
+                          <span className="text-[10px] font-black uppercase text-text-tertiary">Viva Voce Questions:</span>
+                          {viva.map((q, i) => (
+                            <p key={i} className="text-xs text-text-secondary pl-3 border-l-2 border-emerald-500/40 italic">
+                              "{q}"
+                            </p>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {/* Recommended Textbooks */}
+                {(() => {
+                  const books = activeStudyTopic.referenceTextbooks || activeStudyTopic.recommendedBooks || [];
+                  if (books.length === 0) return null;
+                  return (
+                    <div className="space-y-2">
+                      <h4 className="text-xs font-black uppercase text-text-tertiary tracking-wider">
+                        Authoritative Reference Textbooks
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {books.map((book, i) => (
+                          <span key={i} className="px-3 py-1 rounded-xl bg-bg-secondary text-xs text-text-secondary border border-border/40 font-medium">
+                            {book}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  );
+                })()}
+
+              </div>
+
+              {/* Modal Footer / Action Bar */}
+              <div className="sticky bottom-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md p-4 sm:p-5 border-t border-border/30 flex flex-wrap items-center justify-between gap-3 z-20">
+                {(() => {
+                  const currentTopicId = activeStudyTopic.topicId || activeStudyTopic.id || 'topic';
+                  const hubLink = activeStudyTopic.studyHubLink || '/subjects';
+
+                  return (
+                    <>
+                      <div className="flex items-center gap-2">
+                        <button
+                          type="button"
+                          onClick={() => {
+                            toggleTopicCompletion(currentTopicId);
+                          }}
+                          className={`px-3 py-2 rounded-xl text-xs font-bold flex items-center gap-1.5 cursor-pointer transition-all ${
+                            completedTopics[currentTopicId]
+                              ? "bg-emerald-600 text-white shadow-sm"
+                              : "bg-bg-secondary hover:bg-bg-tertiary text-text-primary border border-border/40"
+                          }`}
+                        >
+                          <CheckSquare className="w-4 h-4" />
+                          <span>{completedTopics[currentTopicId] ? "Mastered" : "Mark Studied"}</span>
+                        </button>
+
+                        <button
+                          type="button"
+                          onClick={() => {
+                            toggleTopicBookmark(currentTopicId);
+                          }}
+                          className="p-2 rounded-xl bg-bg-secondary hover:bg-bg-tertiary text-text-tertiary hover:text-amber-500 transition-colors cursor-pointer"
+                          title="Bookmark"
+                        >
+                          <Bookmark className={`w-4 h-4 ${bookmarkedTopics[currentTopicId] ? 'fill-amber-500 text-amber-500' : ''}`} />
+                        </button>
+                      </div>
+
+                      <div className="flex flex-wrap items-center gap-2">
+                        <Link
+                          to="/aiapget-mcq-simulator"
+                          onClick={() => setActiveStudyTopic(null)}
+                          className="px-3 py-2 rounded-xl bg-bg-secondary hover:bg-bg-tertiary text-text-primary text-xs font-bold transition-all"
+                        >
+                          MCQ Practice
+                        </Link>
+                        <Link
+                          to={hubLink}
+                          onClick={() => setActiveStudyTopic(null)}
+                          className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold flex items-center gap-1.5 shadow-sm hover:opacity-90 transition-all cursor-pointer"
+                        >
+                          <BookOpen className="w-4 h-4" />
+                          <span>Open Subject Hub</span>
+                          <ArrowUpRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    </>
+                  );
+                })()}
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
+
+      {/* ====================================================
+          REMEDY STUDY MODAL (Materia Medica)
+         ==================================================== */}
+      <AnimatePresence>
+        {activeStudyRemedy && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-3 sm:p-6 overflow-y-auto">
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setActiveStudyRemedy(null)}
+              className="fixed inset-0 bg-black/60 backdrop-blur-xs"
+            />
+
+            {/* Modal Dialog */}
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="relative w-full max-w-2xl max-h-[90vh] bg-white dark:bg-zinc-950 rounded-3xl border border-border/60 shadow-2xl overflow-y-auto flex flex-col z-10"
+            >
+              {/* Header */}
+              <div className="sticky top-0 bg-white/90 dark:bg-zinc-950/90 backdrop-blur-md p-5 sm:p-6 border-b border-border/30 flex items-start justify-between gap-4 z-20">
+                <div className="space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black uppercase font-mono bg-primary/10 text-primary border border-primary/20">
+                      Materia Medica
+                    </span>
+                    {activeStudyRemedy.family && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-bg-secondary text-text-secondary">
+                        {activeStudyRemedy.family}
+                      </span>
+                    )}
+                    {activeStudyRemedy.thermalState && (
+                      <span className="px-2.5 py-0.5 rounded-full text-[10px] font-bold bg-amber-500/10 text-amber-600 dark:text-amber-400">
+                        {activeStudyRemedy.thermalState}
+                      </span>
+                    )}
+                  </div>
+                  <h3 className="text-xl sm:text-2xl font-black text-text-primary pt-1">
+                    {activeStudyRemedy.name}
+                  </h3>
+                  {activeStudyRemedy.commonName && (
+                    <p className="text-xs text-text-tertiary italic">
+                      Common Name: {activeStudyRemedy.commonName}
+                    </p>
+                  )}
+                </div>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveStudyRemedy(null)}
+                  className="p-2 rounded-xl bg-bg-secondary hover:bg-bg-tertiary text-text-tertiary hover:text-text-primary transition-colors cursor-pointer shrink-0"
+                >
+                  <X className="w-5 h-5" />
+                </button>
+              </div>
+
+              {/* Body Content */}
+              <div className="p-5 sm:p-7 space-y-5 text-text-primary overflow-y-auto flex-1">
+                
+                {/* Keynotes */}
+                {activeStudyRemedy.keynotes && activeStudyRemedy.keynotes.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-black uppercase text-primary tracking-wider flex items-center gap-1.5">
+                      <Sparkles className="w-3.5 h-3.5" />
+                      <span>Guiding Symptoms &amp; Keynotes</span>
+                    </h4>
+                    <div className="space-y-1.5">
+                      {activeStudyRemedy.keynotes.map((kn: string, i: number) => (
+                        <div key={i} className="flex items-start gap-2 p-2.5 rounded-xl bg-primary/5 border border-primary/15 text-xs text-text-secondary">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-primary shrink-0 mt-0.5" />
+                          <span className="leading-relaxed">{kn}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Mind Symptoms */}
+                {activeStudyRemedy.mind && activeStudyRemedy.mind.length > 0 && (
+                  <div className="space-y-2">
+                    <h4 className="text-xs font-black uppercase text-text-tertiary tracking-wider flex items-center gap-1.5">
+                      <Heart className="w-3.5 h-3.5 text-rose-500" />
+                      <span>Mind &amp; Disposition</span>
+                    </h4>
+                    <div className="space-y-1.5">
+                      {activeStudyRemedy.mind.map((m: string, i: number) => (
+                        <p key={i} className="text-xs text-text-secondary p-2.5 rounded-xl bg-bg-secondary/40 border border-border/30 leading-relaxed">
+                          {m}
+                        </p>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
+                {/* Modalities */}
+                {activeStudyRemedy.modalities && (
+                  <div className="p-4 rounded-2xl bg-amber-500/5 border border-amber-500/15 space-y-2 text-xs">
+                    <h4 className="font-black uppercase text-[10px] text-amber-600 tracking-wider">
+                      Modalities
+                    </h4>
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-text-secondary">
+                      {activeStudyRemedy.modalities.aggravation && (
+                        <div>
+                          <strong className="text-rose-600 dark:text-rose-400 block font-bold text-[10px] uppercase">&lt; Aggravation:</strong>
+                          <span>{activeStudyRemedy.modalities.aggravation}</span>
+                        </div>
+                      )}
+                      {activeStudyRemedy.modalities.amelioration && (
+                        <div>
+                          <strong className="text-emerald-600 dark:text-emerald-400 block font-bold text-[10px] uppercase">&gt; Amelioration:</strong>
+                          <span>{activeStudyRemedy.modalities.amelioration}</span>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                )}
+
+              </div>
+
+              {/* Modal Footer */}
+              <div className="sticky bottom-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md p-4 sm:p-5 border-t border-border/30 flex items-center justify-between gap-3 z-20">
+                <Link
+                  to="/homoeopathy/materia-medica"
+                  onClick={() => setActiveStudyRemedy(null)}
+                  className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold flex items-center gap-1.5 shadow-sm hover:opacity-90 transition-all cursor-pointer"
+                >
+                  <BookOpen className="w-4 h-4" />
+                  <span>Open Full Drug Portrait</span>
+                  <ArrowUpRight className="w-3.5 h-3.5" />
+                </Link>
+
+                <button
+                  type="button"
+                  onClick={() => setActiveStudyRemedy(null)}
+                  className="px-4 py-2 rounded-xl bg-bg-secondary hover:bg-bg-tertiary text-text-primary text-xs font-bold transition-all"
+                >
+                  Close
+                </button>
+              </div>
+
+            </motion.div>
+          </div>
+        )}
+      </AnimatePresence>
 
     </div>
   );

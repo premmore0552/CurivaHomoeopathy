@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Crown, ArrowRight, Sparkles, Library } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -26,10 +26,10 @@ interface AuthButtonProps {
 }
 
 export default function AuthButton({ isMobile, onCloseMenu }: AuthButtonProps) {
-  const [user, setUser] = React.useState<FirebaseUser | null>(null);
-  const [showDropdown, setShowDropdown] = React.useState(false);
-  const [loading, setLoading] = React.useState(true);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
+  const [user, setUser] = useState<FirebaseUser | null>(null);
+  const [showDropdown, setShowDropdown] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const dropdownRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {

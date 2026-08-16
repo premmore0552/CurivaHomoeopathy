@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 import { Scale, Sparkles, BookOpen } from 'lucide-react';
@@ -12,7 +12,7 @@ export default function ComparisonTool() {
   const preSelectedIds = location.state?.preSelectedIds;
 
   // Deduplicate remedies by lowercase name to ensure clean comparisons with no duplicate rows
-  const uniqueComparisonRemedies = React.useMemo(() => {
+  const uniqueComparisonRemedies = useMemo(() => {
     const seen = new Set<string>();
     return comparisonRemedies.filter(r => {
       const nameKey = r.name.toLowerCase().trim();

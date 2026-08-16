@@ -1,5 +1,5 @@
-import React, { useState, useMemo } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useMemo, useEffect } from 'react';
+import { Link, useSearchParams } from 'react-router-dom';
 import { 
   GraduationCap, 
   BookOpen, 
@@ -639,7 +639,34 @@ export const allBhmsSubjects: SubjectItem[] = [
 ];
 
 export default function AllSubjectsHub() {
-  const [selectedYear, setSelectedYear] = useState<'All' | '1st BHMS' | '2nd BHMS' | '3rd BHMS' | '4th BHMS'>('All');
+  const [searchParams, setSearchParams] = useSearchParams();
+  const yearParam = searchParams.get('year');
+
+  const [selectedYear, setSelectedYear] = useState<'All' | '1st BHMS' | '2nd BHMS' | '3rd BHMS' | '4th BHMS'>(() => {
+    if (yearParam && ['1st BHMS', '2nd BHMS', '3rd BHMS', '4th BHMS'].includes(yearParam)) {
+      return yearParam as any;
+    }
+    return 'All';
+  });
+
+  useEffect(() => {
+    if (yearParam && ['1st BHMS', '2nd BHMS', '3rd BHMS', '4th BHMS'].includes(yearParam)) {
+      setSelectedYear(yearParam as any);
+    } else if (!yearParam && selectedYear !== 'All') {
+      // Keep selectedYear or reset if empty
+    }
+  }, [yearParam]);
+
+  const handleYearChange = (year: 'All' | '1st BHMS' | '2nd BHMS' | '3rd BHMS' | '4th BHMS') => {
+    setSelectedYear(year);
+    if (year === 'All') {
+      searchParams.delete('year');
+      setSearchParams(searchParams);
+    } else {
+      setSearchParams({ ...Object.fromEntries(searchParams.entries()), year });
+    }
+  };
+
   const [selectedCategory, setSelectedCategory] = useState<'All' | 'Pre-Clinical' | 'Para-Clinical' | 'Clinical' | 'Homoeopathic Core'>('All');
   const [searchQuery, setSearchQuery] = useState('');
   const [expandedSubjectId, setExpandedSubjectId] = useState<string | null>(null);
@@ -795,7 +822,7 @@ export default function AllSubjectsHub() {
           {(['All', '1st BHMS', '2nd BHMS', '3rd BHMS', '4th BHMS'] as const).map((yr) => (
             <button
               key={yr}
-              onClick={() => setSelectedYear(yr)}
+              onClick={() => handleYearChange(yr)}
               className={`px-3.5 py-1.5 rounded-xl text-xs font-bold transition-all ${
                 selectedYear === yr
                   ? 'bg-primary text-white shadow-sm'

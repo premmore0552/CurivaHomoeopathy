@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Network, 
@@ -413,7 +413,7 @@ export default function AdminLinkAudit() {
   const weakLinks = nodes.filter(n => n.inLinks.length > 0 && n.inLinks.length < 2);
 
   // Dynamic backlink analyzer for APP_ROUTES from App.tsx
-  const traversedRoutes = React.useMemo(() => {
+  const traversedRoutes = useMemo(() => {
     return APP_ROUTES.map(route => {
       // Find corresponding sitemap node or dynamic alias
       const matchingNode = nodes.find(n => {

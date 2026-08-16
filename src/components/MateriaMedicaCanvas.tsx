@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link, useNavigate } from 'react-router-dom';
 import { 
@@ -298,7 +298,7 @@ export default function MateriaMedicaCanvas() {
   ];
 
   // Merge datasets to provide maximum rich entries
-  const allRemedies: RemedyDetailData[] = React.useMemo(() => {
+  const allRemedies: RemedyDetailData[] = useMemo(() => {
     const mergedMap = new Map<string, RemedyDetailData>();
 
     // Seed with material data with compatibility conversion
@@ -333,7 +333,7 @@ export default function MateriaMedicaCanvas() {
   }, []);
 
   // Filter & Sort items alphabet / search query / families / sortMode
-  const filteredRemedies = React.useMemo(() => {
+  const filteredRemedies = useMemo(() => {
     let list = allRemedies.filter(item => {
       const nameStr = String(item.name || '');
       const commonNameStr = String(item.origin || '');
@@ -363,7 +363,7 @@ export default function MateriaMedicaCanvas() {
   }, [allRemedies, selectedLetter, searchQuery, activeFamily, sortMode, bookmarkedIds]);
 
   // Grouped remedies for Categorical modes
-  const groupedRemedies = React.useMemo(() => {
+  const groupedRemedies = useMemo(() => {
     if (sortMode === 'categorical-kingdom') {
       const groups: Record<string, RemedyDetailData[]> = {};
       filteredRemedies.forEach(r => {
@@ -385,7 +385,7 @@ export default function MateriaMedicaCanvas() {
     return [];
   }, [filteredRemedies, sortMode]);
 
-  const lettersWithItems = React.useMemo(() => {
+  const lettersWithItems = useMemo(() => {
     return [...new Set(allRemedies.map(item => item.name ? item.name[0].toUpperCase() : ''))].filter(Boolean);
   }, [allRemedies]);
 

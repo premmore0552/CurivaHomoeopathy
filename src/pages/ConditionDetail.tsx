@@ -1,5 +1,5 @@
 
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
@@ -23,7 +23,7 @@ import { ContentNavigator } from '../components/ContentNavigator';
 const ConditionDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const condition = conditionsData.find(c => c.id === slug);
-  const [copied, setCopied] = React.useState(false);
+  const [copied, setCopied] = useState(false);
 
   const currentIndex = conditionsData.findIndex(c => c.id === slug);
   const prevCond = currentIndex > 0 ? conditionsData[currentIndex - 1] : null;

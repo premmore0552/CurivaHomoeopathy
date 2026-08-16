@@ -1,9 +1,9 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Instagram, ArrowRight, Heart, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export const InstagramFeed: React.FC = () => {
-    React.useEffect(() => {
+    useEffect(() => {
         // Load Elfsight platform script dynamically
         const script = document.createElement('script');
         script.src = "https://elfsightcdn.com/platform.js";
