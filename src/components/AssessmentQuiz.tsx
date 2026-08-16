@@ -13,7 +13,7 @@ interface Question {
 const QUIZ_DATA: Question[] = [
   {
     id: 1,
-    question: "What is the primary principle of Homeopathy as defined by Samuel Hahnemann?",
+    question: "What is the primary principle of Homoeopathy as defined by Samuel Hahnemann?",
     options: [
       "The law of opposites",
       "Similia Similibus Curentur (Like cures like)",
@@ -25,7 +25,7 @@ const QUIZ_DATA: Question[] = [
   },
   {
     id: 2,
-    question: "What are 'Modalities' in homeopathic case-taking?",
+    question: "What are 'Modalities' in Homoeopathic case-taking?",
     options: [
       "The price of the remedy",
       "Factors that make a symptom better or worse",

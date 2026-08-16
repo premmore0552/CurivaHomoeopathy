@@ -21,10 +21,10 @@ export default function Contact() {
     <div className="pt-24 pb-24 bg-bg-primary transition-colors duration-300">
       <SEO 
         title="Feedback & Research | Curiva Homoeopathy" 
-        description="Share your feedback, report content errors, or suggest topics for our educational homeopathic resource."
+        description="Share your feedback, report content errors, or suggest topics for our educational Homoeopathic resource."
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 items-start">
+        <div className="grid lg:grid-cols-2 gap-8 items-start">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}

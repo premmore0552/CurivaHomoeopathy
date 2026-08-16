@@ -110,7 +110,7 @@ export const aphorisms: Aphorism[] = [
   },
   {
     id: 50,
-    text: "Nature itself is a poor healer compared to the homeopathic art.",
+    text: "Nature itself is a poor healer compared to the Homoeopathic art.",
     theme: 'Logic',
     quoted: "Great is the difference between the accidental and unskillful clinical results of nature and the steady, certain, and scientific results of the medicinal art of homoeopathy."
   },
@@ -190,13 +190,13 @@ export const aphorisms: Aphorism[] = [
     id: 154,
     text: "The most similar remedy cures without significant suffering.",
     theme: 'Therapeutics',
-    quoted: "The most similar remedy... cures the natural disease without any of its symptoms being significantly increased... any slight homeopathic aggravation is a sign of a good choice."
+    quoted: "The most similar remedy... cures the natural disease without any of its symptoms being significantly increased... any slight Homoeopathic aggravation is a sign of a good choice."
   },
   {
     id: 161,
-    text: "Homeopathic aggravation explained.",
+    text: "Homoeopathic aggravation explained.",
     theme: 'Therapeutics',
-    quoted: "This slight homeopathic aggravation during the first hours is a very good prognostic that the acute disease will probably yield to the first dose."
+    quoted: "This slight Homoeopathic aggravation during the first hours is a very good prognostic that the acute disease will probably yield to the first dose."
   },
   {
     id: 210,
@@ -250,7 +250,7 @@ export const aphorisms: Aphorism[] = [
     id: 280,
     text: "The sensitivity of the patient to the dose.",
     theme: 'Clinical',
-    quoted: "The dose of the homeopathically selected remedy can never be prepared so small that it shall not be stronger than the natural disease and able to diminish, or even to cure it."
+    quoted: "The dose of the Homoeopathically selected remedy can never be prepared so small that it shall not be stronger than the natural disease and able to diminish, or even to cure it."
   },
   {
     id: 284,

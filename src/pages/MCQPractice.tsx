@@ -42,10 +42,10 @@ const subjectMCQs: Record<string, MCQ[]> = {
   "Materia Medica": [
     {
       id: 'mm_1',
-      question: "Which remedy is known as the 'Homeopathic Surgeon'?",
+      question: "Which remedy is known as the 'Homoeopathic Surgeon'?",
       options: ["Arnica Montana", "Hepar Sulphuris", "Silicea", "Calendula Officinalis"],
       correctAnswer: 2,
-      explanation: "Silicea is often called the 'Homeopathic Surgeon' due to its clinical ability to promote the expulsion of foreign bodies/splinters from tissues.",
+      explanation: "Silicea is often called the 'Homoeopathic Surgeon' due to its clinical ability to promote the expulsion of foreign bodies/splinters from tissues.",
       category: "Keynotes",
       subject: "Materia Medica"
     },
@@ -71,7 +71,7 @@ const subjectMCQs: Record<string, MCQ[]> = {
   "Organon of Medicine": [
     {
       id: 'om_1',
-      question: "Who is the founder and father of Homeopathy?",
+      question: "Who is the founder and father of Homoeopathy?",
       options: ["Dr. J.T. Kent", "Dr. Samuel Hahnemann", "Dr. Constantine Hering", "Dr. Boenninghausen"],
       correctAnswer: 1,
       explanation: "Dr. Samuel Hahnemann (1755-1843) discovered and formulated the therapeutic system of Homoeopathy.",
@@ -121,7 +121,7 @@ const subjectMCQs: Record<string, MCQ[]> = {
     },
     {
       id: 'om_6',
-      question: "According to Organon Aphorism 210-230, which of the following is true regarding the homeopathic perspective on mental diseases?",
+      question: "According to Organon Aphorism 210-230, which of the following is true regarding the Homoeopathic perspective on mental diseases?",
       options: ["They are completely distinct from bodily physical states", "They are almost all modified corporeal or physical diseases, where physical symptoms decline as mental symptoms grow", "They should be treated solely with low decimal scale mineral compounds", "They require high dosage crude narcotic palliation exclusively"],
       correctAnswer: 1,
       explanation: "Hahnemann states in Aphorisms 210-216 that mental diseases are actually modified physical diseases where somatic symptoms have diminished while the mental symptoms have become exceptionally one-sidedly prominent.",
@@ -134,7 +134,7 @@ const subjectMCQs: Record<string, MCQ[]> = {
       question: "In the 6th edition of Organon of Medicine, which potency scale was introduced by Hahnemann to secure gentle, continuous curative cycles without severe aggravation?",
       options: ["Centesimal Potencies (C)", "Decimal Potencies (X)", "LM Potencies (50-millesimal scale)", "Korsakovian Single-Vial Potencies"],
       correctAnswer: 2,
-      explanation: "LM potencies (dilution factor of 50,000) are introduced in the 6th edition of the Organon (specifically Aphorism 270) to allow safer, frequent repetition of homeopathic remedies.",
+      explanation: "LM potencies (dilution factor of 50,000) are introduced in the 6th edition of the Organon (specifically Aphorism 270) to allow safer, frequent repetition of Homoeopathic remedies.",
       category: "Posology",
       subject: "Organon of Medicine",
       credits: "Joint Ayurvedic and Homoeopathic Academic Council of India Prep Syllabus"
@@ -155,13 +155,13 @@ const subjectMCQs: Record<string, MCQ[]> = {
       question: "Which stalwart introduced the decimal scale of potentisation (denoted as 'X' or 'D') based on a 1:9 drug-to-vehicle dilution ratio?",
       options: ["Dr. Samuel Hahnemann", "Dr. J.T. Kent", "Dr. Constantine Hering", "Dr. C. von Boenninghausen"],
       correctAnswer: 2,
-      explanation: "Dr. Constantine Hering introduced the decimal scale to homeopathic pharmacy, which is now popular worldwide.",
+      explanation: "Dr. Constantine Hering introduced the decimal scale to Homoeopathic pharmacy, which is now popular worldwide.",
       category: "Scales",
       subject: "Homoeopathic Pharmacy"
     },
     {
       id: 'hp_3',
-      question: "What is the primary animal source from which the homeopathic remedy Apis Mellifica is prepared?",
+      question: "What is the primary animal source from which the Homoeopathic remedy Apis Mellifica is prepared?",
       options: ["Cuttlefish Ink", "Spanish Fly", "Honeybee", "Honeybee Venom only"],
       correctAnswer: 2,
       explanation: "Apis Mellifica is prepared from the whole living honeybee, capturing both the systemic substances and the active stinger venom.",
@@ -394,7 +394,7 @@ export default function MCQPractice() {
       />
 
       {/* Header */}
-      <header className="bg-bg-secondary/80 backdrop-blur-md border-b border-border/30 sticky top-0 z-50 px-4 py-4">
+      <header className="bg-bg-secondary border-b border-border/35 relative z-10 px-4 py-4">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           <div className="flex items-center gap-4">
             <div className="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center text-primary">

@@ -3,7 +3,7 @@ import { BlogPost } from '../types';
 const rawBlogPosts: BlogPost[] = [
   {
     id: 'agaricus-muscarius',
-    seoTitle: 'Agaricus Muscarius in Homeopathy: Twitching, Spasms & Chilly Needles',
+    seoTitle: 'Agaricus Muscarius in Homoeopathy: Twitching, Spasms & Chilly Needles',
     title: 'Agaricus Muscarius: The Remedy for Twitching and Cold Needles',
     slug: 'agaricus-muscarius',
     excerpt: 'Explore Agaricus (Bug Agaric) - a powerful remedy for nervous systems characterized by twitching, trembling, and unusual cold sensations.',
@@ -50,7 +50,7 @@ It is also famously used for chilblains (skin sores caused by cold)—whenever t
   },
   {
     id: 'agnus-castus',
-    seoTitle: 'Agnus Castus in Homeopathy: Vitality, Memory & Nursing',
+    seoTitle: 'Agnus Castus in Homoeopathy: Vitality, Memory & Nursing',
     title: 'Agnus Castus: Restoring Vitality and Mental Focus',
     slug: 'agnus-castus',
     excerpt: 'Learn about Agnus Castus (Chaste Tree) - a remedy for premature old age, low vitality, and the mental fog of over-exhaustion.',
@@ -97,7 +97,7 @@ Mentally, the patient is characterized by an **inability to fix the attention**.
   },
   {
     id: 'allium-cepa-remedy',
-    seoTitle: 'Allium Cepa in Homeopathy: Acrid Coryza, Hay Fever & Cough',
+    seoTitle: 'Allium Cepa in Homoeopathy: Acrid Coryza, Hay Fever & Cough',
     title: 'Allium Cepa: The Remedy for "Onion-Style" Colds and Allergies',
     slug: 'allium-cepa-remedy',
     excerpt: 'Discover Allium Cepa (Red Onion) - the premier remedy for colds with burning nasal discharge and teary eyes.',
@@ -145,7 +145,7 @@ Patients often find they are much worse in a warm room and experience an immedia
   },
   {
     id: 'aloe-socotrina',
-    seoTitle: 'Aloe Socotrina in Homeopathy: Digestion, Hemorrhoids & Urgency',
+    seoTitle: 'Aloe Socotrina in Homoeopathy: Digestion, Hemorrhoids & Urgency',
     title: 'Aloe Socotrina: Relief for Digestive Urgency and Congestion',
     slug: 'aloe-socotrina',
     excerpt: 'Learn about Aloe - a leading remedy for digestive "accidents," morning diarrhea, and grape-like hemorrhoids.',
@@ -192,7 +192,7 @@ Stools are typically accompanied by a large amount of flatulence and may contain
   },
   {
     id: 'aceticum-acidum',
-    seoTitle: 'Aceticum Acidum in Homeopathy: Hemorrhage, Thirst & Dropsy',
+    seoTitle: 'Aceticum Acidum in Homoeopathy: Hemorrhage, Thirst & Dropsy',
     title: 'Aceticum Acidum: The Remedy for Deep Exhaustion and Hemorrhage',
     slug: 'aceticum-acidum',
     excerpt: 'Discover Aceticum Acidum - an essential remedy for pale, lean individuals suffering from intense thirst and deep-seated weakness.',
@@ -242,7 +242,7 @@ Sleep is also characteristic: the patient finds it impossible to sleep on their 
   },
   {
     id: 'actaea-racemosa',
-    seoTitle: 'Actaea Racemosa in Homeopathy: Mental Gloom & Female Health',
+    seoTitle: 'Actaea Racemosa in Homoeopathy: Mental Gloom & Female Health',
     title: 'Actaea Racemosa: Relief for Mental Gloom and Muscular Pains',
     slug: 'actaea-racemosa',
     excerpt: 'Explore Actaea Racemosa (Cimicifuga) - a remedy famously used for its deep action on the female system and mental states of "black clouds."',
@@ -290,7 +290,7 @@ Physically, it addresses "electric" pains—sharp, lancinating, and sudden. It i
   },
   {
     id: 'aesculus-hippocastanum',
-    seoTitle: 'Aesculus in Homeopathy: Hemorrhoids, Backache & Congestion',
+    seoTitle: 'Aesculus in Homoeopathy: Hemorrhoids, Backache & Congestion',
     title: 'Aesculus Hippocastanum: The Remedy for Venous Congestion',
     slug: 'aesculus-hippocastanum',
     excerpt: 'Learn how Aesculus (Horse Chestnut) provides relief for painful hemorrhoids that feel like "small sticks" and chronic lower backache.',
@@ -337,7 +337,7 @@ Accompanying these rectal symptoms is almost always a severe, dull backache in t
   },
   {
     id: 'aethusa-cynapium',
-    seoTitle: 'Aethusa in Homeopathy: Milk Intolerance & Weakness',
+    seoTitle: 'Aethusa in Homoeopathy: Milk Intolerance & Weakness',
     title: 'Aethusa Cynapium: The "Fools Parsley" for Digestion and Children',
     slug: 'aethusa-cynapium',
     excerpt: 'Explore Aethusa - a vital remedy for infants and children who cannot tolerate milk and suffer from mental weakness.',
@@ -369,7 +369,7 @@ Accompanying these rectal symptoms is almost always a severe, dull backache in t
         differences: 'Both have milk intolerance. Antimonium has a thick white coated tongue; Aethusa has the Linea Nasalis and more profound weakness.',
       }
     ],
-    content: `Aethusa Cynapium, known as Fool's Parsley, is a critical remedy in pediatric homeopathy. Its most defining characteristic is the **absolute intolerance of milk**. 
+    content: `Aethusa Cynapium, known as Fool's Parsley, is a critical remedy in pediatric Homoeopathy. Its most defining characteristic is the **absolute intolerance of milk**. 
 
 In infants, the milk is either vomited immediately or soon after in large, hard curds. This is followed by great exhaustion and drowsiness. A striking physical sign is the **Linea Nasalis**—a deep line extending from the nose to the outer angle of the mouth, giving the child an expression of great anxiety and pain.
 
@@ -384,9 +384,9 @@ Mentally, it is used for "idiocy" or incapacity to think. It helps students who 
   },
   {
     id: 'aconite',
-    title: 'Aconite: The Homeopathic Lancet',
+    title: 'Aconite: The Homoeopathic Lancet',
     slug: 'aconite',
-    excerpt: 'Discover the "Homeopathic Lancet" - a primary remedy for conditions that come on suddenly after exposure to dry, cold winds.',
+    excerpt: 'Discover the "Homoeopathic Lancet" - a primary remedy for conditions that come on suddenly after exposure to dry, cold winds.',
     quickSummary: [
       'Sudden onset of intense symptoms',
       'Accompanied by great fear, anxiety, and restlessness',
@@ -437,7 +437,7 @@ Mentally, it is used for "idiocy" or incapacity to think. It helps students who 
 **Family:** Ranunculaceae
 
 ### Summary
-Aconitum Napellus is often referred to as the "Homeopathic Lancet." It is a primary remedy for acute conditions that arise suddenly, especially after exposure to dry, cold winds. It is best suited for young, plethoric individuals with a sedentary lifestyle.
+Aconitum Napellus is often referred to as the "Homoeopathic Lancet." It is a primary remedy for acute conditions that arise suddenly, especially after exposure to dry, cold winds. It is best suited for young, plethoric individuals with a sedentary lifestyle.
 
 ### Key Mental Symptoms
 * **Intense Fear & Anxiety:** Accompanied by great nervous excitability.
@@ -466,13 +466,13 @@ Acute fevers, sudden inflammatory conditions, croup, anxiety attacks, and ailmen
     relatedRemedies: ['aconite', 'belladonna', 'arnica'],
     relatedConditions: ['fever', 'anxiety', 'migraine'],
     citations: [
-      { title: 'Homeopathy in Acute Fevers', url: 'https://pubmed.ncbi.nlm.nih.gov/', source: 'PubMed' },
+      { title: 'Homoeopathy in Acute Fevers', url: 'https://pubmed.ncbi.nlm.nih.gov/', source: 'PubMed' },
       { title: 'Allen\'s Keynotes on Aconite', url: '#', source: 'Allen\'s Materia Medica' }
     ]
   },
   {
     id: 'arnica',
-    seoTitle: 'Arnica Montana in Homeopathy: First Aid for Bruises & Trauma',
+    seoTitle: 'Arnica Montana in Homoeopathy: First Aid for Bruises & Trauma',
     title: 'Arnica Montana: The First Choice for Trauma and Injuries',
     slug: 'arnica',
     excerpt: 'Learn why Arnica is the most trusted remedy for bruises, mechanical injuries, and that characteristic "sore, lame, bruised" feeling.',
@@ -627,7 +627,7 @@ Food poisoning, asthma, chronic skin issues, anxiety disorders, and conditions w
   },
   {
     id: 'belladonna',
-    seoTitle: 'Belladonna in Homeopathy: Uses, Symptoms & When It Helps',
+    seoTitle: 'Belladonna in Homoeopathy: Uses, Symptoms & When It Helps',
     title: 'Belladonna: The Remedy for Sudden, Violent Conditions',
     slug: 'belladonna',
     excerpt: 'Understanding the "Deadly Nightshade" - a remedy for high fever, throbbing headaches, and intense redness.',
@@ -675,7 +675,7 @@ Food poisoning, asthma, chronic skin issues, anxiety disorders, and conditions w
         linkId: '/guide/immunity-wellness'
       }
     ],
-    content: `Belladonna is commonly used when symptoms start suddenly with intense heat, redness, and throbbing pain. Derived from the "Deadly Nightshade" plant, it is one of the most recognizable homeopathic remedies for acute, violent flares of illness.
+    content: `Belladonna is commonly used when symptoms start suddenly with intense heat, redness, and throbbing pain. Derived from the "Deadly Nightshade" plant, it is one of the most recognizable Homoeopathic remedies for acute, violent flares of illness.
 
 Instead of a slow, creeping cold, Belladonna symptoms hit you like a ton of bricks. One minute you feel fine, and the next you have a throbbing headache or a high fever with a flushed face.
 
@@ -688,10 +688,10 @@ Always remember that Belladonna is highly sensitive: the person wants to retreat
   },
   {
     id: 'bryonia',
-    seoTitle: 'Bryonia Alba in Homeopathy: Joint Pain, Cough & Dryness',
+    seoTitle: 'Bryonia Alba in Homoeopathy: Joint Pain, Cough & Dryness',
     title: 'Bryonia Alba: The Remedy for Dryness and Pain on Motion',
     slug: 'bryonia',
-    excerpt: 'Discover Bryonia, an essential homeopathic remedy for ailments characterized by intense dryness, bursting headache, and aggravation from the slightest movement.',
+    excerpt: 'Discover Bryonia, an essential Homoeopathic remedy for ailments characterized by intense dryness, bursting headache, and aggravation from the slightest movement.',
     quickSummary: [
       'Extremely dry mucous membranes (mouth, lips, joints)',
       'Sharp, stitching pains that are much worse from any motion',
@@ -748,7 +748,7 @@ Irritability is a hallmark of Bryonia; they do not want to be questioned, touche
   },
   {
     id: 'nux-vomica',
-    seoTitle: 'Nux Vomica in Homeopathy: Digestion, Stress & Overindulgence',
+    seoTitle: 'Nux Vomica in Homoeopathy: Digestion, Stress & Overindulgence',
     title: 'Nux Vomica: The Remedy for the Modern, Stressed Lifestyle',
     slug: 'nux-vomica',
     excerpt: 'Explore Nux Vomica, the premier remedy for ailments resulting from stress, overwork, lack of sleep, and overindulgence in food, alcohol, or stimulants.',
@@ -808,10 +808,10 @@ Physically, their nervous system and digestion take the hit. They suffer from se
     tags: ['Digestion', 'Stress', 'Irritability', 'Nux Vomica']
   },
   {
-    id: 'what-is-homeopathy',
-    slug: 'what-is-homeopathy',
+    id: 'what-is-Homoeopathy',
+    slug: 'what-is-Homoeopathy',
     title: 'What Is Homoeopathy? A Simple Beginner Guide',
-    excerpt: 'New to natural healing? This easy guide explains exactly what homeopathy is, how it works, and why it is a safe choice for your family.',
+    excerpt: 'New to natural healing? This easy guide explains exactly what Homoeopathy is, how it works, and why it is a safe choice for your family.',
     content: `
 ## Welcome to the World of Homoeopathy
 If you have ever walked into a health food store or talked to a friend about natural medicine, you have probably heard the word "homoeopathy." But what does it actually mean? For many people, homoeopathy sounds like a big, complicated medical term. In reality, it is a very simple and gentle way of helping your body heal itself.
@@ -821,54 +821,54 @@ At **Curiva Homoeopathy**, we believe that learning about your health should be 
 ## What Is Homoeopathy?
 Homoeopathy is a system of natural medicine that has been used all over the world for more than 200 years. It was started by a German doctor named Samuel Hahnemann. He wanted to find a way to treat people that was effective but didn't have the harsh side effects of the medicines used in his time.
 
-The word "homoeopathy" comes from two Greek words: *homeo*, which means "similar," and *pathos*, which means "suffering." This leads us to the most important rule in homoeopathy: **"Like Cures Like."**
+The word "homoeopathy" comes from two Greek words: *Homoeo*, which means "similar," and *pathos*, which means "suffering." This leads us to the most important rule in homoeopathy: **"Like Cures Like."**
 
 ## The Big Idea: "Like Cures Like"
 This might sound a bit strange at first, but we see it in our daily lives all the time. Think about what happens when you peel a fresh onion. Your eyes start to sting, they get red, and they begin to water. Your nose might even start to run. 
 
-In homeopathy, if a patient has a cold or an allergy with those exact same symptoms—stinging, watery eyes and a runny nose—a homeopath might give them a tiny, specially prepared dose of red onion (*Allium Cepa*). Because the onion "causes" those symptoms in a healthy person, it can help "cure" them in a sick person.
+In Homoeopathy, if a patient has a cold or an allergy with those exact same symptoms—stinging, watery eyes and a runny nose—a Homoeopath might give them a tiny, specially prepared dose of red onion (*Allium Cepa*). Because the onion "causes" those symptoms in a healthy person, it can help "cure" them in a sick person.
 
-Instead of just stopping the symptom (like a "stop-runny-nose" pill), homeopathy sends a signal to your body's own healing system to get to work and fix the problem from the inside out.
+Instead of just stopping the symptom (like a "stop-runny-nose" pill), Homoeopathy sends a signal to your body's own healing system to get to work and fix the problem from the inside out.
 
-## Why Is Homeopathy Different?
+## Why Is Homoeopathy Different?
 Most modern medicines are designed to "attack" a disease. If you have a cough, you take a cough suppressant. If you have a fever, you take a fever reducer. 
 
-Homeopathy looks at things differently. We don't just look at the cough; we look at **you**. 
+Homoeopathy looks at things differently. We don't just look at the cough; we look at **you**. 
 * Is your cough dry or wet? 
 * Is it worse at night or in the morning? 
 * Are you feeling thirsty or not thirsty at all? 
 * Are you feeling grumpy or do you want to be hugged?
 
-Because every person is unique, two people with the same "flu" might get two completely different homeopathic remedies. This is called **Individualization**. It means the treatment is tailored specifically to how *your* body is reacting.
+Because every person is unique, two people with the same "flu" might get two completely different Homoeopathic remedies. This is called **Individualization**. It means the treatment is tailored specifically to how *your* body is reacting.
 
-## How Homeopathy Helps
-Homeopathy is popular because it offers several benefits that are hard to find in other types of medicine:
+## How Homoeopathy Helps
+Homoeopathy is popular because it offers several benefits that are hard to find in other types of medicine:
 
-*   **It is Gentle:** Homeopathic medicines are highly diluted. This means the "active ingredient" is used in a very tiny amount, making it very soft on the body.
+*   **It is Gentle:** Homoeopathic medicines are highly diluted. This means the "active ingredient" is used in a very tiny amount, making it very soft on the body.
 *   **It is Safe for Everyone:** Because it is so gentle, it is a favorite choice for pregnant women, newborn babies, and the elderly.
-*   **No "Drowsy" Side Effects:** Unlike some allergy or cold medicines, homeopathic remedies won't make you feel sleepy or "foggy" during the day.
-*   **It Supports Your "Vital Force":** Homeopathy believes we all have an inner energy or "Vital Force" that keeps us healthy. The remedies help strengthen this energy so you don't get sick as often.
+*   **No "Drowsy" Side Effects:** Unlike some allergy or cold medicines, Homoeopathic remedies won't make you feel sleepy or "foggy" during the day.
+*   **It Supports Your "Vital Force":** Homoeopathy believes we all have an inner energy or "Vital Force" that keeps us healthy. The remedies help strengthen this energy so you don't get sick as often.
 
-## Commonly Used Homeopathic Remedies
-To give you an idea of how these natural medicines work, here are a few "superstars" of the homeopathic world:
+## Commonly Used Homoeopathic Remedies
+To give you an idea of how these natural medicines work, here are a few "superstars" of the Homoeopathic world:
 
 ### 1. Arnica Montana (The Mountain Daisy)
-This is the most famous homeopathic remedy. It is the first thing many people reach for when they have a bruise, a bump, or a muscle ache. If you trip and hurt your knee, Arnica helps your body manage the swelling and the "bruised" feeling much faster.
+This is the most famous Homoeopathic remedy. It is the first thing many people reach for when they have a bruise, a bump, or a muscle ache. If you trip and hurt your knee, Arnica helps your body manage the swelling and the "bruised" feeling much faster.
 
 ### 2. Chamomilla (Chamomile)
-You might know chamomile as a relaxing tea. In homeopathy, it is the "go-to" remedy for irritable children, especially babies who are teething. If a child is screaming, one cheek is red, and they only stop crying when they are being carried, Chamomilla is often the perfect match.
+You might know chamomile as a relaxing tea. In Homoeopathy, it is the "go-to" remedy for irritable children, especially babies who are teething. If a child is screaming, one cheek is red, and they only stop crying when they are being carried, Chamomilla is often the perfect match.
 
 ### 3. Nux Vomica (Poison Nut)
 This is often called the "over-indulgence" remedy. If you have eaten too much rich food, had too much coffee, or stayed up too late working, and now you feel nauseous and grumpy, Nux Vomica can help settle your stomach and your nerves.
 
 ## Simple Lifestyle Tips for Natural Healing
-While homeopathic remedies are powerful, they work best when you support your body with healthy habits. Here are a few easy tips:
+While Homoeopathic remedies are powerful, they work best when you support your body with healthy habits. Here are a few easy tips:
 
 *   **Stay Hydrated:** Drink plenty of plain water. It helps your body flush out toxins and keeps your energy up.
-*   **Avoid Strong Smells:** When taking homeopathic medicine, try to avoid very strong smells like menthol, camphor, or heavy perfumes, as these can sometimes make the remedy less effective.
+*   **Avoid Strong Smells:** When taking Homoeopathic medicine, try to avoid very strong smells like menthol, camphor, or heavy perfumes, as these can sometimes make the remedy less effective.
 *   **Listen to Your Body:** If you feel tired, rest. Your body does its best healing work while you are asleep.
 *   **Eat Real Food:** Try to eat more fruits and vegetables and less "packaged" food. Natural medicine works better in a body that is fueled by natural food.
-*   **Keep a Health Journal:** Write down when your symptoms start and what makes them feel better or worse. This information is like a "treasure map" for a homeopath to find the right remedy for you.
+*   **Keep a Health Journal:** Write down when your symptoms start and what makes them feel better or worse. This information is like a "treasure map" for a Homoeopath to find the right remedy for you.
 
 ## When to Consult a Doctor
 Homoeopathy is wonderful for everyday bumps, bruises, and minor colds. However, it is important to be responsible with your health. You should always consult a professional doctor or a certified homoeopath if:
@@ -878,7 +878,7 @@ Homoeopathy is wonderful for everyday bumps, bruises, and minor colds. However, 
 *   Your symptoms are getting worse instead of better.
 *   You have a long-term (chronic) health problem that needs a deep treatment plan.
 
-A professional homeopath has years of training to look at your whole history and find the deep-acting remedy that fits your entire life story.
+A professional Homoeopath has years of training to look at your whole history and find the deep-acting remedy that fits your entire life story.
 
 ## Conclusion
 Homoeopathy is a beautiful, natural way to care for yourself and your loved ones. It teaches us that our bodies are smart and that nature has provided us with the tools we need to heal. By choosing homoeopathy, you are choosing a path that is gentle, safe, and focused on you as a whole person.
@@ -893,7 +893,7 @@ We invite you to explore the other articles here at **Curiva Homoeopathy** to le
   },
   {
     id: 'gelsemium',
-    seoTitle: 'Gelsemium in Homeopathy: Stage Fright, Flu & Weakness',
+    seoTitle: 'Gelsemium in Homoeopathy: Stage Fright, Flu & Weakness',
     title: 'Gelsemium Sempervirens: The Remedy for Anticipation and Weakness',
     slug: 'gelsemium',
     excerpt: 'Explore the "Yellow Jasmine" - a key remedy for stage fright, flu-like weakness, and the effects of exciting news.',
@@ -1052,7 +1052,7 @@ Chronic digestive disorders, liver complaints, kidney stones, performance anxiet
   },
   {
     id: 'pulsatilla',
-    seoTitle: 'Pulsatilla Nigricans: Homeopathic Uses for Women & Children',
+    seoTitle: 'Pulsatilla Nigricans: Homoeopathic Uses for Women & Children',
     title: 'Pulsatilla Nigricans: The Gentle Remedy for Changing Symptoms',
     slug: 'pulsatilla',
     excerpt: 'Learn about the "Wind Flower" - a primary remedy for the female constitution, characterized by a mild disposition and thirstlessness.',
@@ -1135,20 +1135,20 @@ Menstrual irregularities, catarrhal conditions, digestive issues from rich food,
     id: 'how-it-works',
     slug: 'how-it-works',
     title: 'How Does Homoeopathy Work in the Body?',
-    excerpt: 'Ever wondered how tiny pills can make a big difference? Learn the simple science behind how homeopathy triggers your body\'s natural healing.',
+    excerpt: 'Ever wondered how tiny pills can make a big difference? Learn the simple science behind how Homoeopathy triggers your body\'s natural healing.',
     content: `
 ## A Simple Way to Understand Healing
-Many people ask, "How can something so small and gentle actually work?" It's a great question! To understand how homeopathy works, we first need to think about how our bodies are designed.
+Many people ask, "How can something so small and gentle actually work?" It's a great question! To understand how Homoeopathy works, we first need to think about how our bodies are designed.
 
-Your body is incredibly smart. When you get a cut, it heals. When you get a cold, your body fights it off. This inner strength is what we call your **immune system** or, in homeopathy, your **Vital Force**.
+Your body is incredibly smart. When you get a cut, it heals. When you get a cold, your body fights it off. This inner strength is what we call your **immune system** or, in Homoeopathy, your **Vital Force**.
 
 ## The "Trigger" Effect
-Think of your body like a high-tech security system. Sometimes, the system gets a bit "stuck" or doesn't notice a problem. Homeopathic medicines act like a gentle "tap on the shoulder" to your security system.
+Think of your body like a high-tech security system. Sometimes, the system gets a bit "stuck" or doesn't notice a problem. Homoeopathic medicines act like a gentle "tap on the shoulder" to your security system.
 
-Instead of doing the work *for* your body (like a chemical that kills bacteria), homeopathy gives your body a tiny bit of information that says, "Hey! Look over here! There's a problem that needs fixing."
+Instead of doing the work *for* your body (like a chemical that kills bacteria), Homoeopathy gives your body a tiny bit of information that says, "Hey! Look over here! There's a problem that needs fixing."
 
 ## The Power of Information
-Homeopathic remedies are prepared through a process called **Potentization**. This involves diluting the natural substance over and over again and shaking it vigorously. 
+Homoeopathic remedies are prepared through a process called **Potentization**. This involves diluting the natural substance over and over again and shaking it vigorously. 
 
 By the time the medicine is ready, there is only a tiny "energy footprint" or "information" left of the original plant or mineral. This information is what your body reacts to. It's like a software update for your health!
 
@@ -1162,7 +1162,7 @@ Because of the rule **"Like Cures Like,"** the medicine matches your symptoms ex
 4.  **The Result:** Your body uses its own natural power to bring itself back into balance.
 
 ## Conclusion
-Homeopathy doesn't "force" your body to do anything. It simply reminds your body how to heal itself. It is a partnership between nature and your own amazing inner strength.
+Homoeopathy doesn't "force" your body to do anything. It simply reminds your body how to heal itself. It is a partnership between nature and your own amazing inner strength.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 06, 2024',
@@ -1174,36 +1174,36 @@ Homeopathy doesn't "force" your body to do anything. It simply reminds your body
     id: 'safe-for-children',
     slug: 'safe-for-children',
     title: 'Is Homoeopathy Safe for Children?',
-    excerpt: 'Parents often worry about side effects. Discover why homeopathy is one of the safest and most effective choices for babies and kids.',
+    excerpt: 'Parents often worry about side effects. Discover why Homoeopathy is one of the safest and most effective choices for babies and kids.',
     content: `
 ## A Parent's Biggest Concern
-As a parent, your child's safety is your number one priority. When your little one is sick, you want something that works fast but is also 100% safe. This is exactly why so many parents around the world choose homeopathy.
+As a parent, your child's safety is your number one priority. When your little one is sick, you want something that works fast but is also 100% safe. This is exactly why so many parents around the world choose Homoeopathy.
 
 ## Why It Is So Safe
-Homeopathic medicines are different from the "strong" medicines you find in a typical pharmacy. Here is why they are perfect for kids:
+Homoeopathic medicines are different from the "strong" medicines you find in a typical pharmacy. Here is why they are perfect for kids:
 
 *   **No Toxic Chemicals:** Because the medicines are highly diluted, they are non-toxic. There is no risk of accidental poisoning if a child finds the bottle.
 *   **No Side Effects:** They don't cause stomach aches, rashes, or that "drowsy" feeling that many over-the-counter cold medicines do.
-*   **Sweet Taste:** Most homeopathic pills are made of tiny sugar globule. Kids actually love taking them because they taste like a tiny treat!
+*   **Sweet Taste:** Most Homoeopathic pills are made of tiny sugar globule. Kids actually love taking them because they taste like a tiny treat!
 
 ## Common Childhood Problems
-Homeopathy is excellent for the everyday issues that come with growing up:
+Homoeopathy is excellent for the everyday issues that come with growing up:
 *   **Teething:** Helps with the pain and grumpiness.
 *   **Colic:** Settles tiny tummies naturally.
 *   **Colds and Flu:** Boosts the immune system so they get better faster.
 *   **Bumps and Bruises:** Every active child needs *Arnica* in their first-aid kit!
 
 ## Supporting the Growing Body
-Children's bodies are very sensitive and reactive. This is a good thing! It means they often respond to homeopathic remedies much faster than adults do. Instead of suppressing their symptoms, homeopathy helps their young immune systems learn how to stay strong.
+Children's bodies are very sensitive and reactive. This is a good thing! It means they often respond to Homoeopathic remedies much faster than adults do. Instead of suppressing their symptoms, Homoeopathy helps their young immune systems learn how to stay strong.
 
 ## When to See a Professional
-While you can treat minor issues at home, always consult a professional homeopath or your pediatrician for:
+While you can treat minor issues at home, always consult a professional Homoeopath or your pediatrician for:
 *   High fevers that persist.
 *   Difficulty breathing.
 *   Any condition that makes you feel uneasy as a parent.
 
 ## Conclusion
-Homeopathy is a gentle friend to every growing child. It provides a safe, effective, and natural way to keep your family healthy without the worry of harsh chemicals.
+Homoeopathy is a gentle friend to every growing child. It provides a safe, effective, and natural way to keep your family healthy without the worry of harsh chemicals.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 07, 2024',
@@ -1212,13 +1212,13 @@ Homeopathy is a gentle friend to every growing child. It provides a safe, effect
     tags: ['Children', 'Safety', 'Parenting', 'Pediatrics']
   },
   {
-    id: 'homeopathy-vs-allopathy',
-    slug: 'homeopathy-vs-allopathy',
+    id: 'Homoeopathy-vs-allopathy',
+    slug: 'Homoeopathy-vs-allopathy',
     title: 'Homoeopathy vs Allopathy: What Is the Difference?',
-    excerpt: 'Confused about the different types of medicine? We break down the key differences between homeopathy and conventional medicine in simple terms.',
+    excerpt: 'Confused about the different types of medicine? We break down the key differences between Homoeopathy and conventional medicine in simple terms.',
     content: `
 ## Two Different Paths to Health
-When you feel sick, you usually have two main choices: go to a regular doctor (Allopathy) or try a natural approach (Homeopathy). Both have their place, but they work in very different ways.
+When you feel sick, you usually have two main choices: go to a regular doctor (Allopathy) or try a natural approach (Homoeopathy). Both have their place, but they work in very different ways.
 
 ## What is Allopathy?
 Allopathy is the "conventional" medicine we see in most hospitals. 
@@ -1226,15 +1226,15 @@ Allopathy is the "conventional" medicine we see in most hospitals.
 *   **The Method:** If you have a fever, you take an "anti-pyretic" (anti-fever). If you have an infection, you take an "anti-biotic" (anti-life for bacteria).
 *   **The Focus:** It focuses on the specific part of the body that is hurting.
 
-## What is Homeopathy?
-Homeopathy is a "holistic" medicine.
+## What is Homoeopathy?
+Homoeopathy is a "holistic" medicine.
 *   **The Goal:** To help the body heal itself.
 *   **The Method:** We use the rule of "Like Cures Like." We give a tiny dose of something that triggers your body's own defense system.
 *   **The Focus:** We look at the **whole person**—your mind, your emotions, and your physical body.
 
 ## Key Differences at a Glance
 
-| Feature | Allopathy (Conventional) | Homeopathy (Natural) |
+| Feature | Allopathy (Conventional) | Homoeopathy (Natural) |
 | :--- | :--- | :--- |
 | **Action** | Suppresses symptoms | Stimulates natural healing |
 | **Side Effects** | Can be common | Extremely rare |
@@ -1243,10 +1243,10 @@ Homeopathy is a "holistic" medicine.
 | **Approach** | One size fits many | Highly individualized |
 
 ## Can They Work Together?
-Yes! Many people use both. Allopathy is amazing for emergencies, broken bones, and surgery. Homeopathy is wonderful for building long-term health, treating recurring colds, and managing stress or skin issues.
+Yes! Many people use both. Allopathy is amazing for emergencies, broken bones, and surgery. Homoeopathy is wonderful for building long-term health, treating recurring colds, and managing stress or skin issues.
 
 ## Conclusion
-Understanding these two systems helps you make the best choice for your health. Allopathy "fights" the fire, while Homeopathy "strengthens" the building so it doesn't catch fire as easily next time.
+Understanding these two systems helps you make the best choice for your health. Allopathy "fights" the fire, while Homoeopathy "strengthens" the building so it doesn't catch fire as easily next time.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 08, 2024',
@@ -1258,21 +1258,21 @@ Understanding these two systems helps you make the best choice for your health. 
     id: 'chronic-diseases',
     slug: 'chronic-diseases',
     title: 'Can Homoeopathy Treat Chronic Diseases?',
-    excerpt: 'Chronic problems like asthma, arthritis, or skin issues can be frustrating. Learn how homeopathy offers a deep, long-term solution.',
+    excerpt: 'Chronic problems like asthma, arthritis, or skin issues can be frustrating. Learn how Homoeopathy offers a deep, long-term solution.',
     content: `
 ## What is a Chronic Disease?
 A "chronic" disease is a health problem that lasts for a long time—usually more than three months. Examples include allergies, asthma, arthritis, or long-term skin problems. Unlike a cold that goes away in a week, chronic problems often keep coming back.
 
-## The Homeopathic Approach
-In conventional medicine, chronic problems are often managed by taking a pill every day to "control" the symptoms. Homeopathy tries to do something deeper. We want to find out **why** your body is staying sick and help it find its way back to health.
+## The Homoeopathic Approach
+In conventional medicine, chronic problems are often managed by taking a pill every day to "control" the symptoms. Homoeopathy tries to do something deeper. We want to find out **why** your body is staying sick and help it find its way back to health.
 
 ## How It Works for Long-Term Issues
-1.  **Finding the Root Cause:** A homeopath will spend a lot of time talking to you. They want to know about your sleep, your mood, your history, and even what foods you like. This helps them find the "root" of the problem.
+1.  **Finding the Root Cause:** A Homoeopath will spend a lot of time talking to you. They want to know about your sleep, your mood, your history, and even what foods you like. This helps them find the "root" of the problem.
 2.  **Strengthening the System:** The remedy doesn't just "mask" the pain. It strengthens your overall health so your body can start to repair itself.
 3.  **Layer by Layer:** Healing a chronic problem is like peeling an onion. We work through the layers of your health until we reach the core.
 
 ## Examples of Chronic Conditions
-Homeopathy is very popular for:
+Homoeopathy is very popular for:
 *   **Skin Issues:** Like eczema or psoriasis.
 *   **Respiratory Problems:** Like recurring sinus infections or asthma.
 *   **Digestive Disorders:** Like IBS or chronic acidity.
@@ -1282,7 +1282,7 @@ Homeopathy is very popular for:
 Because chronic problems have been in your body for a long time, they usually take a bit longer to heal. It's not a "magic pill" that works in one hour, but the results are often much more permanent.
 
 ## Conclusion
-If you are tired of just "managing" a problem, homeopathy offers a path toward true, deep healing. It is a journey, but one that leads to a stronger, healthier you.
+If you are tired of just "managing" a problem, Homoeopathy offers a path toward true, deep healing. It is a journey, but one that leads to a stronger, healthier you.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 09, 2024',
@@ -1293,14 +1293,14 @@ If you are tired of just "managing" a problem, homeopathy offers a path toward t
   {
     id: 'natural-medicines',
     slug: 'natural-medicines',
-    title: 'Are Homeopathic Medicines Really Natural?',
-    excerpt: 'Where do those tiny white pills come from? Discover the fascinating natural origins of homeopathic remedies.',
+    title: 'Are Homoeopathic Medicines Really Natural?',
+    excerpt: 'Where do those tiny white pills come from? Discover the fascinating natural origins of Homoeopathic remedies.',
     content: `
 ## Straight from Nature
-One of the best things about homeopathy is that its medicines come directly from the world around us. There are no synthetic chemicals or artificial dyes. Everything starts with nature.
+One of the best things about Homoeopathy is that its medicines come directly from the world around us. There are no synthetic chemicals or artificial dyes. Everything starts with nature.
 
 ## The Three Main Sources
-Homeopathic remedies are made from three primary sources:
+Homoeopathic remedies are made from three primary sources:
 
 ### 1. The Plant Kingdom
 Most remedies come from plants. This includes flowers, roots, bark, and seeds.
@@ -1323,7 +1323,7 @@ You might wonder, "If it's made from a bee, isn't that dangerous?" This is where
 By the time it becomes a 30C or 200C medicine, there is no "physical" part of the original substance left—only its healing energy. This makes it 100% safe and non-toxic.
 
 ## Conclusion
-When you take a homeopathic remedy, you are using the pure healing power of nature. It is a clean, green, and ethical way to take care of your health.
+When you take a Homoeopathic remedy, you are using the pure healing power of nature. It is a clean, green, and ethical way to take care of your health.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 10, 2024',
@@ -1335,13 +1335,13 @@ When you take a homeopathic remedy, you are using the pure healing power of natu
     id: 'how-long-it-takes',
     slug: 'how-long-it-takes',
     title: 'How Long Does Homoeopathy Take to Work?',
-    excerpt: 'Is homeopathy slow? The answer might surprise you! Learn what to expect when you start your natural healing journey.',
+    excerpt: 'Is Homoeopathy slow? The answer might surprise you! Learn what to expect when you start your natural healing journey.',
     content: `
 ## The "Slow" Myth
-A common thing people say is, "Homeopathy is good, but it's very slow." This isn't always true! The speed of homeopathy depends on two main things: **What** we are treating and **How long** you have had the problem.
+A common thing people say is, "Homoeopathy is good, but it's very slow." This isn't always true! The speed of Homoeopathy depends on two main things: **What** we are treating and **How long** you have had the problem.
 
 ## 1. Acute Problems (Fast Results)
-For "acute" problems—things that just happened—homeopathy can be incredibly fast.
+For "acute" problems—things that just happened—Homoeopathy can be incredibly fast.
 *   **Example:** If you have a sudden fever, a bee sting, or a minor burn, the right remedy can often show results in minutes or hours.
 *   **Why?** Your body is already in "high gear" trying to fix the problem, and the remedy gives it the perfect boost.
 
@@ -1360,7 +1360,7 @@ When you start a remedy, you might not see the main problem go away on day one. 
 These are signs that your "Vital Force" is getting stronger and the healing has begun!
 
 ## Conclusion
-Homeopathy isn't "slow"—it's **thorough**. It takes the time needed to make sure the problem doesn't just go away, but stays away.
+Homoeopathy isn't "slow"—it's **thorough**. It takes the time needed to make sure the problem doesn't just go away, but stays away.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 11, 2024',
@@ -1371,17 +1371,17 @@ Homeopathy isn't "slow"—it's **thorough**. It takes the time needed to make su
   {
     id: 'side-effects',
     slug: 'side-effects',
-    title: 'Are There Any Side Effects of Homeopathic Medicines?',
-    excerpt: 'One of the biggest advantages of homeopathy is its safety. Learn why side effects are almost non-existent in this natural system.',
+    title: 'Are There Any Side Effects of Homoeopathic Medicines?',
+    excerpt: 'One of the biggest advantages of Homoeopathy is its safety. Learn why side effects are almost non-existent in this natural system.',
     content: `
 ## The Safety First Approach
-In modern medicine, almost every drug comes with a long list of "side effects"—things like nausea, dizziness, or rashes. In homeopathy, the story is very different.
+In modern medicine, almost every drug comes with a long list of "side effects"—things like nausea, dizziness, or rashes. In Homoeopathy, the story is very different.
 
 ## Why No Side Effects?
-The main reason homeopathy has no side effects is the **High Dilution**. Because the medicines are diluted so many times, they don't contain large amounts of chemicals that can "clash" with your body's chemistry.
+The main reason Homoeopathy has no side effects is the **High Dilution**. Because the medicines are diluted so many times, they don't contain large amounts of chemicals that can "clash" with your body's chemistry.
 
 ## What is a "Healing Crisis"?
-Sometimes, when you start a remedy, your symptoms might feel a tiny bit worse for a very short time (usually a few hours). This is **NOT** a side effect. It is called a "Homeopathic Aggravation" or a "Healing Crisis."
+Sometimes, when you start a remedy, your symptoms might feel a tiny bit worse for a very short time (usually a few hours). This is **NOT** a side effect. It is called a "Homoeopathic Aggravation" or a "Healing Crisis."
 
 It's actually a good sign! it means:
 1.  The remedy is the correct match.
@@ -1389,13 +1389,13 @@ It's actually a good sign! it means:
 3.  It is usually followed by a big improvement in how you feel.
 
 ## Safe for Everyone
-Because there are no toxic side effects, homeopathy is a safe choice for:
+Because there are no toxic side effects, Homoeopathy is a safe choice for:
 *   **Pregnant Women:** No risk to the baby.
 *   **Infants:** Gentle on tiny systems.
 *   **The Elderly:** Doesn't interfere with other medications.
 
 ## Conclusion
-Homeopathy offers a way to get well without the worry of getting "new" problems from your medicine. It is truly a "First, Do No Harm" system of healing.
+Homoeopathy offers a way to get well without the worry of getting "new" problems from your medicine. It is truly a "First, Do No Harm" system of healing.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 12, 2024',
@@ -1406,19 +1406,19 @@ Homeopathy offers a way to get well without the worry of getting "new" problems 
   {
     id: 'migraine-remedies',
     slug: 'migraine-remedies',
-    title: 'Homeopathic Remedies for Migraine',
-    excerpt: 'Tired of dark rooms and throbbing pain? Discover how homeopathy can help reduce the frequency and intensity of your migraines naturally.',
+    title: 'Homoeopathic Remedies for Migraine',
+    excerpt: 'Tired of dark rooms and throbbing pain? Discover how Homoeopathy can help reduce the frequency and intensity of your migraines naturally.',
     content: `
 ## Understanding the Migraine Mystery
-A migraine is more than just a "bad headache." It's a complex event that can involve nausea, light sensitivity, and intense throbbing. While many people just take a painkiller and wait, homeopathy looks for a way to stop the migraines from coming back.
+A migraine is more than just a "bad headache." It's a complex event that can involve nausea, light sensitivity, and intense throbbing. While many people just take a painkiller and wait, Homoeopathy looks for a way to stop the migraines from coming back.
 
 ## Common Types of Migraine
-In homeopathy, we ask: "Where is the pain?"
+In Homoeopathy, we ask: "Where is the pain?"
 *   **Right-sided:** Often needs a different remedy than left-sided.
 *   **Sun-related:** Some people get headaches only when they go out in the sun.
 *   **Stress-related:** Triggered by a busy week or a big event.
 
-## Top Homeopathic Remedies for Migraine
+## Top Homoeopathic Remedies for Migraine
 *   **Belladonna:** For sudden, violent, throbbing pain. The face is red and hot, and the pain is worse from light or noise.
 *   **Gelsemium:** For a "heavy" headache that starts at the back of the head. The eyelids feel heavy and the patient wants to lie still in the dark.
 *   **Sanguinaria:** Excellent for right-sided migraines that start in the morning and get better after sleep or vomiting.
@@ -1431,7 +1431,7 @@ In homeopathy, we ask: "Where is the pain?"
 *   **Magnesium Rich Foods:** Eat more spinach, almonds, and bananas.
 
 ## Conclusion
-Migraines don't have to be a permanent part of your life. By finding the right homeopathic match, you can help your body find its balance and say goodbye to the throbbing pain.
+Migraines don't have to be a permanent part of your life. By finding the right Homoeopathic match, you can help your body find its balance and say goodbye to the throbbing pain.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 13, 2024',
@@ -1442,16 +1442,16 @@ Migraines don't have to be a permanent part of your life. By finding the right h
   {
     id: 'hair-loss-treatment',
     slug: 'hair-loss-treatment',
-    title: 'Best Homeopathic Treatment for Hair Loss',
-    excerpt: 'Losing hair can be stressful. Learn how homeopathy addresses the root causes of hair fall to promote natural, healthy growth.',
+    title: 'Best Homoeopathic Treatment for Hair Loss',
+    excerpt: 'Losing hair can be stressful. Learn how Homoeopathy addresses the root causes of hair fall to promote natural, healthy growth.',
     content: `
 ## Why Do We Lose Hair?
 Seeing extra hair on your brush can be worrying. Hair loss happens for many reasons: stress, hormonal changes, poor diet, or even after a long illness like the flu. 
 
-Homeopathy doesn't just give you a "shampoo"—it looks at your internal health to see why the hair is falling out.
+Homoeopathy doesn't just give you a "shampoo"—it looks at your internal health to see why the hair is falling out.
 
-## The Homeopathic Approach to Hair Growth
-Instead of just treating the scalp, homeopathy treats the **person**. We look at:
+## The Homoeopathic Approach to Hair Growth
+Instead of just treating the scalp, Homoeopathy treats the **person**. We look at:
 *   **Stress levels:** Are you worried or overworked?
 *   **Nutrition:** Is your body getting enough vitamins?
 *   **Hormones:** Is there an imbalance (like after pregnancy or during menopause)?
@@ -1470,7 +1470,7 @@ Instead of just treating the scalp, homeopathy treats the **person**. We look at
 5.  **Sleep Well:** Your body repairs itself (and grows hair) while you sleep!
 
 ## Conclusion
-Healthy hair starts from the inside. Homeopathy helps balance your body so your hair can grow back naturally strong and beautiful.
+Healthy hair starts from the inside. Homoeopathy helps balance your body so your hair can grow back naturally strong and beautiful.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 14, 2024',
@@ -1482,13 +1482,13 @@ Healthy hair starts from the inside. Homeopathy helps balance your body so your 
     id: 'acne-healing',
     slug: 'acne-healing',
     title: 'Homoeopathy for Acne: Natural Skin Healing',
-    excerpt: 'Stubborn breakouts? Discover how homeopathy treats acne from the inside out for clear, glowing skin without harsh chemicals.',
+    excerpt: 'Stubborn breakouts? Discover how Homoeopathy treats acne from the inside out for clear, glowing skin without harsh chemicals.',
     content: `
 ## More Than Skin Deep
-Acne isn't just a surface problem. It's often a sign that something is out of balance inside your body—whether it's hormones, digestion, or stress. While creams might hide the spots, homeopathy works to stop them from forming in the first place.
+Acne isn't just a surface problem. It's often a sign that something is out of balance inside your body—whether it's hormones, digestion, or stress. While creams might hide the spots, Homoeopathy works to stop them from forming in the first place.
 
-## Why Homeopathy for Acne?
-*   **No Harsh Chemicals:** Unlike some strong skin medications, homeopathy won't dry out your skin or cause peeling.
+## Why Homoeopathy for Acne?
+*   **No Harsh Chemicals:** Unlike some strong skin medications, Homoeopathy won't dry out your skin or cause peeling.
 *   **Hormonal Balance:** It helps regulate the internal systems that cause oily skin and breakouts.
 *   **Scar Prevention:** By healing the skin properly, it reduces the risk of long-term scarring.
 
@@ -1506,7 +1506,7 @@ Acne isn't just a surface problem. It's often a sign that something is out of ba
 5.  **Change Your Pillowcase:** Do this at least twice a week to keep bacteria away from your face.
 
 ## Conclusion
-Clear skin is a reflection of a healthy body. Homeopathy provides a gentle, effective way to find your balance and let your natural beauty shine through.
+Clear skin is a reflection of a healthy body. Homoeopathy provides a gentle, effective way to find your balance and let your natural beauty shine through.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 15, 2024',
@@ -1517,14 +1517,14 @@ Clear skin is a reflection of a healthy body. Homeopathy provides a gentle, effe
   {
     id: 'allergic-rhinitis',
     slug: 'allergic-rhinitis',
-    title: 'Homeopathic Remedies for Allergic Rhinitis',
-    excerpt: 'Sneezing, itchy eyes, and a runny nose? Learn how homeopathy can help you enjoy the outdoors again by reducing your allergy sensitivity.',
+    title: 'Homoeopathic Remedies for Allergic Rhinitis',
+    excerpt: 'Sneezing, itchy eyes, and a runny nose? Learn how Homoeopathy can help you enjoy the outdoors again by reducing your allergy sensitivity.',
     content: `
 ## The Seasonal Struggle
-Allergic Rhinitis, often called "Hay Fever," happens when your immune system overreacts to things like pollen, dust, or pet dander. Instead of just taking an antihistamine that makes you sleepy, homeopathy helps your body stop being so sensitive.
+Allergic Rhinitis, often called "Hay Fever," happens when your immune system overreacts to things like pollen, dust, or pet dander. Instead of just taking an antihistamine that makes you sleepy, Homoeopathy helps your body stop being so sensitive.
 
-## How Homeopathy Helps Allergies
-Homeopathy works on the principle of "Like Cures Like." We use tiny amounts of natural substances that would normally cause allergy symptoms to help your body learn how to handle them calmly.
+## How Homoeopathy Helps Allergies
+Homoeopathy works on the principle of "Like Cures Like." We use tiny amounts of natural substances that would normally cause allergy symptoms to help your body learn how to handle them calmly.
 
 ## Top Remedies for Allergies
 *   **Allium Cepa:** For the classic "onion-like" symptoms—stinging, watery eyes and a clear, runny nose that burns the skin.
@@ -1540,7 +1540,7 @@ Homeopathy works on the principle of "Like Cures Like." We use tiny amounts of n
 5.  **Nasal Rinse:** Use a simple saline spray to gently clear pollen from your nose.
 
 ## Conclusion
-You don't have to hide indoors all spring. Homeopathy offers a natural way to strengthen your immune system so you can breathe easy and enjoy the beauty of nature.
+You don't have to hide indoors all spring. Homoeopathy offers a natural way to strengthen your immune system so you can breathe easy and enjoy the beauty of nature.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 16, 2024',
@@ -1551,14 +1551,14 @@ You don't have to hide indoors all spring. Homeopathy offers a natural way to st
   {
     id: 'eczema-treatment',
     slug: 'eczema-treatment',
-    title: 'Natural Homeopathic Treatment for Eczema',
-    excerpt: 'Itchy, red, and inflamed skin can be painful. Discover how homeopathy addresses the internal causes of eczema for long-term relief.',
+    title: 'Natural Homoeopathic Treatment for Eczema',
+    excerpt: 'Itchy, red, and inflamed skin can be painful. Discover how Homoeopathy addresses the internal causes of eczema for long-term relief.',
     content: `
 ## Understanding Eczema
 Eczema is more than just "dry skin." It's an inflammatory condition where the skin's protective barrier isn't working correctly. This leads to itching, redness, and sometimes "weeping" or crusty patches.
 
-## The Homeopathic View
-Homeopathy believes that skin problems are often an "outer sign" of an "inner imbalance." By treating the whole person, we can help the skin heal from the inside out, rather than just using creams to hide the problem.
+## The Homoeopathic View
+Homoeopathy believes that skin problems are often an "outer sign" of an "inner imbalance." By treating the whole person, we can help the skin heal from the inside out, rather than just using creams to hide the problem.
 
 ## Common Remedies for Eczema
 *   **Graphites:** For thick, hard skin that tends to crack and ooze a sticky, honey-like fluid.
@@ -1574,7 +1574,7 @@ Homeopathy believes that skin problems are often an "outer sign" of an "inner im
 5.  **Identify Food Triggers:** Some people find that dairy, gluten, or eggs can make their eczema worse.
 
 ## Conclusion
-Eczema can be a long journey, but you don't have to walk it alone. Homeopathy offers a gentle, deep-acting path toward calm, healthy skin and a more comfortable life.
+Eczema can be a long journey, but you don't have to walk it alone. Homoeopathy offers a gentle, deep-acting path toward calm, healthy skin and a more comfortable life.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 17, 2024',
@@ -1585,13 +1585,13 @@ Eczema can be a long journey, but you don't have to walk it alone. Homeopathy of
   {
     id: 'sinusitis-remedies',
     slug: 'sinusitis-remedies',
-    title: 'Homeopathic Medicine for Sinusitis',
-    excerpt: 'Pressure, pain, and congestion? Learn how homeopathy can help clear your sinuses and prevent recurring infections naturally.',
+    title: 'Homoeopathic Medicine for Sinusitis',
+    excerpt: 'Pressure, pain, and congestion? Learn how Homoeopathy can help clear your sinuses and prevent recurring infections naturally.',
     content: `
 ## The Heavy Head Feeling
 Sinusitis happens when the small, air-filled cavities in your skull (sinuses) become inflamed and blocked with mucus. This causes that "heavy" feeling in your face, headaches, and difficulty breathing through your nose.
 
-## Why Homeopathy for Sinuses?
+## Why Homoeopathy for Sinuses?
 *   **Clears Blockages:** Helps thin the mucus so it can drain naturally.
 *   **Reduces Inflammation:** Calms the lining of the sinuses.
 *   **Prevents Recurrence:** Strengthens your immune system so you don't get an infection every time you have a cold.
@@ -1610,7 +1610,7 @@ Sinusitis happens when the small, air-filled cavities in your skull (sinuses) be
 5.  **Avoid Dairy:** Some people find that milk and cheese can increase mucus production.
 
 ## Conclusion
-Sinus pressure doesn't have to weigh you down. Homeopathy provides a natural, effective way to clear the fog and breathe freely again.
+Sinus pressure doesn't have to weigh you down. Homoeopathy provides a natural, effective way to clear the fog and breathe freely again.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 18, 2024',
@@ -1622,13 +1622,13 @@ Sinus pressure doesn't have to weigh you down. Homeopathy provides a natural, ef
     id: 'acidity-relief',
     slug: 'acidity-relief',
     title: 'Homoeopathy for Acidity',
-    excerpt: 'Heartburn and bloating? Discover how homeopathy can help balance your digestion and provide natural relief from acidity.',
+    excerpt: 'Heartburn and bloating? Discover how Homoeopathy can help balance your digestion and provide natural relief from acidity.',
     content: `
 ## That Burning Feeling
 Acidity, or "Heartburn," happens when the acid from your stomach moves back up into your esophagus. It can cause a burning sensation in your chest, a sour taste in your mouth, and a lot of discomfort after eating.
 
-## The Homeopathic Approach
-Instead of just "neutralizing" the acid with a chemical, homeopathy looks at **why** your stomach is producing too much acid or why the valve isn't closing properly.
+## The Homoeopathic Approach
+Instead of just "neutralizing" the acid with a chemical, Homoeopathy looks at **why** your stomach is producing too much acid or why the valve isn't closing properly.
 
 ## Common Remedies for Acidity
 *   **Nux Vomica:** The #1 remedy for acidity caused by overeating, spicy food, too much coffee, or stress.
@@ -1644,7 +1644,7 @@ Instead of just "neutralizing" the acid with a chemical, homeopathy looks at **w
 5.  **Don't Lie Down After Eating:** Stay upright to help gravity keep the acid in your stomach.
 
 ## Conclusion
-You don't have to live with the burn. Homeopathy offers a gentle, natural way to balance your digestion and enjoy your meals again.
+You don't have to live with the burn. Homoeopathy offers a gentle, natural way to balance your digestion and enjoy your meals again.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 19, 2024',
@@ -1655,14 +1655,14 @@ You don't have to live with the burn. Homeopathy offers a gentle, natural way to
   {
     id: 'constipation-remedies',
     slug: 'constipation-remedies',
-    title: 'Best Homeopathic Remedies for Constipation',
-    excerpt: 'Feeling sluggish and blocked? Learn how homeopathy can help regulate your bowel movements naturally and gently.',
+    title: 'Best Homoeopathic Remedies for Constipation',
+    excerpt: 'Feeling sluggish and blocked? Learn how Homoeopathy can help regulate your bowel movements naturally and gently.',
     content: `
 ## A Common Discomfort
 Constipation is a very common problem that can make you feel heavy, bloated, and irritable. It's often caused by a lack of fiber, not enough water, or even a change in your daily routine.
 
-## Why Homeopathy for Constipation?
-*   **Non-Habit Forming:** Unlike some chemical laxatives, homeopathic remedies don't make your body "dependent" on them.
+## Why Homoeopathy for Constipation?
+*   **Non-Habit Forming:** Unlike some chemical laxatives, Homoeopathic remedies don't make your body "dependent" on them.
 *   **Gently Stimulates:** It encourages your intestines to move naturally.
 *   **Treats the Cause:** Addresses issues like dryness, lack of urge, or stress-related blockages.
 
@@ -1680,7 +1680,7 @@ Constipation is a very common problem that can make you feel heavy, bloated, and
 5.  **Probiotics:** Consider eating yogurt or fermented foods to support your gut bacteria.
 
 ## Conclusion
-Regularity is a key part of feeling your best. Homeopathy provides a safe, gentle way to get things moving again and restore your natural rhythm.
+Regularity is a key part of feeling your best. Homoeopathy provides a safe, gentle way to get things moving again and restore your natural rhythm.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 20, 2024',
@@ -1691,14 +1691,14 @@ Regularity is a key part of feeling your best. Homeopathy provides a safe, gentl
   {
     id: 'pcos-treatment',
     slug: 'pcos-treatment',
-    title: 'Homeopathic Treatment for Polycystic Ovary Syndrome (PCOS)',
-    excerpt: 'PCOS can affect your cycles, skin, and mood. Learn how homeopathy offers a holistic approach to balancing hormones naturally.',
+    title: 'Homoeopathic Treatment for Polycystic Ovary Syndrome (PCOS)',
+    excerpt: 'PCOS can affect your cycles, skin, and mood. Learn how Homoeopathy offers a holistic approach to balancing hormones naturally.',
     content: `
 ## Understanding PCOS
-Polycystic Ovary Syndrome (PCOS) is a common hormonal condition that affects many women. It can cause irregular periods, acne, weight gain, and unwanted hair growth. Instead of just taking a "hormone pill," homeopathy looks at the root cause of the imbalance.
+Polycystic Ovary Syndrome (PCOS) is a common hormonal condition that affects many women. It can cause irregular periods, acne, weight gain, and unwanted hair growth. Instead of just taking a "hormone pill," Homoeopathy looks at the root cause of the imbalance.
 
 ## The Holistic Approach to PCOS
-Homeopathy believes that PCOS is a sign that the whole body's hormonal system is out of sync. By treating the person, not just the ovaries, we can help restore a natural, healthy rhythm.
+Homoeopathy believes that PCOS is a sign that the whole body's hormonal system is out of sync. By treating the person, not just the ovaries, we can help restore a natural, healthy rhythm.
 
 ## Common Remedies for PCOS
 *   **Pulsatilla:** Often the first choice for women with irregular or delayed periods who have a gentle, emotional nature and feel better in the open air.
@@ -1714,7 +1714,7 @@ Homeopathy believes that PCOS is a sign that the whole body's hormonal system is
 5.  **Stay Hydrated:** Water is essential for every metabolic process in your body.
 
 ## Conclusion
-PCOS can be a complex journey, but it doesn't have to define you. Homeopathy provides a gentle, natural way to find your balance and reclaim your health.
+PCOS can be a complex journey, but it doesn't have to define you. Homoeopathy provides a gentle, natural way to find your balance and reclaim your health.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 21, 2024',
@@ -1726,13 +1726,13 @@ PCOS can be a complex journey, but it doesn't have to define you. Homeopathy pro
     id: 'irregular-menstruation',
     slug: 'irregular-menstruation',
     title: 'Homoeopathy for Irregular Menstruation',
-    excerpt: 'Are your cycles unpredictable? Discover how homeopathy can help regulate your periods and restore your natural monthly rhythm.',
+    excerpt: 'Are your cycles unpredictable? Discover how Homoeopathy can help regulate your periods and restore your natural monthly rhythm.',
     content: `
 ## The Monthly Rhythm
 For many women, a regular menstrual cycle is a sign of good health. But when periods become irregular—too early, too late, or skipped altogether—it can be a sign of stress, nutritional gaps, or hormonal shifts.
 
-## Why Choose Homeopathy?
-*   **Regulates Naturally:** Instead of forcing a cycle with synthetic hormones, homeopathy encourages your body to find its own natural timing.
+## Why Choose Homoeopathy?
+*   **Regulates Naturally:** Instead of forcing a cycle with synthetic hormones, Homoeopathy encourages your body to find its own natural timing.
 *   **Treats the Whole Person:** We look at your stress, your diet, and your emotions.
 *   **Gentle and Safe:** No risk of the side effects often associated with hormonal medications.
 
@@ -1750,7 +1750,7 @@ For many women, a regular menstrual cycle is a sign of good health. But when per
 5.  **Rest During Your Period:** Listen to your body's need for extra quiet and sleep during your cycle.
 
 ## Conclusion
-Your body has its own unique rhythm. Homeopathy helps you tune back into that rhythm naturally, providing a path to more predictable and comfortable cycles.
+Your body has its own unique rhythm. Homoeopathy helps you tune back into that rhythm naturally, providing a path to more predictable and comfortable cycles.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 22, 2024',
@@ -1762,16 +1762,16 @@ Your body has its own unique rhythm. Homeopathy helps you tune back into that rh
     id: 'menstrual-cramps',
     slug: 'menstrual-cramps',
     title: 'Natural Remedies for Menstrual Cramps',
-    excerpt: 'Painful periods don\'t have to be your "normal." Learn how homeopathy and simple lifestyle changes can provide natural relief from cramps.',
+    excerpt: 'Painful periods don\'t have to be your "normal." Learn how Homoeopathy and simple lifestyle changes can provide natural relief from cramps.',
     content: `
 ## The Monthly Ache
-Menstrual cramps (Dysmenorrhea) can range from a dull ache to intense, throbbing pain that keeps you in bed. While many reach for a painkiller, homeopathy offers a way to ease the pain and reduce its frequency naturally.
+Menstrual cramps (Dysmenorrhea) can range from a dull ache to intense, throbbing pain that keeps you in bed. While many reach for a painkiller, Homoeopathy offers a way to ease the pain and reduce its frequency naturally.
 
-## How Homeopathy Helps Cramps
-Homeopathy works by relaxing the muscles and calming the nervous system. By matching the remedy to the *type* of pain you feel, we can provide targeted relief.
+## How Homoeopathy Helps Cramps
+Homoeopathy works by relaxing the muscles and calming the nervous system. By matching the remedy to the *type* of pain you feel, we can provide targeted relief.
 
 ## Top Remedies for Period Pain
-*   **Magnesia Phosphorica:** The "Homeopathic Aspirin." Excellent for cramping pain that feels **better with heat** and pressure.
+*   **Magnesia Phosphorica:** The "Homoeopathic Aspirin." Excellent for cramping pain that feels **better with heat** and pressure.
 *   **Colocynthis:** For intense, "doubling-over" pain that is relieved by firm pressure and bending forward.
 *   **Belladonna:** For sudden, violent, throbbing pain that comes and goes quickly.
 *   **Chamomilla:** When the pain is so intense it makes you feel extremely irritable and "over-sensitive."
@@ -1784,7 +1784,7 @@ Homeopathy works by relaxing the muscles and calming the nervous system. By matc
 5.  **Magnesium Support:** Eat more dark chocolate (in moderation!), bananas, and leafy greens.
 
 ## Conclusion
-You deserve to feel comfortable every day of the month. Homeopathy provides a gentle, effective way to manage period pain and reclaim your energy.
+You deserve to feel comfortable every day of the month. Homoeopathy provides a gentle, effective way to manage period pain and reclaim your energy.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 23, 2024',
@@ -1796,13 +1796,13 @@ You deserve to feel comfortable every day of the month. Homeopathy provides a ge
     id: 'pms-relief',
     slug: 'pms-relief',
     title: 'Homoeopathy for Premenstrual Syndrome (PMS)',
-    excerpt: 'Mood swings, bloating, and cravings? Discover how homeopathy can help balance your emotions and physical symptoms before your period.',
+    excerpt: 'Mood swings, bloating, and cravings? Discover how Homoeopathy can help balance your emotions and physical symptoms before your period.',
     content: `
 ## The Pre-Period Rollercoaster
 Premenstrual Syndrome (PMS) can make the week before your period feel like a struggle. From irritability and crying spells to bloating and breast tenderness, it's a sign that your hormones are shifting.
 
 ## The Holistic View of PMS
-Homeopathy doesn't just treat the bloating; it treats the **whole you**. We look at how your mood changes and what physical symptoms are most bothersome to find the perfect match.
+Homoeopathy doesn't just treat the bloating; it treats the **whole you**. We look at how your mood changes and what physical symptoms are most bothersome to find the perfect match.
 
 ## Common Remedies for PMS
 *   **Pulsatilla:** For the "weepy" PMS, where you feel very emotional, crave sympathy, and want fresh air.
@@ -1818,7 +1818,7 @@ Homeopathy doesn't just treat the bloating; it treats the **whole you**. We look
 5.  **Gentle Self-Care:** Give yourself permission to slow down and do something relaxing during this week.
 
 ## Conclusion
-PMS doesn't have to be a monthly battle. Homeopathy offers a gentle, natural way to smooth out the highs and lows, helping you feel like yourself all month long.
+PMS doesn't have to be a monthly battle. Homoeopathy offers a gentle, natural way to smooth out the highs and lows, helping you feel like yourself all month long.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 24, 2024',
@@ -1830,12 +1830,12 @@ PMS doesn't have to be a monthly battle. Homeopathy offers a gentle, natural way
     id: 'teething-problems',
     slug: 'teething-problems',
     title: 'Homoeopathy for Teething Problems in Babies',
-    excerpt: 'Is your baby fussy and drooling? Discover safe, gentle homeopathic remedies to help your little one through the teething stage.',
+    excerpt: 'Is your baby fussy and drooling? Discover safe, gentle Homoeopathic remedies to help your little one through the teething stage.',
     content: `
 ## The Teething Milestone
 Teething is a big step for your baby, but it can be a challenging time for the whole family. Red gums, constant drooling, and sleepless nights are common signs that those first teeth are on their way.
 
-## Why Homeopathy for Babies?
+## Why Homoeopathy for Babies?
 *   **100% Safe:** No harsh chemicals or numbing agents that can be risky for infants.
 *   **Gentle Action:** Works with your baby's natural healing process.
 *   **Sweet Taste:** The tiny pills are easy to give and babies usually love them!
@@ -1854,7 +1854,7 @@ Teething is a big step for your baby, but it can be a challenging time for the w
 5.  **Distraction:** A new toy or a change of scenery can sometimes help them forget the discomfort.
 
 ## Conclusion
-Teething is a natural process, and homeopathy provides a natural way to support it. With a little help from nature, you and your baby can get through this stage with more smiles and better sleep.
+Teething is a natural process, and Homoeopathy provides a natural way to support it. With a little help from nature, you and your baby can get through this stage with more smiles and better sleep.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 25, 2024',
@@ -1865,14 +1865,14 @@ Teething is a natural process, and homeopathy provides a natural way to support 
   {
     id: 'infant-colic',
     slug: 'infant-colic',
-    title: 'Homeopathic Remedies for Colic in Infants',
-    excerpt: 'Sleepless nights with a crying baby? Learn how homeopathy can gently settle your baby\'s tummy and provide relief from colic.',
+    title: 'Homoeopathic Remedies for Colic in Infants',
+    excerpt: 'Sleepless nights with a crying baby? Learn how Homoeopathy can gently settle your baby\'s tummy and provide relief from colic.',
     content: `
 ## The Mystery of Colic
 Colic is when a healthy baby cries for long periods, often in the evening, for no obvious reason. It's usually related to gas or a sensitive digestive system. It can be very stressful for parents, but remember—it's temporary!
 
-## How Homeopathy Helps Colic
-Homeopathy works by gently relaxing the baby's digestive muscles and helping them pass gas more easily. It's a safe, non-toxic way to bring peace back to your home.
+## How Homoeopathy Helps Colic
+Homoeopathy works by gently relaxing the baby's digestive muscles and helping them pass gas more easily. It's a safe, non-toxic way to bring peace back to your home.
 
 ## Common Remedies for Colic
 *   **Colocynthis:** For the baby who screams with pain and feels better when their legs are pulled up or when firm pressure is applied to their tummy.
@@ -1888,7 +1888,7 @@ Homeopathy works by gently relaxing the baby's digestive muscles and helping the
 5.  **Take a Break:** If you feel overwhelmed, it's okay to put the baby in a safe place and step away for a few minutes to breathe.
 
 ## Conclusion
-Colic can be a tough stage, but nature has provided gentle tools to help. Homeopathy offers a safe path to a calmer baby and a more restful night for everyone.
+Colic can be a tough stage, but nature has provided gentle tools to help. Homoeopathy offers a safe path to a calmer baby and a more restful night for everyone.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 26, 2024',
@@ -1900,13 +1900,13 @@ Colic can be a tough stage, but nature has provided gentle tools to help. Homeop
     id: 'common-cold-children',
     slug: 'common-cold-children',
     title: 'Homoeopathy for Common Cold in Children',
-    excerpt: 'Runny noses and coughs are part of childhood. Learn how homeopathy can help your child recover faster and build a stronger immune system.',
+    excerpt: 'Runny noses and coughs are part of childhood. Learn how Homoeopathy can help your child recover faster and build a stronger immune system.',
     content: `
 ## The Seasonal Sniffles
-It's normal for children to get several colds a year as their immune systems grow. While it's hard to see them feeling unwell, a cold is actually a "workout" for their body's defenses. Homeopathy helps them get through it more comfortably.
+It's normal for children to get several colds a year as their immune systems grow. While it's hard to see them feeling unwell, a cold is actually a "workout" for their body's defenses. Homoeopathy helps them get through it more comfortably.
 
-## Why Homeopathy for Kids' Colds?
-*   **No "Drowsy" Side Effects:** Unlike some over-the-counter syrups, homeopathy won't make your child feel sleepy or "foggy."
+## Why Homoeopathy for Kids' Colds?
+*   **No "Drowsy" Side Effects:** Unlike some over-the-counter syrups, Homoeopathy won't make your child feel sleepy or "foggy."
 *   **Boosts Immunity:** Instead of just stopping the symptoms, it helps the body fight the virus more effectively.
 *   **Safe and Gentle:** Perfect for even the youngest members of your family.
 
@@ -1924,7 +1924,7 @@ It's normal for children to get several colds a year as their immune systems gro
 5.  **Honey for Coughs:** For children over 1 year old, a spoonful of honey can be very soothing for a dry throat.
 
 ## Conclusion
-A cold is a temporary hurdle. With a little help from homeopathy, your child can bounce back quickly and with a stronger, more resilient immune system.
+A cold is a temporary hurdle. With a little help from Homoeopathy, your child can bounce back quickly and with a stronger, more resilient immune system.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 27, 2024',
@@ -1935,14 +1935,14 @@ A cold is a temporary hurdle. With a little help from homeopathy, your child can
   {
     id: 'safe-medicines-kids',
     slug: 'safe-medicines-kids',
-    title: 'Safe Homeopathic Medicines for Kids',
-    excerpt: 'Building a natural first-aid kit for your family? Discover the most essential and safe homeopathic remedies every parent should have.',
+    title: 'Safe Homoeopathic Medicines for Kids',
+    excerpt: 'Building a natural first-aid kit for your family? Discover the most essential and safe Homoeopathic remedies every parent should have.',
     content: `
 ## A Natural First-Aid Kit
 Every parent knows that minor bumps, bruises, and tummy aches are part of daily life with kids. Having a few safe, natural remedies on hand can make a big difference in how you handle these moments.
 
-## Why Homeopathy is a Parent's Best Friend
-Homeopathic medicines are non-toxic, have no side effects, and are easy to give to children. They provide a gentle way to support your child's health from the very beginning.
+## Why Homoeopathy is a Parent's Best Friend
+Homoeopathic medicines are non-toxic, have no side effects, and are easy to give to children. They provide a gentle way to support your child's health from the very beginning.
 
 ## Essential Remedies for Your Kit
 *   **Arnica:** For every bump, bruise, or fall. It's the #1 remedy for active kids!
@@ -1956,7 +1956,7 @@ Homeopathic medicines are non-toxic, have no side effects, and are easy to give 
 2.  **Clean Hands:** Try not to touch the pills with your hands. Use the cap to drop them directly into your child's mouth.
 3.  **Wait Between Doses:** Give the body time to react before giving another dose.
 4.  **Observe Closely:** Notice what makes your child feel better or worse—this helps you choose the right remedy.
-5.  **Consult a Professional:** For recurring issues or anything that worries you, always talk to a certified homeopath.
+5.  **Consult a Professional:** For recurring issues or anything that worries you, always talk to a certified Homoeopath.
 
 ## Conclusion
 Empowering yourself with natural tools is a wonderful way to care for your family. With a few key remedies, you can handle life's little emergencies with confidence and calm.
@@ -1971,13 +1971,13 @@ Empowering yourself with natural tools is a wonderful way to care for your famil
     id: 'psoriasis-treatment',
     slug: 'psoriasis-treatment',
     title: 'Homoeopathy for Psoriasis',
-    excerpt: 'Psoriasis is more than just a skin condition. Learn how homeopathy addresses the internal immune system to provide natural, long-term relief.',
+    excerpt: 'Psoriasis is more than just a skin condition. Learn how Homoeopathy addresses the internal immune system to provide natural, long-term relief.',
     content: `
 ## Understanding Psoriasis
 Psoriasis is a chronic condition where the skin cells grow too quickly, leading to thick, red, scaly patches. It's an "auto-immune" condition, which means the body's defense system is a bit over-active.
 
-## The Homeopathic Approach
-Instead of just using a steroid cream to "push down" the patches, homeopathy works to calm the over-active immune system. We treat the **whole person** to help the body find its natural balance.
+## The Homoeopathic Approach
+Instead of just using a steroid cream to "push down" the patches, Homoeopathy works to calm the over-active immune system. We treat the **whole person** to help the body find its natural balance.
 
 ## Common Remedies for Psoriasis
 *   **Arsenicum Album:** For dry, scaly patches that are very itchy and feel better with heat. The patient often feels anxious and chilly.
@@ -1993,7 +1993,7 @@ Instead of just using a steroid cream to "push down" the patches, homeopathy wor
 5.  **Healthy Diet:** Some people find that reducing sugar and processed foods helps calm their skin.
 
 ## Conclusion
-Psoriasis can be a long-term challenge, but it doesn't have to control your life. Homeopathy offers a deep-acting, natural path toward clearer skin and a more balanced immune system.
+Psoriasis can be a long-term challenge, but it doesn't have to control your life. Homoeopathy offers a deep-acting, natural path toward clearer skin and a more balanced immune system.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 29, 2024',
@@ -2004,15 +2004,15 @@ Psoriasis can be a long-term challenge, but it doesn't have to control your life
   {
     id: 'dandruff-treatment',
     slug: 'dandruff-treatment',
-    title: 'Natural Homeopathic Treatment for Dandruff',
-    excerpt: 'Itchy scalp and white flakes? Discover how homeopathy treats the underlying causes of dandruff for a healthy, flake-free scalp.',
+    title: 'Natural Homoeopathic Treatment for Dandruff',
+    excerpt: 'Itchy scalp and white flakes? Discover how Homoeopathy treats the underlying causes of dandruff for a healthy, flake-free scalp.',
     content: `
 ## More Than Just Flakes
 Dandruff is a common condition where the skin on the scalp sheds too quickly. It can be caused by dry skin, sensitivity to hair products, or even a tiny fungus that lives on the scalp. 
 
-Homeopathy looks at your overall health to see why your scalp is out of balance.
+Homoeopathy looks at your overall health to see why your scalp is out of balance.
 
-## Why Homeopathy for Dandruff?
+## Why Homoeopathy for Dandruff?
 *   **Treats the Root Cause:** Addresses issues like oily skin, dryness, or stress.
 *   **No Harsh Chemicals:** Unlike some medicated shampoos, it won't strip your hair of its natural oils.
 *   **Long-Term Results:** Helps prevent the dandruff from coming back.
@@ -2031,7 +2031,7 @@ Homeopathy looks at your overall health to see why your scalp is out of balance.
 5.  **Eat Zinc-Rich Foods:** Include more nuts, seeds, and whole grains in your diet.
 
 ## Conclusion
-A healthy scalp is the foundation for beautiful hair. Homeopathy provides a gentle, natural way to clear the flakes and restore your confidence.
+A healthy scalp is the foundation for beautiful hair. Homoeopathy provides a gentle, natural way to clear the flakes and restore your confidence.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 30, 2024',
@@ -2042,14 +2042,14 @@ A healthy scalp is the foundation for beautiful hair. Homeopathy provides a gent
   {
     id: 'urticaria-remedies',
     slug: 'urticaria-remedies',
-    title: 'Best Homeopathic Remedies for Urticaria',
-    excerpt: 'Itchy, red hives can be incredibly uncomfortable. Learn how homeopathy can help calm your skin and reduce allergic reactions naturally.',
+    title: 'Best Homoeopathic Remedies for Urticaria',
+    excerpt: 'Itchy, red hives can be incredibly uncomfortable. Learn how Homoeopathy can help calm your skin and reduce allergic reactions naturally.',
     content: `
 ## What is Urticaria?
 Urticaria, commonly known as "Hives," are red, itchy welts that appear on the skin. They are often an allergic reaction to food, medicine, or even stress. They can come and go quickly or last for several days.
 
-## How Homeopathy Helps Hives
-Homeopathy works by calming the body's over-reaction to a trigger. By matching the remedy to the *type* of hives you have, we can provide fast relief and help prevent them from returning.
+## How Homoeopathy Helps Hives
+Homoeopathy works by calming the body's over-reaction to a trigger. By matching the remedy to the *type* of hives you have, we can provide fast relief and help prevent them from returning.
 
 ## Top Remedies for Urticaria
 *   **Apis Mellifica:** The #1 remedy for hives that look like bee stings—red, swollen, and stinging. They feel **better with cold** applications.
@@ -2065,7 +2065,7 @@ Homeopathy works by calming the body's over-reaction to a trigger. By matching t
 5.  **Stay Calm:** Stress can be a major trigger for hives. Try deep breathing or a relaxing walk.
 
 ## Conclusion
-Hives are your body's way of saying it's overwhelmed. Homeopathy provides a gentle, natural way to calm the storm and help your skin feel comfortable again.
+Hives are your body's way of saying it's overwhelmed. Homoeopathy provides a gentle, natural way to calm the storm and help your skin feel comfortable again.
     `,
     author: 'Curiva Editorial Team',
     date: 'March 31, 2024',
@@ -2077,13 +2077,13 @@ Hives are your body's way of saying it's overwhelmed. Homeopathy provides a gent
     id: 'fungal-infection',
     slug: 'fungal-infection',
     title: 'Homoeopathy for Fungal Infection',
-    excerpt: 'Stubborn fungal issues like ringworm or athletes foot? Discover how homeopathy treats the internal environment to clear infections naturally.',
+    excerpt: 'Stubborn fungal issues like ringworm or athletes foot? Discover how Homoeopathy treats the internal environment to clear infections naturally.',
     content: `
 ## Understanding Fungal Infections
 Fungal infections, like ringworm, athlete's foot, or nail fungus, happen when tiny organisms called fungi grow on the skin. They thrive in warm, damp areas and can cause itching, redness, and peeling.
 
-## The Homeopathic View
-Homeopathy believes that a fungal infection is a sign that your body's "inner environment" is a bit out of balance. By strengthening your overall health, we make your skin a less "friendly" place for fungus to grow.
+## The Homoeopathic View
+Homoeopathy believes that a fungal infection is a sign that your body's "inner environment" is a bit out of balance. By strengthening your overall health, we make your skin a less "friendly" place for fungus to grow.
 
 ## Common Remedies for Fungal Issues
 *   **Sepia:** A top remedy for ringworm, especially when it appears in isolated patches that are very itchy.
@@ -2099,7 +2099,7 @@ Homeopathy believes that a fungal infection is a sign that your body's "inner en
 5.  **Boost Your Immunity:** Eat a healthy diet with plenty of garlic, onions, and probiotic-rich foods like yogurt.
 
 ## Conclusion
-Fungal infections can be stubborn, but nature has powerful tools to help. Homeopathy provides a gentle, deep-acting way to clear the infection and keep your skin healthy and strong.
+Fungal infections can be stubborn, but nature has powerful tools to help. Homoeopathy provides a gentle, deep-acting way to clear the infection and keep your skin healthy and strong.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 01, 2024',
@@ -2111,13 +2111,13 @@ Fungal infections can be stubborn, but nature has powerful tools to help. Homeop
     id: 'anxiety-stress',
     slug: 'anxiety-stress',
     title: 'Homoeopathy for Anxiety and Stress',
-    excerpt: 'Feeling overwhelmed and restless? Discover how homeopathy can help calm your mind and restore your inner peace naturally.',
+    excerpt: 'Feeling overwhelmed and restless? Discover how Homoeopathy can help calm your mind and restore your inner peace naturally.',
     content: `
 ## The Modern Struggle
 In today's fast-paced world, anxiety and stress have become very common. Whether it's work pressure, family worries, or just a general feeling of unease, stress can take a toll on both your mind and your body.
 
 ## The Holistic Approach to Mental Health
-Homeopathy doesn't just "numb" your feelings. It works to balance your nervous system and help you handle life's challenges with more calm and clarity. We look at your unique fears, your sleep patterns, and how you react to stress.
+Homoeopathy doesn't just "numb" your feelings. It works to balance your nervous system and help you handle life's challenges with more calm and clarity. We look at your unique fears, your sleep patterns, and how you react to stress.
 
 ## Common Remedies for Anxiety
 *   **Aconite:** For sudden, intense anxiety or panic that comes on after a shock or a frightening event.
@@ -2133,7 +2133,7 @@ Homeopathy doesn't just "numb" your feelings. It works to balance your nervous s
 5.  **Talk it Out:** Sharing your worries with a friend or a professional can make them feel much smaller.
 
 ## Conclusion
-Inner peace is possible. Homeopathy provides a gentle, natural way to quiet the noise in your mind and help you feel more grounded and resilient every day.
+Inner peace is possible. Homoeopathy provides a gentle, natural way to quiet the noise in your mind and help you feel more grounded and resilient every day.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 02, 2024',
@@ -2145,13 +2145,13 @@ Inner peace is possible. Homeopathy provides a gentle, natural way to quiet the 
     id: 'depression-remedies',
     slug: 'depression-remedies',
     title: 'Natural Remedies for Depression',
-    excerpt: 'Feeling low and disconnected? Learn how homeopathy can help support your emotional health and bring back your natural spark.',
+    excerpt: 'Feeling low and disconnected? Learn how Homoeopathy can help support your emotional health and bring back your natural spark.',
     content: `
 ## Understanding the Heavy Cloud
 Depression is more than just "feeling sad." It's a persistent feeling of low energy, loss of interest in things you used to love, and a sense of heaviness. It can happen for many reasons—grief, hormonal changes, or long-term stress.
 
-## How Homeopathy Supports Your Mood
-Homeopathy works by gently stimulating your body's natural emotional resilience. We look at the *type* of sadness you feel to find a remedy that matches your unique emotional state.
+## How Homoeopathy Supports Your Mood
+Homoeopathy works by gently stimulating your body's natural emotional resilience. We look at the *type* of sadness you feel to find a remedy that matches your unique emotional state.
 
 ## Common Remedies for Low Mood
 *   **Ignatia:** The #1 remedy for grief, disappointment, or emotional shock. For people who feel a "lump in the throat" and tend to sigh a lot.
@@ -2167,7 +2167,7 @@ Homeopathy works by gently stimulating your body's natural emotional resilience.
 5.  **Be Kind to Yourself:** Healing takes time. Treat yourself with the same compassion you would show a friend.
 
 ## Conclusion
-You don't have to carry the weight alone. Homeopathy offers a gentle, natural way to support your emotional journey and help you find your way back to the light.
+You don't have to carry the weight alone. Homoeopathy offers a gentle, natural way to support your emotional journey and help you find your way back to the light.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 03, 2024',
@@ -2178,14 +2178,14 @@ You don't have to carry the weight alone. Homeopathy offers a gentle, natural wa
   {
     id: 'insomnia-treatment',
     slug: 'insomnia-treatment',
-    title: 'Homeopathic Treatment for Insomnia',
-    excerpt: 'Tossing and turning all night? Discover how homeopathy can help you fall asleep faster and enjoy a deeper, more restful sleep naturally.',
+    title: 'Homoeopathic Treatment for Insomnia',
+    excerpt: 'Tossing and turning all night? Discover how Homoeopathy can help you fall asleep faster and enjoy a deeper, more restful sleep naturally.',
     content: `
 ## The Importance of Rest
 Sleep is when your body repairs itself and your brain processes the day. When you can't sleep, it affects your mood, your energy, and your overall health. Insomnia can be caused by stress, caffeine, or a "busy mind" that won't shut off.
 
-## Why Homeopathy for Sleep?
-*   **Non-Habit Forming:** Unlike some sleeping pills, homeopathy won't make you "dependent" on it.
+## Why Homoeopathy for Sleep?
+*   **Non-Habit Forming:** Unlike some sleeping pills, Homoeopathy won't make you "dependent" on it.
 *   **No Morning Grogginess:** You wake up feeling refreshed, not "foggy."
 *   **Treats the Cause:** Addresses the underlying anxiety or physical discomfort that's keeping you awake.
 
@@ -2203,7 +2203,7 @@ Sleep is when your body repairs itself and your brain processes the day. When yo
 5.  **Relaxation Ritual:** A warm bath or 10 minutes of reading can signal to your body that it's time to sleep.
 
 ## Conclusion
-A good night's sleep is the foundation of a healthy life. Homeopathy provides a gentle, natural way to quiet the mind and help you drift into a peaceful, restorative rest.
+A good night's sleep is the foundation of a healthy life. Homoeopathy provides a gentle, natural way to quiet the mind and help you drift into a peaceful, restorative rest.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 04, 2024',
@@ -2215,13 +2215,13 @@ A good night's sleep is the foundation of a healthy life. Homeopathy provides a 
     id: 'panic-attacks',
     slug: 'panic-attacks',
     title: 'Homoeopathy for Panic Attacks',
-    excerpt: 'Sudden fear and a racing heart? Learn how homeopathy can help calm your nervous system and provide relief from panic attacks naturally.',
+    excerpt: 'Sudden fear and a racing heart? Learn how Homoeopathy can help calm your nervous system and provide relief from panic attacks naturally.',
     content: `
 ## The Sudden Storm
 A panic attack is a sudden episode of intense fear that triggers severe physical reactions when there is no real danger. It can feel like a racing heart, shortness of breath, and a feeling that something terrible is about to happen.
 
-## How Homeopathy Calms the Storm
-Homeopathy works by gently re-balancing the nervous system's "fight or flight" response. By treating the person's unique fears and physical symptoms, we can help reduce the frequency and intensity of attacks.
+## How Homoeopathy Calms the Storm
+Homoeopathy works by gently re-balancing the nervous system's "fight or flight" response. By treating the person's unique fears and physical symptoms, we can help reduce the frequency and intensity of attacks.
 
 ## Common Remedies for Panic
 *   **Aconite:** The #1 remedy for a sudden, intense panic attack with a strong fear of death and a racing heart.
@@ -2237,7 +2237,7 @@ Homeopathy works by gently re-balancing the nervous system's "fight or flight" r
 5.  **Avoid Triggers:** Limit caffeine and sugar, which can make physical panic symptoms feel more intense.
 
 ## Conclusion
-Panic attacks are frightening, but they are not dangerous. Homeopathy offers a gentle, natural way to strengthen your nervous system and help you feel more in control of your life.
+Panic attacks are frightening, but they are not dangerous. Homoeopathy offers a gentle, natural way to strengthen your nervous system and help you feel more in control of your life.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 05, 2024',
@@ -2248,14 +2248,14 @@ Panic attacks are frightening, but they are not dangerous. Homeopathy offers a g
   {
     id: 'anger-management',
     slug: 'anger-management',
-    title: 'Homeopathic Remedies for Anger Management',
-    excerpt: 'Feeling irritable and quick to lose your temper? Discover how homeopathy can help balance your emotions and promote a calmer outlook.',
+    title: 'Homoeopathic Remedies for Anger Management',
+    excerpt: 'Feeling irritable and quick to lose your temper? Discover how Homoeopathy can help balance your emotions and promote a calmer outlook.',
     content: `
 ## The Heat of the Moment
 Anger is a natural emotion, but when it becomes frequent, intense, or hard to control, it can affect your relationships and your health. It's often a sign of underlying stress, frustration, or even physical imbalance.
 
-## The Homeopathic View of Anger
-Homeopathy doesn't just "suppress" anger. We look at **how** you experience it. Do you explode and then feel sorry? Do you keep it inside until you boil over? This helps us find the right remedy to help you find your calm.
+## The Homoeopathic View of Anger
+Homoeopathy doesn't just "suppress" anger. We look at **how** you experience it. Do you explode and then feel sorry? Do you keep it inside until you boil over? This helps us find the right remedy to help you find your calm.
 
 ## Common Remedies for Anger
 *   **Nux Vomica:** For the "stressed-out" anger. You are irritable, impatient, and quick to snap at others, often due to overwork or too much coffee.
@@ -2271,7 +2271,7 @@ Homeopathy doesn't just "suppress" anger. We look at **how** you experience it. 
 5.  **Deep Breathing:** Use slow, deep breaths to signal your body to move out of "fight" mode.
 
 ## Conclusion
-A calm mind is a powerful mind. Homeopathy provides a gentle, natural way to balance your emotions and help you respond to life's challenges with more patience and grace.
+A calm mind is a powerful mind. Homoeopathy provides a gentle, natural way to balance your emotions and help you respond to life's challenges with more patience and grace.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 06, 2024',
@@ -2283,13 +2283,13 @@ A calm mind is a powerful mind. Homeopathy provides a gentle, natural way to bal
     id: 'concentration-memory',
     slug: 'concentration-memory',
     title: 'Homoeopathy for Concentration and Memory',
-    excerpt: 'Feeling "brain fog" or finding it hard to focus? Learn how homeopathy can help sharpen your mind and improve your memory naturally.',
+    excerpt: 'Feeling "brain fog" or finding it hard to focus? Learn how Homoeopathy can help sharpen your mind and improve your memory naturally.',
     content: `
 ## The Busy Brain
 In a world full of distractions, it's easy to feel like your brain is "foggy" or that you're becoming more forgetful. This can be caused by stress, lack of sleep, poor diet, or simply having too much on your plate.
 
-## How Homeopathy Sharpens the Mind
-Homeopathy works by supporting your brain's natural ability to focus and process information. We look at your unique "mental style" to find a remedy that helps you feel more alert and clear-headed.
+## How Homoeopathy Sharpens the Mind
+Homoeopathy works by supporting your brain's natural ability to focus and process information. We look at your unique "mental style" to find a remedy that helps you feel more alert and clear-headed.
 
 ## Common Remedies for Focus
 *   **Anacardium:** For "exam funk" or when you feel like your memory has suddenly vanished. You feel irritable and lack confidence.
@@ -2305,7 +2305,7 @@ Homeopathy works by supporting your brain's natural ability to focus and process
 5.  **Puzzles and Reading:** Keep your brain active by learning something new every day.
 
 ## Conclusion
-Your mind is your most valuable tool. Homeopathy provides a gentle, natural way to clear the fog and help you stay sharp, focused, and ready for whatever life brings.
+Your mind is your most valuable tool. Homoeopathy provides a gentle, natural way to clear the fog and help you stay sharp, focused, and ready for whatever life brings.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 07, 2024',
@@ -2317,13 +2317,13 @@ Your mind is your most valuable tool. Homeopathy provides a gentle, natural way 
     id: 'weight-management',
     slug: 'weight-management',
     title: 'Homoeopathy for Weight Management',
-    excerpt: 'Struggling to reach your health goals? Discover how homeopathy can help balance your metabolism and support natural weight management.',
+    excerpt: 'Struggling to reach your health goals? Discover how Homoeopathy can help balance your metabolism and support natural weight management.',
     content: `
 ## Beyond the Scale
-Weight management is about more than just "eating less." It's about how your body processes food, your hormonal balance, and your emotional relationship with eating. Homeopathy looks at **why** your body is holding onto extra weight.
+Weight management is about more than just "eating less." It's about how your body processes food, your hormonal balance, and your emotional relationship with eating. Homoeopathy looks at **why** your body is holding onto extra weight.
 
 ## The Holistic Approach to Weight
-Homeopathy doesn't offer a "magic fat-burning pill." Instead, it helps:
+Homoeopathy doesn't offer a "magic fat-burning pill." Instead, it helps:
 *   **Balance Metabolism:** Encourages your body to use energy more efficiently.
 *   **Manage Cravings:** Helps reduce the intense "need" for sugar or comfort foods.
 *   **Support Digestion:** Ensures your body is absorbing nutrients properly.
@@ -2343,7 +2343,7 @@ Homeopathy doesn't offer a "magic fat-burning pill." Instead, it helps:
 5.  **Get Enough Sleep:** Lack of sleep can disrupt the hormones that control hunger and fullness.
 
 ## Conclusion
-Healthy weight is a journey toward overall wellness. Homeopathy provides a gentle, natural way to support your body's unique needs and help you feel your best from the inside out.
+Healthy weight is a journey toward overall wellness. Homoeopathy provides a gentle, natural way to support your body's unique needs and help you feel your best from the inside out.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 08, 2024',
@@ -2354,14 +2354,14 @@ Healthy weight is a journey toward overall wellness. Homeopathy provides a gentl
   {
     id: 'boost-immunity',
     slug: 'boost-immunity',
-    title: 'Natural Ways to Boost Immunity with Homeopathy',
-    excerpt: 'Want to stay healthy all year round? Learn how homeopathy can help strengthen your body\'s natural defenses against illness.',
+    title: 'Natural Ways to Boost Immunity with Homoeopathy',
+    excerpt: 'Want to stay healthy all year round? Learn how Homoeopathy can help strengthen your body\'s natural defenses against illness.',
     content: `
 ## Your Body's Shield
-Your immune system is your body's natural defense against viruses, bacteria, and other "invaders." When it's strong, you get sick less often and recover faster. Homeopathy works by "training" your immune system to be more alert and effective.
+Your immune system is your body's natural defense against viruses, bacteria, and other "invaders." When it's strong, you get sick less often and recover faster. Homoeopathy works by "training" your immune system to be more alert and effective.
 
-## How Homeopathy Strengthens You
-Instead of just attacking a germ, homeopathy strengthens the **host** (you!). It helps your "Vital Force" stay balanced so your body can handle challenges more easily.
+## How Homoeopathy Strengthens You
+Instead of just attacking a germ, Homoeopathy strengthens the **host** (you!). It helps your "Vital Force" stay balanced so your body can handle challenges more easily.
 
 ## Top Remedies for Immune Support
 *   **Arsenicum Album:** A famous remedy for overall protection and strengthening, especially during flu season.
@@ -2377,7 +2377,7 @@ Instead of just attacking a germ, homeopathy strengthens the **host** (you!). It
 5.  **Gut Health:** 70% of your immune system is in your gut. Eat probiotic-rich foods like yogurt or kimchi.
 
 ## Conclusion
-A strong immune system is your best investment in health. Homeopathy offers a gentle, natural way to support your body's wisdom and keep you feeling strong and resilient.
+A strong immune system is your best investment in health. Homoeopathy offers a gentle, natural way to support your body's wisdom and keep you feeling strong and resilient.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 09, 2024',
@@ -2388,14 +2388,14 @@ A strong immune system is your best investment in health. Homeopathy offers a ge
   {
     id: 'better-digestion',
     slug: 'better-digestion',
-    title: 'Homeopathic Remedies for Better Digestion',
-    excerpt: 'Bloating, gas, or sluggishness? Discover how homeopathy can help balance your digestive system and help you feel light and energized.',
+    title: 'Homoeopathic Remedies for Better Digestion',
+    excerpt: 'Bloating, gas, or sluggishness? Discover how Homoeopathy can help balance your digestive system and help you feel light and energized.',
     content: `
 ## The Foundation of Health
 Good health starts in the gut. When your digestion is working well, you have more energy, clearer skin, and a better mood. But when it's out of balance, it can affect your whole life.
 
-## The Homeopathic View of Digestion
-Homeopathy looks at the *entire* digestive process—from how you chew to how you eliminate. We look for the "weak spots" in your system to provide targeted, natural support.
+## The Homoeopathic View of Digestion
+Homoeopathy looks at the *entire* digestive process—from how you chew to how you eliminate. We look for the "weak spots" in your system to provide targeted, natural support.
 
 ## Common Remedies for Digestive Balance
 *   **Nux Vomica:** For the "over-indulgent" stomach—too much spicy food, coffee, or stress.
@@ -2411,7 +2411,7 @@ Homeopathy looks at the *entire* digestive process—from how you chew to how yo
 5.  **Listen to Your Body:** Notice which foods make you feel energized and which make you feel sluggish.
 
 ## Conclusion
-Digestion should be a quiet, effortless process. Homeopathy provides a gentle, natural way to restore your digestive rhythm and help you get the most out of the food you eat.
+Digestion should be a quiet, effortless process. Homoeopathy provides a gentle, natural way to restore your digestive rhythm and help you get the most out of the food you eat.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 10, 2024',
@@ -2423,13 +2423,13 @@ Digestion should be a quiet, effortless process. Homeopathy provides a gentle, n
     id: 'healthy-skin-hair',
     slug: 'healthy-skin-hair',
     title: 'Homoeopathy for Healthy Skin and Hair',
-    excerpt: 'Want a natural glow? Learn how homeopathy treats the internal causes of skin and hair issues for beauty that starts from within.',
+    excerpt: 'Want a natural glow? Learn how Homoeopathy treats the internal causes of skin and hair issues for beauty that starts from within.',
     content: `
 ## Beauty from the Inside Out
 We often think of skin and hair care as something we "apply" to the outside. But your skin and hair are actually reflections of your internal health. When your body is balanced and well-nourished, it shows!
 
-## The Homeopathic Approach to Beauty
-Homeopathy treats the **person**, not just the symptom. By addressing issues like hormonal balance, stress, and nutrition, we help your body produce healthy skin and strong hair naturally.
+## The Homoeopathic Approach to Beauty
+Homoeopathy treats the **person**, not just the symptom. By addressing issues like hormonal balance, stress, and nutrition, we help your body produce healthy skin and strong hair naturally.
 
 ## Common Remedies for Skin and Hair
 *   **Sulphur:** For skin that is prone to breakouts, redness, and itching.
@@ -2445,7 +2445,7 @@ Homeopathy treats the **person**, not just the symptom. By addressing issues lik
 5.  **Sleep for Beauty:** Your body does its best repair work while you are sleeping.
 
 ## Conclusion
-True beauty is a sign of a healthy, balanced body. Homeopathy provides a gentle, natural way to support your internal health so your outer beauty can shine through effortlessly.
+True beauty is a sign of a healthy, balanced body. Homoeopathy provides a gentle, natural way to support your internal health so your outer beauty can shine through effortlessly.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 11, 2024',
@@ -2456,14 +2456,14 @@ True beauty is a sign of a healthy, balanced body. Homeopathy provides a gentle,
   {
     id: 'healthy-heart-tips',
     slug: 'healthy-heart-tips',
-    title: 'Homeopathic Tips for a Healthy Heart',
-    excerpt: 'Your heart is your engine. Discover how homeopathy and simple lifestyle choices can support your cardiovascular health naturally.',
+    title: 'Homoeopathic Tips for a Healthy Heart',
+    excerpt: 'Your heart is your engine. Discover how Homoeopathy and simple lifestyle choices can support your cardiovascular health naturally.',
     content: `
 ## The Engine of Life
 Your heart works tirelessly every second of every day. Keeping it healthy is one of the best things you can do for your long-term wellness. Heart health is about more than just "cholesterol"—it's about circulation, stress, and vitality.
 
-## How Homeopathy Supports the Heart
-Homeopathy doesn't replace emergency heart care, but it offers wonderful support for:
+## How Homoeopathy Supports the Heart
+Homoeopathy doesn't replace emergency heart care, but it offers wonderful support for:
 *   **Managing Stress:** Reducing the "load" on your heart by calming the nervous system.
 *   **Improving Circulation:** Helping blood flow more easily through your body.
 *   **Supporting Energy:** Helping the heart muscle stay strong and resilient.
@@ -2482,7 +2482,7 @@ Homeopathy doesn't replace emergency heart care, but it offers wonderful support
 5.  **Connect with Others:** Strong social connections are proven to support heart health and longevity.
 
 ## Conclusion
-Your heart is a reflection of how you live and feel. Homeopathy provides a gentle, natural way to support this vital organ and help you live a long, vibrant life.
+Your heart is a reflection of how you live and feel. Homoeopathy provides a gentle, natural way to support this vital organ and help you live a long, vibrant life.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 12, 2024',
@@ -2493,14 +2493,14 @@ Your heart is a reflection of how you live and feel. Homeopathy provides a gentl
   {
     id: 'thyroid-issues',
     slug: 'thyroid-issues',
-    title: 'Natural Homeopathic Treatment for Thyroid Issues',
-    excerpt: 'Feeling tired or experiencing weight changes? Learn how homeopathy can help balance your thyroid and restore your energy levels naturally.',
+    title: 'Natural Homoeopathic Treatment for Thyroid Issues',
+    excerpt: 'Feeling tired or experiencing weight changes? Learn how Homoeopathy can help balance your thyroid and restore your energy levels naturally.',
     content: `
 ## The Master Controller
 The thyroid is a small, butterfly-shaped gland in your neck that controls almost every metabolic process in your body. When it's out of balance (too fast or too slow), it can affect your energy, weight, mood, and even your temperature.
 
-## The Homeopathic Approach to Thyroid
-Homeopathy doesn't just "replace" the hormone. It works to balance the **entire** endocrine system. We look at your unique symptoms—like feeling chilly, being tired, or having dry skin—to find the right match.
+## The Homoeopathic Approach to Thyroid
+Homoeopathy doesn't just "replace" the hormone. It works to balance the **entire** endocrine system. We look at your unique symptoms—like feeling chilly, being tired, or having dry skin—to find the right match.
 
 ## Common Remedies for Thyroid Balance
 *   **Calcarea Carb:** For people with a slow thyroid (hypothyroidism) who feel chilly, gain weight easily, and have a lot of anxiety.
@@ -2516,7 +2516,7 @@ Homeopathy doesn't just "replace" the hormone. It works to balance the **entire*
 5.  **Regular Exercise:** Helps boost your metabolism and improve your energy levels naturally.
 
 ## Conclusion
-Thyroid balance is key to feeling your best. Homeopathy provides a gentle, natural way to support this vital gland and help you reclaim your energy and vitality.
+Thyroid balance is key to feeling your best. Homoeopathy provides a gentle, natural way to support this vital gland and help you reclaim your energy and vitality.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 13, 2024',
@@ -2528,13 +2528,13 @@ Thyroid balance is key to feeling your best. Homeopathy provides a gentle, natur
     id: 'healthy-aging',
     slug: 'healthy-aging',
     title: 'Homoeopathy for Healthy Aging',
-    excerpt: 'Aging is a natural journey. Discover how homeopathy can help you stay vibrant, active, and mentally sharp as you grow older.',
+    excerpt: 'Aging is a natural journey. Discover how Homoeopathy can help you stay vibrant, active, and mentally sharp as you grow older.',
     content: `
 ## Embracing the Years
-Aging is a beautiful part of life, but it can bring new challenges—stiff joints, slower digestion, or changes in memory. Homeopathy doesn't try to "stop" aging; instead, it helps you age with grace, vitality, and comfort.
+Aging is a beautiful part of life, but it can bring new challenges—stiff joints, slower digestion, or changes in memory. Homoeopathy doesn't try to "stop" aging; instead, it helps you age with grace, vitality, and comfort.
 
-## The Homeopathic Approach to Senior Health
-Homeopathy treats the **whole person**. We look at your physical health, your energy levels, and your emotional well-being to provide gentle support that helps you stay active and engaged.
+## The Homoeopathic Approach to Senior Health
+Homoeopathy treats the **whole person**. We look at your physical health, your energy levels, and your emotional well-being to provide gentle support that helps you stay active and engaged.
 
 ## Common Remedies for Healthy Aging
 *   **Baryta Carb:** For people who feel a bit "slow" or forgetful as they age, helping to support mental clarity.
@@ -2550,7 +2550,7 @@ Homeopathy treats the **whole person**. We look at your physical health, your en
 5.  **Prioritize Sleep:** Your body needs rest to repair itself. Aim for 7-8 hours of quality sleep.
 
 ## Conclusion
-Every stage of life has its own beauty. Homeopathy provides a gentle, natural way to support your health and help you enjoy your senior years with energy and joy.
+Every stage of life has its own beauty. Homoeopathy provides a gentle, natural way to support your health and help you enjoy your senior years with energy and joy.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 14, 2024',
@@ -2561,14 +2561,14 @@ Every stage of life has its own beauty. Homeopathy provides a gentle, natural wa
   {
     id: 'joint-pain-remedies',
     slug: 'joint-pain-remedies',
-    title: 'Natural Homeopathic Remedies for Joint Pain',
-    excerpt: 'Stiff and sore joints? Learn how homeopathy can help reduce inflammation and improve your mobility naturally and gently.',
+    title: 'Natural Homoeopathic Remedies for Joint Pain',
+    excerpt: 'Stiff and sore joints? Learn how Homoeopathy can help reduce inflammation and improve your mobility naturally and gently.',
     content: `
 ## Moving with Ease
-Joint pain, whether from arthritis, an old injury, or just "wear and tear," can make daily life difficult. While many people rely on painkillers, homeopathy offers a way to reduce inflammation and support your joints from the inside.
+Joint pain, whether from arthritis, an old injury, or just "wear and tear," can make daily life difficult. While many people rely on painkillers, Homoeopathy offers a way to reduce inflammation and support your joints from the inside.
 
-## How Homeopathy Helps Joints
-Homeopathy works by calming the inflammation in the joint tissues and supporting the body's natural repair processes. It's a safe, non-toxic way to improve your comfort and mobility.
+## How Homoeopathy Helps Joints
+Homoeopathy works by calming the inflammation in the joint tissues and supporting the body's natural repair processes. It's a safe, non-toxic way to improve your comfort and mobility.
 
 ## Top Remedies for Joint Pain
 *   **Rhus Tox:** For pain that is **worse when you first move** but gets better as you keep moving. Often worse in cold, damp weather.
@@ -2584,7 +2584,7 @@ Homeopathy works by calming the inflammation in the joint tissues and supporting
 5.  **Supportive Shoes:** Wear shoes that provide good cushioning and support for your feet and joints.
 
 ## Conclusion
-Joint pain doesn't have to slow you down. Homeopathy provides a gentle, natural way to ease the ache and help you move through life with more comfort and freedom.
+Joint pain doesn't have to slow you down. Homoeopathy provides a gentle, natural way to ease the ache and help you move through life with more comfort and freedom.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 15, 2024',
@@ -2596,13 +2596,13 @@ Joint pain doesn't have to slow you down. Homeopathy provides a gentle, natural 
     id: 'menopause-relief',
     slug: 'menopause-relief',
     title: 'Homoeopathy for Menopause Relief',
-    excerpt: 'Hot flashes, mood swings, and sleepless nights? Discover how homeopathy can help balance your hormones during this natural transition.',
+    excerpt: 'Hot flashes, mood swings, and sleepless nights? Discover how Homoeopathy can help balance your hormones during this natural transition.',
     content: `
 ## A Natural Transition
 Menopause is a natural stage in a woman's life, but the hormonal shifts can bring some uncomfortable symptoms. From hot flashes and night sweats to irritability and changes in sleep, it's a time of big change.
 
 ## The Holistic View of Menopause
-Homeopathy doesn't see menopause as a "disease" to be cured. Instead, we see it as a transition that can be supported. We treat the **whole woman** to help her body find its new balance naturally.
+Homoeopathy doesn't see menopause as a "disease" to be cured. Instead, we see it as a transition that can be supported. We treat the **whole woman** to help her body find its new balance naturally.
 
 ## Common Remedies for Menopause
 *   **Lachesis:** For intense hot flashes that are worse after sleep and a feeling of being "tight" in clothing.
@@ -2618,7 +2618,7 @@ Homeopathy doesn't see menopause as a "disease" to be cured. Instead, we see it 
 5.  **Connect with Others:** Sharing your experience with friends who are going through the same thing can be very supportive.
 
 ## Conclusion
-Menopause is the start of a new, vibrant chapter. Homeopathy provides a gentle, natural way to navigate the changes and help you feel like your best self during this transition.
+Menopause is the start of a new, vibrant chapter. Homoeopathy provides a gentle, natural way to navigate the changes and help you feel like your best self during this transition.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 16, 2024',
@@ -2630,13 +2630,13 @@ Menopause is the start of a new, vibrant chapter. Homeopathy provides a gentle, 
     id: 'varicose-veins',
     slug: 'varicose-veins',
     title: 'Natural Treatment for Varicose Veins',
-    excerpt: 'Heavy, aching legs? Learn how homeopathy can help improve your circulation and reduce the discomfort of varicose veins naturally.',
+    excerpt: 'Heavy, aching legs? Learn how Homoeopathy can help improve your circulation and reduce the discomfort of varicose veins naturally.',
     content: `
 ## Understanding Varicose Veins
 Varicose veins are swollen, twisted veins that usually appear on the legs. They happen when the small valves in your veins don't work correctly, causing blood to pool. They can feel heavy, achy, and sometimes itchy.
 
-## How Homeopathy Helps Circulation
-Homeopathy works by strengthening the walls of the veins and improving the overall flow of blood. It's a gentle, non-invasive way to manage the discomfort and appearance of varicose veins.
+## How Homoeopathy Helps Circulation
+Homoeopathy works by strengthening the walls of the veins and improving the overall flow of blood. It's a gentle, non-invasive way to manage the discomfort and appearance of varicose veins.
 
 ## Top Remedies for Varicose Veins
 *   **Hamamelis:** The #1 remedy for varicose veins. It helps with the "bruised" feeling and the aching, heavy sensation in the legs.
@@ -2652,7 +2652,7 @@ Homeopathy works by strengthening the walls of the veins and improving the overa
 5.  **Watch Your Salt:** Too much salt can cause your body to hold onto water, which puts more pressure on your veins.
 
 ## Conclusion
-Your legs carry you through life. Homeopathy provides a gentle, natural way to support your circulation and help your legs feel light, comfortable, and strong.
+Your legs carry you through life. Homoeopathy provides a gentle, natural way to support your circulation and help your legs feel light, comfortable, and strong.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 17, 2024',
@@ -2664,13 +2664,13 @@ Your legs carry you through life. Homeopathy provides a gentle, natural way to s
     id: 'kidney-stones',
     slug: 'kidney-stones',
     title: 'Homoeopathy for Kidney Stones',
-    excerpt: 'Intense pain and discomfort? Discover how homeopathy can help your body pass kidney stones naturally and prevent them from returning.',
+    excerpt: 'Intense pain and discomfort? Discover how Homoeopathy can help your body pass kidney stones naturally and prevent them from returning.',
     content: `
 ## The Pain of Kidney Stones
 Kidney stones are small, hard deposits of minerals and salts that form inside your kidneys. When they move, they can cause intense pain in your back or side, nausea, and changes in urination.
 
-## The Homeopathic Approach
-Homeopathy doesn't just "dissolve" the stone. It works by:
+## The Homoeopathic Approach
+Homoeopathy doesn't just "dissolve" the stone. It works by:
 *   **Easing the Pain:** Helping the muscles relax so the stone can pass more easily.
 *   **Reducing Inflammation:** Calming the lining of the urinary tract.
 *   **Preventing Recurrence:** Addressing the internal imbalance that causes stones to form in the first place.
@@ -2689,7 +2689,7 @@ Homeopathy doesn't just "dissolve" the stone. It works by:
 5.  **Stay Active:** Regular exercise helps keep your body's metabolic processes working correctly.
 
 ## Conclusion
-Kidney stones are a painful reminder that your body needs balance. Homeopathy provides a gentle, natural way to support your kidneys and help you live a stone-free life.
+Kidney stones are a painful reminder that your body needs balance. Homoeopathy provides a gentle, natural way to support your kidneys and help you live a stone-free life.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 18, 2024',
@@ -2700,14 +2700,14 @@ Kidney stones are a painful reminder that your body needs balance. Homeopathy pr
   {
     id: 'liver-health',
     slug: 'liver-health',
-    title: 'Best Homeopathic Remedies for Liver Health',
-    excerpt: 'Your liver is your body\'s filter. Learn how homeopathy can help support your liver function and boost your overall vitality naturally.',
+    title: 'Best Homoeopathic Remedies for Liver Health',
+    excerpt: 'Your liver is your body\'s filter. Learn how Homoeopathy can help support your liver function and boost your overall vitality naturally.',
     content: `
 ## The Body's Great Filter
 Your liver is a powerhouse. It filters toxins, helps with digestion, and stores energy. When your liver is healthy, you feel energized and your skin looks clear. But when it's overworked, you can feel sluggish and heavy.
 
-## How Homeopathy Supports the Liver
-Homeopathy doesn't just "detox" the liver. It works to support the liver's natural functions and help it recover from stress, poor diet, or long-term medication use.
+## How Homoeopathy Supports the Liver
+Homoeopathy doesn't just "detox" the liver. It works to support the liver's natural functions and help it recover from stress, poor diet, or long-term medication use.
 
 ## Top Remedies for Liver Support
 *   **Chelidonium:** Often called the "Liver Remedy." It's excellent for a sluggish liver, jaundice-like symptoms, and pain under the right shoulder blade.
@@ -2723,7 +2723,7 @@ Homeopathy doesn't just "detox" the liver. It works to support the liver's natur
 5.  **Manage Your Weight:** A healthy weight reduces the risk of "fatty liver" and keeps your metabolism strong.
 
 ## Conclusion
-A healthy liver is the key to a vibrant life. Homeopathy provides a gentle, natural way to support this vital organ and help you feel light, energized, and clear-headed.
+A healthy liver is the key to a vibrant life. Homoeopathy provides a gentle, natural way to support this vital organ and help you feel light, energized, and clear-headed.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 19, 2024',
@@ -2735,13 +2735,13 @@ A healthy liver is the key to a vibrant life. Homeopathy provides a gentle, natu
     id: 'high-blood-pressure',
     slug: 'high-blood-pressure',
     title: 'Homoeopathy for High Blood Pressure',
-    excerpt: 'Managing your blood pressure naturally? Discover how homeopathy and lifestyle changes can support your cardiovascular health.',
+    excerpt: 'Managing your blood pressure naturally? Discover how Homoeopathy and lifestyle changes can support your cardiovascular health.',
     content: `
 ## The Silent Pressure
-High blood pressure (Hypertension) often has no symptoms, but it puts extra strain on your heart and blood vessels. While medication is sometimes necessary, homeopathy and lifestyle changes can provide wonderful support for maintaining healthy levels.
+High blood pressure (Hypertension) often has no symptoms, but it puts extra strain on your heart and blood vessels. While medication is sometimes necessary, Homoeopathy and lifestyle changes can provide wonderful support for maintaining healthy levels.
 
 ## The Holistic Approach to Pressure
-Homeopathy doesn't just "lower" the number. It works to:
+Homoeopathy doesn't just "lower" the number. It works to:
 *   **Reduce Stress:** Calming the nervous system, which is a major factor in blood pressure.
 *   **Improve Circulation:** Helping blood flow more smoothly through the body.
 *   **Support the Heart:** Strengthening the heart muscle and blood vessel walls.
@@ -2760,7 +2760,7 @@ Homeopathy doesn't just "lower" the number. It works to:
 5.  **Limit Alcohol:** Too much alcohol can raise your blood pressure and interfere with your body's natural balance.
 
 ## Conclusion
-Managing blood pressure is a lifelong commitment to health. Homeopathy provides a gentle, natural way to support your heart and help you live a vibrant, balanced life.
+Managing blood pressure is a lifelong commitment to health. Homoeopathy provides a gentle, natural way to support your heart and help you live a vibrant, balanced life.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 20, 2024',
@@ -2772,13 +2772,13 @@ Managing blood pressure is a lifelong commitment to health. Homeopathy provides 
     id: 'diabetes-support',
     slug: 'diabetes-support',
     title: 'Natural Remedies for Diabetes Support',
-    excerpt: 'Living with diabetes? Learn how homeopathy can help support your metabolic health and improve your overall well-being naturally.',
+    excerpt: 'Living with diabetes? Learn how Homoeopathy can help support your metabolic health and improve your overall well-being naturally.',
     content: `
 ## Supporting Your Metabolic Health
-Diabetes is a condition where your body has trouble managing blood sugar levels. While insulin or other medications are often essential, homeopathy can provide valuable support for the "whole person" living with diabetes.
+Diabetes is a condition where your body has trouble managing blood sugar levels. While insulin or other medications are often essential, Homoeopathy can provide valuable support for the "whole person" living with diabetes.
 
-## How Homeopathy Helps
-Homeopathy doesn't replace your standard diabetes care, but it can help:
+## How Homoeopathy Helps
+Homoeopathy doesn't replace your standard diabetes care, but it can help:
 *   **Manage Symptoms:** Addressing issues like fatigue, slow-healing wounds, or digestive problems.
 *   **Support Metabolism:** Helping your body use energy more efficiently.
 *   **Reduce Stress:** Managing the emotional toll of living with a chronic condition.
@@ -2798,7 +2798,7 @@ Homeopathy doesn't replace your standard diabetes care, but it can help:
 5.  **Manage Stress:** High stress can cause blood sugar levels to spike. Find a relaxing hobby or practice deep breathing.
 
 ## Conclusion
-Living well with diabetes is about balance. Homeopathy offers a gentle, natural way to support your body's resilience and help you feel your best every day.
+Living well with diabetes is about balance. Homoeopathy offers a gentle, natural way to support your body's resilience and help you feel your best every day.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 21, 2024',
@@ -2810,13 +2810,13 @@ Living well with diabetes is about balance. Homeopathy offers a gentle, natural 
     id: 'asthma-relief',
     slug: 'asthma-relief',
     title: 'Homoeopathy for Asthma Relief',
-    excerpt: 'Breathing easy again? Discover how homeopathy can help reduce the frequency and intensity of asthma symptoms naturally.',
+    excerpt: 'Breathing easy again? Discover how Homoeopathy can help reduce the frequency and intensity of asthma symptoms naturally.',
     content: `
 ## Understanding Asthma
 Asthma is a condition where the airways in your lungs become inflamed and narrow, making it hard to breathe. It can cause wheezing, coughing, and a feeling of tightness in the chest. It's often triggered by allergies, exercise, or cold air.
 
-## The Homeopathic Approach to Breathing
-Instead of just "opening" the airways during an attack, homeopathy works to reduce the underlying inflammation and sensitivity of the lungs. We treat the **whole person** to help prevent attacks from happening.
+## The Homoeopathic Approach to Breathing
+Instead of just "opening" the airways during an attack, Homoeopathy works to reduce the underlying inflammation and sensitivity of the lungs. We treat the **whole person** to help prevent attacks from happening.
 
 ## Common Remedies for Asthma
 *   **Arsenicum Album:** For asthma that is worse at night (especially around midnight) and is accompanied by a lot of anxiety and restlessness.
@@ -2832,7 +2832,7 @@ Instead of just "opening" the airways during an attack, homeopathy works to redu
 5.  **Stay Hydrated:** Drinking plenty of water helps keep the mucus in your lungs thin and easier to clear.
 
 ## Conclusion
-Breathing is the most natural thing in the world. Homeopathy provides a gentle, natural way to support your lung health and help you breathe more freely and comfortably.
+Breathing is the most natural thing in the world. Homoeopathy provides a gentle, natural way to support your lung health and help you breathe more freely and comfortably.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 22, 2024',
@@ -2843,14 +2843,14 @@ Breathing is the most natural thing in the world. Homeopathy provides a gentle, 
   {
     id: 'bronchitis-treatment',
     slug: 'bronchitis-treatment',
-    title: 'Homeopathic Treatment for Bronchitis',
-    excerpt: 'Stubborn cough and chest congestion? Learn how homeopathy can help clear your lungs and support a faster recovery from bronchitis.',
+    title: 'Homoeopathic Treatment for Bronchitis',
+    excerpt: 'Stubborn cough and chest congestion? Learn how Homoeopathy can help clear your lungs and support a faster recovery from bronchitis.',
     content: `
 ## That Deep Chest Cough
 Bronchitis is an inflammation of the lining of your bronchial tubes, which carry air to and from your lungs. It often follows a cold or flu and causes a persistent, often productive cough, chest discomfort, and fatigue.
 
-## How Homeopathy Helps the Lungs
-Homeopathy works by:
+## How Homoeopathy Helps the Lungs
+Homoeopathy works by:
 *   **Thinning Mucus:** Helping your body clear the congestion more easily.
 *   **Reducing Inflammation:** Calming the irritated lining of the bronchial tubes.
 *   **Boosting Immunity:** Helping your body fight off the underlying infection more effectively.
@@ -2869,7 +2869,7 @@ Homeopathy works by:
 5.  **Avoid Irritants:** Stay away from smoke, strong perfumes, and cold air, which can trigger coughing fits.
 
 ## Conclusion
-A deep cough can be exhausting, but nature has provided gentle tools to help. Homeopathy offers a safe, effective way to clear your chest and get back to your vibrant self.
+A deep cough can be exhausting, but nature has provided gentle tools to help. Homoeopathy offers a safe, effective way to clear your chest and get back to your vibrant self.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 23, 2024',
@@ -2881,13 +2881,13 @@ A deep cough can be exhausting, but nature has provided gentle tools to help. Ho
     id: 'gout-remedies',
     slug: 'gout-remedies',
     title: 'Homoeopathy for Gout',
-    excerpt: 'Sudden, intense joint pain? Discover how homeopathy can help manage gout symptoms and reduce inflammation naturally.',
+    excerpt: 'Sudden, intense joint pain? Discover how Homoeopathy can help manage gout symptoms and reduce inflammation naturally.',
     content: `
 ## The Sudden "Toe Pain"
 Gout is a type of arthritis that causes sudden, severe attacks of pain, swelling, and redness in the joints, often the big toe. It's caused by a buildup of uric acid crystals in the joint.
 
-## The Homeopathic Approach to Gout
-Instead of just "masking" the pain, homeopathy works to:
+## The Homoeopathic Approach to Gout
+Instead of just "masking" the pain, Homoeopathy works to:
 *   **Reduce Inflammation:** Calming the red, swollen joint.
 *   **Support Uric Acid Balance:** Helping the body process and eliminate uric acid more effectively.
 *   **Prevent Future Attacks:** Addressing the internal metabolic imbalance.
@@ -2906,7 +2906,7 @@ Instead of just "masking" the pain, homeopathy works to:
 5.  **Maintain a Healthy Weight:** Carrying extra weight can increase uric acid levels and put more strain on your joints.
 
 ## Conclusion
-Gout pain is intense, but you don't have to face it alone. Homeopathy provides a gentle, natural way to ease the inflammation and help your body find its balance.
+Gout pain is intense, but you don't have to face it alone. Homoeopathy provides a gentle, natural way to ease the inflammation and help your body find its balance.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 24, 2024',
@@ -2918,13 +2918,13 @@ Gout pain is intense, but you don't have to face it alone. Homeopathy provides a
     id: 'sciatica-relief',
     slug: 'sciatica-relief',
     title: 'Natural Remedies for Sciatica',
-    excerpt: 'Pain radiating down your leg? Learn how homeopathy can help relieve sciatic nerve pain and improve your mobility naturally.',
+    excerpt: 'Pain radiating down your leg? Learn how Homoeopathy can help relieve sciatic nerve pain and improve your mobility naturally.',
     content: `
 ## That Shooting Leg Pain
 Sciatica is pain that radiates along the path of the sciatic nerve, which travels from your lower back through your hips and down each leg. It can feel like a sharp, shooting pain, numbness, or tingling.
 
-## How Homeopathy Helps the Nerve
-Homeopathy works by reducing the inflammation around the sciatic nerve and calming the nervous system. It's a gentle, non-invasive way to manage the pain and help you move more freely.
+## How Homoeopathy Helps the Nerve
+Homoeopathy works by reducing the inflammation around the sciatic nerve and calming the nervous system. It's a gentle, non-invasive way to manage the pain and help you move more freely.
 
 ## Top Remedies for Sciatica
 *   **Colocynthis:** For sharp, shooting pain that feels **better with firm pressure** and bending forward.
@@ -2940,7 +2940,7 @@ Homeopathy works by reducing the inflammation around the sciatic nerve and calmi
 5.  **Sleep with a Pillow:** If you sleep on your side, put a pillow between your knees to keep your spine aligned.
 
 ## Conclusion
-Sciatic pain can be a major hurdle, but nature has provided gentle tools to help. Homeopathy offers a safe, effective way to ease the nerve pain and help you get back on your feet.
+Sciatic pain can be a major hurdle, but nature has provided gentle tools to help. Homoeopathy offers a safe, effective way to ease the nerve pain and help you get back on your feet.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 25, 2024',
@@ -2952,13 +2952,13 @@ Sciatic pain can be a major hurdle, but nature has provided gentle tools to help
     id: 'back-pain-relief',
     slug: 'back-pain-relief',
     title: 'Homoeopathy for Back Pain',
-    excerpt: 'Aching back keeping you down? Discover how homeopathy can help relieve muscle tension and improve your spinal health naturally.',
+    excerpt: 'Aching back keeping you down? Discover how Homoeopathy can help relieve muscle tension and improve your spinal health naturally.',
     content: `
 ## The Common Ache
 Back pain is one of the most common reasons people seek medical help. Whether it's a dull ache from sitting too long or a sharp pain from lifting something heavy, it can affect every part of your day.
 
-## How Homeopathy Helps the Back
-Homeopathy works by reducing muscle spasms, calming nerve irritation, and supporting the body's natural healing of tissues. It's a gentle, non-toxic way to find relief and improve your mobility.
+## How Homoeopathy Helps the Back
+Homoeopathy works by reducing muscle spasms, calming nerve irritation, and supporting the body's natural healing of tissues. It's a gentle, non-toxic way to find relief and improve your mobility.
 
 ## Top Remedies for Back Pain
 *   **Arnica:** The #1 remedy for back pain caused by injury, over-exertion, or a fall. The back feels sore and "bruised."
@@ -2974,7 +2974,7 @@ Homeopathy works by reducing muscle spasms, calming nerve irritation, and suppor
 5.  **Invest in a Good Mattress:** A supportive mattress is essential for keeping your spine aligned while you sleep.
 
 ## Conclusion
-Back pain doesn't have to be a permanent part of your life. Homeopathy provides a gentle, natural way to ease the ache and help you move through your day with more comfort and ease.
+Back pain doesn't have to be a permanent part of your life. Homoeopathy provides a gentle, natural way to ease the ache and help you move through your day with more comfort and ease.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 26, 2024',
@@ -2985,14 +2985,14 @@ Back pain doesn't have to be a permanent part of your life. Homeopathy provides 
   {
     id: 'neck-pain-remedies',
     slug: 'neck-pain-remedies',
-    title: 'Best Homeopathic Remedies for Neck Pain',
-    excerpt: 'Stiff neck or "text neck"? Learn how homeopathy can help relieve tension and improve your neck mobility naturally.',
+    title: 'Best Homoeopathic Remedies for Neck Pain',
+    excerpt: 'Stiff neck or "text neck"? Learn how Homoeopathy can help relieve tension and improve your neck mobility naturally.',
     content: `
 ## The Weight of the World
 Neck pain is increasingly common in our digital age, often caused by poor posture (like looking down at a phone), stress, or sleeping in an awkward position. It can lead to stiffness, headaches, and even pain radiating into the shoulders.
 
-## How Homeopathy Helps the Neck
-Homeopathy works by relaxing the neck muscles, reducing inflammation in the joints, and calming the nerves. It's a safe, gentle way to restore your range of motion and reduce discomfort.
+## How Homoeopathy Helps the Neck
+Homoeopathy works by relaxing the neck muscles, reducing inflammation in the joints, and calming the nerves. It's a safe, gentle way to restore your range of motion and reduce discomfort.
 
 ## Top Remedies for Neck Pain
 *   **Cimicifuga:** For intense stiffness and pain in the neck and upper back, often accompanied by a feeling of "heaviness" in the head.
@@ -3008,7 +3008,7 @@ Homeopathy works by relaxing the neck muscles, reducing inflammation in the join
 5.  **Stay Hydrated:** The discs between your vertebrae need water to stay cushioned and healthy.
 
 ## Conclusion
-A stiff neck can make everything feel like a chore. Homeopathy offers a natural, effective way to ease the tension and help you move your head with more freedom and comfort.
+A stiff neck can make everything feel like a chore. Homoeopathy offers a natural, effective way to ease the tension and help you move your head with more freedom and comfort.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 27, 2024',
@@ -3020,13 +3020,13 @@ A stiff neck can make everything feel like a chore. Homeopathy offers a natural,
     id: 'shoulder-pain',
     slug: 'shoulder-pain',
     title: 'Homoeopathy for Shoulder Pain',
-    excerpt: 'Frozen shoulder or muscle strain? Discover how homeopathy can help reduce inflammation and restore your shoulder\'s range of motion naturally.',
+    excerpt: 'Frozen shoulder or muscle strain? Discover how Homoeopathy can help reduce inflammation and restore your shoulder\'s range of motion naturally.',
     content: `
 ## The Versatile Joint
 Your shoulder is the most flexible joint in your body, but that also makes it prone to injury and pain. Whether it's a "frozen shoulder," tendonitis, or a simple muscle strain, shoulder pain can make reaching, lifting, and even sleeping difficult.
 
-## How Homeopathy Helps the Shoulder
-Homeopathy works by calming the inflammation in the shoulder joint and surrounding muscles. It helps improve circulation to the area and supports the body's natural repair of tissues.
+## How Homoeopathy Helps the Shoulder
+Homoeopathy works by calming the inflammation in the shoulder joint and surrounding muscles. It helps improve circulation to the area and supports the body's natural repair of tissues.
 
 ## Common Remedies for Shoulder Pain
 *   **Ferrum Met:** For pain in the left shoulder that is worse with movement and better with gentle warmth.
@@ -3042,7 +3042,7 @@ Homeopathy works by calming the inflammation in the shoulder joint and surroundi
 5.  **Avoid Heavy Lifting:** Give your shoulder time to heal by avoiding activities that put a lot of strain on the joint.
 
 ## Conclusion
-Shoulder pain can be a major limitation, but nature has provided gentle tools to help. Homeopathy offers a safe, effective way to reduce the ache and help you regain your full range of motion.
+Shoulder pain can be a major limitation, but nature has provided gentle tools to help. Homoeopathy offers a safe, effective way to reduce the ache and help you regain your full range of motion.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 28, 2024',
@@ -3054,13 +3054,13 @@ Shoulder pain can be a major limitation, but nature has provided gentle tools to
     id: 'heel-pain-treatment',
     slug: 'heel-pain-treatment',
     title: 'Natural Treatment for Heel Pain',
-    excerpt: 'Pain with every step? Learn how homeopathy can help relieve heel pain and plantar fasciitis naturally and effectively.',
+    excerpt: 'Pain with every step? Learn how Homoeopathy can help relieve heel pain and plantar fasciitis naturally and effectively.',
     content: `
 ## The Morning Ache
 Heel pain, often caused by "Plantar Fasciitis," is a common problem that can make your first steps in the morning feel like walking on glass. It's usually caused by inflammation of the thick band of tissue that runs across the bottom of your foot.
 
-## How Homeopathy Helps the Feet
-Homeopathy works by reducing the inflammation in the plantar fascia and supporting the healing of the tissues. It's a gentle, non-invasive way to find relief and get back on your feet comfortably.
+## How Homoeopathy Helps the Feet
+Homoeopathy works by reducing the inflammation in the plantar fascia and supporting the healing of the tissues. It's a gentle, non-invasive way to find relief and get back on your feet comfortably.
 
 ## Top Remedies for Heel Pain
 *   **Rhus Tox:** For heel pain that is **worse when you first stand up** but gets better after walking a few steps.
@@ -3076,7 +3076,7 @@ Homeopathy works by reducing the inflammation in the plantar fascia and supporti
 5.  **Maintain a Healthy Weight:** Extra weight puts more pressure on the arches of your feet and your heels.
 
 ## Conclusion
-Every step should be comfortable. Homeopathy provides a gentle, natural way to ease the pain in your heels and help you move through your day with more freedom and ease.
+Every step should be comfortable. Homoeopathy provides a gentle, natural way to ease the pain in your heels and help you move through your day with more freedom and ease.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 29, 2024',
@@ -3088,13 +3088,13 @@ Every step should be comfortable. Homeopathy provides a gentle, natural way to e
     id: 'knee-pain-relief',
     slug: 'knee-pain-relief',
     title: 'Homoeopathy for Knee Pain',
-    excerpt: 'Stiff, swollen, or aching knees? Discover how homeopathy can help reduce inflammation and support your knee health naturally.',
+    excerpt: 'Stiff, swollen, or aching knees? Discover how Homoeopathy can help reduce inflammation and support your knee health naturally.',
     content: `
 ## The Hard-Working Joint
 Your knees carry the weight of your entire body and are involved in almost every move you make. Whether it's from arthritis, a sports injury, or just "wear and tear," knee pain can significantly affect your quality of life.
 
-## How Homeopathy Helps the Knees
-Homeopathy works by calming the inflammation in the knee joint, reducing swelling, and supporting the body's natural repair of cartilage and ligaments. It's a safe, gentle way to improve your mobility and comfort.
+## How Homoeopathy Helps the Knees
+Homoeopathy works by calming the inflammation in the knee joint, reducing swelling, and supporting the body's natural repair of cartilage and ligaments. It's a safe, gentle way to improve your mobility and comfort.
 
 ## Common Remedies for Knee Pain
 *   **Bryonia:** For sharp, stitching pain that is **worse with any movement** and feels better when the knee is kept perfectly still.
@@ -3110,7 +3110,7 @@ Homeopathy works by calming the inflammation in the knee joint, reducing swellin
 5.  **Listen to Your Body:** If an activity makes your knee pain worse, stop and rest. Don't "push through" intense pain.
 
 ## Conclusion
-Your knees are vital for your independence and activity. Homeopathy provides a gentle, natural way to support these hard-working joints and help you stay active and comfortable for years to come.
+Your knees are vital for your independence and activity. Homoeopathy provides a gentle, natural way to support these hard-working joints and help you stay active and comfortable for years to come.
     `,
     author: 'Curiva Editorial Team',
     date: 'April 30, 2024',
@@ -3121,14 +3121,14 @@ Your knees are vital for your independence and activity. Homeopathy provides a g
   {
     id: 'muscle-cramps',
     slug: 'muscle-cramps',
-    title: 'Homeopathic Remedies for Muscle Cramps',
-    excerpt: 'Sudden, painful muscle spasms? Learn how homeopathy can help relax your muscles and prevent cramps naturally.',
+    title: 'Homoeopathic Remedies for Muscle Cramps',
+    excerpt: 'Sudden, painful muscle spasms? Learn how Homoeopathy can help relax your muscles and prevent cramps naturally.',
     content: `
 ## The Sudden "Charley Horse"
 A muscle cramp is a sudden, involuntary contraction of one or more muscles. They can be incredibly painful and often happen in the legs, especially at night. They can be caused by dehydration, over-exertion, or a lack of certain minerals.
 
-## How Homeopathy Relaxes Muscles
-Homeopathy works by balancing the minerals in your body and calming the nervous system's signals to the muscles. It's a safe, gentle way to provide fast relief and help prevent future cramps.
+## How Homoeopathy Relaxes Muscles
+Homoeopathy works by balancing the minerals in your body and calming the nervous system's signals to the muscles. It's a safe, gentle way to provide fast relief and help prevent future cramps.
 
 ## Top Remedies for Muscle Cramps
 *   **Magnesia Phosphorica:** The #1 remedy for cramping pain. It works best when the area is **warmed** and gently massaged.
@@ -3144,7 +3144,7 @@ Homeopathy works by balancing the minerals in your body and calming the nervous 
 5.  **Check Your Shoes:** Sometimes cramps can be caused by unsupportive footwear that puts extra strain on your leg muscles.
 
 ## Conclusion
-Muscle cramps are a painful interruption, but nature has provided gentle tools to help. Homeopathy offers a safe, effective way to relax your muscles and help you move through your day (and night) with more comfort and ease.
+Muscle cramps are a painful interruption, but nature has provided gentle tools to help. Homoeopathy offers a safe, effective way to relax your muscles and help you move through your day (and night) with more comfort and ease.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 01, 2024',
@@ -3156,13 +3156,13 @@ Muscle cramps are a painful interruption, but nature has provided gentle tools t
     id: 'sports-injuries',
     slug: 'sports-injuries',
     title: 'Homoeopathy for Sports Injuries',
-    excerpt: 'Back on the field faster? Discover how homeopathy can help speed up recovery from common sports injuries naturally.',
+    excerpt: 'Back on the field faster? Discover how Homoeopathy can help speed up recovery from common sports injuries naturally.',
     content: `
 ## The Active Life
 Whether you're a professional athlete or a weekend warrior, sports injuries are a common part of an active life. From bruises and bumps to more serious strains, they can keep you away from the activities you love.
 
-## How Homeopathy Speeds Recovery
-Homeopathy works by supporting the body's natural healing processes, reducing inflammation, and easing pain without the side effects of many conventional painkillers. It helps you get back to your sport more quickly and safely.
+## How Homoeopathy Speeds Recovery
+Homoeopathy works by supporting the body's natural healing processes, reducing inflammation, and easing pain without the side effects of many conventional painkillers. It helps you get back to your sport more quickly and safely.
 
 ## Top Remedies for Sports Injuries
 *   **Arnica:** The #1 remedy for any injury involving bruising, swelling, or a "sore" feeling. It should be the first thing you reach for after a bump or fall.
@@ -3178,7 +3178,7 @@ Homeopathy works by supporting the body's natural healing processes, reducing in
 5.  **Gradual Return:** When you're ready to get back to your sport, start slowly and gradually increase your intensity.
 
 ## Conclusion
-Injuries are a setback, but they don't have to be the end of your active journey. Homeopathy provides a gentle, natural way to support your body's resilience and help you get back in the game.
+Injuries are a setback, but they don't have to be the end of your active journey. Homoeopathy provides a gentle, natural way to support your body's resilience and help you get back in the game.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 02, 2024',
@@ -3190,13 +3190,13 @@ Injuries are a setback, but they don't have to be the end of your active journey
     id: 'sprains-and-strains',
     slug: 'sprains-and-strains',
     title: 'Natural Remedies for Sprains and Strains',
-    excerpt: 'Twisted ankle or pulled muscle? Learn how homeopathy can help reduce swelling and support the healing of ligaments and muscles naturally.',
+    excerpt: 'Twisted ankle or pulled muscle? Learn how Homoeopathy can help reduce swelling and support the healing of ligaments and muscles naturally.',
     content: `
 ## Understanding Sprains and Strains
 A **sprain** is an injury to a ligament (the tissue that connects bones), while a **strain** is an injury to a muscle or tendon. Both can cause pain, swelling, and limited movement, often happening during exercise or a sudden fall.
 
-## How Homeopathy Helps Tissues Heal
-Homeopathy works by calming the acute inflammation, reducing the "throbbing" pain, and supporting the body's repair of the damaged fibers. It's a safe, gentle way to improve your comfort and speed up the healing process.
+## How Homoeopathy Helps Tissues Heal
+Homoeopathy works by calming the acute inflammation, reducing the "throbbing" pain, and supporting the body's repair of the damaged fibers. It's a safe, gentle way to improve your comfort and speed up the healing process.
 
 ## Top Remedies for Sprains and Strains
 *   **Arnica:** For the initial shock, swelling, and "bruised" feeling of the injury.
@@ -3212,7 +3212,7 @@ Homeopathy works by calming the acute inflammation, reducing the "throbbing" pai
 5.  **Patience is Key:** Ligaments and tendons take longer to heal than muscles. Give yourself the time you need.
 
 ## Conclusion
-A sprain or strain can be a major inconvenience, but nature has provided gentle tools to help. Homeopathy offers a safe, effective way to reduce the ache and help your tissues recover their strength and flexibility.
+A sprain or strain can be a major inconvenience, but nature has provided gentle tools to help. Homoeopathy offers a safe, effective way to reduce the ache and help your tissues recover their strength and flexibility.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 03, 2024',
@@ -3224,13 +3224,13 @@ A sprain or strain can be a major inconvenience, but nature has provided gentle 
     id: 'physical-exhaustion',
     slug: 'physical-exhaustion',
     title: 'Homoeopathy for Physical Exhaustion',
-    excerpt: 'Feeling completely drained? Discover how homeopathy can help restore your energy and vitality after intense physical stress or illness.',
+    excerpt: 'Feeling completely drained? Discover how Homoeopathy can help restore your energy and vitality after intense physical stress or illness.',
     content: `
 ## When the Tank is Empty
 Physical exhaustion is more than just being "tired." It's that feeling where your body feels heavy, your limbs feel weak, and even simple tasks feel like a mountain to climb. It can happen after intense work, a long illness, or a period of high stress.
 
-## How Homeopathy Restores Energy
-Homeopathy doesn't just "caffeinate" the body. It works by supporting the body's natural recovery processes and helping the nervous system find its balance again. It's a gentle way to rebuild your strength from the inside out.
+## How Homoeopathy Restores Energy
+Homoeopathy doesn't just "caffeinate" the body. It works by supporting the body's natural recovery processes and helping the nervous system find its balance again. It's a gentle way to rebuild your strength from the inside out.
 
 ## Top Remedies for Physical Exhaustion
 *   **Arnica:** For exhaustion that feels like you've been "beaten up." Your whole body feels sore and the bed feels too hard.
@@ -3246,7 +3246,7 @@ Homeopathy doesn't just "caffeinate" the body. It works by supporting the body's
 5.  **Say "No" for a While:** Give yourself permission to rest and decline extra commitments until you feel like yourself again.
 
 ## Conclusion
-Exhaustion is your body's way of saying it needs a break. Homeopathy provides a gentle, natural way to support that recovery and help you regain your vibrant energy and joy for life.
+Exhaustion is your body's way of saying it needs a break. Homoeopathy provides a gentle, natural way to support that recovery and help you regain your vibrant energy and joy for life.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 04, 2024',
@@ -3257,14 +3257,14 @@ Exhaustion is your body's way of saying it needs a break. Homeopathy provides a 
   {
     id: 'mental-fatigue',
     slug: 'mental-fatigue',
-    title: 'Best Homeopathic Remedies for Mental Fatigue',
-    excerpt: 'Brain fog and mental burnout? Learn how homeopathy can help clear your mind and restore your focus naturally.',
+    title: 'Best Homoeopathic Remedies for Mental Fatigue',
+    excerpt: 'Brain fog and mental burnout? Learn how Homoeopathy can help clear your mind and restore your focus naturally.',
     content: `
 ## The Tired Mind
 Mental fatigue, often called "brain fog," happens when your mind has been working too hard for too long. You might find it hard to concentrate, feel forgetful, or just feel "mentally spent." It's common after big projects, exams, or periods of intense worry.
 
-## How Homeopathy Clears the Fog
-Homeopathy works by calming the overactive mind and supporting the nervous system. It helps improve mental clarity and focus without the "crash" that comes from stimulants like caffeine.
+## How Homoeopathy Clears the Fog
+Homoeopathy works by calming the overactive mind and supporting the nervous system. It helps improve mental clarity and focus without the "crash" that comes from stimulants like caffeine.
 
 ## Top Remedies for Mental Fatigue
 *   **Kali Phos:** The #1 remedy for mental burnout. It's excellent for students or professionals who feel "mentally exhausted" and irritable.
@@ -3280,7 +3280,7 @@ Homeopathy works by calming the overactive mind and supporting the nervous syste
 5.  **Practice Mindfulness:** Even 5 minutes of focused breathing can help calm your mind and improve your focus.
 
 ## Conclusion
-Your mind is a powerful tool, but it needs rest to stay sharp. Homeopathy provides a gentle, natural way to support your mental energy and help you feel clear, focused, and ready for the day.
+Your mind is a powerful tool, but it needs rest to stay sharp. Homoeopathy provides a gentle, natural way to support your mental energy and help you feel clear, focused, and ready for the day.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 05, 2024',
@@ -3292,13 +3292,13 @@ Your mind is a powerful tool, but it needs rest to stay sharp. Homeopathy provid
     id: 'burnout-recovery',
     slug: 'burnout-recovery',
     title: 'Homoeopathy for Burnout',
-    excerpt: 'Feeling emotionally and physically "done"? Discover how homeopathy can help you recover from burnout and find your balance again.',
+    excerpt: 'Feeling emotionally and physically "done"? Discover how Homoeopathy can help you recover from burnout and find your balance again.',
     content: `
 ## Understanding Burnout
 Burnout is more than just being tired. It's a state of emotional, physical, and mental exhaustion caused by excessive and prolonged stress. You might feel cynical, helpless, and completely drained of energy and motivation.
 
-## The Homeopathic Path to Balance
-Homeopathy treats the **whole person**—the physical fatigue, the emotional heaviness, and the mental fog. It works by supporting your body's resilience and helping you find your internal "reset" button naturally.
+## The Homoeopathic Path to Balance
+Homoeopathy treats the **whole person**—the physical fatigue, the emotional heaviness, and the mental fog. It works by supporting your body's resilience and helping you find your internal "reset" button naturally.
 
 ## Common Remedies for Burnout
 *   **Phosphoric Acid:** For when you feel "emotionally flat" and physically exhausted. You might feel like you just want to lie down and be left alone.
@@ -3314,7 +3314,7 @@ Homeopathy treats the **whole person**—the physical fatigue, the emotional hea
 5.  **Seek Support:** Talk to a friend, a therapist, or a professional about how you're feeling. You don't have to go through this alone.
 
 ## Conclusion
-Burnout is a difficult place to be, but it's also an opportunity to rebuild a life that truly supports you. Homeopathy provides a gentle, natural way to support your journey back to health and joy.
+Burnout is a difficult place to be, but it's also an opportunity to rebuild a life that truly supports you. Homoeopathy provides a gentle, natural way to support your journey back to health and joy.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 06, 2024',
@@ -3326,13 +3326,13 @@ Burnout is a difficult place to be, but it's also an opportunity to rebuild a li
     id: 'chronic-fatigue-syndrome',
     slug: 'chronic-fatigue-syndrome',
     title: 'Natural Treatment for Chronic Fatigue Syndrome',
-    excerpt: 'Living with persistent, unexplained exhaustion? Learn how homeopathy can help support your energy levels and improve your quality of life.',
+    excerpt: 'Living with persistent, unexplained exhaustion? Learn how Homoeopathy can help support your energy levels and improve your quality of life.',
     content: `
 ## The Mystery of Chronic Fatigue
 Chronic Fatigue Syndrome (CFS) is a complex condition characterized by extreme fatigue that doesn't go away with rest and can't be explained by an underlying medical condition. It can also cause muscle pain, memory issues, and unrefreshing sleep.
 
 ## The Holistic View of Fatigue
-Homeopathy doesn't see CFS as just "one thing." We look at your unique symptoms—how you sleep, what your digestion is like, and how your mood is affected—to find a remedy that supports your **whole system**.
+Homoeopathy doesn't see CFS as just "one thing." We look at your unique symptoms—how you sleep, what your digestion is like, and how your mood is affected—to find a remedy that supports your **whole system**.
 
 ## Common Remedies for CFS Support
 *   **Gelsemium:** For a deep, heavy fatigue where you feel "dull" and your limbs feel like lead.
@@ -3348,7 +3348,7 @@ Homeopathy doesn't see CFS as just "one thing." We look at your unique symptoms�
 5.  **Be Kind to Yourself:** Living with CFS is a challenge. Celebrate the small wins and don't judge yourself on the difficult days.
 
 ## Conclusion
-Chronic fatigue is a difficult journey, but you don't have to walk it alone. Homeopathy provides a gentle, natural way to support your body's resilience and help you find more moments of energy and joy in your life.
+Chronic fatigue is a difficult journey, but you don't have to walk it alone. Homoeopathy provides a gentle, natural way to support your body's resilience and help you find more moments of energy and joy in your life.
     `,
     author: 'Curiva Editorial Team',
     date: 'May 07, 2024',
@@ -3360,10 +3360,10 @@ Chronic fatigue is a difficult journey, but you don't have to walk it alone. Hom
     id: 'bhms-guide',
     slug: 'bhms-guide',
     title: 'A Comprehensive Guide to the BHMS Course: What to Expect',
-    excerpt: 'Thinking about a career in homeopathy? Learn everything about the Bachelor of Homeopathic Medicine and Surgery (BHMS) curriculum.',
+    excerpt: 'Thinking about a career in Homoeopathy? Learn everything about the Bachelor of Homoeopathic Medicine and Surgery (BHMS) curriculum.',
     content: `
 ## The BHMS Journey: From Student to Doctor
-The Bachelor of Homeopathic Medicine and Surgery (BHMS) is an undergraduate degree in the homeopathic system of medicine. It is a 5.5-year journey that includes 4.5 years of academic study and 1 year of mandatory internship.
+The Bachelor of Homoeopathic Medicine and Surgery (BHMS) is an undergraduate degree in the Homoeopathic system of medicine. It is a 5.5-year journey that includes 4.5 years of academic study and 1 year of mandatory internship.
 
 ### Year-by-Year Breakdown
 *   **First Year:** Focuses on foundational subjects like Anatomy, Physiology, Pharmacy, and the Organon of Medicine.
@@ -3372,13 +3372,13 @@ The Bachelor of Homeopathic Medicine and Surgery (BHMS) is an undergraduate degr
 *   **Fourth Year:** Deep dives into Practice of Medicine, Community Medicine, and advanced Materia Medica.
 
 ### Why Choose BHMS?
-BHMS offers a unique perspective on healing, focusing on the "whole person" rather than just the disease. It combines modern medical knowledge with the gentle, effective principles of homeopathy.
+BHMS offers a unique perspective on healing, focusing on the "whole person" rather than just the disease. It combines modern medical knowledge with the gentle, effective principles of Homoeopathy.
     `,
     author: 'Curiva Academic Team',
     date: 'May 08, 2024',
     category: 'BHMS Course',
     image: 'https://picsum.photos/seed/bhms-guide/800/600',
-    tags: ['BHMS', 'Education', 'Career', 'Homeopathy']
+    tags: ['BHMS', 'Education', 'Career', 'Homoeopathy']
   },
   {
     id: 'bhms-career',
@@ -3390,25 +3390,25 @@ BHMS offers a unique perspective on healing, focusing on the "whole person" rath
 Graduating with a BHMS degree opens up a world of opportunities. While many choose to open their own private clinics, there are several other paths you can take:
 
 ### 1. Clinical Practice
-The most common path. You can work in private clinics, government hospitals, or multi-specialty homeopathic hospitals.
+The most common path. You can work in private clinics, government hospitals, or multi-specialty Homoeopathic hospitals.
 
 ### 2. Research
-Contribute to the scientific advancement of homeopathy by working in research organizations like the CCRH (Central Council for Research in Homeopathy).
+Contribute to the scientific advancement of Homoeopathy by working in research organizations like the CCRH (Central Council for Research in Homoeopathy).
 
 ### 3. Hospital Management
 With an additional MBA in Hospital Management, you can take on administrative roles in healthcare facilities.
 
 ### 4. Teaching
-If you have a passion for education, you can become a lecturer or professor in homeopathic medical colleges.
+If you have a passion for education, you can become a lecturer or professor in Homoeopathic medical colleges.
 
 ### 5. Pharmaceutical Industry
-Work in the manufacturing, quality control, or marketing of homeopathic medicines.
+Work in the manufacturing, quality control, or marketing of Homoeopathic medicines.
     `,
     author: 'Curiva Academic Team',
     date: 'May 09, 2024',
     category: 'BHMS Course',
     image: 'https://picsum.photos/seed/bhms-career/800/600',
-    tags: ['BHMS', 'Career', 'Jobs', 'Homeopathy']
+    tags: ['BHMS', 'Career', 'Jobs', 'Homoeopathy']
   },
   {
     id: 'calcarea-carb',
@@ -3467,16 +3467,16 @@ Indigestion, constipation, stress-related headaches, and insomnia due to over-wo
     tags: ['Stress', 'Digestion', 'Nux Vomica']
   },
   {
-    id: 'hypertension-homeopathy',
-    slug: 'hypertension-homeopathy',
+    id: 'hypertension-Homoeopathy',
+    slug: 'hypertension-Homoeopathy',
     title: 'Homoeopathic Approach to Hypertension (High Blood Pressure)',
-    excerpt: 'Learn how homeopathy addresses the underlying causes of high blood pressure and supports cardiovascular health naturally.',
+    excerpt: 'Learn how Homoeopathy addresses the underlying causes of high blood pressure and supports cardiovascular health naturally.',
     content: `
 ## Managing Hypertension Naturally
-Hypertension, or high blood pressure, is often called a "silent killer" because it may not have obvious symptoms. Homeopathy looks at the whole person to find the root cause, whether it's stress, diet, or genetic factors.
+Hypertension, or high blood pressure, is often called a "silent killer" because it may not have obvious symptoms. Homoeopathy looks at the whole person to find the root cause, whether it's stress, diet, or genetic factors.
 
-### How Homeopathy Helps
-Homeopathy doesn't just "lower" the pressure; it works to:
+### How Homoeopathy Helps
+Homoeopathy doesn't just "lower" the pressure; it works to:
 *   **Reduce Stress:** Calming the nervous system.
 *   **Improve Circulation:** Supporting the health of the blood vessels.
 *   **Balance the System:** Addressing the metabolic factors that contribute to high pressure.
@@ -3493,15 +3493,15 @@ Homeopathy doesn't just "lower" the pressure; it works to:
     tags: ['Hypertension', 'Heart Health', 'Blood Pressure']
   },
   {
-    id: 'diabetes-homeopathy',
-    slug: 'diabetes-homeopathy',
+    id: 'diabetes-Homoeopathy',
+    slug: 'diabetes-Homoeopathy',
     title: 'Managing Diabetes Naturally with Homoeopathy',
-    excerpt: 'Explore the supportive role of homeopathy in managing blood sugar levels and preventing complications of diabetes.',
+    excerpt: 'Explore the supportive role of Homoeopathy in managing blood sugar levels and preventing complications of diabetes.',
     content: `
 ## A Holistic View of Diabetes
-Diabetes Mellitus is a chronic condition that affects how your body processes blood sugar. While conventional treatment is often necessary, homeopathy can play a vital supportive role.
+Diabetes Mellitus is a chronic condition that affects how your body processes blood sugar. While conventional treatment is often necessary, Homoeopathy can play a vital supportive role.
 
-### The Homeopathic Goal
+### The Homoeopathic Goal
 *   **Support Pancreatic Function:** Helping the body manage insulin more effectively.
 *   **Prevent Complications:** Supporting nerve and kidney health.
 *   **Improve Vitality:** Reducing the fatigue often associated with diabetes.
@@ -3530,7 +3530,7 @@ Anatomy is one of the most challenging yet rewarding subjects in the first year 
 *   **Osteology:** The study of bones. Focus on landmarks, attachments, and clinical significance.
 *   **Myology:** The study of muscles. Understand origins, insertions, nerve supply, and actions.
 *   **Splanchnology:** The study of internal organs. Pay attention to relations, blood supply, and lymphatic drainage.
-*   **Neuroanatomy:** The study of the nervous system. A complex but vital area for understanding homeopathic prescribing.
+*   **Neuroanatomy:** The study of the nervous system. A complex but vital area for understanding Homoeopathic prescribing.
 
 ### Tips for Success
 1.  **Use Atlases:** Visual aids like Netter's Atlas are indispensable.
@@ -3548,12 +3548,12 @@ Anatomy is one of the most challenging yet rewarding subjects in the first year 
     id: 'bhms-physiology',
     slug: 'bhms-physiology',
     title: 'Understanding Human Physiology: A Core Subject in BHMS',
-    excerpt: 'Physiology explains how the body functions. Discover the importance of this subject in understanding health and disease in homeopathy.',
+    excerpt: 'Physiology explains how the body functions. Discover the importance of this subject in understanding health and disease in Homoeopathy.',
     content: `
 ## Physiology: The Science of Life
 Physiology is the study of how the human body functions. In BHMS, it provides the basis for understanding "vital force" and how it maintains harmony in the body.
 
-### Why Physiology Matters in Homeopathy
+### Why Physiology Matters in Homoeopathy
 *   **Understanding Health:** To recognize disease, one must first understand the normal functioning of the body.
 *   **Vital Force:** Physiology helps bridge the gap between material functions and the energetic concept of the vital force.
 *   **Pathology Correlation:** It forms the basis for understanding how functions are altered in disease states.
@@ -3627,15 +3627,15 @@ Menstrual irregularities, respiratory issues with thick yellow discharge, and di
     tags: ['Materia Medica', 'Pulsatilla', 'Emotional Health']
   },
   {
-    id: 'asthma-homeopathy',
-    slug: 'asthma-homeopathy',
+    id: 'asthma-Homoeopathy',
+    slug: 'asthma-Homoeopathy',
     title: 'Homoeopathic Management of Bronchial Asthma',
-    excerpt: 'Discover how homeopathy can help reduce the frequency and severity of asthma attacks by addressing the underlying sensitivity.',
+    excerpt: 'Discover how Homoeopathy can help reduce the frequency and severity of asthma attacks by addressing the underlying sensitivity.',
     content: `
-## Breathing Easy: Homeopathy for Asthma
-Asthma is a chronic respiratory condition characterized by inflammation and narrowing of the airways. Homeopathy aims to reduce the body's hyper-reactivity to triggers.
+## Breathing Easy: Homoeopathy for Asthma
+Asthma is a chronic respiratory condition characterized by inflammation and narrowing of the airways. Homoeopathy aims to reduce the body's hyper-reactivity to triggers.
 
-### The Homeopathic Approach
+### The Homoeopathic Approach
 *   **Constitutional Treatment:** Addressing the patient's overall health and family history to reduce the tendency toward asthma.
 *   **Acute Management:** Remedies to help during an actual attack (always in consultation with a professional).
 *   **Trigger Identification:** Helping the patient understand and manage environmental triggers.
@@ -3649,19 +3649,19 @@ Asthma is a chronic respiratory condition characterized by inflammation and narr
     date: 'May 18, 2024',
     category: 'Diseases and Conditions',
     image: 'https://picsum.photos/seed/asthma/800/600',
-    tags: ['Asthma', 'Respiratory Health', 'Homeopathy']
+    tags: ['Asthma', 'Respiratory Health', 'Homoeopathy']
   },
   {
-    id: 'eczema-homeopathy',
-    slug: 'eczema-homeopathy',
+    id: 'eczema-Homoeopathy',
+    slug: 'eczema-Homoeopathy',
     title: 'Natural Relief for Eczema and Dermatitis',
-    excerpt: 'Itchy, inflamed skin? Learn how homeopathy treats eczema from the inside out for long-lasting relief.',
+    excerpt: 'Itchy, inflamed skin? Learn how Homoeopathy treats eczema from the inside out for long-lasting relief.',
     content: `
 ## Healing Skin from Within
-Eczema is more than just a skin rash; it's often an external sign of internal imbalance. Homeopathy focuses on treating the root cause rather than just suppressing the symptoms with creams.
+Eczema is more than just a skin rash; it's often an external sign of internal imbalance. Homoeopathy focuses on treating the root cause rather than just suppressing the symptoms with creams.
 
 ### Why Avoid Suppression?
-In homeopathy, we believe that suppressing skin symptoms can sometimes drive the imbalance deeper into the body, potentially leading to respiratory issues like asthma.
+In Homoeopathy, we believe that suppressing skin symptoms can sometimes drive the imbalance deeper into the body, potentially leading to respiratory issues like asthma.
 
 ### Common Remedies for Eczema
 *   **Graphites:** For eczema with thick, honey-like discharge and cracked skin.
@@ -3676,16 +3676,16 @@ In homeopathy, we believe that suppressing skin symptoms can sometimes drive the
     tags: ['Eczema', 'Skin Care', 'Dermatology']
   },
   {
-    id: 'arthritis-homeopathy',
-    slug: 'arthritis-homeopathy',
+    id: 'arthritis-Homoeopathy',
+    slug: 'arthritis-Homoeopathy',
     title: 'Homoeopathy for Arthritis and Joint Pain',
-    excerpt: 'Manage joint inflammation and improve mobility with natural homeopathic remedies tailored to your specific symptoms.',
+    excerpt: 'Manage joint inflammation and improve mobility with natural Homoeopathic remedies tailored to your specific symptoms.',
     content: `
-## Moving Freely: Homeopathy for Joints
-Arthritis involves inflammation of one or more joints, causing pain and stiffness. Homeopathy offers a gentle way to manage these symptoms and improve quality of life.
+## Moving Freely: Homoeopathy for Joints
+Arthritis involves inflammation of one or more joints, causing pain and stiffness. Homoeopathy offers a gentle way to manage these symptoms and improve quality of life.
 
 ### Tailored Treatment
-Homeopathy is highly specific. We ask: Is the pain better with movement or rest? Is it worse in damp weather or dry? These details help find the right remedy.
+Homoeopathy is highly specific. We ask: Is the pain better with movement or rest? Is it worse in damp weather or dry? These details help find the right remedy.
 
 ### Key Remedies
 *   **Rhus Tox:** For joint pain that is worse on initial movement but gets better with continued motion. Worse in damp, cold weather.
@@ -3700,13 +3700,13 @@ Homeopathy is highly specific. We ask: Is the pain better with movement or rest?
     tags: ['Arthritis', 'Joint Pain', 'Mobility']
   },
   {
-    id: 'migraine-homeopathy',
-    slug: 'migraine-homeopathy',
+    id: 'migraine-Homoeopathy',
+    slug: 'migraine-Homoeopathy',
     title: 'Finding Relief from Migraines with Homoeopathy',
-    excerpt: 'Tired of recurring headaches? Discover how homeopathy can help reduce migraine frequency and intensity naturally.',
+    excerpt: 'Tired of recurring headaches? Discover how Homoeopathy can help reduce migraine frequency and intensity naturally.',
     content: `
 ## Beyond the Headache: Understanding Migraines
-Migraines are severe, throbbing headaches often accompanied by nausea and sensitivity to light and sound. Homeopathy looks for the "triggers" and the unique pattern of the pain.
+Migraines are severe, throbbing headaches often accompanied by nausea and sensitivity to light and sound. Homoeopathy looks for the "triggers" and the unique pattern of the pain.
 
 ### Common Migraine Patterns
 *   **Right-Sided:** Often related to liver or digestive issues.
@@ -3813,10 +3813,10 @@ Acute grief, emotional stress, nervous headaches, and hysterical disorders.
     id: 'bhms-pharmacy',
     slug: 'bhms-pharmacy',
     title: 'Homoeopathic Pharmacy: The Art of Potentization',
-    excerpt: 'Learn how homeopathic medicines are prepared and the unique science behind the process of potentization in BHMS.',
+    excerpt: 'Learn how Homoeopathic medicines are prepared and the unique science behind the process of potentization in BHMS.',
     content: `
 ## The Science of Preparation
-Homoeopathic Pharmacy is a unique subject in the first year of BHMS. it covers the identification, collection, preparation, and standardization of homeopathic medicines.
+Homoeopathic Pharmacy is a unique subject in the first year of BHMS. it covers the identification, collection, preparation, and standardization of Homoeopathic medicines.
 
 ### Key Concepts
 *   **Sources:** Medicines are derived from plants, minerals, animals, healthy tissues (nosodes), and even imponderables (like X-rays).
@@ -3825,22 +3825,22 @@ Homoeopathic Pharmacy is a unique subject in the first year of BHMS. it covers t
 *   **Trituration:** The process of grinding insoluble substances with sugar of milk.
 
 ### Why It Matters
-Understanding pharmacy is crucial for a homeopath to ensure the quality and efficacy of the medicines they prescribe.
+Understanding pharmacy is crucial for a Homoeopath to ensure the quality and efficacy of the medicines they prescribe.
     `,
     author: 'Curiva Academic Team',
     date: 'May 25, 2024',
     category: 'BHMS Course',
     image: 'https://picsum.photos/seed/pharmacy/800/600',
-    tags: ['BHMS', 'Pharmacy', 'Homeopathy']
+    tags: ['BHMS', 'Pharmacy', 'Homoeopathy']
   },
   {
     id: 'organon-intro',
     slug: 'organon-intro',
     title: 'Introduction to the Organon of Medicine',
-    excerpt: 'The "Bible" of homeopathy. Discover the fundamental principles of healing as laid down by Dr. Samuel Hahnemann.',
+    excerpt: 'The "Bible" of Homoeopathy. Discover the fundamental principles of healing as laid down by Dr. Samuel Hahnemann.',
     content: `
-## The Foundation of Homeopathic Philosophy
-The Organon of Medicine, written by Dr. Samuel Hahnemann, is the foundational text of homeopathy. It outlines the laws and principles that govern the homeopathic system of medicine.
+## The Foundation of Homoeopathic Philosophy
+The Organon of Medicine, written by Dr. Samuel Hahnemann, is the foundational text of Homoeopathy. It outlines the laws and principles that govern the Homoeopathic system of medicine.
 
 ### Core Principles
 *   **Similia Similibus Curentur:** "Like cures like."
@@ -3858,13 +3858,13 @@ Hahnemann introduced the concept of the "Vital Force"—the invisible energy tha
     tags: ['BHMS', 'Organon', 'Philosophy']
   },
   {
-    id: 'thyroid-homeopathy',
-    slug: 'thyroid-homeopathy',
+    id: 'thyroid-Homoeopathy',
+    slug: 'thyroid-Homoeopathy',
     title: 'Homoeopathic Support for Thyroid Disorders',
-    excerpt: 'Learn how homeopathy can help balance thyroid function naturally, whether you have hypothyroidism or hyperthyroidism.',
+    excerpt: 'Learn how Homoeopathy can help balance thyroid function naturally, whether you have hypothyroidism or hyperthyroidism.',
     content: `
 ## Balancing the Butterfly Gland
-The thyroid gland regulates your metabolism. When it's out of balance, it can affect your energy, weight, mood, and more. Homeopathy aims to restore balance to the entire endocrine system.
+The thyroid gland regulates your metabolism. When it's out of balance, it can affect your energy, weight, mood, and more. Homoeopathy aims to restore balance to the entire endocrine system.
 
 ### Hypothyroidism (Underactive)
 Symptoms include fatigue, weight gain, and feeling cold.
@@ -3883,13 +3883,13 @@ Symptoms include anxiety, weight loss, and heat sensitivity.
     tags: ['Thyroid', 'Hormones', 'Metabolism']
   },
   {
-    id: 'anemia-homeopathy',
-    slug: 'anemia-homeopathy',
+    id: 'anemia-Homoeopathy',
+    slug: 'anemia-Homoeopathy',
     title: 'Natural Approaches to Anemia and Low Iron',
-    excerpt: 'Feeling pale and tired? Discover how homeopathy can help improve iron absorption and boost your vitality.',
+    excerpt: 'Feeling pale and tired? Discover how Homoeopathy can help improve iron absorption and boost your vitality.',
     content: `
 ## Boosting Your Blood Health
-Anemia occurs when your blood lacks enough healthy red blood cells or hemoglobin. Homeopathy doesn't just "give iron"; it helps your body absorb and utilize nutrients more effectively.
+Anemia occurs when your blood lacks enough healthy red blood cells or hemoglobin. Homoeopathy doesn't just "give iron"; it helps your body absorb and utilize nutrients more effectively.
 
 ### Common Symptoms
 Fatigue, weakness, pale skin, shortness of breath, and cold hands/feet.
@@ -3907,13 +3907,13 @@ Fatigue, weakness, pale skin, shortness of breath, and cold hands/feet.
     tags: ['Anemia', 'Iron', 'Vitality']
   },
   {
-    id: 'insomnia-homeopathy',
-    slug: 'insomnia-homeopathy',
+    id: 'insomnia-Homoeopathy',
+    slug: 'insomnia-Homoeopathy',
     title: 'Better Sleep Naturally: Homoeopathy for Insomnia',
-    excerpt: 'Struggling to fall or stay asleep? Learn about gentle homeopathic remedies that help calm the mind and restore natural sleep patterns.',
+    excerpt: 'Struggling to fall or stay asleep? Learn about gentle Homoeopathic remedies that help calm the mind and restore natural sleep patterns.',
     content: `
 ## The Quest for Restful Sleep
-Insomnia can be caused by stress, anxiety, caffeine, or physical discomfort. Homeopathy looks at the *type* of insomnia to find the right match.
+Insomnia can be caused by stress, anxiety, caffeine, or physical discomfort. Homoeopathy looks at the *type* of insomnia to find the right match.
 
 ### Types of Sleep Issues
 *   **Can't Fall Asleep:** Often due to a "busy mind."
@@ -3933,13 +3933,13 @@ Insomnia can be caused by stress, anxiety, caffeine, or physical discomfort. Hom
     tags: ['Insomnia', 'Sleep', 'Natural Healing']
   },
   {
-    id: 'acne-homeopathy',
-    slug: 'acne-homeopathy',
+    id: 'acne-Homoeopathy',
+    slug: 'acne-Homoeopathy',
     title: 'Clear Skin Naturally: Homoeopathic Treatment for Acne',
-    excerpt: 'Stop hiding your skin. Discover how homeopathy treats the internal causes of acne for a clearer, healthier complexion.',
+    excerpt: 'Stop hiding your skin. Discover how Homoeopathy treats the internal causes of acne for a clearer, healthier complexion.',
     content: `
 ## More Than Skin Deep
-Acne is often linked to hormonal changes, diet, and stress. Homeopathy treats the person, not just the pimple, to provide long-term results.
+Acne is often linked to hormonal changes, diet, and stress. Homoeopathy treats the person, not just the pimple, to provide long-term results.
 
 ### Common Remedies
 *   **Pulsatilla:** For acne related to puberty or menstrual cycles, often in gentle personalities.
@@ -3959,15 +3959,15 @@ Acne is often linked to hormonal changes, diet, and stress. Homeopathy treats th
     tags: ['Acne', 'Skin Care', 'Dermatology']
   },
   {
-    id: 'psoriasis-homeopathy',
-    slug: 'psoriasis-homeopathy',
+    id: 'psoriasis-Homoeopathy',
+    slug: 'psoriasis-Homoeopathy',
     title: 'Homoeopathic Management of Psoriasis',
-    excerpt: 'Learn how homeopathy addresses the autoimmune roots of psoriasis for clearer skin and reduced flare-ups.',
+    excerpt: 'Learn how Homoeopathy addresses the autoimmune roots of psoriasis for clearer skin and reduced flare-ups.',
     content: `
 ## Psoriasis: Beyond the Surface
-Psoriasis is a chronic autoimmune condition that causes the rapid buildup of skin cells, leading to scaling on the skin's surface. Homeopathy treats it as a systemic issue, not just a skin problem.
+Psoriasis is a chronic autoimmune condition that causes the rapid buildup of skin cells, leading to scaling on the skin's surface. Homoeopathy treats it as a systemic issue, not just a skin problem.
 
-### The Homeopathic Perspective
+### The Homoeopathic Perspective
 We look at the patient's immune system, stress levels, and family history. The goal is to modulate the immune response and reduce the inflammatory process.
 
 ### Key Remedies
@@ -3983,13 +3983,13 @@ We look at the patient's immune system, stress levels, and family history. The g
     tags: ['Psoriasis', 'Autoimmune', 'Skin Health']
   },
   {
-    id: 'sinusitis-homeopathy',
-    slug: 'sinusitis-homeopathy',
+    id: 'sinusitis-Homoeopathy',
+    slug: 'sinusitis-Homoeopathy',
     title: 'Natural Relief for Chronic Sinusitis',
-    excerpt: 'Tired of sinus pressure and headaches? Discover how homeopathy can help clear congestion and reduce inflammation naturally.',
+    excerpt: 'Tired of sinus pressure and headaches? Discover how Homoeopathy can help clear congestion and reduce inflammation naturally.',
     content: `
 ## Breathing Freely Again
-Sinusitis is the inflammation of the tissue lining the sinuses. It can cause facial pain, nasal congestion, and headaches. Homeopathy helps by reducing inflammation and supporting the body's natural drainage.
+Sinusitis is the inflammation of the tissue lining the sinuses. It can cause facial pain, nasal congestion, and headaches. Homoeopathy helps by reducing inflammation and supporting the body's natural drainage.
 
 ### Common Symptoms
 Pressure around the eyes and nose, thick nasal discharge, reduced sense of smell, and cough.
@@ -4007,13 +4007,13 @@ Pressure around the eyes and nose, thick nasal discharge, reduced sense of smell
     tags: ['Sinusitis', 'Congestion', 'Respiratory Health']
   },
   {
-    id: 'gastritis-homeopathy',
-    slug: 'gastritis-homeopathy',
+    id: 'gastritis-Homoeopathy',
+    slug: 'gastritis-Homoeopathy',
     title: 'Homoeopathy for Gastritis and Acid Reflux',
-    excerpt: 'Soothe your stomach naturally. Learn about homeopathic remedies for burning pain, bloating, and indigestion.',
+    excerpt: 'Soothe your stomach naturally. Learn about Homoeopathic remedies for burning pain, bloating, and indigestion.',
     content: `
 ## Calming the Fire Within
-Gastritis is the inflammation of the stomach lining. It can cause burning pain, nausea, and a feeling of fullness. Homeopathy addresses the underlying causes, such as stress, diet, or bacterial imbalance.
+Gastritis is the inflammation of the stomach lining. It can cause burning pain, nausea, and a feeling of fullness. Homoeopathy addresses the underlying causes, such as stress, diet, or bacterial imbalance.
 
 ### The Holistic Approach
 We look at what triggers your symptoms—spicy food, stress, or eating too fast—and find a remedy that matches your unique pattern of discomfort.
@@ -4031,15 +4031,15 @@ We look at what triggers your symptoms—spicy food, stress, or eating too fast�
     tags: ['Gastritis', 'Digestion', 'Acid Reflux']
   },
   {
-    id: 'depression-homeopathy',
-    slug: 'depression-homeopathy',
+    id: 'depression-Homoeopathy',
+    slug: 'depression-Homoeopathy',
     title: 'A Holistic Approach to Depression and Low Mood',
-    excerpt: 'Explore how homeopathy can support emotional well-being and help restore a sense of balance and hope naturally.',
+    excerpt: 'Explore how Homoeopathy can support emotional well-being and help restore a sense of balance and hope naturally.',
     content: `
 ## Finding the Light Again
-Depression is a complex emotional state that affects how you feel, think, and handle daily activities. Homeopathy treats the individual's unique experience of depression, looking at the root causes and emotional patterns.
+Depression is a complex emotional state that affects how you feel, think, and handle daily activities. Homoeopathy treats the individual's unique experience of depression, looking at the root causes and emotional patterns.
 
-### The Homeopathic View
+### The Homoeopathic View
 We don't just "label" depression; we ask: Is it related to grief? Is it accompanied by irritability? Is there a loss of interest in everything? These details guide the remedy selection.
 
 ### Common Remedies
@@ -4055,16 +4055,16 @@ We don't just "label" depression; we ask: Is it related to grief? Is it accompan
     tags: ['Depression', 'Mental Health', 'Emotional Well-being']
   },
   {
-    id: 'anxiety-homeopathy-deep',
-    slug: 'anxiety-homeopathy-deep',
+    id: 'anxiety-Homoeopathy-deep',
+    slug: 'anxiety-Homoeopathy-deep',
     title: 'Managing Anxiety Naturally with Homoeopathy',
-    excerpt: 'From panic attacks to constant worry, discover how homeopathy can help calm the nervous system and restore peace of mind.',
+    excerpt: 'From panic attacks to constant worry, discover how Homoeopathy can help calm the nervous system and restore peace of mind.',
     content: `
 ## Calming the Anxious Mind
-Anxiety can manifest as physical symptoms like heart palpitations, sweating, and restlessness, as well as mental symptoms like racing thoughts and constant worry. Homeopathy offers a gentle way to support the nervous system.
+Anxiety can manifest as physical symptoms like heart palpitations, sweating, and restlessness, as well as mental symptoms like racing thoughts and constant worry. Homoeopathy offers a gentle way to support the nervous system.
 
 ### Understanding Your Anxiety
-Is your anxiety related to a specific event? Is it a constant "background noise"? Does it make you want to move or keep you frozen? These distinctions are vital in homeopathy.
+Is your anxiety related to a specific event? Is it a constant "background noise"? Does it make you want to move or keep you frozen? These distinctions are vital in Homoeopathy.
 
 ### Key Remedies
 *   **Aconite:** For sudden, intense panic attacks with a fear of death and great restlessness.
@@ -4079,10 +4079,10 @@ Is your anxiety related to a specific event? Is it a constant "background noise"
     tags: ['Anxiety', 'Panic Attacks', 'Stress Relief']
   },
   {
-    id: 'hair-loss-homeopathy',
-    slug: 'hair-loss-homeopathy',
+    id: 'hair-loss-Homoeopathy',
+    slug: 'hair-loss-Homoeopathy',
     title: 'Natural Solutions for Hair Loss and Thinning',
-    excerpt: 'Discover how homeopathy addresses the internal imbalances that lead to hair loss, from stress to hormonal changes.',
+    excerpt: 'Discover how Homoeopathy addresses the internal imbalances that lead to hair loss, from stress to hormonal changes.',
     quickSummary: [
       'Alopecia areata and patchy hair loss',
       'Premature graying and thinning on crown/temples',
@@ -4125,7 +4125,7 @@ Is your anxiety related to a specific event? Is it a constant "background noise"
     ],
     content: `
 ## Revitalizing Your Hair from Within
-Hair loss can be distressing and is often a sign of internal stress, nutritional deficiency, or hormonal shifts. Homeopathy aims to improve the health of the hair follicles by balancing the body's internal environment.
+Hair loss can be distressing and is often a sign of internal stress, nutritional deficiency, or hormonal shifts. Homoeopathy aims to improve the health of the hair follicles by balancing the body's internal environment.
 
 ### Common Causes
 *   **Stress:** Physical or emotional shock can trigger hair shedding.
@@ -4146,12 +4146,12 @@ Hair loss can be distressing and is often a sign of internal stress, nutritional
     citations: [
       { 
         title: "Therapeutic efficacy of Fluoric Acid ultra-dilutions in alopecia areata", 
-        url: "/read/hair-loss-homeopathy", 
+        url: "/read/hair-loss-Homoeopathy", 
         source: "Clinical Hair Care Records" 
       },
       { 
-        title: "Homeopathic management of chronic scalp dermatoses & thinning", 
-        url: "/read/hair-loss-homeopathy", 
+        title: "Homoeopathic management of chronic scalp dermatoses & thinning", 
+        url: "/read/hair-loss-Homoeopathy", 
         source: "International Journal of Trichology Research" 
       }
     ],
@@ -4161,7 +4161,7 @@ Hair loss can be distressing and is often a sign of internal stress, nutritional
     id: 'bhms-pathology',
     slug: 'bhms-pathology',
     title: 'The Role of Pathology in BHMS: Understanding Disease',
-    excerpt: 'Explore the study of disease processes and how it integrates with homeopathic principles in the second year of BHMS.',
+    excerpt: 'Explore the study of disease processes and how it integrates with Homoeopathic principles in the second year of BHMS.',
     content: `
 ## Pathology: The Study of Suffering
 Pathology is a bridge between basic sciences and clinical medicine. In the second year of BHMS, students learn about the structural and functional changes that occur in cells, tissues, and organs during disease.
@@ -4172,8 +4172,8 @@ Pathology is a bridge between basic sciences and clinical medicine. In the secon
 *   **Microbiology:** The study of bacteria, viruses, and fungi and their role in disease.
 *   **Clinical Pathology:** Laboratory techniques for diagnosing disease through blood, urine, and other fluids.
 
-### Homeopathic Integration
-While pathology focuses on the material changes, homeopathic students learn to relate these changes to the "miasmatic" background and the overall state of the vital force.
+### Homoeopathic Integration
+While pathology focuses on the material changes, Homoeopathic students learn to relate these changes to the "miasmatic" background and the overall state of the vital force.
     `,
     author: 'Curiva Academic Team',
     date: 'June 06, 2024',
@@ -4353,15 +4353,15 @@ Pleurisy, joint pain, dry coughs, and headaches that feel like the head will "bu
     tags: ['Materia Medica', 'Bryonia', 'Pain Management']
   },
   {
-    id: 'kidney-stones-homeopathy',
-    slug: 'kidney-stones-homeopathy',
+    id: 'kidney-stones-Homoeopathy',
+    slug: 'kidney-stones-Homoeopathy',
     title: 'Homoeopathic Approach to Kidney Stones',
-    excerpt: 'Learn how homeopathy can help manage the pain of kidney stones and reduce the tendency for them to recur.',
+    excerpt: 'Learn how Homoeopathy can help manage the pain of kidney stones and reduce the tendency for them to recur.',
     content: `
 ## Managing Renal Calculi Naturally
-Kidney stones (renal calculi) are hard deposits made of minerals and salts that form inside your kidneys. They can cause intense, radiating pain. Homeopathy offers a way to manage the acute pain and address the underlying metabolic factors.
+Kidney stones (renal calculi) are hard deposits made of minerals and salts that form inside your kidneys. They can cause intense, radiating pain. Homoeopathy offers a way to manage the acute pain and address the underlying metabolic factors.
 
-### The Homeopathic Goal
+### The Homoeopathic Goal
 *   **Pain Relief:** Managing the intense "renal colic."
 *   **Facilitating Passage:** Helping the stone pass more easily through the urinary tract.
 *   **Preventing Recurrence:** Addressing the body's tendency to form stones through constitutional treatment.
@@ -4553,23 +4553,23 @@ Chronic constipation, skin disorders, and neurological conditions characterized 
     tags: ['Materia Medica', 'Alumina', 'Constipation']
   },
   {
-    id: 'research-homeopathy-evidence',
-    slug: 'research-homeopathy-evidence',
+    id: 'research-Homoeopathy-evidence',
+    slug: 'research-Homoeopathy-evidence',
     title: 'Evidence-Based Homoeopathy: Understanding the Science',
-    excerpt: 'Is there scientific evidence for homeopathy? Explore recent research studies and clinical trials that demonstrate the effectiveness of natural medicine.',
+    excerpt: 'Is there scientific evidence for Homoeopathy? Explore recent research studies and clinical trials that demonstrate the effectiveness of natural medicine.',
     content: `
 ## The Science of Small Doses
-A common question asked about homeopathy is whether there is scientific evidence to support it. The answer is a resounding yes! Research in the field of homeopathy has grown significantly over the last few decades, with studies exploring everything from clinical outcomes to the physical properties of high dilutions.
+A common question asked about Homoeopathy is whether there is scientific evidence to support it. The answer is a resounding yes! Research in the field of Homoeopathy has grown significantly over the last few decades, with studies exploring everything from clinical outcomes to the physical properties of high dilutions.
 
 ### Clinical Research highlights
-* **Systematic Reviews:** Several large-scale reviews have shown that homeopathy often performs significantly better than a placebo in treating various conditions.
-* **Observational Studies:** Large "real-world" studies in countries like France and Germany show that patients under homeopathic care often achieve similar or better results with fewer side effects than conventional medicine.
+* **Systematic Reviews:** Several large-scale reviews have shown that Homoeopathy often performs significantly better than a placebo in treating various conditions.
+* **Observational Studies:** Large "real-world" studies in countries like France and Germany show that patients under Homoeopathic care often achieve similar or better results with fewer side effects than conventional medicine.
 
 ### Laboratory Research
-Scientists are also using advanced technology to study how homeopathic remedies affect living cells and even how the "memory" of a substance is retained in water after dilution.
+Scientists are also using advanced technology to study how Homoeopathic remedies affect living cells and even how the "memory" of a substance is retained in water after dilution.
 
 ### Conclusion
-While more research is always needed, the current body of evidence suggests that homeopathy is a powerful and scientifically grounded system of medicine. At **Curiva Homoeopathy**, we are committed to staying up-to-date with the latest research to provide you with evidence-based natural healing.
+While more research is always needed, the current body of evidence suggests that Homoeopathy is a powerful and scientifically grounded system of medicine. At **Curiva Homoeopathy**, we are committed to staying up-to-date with the latest research to provide you with evidence-based natural healing.
     `,
     author: 'Curiva Research Team',
     date: 'June 20, 2024',
@@ -4720,7 +4720,7 @@ Rheumatism, sciatica, sprains, strains, flu with body aches, and skin conditions
 **Source:** Mineral Kingdom
 
 ### Summary
-Sulphur is one of the most important remedies in homeopathy, often used to clear the way for other remedies. It is suited to "the ragged philosopher"—untidy, messy individuals who are intellectually deep but physically neglectful.
+Sulphur is one of the most important remedies in Homoeopathy, often used to clear the way for other remedies. It is suited to "the ragged philosopher"—untidy, messy individuals who are intellectually deep but physically neglectful.
 
 ### Key Characteristics
 *   **Burning:** Burning sensations everywhere; burning in the soles of feet at night, making the patient stick them out from under the covers.
@@ -5121,7 +5121,7 @@ Hay fever, allergic rhinitis, and early stages of a common cold.`,
   {
     id: 'kali-bich',
     title: 'Kali Bichromicum: The Remedy for Ropey Discharges',
-    seoTitle: 'Kali Bichromicum in Homeopathy: Sinusitis, Stringy Mucus & Small Spots',
+    seoTitle: 'Kali Bichromicum in Homoeopathy: Sinusitis, Stringy Mucus & Small Spots',
     slug: 'kali-bich',
     excerpt: 'Detailed study of Kali Bichromate - essential for sinusitis, stringy discharges, and wandering pains in small spots.',
     quickSummary: [
@@ -5162,7 +5162,7 @@ Another distinctive feature is the **localization of pains**. The patient often 
   {
     id: 'rhus-tox',
     title: 'Rhus Toxicodendron: The Remedy for Restless Joints',
-    seoTitle: 'Rhus Tox Homeopathy: Arthritis, Restlessness & Triangular Red Tip',
+    seoTitle: 'Rhus Tox Homoeopathy: Arthritis, Restlessness & Triangular Red Tip',
     slug: 'rhus-tox',
     excerpt: 'Explore Rhus Tox - the premier remedy for rheumatism, sprains, and conditions better for continued motion.',
     quickSummary: [
@@ -5203,7 +5203,7 @@ It is the top remedy for ailments caused by **getting wet while overheated** or 
   {
     id: 'causticum',
     title: 'Causticum: Empathy and Paralysis',
-    seoTitle: 'Causticum Homeopathy: Paralysis, Empathy & Raw Soreness',
+    seoTitle: 'Causticum Homoeopathy: Paralysis, Empathy & Raw Soreness',
     slug: 'causticum',
     excerpt: 'A deep study of Causticum - a remedy for chronic paralysis, vocal loss, and individuals with a deep sense of social justice.',
     quickSummary: [
@@ -5244,7 +5244,7 @@ Physically, the remedy is characterized by a sensation of **rawness and soreness
   {
     id: 'graphites',
     title: 'Graphites: The Honey-Ooze Remedy',
-    seoTitle: 'Graphites Homeopathy: Skin Eruptions, Constipation & Sticky Excrescences',
+    seoTitle: 'Graphites Homoeopathy: Skin Eruptions, Constipation & Sticky Excrescences',
     slug: 'graphites',
     excerpt: 'Explore Graphites - essential for skin conditions with sticky discharges, chronic constipation, and metabolic sluggishness.',
     quickSummary: [
@@ -5285,7 +5285,7 @@ It is also a remarkable remedy for **scars and keloids**, helping to soften old,
   {
     id: 'staphisagria',
     title: 'Staphisagria: Suppressed Anger and Styes',
-    seoTitle: 'Staphisagria Homeopathy: Emotions, Styes & Post-Surgery Recovery',
+    seoTitle: 'Staphisagria Homoeopathy: Emotions, Styes & Post-Surgery Recovery',
     slug: 'staphisagria',
     excerpt: 'A study of Staphisagria - the remedy for ailments from indignation, suppressed anger, and surgical incisions.',
     quickSummary: [
@@ -5326,7 +5326,7 @@ Clinically, it is the first remedy to think of for **surgical incisions** or cle
   {
     id: 'lachesis',
     title: 'Lachesis Mutus: The Left-Sided Messenger',
-    seoTitle: 'Lachesis Homeopathy: Menopause, Snake Venom & Left-Sided Symptoms',
+    seoTitle: 'Lachesis Homoeopathy: Menopause, Snake Venom & Left-Sided Symptoms',
     slug: 'lachesis',
     excerpt: 'Detailed analysis of Lachesis - the remedy for hot flashes, loquacity, and conditions worse after sleep.',
     quickSummary: [
@@ -5367,7 +5367,7 @@ The Lachesis patient is **extraordinarily sensitive to touch**. They cannot bear
   {
     id: 'apis',
     title: 'Apis Mellifica: Stinging Pain and Edema',
-    seoTitle: 'Apis Mellifica Homeopathy: Bee Stings, Swelling & Thirstlessness',
+    seoTitle: 'Apis Mellifica Homoeopathy: Bee Stings, Swelling & Thirstlessness',
     slug: 'apis',
     excerpt: 'Explore Apis Mellifica - the premier remedy for stinging pains, sudden puffiness, and inflammation with dropsy.',
     quickSummary: [
@@ -5408,7 +5408,7 @@ A critical guiding symptom for Apis is **thirstlessness**. Even during high feve
   {
     id: 'chelidonium',
     title: 'Chelidonium: The Liver Specialist',
-    seoTitle: 'Chelidonium Homeopathy: Liver Issues, Jaundice & Scapular Pain',
+    seoTitle: 'Chelidonium Homoeopathy: Liver Issues, Jaundice & Scapular Pain',
     slug: 'chelidonium',
     excerpt: 'Detailed study of Chelidonium - the premier remedy for right-sided liver dysfunction and jaundice.',
     quickSummary: [
@@ -5433,7 +5433,7 @@ A critical guiding symptom for Apis is **thirstlessness**. Even during high feve
         differences: 'Both are right-sided liver remedies, but Chelidonium has the specific scapular pain and desires very hot drinks, while Lycopodium has gas/bloating and 4-8 PM aggravation.'
       }
     ],
-    content: `Chelidonium Majus (Greater Celandine) is the "Liver's best friend" in homeopathy. It has a specific affinity for the liver, gallbladder, and digestive tract.
+    content: `Chelidonium Majus (Greater Celandine) is the "Liver's best friend" in Homoeopathy. It has a specific affinity for the liver, gallbladder, and digestive tract.
 
 The most characteristic physical sign is a **fixed, steady pain under the inner lower angle of the right shoulder blade (scapula)**. This pain is almost always present in cases where Chelidonium is needed for hepatic issues. 
 

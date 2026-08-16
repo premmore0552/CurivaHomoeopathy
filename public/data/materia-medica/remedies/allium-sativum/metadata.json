@@ -1,0 +1,14 @@
+{
+  "slug": "allium-sativum",
+  "title": "Allium Sativum",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Mouth", "Throat", "Stomach", "Abdomen", "Rectum", "Respiratory", "Relationship", "Dose"],
+  "word_count": 140,
+  "character_count": 1000,
+  "paragraph_count": 11,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "all123sativ"
+}

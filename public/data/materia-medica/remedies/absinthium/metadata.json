@@ -1,0 +1,14 @@
+{
+  "slug": "absinthium",
+  "title": "Absinthium",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Mouth", "Throat", "Stomach", "Urine", "Heart", "Sexual", "Chest", "Extremities", "Relationship", "Dose"],
+  "word_count": 130,
+  "character_count": 850,
+  "paragraph_count": 13,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "jkl012absinth"
+}

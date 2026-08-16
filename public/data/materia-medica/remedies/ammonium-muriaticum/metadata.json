@@ -1,0 +1,14 @@
+{
+  "slug": "ammonium-muriaticum",
+  "title": "Ammonium Muriaticum",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Eyes", "Nose", "Face", "Mouth", "Throat", "Stomach", "Abdomen", "Rectum", "Urinary", "Female", "Respiratory", "Back", "Extremities", "Skin", "Modalities", "Relationship", "Dose"],
+  "word_count": 300,
+  "character_count": 2100,
+  "paragraph_count": 20,
+  "estimated_reading_time": "2 mins",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amm123muria"
+}

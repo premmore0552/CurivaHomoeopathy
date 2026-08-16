@@ -1,0 +1,14 @@
+{
+  "slug": "abrotanum",
+  "title": "Abrotanum",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Face", "Stomach", "Abdomen", "Respiratory", "Back", "Extremities", "Skin", "Modalities", "Relationship", "Dose"],
+  "word_count": 185,
+  "character_count": 1250,
+  "paragraph_count": 12,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "ghi789abrotanum"
+}

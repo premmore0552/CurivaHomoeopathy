@@ -1,0 +1,14 @@
+{
+  "slug": "ambrosia-artemisiaefolia",
+  "title": "Ambrosia Artemisiaefolia",
+  "alphabet": "A",
+  "detected_headings": ["Eyes", "Nose", "Throat", "Respiratory", "Abdomen", "Relationship", "Dose"],
+  "word_count": 110,
+  "character_count": 850,
+  "paragraph_count": 8,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amb123artem"
+}

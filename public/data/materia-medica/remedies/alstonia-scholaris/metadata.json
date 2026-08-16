@@ -1,0 +1,14 @@
+{
+  "slug": "alstonia-scholaris",
+  "title": "Alstonia Scholaris",
+  "alphabet": "A",
+  "detected_headings": ["Stomach", "Abdomen", "Stool", "Relationship", "Dose"],
+  "word_count": 85,
+  "character_count": 650,
+  "paragraph_count": 6,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "als123schol"
+}

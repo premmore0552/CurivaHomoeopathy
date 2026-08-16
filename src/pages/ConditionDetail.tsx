@@ -15,13 +15,19 @@ import {
   BookOpen
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import ShareButton from '../components/ShareButton';
 import { conditionsData } from '../data/conditionsData';
 import { allBlogPosts } from '../data/blogPosts';
+import { ContentNavigator } from '../components/ContentNavigator';
 
 const ConditionDetail: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
   const condition = conditionsData.find(c => c.id === slug);
   const [copied, setCopied] = React.useState(false);
+
+  const currentIndex = conditionsData.findIndex(c => c.id === slug);
+  const prevCond = currentIndex > 0 ? conditionsData[currentIndex - 1] : null;
+  const nextCond = currentIndex < conditionsData.length - 1 ? conditionsData[currentIndex + 1] : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -33,7 +39,7 @@ const ConditionDetail: React.FC = () => {
       <div className="min-h-screen bg-bg-primary pt-32 pb-20 px-4">
         <SEO 
           title={`${placeholderTitle} - Condition Overview | Curiva`} 
-          description={`Preliminary information about ${placeholderTitle} and its homeopathic relationships.`}
+          description={`Preliminary information about ${placeholderTitle} and its Homoeopathic relationships.`}
         />
         <div className="max-w-4xl mx-auto text-center space-y-8">
           <div className="w-20 h-20 bg-bg-secondary rounded-full flex items-center justify-center mx-auto border border-border shadow-soft">
@@ -66,7 +72,7 @@ const ConditionDetail: React.FC = () => {
       try {
         await navigator.share({
           title: condition.title + ' | Curiva Homoeopathy',
-          text: `Check out these homeopathic patterns for ${condition.title}`,
+          text: `Check out these Homoeopathic patterns for ${condition.title}`,
           url: window.location.href,
         });
       } catch (err: any) {
@@ -88,7 +94,7 @@ const ConditionDetail: React.FC = () => {
     <div className="min-h-screen bg-bg-primary transition-colors duration-300 pb-20">
       <SEO 
         title={`${condition.title} | Pattern-Based Understanding | Curiva`} 
-        description={`Learn the clinical patterns, better/worse factors, and homeopathic perspectives on ${condition.title}.`}
+        description={`Learn the clinical patterns, better/worse factors, and Homoeopathic perspectives on ${condition.title}.`}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-8 pb-12">
@@ -96,7 +102,7 @@ const ConditionDetail: React.FC = () => {
           
           {/* Sidebar */}
           <aside className="hidden lg:block">
-            <div className="sticky top-32 space-y-8">
+            <div className="sticky top-8 space-y-8">
               <div className="p-8 bg-bg-secondary rounded-[2.5rem] border border-border">
                 <div className={`w-16 h-16 ${condition.color} text-white rounded-2xl flex items-center justify-center mb-6 shadow-lg shadow-black/5`}>
                   <Icon className="w-8 h-8" />
@@ -125,7 +131,7 @@ const ConditionDetail: React.FC = () => {
           <div className="lg:col-span-3 space-y-20">
             
             {/* Hero */}
-            <header id="understanding" className="scroll-mt-32">
+            <header id="understanding" className="scroll-mt-16">
               <div className="space-y-6">
                 <h1 className="text-4xl md:text-6xl font-display font-black text-text-primary leading-tight">
                   {condition.title}
@@ -133,11 +139,19 @@ const ConditionDetail: React.FC = () => {
                 <p className="text-xl text-text-secondary leading-relaxed max-w-3xl first-letter:text-5xl first-letter:font-serif first-letter:text-primary first-letter:mr-3 first-letter:float-left">
                   {condition.description}
                 </p>
+                <div className="pt-2">
+                  <ShareButton 
+                    title={condition.title} 
+                    text={`Clinical patterns and Homoeopathic perspectives on ${condition.title}`} 
+                    variant="outline" 
+                    label="Share Condition Notes" 
+                  />
+                </div>
               </div>
             </header>
 
             {/* Patterns */}
-            <section id="patterns" className="scroll-mt-32">
+            <section id="patterns" className="scroll-mt-16">
               <div className="flex items-center gap-3 mb-10">
                 <BrainCircuit className="w-8 h-8 text-primary" />
                 <h2 className="text-3xl font-display font-black text-text-primary italic">Pattern-Based <span className="text-primary italic">Understanding</span></h2>
@@ -178,7 +192,7 @@ const ConditionDetail: React.FC = () => {
             </section>
 
             {/* Related Remedies (The Connective Tissue) */}
-            <section id="remedies" className="scroll-mt-32">
+            <section id="remedies" className="scroll-mt-16">
               <div className="flex items-center gap-3 mb-10">
                 <div className="p-3 bg-bg-secondary rounded-2xl text-primary">
                   <Activity className="w-6 h-6" />
@@ -213,7 +227,7 @@ const ConditionDetail: React.FC = () => {
 
             {/* Related Research (Blog Posts) */}
             {condition.relatedBlogPosts && condition.relatedBlogPosts.length > 0 && (
-              <section id="research" className="scroll-mt-32">
+              <section id="research" className="scroll-mt-16">
                 <div className="flex items-center gap-3 mb-10">
                   <div className="p-3 bg-bg-secondary rounded-2xl text-primary">
                     <BookOpen className="w-6 h-6" />
@@ -255,7 +269,7 @@ const ConditionDetail: React.FC = () => {
                   Continue Your <span className="text-primary-light italic">Clinical Research</span>
                 </h3>
                 <p className="text-white/80 max-w-2xl mx-auto font-medium">
-                  Each remedy relationship is based on classical homeopathic principles. Explore the full A-Z Encyclopedia to understand the deeper materia medica of these therapeutic agents.
+                  Each remedy relationship is based on classical Homoeopathic principles. Explore the full A-Z Encyclopedia to understand the deeper materia medica of these therapeutic agents.
                 </p>
                 <div className="flex flex-wrap justify-center gap-4">
                   <Link 
@@ -274,6 +288,12 @@ const ConditionDetail: React.FC = () => {
                 </div>
               </div>
             </div>
+
+            {/* Previous / Next Condition Navigation */}
+            <ContentNavigator 
+              prev={prevCond ? { to: `/condition/${prevCond.id}`, title: prevCond.title, label: 'Previous Condition' } : null}
+              next={nextCond ? { to: `/condition/${nextCond.id}`, title: nextCond.title, label: 'Next Condition' } : null}
+            />
 
           </div>
         </div>

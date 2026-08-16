@@ -26,7 +26,7 @@ function main() {
     
     // Sometimes it is inside serialized jsdata. Let us search for patterns.
     // Let's check if the word "Materia Medica" or similar exists in the HTML.
-    const searchTerms = ['materia', 'remedy', 'canvas', 'homeopath', 'react'];
+    const searchTerms = ['materia', 'remedy', 'canvas', 'Homoeopath', 'react'];
     searchTerms.forEach(term => {
       const regexTerm = new RegExp(term, 'gi');
       const termMatches = html.match(regexTerm);

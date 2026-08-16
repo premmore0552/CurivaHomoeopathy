@@ -1,0 +1,14 @@
+{
+  "slug": "acetic-acid",
+  "title": "Acetic Acid",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Face", "Stomach", "Abdomen", "Urine", "Female", "Respiratory", "Back", "Extremities", "Skin", "Fever", "Relationship", "Dose"],
+  "word_count": 280,
+  "character_count": 1850,
+  "paragraph_count": 15,
+  "estimated_reading_time": "2 mins",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "stu901acetic"
+}

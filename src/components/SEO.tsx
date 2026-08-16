@@ -13,8 +13,8 @@ interface SEOProps {
 const SEO: React.FC<SEOProps> = ({ 
   title = 'Curiva Homoeopathy - Learn Natural Healing', 
   description = 'Educational articles about homoeopathy, remedies, diseases, and holistic health.',
-  keywords = 'homoeopathy, natural healing, holistic health, homeopathic remedies, curiva',
-  image = 'https://picsum.photos/seed/homeopathy-hero/1200/630',
+  keywords = 'homoeopathy, natural healing, holistic health, Homoeopathic remedies, curiva',
+  image = 'https://picsum.photos/seed/Homoeopathy-hero/1200/630',
   url = typeof window !== 'undefined' ? window.location.href : '',
   type = 'website'
 }) => {

@@ -12,10 +12,10 @@ export interface AIAPGETQuestion {
 export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   {
     id: "AQ-1001",
-    question: "Which remedy is known as the 'Homeopathic Scalpel' due to its ability to promote suppuration and expel foreign bodies?",
+    question: "Which remedy is known as the 'Homoeopathic Scalpel' due to its ability to promote suppuration and expel foreign bodies?",
     options: ["Sulphur", "Silicea Terra", "Hepar Sulphur", "Lachesis"],
     correctAnswer: "Silicea Terra",
-    explanation: "Silicea is known as the 'homeopathic scalpel' because of its powerful clinical property of promoting the expulsion of foreign bodies, splinters, or necrotic material from the tissues.",
+    explanation: "Silicea is known as the 'Homoeopathic scalpel' because of its powerful clinical property of promoting the expulsion of foreign bodies, splinters, or necrotic material from the tissues.",
     subject: "Materia Medica",
     difficulty: "Medium"
   },
@@ -57,7 +57,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   },
   {
     id: "AQ-1006",
-    question: "Who introduced the 'Fifty-Millesimal Potency' (LM Potency) scale in Homeopathy?",
+    question: "Who introduced the 'Fifty-Millesimal Potency' (LM Potency) scale in Homoeopathy?",
     options: ["Dr. S. Hahnemann", "Dr. J.T. Kent", "Dr. C. Hering", "Dr. Boenninghausen"],
     correctAnswer: "Dr. S. Hahnemann",
     explanation: "Hahnemann introduced the Fifty-Millesimal scale in the 6th edition of the Organon of Medicine (published posthumously) to enable gentle chronic prescription.",
@@ -135,7 +135,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   },
   {
     id: "AQ-1013",
-    question: "Which substance is used to prepare the homeopathic nosode 'Pyrogenium'?",
+    question: "Which substance is used to prepare the Homoeopathic nosode 'Pyrogenium'?",
     options: [
       "Decomposed Lean Beef",
       "Pus from Scabies vesicle",
@@ -393,7 +393,7 @@ export function generateDynamicQuestion(index: number): AIAPGETQuestion {
 
     return {
       id: `QD-${10000 + index}`,
-      question: `Identify the homeopathic medicine matching this characteristic symptom/keynote: "${remedy.keyword}".`,
+      question: `Identify the Homoeopathic medicine matching this characteristic symptom/keynote: "${remedy.keyword}".`,
       options,
       correctAnswer: remedy.name,
       explanation: `Clinical studies and Allen's Keynotes link the characteristic state "${remedy.keyword}" directly with ${remedy.name}.`,

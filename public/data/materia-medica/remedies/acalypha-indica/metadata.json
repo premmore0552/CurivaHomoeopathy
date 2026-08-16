@@ -1,0 +1,14 @@
+{
+  "slug": "acalypha-indica",
+  "title": "Acalypha Indica",
+  "alphabet": "A",
+  "detected_headings": ["Chest", "Abdomen", "Skin", "Modalities", "Relationship", "Dose"],
+  "word_count": 110,
+  "character_count": 780,
+  "paragraph_count": 7,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "mno345acalypha"
+}

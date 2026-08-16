@@ -1,0 +1,14 @@
+{
+  "slug": "aloe-socotrina",
+  "title": "Aloe Socotrina",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Eyes", "Mouth", "Stomach", "Abdomen", "Rectum", "Urinary", "Extremities", "Modalities", "Relationship", "Dose"],
+  "word_count": 220,
+  "character_count": 1500,
+  "paragraph_count": 13,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "alo123socot"
+}

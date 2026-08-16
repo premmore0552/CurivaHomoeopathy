@@ -106,7 +106,7 @@ export default function TextMindMap({
       if (outResearch.length === 0) {
         outResearch = [
           { title: "Hering's Guiding Symptoms of our Materia Medica", source: "Digestive Affections Vol. 5" },
-          { title: "Efficacy of homeopathic therapeutics in gastrointestinal disorders", source: "Clinical Trial Protocol" }
+          { title: "Efficacy of Homoeopathic therapeutics in gastrointestinal disorders", source: "Clinical Trial Protocol" }
         ];
       }
     }
@@ -166,7 +166,7 @@ export default function TextMindMap({
       if (outResearch.length === 0) {
         outResearch = [
           { title: "Lectures on Homoeopathic Materia Medica: Cephalalgia", source: "Dr. J.T. Kent Lectures" },
-          { title: "In-vivo response of Belladonna ultra-dilutions on neural congestion", source: "Neuro-homeopathy Journal" }
+          { title: "In-vivo response of Belladonna ultra-dilutions on neural congestion", source: "Neuro-Homoeopathy Journal" }
         ];
       }
     }
@@ -198,7 +198,7 @@ export default function TextMindMap({
       if (outResearch.length === 0) {
         outResearch = [
           { title: "Therapeutic efficacy of Fluoric Acid ultra-dilutions in alopecia areata", source: "Clinical Hair Care Records" },
-          { title: "Homeopathic management of chronic scalp dermatoses & thinning", source: "International Journal of Trichology Research" }
+          { title: "Homoeopathic management of chronic scalp dermatoses & thinning", source: "International Journal of Trichology Research" }
         ];
       }
     }
@@ -229,7 +229,7 @@ export default function TextMindMap({
       if (outResearch.length === 0) {
         outResearch = [
           { title: "Hahnemann's Chronic Diseases: Skin Eruptions & Psora", source: "Hahnemannian Classics" },
-          { title: "Clinical trial of homeopathic remedies in pediatric dermatological care", source: "Dermatological Archives" }
+          { title: "Clinical trial of Homoeopathic remedies in pediatric dermatological care", source: "Dermatological Archives" }
         ];
       }
     }
@@ -260,7 +260,7 @@ export default function TextMindMap({
       }
       if (outResearch.length === 0) {
         outResearch = [
-          { title: "Comparative study of homeopathic therapeutics in stress", source: "Cognitive Biomarkers Journal" },
+          { title: "Comparative study of Homoeopathic therapeutics in stress", source: "Cognitive Biomarkers Journal" },
           { title: "Efficacy of Coffea Cruda on polysomnographic sleep markers", source: "International Sleep Research" }
         ];
       }
@@ -294,7 +294,7 @@ export default function TextMindMap({
       if (outResearch.length === 0) {
         outResearch = [
           { title: "In-vitro testing of Rhus Tox ultra-dilutions on synovial cells", source: "Rheumatology Research" },
-          { title: "Homeopathic management of bone injuries and mechanical strains", source: "Evidence-Based Orthopedics" }
+          { title: "Homoeopathic management of bone injuries and mechanical strains", source: "Evidence-Based Orthopedics" }
         ];
       }
     }
@@ -324,11 +324,11 @@ export default function TextMindMap({
       if (outResearch.length === 0) {
         outResearch = [
           { title: "Therapeutic efficacy of Sepia in endocrine deregulation", source: "Gynecological Research Archives" },
-          { title: "Constitutional treatment studies in hormonal/menstrual patterns", source: "Homeopathic Medicine Peer Review" }
+          { title: "Constitutional treatment studies in hormonal/menstrual patterns", source: "Homoeopathic Medicine Peer Review" }
         ];
       }
     }
-    // Default classical homeopathy fallback
+    // Default classical Homoeopathy fallback
     else {
       if (outSymptoms.length === 0) {
         outSymptoms = [

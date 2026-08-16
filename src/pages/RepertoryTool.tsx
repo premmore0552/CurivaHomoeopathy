@@ -146,7 +146,7 @@ export default function RepertoryTool() {
           ...entry,
           fullName: matchedDetail ? matchedDetail.name : `${entry.abbreviation} Remedium`,
           id: matchedDetail ? matchedDetail.id : entry.abbreviation.replace('.', '').toLowerCase(),
-          family: matchedDetail ? matchedDetail.family : "Homeopathic Proving",
+          family: matchedDetail ? matchedDetail.family : "Homoeopathic Proving",
           matchedPercent: Math.round((entry.score / selectedRubrics.length) * 100)
         };
       })
@@ -175,7 +175,7 @@ export default function RepertoryTool() {
              <span className="text-[10px] font-bold uppercase tracking-[0.3em] text-primary">Expert Clinical Portal</span>
            </motion.div>
            <h1 className="text-5xl md:text-7xl lg:text-[7.5rem] font-display font-medium text-text-primary tracking-tighter leading-[0.85] uppercase flex flex-col items-center">
-             <span>Homeopathic</span>
+             <span>Homoeopathic</span>
              <span className="text-primary italic lg:ml-24 -mt-2">Repertory</span>
            </h1>
            <p className="text-lg md:text-xl text-text-secondary max-w-3xl mx-auto font-serif italic leading-relaxed mt-10">
@@ -185,7 +185,7 @@ export default function RepertoryTool() {
       </header>
 
       {/* Main Repertory Engine Workspace */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-10 relative z-20">
         
         {/* TOP LEVEL INTUITIVE CROSS-REFERENCE SOLVER (Symptom Clipboard) */}
         <div className="bg-white rounded-[2.5rem] border border-border shadow-soft p-8 md:p-12 mb-12">
@@ -364,7 +364,7 @@ export default function RepertoryTool() {
             </div>
 
             {/* Chapters Tab Selector */}
-            <div className="bg-white rounded-[2rem] p-8 border border-border shadow-soft sticky top-24">
+            <div className="bg-white rounded-[2rem] p-8 border border-border shadow-soft sticky top-12">
               <h3 className="text-lg font-display font-black text-text-primary uppercase tracking-tight mb-6 flex items-center gap-2 italic">
                 <Layers className="w-5 h-5 text-primary" />
                 Repertory <span className="text-primary italic">Chapters</span>
@@ -587,7 +587,7 @@ export default function RepertoryTool() {
       </main>
 
       {/* FOOTER CLINICAL STATEMENT */}
-      <footer className="max-w-7xl mx-auto px-4 mt-20">
+      <footer className="max-w-7xl mx-auto px-4 mt-10">
          <div className="bg-bg-secondary p-12 rounded-[3.5rem] border border-border relative overflow-hidden">
             <div className="absolute right-0 top-0 p-12 opacity-5 pointer-events-none">
               <Bookmark className="w-48 h-48 text-primary" />
@@ -598,7 +598,7 @@ export default function RepertoryTool() {
                 Clinical Repertorization Note
               </h4>
               <p className="text-text-secondary font-serif italic text-lg leading-relaxed mb-6">
-                Repertorization represents the core analytical step in homeopathic prescribing. It provides a numeric evaluation of candidates, which must always be confirmed against the physical keynote and emotional constitution profiles listed in the <strong>Materia Medica</strong>.
+                Repertorization represents the core analytical step in Homoeopathic prescribing. It provides a numeric evaluation of candidates, which must always be confirmed against the physical keynote and emotional constitution profiles listed in the <strong>Materia Medica</strong>.
               </p>
               <div className="flex gap-4">
                 <Link 

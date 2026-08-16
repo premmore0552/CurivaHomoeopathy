@@ -19,7 +19,9 @@ import {
   History,
   Clock,
   ChevronRight,
-  Sparkles
+  Sparkles,
+  ExternalLink,
+  Trash2
 } from 'lucide-react';
 import { useLocation, useNavigate, Link } from 'react-router-dom';
 import { auth, db, collection, query, where, getDocs, orderBy } from '../lib/firebase';
@@ -27,6 +29,7 @@ import { resources, Resource } from '../data/resources';
 import { userService } from '../services/userService';
 import { allBlogPosts as blogPosts } from '../data/blogPosts';
 import SEO from '../components/SEO';
+import { getBookmarkedRemedies, removeBookmarkRemedy, BookmarkedRemedy } from '../utils/bookmarkUtils';
 
 interface Order {
   id: string;
@@ -86,11 +89,11 @@ const FullscreenReader = ({ resource, onClose }: { resource: Resource; onClose: 
       <div className="flex-grow overflow-y-auto p-4 sm:p-12 bg-gray-100 dark:bg-bg-primary/50">
         <div className="max-w-4xl mx-auto space-y-12">
            {/* Page 1 */}
-           <div className="aspect-[1/1.4] bg-white dark:bg-gray-950 shadow-2xl rounded-sm p-12 md:p-20 relative border border-border">
+           <div className="aspect-[1/1.4] bg-white dark:bg-gray-950 shadow-2xl rounded-sm p-12 md:p-10 relative border border-border">
               <div className="absolute top-12 left-12 w-20 h-20 opacity-5">
                  <img src="/logo.svg" alt="Curiva" className="w-full" />
               </div>
-              <div className="text-center space-y-8 mt-20">
+              <div className="text-center space-y-8 mt-10">
                  <div className="w-24 h-1 bg-primary mx-auto" />
                  <h1 className="text-4xl md:text-6xl font-display font-black text-text-primary tracking-tighter leading-none uppercase italic">
                    {resource.title.split(':').map((p, i) => (
@@ -109,7 +112,7 @@ const FullscreenReader = ({ resource, onClose }: { resource: Resource; onClose: 
            </div>
 
            {/* Page 2 (Skeleton) */}
-           <div className="aspect-[1/1.4] bg-white dark:bg-gray-950 shadow-2xl rounded-sm p-12 md:p-20 border border-border">
+           <div className="aspect-[1/1.4] bg-white dark:bg-gray-950 shadow-2xl rounded-sm p-12 md:p-10 border border-border">
               <div className="space-y-6">
                  <div className="h-8 bg-gray-100 dark:bg-gray-800 w-1/3 rounded-lg" />
                  <div className="space-y-3">
@@ -135,10 +138,20 @@ const MyLibrary = () => {
   const [loading, setLoading] = useState(true);
   const [selectedForView, setSelectedForView] = useState<Resource | null>(null);
   const [search, setSearch] = useState('');
-  const [activeTab, setActiveTab] = useState<'bookmarks' | 'history' | 'books'>('bookmarks');
+  const [activeTab, setActiveTab] = useState<'remedies' | 'bookmarks' | 'history' | 'books'>('remedies');
+  const [savedRemedies, setSavedRemedies] = useState<BookmarkedRemedy[]>([]);
   const [profile, setProfile] = useState<any>(null);
   const location = useLocation();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const syncSavedRemedies = () => {
+      setSavedRemedies(getBookmarkedRemedies());
+    };
+    syncSavedRemedies();
+    window.addEventListener('curiva_bookmarks_updated', syncSavedRemedies);
+    return () => window.removeEventListener('curiva_bookmarks_updated', syncSavedRemedies);
+  }, []);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -193,8 +206,10 @@ const MyLibrary = () => {
     .filter((p: any) => p.id)
     .sort((a, b) => new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime());
 
-  const filteredResources = purchasedResources.filter(r => 
-    r.title.toLowerCase().includes(search.toLowerCase())
+  const filteredSavedRemedies = savedRemedies.filter(r =>
+    r.name.toLowerCase().includes(search.toLowerCase()) ||
+    (r.commonName && r.commonName.toLowerCase().includes(search.toLowerCase())) ||
+    (r.family && r.family.toLowerCase().includes(search.toLowerCase()))
   );
 
   const filteredBookmarks = bookmarkedPosts.filter(p => 
@@ -203,6 +218,12 @@ const MyLibrary = () => {
 
   const filteredHistory = historyPosts.filter(p => 
     p.title?.toLowerCase().includes(search.toLowerCase())
+  );
+
+  const filteredResources = purchasedResources.filter(p =>
+    p.title.toLowerCase().includes(search.toLowerCase()) ||
+    (p.category && p.category.toLowerCase().includes(search.toLowerCase())) ||
+    (p.description && p.description.toLowerCase().includes(search.toLowerCase()))
   );
 
   if (loading) {
@@ -242,7 +263,7 @@ const MyLibrary = () => {
     <div className="bg-bg-primary min-h-screen pb-20">
       <SEO 
         title="My Library | Curiva Homoeopathy"
-        description="Your personal archive of homeopathic wisdom, books, and studies."
+        description="Your personal archive of Homoeopathic wisdom, books, and studies."
       />
 
       {/* Header Space */}
@@ -278,16 +299,24 @@ const MyLibrary = () => {
       <div className="max-w-7xl mx-auto px-4 -mt-10 relative z-30">
         <div className="flex items-center justify-center lg:justify-start gap-4 flex-wrap bg-white p-3 rounded-[2.5rem] border border-border shadow-2xl">
           <button 
+            onClick={() => setActiveTab('remedies')}
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 cursor-pointer ${
+              activeTab === 'remedies' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
+            }`}
+          >
+            <Bookmark className="w-4 h-4 text-accent" /> Saved Remedies ({savedRemedies.length})
+          </button>
+          <button 
             onClick={() => setActiveTab('bookmarks')}
-            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 ${
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 cursor-pointer ${
               activeTab === 'bookmarks' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
             }`}
           >
-            <Bookmark className="w-4 h-4" /> Bookmarks {bookmarkedPosts.length > 0 && `(${bookmarkedPosts.length})`}
+            <BookOpen className="w-4 h-4" /> Articles {bookmarkedPosts.length > 0 && `(${bookmarkedPosts.length})`}
           </button>
           <button 
             onClick={() => setActiveTab('history')}
-            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 ${
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 cursor-pointer ${
               activeTab === 'history' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
             }`}
           >
@@ -295,18 +324,91 @@ const MyLibrary = () => {
           </button>
           <button 
             onClick={() => setActiveTab('books')}
-            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 ${
+            className={`px-8 py-4 rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all inline-flex items-center gap-2 cursor-pointer ${
               activeTab === 'books' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'hover:bg-bg-secondary text-text-secondary'
             }`}
           >
-            <BookOpen className="w-4 h-4" /> Digital Books {purchasedResources.length > 0 && `(${purchasedResources.length})`}
+            <Sparkles className="w-4 h-4" /> Digital Books {purchasedResources.length > 0 && `(${purchasedResources.length})`}
           </button>
         </div>
       </div>
 
       {/* Grid Content */}
-      <section className="max-w-7xl mx-auto px-4 mt-20">
+      <section className="max-w-7xl mx-auto px-4 mt-10">
         <AnimatePresence mode="wait">
+          {activeTab === 'remedies' && (
+            <motion.div
+              key="remedies"
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="space-y-6"
+            >
+              {filteredSavedRemedies.length > 0 ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {filteredSavedRemedies.map(remedy => (
+                    <div 
+                      key={remedy.id}
+                      className="group bg-white dark:bg-zinc-900 p-6 rounded-[2.5rem] border border-border shadow-sm hover:shadow-xl transition-all flex flex-col justify-between"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[10px] font-black uppercase tracking-widest text-primary bg-primary/10 px-3 py-1 rounded-xl">
+                            {remedy.family || 'Classical Remedy'}
+                          </span>
+                          <button
+                            onClick={() => removeBookmarkRemedy(remedy.id)}
+                            className="p-2 text-text-tertiary hover:text-rose-500 hover:bg-rose-500/10 rounded-xl transition-all"
+                            title="Remove from saved remedies"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+
+                        <div>
+                          <h3 className="text-2xl font-display font-black text-text-primary group-hover:text-primary transition-colors">
+                            {remedy.name}
+                          </h3>
+                          {remedy.commonName && (
+                            <p className="text-xs text-text-secondary italic font-serif mt-0.5">
+                              {remedy.commonName}
+                            </p>
+                          )}
+                        </div>
+
+                        {remedy.keynotes && remedy.keynotes.length > 0 && (
+                          <p className="text-xs text-text-secondary font-medium line-clamp-2 leading-relaxed">
+                            {remedy.keynotes[0]}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="pt-6 mt-6 border-t border-border flex items-center justify-between">
+                        <span className="text-[10px] text-text-tertiary font-bold">
+                          Saved {new Date(remedy.savedAt).toLocaleDateString()}
+                        </span>
+                        <Link
+                          to={`/homoeopathy/materia-medica/${remedy.slug || remedy.id.toLowerCase()}`}
+                          className="px-4 py-2 bg-primary hover:bg-primary-dark text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all flex items-center gap-1.5 shadow-md shadow-primary/20"
+                        >
+                          <span>Open Remedy</span>
+                          <ChevronRight className="w-3.5 h-3.5" />
+                        </Link>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              ) : (
+                <EmptyLibrary 
+                  icon={Bookmark} 
+                  title="No saved remedies yet" 
+                  desc="Save remedies from the Materia Medica directory or remedy detail pages for quick reference." 
+                  cta="Browse Materia Medica" 
+                  link="/homoeopathy/materia-medica" 
+                />
+              )}
+            </motion.div>
+          )}
           {activeTab === 'books' && (
             <motion.div
               key="books"
@@ -452,7 +554,7 @@ const PostCard = ({ post, type, onRemove }: any) => (
 );
 
 const EmptyLibrary = ({ icon: Icon, title, desc, cta, link }: any) => (
-  <div className="text-center py-24 bg-bg-secondary rounded-[4rem] border-2 border-dashed border-border p-12">
+  <div className="text-center py-16 bg-bg-secondary rounded-[4rem] border-2 border-dashed border-border p-12">
     <div className="w-20 h-20 bg-bg-primary rounded-[2rem] flex items-center justify-center text-primary/20 mx-auto mb-6">
       <Icon className="w-10 h-10" />
     </div>

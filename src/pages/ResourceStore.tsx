@@ -113,7 +113,7 @@ const ResourceStore = () => {
     <div className="bg-bg-primary min-h-screen pb-20">
       <Helmet>
         <title>Cheat Sheet Store | Curiva Homoeopathy</title>
-        <meta name="description" content="Get the ultimate Homeopathy Modalities Cheat Sheet for BHMS & Clinical Practice." />
+        <meta name="description" content="Get the ultimate Homoeopathy Modalities Cheat Sheet for BHMS & Clinical Practice." />
       </Helmet>
 
       {/* Hero */}
@@ -121,7 +121,7 @@ const ResourceStore = () => {
         <div className="absolute inset-0 bg-[url('https://ais-dev-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/assets/cheat_sheet_cover.png')] bg-cover bg-center opacity-20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-text-primary/90 via-text-primary to-bg-primary pointer-events-none" />
         
-        <div className="max-w-4xl mx-auto space-y-12 relative z-10">
+        <div className="max-w-7xl mx-auto space-y-12 relative z-10">
            <motion.div 
              initial={{ opacity: 0, y: 20 }}
              animate={{ opacity: 1, y: 0 }}
@@ -132,7 +132,7 @@ const ResourceStore = () => {
            </motion.div>
            
            <h1 className="text-6xl md:text-8xl font-display font-black text-white tracking-tighter leading-[0.85] uppercase italic">
-             Homeopathy <br /><span className="text-primary not-italic">Modalities</span> <br /> Cheat Sheet
+             Homoeopathy <br /><span className="text-primary not-italic">Modalities</span> <br /> Cheat Sheet
            </h1>
            
            <div className="flex flex-col items-center gap-6">
@@ -163,7 +163,7 @@ const ResourceStore = () => {
       </section>
 
       {/* Main Content */}
-      <section className="max-w-7xl mx-auto px-4 -mt-20 relative z-20">
+      <section className="max-w-7xl mx-auto px-4 -mt-10 relative z-20">
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Visual Preview */}
           <motion.div 
@@ -296,7 +296,7 @@ const ResourceStore = () => {
       </section>
 
       {/* Suggestion Section */}
-      <section className="max-w-4xl mx-auto px-4 mt-32">
+      <section className="max-w-7xl mx-auto px-4 mt-16">
         <div className="p-10 bg-bg-secondary rounded-[3rem] border border-border text-center">
           <BookOpen className="w-12 h-12 text-primary mx-auto mb-6" />
           <h3 className="text-3xl font-display font-black text-text-primary uppercase tracking-tight italic mb-4">

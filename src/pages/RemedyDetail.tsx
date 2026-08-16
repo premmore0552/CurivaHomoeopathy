@@ -1,1090 +1,1053 @@
 
-import React, { useEffect, useState } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { motion } from 'motion/react';
+import React, { useEffect, useState, useRef, useMemo } from 'react';
+import { useParams, Link, useNavigate, useLocation } from 'react-router-dom';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { 
   ArrowLeft, 
+  ArrowUp,
   ChevronRight, 
+  ChevronLeft,
   ChevronDown,
   ChevronUp,
-  Leaf, 
-  Database, 
-  Activity, 
-  Thermometer, 
-  Droplet, 
-  Layers, 
-  Stethoscope, 
-  Info,
-  BookOpen,
-  Layout,
-  Sparkles,
-  Zap,
-  Shield,
-  Scale,
   Search,
-  Brain,
-  Sun,
-  Moon,
-  Type,
-  BookOpenText,
+  Settings,
   Clock,
-  Bookmark as BookmarkIcon,
+  BookOpen,
+  Share2,
+  Bookmark,
   BookmarkCheck,
   Check,
   Copy,
-  ArrowRight
+  ArrowRight,
+  List,
+  Type,
+  Sun,
+  Moon,
+  Coffee,
+  Maximize2,
+  Minimize2,
+  Hash,
+  Download,
+  Info,
+  ShieldCheck,
+  Activity,
+  GraduationCap,
+  Star,
+  Trash2,
+  ExternalLink,
+  X
 } from 'lucide-react';
 import SEO from '../components/SEO';
-import { useUser } from '../hooks/useUser';
-import { enhancedRemedies, RemedyDetailData } from '../data/enhancedRemedies';
-import { comparisonRemedies, ComparisonData } from '../data/comparisonData';
+import ShareButton from '../components/ShareButton';
+import MateriaMedicaSearch from '../components/MateriaMedicaSearch';
+import { useReading } from '../context/ReadingContext';
+import { RemedyContent, RemedyMetadata, RemedyRegistry } from '../types/materia-medica';
 import { materiaMedicaData } from '../data/materiaMedica';
-import { allBlogPosts } from '../data/blogPosts';
-import { useSubscription } from '../hooks/useSubscription';
+import { ContentNavigator } from '../components/ContentNavigator';
+import { 
+  isRemedyBookmarked, 
+  toggleBookmarkRemedy, 
+  getBookmarkedRemedies, 
+  removeBookmarkRemedy, 
+  BookmarkedRemedy 
+} from '../utils/bookmarkUtils';
 
-const getRemedyMiasmProfile = (id: string) => {
-  const normId = (id || '').toLowerCase();
-  if (normId.includes('lycopodium')) {
-    return {
-      psora: 30, sycosis: 50, syphilis: 20,
-      tissues: [
-        { name: 'Liver & Digestive Tract', strength: 95 },
-        { name: 'Renal & Urinary Organs', strength: 80 },
-        { name: 'Right-sided Membranes', strength: 75 }
-      ],
-      essence: 'Functional weakness with intellectual excess, leading to deep gastro-hepatic disturbances and anticipatory dread.'
-    };
-  }
-  if (normId.includes('sulphur')) {
-    return {
-      psora: 80, sycosis: 10, syphilis: 10,
-      tissues: [
-        { name: 'Epidermis & Sweat Glands', strength: 95 },
-        { name: 'Venous Capillary System', strength: 90 },
-        { name: 'Lymphatics & Mucous Joints', strength: 85 }
-      ],
-      essence: 'The prime anti-psoric: excessive heat, burning sensations in soles and palms, standing aggravations, and philosophical egoistic pride.'
-    };
-  }
-  if (normId.includes('arsenicum') || normId.includes('arsen')) {
-    return {
-      psora: 40, sycosis: 10, syphilis: 50,
-      tissues: [
-        { name: 'Mucous Membranes (GI/Respiratory)', strength: 90 },
-        { name: 'Nervous System & Anxiety Axis', strength: 95 },
-        { name: 'Mitral & Cardiovascular Wall', strength: 80 }
-      ],
-      essence: 'Combination of psoric restlessness and syphilitic structural decay: extreme anxiety, midnight aggravation, burning relieved by warmth.'
-    };
-  }
-  if (normId.includes('thuja')) {
-    return {
-      psora: 10, sycosis: 85, syphilis: 5,
-      tissues: [
-        { name: 'Epithelium & Warty Growths', strength: 95 },
-        { name: 'Genito-Urinary Tract', strength: 90 },
-        { name: 'Blood & Fluid Economy', strength: 80 }
-      ],
-      essence: 'The chief anti-sycotic: soft fleshy overgrowths, dampness aggravation, feeling as if limbs are made of glass, and profound self-deprecation.'
-    };
-  }
-  if (normId.includes('silic') || normId.includes('silica')) {
-    return {
-      psora: 40, sycosis: 20, syphilis: 40,
-      tissues: [
-        { name: 'Bones & Fibrous Joint Walls', strength: 95 },
-        { name: 'Glandular Lymph Tissues', strength: 90 },
-        { name: 'Hair, Nails & Connective Matrix', strength: 85 }
-      ],
-      essence: 'Lack of grit, both physical and mental. Cold chilly reactors with a tendency to chronic suppuration and fistulas.'
-    };
-  }
-  if (normId.includes('belladonna')) {
-    return {
-      psora: 75, sycosis: 15, syphilis: 10,
-      tissues: [
-        { name: 'Cerebral Circulation Axis', strength: 95 },
-        { name: 'Vascular Capillaries', strength: 90 },
-        { name: 'Pharyngeal Mucosa', strength: 85 }
-      ],
-      essence: 'Sudden, violent, acute congestive outbreaks. Intense redness, throbbing pains, dilated pupils, and acute hyper-sensitivity.'
-    };
-  }
-  if (normId.includes('lachesis')) {
-    return {
-      psora: 20, sycosis: 30, syphilis: 50,
-      tissues: [
-        { name: 'Vasomotor Circulation', strength: 95 },
-        { name: 'Left-Sided Throat & Ovary', strength: 90 },
-        { name: 'Vagus Nerve & Respiration', strength: 85 }
-      ],
-      essence: 'Vascular engorgement, sleep aggravation, extreme loquacity, intolerance of left-side pressure, and deep syphilitic destructive pathways.'
-    };
-  }
-  if (normId.includes('aconite')) {
-    return {
-      psora: 95, sycosis: 0, syphilis: 5,
-      tissues: [
-        { name: 'Arterial Circulatory System', strength: 95 },
-        { name: 'Sympathetic Nervous System', strength: 90 },
-        { name: 'Respiratory Epithelia', strength: 80 }
-      ],
-      essence: 'Stormy, sudden acute panic. Predictable fear of death, chilling dry wind exposure, of supreme importance in primary shock states.'
-    };
-  }
-  if (normId.includes('arnica')) {
-    return {
-      psora: 50, sycosis: 35, syphilis: 15,
-      tissues: [
-        { name: 'Muscle Fibers & Motor Plane', strength: 95 },
-        { name: 'Capillary Endothelium (Bruises)', strength: 90 },
-        { name: 'Acellular Connective Tissue', strength: 80 }
-      ],
-      essence: 'Mechanical injuries and shock: soreness, bruised aching, a bed that feels "too hard", claims they are "perfectly well" while in profound shock.'
-    };
-  }
-  if (normId.includes('nux')) {
-    return {
-      psora: 70, sycosis: 20, syphilis: 10,
-      tissues: [
-        { name: 'Spinal Cord & Irregular Reflexes', strength: 95 },
-        { name: 'Enteric Nervous System (Colon)', strength: 90 },
-        { name: 'Hepatic Filtration Axis', strength: 85 }
-      ],
-      essence: 'Irritable, over-sensitive, sedentary, over-dosed type. Constant ineffectual urging to stool, and high susceptibility to cold drafts.'
-    };
-  }
-
-  const hashSum = normId.split('').reduce((acc, char) => acc + char.charCodeAt(0), 0);
-  const pSum = (hashSum % 45) + 30; // 30-75%
-  const sSum = ((hashSum + 13) % 25) + 10; // 10-35%
-  const sySum = 100 - pSum - sSum;
-  return {
-    psora: pSum,
-    sycosis: sSum,
-    syphilis: sySum,
-    tissues: [
-      { name: 'Constitutional Matrix', strength: 80 },
-      { name: 'Cellular Vitality Axis', strength: 75 },
-      { name: 'Neuro-Endocrine Pathways', strength: 70 }
-    ],
-    essence: 'Dynamic clinical affinity and pathological focus determined by classic homoeopathic drug-provers indexes.'
-  };
+// Utility to find and link remedy names in text
+const crossLinkText = (text: string, remedies: { slug: string, title: string }[]) => {
+  if (!text) return text;
+  
+  // Sort remedies by title length descending to avoid partial matches
+  const sortedRemedies = [...remedies].sort((a, b) => b.title.length - a.title.length);
+  
+  // Create regex pattern for exact word matches
+  // Matches either the full title or common abbreviations if we had them
+  const pattern = sortedRemedies.map(r => `\\b${r.title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}\\b`).join('|');
+  if (!pattern) return text;
+  
+  const regex = new RegExp(`(${pattern})`, 'gi');
+  const parts = text.split(regex);
+  
+  return parts.map((part, i) => {
+    const matchedRemedy = sortedRemedies.find(r => r.title.toLowerCase() === part.toLowerCase());
+    if (matchedRemedy) {
+      return (
+        <span key={i} className="group relative inline-block">
+          <Link 
+            to={`/remedy/${matchedRemedy.slug}`}
+            className="text-primary hover:text-primary-dark font-semibold border-b border-primary/20 hover:border-primary transition-all px-0.5"
+          >
+            {part}
+          </Link>
+          <span className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 px-3 py-1.5 bg-zinc-900 text-[10px] text-white rounded-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap pointer-events-none z-50 shadow-xl border border-white/10 font-sans not-italic">
+            View Reference Profile
+          </span>
+        </span>
+      );
+    }
+    return part;
+  });
 };
 
 export default function RemedyDetail() {
   const { remedyId } = useParams<{ remedyId: string }>();
-  const { incrementUsage, subscription, loading } = useSubscription();
-  const { profile, toggleBookmark } = useUser();
-  const [citationCopied, setCitationCopied] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { 
+    fontSize, setFontSize, 
+    readerTheme, setReaderTheme,
+    readingWidth, setReadingWidth,
+    lineSpacing, setLineSpacing
+  } = useReading();
 
-  const isLoggedIn = !!profile;
-  const isBookmarked = profile?.bookmarks?.includes(remedyId || '') || false;
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
+  const [content, setContent] = useState<RemedyContent | null>(null);
+  const [metadata, setMetadata] = useState<RemedyMetadata | null>(null);
+  const [registry, setRegistry] = useState<RemedyRegistry | null>(null);
+  const [activeSection, setActiveSection] = useState<string>('');
+  const [showTOC, setShowTOC] = useState(false);
+  const [showSettings, setShowSettings] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [showSavedDrawer, setShowSavedDrawer] = useState(false);
+  const [savedRemediesList, setSavedRemediesList] = useState<BookmarkedRemedy[]>([]);
+  const [toastMsg, setToastMsg] = useState<string | null>(null);
+  const [copyFeedback, setCopyFeedback] = useState(false);
+  const [relatedRemedies, setRelatedRemedies] = useState<{slug: string, title: string}[]>([]);
+  const [progress, setProgress] = useState(0);
 
-  const handleToggleBookmark = () => {
+  // Sync bookmark state on remedyId change and localStorage events
+  useEffect(() => {
     if (remedyId) {
-      toggleBookmark(remedyId);
+      setIsBookmarked(isRemedyBookmarked(remedyId));
     }
-  };
+    setSavedRemediesList(getBookmarkedRemedies());
 
-  const handleCopyCitation = () => {
-    if (!remedy) return;
-    const currentYear = new Date().getFullYear();
-    const formattedUrl = window.location.href;
-    const citation = `Curiva Encyclopedia of Homoeopathy. (${currentYear}). ${remedy.name} (${remedy.family} family). Retrieved from ${formattedUrl}`;
-    navigator.clipboard.writeText(citation);
-    setCitationCopied(true);
-    setTimeout(() => setCitationCopied(false), 2000);
-  };
+    const handleBookmarksUpdated = () => {
+      if (remedyId) {
+        setIsBookmarked(isRemedyBookmarked(remedyId));
+      }
+      setSavedRemediesList(getBookmarkedRemedies());
+    };
 
-  const getRemedyReadingTime = () => {
-    if (!remedy) return '3 min read';
-    let wordCount = (remedy.description || '').split(/\s+/).length;
-    wordCount += (remedy.keyCharacteristics || []).join(' ').split(/\s+/).length;
-    wordCount += (remedy.mind || []).join(' ').split(/\s+/).length;
-    wordCount += (remedy.physical || []).join(' ').split(/\s+/).length;
-    if (wordCount < 100) wordCount = 450;
-    return `${Math.ceil(wordCount / 200)} min read`;
-  };
-  
-  useEffect(() => {
-    // Only increment for non-pro users on initial mount of a remedy
-    if (!loading && subscription && !subscription.isPro) {
-      incrementUsage();
-    }
-  }, [remedyId, loading, !!subscription]);
-  
-  // Try to find in enhanced remedies first
-  const enhancedRemedy = enhancedRemedies.find(r => r.id === remedyId);
-  
-  // Try to find in the new materiaMedicaData
-  const mmRemedy = materiaMedicaData.find(r => r.id === remedyId);
-  
-  // Fallback to comparisonRemedies
-  const comparisonRemedy = comparisonRemedies.find(r => r.id === remedyId);
-
-  // Convert to RemedyDetailData structure
-  const remedy: RemedyDetailData | null = enhancedRemedy || (mmRemedy ? {
-    id: mmRemedy.id,
-    name: mmRemedy.name,
-    family: mmRemedy.family as any,
-    origin: mmRemedy.commonName,
-    description: mmRemedy.keynotes.join(". "),
-    keyCharacteristics: mmRemedy.keynotes,
-    modalities: mmRemedy.modalities,
-    mind: mmRemedy.mind,
-    physical: mmRemedy.physical,
-    thermal: 'Ambi-thermal',
-    thirst: 'Varies',
-    clinicalApplications: mmRemedy.physical,
-    comparisons: [],
-    relatedAilments: []
-  } : comparisonRemedy ? {
-    id: comparisonRemedy.id,
-    name: comparisonRemedy.name,
-    family: (comparisonRemedy.origin.includes('Plant') ? 'Plant' : 
-             comparisonRemedy.origin.includes('Mineral') ? 'Mineral' : 
-             comparisonRemedy.origin.includes('Animal') ? 'Animal' : 'Mineral') as any,
-    origin: comparisonRemedy.origin,
-    description: comparisonRemedy.tendency + ". " + comparisonRemedy.keyCharacteristic,
-    keyCharacteristics: [comparisonRemedy.keyCharacteristic, ...comparisonRemedy.keyPatterns],
-    modalities: {
-      better: comparisonRemedy.betterWith,
-      worse: comparisonRemedy.worseWith
-    },
-    thermal: (comparisonRemedy.thermal.includes('Chilly') ? 'Chilly' : 
-              comparisonRemedy.thermal.includes('Hot') ? 'Hot' : 'Ambi-thermal') as any,
-    thirst: comparisonRemedy.thirst,
-    clinicalApplications: comparisonRemedy.clinicalApplications,
-    comparisons: [], // We could populate this if we wanted
-    relatedAilments: comparisonRemedy.relatedConditions.map(c => ({ id: c.toLowerCase().replace(/\s+/g, '-'), name: c }))
-  } : null);
-
-  useEffect(() => {
-    window.scrollTo(0, 0);
+    window.addEventListener('curiva_bookmarks_updated', handleBookmarksUpdated);
+    return () => window.removeEventListener('curiva_bookmarks_updated', handleBookmarksUpdated);
   }, [remedyId]);
 
-  const [isModalitiesExpanded, setIsModalitiesExpanded] = useState(() => {
-    const saved = localStorage.getItem(`remedy_modalities_expanded_${remedyId}`);
-    return saved !== 'false';
+  const handleToggleBookmark = () => {
+    if (!content || !remedyId) return;
+    const isSavedNow = toggleBookmarkRemedy({
+      id: remedyId,
+      name: content.title,
+      commonName: metadata?.commonName || '',
+      family: metadata?.family || '',
+      thermal: 'Classical',
+      keynotes: content.sections?.Keynotes ? [content.sections.Keynotes.slice(0, 100)] : []
+    });
+    setIsBookmarked(isSavedNow);
+    setToastMsg(isSavedNow ? `Added "${content.title}" to My Saved Remedies!` : `Removed "${content.title}" from My Saved Remedies`);
+    setTimeout(() => setToastMsg(null), 3000);
+  };
+
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
   });
 
-  const [readerFontSize, setReaderFontSize] = useState<'sm' | 'md' | 'lg' | 'xl'>('md');
-  const [readerTheme, setReaderTheme] = useState<'default' | 'sepia' | 'dark-contrast'>('default');
+  useEffect(() => {
+    return scrollYProgress.on('change', (latest) => {
+      setProgress(Math.round(latest * 100));
+    });
+  }, [scrollYProgress]);
 
-  const getFontSizeClass = (sz: 'sm' | 'md' | 'lg' | 'xl') => {
-    switch (sz) {
-      case 'sm': return 'text-sm [&_p]:text-sm [&_li]:text-sm [&_h2]:text-2xl [&_h3]:text-xl [&_div]:text-sm';
-      case 'md': return 'text-base [&_p]:text-base [&_li]:text-base [&_h2]:text-3xl [&_h3]:text-2xl';
-      case 'lg': return 'text-lg [&_p]:text-lg [&_li]:text-lg [&_h2]:text-4xl [&_h3]:text-3xl';
-      case 'xl': return 'text-xl [&_p]:text-xl [&_li]:text-xl [&_h2]:text-5xl [&_h3]:text-4xl';
-      default: return '';
+  const sectionRefs = useRef<Record<string, HTMLElement | null>>({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const id = remedyId?.toLowerCase();
+        
+        // 1. Try fetching remote JSON first
+        const [contentRes, metaRes, regRes] = await Promise.all([
+          fetch(`/data/materia-medica/remedies/${id}/content.json`).catch(() => ({ ok: false, headers: new Headers() })),
+          fetch(`/data/materia-medica/remedies/${id}/metadata.json`).catch(() => ({ ok: false, headers: new Headers() })),
+          fetch(`/data/materia-medica/registry.json`).catch(() => ({ ok: false, headers: new Headers() }))
+        ]);
+
+        const isJson = (res: any) => res.ok && res.headers.get('content-type')?.includes('application/json');
+
+        if (isJson(contentRes) && isJson(metaRes)) {
+          const contentData = await (contentRes as Response).json();
+          const metaData = await (metaRes as Response).json();
+          const regData = isJson(regRes) ? await (regRes as Response).json() : { remedies: [] };
+
+          // Try to extract common name and family from Intro if possible
+          const introText = contentData.sections.Intro || '';
+          let commonName = '';
+          let family = '';
+          
+          if (introText) {
+            const parts = introText.split('.');
+            if (parts[0]) {
+              const subParts = parts[0].split('(');
+              if (subParts.length > 1) {
+                commonName = subParts[0].trim();
+                family = subParts[1].replace(')', '').trim();
+              }
+            }
+          }
+
+          setContent(contentData);
+          setMetadata({
+            ...metaData,
+            commonName: commonName || metaData.commonName,
+            family: family || metaData.family
+          });
+          setRegistry(regData);
+
+          // Try to get related remedies from "Relationship" section
+          if (contentData.sections.Relationship) {
+            const relText = contentData.sections.Relationship;
+            const found = regData.remedies.filter((r: any) => 
+              relText.toLowerCase().includes(r.title.toLowerCase()) && r.slug !== id
+            ).slice(0, 4);
+            setRelatedRemedies(found);
+          }
+        } else {
+          // 2. Fallback to local materiaMedicaData
+          const localRemedy = materiaMedicaData.find(r => 
+            r.id.toLowerCase() === id || 
+            r.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').includes(id || '') ||
+            id?.includes(r.id.toLowerCase())
+          );
+
+          if (localRemedy) {
+            setContent({
+              title: localRemedy.name,
+              sections: {
+                "Intro": `${localRemedy.commonName} (${localRemedy.family}).`,
+                "Keynotes": localRemedy.keynotes.join('. '),
+                "Mind": localRemedy.mind.join('. '),
+                "Physical": localRemedy.physical.join('. '),
+                "Modalities": `Better: ${localRemedy.modalities.better.join(', ')}. Worse: ${localRemedy.modalities.worse.join(', ')}.`
+              }
+            });
+            setMetadata({
+              slug: id || localRemedy.id.toLowerCase(),
+              title: localRemedy.name,
+              alphabet: localRemedy.name.charAt(0).toUpperCase(),
+              detected_headings: ["Intro", "Keynotes", "Mind", "Physical", "Modalities"],
+              word_count: 500,
+              estimated_reading_time: "2 mins"
+            });
+            // Try to at least get the registry for navigation
+            if (isJson(regRes)) {
+              const regData = await (regRes as Response).json();
+              setRegistry(regData);
+            }
+          } else {
+            throw new Error(`Remedy not found: ${remedyId}`);
+          }
+        }
+      } catch (err: any) {
+        console.error('Error fetching remedy data:', err);
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    if (remedyId) {
+      fetchData();
+      window.scrollTo(0, 0);
     }
+  }, [remedyId]);
+
+  // Scroll spy for TOC
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            setActiveSection(entry.target.id);
+          }
+        });
+      },
+      { rootMargin: '-20% 0% -70% 0%' }
+    );
+
+    const currentRefs = sectionRefs.current;
+    Object.values(currentRefs).forEach((ref) => {
+      if (ref) observer.observe(ref);
+    });
+
+    return () => {
+      Object.values(currentRefs).forEach((ref) => {
+        if (ref) observer.unobserve(ref);
+      });
+    };
+  }, [content]);
+
+  const handleCopyCitation = () => {
+    if (!content) return;
+    const citation = `${content.title}. Curiva Homoeopathic Materia Medica. Retrieved from ${window.location.href}`;
+    navigator.clipboard.writeText(citation);
+    setCopyFeedback(true);
+    setTimeout(() => setCopyFeedback(false), 2000);
   };
 
-  const getThemeClass = (theme: 'default' | 'sepia' | 'dark-contrast') => {
-    switch (theme) {
-      case 'sepia': return 'bg-[#FAF6EE] dark:bg-[#FAF6EE] text-[#433422] dark:text-[#433422] p-8 md:p-12 rounded-[2.5rem] border border-[#E9DFCB] shadow-inner';
-      case 'dark-contrast': return 'bg-[#121212] dark:bg-[#121212] text-[#F1F1F1] dark:text-[#F1F1F1] p-8 md:p-12 rounded-[2.5rem] border border-zinc-800 shadow-inner';
-      default: return '';
-    }
+  const getNextPrev = () => {
+    if (!registry || !remedyId) return { prev: null, next: null };
+    const index = registry.remedies.findIndex(r => r.slug === remedyId);
+    if (index === -1) return { prev: null, next: null };
+    
+    return {
+      prev: index > 0 ? registry.remedies[index - 1] : null,
+      next: index < registry.remedies.length - 1 ? registry.remedies[index + 1] : null
+    };
   };
 
-  if (!remedy) {
-    const placeholderName = remedyId?.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  const { prev, next } = getNextPrev();
+
+  if (loading) {
     return (
-      <div className="min-h-screen bg-bg-primary pt-32 pb-20 px-4">
-        <div className="max-w-4xl mx-auto text-center space-y-8">
-          <div className="w-20 h-20 bg-bg-secondary rounded-full flex items-center justify-center mx-auto border border-border shadow-soft">
-            <Search className="w-10 h-10 text-primary" />
-          </div>
-          <div>
-            <h1 className="text-4xl font-display font-black text-text-primary mb-4 uppercase tracking-tighter italic">
-              {placeholderName}
-            </h1>
-            <p className="text-xl text-text-secondary max-w-xl mx-auto font-medium leading-relaxed italic">
-              This remedy profile is currently being compiled by our clinical research team. Master the fundamentals while we finalize the deep-dive analysis.
-            </p>
-          </div>
+      <div className="min-h-screen bg-bg-primary flex flex-col items-center justify-center p-8">
+        <div className="relative w-16 h-16">
+          <div className="absolute inset-0 rounded-full border-4 border-primary/20" />
+          <div className="absolute inset-0 rounded-full border-4 border-primary border-t-transparent animate-spin" />
+        </div>
+        <p className="mt-4 text-text-secondary font-medium animate-pulse">Loading Reference...</p>
+      </div>
+    );
+  }
 
-
-          <Link to="/materia-medica" className="inline-flex items-center gap-2 text-primary font-black uppercase tracking-widest text-xs hover:underline pt-12">
-            <ArrowLeft className="w-4 h-4" /> Back to Materia Medica
+  if (error || !content) {
+    return (
+      <div className="min-h-screen bg-bg-primary pt-32 pb-20 px-4 text-center">
+        <div className="max-w-md mx-auto space-y-6">
+          <div className="w-20 h-20 bg-rose-500/10 rounded-full flex items-center justify-center mx-auto border border-rose-500/20">
+            <Info className="w-10 h-10 text-rose-500" />
+          </div>
+          <h1 className="text-3xl font-display font-bold text-text-primary">Remedy Not Found</h1>
+          <p className="text-text-secondary leading-relaxed">
+            The remedy profile for <code className="bg-bg-secondary px-2 py-0.5 rounded">{remedyId}</code> is currently being updated or is not yet available in our academic index.
+          </p>
+          <Link to="/homoeopathy/materia-medica" className="inline-flex items-center gap-2 text-primary font-bold hover:underline">
+            <ArrowLeft className="w-4 h-4" /> Back to Index
           </Link>
         </div>
       </div>
     );
   }
 
-  const miasm = getRemedyMiasmProfile(remedy.id);
-
-  // Sections for navigation
-  const sections = [
-    { id: 'overview', name: 'Overview', icon: Info },
-    { id: 'mind', name: 'Mind', icon: Brain },
-    { id: 'physical', name: 'Physical', icon: Activity },
-    { id: 'characteristics', name: 'Keynotes', icon: Zap },
-    { id: 'modalities', name: 'Modalities', icon: Thermometer },
-    { id: 'clinical', name: 'Clinical Use', icon: Stethoscope },
-    { id: 'comparisons', name: 'Comparisons', icon: Layers },
-    { id: 'research', name: 'Related Research', icon: Sparkles },
-    { id: 'related', name: 'Related Ailments', icon: BookOpen }
-  ];
+  const sections = Object.entries(content.sections);
 
   return (
-    <div className="min-h-screen bg-bg-primary transition-colors duration-300 pb-20">
+    <div className={`min-h-screen transition-colors duration-500 ${
+      readerTheme === 'sepia' ? 'bg-[#f4f1ea]' : 
+      readerTheme === 'dark-contrast' ? 'bg-[#121212]' : 
+      'bg-bg-primary'
+    }`}>
       <SEO 
-        title={`${remedy.name} | Materia Medica | Curiva`}
-        description={remedy.description}
+        title={`${content.title} | Materia Medica | Curiva`}
+        description={content.sections.Intro?.substring(0, 160)}
       />
 
-      {/* Hero Header */}
-      <header id="overview" className="relative pt-32 pb-48 overflow-hidden bg-primary-dark text-white">
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(197,160,89,0.15)_0%,transparent_70%)] opacity-40 pointer-events-none" />
-        <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
-           <Leaf className="w-96 h-96 text-accent" />
-        </div>
-        
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-           <motion.div 
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             className="flex flex-wrap items-center gap-3 mb-8"
-           >
-             <Link to="/glossary" className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-accent-light hover:bg-white/10 transition-colors">
-               Materia Medica
-             </Link>
-             <span className="px-4 py-1.5 bg-accent/20 border border-accent/30 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-accent">
-               {remedy.family} Family
-             </span>
-             <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white/60">
-               {remedy.thermal}
-             </span>
-             <span className="px-4 py-1.5 bg-white/5 border border-white/10 rounded-full text-[10px] font-bold uppercase tracking-[0.2em] text-white/60 flex items-center gap-1.5">
-               <Clock className="w-3.5 h-3.5 text-accent animate-pulse" /> {getRemedyReadingTime()}
-             </span>
-           </motion.div>
+      {/* Reading Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1.5 bg-primary z-[100] origin-left"
+        style={{ scaleX }}
+      />
 
-           <motion.h1 
-             initial={{ opacity: 0, y: 20 }}
-             animate={{ opacity: 1, y: 0 }}
-             transition={{ delay: 0.1 }}
-             className="text-4xl sm:text-6xl md:text-8xl lg:text-[10rem] font-display font-medium text-white tracking-tighter leading-[0.8] uppercase flex flex-col mb-12"
-           >
-             <span>{remedy.name.split(' ')[0]}</span>
-             {remedy.name.split(' ').slice(1).length > 0 && (
-               <span className="text-accent italic lg:ml-24">{remedy.name.split(' ').slice(1).join(' ')}</span>
-             )}
-           </motion.h1>
+      {/* Sticky Header / Mobile Navigation */}
+      <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        readerTheme === 'sepia' ? 'bg-[#f4f1ea]/90' : 
+        readerTheme === 'dark-contrast' ? 'bg-[#121212]/90' : 
+        'bg-white/90'
+      } backdrop-blur-md border-b border-border py-4 px-4 sm:px-8`}>
+        <div className="max-w-7xl mx-auto flex items-center justify-between">
+          <div className="flex items-center gap-4">
+            <Link 
+              to="/homoeopathy/materia-medica" 
+              className="p-2 hover:bg-primary/10 rounded-full transition-colors text-text-secondary hover:text-primary"
+            >
+              <ArrowLeft className="w-5 h-5" />
+            </Link>
+            <div className="hidden sm:block">
+              <h1 className="text-lg font-display font-bold text-text-primary tracking-tight">
+                {content.title}
+              </h1>
+              <p className="text-[10px] text-primary uppercase font-black tracking-widest leading-none">
+                Materia Medica Reference
+              </p>
+            </div>
+          </div>
 
-           <motion.div 
-             initial={{ opacity: 0 }}
-             animate={{ opacity: 1 }}
-             transition={{ delay: 0.2 }}
-             className="grid lg:grid-cols-2 gap-12 items-end"
-           >
-             <div>
-               <p className="text-xl md:text-2xl text-white/70 font-serif italic leading-tight max-w-2xl">
-                 {remedy.description}
-               </p>
-
-               <div className="flex flex-wrap items-center gap-4 mt-8">
-                 {/* Bookmark Toggle Button */}
-                 {isLoggedIn ? (
-                   <button 
-                     onClick={handleToggleBookmark}
-                     className={`flex items-center gap-2.5 px-6 py-3.5 rounded-full text-[10.5px] font-black uppercase tracking-widest transition-all cursor-pointer shadow-lg ${
-                       isBookmarked
-                       ? 'bg-accent text-primary-dark shadow-accent/20 scale-102 border-transparent'
-                       : 'bg-white/15 border border-white/20 text-white hover:bg-white/25 hover:border-white/30'
-                     }`}
-                   >
-                     {isBookmarked ? (
-                       <>
-                         <BookmarkCheck className="w-4 h-4 text-primary-dark" />
-                         Saved to Profile
-                       </>
-                     ) : (
-                       <>
-                         <BookmarkIcon className="w-4 h-4 text-accent" />
-                         Save Remedy
-                       </>
-                     )}
-                   </button>
-                 ) : (
-                   <Link
-                     to="/subscription"
-                     className="flex items-center gap-2.5 px-6 py-3.5 bg-white/15 border border-white/20 text-white rounded-full text-[10.5px] font-black uppercase tracking-widest hover:bg-white/25 transition-all shadow-lg"
-                   >
-                     <BookmarkIcon className="w-4 h-4 text-accent" />
-                     Sign In to Save
-                   </Link>
-                 )}
-
-                 {/* Copy Citation Button */}
-                 <button 
-                   onClick={handleCopyCitation}
-                   className={`flex items-center gap-2.5 px-6 py-3.5 rounded-full text-[10.5px] font-black uppercase tracking-widest transition-all cursor-pointer shadow-lg ${
-                     citationCopied
-                     ? 'bg-emerald-600 text-white shadow-emerald-500/20'
-                     : 'bg-white/10 hover:bg-white/15 border border-white/10 text-white hover:border-white/20'
-                   }`}
-                 >
-                   {citationCopied ? <Check className="w-4 h-4 text-white" /> : <Copy className="w-4 h-4 text-accent" />}
-                   {citationCopied ? 'Citation Copied!' : 'Copy APA Citation'}
-                 </button>
-               </div>
-             </div>
-             <div className="hidden lg:flex justify-end gap-12 text-[10px] font-bold uppercase tracking-[0.3em] text-white/40 italic">
-                <div className="flex flex-col gap-2">
-                  <span className="text-accent">Origin</span>
-                  <span className="text-white">{remedy.origin}</span>
-                </div>
-                <div className="flex flex-col gap-2">
-                  <span className="text-accent">Potency</span>
-                  <span className="text-white">Centesimal / LM</span>
-                </div>
-             </div>
-           </motion.div>
+          <div className="flex items-center gap-2">
+            <button 
+              onClick={() => setShowSavedDrawer(true)}
+              className="flex items-center gap-2 px-3 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-xl text-xs font-bold transition-all relative cursor-pointer"
+              title="View My Saved Remedies"
+            >
+              <BookmarkCheck className="w-4 h-4" />
+              <span className="hidden sm:inline">Saved Remedies</span>
+              {savedRemediesList.length > 0 && (
+                <span className="px-1.5 py-0.5 text-[10px] font-black bg-primary text-white rounded-full">
+                  {savedRemediesList.length}
+                </span>
+              )}
+            </button>
+            <button 
+              onClick={() => setShowTOC(!showTOC)}
+              className="p-2.5 bg-bg-secondary hover:bg-primary/10 rounded-xl transition-all text-text-secondary hover:text-primary lg:hidden"
+            >
+              <List className="w-5 h-5" />
+            </button>
+            <div className="h-6 w-px bg-border mx-1" />
+            <button
+              onClick={() => setShowSettings(true)}
+              className="p-2.5 bg-bg-secondary hover:bg-primary/10 rounded-xl transition-all text-text-secondary hover:text-primary"
+            >
+              <Settings className="w-5 h-5" />
+            </button>
+          </div>
         </div>
       </header>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-20 relative z-20">
-        {/* Mobile Tab Index */}
-        <div className="lg:hidden block mb-10 overflow-x-auto whitespace-nowrap py-4 px-2 -mx-4 no-scrollbar sticky top-16 bg-bg-primary/95 backdrop-blur-md z-30 border-b border-border">
-          <div className="flex gap-2 px-4">
-            {sections.filter(s => {
-              if (s.id === 'mind' || s.id === 'physical') {
-                return mmRemedy && (mmRemedy as any)[s.id]?.length > 0;
-              }
-              return true;
-            }).map(section => {
-              const Icon = section.icon;
-              return (
-                <a 
-                  key={section.id} 
-                  href={`#${section.id}`}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 bg-bg-secondary border border-border rounded-full hover:border-primary/40 hover:text-primary transition-all text-xs font-bold text-text-secondary"
-                >
-                  <Icon className="w-3.5 h-3.5 text-primary" />
-                  {section.name}
-                </a>
-              );
-            })}
-          </div>
-        </div>
-
-        <div className="grid lg:grid-cols-4 gap-12">
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-32">
+        <div className="grid lg:grid-cols-[250px_1fr] gap-16 items-start">
           
-          {/* Floating Sidebar Index */}
-          <aside className="hidden lg:block">
-            <div className="sticky top-32 space-y-6">
-              <div className="p-8 bg-white dark:bg-zinc-900/60 rounded-[2.5rem] border border-border shadow-soft">
-                <h4 className="text-[10px] font-black uppercase tracking-[0.2em] text-primary mb-6 border-b border-border pb-4">Remedy Index</h4>
+          {/* Desktop Sticky Table of Contents */}
+          <aside className="hidden lg:block sticky top-32">
+            <div className="space-y-8">
+              <div>
+                <div className="flex items-center justify-between mb-6 border-b border-border pb-2">
+                  <h4 className="text-[10px] font-black uppercase tracking-[0.25em] text-text-tertiary">
+                    Navigator
+                  </h4>
+                  <span className="text-[10px] font-black text-primary bg-primary/5 px-2 py-0.5 rounded-full">
+                    {progress}%
+                  </span>
+                </div>
                 <nav className="space-y-1">
-                  {sections.filter(s => {
-                    if (s.id === 'mind' || s.id === 'physical') {
-                      return mmRemedy && (mmRemedy as any)[s.id]?.length > 0;
-                    }
-                    return true;
-                  }).map(section => {
-                    const Icon = section.icon;
-                    return (
-                      <a 
-                        key={section.id} 
-                        href={`#${section.id}`}
-                        className="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-primary/5 text-text-secondary hover:text-primary font-bold transition-all group"
-                      >
-                        <Icon className="w-4 h-4 opacity-50 group-hover:opacity-100" />
-                        <span className="text-sm font-serif italic">{section.name}</span>
-                      </a>
-                    );
-                  })}
+                  <button 
+                    onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+                    className="w-full flex items-center gap-3 py-2.5 px-4 rounded-xl text-sm font-bold text-text-tertiary hover:text-primary hover:bg-primary/5 transition-all mb-4 border border-dashed border-border"
+                  >
+                    <ArrowUp className="w-4 h-4" />
+                    <span>Back to Top</span>
+                  </button>
+                  {sections.map(([id, _]) => (
+                    <a 
+                      key={id}
+                      href={`#${id.toLowerCase()}`}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+                      }}
+                      className={`block py-2.5 px-4 rounded-xl text-sm font-medium transition-all group relative overflow-hidden ${
+                        activeSection === id.toLowerCase()
+                        ? 'text-primary bg-primary/5 font-bold'
+                        : 'text-text-secondary hover:text-text-primary hover:bg-bg-secondary'
+                      }`}
+                    >
+                      {activeSection === id.toLowerCase() && (
+                        <motion.div 
+                          layoutId="active-toc"
+                          className="absolute left-0 top-0 bottom-0 w-1 bg-primary"
+                        />
+                      )}
+                      <span className="relative z-10">{id}</span>
+                    </a>
+                  ))}
                 </nav>
               </div>
 
-              <div className="p-8 bg-primary-dark rounded-[2.5rem] text-white shadow-soft relative overflow-hidden group">
-                <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.1)_0%,transparent_50%)]" />
-                <Leaf className="w-12 h-12 mb-6 text-accent opacity-50 group-hover:scale-110 transition-transform duration-500" />
-                <h5 className="text-2xl font-display font-medium text-accent italic mb-3">Biological Source</h5>
-                <p className="text-sm text-white/70 font-serif italic leading-relaxed">
-                  Historically sourced from {remedy.origin}. Known in pharmacopeias as <span className="text-white">{remedy.latinName || remedy.name}</span>.
-                </p>
-              </div>
+              {metadata && (
+                <div className="p-6 bg-primary/5 rounded-[2rem] border border-primary/10">
+                  <div className="flex items-center gap-3 mb-4">
+                    <Clock className="w-4 h-4 text-primary" />
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">Reference Meta</span>
+                  </div>
+                  <div className="space-y-3 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-text-tertiary">Reading Time</span>
+                      <span className="text-text-primary font-bold">{metadata.estimated_reading_time}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-text-tertiary">Word Count</span>
+                      <span className="text-text-primary font-bold">{metadata.word_count}</span>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-text-tertiary">Alphabet</span>
+                      <span className="text-text-primary font-bold uppercase">{metadata.alphabet}</span>
+                    </div>
+                  </div>
+                </div>
+              )}
             </div>
           </aside>
 
-          {/* Main Content */}
-          <div className={`lg:col-span-3 space-y-24 ${getFontSizeClass(readerFontSize)}`}>
+          {/* Main Reading Content */}
+          <div className={`mx-auto lg:mx-0 w-full transition-all duration-500 ${
+            readingWidth === 'narrow' ? 'max-w-xl' :
+            readingWidth === 'medium' ? 'max-w-3xl' :
+            'max-w-5xl'
+          }`}>
             
-            {/* Accessibility Reader Toolbar */}
-            <div id="reader-settings" className="p-6 bg-bg-secondary rounded-3xl border border-border flex flex-col md:flex-row md:items-center justify-between gap-6">
-              <div className="flex items-center gap-3">
-                <div className="p-2.5 bg-primary/10 text-primary rounded-2xl">
-                  <BookOpenText className="w-5 h-5 shrink-0" />
-                </div>
-                <div>
-                  <span className="text-[10px] font-black uppercase tracking-[0.15em] text-primary block mb-0.5">Reader Accessibility</span>
-                  <p className="text-xs text-text-secondary">Optimize text sizing and eye-comfort themes for active researchers.</p>
-                </div>
-              </div>
-
-              <div className="flex flex-wrap items-center gap-4">
-                {/* Font Size Adjuster */}
-                <div className="flex items-center gap-1.5 bg-bg-primary p-1.5 rounded-2xl border border-border">
-                  <span className="text-[10px] font-black text-text-secondary px-2 uppercase tracking-wider">A—</span>
-                  {(['sm', 'md', 'lg', 'xl'] as const).map((sz) => (
-                    <button
-                      key={`font-sz-${sz}`}
-                      onClick={() => setReaderFontSize(sz)}
-                      className={`px-3 py-1.5 text-xs rounded-xl font-bold uppercase transition-all cursor-pointer ${
-                        readerFontSize === sz 
-                          ? 'bg-primary text-white shadow-md' 
-                          : 'text-text-secondary hover:text-text-primary'
-                      }`}
-                    >
-                      {sz}
-                    </button>
-                  ))}
-                  <span className="text-[10px] font-black text-text-secondary px-2 uppercase tracking-wider">A+</span>
-                </div>
-
-                {/* Theme Selector */}
-                <div className="flex items-center gap-1.5 bg-bg-primary p-1.5 rounded-2xl border border-border">
-                  {[
-                    { id: 'default', label: 'Default', icon: Sun },
-                    { id: 'sepia', label: 'Warm Sepia', icon: Type },
-                    { id: 'dark-contrast', label: 'Cozy Dark', icon: Moon }
-                  ].map((preset) => {
-                    const Icon = preset.icon;
-                    return (
-                      <button
-                        key={`reader-theme-${preset.id}`}
-                        onClick={() => setReaderTheme(preset.id as any)}
-                        style={{ contentVisibility: 'auto' }}
-                        className={`flex items-center gap-2 px-3.5 py-1.5 text-xs font-bold rounded-xl transition-all cursor-pointer ${
-                          readerTheme === preset.id
-                            ? preset.id === 'sepia'
-                              ? 'bg-[#E9DFCB] text-[#433422] shadow-md border border-[#D5C6A9]'
-                              : preset.id === 'dark-contrast'
-                                ? 'bg-zinc-800 text-zinc-100 shadow-md border border-zinc-700'
-                                : 'bg-primary text-white shadow-md'
-                            : 'text-text-secondary hover:text-text-primary'
-                        }`}
-                        title={preset.label}
-                      >
-                        <Icon className="w-3.5 h-3.5" />
-                        <span className="hidden sm:inline">{preset.label}</span>
-                      </button>
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-
-            <div className={`transition-all duration-300 space-y-24 ${getThemeClass(readerTheme)}`}>
-            
-            {/* Constitutional Dynamics & Miasmatic Affinity */}
-            <section id="dynamics-infographic" className="scroll-mt-32">
-              <div className="flex items-center gap-4 mb-8">
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                  <Layers className="w-6 h-6" />
-                </div>
-                <div>
-                  <h2 className="text-3xl font-display font-medium text-text-primary italic">
-                    Constitutional <span className="text-primary italic">Dynamics</span>
-                  </h2>
-                  <p className="text-xs text-text-secondary mt-0.5">Miasmatic predisposition analysis.</p>
-                </div>
-              </div>
-
-              <div className="max-w-3xl">
-                {/* Miasm Weights */}
-                <div className="p-8 md:p-10 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border space-y-8 shadow-sm">
-                  <div>
-                    <span className="text-[10px] font-black uppercase tracking-[0.2em] text-[#C5A059]">Clinical Predisposition</span>
-                    <h4 className="text-xl font-display font-medium text-text-primary italic mt-1">Miasmatic Weighting</h4>
-                  </div>
-
-                  <div className="space-y-6">
-                    {/* Psora */}
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-[#B7791F] dark:text-[#F6AD55] font-black uppercase tracking-wider text-[11px]">Psora (Functional/Sensory)</span>
-                        <span className="text-text-primary font-mono font-bold">{miasm.psora}%</span>
-                      </div>
-                      <div className="h-3 w-full bg-[#FEFCBF]/20 dark:bg-amber-950/10 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${miasm.psora}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-gradient-to-r from-[#F6E05E] to-[#D69E2E]/80 rounded-full" 
-                        />
-                      </div>
-                    </div>
-
-                    {/* Sycosis */}
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-[#065F46] dark:text-[#34D399] font-black uppercase tracking-wider text-[11px]">Sycosis (Proliferative/Excess)</span>
-                        <span className="text-text-primary font-mono font-bold">{miasm.sycosis}%</span>
-                      </div>
-                      <div className="h-3 w-full bg-emerald-100/30 dark:bg-emerald-950/10 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${miasm.sycosis}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-gradient-to-r from-[#A7F3D0] to-[#059669]/60 rounded-full" 
-                        />
-                      </div>
-                    </div>
-
-                    {/* Syphilis */}
-                    <div className="space-y-2">
-                      <div className="flex justify-between items-center text-xs">
-                        <span className="text-[#3730A3] dark:text-[#818CF8] font-black uppercase tracking-wider text-[11px]">Syphilis (Destructive/Decay)</span>
-                        <span className="text-text-primary font-mono font-bold">{miasm.syphilis}%</span>
-                      </div>
-                      <div className="h-3 w-full bg-indigo-100/30 dark:bg-indigo-950/10 rounded-full overflow-hidden">
-                        <motion.div 
-                          initial={{ width: 0 }}
-                          whileInView={{ width: `${miasm.syphilis}%` }}
-                          viewport={{ once: true }}
-                          transition={{ duration: 1, ease: 'easeOut' }}
-                          className="h-full bg-gradient-to-r from-[#C7D2FE] to-[#4F46E5]/60 rounded-full" 
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  <p className="text-[11px] text-text-secondary leading-relaxed pt-2">
-                    According to Samuel Hahnemann's Organon of Medicine, miasms represent the underlying chronic morbid forces that dictate disease expression and constitutional susceptibility.
-                  </p>
-
-                  <div className="pt-6 border-t border-border">
-                    <span className="text-[9px] font-black uppercase tracking-widest text-[#C5A059] block mb-1">Materia Medica Essence</span>
-                    <p className="text-xs text-text-primary leading-relaxed font-serif italic">
-                      "{miasm.essence}"
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </section>
-
-            {((remedy.mind && remedy.mind.length > 0) || (mmRemedy && mmRemedy.mind && mmRemedy.mind.length > 0)) && (
-              <section id="mind" className="scroll-mt-32">
-                <div className="flex items-center gap-4 mb-10">
-                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                    <Brain className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-4xl font-display font-medium text-text-primary italic">Mental <span className="text-primary">Disposition</span></h2>
-                </div>
-                <div className="grid gap-6">
-                  {(remedy.mind && remedy.mind.length > 0 ? remedy.mind : (mmRemedy?.mind || [])).map((m, idx) => (
-                    <motion.div 
-                      initial={{ opacity: 0, x: -20 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      key={`${remedy.id}-mind-${idx}`} 
-                      className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2rem] border border-border hover:border-primary/20 transition-all font-serif italic text-lg leading-relaxed text-text-secondary"
-                    >
-                      {m}
-                    </motion.div>
-                  ))}
-                </div>
-              </section>
-            )}
-
-            {/* Physical Symptoms */}
-            {(remedy.clinicalApplications.length > 0 || (remedy.physical && remedy.physical.length > 0) || (mmRemedy && mmRemedy.physical && mmRemedy.physical.length > 0)) && (
-              <section id="physical" className="scroll-mt-32">
-                 <div className="flex items-center gap-4 mb-10">
-                  <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                    <Activity className="w-6 h-6" />
-                  </div>
-                  <h2 className="text-4xl font-display font-medium text-text-primary italic">General <span className="text-primary">Physicals</span></h2>
-                </div>
-                <div className="grid gap-4">
-                  {(remedy.physical && remedy.physical.length > 0) ? (
-                    remedy.physical.map((p, idx) => (
-                      <div key={`${remedy.id}-phys-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
-                        {p}
-                      </div>
-                    ))
-                  ) : (mmRemedy && mmRemedy.physical && mmRemedy.physical.length > 0) ? (
-                    mmRemedy.physical.map((p, idx) => (
-                      <div key={`${remedy.id}-phys-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
-                        {p}
-                      </div>
-                    ))
-                  ) : (
-                    remedy.clinicalApplications.map((app, idx) => (
-                      <div key={`${remedy.id}-app-p-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg text-text-secondary">
-                        {app}
-                      </div>
-                    ))
-                  )}
-                </div>
-              </section>
-            )}
-
-            {/* Key Characteristics */}
-            <section id="characteristics" className="scroll-mt-32">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                  <Zap className="w-6 h-6" />
-                </div>
-                <h2 className="text-4xl font-display font-medium text-text-primary italic">Key <span className="text-primary italic">Keynotes</span></h2>
-              </div>
-              <div className="grid gap-6">
-                {remedy.keyCharacteristics.map((char, idx) => (
-                  <motion.div 
-                    initial={{ opacity: 0, x: -20 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true }}
-                    key={`${remedy.id}-char-${idx}`} 
-                    className="flex items-start gap-6 p-8 bg-white dark:bg-zinc-900/40 rounded-[2rem] border border-border hover:border-accent/40 hover:shadow-soft transition-all group"
-                  >
-                    <div className="w-3 h-3 rounded-full bg-accent mt-2.5 shrink-0 group-hover:scale-125 transition-transform" />
-                    <p className="text-text-primary font-serif italic text-lg leading-relaxed">{char}</p>
-                  </motion.div>
-                ))}
-              </div>
-            </section>
-
-            {/* Modalities */}
-            <section id="modalities" className="scroll-mt-32">
-              <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-bg-secondary dark:bg-zinc-900/20 rounded-[2rem] border border-border">
-                <div>
-                  <h4 className="text-xl font-display font-medium text-text-primary italic">
-                    Remedy <span className="text-primary italic">Modalities</span>
-                  </h4>
-                  <p className="text-xs text-text-secondary mt-1">Symptom dynamics under aggravation or amelioration factors.</p>
-                </div>
-                <button
-                  onClick={() => {
-                    const nextVal = !isModalitiesExpanded;
-                    setIsModalitiesExpanded(nextVal);
-                    localStorage.setItem(`remedy_modalities_expanded_${remedyId}`, String(nextVal));
-                  }}
-                  className="flex items-center justify-center gap-2 px-4 py-2 bg-primary/10 dark:bg-primary/20 hover:bg-primary/20 text-primary dark:text-primary-light font-black text-[10px] uppercase tracking-widest rounded-xl transition-all cursor-pointer select-none active:scale-95 border border-primary/20"
-                >
-                  {isModalitiesExpanded ? (
-                    <>Collapse Panel <ChevronUp className="w-3.5 h-3.5" /></>
-                  ) : (
-                    <>Expand Panel <ChevronDown className="w-3.5 h-3.5" /></>
-                  )}
-                </button>
-              </div>
-
-              <div 
-                id="modalities-section" 
-                className="grid lg:grid-cols-2 gap-8 transition-all duration-500 ease-in-out origin-top overflow-hidden"
-                style={{
-                  maxHeight: isModalitiesExpanded ? '2500px' : '0px',
-                  opacity: isModalitiesExpanded ? 1 : 0.02,
-                  pointerEvents: isModalitiesExpanded ? 'auto' : 'none',
-                  transform: isModalitiesExpanded ? 'scaleY(1)' : 'scaleY(0.95)'
-                }}
+            {/* Remedy Hero / Header */}
+            <header className="mb-12 text-center lg:text-left">
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 rounded-full text-primary text-[10px] font-black uppercase tracking-widest mb-8 border border-primary/20"
               >
-                <div className="bg-[#f0f4ef] dark:bg-emerald-950/20 p-10 rounded-[3.5rem] border border-[#e0e7df] dark:border-emerald-900/30 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-8 opacity-5">
-                    <Thermometer className="w-32 h-32 text-emerald-900 dark:text-emerald-100" />
-                  </div>
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 bg-emerald-100 dark:bg-emerald-900/40 rounded-2xl flex items-center justify-center text-emerald-700 dark:text-emerald-300">
-                      <Zap className="w-6 h-6" />
-                    </div>
-                    <h3 className="text-3xl font-display font-medium text-emerald-900 dark:text-emerald-100 italic uppercase tracking-tighter">Amelioration</h3>
-                  </div>
-                  <ul className="space-y-4">
-                    {remedy.modalities.better.map((m, idx) => (
-                      <li key={`${remedy.id}-better-${idx}`} className="flex items-center gap-4 text-emerald-900 dark:text-emerald-200 font-serif italic text-lg group">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 dark:bg-emerald-400 group-hover:scale-150 transition-transform shrink-0" />
-                        <span className="leading-snug">{m}</span>
-                      </li>
+                <BookOpen className="w-3.5 h-3.5" /> Curiva Materia Medica
+              </motion.div>
+              
+              <motion.h1 
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.1 }}
+                className={`text-5xl md:text-7xl lg:text-8xl font-display font-medium tracking-tight mb-4 ${
+                  readerTheme === 'dark-contrast' ? 'text-zinc-100' : 'text-text-primary'
+                }`}
+              >
+                {content.title}
+              </motion.h1>
+
+              {metadata?.commonName && (
+                <motion.p
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.15 }}
+                  className="text-xl md:text-2xl font-serif italic text-text-secondary mb-8"
+                >
+                  {metadata.commonName} {metadata.family && <span className="text-text-tertiary not-italic text-lg ml-2">— {metadata.family}</span>}
+                </motion.p>
+              )}
+
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ delay: 0.2 }}
+                className="flex flex-wrap items-center justify-center lg:justify-start gap-4 mb-12"
+              >
+                <button 
+                  onClick={handleToggleBookmark}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all cursor-pointer ${
+                    isBookmarked 
+                    ? 'bg-primary text-white shadow-lg shadow-primary/20 hover:bg-primary-dark' 
+                    : 'bg-bg-secondary text-text-secondary hover:text-primary hover:bg-primary/5 border border-border'
+                  }`}
+                >
+                  {isBookmarked ? <BookmarkCheck className="w-4 h-4 text-accent-light" /> : <Bookmark className="w-4 h-4" />}
+                  {isBookmarked ? 'Saved in My Remedies' : 'Save Reference'}
+                </button>
+                <button 
+                  onClick={handleCopyCitation}
+                  className={`flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-black uppercase tracking-widest transition-all ${
+                    copyFeedback 
+                    ? 'bg-emerald-500 text-white shadow-lg' 
+                    : 'bg-bg-secondary text-text-secondary hover:text-primary hover:bg-primary/5'
+                  }`}
+                >
+                  {copyFeedback ? <Check className="w-4 h-4" /> : <Copy className="w-4 h-4" />}
+                  {copyFeedback ? 'Citation Copied' : 'Copy Citation'}
+                </button>
+                <ShareButton 
+                  title={content.title}
+                  text={`Read the Materia Medica for ${content.title} on Curiva.`}
+                  variant="outline"
+                  label="Share"
+                />
+              </motion.div>
+
+              {/* Quick Facts Card */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 0.3 }}
+                className={`grid grid-cols-2 md:grid-cols-4 gap-6 p-8 rounded-[2.5rem] border text-left ${
+                  readerTheme === 'sepia' ? 'bg-[#fdfbf6] border-[#e9e3d3]' :
+                  readerTheme === 'dark-contrast' ? 'bg-[#1e1e1e] border-zinc-800' :
+                  'bg-white border-border shadow-soft'
+                }`}
+              >
+                <div className="flex flex-col">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-2">Biological Source</p>
+                  <p className="font-bold text-text-primary truncate" title={metadata?.family || 'Natural'}>
+                    {metadata?.family || 'Classical'}
+                  </p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-2">Reading Time</p>
+                  <p className="font-bold text-text-primary">{metadata?.estimated_reading_time}</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-2">Vocabulary</p>
+                  <p className="font-bold text-text-primary">{metadata?.word_count} Words</p>
+                </div>
+                <div className="flex flex-col">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-2">Academic Index</p>
+                  <p className="font-bold text-emerald-500 flex items-center gap-1">
+                    <ShieldCheck className="w-4 h-4" /> Boericke
+                  </p>
+                </div>
+              </motion.div>
+            </header>
+
+            {/* Key Highlights / Clinical Summary */}
+            <motion.section
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.4 }}
+              className={`mb-16 p-8 rounded-[2.5rem] border ${
+                readerTheme === 'sepia' ? 'bg-[#fdfbf6] border-[#e9e3d3]' :
+                readerTheme === 'dark-contrast' ? 'bg-[#1e1e1e] border-zinc-800' :
+                'bg-bg-secondary border-border'
+              }`}
+            >
+              <div className="flex items-center gap-3 mb-6">
+                <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center text-white">
+                  <Star className="w-4 h-4 fill-white" />
+                </div>
+                <h2 className="text-xl font-display font-bold text-text-primary">Clinical Pearls & Key Indications</h2>
+              </div>
+              <div className="grid md:grid-cols-2 gap-8">
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-primary">Core Essentials</h3>
+                  <ul className="space-y-3">
+                    {content.sections.Intro?.split('.').slice(0, 3).map((point, i) => (
+                      point.trim() && (
+                        <li key={i} className="flex gap-3 text-sm text-text-secondary leading-relaxed">
+                          <span className="text-primary font-bold mt-1.5">•</span>
+                          <span>{point.trim()}.</span>
+                        </li>
+                      )
                     ))}
                   </ul>
                 </div>
-
-                <div className="bg-[#fef3f2] dark:bg-rose-950/20 p-10 rounded-[3.5rem] border border-[#fee2e2] dark:border-rose-900/30 relative overflow-hidden">
-                  <div className="absolute top-0 right-0 p-8 opacity-5">
-                    <Thermometer className="w-32 h-32 text-rose-900 dark:text-rose-100 rotate-180" />
-                  </div>
-                  <div className="flex items-center gap-4 mb-8">
-                    <div className="w-12 h-12 bg-rose-100 dark:bg-rose-900/40 rounded-2xl flex items-center justify-center text-rose-700 dark:text-rose-300">
-                      <Thermometer className="w-6 h-6 rotate-180" />
-                    </div>
-                    <h3 className="text-3xl font-display font-medium text-rose-900 dark:text-rose-100 italic uppercase tracking-tighter">Aggravation</h3>
-                  </div>
-                  <ul className="space-y-4">
-                    {remedy.modalities.worse.map((m, idx) => (
-                      <li key={`${remedy.id}-worse-${idx}`} className="flex items-center gap-4 text-rose-900 dark:text-rose-200 font-serif italic text-lg group">
-                        <div className="w-2 h-2 rounded-full bg-rose-500 dark:bg-rose-400 group-hover:scale-150 transition-transform shrink-0" />
-                        <span className="leading-snug">{m}</span>
-                      </li>
+                <div className="space-y-4">
+                  <h3 className="text-[10px] font-black uppercase tracking-widest text-primary">Mental Syndrome</h3>
+                  <ul className="space-y-3">
+                    {content.sections.Mind?.split('.').slice(0, 3).map((point, i) => (
+                      point.trim() && (
+                        <li key={i} className="flex gap-3 text-sm text-text-secondary leading-relaxed">
+                          <span className="text-primary font-bold mt-1.5">•</span>
+                          <span>{point.trim()}.</span>
+                        </li>
+                      )
                     ))}
                   </ul>
                 </div>
               </div>
+            </motion.section>
 
-              <div className="mt-8 p-10 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border border-dashed flex flex-col md:flex-row items-center gap-8 group">
-                <div className="w-20 h-20 bg-primary/5 rounded-3xl flex items-center justify-center shadow-soft border border-border group-hover:border-primary/20 transition-colors">
-                  <Droplet className="w-10 h-10 text-primary" />
-                </div>
-                <div className="flex-1 text-center md:text-left">
-                  <h4 className="text-[10px] font-black uppercase text-primary mb-2 tracking-[0.3em]">Thirst & Fluid Economy</h4>
-                  <p className="text-2xl font-serif italic text-text-primary leading-tight">{remedy.thirst}</p>
-                </div>
-              </div>
-            </section>
-
-            {/* Clinical Applications */}
-            <section id="clinical" className="scroll-mt-32">
-              <div className="flex items-center gap-4 mb-12">
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                  <Stethoscope className="w-6 h-6" />
-                </div>
-                <h2 className="text-4xl font-display font-medium text-text-primary italic">Clinical <span className="text-primary italic">Intelligence</span></h2>
-              </div>
-              <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-                {remedy.clinicalApplications.map((app, idx) => (
-                    <div key={`${remedy.id}-app-${idx}`} className="p-6 bg-white dark:bg-zinc-900/40 border border-border rounded-2xl font-serif italic text-lg flex items-center gap-4 shadow-soft hover:border-primary/40 hover:scale-[1.02] transition-all cursor-default">
-                      <div className="w-2 h-2 rounded-full bg-primary/20" />
-                    {app}
-                  </div>
-                ))}
-              </div>
-            </section>
-
-            {/* Comparisons */}
-            <section id="comparisons" className="scroll-mt-32 bg-bg-secondary p-12 rounded-[4rem] border border-border relative overflow-hidden group">
-              <div className="absolute top-0 right-0 p-12 opacity-5">
-                <Layers className="w-48 h-48 text-text-primary" />
-              </div>
-              <div className="flex items-center gap-4 mb-12 relative z-10">
-                <div className="w-12 h-12 bg-white dark:bg-zinc-900 rounded-2xl text-primary shadow-soft flex items-center justify-center">
-                  <Layers className="w-6 h-6" />
-                </div>
-                <h2 className="text-4xl font-display font-medium text-text-primary italic">Differential <span className="text-primary italic">Nuance</span></h2>
-              </div>
-              <div className="grid gap-6 relative z-10">
-                {remedy.comparisons.map((comp) => (
-                  <div key={`${remedy.id}-comp-${comp.id}`} className="bg-white/80 dark:bg-zinc-900/80 backdrop-blur-sm p-8 rounded-3xl border border-border flex flex-col md:flex-row gap-8 items-start md:items-center hover:border-primary/20 transition-all justify-between w-full">
-                    <div className="flex-1 min-w-0 pr-4">
-                      <p className="text-lg font-serif italic text-text-secondary leading-relaxed">{comp.keyDifference}</p>
-                    </div>
-                    <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
-                      <Link 
-                        to={`/remedy/${comp.id}`}
-                        className="px-6 py-3 bg-primary-dark text-accent-light text-center font-black text-[10px] uppercase tracking-[0.2em] rounded-xl hover:bg-primary hover:text-white transition-all whitespace-nowrap"
-                      >
-                        Detail View
-                      </Link>
-                      <Link 
-                        to="/analysis"
-                        state={{ preSelectedIds: [remedy.id, comp.id] }}
-                        className="px-6 py-3 bg-white dark:bg-zinc-800 hover:border-primary/40 text-center border border-border text-primary font-black text-[10px] uppercase tracking-[0.2em] rounded-xl transition-all whitespace-nowrap inline-flex items-center justify-center gap-2"
-                      >
-                        Compare in Table <Scale className="w-3.5 h-3.5" />
-                      </Link>
-                    </div>
-                  </div>
-                ))}
-                {remedy.comparisons.length === 0 && (
-                  <div className="text-center py-12 text-text-secondary/60 font-serif italic text-xl">
-                    Detailed differential maps for {remedy.name} are being finalized.
-                  </div>
-                )}
-              </div>
-            </section>
-
-            {(() => {
-              const dynamicBlogPosts = allBlogPosts.filter(post => 
-                post.id === remedy.id || 
-                post.slug === remedy.id ||
-                post.relatedRemedies?.includes(remedy.id) ||
-                (remedy.relatedBlogPosts && remedy.relatedBlogPosts.includes(post.id))
-              );
-
-              const relatedRemedies = (() => {
-                const allRems = [
-                  ...enhancedRemedies.map(r => ({ id: r.id, name: r.name, family: r.family, description: r.description })),
-                  ...materiaMedicaData.map(r => ({ id: r.id, name: r.name, family: r.family, description: r.keynotes[0] || r.commonName })),
-                  ...comparisonRemedies.map(r => ({ id: r.id, name: r.name, family: (r.origin.includes('Plant') ? 'Plant' : r.origin.includes('Animal') ? 'Animal' : 'Mineral') as any, description: r.origin }))
-                ];
-                let list = allRems
-                  .filter(r => r.id !== remedy.id && r.family === remedy.family)
-                  .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-                if (list.length < 3) {
-                  const others = allRems
-                    .filter(r => r.id !== remedy.id && r.family !== remedy.family)
-                    .filter((v, i, a) => a.findIndex(t => t.id === v.id) === i);
-                  list = [...list, ...others];
-                }
-                return list.slice(0, 3);
-              })();
-
-              return (
-                <section id="research" className="scroll-mt-32 space-y-12">
-                  <div>
-                    <div className="flex items-center gap-4 mb-4">
-                      <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                        <Sparkles className="w-6 h-6" />
+            <article className={`space-y-16 ${
+              fontSize === 'sm' ? 'text-sm' :
+              fontSize === 'md' ? 'text-base' :
+              fontSize === 'lg' ? 'text-lg' :
+              'text-xl'
+            } ${
+              lineSpacing === 'compact' ? 'leading-relaxed' :
+              lineSpacing === 'normal' ? 'leading-loose' :
+              'leading-[2.5]'
+            }`}>
+              
+              {sections.map(([id, text], index) => (
+                <motion.section 
+                  key={id}
+                  id={id.toLowerCase()}
+                  ref={(el) => { sectionRefs.current[id.toLowerCase()] = el; }}
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-100px" }}
+                  transition={{ delay: index * 0.05 }}
+                  className="scroll-mt-32"
+                >
+                  <div className={`p-8 md:p-12 rounded-[2.5rem] border transition-all ${
+                    readerTheme === 'sepia' ? 'bg-[#fdfbf6] border-[#e9e3d3] shadow-sm' :
+                    readerTheme === 'dark-contrast' ? 'bg-[#1e1e1e] border-zinc-800 shadow-none' :
+                    'bg-white border-border shadow-soft'
+                  }`}>
+                    <div className="flex items-center gap-4 mb-8">
+                      <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${
+                        readerTheme === 'dark-contrast' ? 'bg-primary/20 text-primary' : 'bg-primary/10 text-primary'
+                      }`}>
+                        <Hash className="w-5 h-5 opacity-40" />
                       </div>
-                      <h2 className="text-4xl font-display font-medium text-text-primary italic">Scholarly <span className="text-primary italic">Insights & Related Research</span></h2>
+                      <h2 className={`text-2xl md:text-3xl font-display font-medium italic transition-colors ${
+                        readerTheme === 'dark-contrast' ? 'text-primary' : 'text-primary'
+                      }`}>
+                        {id}
+                      </h2>
                     </div>
-                    <p className="text-text-secondary font-serif italic text-base mt-1">Explore relevant cases and companion remedies from the same therapeutic family.</p>
+
+                    <div className={`font-serif italic leading-relaxed text-balance transition-colors ${
+                      readerTheme === 'sepia' ? 'text-[#433422]' : 
+                      readerTheme === 'dark-contrast' ? 'text-zinc-300' : 
+                      'text-text-secondary'
+                    }`}>
+                      {registry ? crossLinkText(text, registry.remedies) : text}
+                    </div>
                   </div>
+                </motion.section>
+              ))}
+            </article>
 
-                  {/* Scholarly Article publications if any */}
-                  {dynamicBlogPosts.length > 0 && (
-                    <div className="space-y-6">
-                      <h3 className="text-xs font-black uppercase tracking-widest text-[#c5a059]">1. Associated Case Inquiries & Publications</h3>
-                      <div className="grid md:grid-cols-2 gap-8">
-                        {dynamicBlogPosts.map(post => {
-                          return (
-                            <Link 
-                              key={post.id}
-                              to={`/read/${post.slug || post.id}`}
-                              className="group relative bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border overflow-hidden shadow-soft hover:shadow-2xl transition-all duration-500"
-                            >
-                              <div className="aspect-video w-full overflow-hidden">
-                                <img src={post.image} alt={post.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" referrerPolicy="no-referrer" />
-                              </div>
-                              <div className="p-8">
-                                <span className="text-[10px] font-black uppercase text-accent tracking-[0.3em] mb-3 block">Publication</span>
-                                <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors line-clamp-2 italic leading-tight mb-4">{post.title}</h4>
-                                <div className="flex items-center gap-2 text-primary font-bold text-xs uppercase tracking-widest">
-                                  Read Article <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                                </div>
-                              </div>
-                            </Link>
-                          )
-                        })}
-                      </div>
-                    </div>
-                  )}
+            {/* Academic Citations Section */}
+            <section className="mt-24 p-8 md:p-12 rounded-[2.5rem] bg-bg-secondary border border-border">
+              <div className="flex items-center gap-3 mb-8">
+                <GraduationCap className="w-5 h-5 text-primary" />
+                <h3 className="text-xl font-display font-bold text-text-primary">Academic Citations</h3>
+              </div>
+              <div className="space-y-8">
+                <div className="space-y-3">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">AMA Style</p>
+                  <div className="p-4 bg-white dark:bg-zinc-800 rounded-xl border border-border text-xs font-mono text-text-secondary leading-relaxed select-all">
+                    Boericke W. {content.title}. In: Pocket Manual of Homoeopathic Materia Medica. 9th ed. San Francisco, CA: Boericke & Runyon; 1927.
+                  </div>
+                </div>
+                <div className="space-y-3">
+                  <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Digital Reference</p>
+                  <div className="p-4 bg-white dark:bg-zinc-800 rounded-xl border border-border text-xs font-mono text-text-secondary leading-relaxed select-all">
+                    Curiva Homoeopathy. {content.title} Reference Profile. Accessed {new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}. {window.location.href}
+                  </div>
+                </div>
+              </div>
+              <div className="mt-8 pt-8 border-t border-border flex items-center gap-4 text-[10px] text-text-tertiary font-medium">
+                <ShieldCheck className="w-4 h-4" />
+                <span>Text content is immutable and derived from verified classical 1927 edition records.</span>
+              </div>
+            </section>
 
-                  {/* Related Remedies of the same family */}
-                  <div className="space-y-6 pt-6 border-t border-border/40">
-                    <h3 className="text-xs font-black uppercase tracking-widest text-[#c5a059]">Companion Remedies (Same {remedy.family} Family)</h3>
-                    <div className="grid md:grid-cols-3 gap-8">
-                      {relatedRemedies.map(relRem => (
-                        <Link 
-                          key={relRem.id}
-                          to={`/remedy/${relRem.id}`}
-                          className="group bg-white dark:bg-zinc-900/40 p-8 rounded-[2.5rem] border border-border hover:border-primary/20 hover:shadow-xl hover:shadow-primary/5 transition-all flex flex-col justify-between"
+            {/* Related Remedies */}
+            {relatedRemedies.length > 0 && (
+              <section className="mt-24">
+                <h3 className="text-xl font-display font-bold text-text-primary mb-8 flex items-center gap-3">
+                  <Activity className="w-5 h-5 text-primary" /> Related Remedies
+                </h3>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  {relatedRemedies.map(rel => (
+                    <Link 
+                      key={rel.slug}
+                      to={`/remedy/${rel.slug}`}
+                      className="p-6 bg-bg-secondary border border-border rounded-2xl hover:border-primary/30 transition-all flex items-center justify-between group"
+                    >
+                      <span className="font-medium text-text-primary group-hover:text-primary transition-colors">{rel.title}</span>
+                      <ArrowRight className="w-4 h-4 text-text-tertiary group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                    </Link>
+                  ))}
+                </div>
+              </section>
+            )}
+
+            {/* Previous / Next Navigation */}
+            <ContentNavigator 
+              prev={prev ? { to: `/remedy/${prev.slug}`, title: prev.title, label: 'Previous Remedy' } : null}
+              next={next ? { to: `/remedy/${next.slug}`, title: next.title, label: 'Next Remedy' } : null}
+            />
+          </div>
+        </div>
+      </main>
+
+      {/* Reading Settings Drawer */}
+      <AnimatePresence>
+        {showSettings && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowSettings(false)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[110]"
+            />
+            <motion.div 
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              exit={{ y: '100%' }}
+              className="fixed bottom-0 left-0 right-0 bg-white dark:bg-zinc-900 z-[111] shadow-2xl rounded-t-[3rem] p-8 md:p-12"
+            >
+              <div className="max-w-2xl mx-auto space-y-12">
+                <div className="flex items-center justify-between">
+                  <h3 className="text-2xl font-display font-bold text-text-primary">Reading Experience</h3>
+                  <button onClick={() => setShowSettings(false)} className="p-2 hover:bg-bg-secondary rounded-full">
+                    <ChevronDown className="w-6 h-6" />
+                  </button>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-12">
+                  <div className="space-y-6">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Reader Theme</label>
+                    <div className="grid grid-cols-3 gap-3">
+                      {[
+                        { id: 'default', label: 'Classic', icon: Sun, class: 'bg-white border-zinc-200' },
+                        { id: 'sepia', label: 'Paper', icon: Coffee, class: 'bg-[#f4f1ea] border-[#e9e3d3]' },
+                        { id: 'dark-contrast', label: 'Midnight', icon: Moon, class: 'bg-[#121212] border-zinc-800' }
+                      ].map(theme => (
+                        <button
+                          key={theme.id}
+                          onClick={() => setReaderTheme(theme.id as any)}
+                          className={`flex flex-col items-center gap-3 p-4 rounded-2xl border transition-all ${
+                            readerTheme === theme.id ? 'ring-2 ring-primary border-primary' : 'hover:bg-bg-secondary'
+                          } ${theme.class}`}
                         >
-                          <div>
-                            <span className="text-[10px] font-black uppercase tracking-widest text-[#c5a059] mb-4 block">{relRem.family} Family</span>
-                            <h4 className="text-2xl font-display font-medium text-text-primary group-hover:text-primary transition-colors italic line-clamp-1 mb-4">{relRem.name}</h4>
-                            <p className="text-xs text-text-secondary font-serif italic line-clamp-3 leading-relaxed mb-6 font-medium">
-                              {relRem.description}
-                            </p>
-                          </div>
-                          <div className="flex items-center gap-2 text-xs font-black uppercase tracking-wider text-text-tertiary group-hover:text-primary transition-colors border-t border-border/40 pt-4">
-                            Review Remedy <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-                          </div>
-                        </Link>
+                          <theme.icon className={`w-5 h-5 ${readerTheme === theme.id ? 'text-primary' : 'text-text-secondary'}`} />
+                          <span className={`text-[10px] font-bold ${readerTheme === theme.id ? 'text-primary' : 'text-text-secondary'}`}>
+                            {theme.label}
+                          </span>
+                        </button>
                       ))}
                     </div>
                   </div>
-                </section>
-              );
-            })()}
 
-            {/* Related Ailments */}
-            <section id="related" className="scroll-mt-32">
-              <div className="flex items-center gap-4 mb-12">
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                  <BookOpen className="w-6 h-6" />
-                </div>
-                <h2 className="text-4xl font-display font-medium text-text-primary italic">Related <span className="text-primary italic">Constitutions</span></h2>
-              </div>
-              <div className="grid md:grid-cols-3 gap-8">
-                {remedy.relatedAilments.map(ailment => (
-                  <Link 
-                    key={ailment.id}
-                    to={`/conditions/${ailment.id}`}
-                    className="group p-10 bg-white dark:bg-zinc-900/40 border border-border rounded-[3rem] hover:border-accent hover:shadow-2xl transition-all duration-500"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-bg-primary flex items-center justify-center text-text-primary/20 group-hover:text-accent group-hover:bg-accent/5 transition-all mb-8">
-                      <Activity className="w-6 h-6" />
-                    </div>
-                    <h4 className="text-2xl font-display font-medium text-text-primary mb-3 lowercase first-letter:uppercase group-hover:text-accent transition-all italic">
-                      {ailment.name}
-                    </h4>
-                    <p className="text-[10px] font-bold text-text-secondary uppercase tracking-widest opacity-40 group-hover:opacity-100 group-hover:text-accent transition-all">Clinical Pattern</p>
-                  </Link>
-                ))}
-              </div>
-            </section>
-
-            {/* Next Steps / Interactive Analysis */}
-            <section className="scroll-mt-32 pt-12 border-t border-border">
-              <div className="flex items-center gap-4 mb-10">
-                <div className="w-12 h-12 bg-accent/10 rounded-2xl flex items-center justify-center text-accent">
-                  <Layout className="w-6 h-6" />
-                </div>
-                <h2 className="text-4xl font-display font-medium text-text-primary italic">Compare & <span className="text-accent">Analyze</span></h2>
-              </div>
-              
-              <div className="grid md:grid-cols-2 gap-6">
-                <div className="p-8 bg-white dark:bg-zinc-900/40 rounded-[2.5rem] border border-border shadow-soft flex flex-col justify-between group hover:border-primary/40 transition-all">
-                  <div>
-                    <h3 className="text-2xl font-display font-medium text-text-primary mb-4 italic">Side-by-Side Comparison</h3>
-                    <p className="text-text-secondary font-serif italic text-lg leading-relaxed mb-8">
-                      Master the fine nuances of {remedy.name} by comparing its thermal, thirst, and modality patterns with its clinical counterparts in a structured table.
-                    </p>
-                  </div>
-                  <Link 
-                    to="/analysis" 
-                    state={{ preSelectedId: remedy.id }}
-                    className="inline-flex items-center justify-center gap-3 px-8 py-4 bg-primary text-white rounded-2xl font-black uppercase tracking-widest hover:scale-[1.02] active:scale-[0.98] transition-all shadow-xl shadow-primary/20"
-                  >
-                    Open Comparison Table <Scale className="w-4 h-4" />
-                  </Link>
-                </div>
-
-                <div className="p-8 bg-primary-dark rounded-[2.5rem] text-white shadow-soft flex flex-col justify-between group relative overflow-hidden">
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(197,160,89,0.1)_0%,transparent_50%)]" />
-                  <div className="relative z-10">
-                    <h3 className="text-2xl font-display font-medium text-accent mb-4 italic">Constitutional Relations</h3>
-                    <p className="text-white/70 font-serif italic text-lg leading-relaxed mb-8">
-                      Understand how {remedy.name} relates to other remedies in the Materia Medica through complementary, inimical, and following relationships.
-                    </p>
-                  </div>
-                  <div className="relative z-10 flex flex-wrap gap-3">
-                    {remedy.comparisons.length > 0 ? (
-                      remedy.comparisons.slice(0, 2).map(comp => (
-                        <Link 
-                          key={`next-step-${comp.id}`}
-                          to={`/remedy/${comp.id}`}
-                          className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-black uppercase tracking-widest transition-all flex items-center gap-2"
+                  <div className="space-y-6">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Font Size</label>
+                    <div className="flex items-center justify-between bg-bg-secondary p-1.5 rounded-2xl border border-border">
+                      {[
+                        { id: 'sm', label: 'Small' },
+                        { id: 'md', label: 'Standard' },
+                        { id: 'lg', label: 'Large' },
+                        { id: 'xl', label: 'Extra' }
+                      ].map(sz => (
+                        <button
+                          key={sz.id}
+                          onClick={() => setFontSize(sz.id as any)}
+                          className={`flex-grow py-3 text-xs font-black uppercase rounded-xl transition-all ${
+                            fontSize === sz.id ? 'bg-white dark:bg-zinc-800 text-primary shadow-sm' : 'text-text-tertiary hover:text-text-primary'
+                          }`}
                         >
-                          View {comp.name} <ChevronRight className="w-3 h-3" />
-                        </Link>
-                      ))
-                    ) : (
-                      <Link 
-                        to="/materia-medica"
-                        className="px-6 py-3 bg-white/10 hover:bg-white/20 border border-white/20 rounded-xl text-xs font-black uppercase tracking-widest transition-all"
-                      >
-                        Browse Related Remedies
-                      </Link>
-                    )}
+                          {sz.id}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+
+                <div className="grid md:grid-cols-2 gap-12 pt-6">
+                  <div className="space-y-6">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Line Spacing</label>
+                    <div className="flex items-center justify-between bg-bg-secondary p-1.5 rounded-2xl border border-border">
+                      {[
+                        { id: 'compact', icon: Maximize2 },
+                        { id: 'normal', icon: Minimize2 },
+                        { id: 'relaxed', icon: ArrowRight }
+                      ].map(sp => (
+                        <button
+                          key={sp.id}
+                          onClick={() => setLineSpacing(sp.id as any)}
+                          className={`flex-grow flex items-center justify-center py-3 rounded-xl transition-all ${
+                            lineSpacing === sp.id ? 'bg-white dark:bg-zinc-800 text-primary shadow-sm' : 'text-text-tertiary hover:text-text-primary'
+                          }`}
+                        >
+                          <sp.icon className="w-4 h-4 rotate-90" />
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div className="space-y-6">
+                    <label className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Max Width</label>
+                    <div className="flex items-center justify-between bg-bg-secondary p-1.5 rounded-2xl border border-border">
+                      {[
+                        { id: 'narrow', label: 'Focus' },
+                        { id: 'medium', label: 'Optimum' },
+                        { id: 'wide', label: 'Full' }
+                      ].map(wd => (
+                        <button
+                          key={wd.id}
+                          onClick={() => setReadingWidth(wd.id as any)}
+                          className={`flex-grow py-3 text-xs font-black uppercase rounded-xl transition-all ${
+                            readingWidth === wd.id ? 'bg-white dark:bg-zinc-800 text-primary shadow-sm' : 'text-text-tertiary hover:text-text-primary'
+                          }`}
+                        >
+                          {wd.label}
+                        </button>
+                      ))}
+                    </div>
                   </div>
                 </div>
               </div>
-            </section>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
 
-            </div>
-          </div>
-        </div>
+      {/* Mobile Table of Contents Overlay */}
+      <AnimatePresence>
+        {showTOC && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowTOC(false)}
+              className="fixed inset-0 bg-black/40 backdrop-blur-sm z-[100]"
+            />
+            <motion.div 
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              className="fixed right-0 top-0 bottom-0 w-[80%] max-w-sm bg-white dark:bg-zinc-900 z-[101] shadow-2xl p-8 overflow-y-auto"
+            >
+              <div className="flex items-center justify-between mb-8">
+                <h3 className="text-lg font-display font-black uppercase tracking-widest text-primary">Contents</h3>
+                <button onClick={() => setShowTOC(false)} className="p-2 hover:bg-bg-secondary rounded-full">
+                  <ChevronRight className="w-6 h-6" />
+                </button>
+              </div>
+              <nav className="space-y-1">
+                {sections.map(([id, _]) => (
+                  <a 
+                    key={id}
+                    href={`#${id.toLowerCase()}`}
+                    onClick={(e) => {
+                      e.preventDefault();
+                      document.getElementById(id.toLowerCase())?.scrollIntoView({ behavior: 'smooth' });
+                      setShowTOC(false);
+                    }}
+                    className={`block py-4 border-b border-border text-sm font-medium transition-all ${
+                      activeSection === id.toLowerCase() ? 'text-primary' : 'text-text-secondary'
+                    }`}
+                  >
+                    {id}
+                  </a>
+                ))}
+              </nav>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      {/* Floating Theme Toggle (optional but nice) */}
+      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-2">
+         {/* Could add more floating actions here */}
       </div>
+      {/* Toast Notification */}
+      <AnimatePresence>
+        {toastMsg && (
+          <motion.div
+            initial={{ opacity: 0, y: 50, scale: 0.9 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: 20, scale: 0.9 }}
+            className="fixed bottom-10 left-1/2 -translate-x-1/2 z-[150] px-6 py-3.5 bg-zinc-900 text-white font-sans text-xs font-bold rounded-2xl shadow-2xl border border-white/10 flex items-center gap-3"
+          >
+            <BookmarkCheck className="w-4 h-4 text-emerald-400 shrink-0" />
+            <span>{toastMsg}</span>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Slide-over Drawer for My Saved Remedies */}
+      <AnimatePresence>
+        {showSavedDrawer && (
+          <>
+            <motion.div 
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setShowSavedDrawer(false)}
+              className="fixed inset-0 bg-black/50 backdrop-blur-sm z-[110]"
+            />
+            <motion.div 
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
+              className="fixed right-0 top-0 bottom-0 w-full sm:w-[420px] bg-white dark:bg-zinc-900 z-[111] shadow-2xl flex flex-col justify-between border-l border-border"
+            >
+              <div>
+                <div className="p-6 border-b border-border flex items-center justify-between bg-bg-secondary/50">
+                  <div className="flex items-center gap-2">
+                    <Bookmark className="w-5 h-5 text-primary" />
+                    <h3 className="text-lg font-display font-black text-text-primary uppercase tracking-tight">
+                      My Saved Remedies ({savedRemediesList.length})
+                    </h3>
+                  </div>
+                  <button 
+                    onClick={() => setShowSavedDrawer(false)}
+                    className="p-2 hover:bg-bg-secondary rounded-xl transition-all text-text-secondary"
+                  >
+                    <X className="w-5 h-5" />
+                  </button>
+                </div>
+
+                <div className="p-6 overflow-y-auto max-h-[calc(100vh-160px)] space-y-4 no-scrollbar">
+                  {savedRemediesList.length === 0 ? (
+                    <div className="text-center py-16 space-y-4">
+                      <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto text-primary">
+                        <Bookmark className="w-8 h-8" />
+                      </div>
+                      <h4 className="text-base font-bold text-text-primary">No Saved Remedies Yet</h4>
+                      <p className="text-xs text-text-secondary leading-relaxed max-w-xs mx-auto">
+                        Click the "Save Reference" button on any remedy profile to keep it saved for quick review.
+                      </p>
+                    </div>
+                  ) : (
+                    savedRemediesList.map(item => (
+                      <div 
+                        key={item.id}
+                        className="p-4 bg-bg-secondary/60 hover:bg-bg-secondary border border-border rounded-2xl transition-all flex items-center justify-between gap-3 group"
+                      >
+                        <div className="flex-grow min-w-0">
+                          <Link 
+                            to={`/homoeopathy/materia-medica/${item.slug || item.id.toLowerCase()}`}
+                            onClick={() => setShowSavedDrawer(false)}
+                            className="block"
+                          >
+                            <h4 className="text-sm font-black text-text-primary group-hover:text-primary transition-colors truncate">
+                              {item.name}
+                            </h4>
+                            {item.commonName && (
+                              <p className="text-[11px] text-text-secondary italic truncate">
+                                {item.commonName}
+                              </p>
+                            )}
+                          </Link>
+                        </div>
+
+                        <div className="flex items-center gap-2 shrink-0">
+                          <Link 
+                            to={`/homoeopathy/materia-medica/${item.slug || item.id.toLowerCase()}`}
+                            onClick={() => setShowSavedDrawer(false)}
+                            className="p-2 bg-primary/10 hover:bg-primary hover:text-white text-primary rounded-xl transition-all"
+                            title="View Remedy"
+                          >
+                            <ExternalLink className="w-4 h-4" />
+                          </Link>
+                          <button
+                            onClick={() => {
+                              removeBookmarkRemedy(item.id);
+                            }}
+                            className="p-2 hover:bg-rose-500/10 text-text-tertiary hover:text-rose-500 rounded-xl transition-all"
+                            title="Remove Bookmark"
+                          >
+                            <Trash2 className="w-4 h-4" />
+                          </button>
+                        </div>
+                      </div>
+                    ))
+                  )}
+                </div>
+              </div>
+
+              {savedRemediesList.length > 0 && (
+                <div className="p-4 border-t border-border bg-bg-secondary/40">
+                  <p className="text-[10px] text-text-tertiary text-center font-medium">
+                    Saved locally on your browser. Accessible anytime without logins.
+                  </p>
+                </div>
+              )}
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
+
+      <MateriaMedicaSearch />
     </div>
   );
 }

@@ -37,12 +37,12 @@ const myths: MythItem[] = [
     fact: "Genuine homoeopathy never uses steroids. Homoeopathic medicines are derived from plants, minerals, and other natural sources and are strictly regulated."
   },
   {
-    myth: "Homeopathy does not have any side effects so anyone can take it.",
-    fact: "While extremely safe, incorrect or repeated dosing of a homeopathic remedy when not indicated can cause 'provings' (temporary appearance of symptoms). A professional homeopath should always guide the treatment."
+    myth: "Homoeopathy does not have any side effects so anyone can take it.",
+    fact: "While extremely safe, incorrect or repeated dosing of a Homoeopathic remedy when not indicated can cause 'provings' (temporary appearance of symptoms). A professional Homoeopath should always guide the treatment."
   },
   {
-    myth: "Homeopathy is the same as herbal medicine or Ayurveda.",
-    fact: "They are entirely different systems. Herbalism uses material doses of plant tinctures. Homeopathy is a distinct medical system based on the 'law of similars' using ultramolecular dilutions of plants, minerals, or other substances."
+    myth: "Homoeopathy is the same as herbal medicine or Ayurveda.",
+    fact: "They are entirely different systems. Herbalism uses material doses of plant tinctures. Homoeopathy is a distinct medical system based on the 'law of similars' using ultramolecular dilutions of plants, minerals, or other substances."
   }
 ];
 

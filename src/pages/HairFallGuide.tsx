@@ -75,7 +75,7 @@ export default function HairFallGuide() {
               <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Stress, Sleep & Nutrition Insights</li>
               <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Social Media Hair Myths Debunked</li>
               <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Practical 90-Day Action Plan & Scorecard</li>
-              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Traditional Homeopathic Constitutional Insights</li>
+              <li class="flex items-center gap-2"><span class="text-emerald-600 font-bold">✓</span> Traditional Homoeopathic Constitutional Insights</li>
             </ul>
           </div>
 
@@ -631,21 +631,21 @@ export default function HairFallGuide() {
     {
       id: "ch21",
       title: "Chapter 21",
-      subtitle: "Homeopathy & Hair Fall",
+      subtitle: "Homoeopathy & Hair Fall",
       content: `
-        <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Homeopathy & Hair Fall: A Realistic Perspective</h2>
-        <p class="mb-4">Can homeopathy help hair fall? The honest answer is: <strong>it depends entirely on the cause</strong>. Hair fall is not a disease; it is a symptom of an underlying issue.</p>
-        <p class="mb-4">Whether triggered by chronic stress, nutritional deficiencies, or hormonal disorders, different causes require personalized approaches. Homeopathy is traditionally based on understanding the individual holistically, rather than offering a one-size-fits-all solution.</p>
+        <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Homoeopathy & Hair Fall: A Realistic Perspective</h2>
+        <p class="mb-4">Can Homoeopathy help hair fall? The honest answer is: <strong>it depends entirely on the cause</strong>. Hair fall is not a disease; it is a symptom of an underlying issue.</p>
+        <p class="mb-4">Whether triggered by chronic stress, nutritional deficiencies, or hormonal disorders, different causes require personalized approaches. Homoeopathy is traditionally based on understanding the individual holistically, rather than offering a one-size-fits-all solution.</p>
 
         <div class="my-6 p-5 bg-emerald-50 dark:bg-zinc-800 rounded-2xl border border-emerald-100 dark:border-zinc-700 text-sm">
-          <span class="uppercase tracking-wider font-semibold text-emerald-800 dark:text-emerald-400 text-xs block mb-2">🌿 What Homeopathy Cannot Do</span>
+          <span class="uppercase tracking-wider font-semibold text-emerald-800 dark:text-emerald-400 text-xs block mb-2">🌿 What Homoeopathy Cannot Do</span>
           <p class="text-slate-600 dark:text-slate-350 leading-relaxed">
-            Homeopathy cannot instantly regrow hair overnight, reverse years of neglect within days, or correct severe nutritional deficiencies without dietary changes. Be cautious of any claims of guaranteed overnight transformations.
+            Homoeopathy cannot instantly regrow hair overnight, reverse years of neglect within days, or correct severe nutritional deficiencies without dietary changes. Be cautious of any claims of guaranteed overnight transformations.
           </p>
         </div>
 
         <h3 class="text-xl font-serif font-bold text-slate-800 dark:text-zinc-200 mt-8 mb-4">Constitutional Perspectives</h3>
-        <p class="mb-4">In traditional homeopathic literature, selection is based on the individual's unique physical, mental, and constitutional makeup. Some commonly discussed constitutional profiles include:</p>
+        <p class="mb-4">In traditional Homoeopathic literature, selection is based on the individual's unique physical, mental, and constitutional makeup. Some commonly discussed constitutional profiles include:</p>
         
         <ul class="space-y-4 list-none mb-6 text-sm">
           <li class="flex items-start gap-2.5 p-4 bg-slate-100 dark:bg-zinc-800 rounded-xl">
@@ -828,7 +828,7 @@ export default function HairFallGuide() {
       case "cream":
         return "ebook-theme-cream bg-[#fbf9f4] text-[#2c2520] border-[#dfd5c2] shadow-soft font-serif-reader";
       case "dark":
-        return "ebook-theme-dark bg-[#0f172a] text-[#f1f5f9] border-[#334155] shadow-soft";
+        return "ebook-theme-dark bg-[#1e293b] text-[#f1f5f9] border-[#334155] shadow-soft";
       case "light":
         return "ebook-theme-light bg-white text-slate-800 border-slate-200/60 shadow-soft";
       default:
@@ -841,12 +841,50 @@ export default function HairFallGuide() {
       case "cream":
         return "prose-stone prose-headings:text-[#2c2520] prose-p:text-[#433932] prose-strong:text-[#2c2520] prose-blockquote:border-primary prose-blockquote:text-[#433932] prose-blockquote:bg-[#f3ede2]/60";
       case "dark":
-        return "prose-invert prose-headings:text-slate-100 prose-p:text-slate-350 prose-strong:text-white prose-blockquote:border-primary prose-blockquote:bg-slate-900/40";
+        return "prose-invert prose-headings:text-slate-100 prose-p:text-slate-300 prose-strong:text-white prose-blockquote:border-primary prose-blockquote:bg-slate-900/40";
       case "light":
         return "prose-slate prose-headings:text-slate-900 prose-p:text-slate-600 prose-strong:text-slate-900 prose-blockquote:border-primary prose-blockquote:bg-slate-50";
       default:
         return "prose-slate dark:prose-invert prose-blockquote:border-primary";
     }
+  };
+
+  const getPageBackgroundClass = () => {
+    switch (readingTheme) {
+      case "cream":
+        return "bg-[#FAF6EE] text-[#2c2520]";
+      case "dark":
+        return "bg-[#0f172a] text-[#f1f5f9]";
+      case "light":
+        return "bg-[#f8fafc] text-slate-800";
+      default:
+        return "bg-bg-secondary text-text-primary";
+    }
+  };
+
+  const getHeaderThemeClass = () => {
+    switch (readingTheme) {
+      case "cream":
+        return "bg-[#FAF8F5]/95 border-[#dfd5c2] text-[#2c2520]";
+      case "dark":
+        return "bg-[#0f172a]/95 border-slate-800 text-slate-100";
+      case "light":
+        return "bg-white/95 border-slate-200 text-slate-800";
+      default:
+        return "bg-bg-primary/95 border-border text-text-primary";
+    }
+  };
+
+  const getSanitizedContent = (htmlContent: string) => {
+    if (readingTheme === "dark") {
+      return htmlContent;
+    }
+    // Strip Tailwind dark classes when in Light or Cream reading theme
+    return htmlContent
+      .replace(/\bdark:text-[a-z0-9/-]+\b/g, '')
+      .replace(/\bdark:bg-[a-z0-9/-]+\b/g, '')
+      .replace(/\bdark:border-[a-z0-9/-]+\b/g, '')
+      .replace(/\bdark:prose-invert\b/g, '');
   };
 
   // Habits Scorecard State (Chapter 20)
@@ -876,7 +914,7 @@ export default function HairFallGuide() {
   const [chatMessages, setChatMessages] = useState<Array<{ sender: "user" | "coach"; text: string; isError?: boolean }>>([
     {
       sender: "coach",
-      text: "Hello! I am your ✨ **Curiva AI Scalp Coach**.\n\nI have read the complete *Hair Fall Recovery Guide* and can help customize your health journey. Feel free to ask me anything about stress, protein, sleep, or homeopathic constitutional perspectives."
+      text: "Hello! I am your ✨ **Curiva AI Scalp Coach**.\n\nI have read the complete *Hair Fall Recovery Guide* and can help customize your health journey. Feel free to ask me anything about stress, protein, sleep, or Homoeopathic constitutional perspectives."
     }
   ]);
 
@@ -1209,7 +1247,7 @@ export default function HairFallGuide() {
         description="Explore the complete comprehensive eBook Guide with practical advice, scorecards, custom planners and real-time AI Scalp Coaching."
       />
 
-      <div className="min-h-screen bg-bg-secondary text-text-primary font-sans flex flex-col relative overflow-hidden transition-colors duration-300">
+      <div className={`min-h-screen font-sans flex flex-col relative overflow-hidden transition-colors duration-300 ${getPageBackgroundClass()}`}>
         
         {/* Top Progress bar tracker */}
         <div className="fixed top-0 left-0 w-full h-1.5 bg-border/40 z-50">
@@ -1222,7 +1260,7 @@ export default function HairFallGuide() {
         </div>
 
         {/* Ebook Navigation Header */}
-        <div className="sticky top-0 bg-bg-primary/95 backdrop-blur-md border-b border-border z-40 px-4 py-3 flex items-center justify-between shadow-sm">
+        <div className={`sticky top-0 backdrop-blur-md border-b z-40 px-4 py-3 flex items-center justify-between shadow-sm transition-colors duration-300 ${getHeaderThemeClass()}`}>
           <div className="flex items-center gap-2">
             <button 
               onClick={() => setIsSidebarOpen(true)}
@@ -1233,7 +1271,7 @@ export default function HairFallGuide() {
             </button>
             <div className="flex flex-col">
               <span className="text-[10px] uppercase tracking-widest font-black text-primary">CURIVA HOMOEOPATHY</span>
-              <span className="text-sm font-display font-black hidden md:inline text-text-primary">
+              <span className="text-sm font-display font-black hidden md:inline text-current opacity-90">
                 Hair Fall Recovery Guide
               </span>
             </div>
@@ -1353,7 +1391,39 @@ export default function HairFallGuide() {
         </div>
 
         {/* Main Book Frame */}
-        <div className="flex-grow flex max-w-5xl mx-auto w-full relative z-10 px-4 py-8 items-stretch justify-center">
+        <div className="flex-grow flex max-w-7xl mx-auto w-full relative z-10 px-12 md:px-16 py-8 items-stretch justify-center">
+          
+          {/* LEFT HOVER TRIGGER ZONE FOR PREVIOUS PAGE */}
+          {currentChapterIndex > 0 && (
+            <div className="absolute left-0 top-0 bottom-0 w-12 md:w-16 flex items-center justify-center z-30 group">
+              <button
+                onClick={() => setCurrentChapterIndex(prev => Math.max(0, prev - 1))}
+                className="flex flex-col items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-white/90 dark:bg-zinc-900/90 hover:bg-primary hover:text-white border border-border/80 hover:border-primary rounded-full shadow-lg transition-all duration-300 transform translate-x-2 group-hover:translate-x-0 scale-90 group-hover:scale-110 cursor-pointer"
+                title="Go to Previous Chapter"
+              >
+                <ArrowLeft className="w-5 h-5 text-text-primary group-hover:text-white transition-colors" />
+                <span className="absolute left-14 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200 bg-slate-900 text-white text-[10px] py-1 px-3 rounded-xl font-bold font-sans whitespace-nowrap shadow-md pointer-events-none">
+                  Previous Page
+                </span>
+              </button>
+            </div>
+          )}
+
+          {/* RIGHT HOVER TRIGGER ZONE FOR NEXT PAGE */}
+          {currentChapterIndex < BOOK_DATA.length - 1 && (
+            <div className="absolute right-0 top-0 bottom-0 w-12 md:w-16 flex items-center justify-center z-30 group">
+              <button
+                onClick={() => setCurrentChapterIndex(prev => Math.min(BOOK_DATA.length - 1, prev + 1))}
+                className="flex flex-col items-center justify-center w-10 h-10 md:w-12 md:h-12 bg-white/90 dark:bg-zinc-900/90 hover:bg-primary hover:text-white border border-border/80 hover:border-primary rounded-full shadow-lg transition-all duration-300 transform -translate-x-2 group-hover:translate-x-0 scale-90 group-hover:scale-110 cursor-pointer"
+                title="Go to Next Chapter"
+              >
+                <ArrowRight className="w-5 h-5 text-text-primary group-hover:text-white transition-colors" />
+                <span className="absolute right-14 scale-95 opacity-0 group-hover:scale-100 group-hover:opacity-100 transition-all duration-200 bg-slate-900 text-white text-[10px] py-1 px-3 rounded-xl font-bold font-sans whitespace-nowrap shadow-md pointer-events-none">
+                  Next Page
+                </span>
+              </button>
+            </div>
+          )}
           
           {/* Elegant Book Canvas mimicking a real printed hardcover page */}
           <div className={`flex-grow max-w-3xl w-full flex flex-col justify-between min-h-[80vh] p-6 md:p-12 rounded-2xl border transition-all duration-300 ${getThemeClasses()} ${fontStyle === "serif" ? "font-serif-reader" : "font-sans-book"}`}>
@@ -1368,7 +1438,7 @@ export default function HairFallGuide() {
                   className={`max-w-none transition-all duration-200 prose ${getProseThemeClasses()}`}
                   style={{ fontSize: `${18 + fontSizeMultiplier * 2}px`, lineHeight: "1.85" }}
                 >
-                  <div dangerouslySetInnerHTML={{ __html: currentChapter.content }} />
+                  <div dangerouslySetInnerHTML={{ __html: getSanitizedContent(currentChapter.content) }} />
                 </motion.div>
               </AnimatePresence>
 
@@ -1776,7 +1846,7 @@ export default function HairFallGuide() {
                     type="text"
                     value={searchQuery}
                     onChange={(e) => handleSearchInput(e.target.value)}
-                    placeholder="Search chapters, triggers, homeopathic tips..."
+                    placeholder="Search chapters, triggers, Homoeopathic tips..."
                     autoFocus
                     className="w-full bg-transparent outline-none text-text-primary placeholder-text-secondary text-sm md:text-base"
                   />

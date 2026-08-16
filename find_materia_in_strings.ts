@@ -5,7 +5,7 @@ function main() {
   const items = content.split('\n\n========================================================\n\n');
   console.log('Total items in decoded_strings.txt:', items.length);
 
-  const keywords = ['pulsatilla', 'lycopodium', 'arsenicum', 'materia', 'medica', 'canvas', 'homeopathy', 'color', 'hex', 'brand', 'remedy', 'lexicon', 'class', 'import'];
+  const keywords = ['pulsatilla', 'lycopodium', 'arsenicum', 'materia', 'medica', 'canvas', 'Homoeopathy', 'color', 'hex', 'brand', 'remedy', 'lexicon', 'class', 'import'];
   
   keywords.forEach(kw => {
     let matches: { idx: number; text: string }[] = [];

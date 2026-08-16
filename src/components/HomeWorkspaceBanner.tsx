@@ -15,69 +15,111 @@ import {
   FileText
 } from 'lucide-react';
 import { UserProfile } from '../services/userService';
+import { useRole } from '../context/RoleContext';
 
 interface HomeWorkspaceBannerProps {
   profile: UserProfile;
 }
 
 export const HomeWorkspaceBanner: React.FC<HomeWorkspaceBannerProps> = ({ profile }) => {
-  const profession = profile.profession || 'user';
-  const name = profile.displayName || 'Homeopathy Scholar';
+  const { currentRole } = useRole();
+  const profession = currentRole || profile.profession || 'Guest';
+  const name = profile.displayName || 'Homoeopathy Scholar';
 
   // Customized details based on role
   const getRoleDetails = () => {
     switch (profession) {
-      case 'doctor':
+      case 'Practitioner':
         return {
-          badge: '🩺 Homoeopathy Doctor (BHMS, MD-Hom)',
+          badge: '🩺 Registered Practitioner (BHMS/MD)',
           badgeColor: 'bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/20',
           title: `Dr. ${name}'s Clinical Desk`,
           description: 'Access precision Materia Medica drug pictures, clinical therapeutics, pathology indices, and remedy relationship networks.',
           shortcuts: [
             { name: 'Materia Medica A-Z', desc: 'Browse drug pictures, keynotes and modalities.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' },
             { name: 'Clinical Therapeutics', desc: 'Pathology-backed case management guides.', to: '/clinical-guides', icon: Activity, color: 'text-sky-500 bg-sky-500/5' },
-            { name: 'Remedy Nexus', desc: 'Analyze complementary/inimical remedies.', to: '/nexus', icon: Network, color: 'text-indigo-500 bg-indigo-500/5' },
-            { name: 'My Saved Library', desc: 'Saved clinical cases and references.', to: '/library', icon: FileText, color: 'text-amber-500 bg-amber-500/5' }
+            { name: 'Miasms Encyclopedia', desc: 'Deep-dive into chronic Psora, Sycosis, and Syphilis.', to: '/miasms', icon: GraduationCap, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Remedy Matrix', desc: 'Surgically compare modality & keynote details.', to: '/analysis', icon: Zap, color: 'text-amber-500 bg-amber-500/5' }
           ]
         };
-      case 'practitioner':
+      case 'Intern':
         return {
-          badge: '🌿 Clinical Practitioner',
+          badge: '🌿 Clinical Hospital Intern',
           badgeColor: 'bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/20',
-          title: `Practitioner Workspace: ${name}`,
-          description: 'Leverage dynamic repertory analysis, comparative remedy visualizers, and historical stalwarts drug provings.',
+          title: `Internship Desk: ${name}`,
+          description: 'Leverage dynamic repertory analysis, CBC blood report interpreters, and clinical case totality logs.',
           shortcuts: [
-            { name: 'Interactive Repertory', desc: 'Map classical symptoms to exact remedies.', to: '/repertory', icon: Zap, color: 'text-orange-500 bg-orange-500/5' },
-            { name: 'Comparative Analysis', desc: 'Compare modality & keynote details.', to: '/analysis', icon: Activity, color: 'text-teal-500 bg-teal-500/5' },
-            { name: 'Remedy Nexus', desc: 'Navigate remedy antidotes and provers.', to: '/nexus', icon: Network, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Symptom Repertory', desc: 'Map classical symptoms to exact rubrics.', to: '/symptom-checker', icon: Zap, color: 'text-orange-500 bg-orange-500/5' },
+            { name: 'CBC Diagnostic Handbook', desc: 'Interpret hemogram lab reports.', to: '/cbc-handbook', icon: Activity, color: 'text-teal-500 bg-teal-500/5' },
+            { name: 'Clinical Case Logs', desc: 'Log and track repertorized case studies.', to: '/profile', icon: FileText, color: 'text-indigo-500 bg-indigo-500/5' },
             { name: 'Materia Medica A-Z', desc: 'Reference classical drug books easily.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' }
           ]
         };
-      case 'student':
+      case 'BHMS Student':
         return {
-          badge: '🎓 Academic Student / Scholar',
+          badge: '🎓 BHMS Undergraduate Scholar',
           badgeColor: 'bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20',
           title: `Scholar Desk: ${name}`,
-          description: 'Train with 10,000+ competitive Homeopathy PG MCQs, examine Organon principles and view anatomical remedy visualizers.',
+          description: 'Train with 5000+ AIAPGET MCQs, review Organon aphorisms, 100+ flashcards, and NCH CBDC syllabus maps.',
           shortcuts: [
-            { name: 'Targeted MCQ Practice', desc: 'Excel in PG access and BHMS tests.', to: '/mcq-practice', icon: ShieldCheck, color: 'text-indigo-500 bg-indigo-500/5' },
-            { name: 'Organon & Philosophy', desc: 'Examine 291 Hahnemannian aphorisms.', to: '/lexicon/philosophy', icon: GraduationCap, color: 'text-amber-500 bg-amber-500/5' },
-            { name: 'Remedy Visualizer', desc: 'Interactive organ-based remedy mapping.', to: '/visualization', icon: Sparkles, color: 'text-purple-500 bg-purple-500/5' },
-            { name: 'Symptoms Repertory', desc: 'Practice study lists of symptom rubrics.', to: '/repertory', icon: Zap, color: 'text-orange-500 bg-orange-500/5' }
+            { name: '1st BHMS Exam Prep', desc: 'Flagship revision guide for 1st BHMS.', to: '/first-bhms-crash-course', icon: Sparkles, color: 'text-purple-500 bg-purple-500/5' },
+            { name: '5000+ AIAPGET MCQs', desc: 'Practice competitive entrance exam questions.', to: '/mcq-practice', icon: ShieldCheck, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Syllabus Tracker', desc: 'NCH competency target maps.', to: '/cbdc-syllabus', icon: GraduationCap, color: 'text-amber-500 bg-amber-500/5' },
+            { name: 'Anatomy Core', desc: 'Interactive osteology & organ diagrams.', to: '/anatomy', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' }
           ]
         };
-      case 'user':
+      case 'Faculty':
+        return {
+          badge: '📚 Academic Faculty & Professor',
+          badgeColor: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
+          title: `Faculty Portal: ${name}`,
+          description: 'Access lecture planners, CBDC competency blueprints, university PYQs, and interactive teaching diagrams.',
+          shortcuts: [
+            { name: 'CBDC Syllabus Blueprint', desc: 'Manage NCH course hours and topics.', to: '/cbdc-syllabus', icon: GraduationCap, color: 'text-purple-500 bg-purple-500/5' },
+            { name: 'Solved University PYQs', desc: 'Access 10-year question and answer templates.', to: '/student-resources', icon: FileText, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Remedy Relationship Maps', desc: 'Interactive visual connection graphs.', to: '/visualization', icon: Network, color: 'text-teal-500 bg-teal-500/5' },
+            { name: 'Materia Medica Guides', desc: 'Lectures and drug pictures.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' }
+          ]
+        };
+      case 'Researcher':
+        return {
+          badge: '🔬 Postgrad Researcher & Scholar',
+          badgeColor: 'bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border-cyan-500/20',
+          title: `Research Hub: ${name}`,
+          description: 'Evaluate high-dilution clinical trial databases, drug proving archives, cytopathology miasmatics, and affinity matrices.',
+          shortcuts: [
+            { name: 'Miasms & Cytopathology', desc: 'Psora, Sycosis & Syphilis research papers.', to: '/miasms', icon: GraduationCap, color: 'text-cyan-500 bg-cyan-500/5' },
+            { name: 'Remedy Affinity Analyzer', desc: 'Side-by-side concordance analysis.', to: '/analysis', icon: Activity, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Evidence Repository', desc: 'Scientific proofs & ultra-high dilution data.', to: '/public-education', icon: ShieldCheck, color: 'text-emerald-500 bg-emerald-500/5' },
+            { name: 'Stalwarts Drug Provings', desc: 'Classical provings and historical records.', to: '/stalwarts', icon: BookOpen, color: 'text-amber-500 bg-amber-500/5' }
+          ]
+        };
+      case 'Administrator':
+        return {
+          badge: '🛡️ Portal Administrator',
+          badgeColor: 'bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/20',
+          title: `Admin Control Panel: ${name}`,
+          description: 'Audit internal link connectivity, knowledge graph integrity, security parameters, and user case log registries.',
+          shortcuts: [
+            { name: 'Knowledge Graph Audit', desc: 'Inspect website link architecture.', to: '/admin/link-audit', icon: Network, color: 'text-red-500 bg-red-500/5' },
+            { name: 'Case Log Registries', desc: 'Review user-logged clinical totals.', to: '/profile', icon: FileText, color: 'text-amber-500 bg-amber-500/5' },
+            { name: 'CBDC Course Builder', desc: 'Configure university subject modules.', to: '/cbdc-syllabus', icon: GraduationCap, color: 'text-indigo-500 bg-indigo-500/5' },
+            { name: 'Sitemaps Overview', desc: 'Audit active route registries.', to: '/public-education', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' }
+          ]
+        };
+      case 'Public':
+      case 'Guest':
       default:
         return {
-          badge: '📖 Classic Reader / Learner',
+          badge: '📖 Guest & Public Reader Desk',
           badgeColor: 'bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/20',
           title: `Welcome, ${name}`,
-          description: 'Accelerate your homeopathic self-study. Discover organic plant-remedies database, stalwarts biography and ask direct questions.',
+          description: 'Accelerate your Homoeopathic learning. Explore plant remedy databases, stalwarts biographies, and ask direct questions.',
           shortcuts: [
-            { name: 'Materia Medica Guides', desc: 'A-Z introduction to homeopathic remedies.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' },
-            { name: 'Stalwarts Biography', desc: 'Learn the genesis & classical works.', to: '/stalwarts', icon: GraduationCap, color: 'text-slate-500 bg-slate-500/5' },
-            { name: 'Public Education', desc: 'Learn the principles & read wellness FAQs.', to: '/public-education', icon: HelpCircle, color: 'text-red-500 bg-red-500/5' },
-            { name: 'My Saved Library', desc: 'Bookmarks of useful remedies or articles.', to: '/library', icon: FileText, color: 'text-amber-500 bg-amber-500/5' }
+            { name: 'Materia Medica A-Z', desc: 'Introduction to classical remedies.', to: '/materia-medica', icon: BookOpen, color: 'text-emerald-500 bg-emerald-500/5' },
+            { name: 'Public Health Education', desc: 'Demystifying Homoeopathy myths.', to: '/public-education', icon: HelpCircle, color: 'text-red-500 bg-red-500/5' },
+            { name: 'Free Patient eBooks', desc: 'Download wellness handbooks.', to: '/ebooks', icon: FileText, color: 'text-amber-500 bg-amber-500/5' },
+            { name: 'Stalwarts Biographies', desc: 'Genesis & classical works of masters.', to: '/stalwarts', icon: GraduationCap, color: 'text-slate-500 bg-slate-500/5' }
           ]
         };
     }
@@ -86,12 +128,12 @@ export const HomeWorkspaceBanner: React.FC<HomeWorkspaceBannerProps> = ({ profil
   const details = getRoleDetails();
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 relative z-10 mt-8 mb-16">
+    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-8 mb-16">
       <motion.div 
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, type: 'spring' }}
-        className="relative bg-gradient-to-br from-zinc-900 via-zinc-950 to-emerald-950/20 text-white rounded-[3.5rem] border-2 border-border/20 shadow-[0_30px_100px_rgba(0,0,0,0.5)] p-8 md:p-14 overflow-hidden"
+        className="relative bg-gradient-to-br from-zinc-900 via-zinc-950 to-emerald-950/20 text-white rounded-3xl border-2 border-border/20 shadow-[0_30px_100px_rgba(0,0,0,0.5)] p-6 md:p-10 overflow-hidden"
       >
         {/* Intricate decorative outline */}
         <div className="absolute inset-0 border border-white/5 rounded-[3.4rem] pointer-events-none m-1" />

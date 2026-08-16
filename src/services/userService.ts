@@ -94,7 +94,7 @@ export const userService = {
           uid: user.uid,
           email: user.email || user.phoneNumber || '',
           phoneNumber: user.phoneNumber || '',
-          displayName: user.displayName || user.email?.split('@')[0] || user.phoneNumber || 'Scholar Homeopath',
+          displayName: user.displayName || user.email?.split('@')[0] || user.phoneNumber || 'Scholar Homoeopath',
           photoURL: user.photoURL || '',
           profession: profession || 'user',
           bookmarks: [],

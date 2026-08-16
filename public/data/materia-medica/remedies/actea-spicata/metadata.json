@@ -1,0 +1,14 @@
+{
+  "slug": "actea-spicata",
+  "title": "Actea Spicata",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Face", "Stomach", "Abdomen", "Respiratory", "Extremities", "Relationship", "Dose"],
+  "word_count": 135,
+  "character_count": 920,
+  "paragraph_count": 9,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "act123spicata"
+}

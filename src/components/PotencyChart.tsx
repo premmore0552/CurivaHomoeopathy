@@ -15,7 +15,7 @@ export default function PotencyChart() {
   const [similarity, setSimilarity] = useState(3); // 1 = Partial Simillimum, 5 = Absolute Simillimum
 
   const getEstimatorResult = () => {
-    // Logic based on classical homeopathic clinical tenets (e.g. Kent, Hahnemann, Close)
+    // Logic based on classical Homoeopathic clinical tenets (e.g. Kent, Hahnemann, Close)
     if (pathology >= 4) {
       return {
         potency: '6C to 30C or LM1 - LM6 (Low & Gentle)',
@@ -87,7 +87,7 @@ export default function PotencyChart() {
                  Potency <span className="text-primary italic">Reference</span> Guide
                </h3>
                <p className="text-text-secondary text-base font-serif italic leading-relaxed">
-                 A structured overview of homeopathic scales used in clinical practice and pharmaceutical preparation.
+                 A structured overview of Homoeopathic scales used in clinical practice and pharmaceutical preparation.
                </p>
             </div>
             <div className="flex items-center gap-4 p-6 bg-bg-primary/50 backdrop-blur-xl border border-border rounded-3xl shrink-0">
@@ -295,7 +295,7 @@ export default function PotencyChart() {
               <div className="mt-8 pt-6 border-t border-border flex items-start gap-3 text-text-secondary">
                 <AlertCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
                 <p className="text-[10px] uppercase font-black tracking-wider leading-relaxed">
-                  Disclaimer: This simulator demonstrates classical homeopathic laws and is structured for academic training. It does not replace clinical evaluation or medical diagnosis.
+                  Disclaimer: This simulator demonstrates classical Homoeopathic laws and is structured for academic training. It does not replace clinical evaluation or medical diagnosis.
                 </p>
               </div>
             </div>

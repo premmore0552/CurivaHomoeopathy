@@ -243,7 +243,7 @@ export const diseaseHubData: Disease[] = [
       "Peptic Ulcer Disease (PUD): Epigastric burning pain, specifically timed with food intake (duodenal ulcer is relieved by food; gastric ulcer is worsened)."
     ],
     treatmentOverview: "Conventional treatment focuses on acid suppression using Proton Pump Inhibitors (PPIs like Omeprazole, Pantoprazole), H2 Receptor Antagonists (Famotidine), and antacids. Lifestyle changes include elevating the head of the bed (6 inches), eating smaller meals, avoiding lying down for 3 hours post-meals, and weight loss.",
-    homoeopathicApproach: "Homeopathy addresses acid peptic disease by evaluating individual digestive patterns, constitutional susceptibility, and psychosomatic triggers (e.g., stress, anger, workaholism). Prescription parameters include the taste of eructations (sour, bitter, rancid), the timing of flatulence, stomach pain characteristics (burning, cramping, weight-like), and dietary cravings/aversions. Constitutional remedies address dysmotility, emotional stress, and chronic mucosal inflammation without inducing long-term hypochlorhydria.",
+    homoeopathicApproach: "Homoeopathy addresses acid peptic disease by evaluating individual digestive patterns, constitutional susceptibility, and psychosomatic triggers (e.g., stress, anger, workaholism). Prescription parameters include the taste of eructations (sour, bitter, rancid), the timing of flatulence, stomach pain characteristics (burning, cramping, weight-like), and dietary cravings/aversions. Constitutional remedies address dysmotility, emotional stress, and chronic mucosal inflammation without inducing long-term hypochlorhydria.",
     topTenRemedies: [
       {
         name: "Nux Vomica (Poison Nut)",
@@ -254,7 +254,7 @@ export const diseaseHubData: Disease[] = [
       },
       {
         name: "Carbo Vegetabilis (Vegetable Charcoal)",
-        keyIndications: "The 'corpse reviver' of homeopathy. Extreme, bloated distension of the upper abdomen. Simplest food turns into gas. Constant, loud belching which provides temporary relief. Sensation of burning heat in the stomach. Desires to be fanned rapidly from a close distance.",
+        keyIndications: "The 'corpse reviver' of Homoeopathy. Extreme, bloated distension of the upper abdomen. Simplest food turns into gas. Constant, loud belching which provides temporary relief. Sensation of burning heat in the stomach. Desires to be fanned rapidly from a close distance.",
         modalities: "Worse from: Rich fat foods, milk, lying flat. Better from: Belching, cold air, being fanned.",
         constitution: "Apathetic, elderly, sluggish individuals with poor venous circulation.",
         potencyTips: "30C to 200C in repeated dry doses."
@@ -332,7 +332,7 @@ export const diseaseHubData: Disease[] = [
     mcqs: [
       {
         id: "gerd-q1",
-        question: "Which homeopathic remedy has the characteristic symptom: 'Pain in the stomach is temporarily relieved by eating, but returns as soon as the stomach becomes empty again'?",
+        question: "Which Homoeopathic remedy has the characteristic symptom: 'Pain in the stomach is temporarily relieved by eating, but returns as soon as the stomach becomes empty again'?",
         options: [
           "Nux Vomica",
           "Anacardium Orientale",

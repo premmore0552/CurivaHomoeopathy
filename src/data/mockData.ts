@@ -6,7 +6,7 @@ export const categories: Category[] = [
     id: 'materia-medica',
     name: 'Materia Medica',
     icon: 'BookOpen',
-    description: 'Comprehensive study of homeopathic remedies, their symptoms, and origins.'
+    description: 'Comprehensive study of Homoeopathic remedies, their symptoms, and origins.'
   },
   {
     id: 'conditions',
@@ -24,7 +24,7 @@ export const categories: Category[] = [
     id: 'students',
     name: 'BHMS Course',
     icon: 'GraduationCap',
-    description: 'Educational resources and study guides for aspiring homeopaths.'
+    description: 'Educational resources and study guides for aspiring Homoeopaths.'
   },
   {
     id: 'research',

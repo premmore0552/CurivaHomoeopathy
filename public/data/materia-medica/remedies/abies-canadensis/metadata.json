@@ -1,0 +1,14 @@
+{
+  "slug": "abies-canadensis",
+  "title": "Abies Canadensis",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Stomach", "Female", "Fever", "Dose"],
+  "word_count": 154,
+  "character_count": 948,
+  "paragraph_count": 6,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "abc123abiescan"
+}

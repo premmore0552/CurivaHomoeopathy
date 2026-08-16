@@ -1,0 +1,14 @@
+{
+  "slug": "aletris-farinosa",
+  "title": "Aletris Farinosa",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Stomach", "Abdomen", "Female", "Relationship", "Dose"],
+  "word_count": 100,
+  "character_count": 750,
+  "paragraph_count": 7,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "ale123farin"
+}

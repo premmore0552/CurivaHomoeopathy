@@ -10,7 +10,7 @@ interface FAQItem {
 const faqs: FAQItem[] = [
   {
     question: "Is Curiva a direct medical clinic?",
-    answer: "No. Curiva is a purely educational research platform. We do not provide clinical diagnosis, medical treatment, or professional consultations. Our content is designed for academic study and homoeopathic awareness."
+    answer: "No. Curiva is a purely educational research platform. We do not provide clinical diagnosis, medical treatment, or professional consultations yet. Our content is designed for academic study and homoeopathic awareness."
   },
   {
     question: "How does the Research Database work?",
@@ -18,7 +18,7 @@ const faqs: FAQItem[] = [
   },
   {
     question: "Are homoeopathic remedies safe for everyone?",
-    answer: "While homeopathic literature describes remedies as gentle and non-toxic, Curiva recommends that anyone considering treatment seek the professional guidance of a qualified medical practitioner. Our site serves to explain the traditional theory behind these remedies."
+    answer: "While Homoeopathic literature describes remedies as gentle and non-toxic, Curiva recommends that anyone considering treatment seek the professional guidance of a qualified medical practitioner. Our site serves to explain the traditional theory behind these remedies."
   },
   {
     question: "How should I store educational remedy samples?",

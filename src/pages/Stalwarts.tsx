@@ -63,7 +63,7 @@ const Stalwarts: React.FC = () => {
         />
 
         {/* Back navigation & breadcrumbs */}
-        <div className="max-w-6xl mx-auto px-6 pt-24 pb-8">
+        <div className="max-w-7xl mx-auto px-6 pt-24 pb-8">
           <button 
             onClick={() => navigate('/stalwarts')}
             className="group inline-flex items-center gap-2.5 px-5 py-2.5 bg-white border border-border rounded-full text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all shadow-sm cursor-pointer"
@@ -74,8 +74,8 @@ const Stalwarts: React.FC = () => {
         </div>
 
         {/* PROFILE HEADER / HERO */}
-        <main className="max-w-6xl mx-auto px-6">
-          <div className="bg-white rounded-[2.5rem] border border-border shadow-soft overflow-hidden">
+        <main className="max-w-7xl mx-auto px-6">
+          <div className="bg-bg-secondary dark:bg-gray-900 rounded-[2.5rem] border border-border shadow-soft overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12">
               
               {/* Left Profile Card Column */}
@@ -115,7 +115,7 @@ const Stalwarts: React.FC = () => {
                   </div>
 
                   {selectedStalwart.quote && (
-                    <div className="p-6 bg-white rounded-2xl border border-border max-w-sm mx-auto shadow-sm">
+                    <div className="p-6 bg-bg-primary dark:bg-gray-955 rounded-2xl border border-border max-w-sm mx-auto shadow-sm">
                       <Quote className="w-6 h-6 text-primary/20 mx-auto mb-2" />
                       <p className="text-sm text-text-secondary leading-relaxed italic font-serif">
                         "{selectedStalwart.quote}"
@@ -285,7 +285,7 @@ const Stalwarts: React.FC = () => {
 
       <main className="max-w-7xl mx-auto px-6 relative z-20">
         {/* Search Bar */}
-        <div className="mb-12 md:mb-20">
+        <div className="mb-12 md:mb-10">
           <div className="relative max-w-4xl">
             <Search className="absolute left-6 md:left-8 top-1/2 -translate-y-1/2 w-5 h-5 md:w-6 md:h-6 text-text-tertiary" />
             <input 
@@ -293,7 +293,7 @@ const Stalwarts: React.FC = () => {
               placeholder="Search by name, biography, or contribution..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full bg-white border border-border focus:border-primary px-14 md:px-20 py-5 md:py-8 rounded-[1.5rem] md:rounded-[2.5rem] text-base md:text-xl font-bold text-text-primary shadow-soft transition-all outline-none placeholder:text-text-tertiary placeholder:opacity-50"
+              className="w-full bg-bg-secondary dark:bg-gray-900 border border-border focus:border-primary px-14 md:px-20 py-5 md:py-8 rounded-[1.5rem] md:rounded-[2.5rem] text-base md:text-xl font-bold text-text-primary shadow-soft transition-all outline-none placeholder:text-text-tertiary placeholder:opacity-50"
             />
             <div className="absolute right-6 md:right-8 top-1/2 -translate-y-1/2 flex items-center gap-4">
               <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary hidden lg:block">
@@ -316,7 +316,7 @@ const Stalwarts: React.FC = () => {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: index * 0.05 }}
               onClick={() => navigate(`/stalwarts/${stalwart.id}`)}
-              className="group relative bg-white rounded-[2rem] md:rounded-[3rem] border border-border p-6 md:p-8 hover:border-primary transition-all cursor-pointer overflow-hidden shadow-soft flex flex-col justify-between"
+              className="group relative bg-bg-secondary dark:bg-gray-900 rounded-[2rem] md:rounded-[3rem] border border-border p-6 md:p-8 hover:border-primary transition-all cursor-pointer overflow-hidden shadow-soft flex flex-col justify-between"
             >
               <div className="space-y-6">
                 {/* Visual Identity */}
@@ -386,7 +386,7 @@ const Stalwarts: React.FC = () => {
         </div>
 
         {filteredStalwarts.length === 0 && (
-          <div className="py-40 text-center">
+          <div className="py-16 text-center">
             <div className="w-20 h-20 bg-bg-secondary rounded-full flex items-center justify-center mx-auto mb-8 border border-border">
               <Search className="w-8 h-8 text-text-tertiary" />
             </div>

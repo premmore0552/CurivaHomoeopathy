@@ -1,0 +1,14 @@
+{
+  "slug": "aethusa-cynapium",
+  "title": "Aethusa Cynapium",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Eyes", "Face", "Mouth", "Stomach", "Abdomen", "Rectum", "Modalities", "Relationship", "Dose"],
+  "word_count": 210,
+  "character_count": 1450,
+  "paragraph_count": 12,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "aet123cynap"
+}

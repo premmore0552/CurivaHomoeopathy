@@ -53,7 +53,7 @@
       "required": ["uid", "email"]
     },
     "Question": {
-      "title": "Ask a Homeopath Question",
+      "title": "Ask a Homoeopath Question",
       "description": "Questions submitted by users and answered by professionals",
       "type": "object",
       "properties": {
@@ -79,7 +79,7 @@
       "type": "object",
       "properties": {
         "uid": { "type": "string" },
-        "role": { "type": "string", "enum": ["admin", "homeopath"] },
+        "role": { "type": "string", "enum": ["admin", "Homoeopath"] },
         "createdAt": { "type": "string", "format": "date-time" }
       },
       "required": ["uid", "role"]

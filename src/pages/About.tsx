@@ -34,7 +34,7 @@ export default function About() {
       />
       
       {/* Hero Section */}
-      <section className="relative py-24 md:py-32 overflow-hidden bg-bg-secondary border-b border-border">
+      <section className="relative py-16 md:py-12 overflow-hidden bg-bg-secondary border-b border-border">
         <div className="absolute top-0 right-0 w-1/2 h-full bg-primary/5 pointer-events-none -skew-x-12 transform origin-top" />
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <motion.div
@@ -65,7 +65,7 @@ export default function About() {
       </section>
 
       {/* Story Content */}
-      <section className="py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div 
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
@@ -130,7 +130,7 @@ export default function About() {
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="mt-32 p-12 bg-bg-secondary rounded-[2.5rem] text-center relative overflow-hidden border border-border"
+          className="mt-16 p-12 bg-bg-secondary rounded-[2.5rem] text-center relative overflow-hidden border border-border"
         >
           <div className="absolute inset-0 bg-primary/10 blur-[100px] opacity-50" />
           <div className="relative z-10">

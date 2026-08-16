@@ -6,10 +6,17 @@ import {
   Printer, Download, Sparkles, Plus, Search, ArrowLeft, 
   HelpCircle, Check, RotateCcw, Filter, Leaf, Database, 
   Activity, Star, FileText, ChevronRight, CheckCircle2,
-  Layers, ArrowUpRight, Network, ShieldAlert, GraduationCap
+  Layers, ArrowUpRight, Network, ShieldAlert, GraduationCap,
+  Bookmark, BookmarkCheck, ArrowUpDown, SlidersHorizontal
 } from 'lucide-react';
 import { enhancedRemedies, RemedyDetailData } from '../data/enhancedRemedies';
 import { materiaMedicaData, RemedyDetail } from '../data/materiaMedica';
+import { 
+  isRemedyBookmarked, 
+  toggleBookmarkRemedy, 
+  getBookmarkedRemedies, 
+  removeBookmarkRemedy 
+} from '../utils/bookmarkUtils';
 
 const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
 
@@ -193,9 +200,9 @@ const FLASHCARDS = [
 ];
 
 const VIVA_QUESTIONS = [
-  { q: "Define 'Similia Similibus Curentur'.", a: "It translates to 'Let likes be cured by likes'—the fundamental therapeutic law of homeopathy stating that a substance capable of producing symptoms in a healthy person can cure similar symptoms in an ailing patient." },
+  { q: "Define 'Similia Similibus Curentur'.", a: "It translates to 'Let likes be cured by likes'—the fundamental therapeutic law of Homoeopathy stating that a substance capable of producing symptoms in a healthy person can cure similar symptoms in an ailing patient." },
   { q: "What is the difference between a common symptom and a characteristic symptom?", a: "Common symptoms describe the pathological disease state (e.g. fever, headache) and have low repertory weight. Characteristic symptoms are highly individualized, peculiar, rare, and unique to the patient (e.g. headache better from hard pressure, thirstlessness with high dry fever), guiding directly to the simillimum." },
-  { q: "Name three trios of remedies widely recognized in homeopathic literature.", a: "1. Trio of Restlessness (Aconite, Arsenicum, Rhus Tox). 2. Trio of Flatulence (Carbo Veg, Lycopodium, China). 3. Trio of Burning (Arsenicum, Sulphur, Phosphorus)." }
+  { q: "Name three trios of remedies widely recognized in Homoeopathic literature.", a: "1. Trio of Restlessness (Aconite, Arsenicum, Rhus Tox). 2. Trio of Flatulence (Carbo Veg, Lycopodium, China). 3. Trio of Burning (Arsenicum, Sulphur, Phosphorus)." }
 ];
 
 export default function MateriaMedicaCanvas() {
@@ -203,6 +210,30 @@ export default function MateriaMedicaCanvas() {
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
+  const [sortMode, setSortMode] = useState<'alphabetical-az' | 'alphabetical-za' | 'categorical-kingdom' | 'categorical-thermal' | 'saved-remedies'>('alphabetical-az');
+  const [bookmarkedIds, setBookmarkedIds] = useState<string[]>([]);
+
+  useEffect(() => {
+    const syncBookmarks = () => {
+      const list = getBookmarkedRemedies();
+      setBookmarkedIds(list.map(b => b.id.toLowerCase()));
+    };
+    syncBookmarks();
+    window.addEventListener('curiva_bookmarks_updated', syncBookmarks);
+    return () => window.removeEventListener('curiva_bookmarks_updated', syncBookmarks);
+  }, []);
+
+  const handleCardBookmarkToggle = (e: React.MouseEvent, remedy: RemedyDetailData) => {
+    e.stopPropagation();
+    toggleBookmarkRemedy({
+      id: remedy.id,
+      name: remedy.name,
+      commonName: remedy.origin || '',
+      family: remedy.family || '',
+      thermal: remedy.thermal || '',
+      keynotes: remedy.keyCharacteristics || []
+    });
+  };
   
   // Canvas-specific states
   const [selectedRemedy, setSelectedRemedy] = useState<RemedyDetailData | null>(null);
@@ -261,9 +292,9 @@ export default function MateriaMedicaCanvas() {
 
   // families for filtering
   const families = [
-    { id: 'Plant', icon: Leaf },
-    { id: 'Mineral', icon: Database },
-    { id: 'Animal', icon: Activity },
+    { id: 'Plant', label: 'Plant', icon: Leaf },
+    { id: 'Mineral', label: 'Mineral', icon: Database },
+    { id: 'Animal', label: 'Animal', icon: Activity },
   ];
 
   // Merge datasets to provide maximum rich entries
@@ -301,19 +332,58 @@ export default function MateriaMedicaCanvas() {
     return Array.from(mergedMap.values()).sort((a, b) => a.name.localeCompare(b.name));
   }, []);
 
-  // Filter items alphabet / search query / families
+  // Filter & Sort items alphabet / search query / families / sortMode
   const filteredRemedies = React.useMemo(() => {
-    return allRemedies.filter(item => {
+    let list = allRemedies.filter(item => {
       const nameStr = String(item.name || '');
       const commonNameStr = String(item.origin || '');
       const matchesLetter = selectedLetter ? nameStr.toUpperCase().startsWith(selectedLetter) : true;
       const matchesSearch = searchQuery 
-        ? nameStr.toLowerCase().includes(searchQuery.toLowerCase()) || commonNameStr.toLowerCase().includes(searchQuery.toLowerCase())
+        ? nameStr.toLowerCase().includes(searchQuery.toLowerCase()) || 
+          commonNameStr.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          (item.keyCharacteristics && item.keyCharacteristics.some(k => k.toLowerCase().includes(searchQuery.toLowerCase())))
         : true;
       const matchesFamily = activeFamily ? item.family === activeFamily : true;
+      
+      if (sortMode === 'saved-remedies') {
+        const isSaved = bookmarkedIds.includes(item.id.toLowerCase());
+        return isSaved && matchesSearch && matchesFamily;
+      }
+
       return matchesLetter && matchesSearch && matchesFamily;
     });
-  }, [allRemedies, selectedLetter, searchQuery, activeFamily]);
+
+    if (sortMode === 'alphabetical-az') {
+      return [...list].sort((a, b) => a.name.localeCompare(b.name));
+    }
+    if (sortMode === 'alphabetical-za') {
+      return [...list].sort((a, b) => b.name.localeCompare(a.name));
+    }
+    return list;
+  }, [allRemedies, selectedLetter, searchQuery, activeFamily, sortMode, bookmarkedIds]);
+
+  // Grouped remedies for Categorical modes
+  const groupedRemedies = React.useMemo(() => {
+    if (sortMode === 'categorical-kingdom') {
+      const groups: Record<string, RemedyDetailData[]> = {};
+      filteredRemedies.forEach(r => {
+        const key = r.family ? `${r.family} Kingdom / Source` : 'Other Sources';
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(r);
+      });
+      return Object.entries(groups);
+    }
+    if (sortMode === 'categorical-thermal') {
+      const groups: Record<string, RemedyDetailData[]> = {};
+      filteredRemedies.forEach(r => {
+        const key = r.thermal ? `Thermal Disposition: ${r.thermal}` : 'Unspecified Thermal';
+        if (!groups[key]) groups[key] = [];
+        groups[key].push(r);
+      });
+      return Object.entries(groups);
+    }
+    return [];
+  }, [filteredRemedies, sortMode]);
 
   const lettersWithItems = React.useMemo(() => {
     return [...new Set(allRemedies.map(item => item.name ? item.name[0].toUpperCase() : ''))].filter(Boolean);
@@ -392,13 +462,16 @@ You can click any ready-to-study suggestion below to load insights. If you like 
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          prompt: `Regarding the homeopathic remedy "${selectedRemedy?.name}" (${selectedRemedy?.origin}), please address: ${userPrompt}`,
+          prompt: `Regarding the Homoeopathic remedy "${selectedRemedy?.name}" (${selectedRemedy?.origin}), please address: ${userPrompt}`,
           conversationHistory: chatMessages.slice(1).map(m => ({
             role: m.role === 'user' ? 'user' : 'model',
             text: m.content
           }))
         })
       });
+
+      const isJson = response.headers.get('content-type')?.includes('application/json');
+      if (!isJson) throw new Error('AI response is not JSON');
 
       const data = await response.json();
       if (data.error) {
@@ -460,12 +533,15 @@ You can click any ready-to-study suggestion below to load insights. If you like 
         })
       });
 
+      const isJson = response.headers.get('content-type')?.includes('application/json');
+      if (!isJson) throw new Error('AI response is not JSON');
+
       const data = await response.json();
       if (data.error) {
         throw new Error(data.error);
       }
 
-      setAiOutputText(data.text || 'No response has been compiled by the homeopathic experts, please try again.');
+      setAiOutputText(data.text || 'No response has been compiled by the Homoeopathic experts, please try again.');
     } catch (err: any) {
       console.error(err);
       setAiOutputText(`⚠️ **Academic Proxy Connection Error:** ${err.message || 'Failed to establish cloud channel. Please check backend keys.'}`);
@@ -571,11 +647,75 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                           className={`flex items-center gap-2 px-4.5 py-2.5 rounded-xl text-xs font-black transition-all border uppercase tracking-wider cursor-pointer ${activeFamily === family.id ? 'bg-primary text-white border-primary shadow-sm' : 'bg-bg-secondary text-text-secondary border-transparent hover:border-primary/20'}`}
                         >
                           <Icon className="w-3.5 h-3.5 text-current" />
-                          {family.id}
+                          <span>{family.label}</span>
                         </button>
                       );
                     })}
                   </div>
+                </div>
+
+                {/* Sorting & Saved Remedies Toolbar */}
+                <div className="bg-bg-secondary/60 border border-border/80 p-3 rounded-2xl flex flex-wrap items-center justify-between gap-3">
+                  <div className="flex flex-wrap items-center gap-1.5">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary px-2 flex items-center gap-1">
+                      <ArrowUpDown className="w-3.5 h-3.5 text-primary" /> Sort View:
+                    </span>
+                    <button
+                      onClick={() => setSortMode('alphabetical-az')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        sortMode === 'alphabetical-az'
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-white dark:bg-zinc-800 text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      Alphabetical (A → Z)
+                    </button>
+                    <button
+                      onClick={() => setSortMode('alphabetical-za')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        sortMode === 'alphabetical-za'
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-white dark:bg-zinc-800 text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      Alphabetical (Z → A)
+                    </button>
+                    <button
+                      onClick={() => setSortMode('categorical-kingdom')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        sortMode === 'categorical-kingdom'
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-white dark:bg-zinc-800 text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      Group by Kingdom
+                    </button>
+                    <button
+                      onClick={() => setSortMode('categorical-thermal')}
+                      className={`px-3 py-1.5 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+                        sortMode === 'categorical-thermal'
+                          ? 'bg-primary text-white shadow-sm'
+                          : 'bg-white dark:bg-zinc-800 text-text-secondary hover:text-text-primary'
+                      }`}
+                    >
+                      Group by Thermal State
+                    </button>
+                  </div>
+
+                  <button
+                    onClick={() => setSortMode(sortMode === 'saved-remedies' ? 'alphabetical-az' : 'saved-remedies')}
+                    className={`px-3.5 py-1.5 rounded-xl text-xs font-extrabold transition-all flex items-center gap-1.5 cursor-pointer ${
+                      sortMode === 'saved-remedies'
+                        ? 'bg-amber-500 text-white shadow-md'
+                        : 'bg-amber-500/10 text-amber-700 dark:text-amber-400 hover:bg-amber-500/20'
+                    }`}
+                  >
+                    <BookmarkCheck className="w-4 h-4" />
+                    <span>Saved Remedies</span>
+                    <span className="px-1.5 py-0.2 bg-amber-600 dark:bg-amber-700 text-white text-[10px] rounded-full">
+                      {bookmarkedIds.length}
+                    </span>
+                  </button>
                 </div>
 
                 {/* Alphabet quick jump rail */}
@@ -611,84 +751,233 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                   })}
                 </div>
 
-                {/* Remedy Cards Grid */}
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {filteredRemedies.map((remedy, idx) => (
-                    <motion.div
-                      key={remedy.id}
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.25, delay: Math.min(idx * 0.02, 0.4) }}
-                      className="bg-white dark:bg-zinc-900 border border-border/80 hover:border-primary/50 p-6 rounded-[2rem] shadow-sm hover:shadow-xl transition-all group duration-300 flex flex-col justify-between"
-                    >
-                      <div className="space-y-4">
-                        <div className="flex items-start justify-between">
-                          <div className="px-3.5 py-1.5 bg-primary/5 border border-primary/10 rounded-xl text-[10px] font-black uppercase tracking-widest text-primary">
-                            {remedy.family} Source
-                          </div>
-                          <div className="flex items-center gap-1">
-                            <Star className="w-4 h-4 text-accent fill-accent" />
-                            <span className="text-[10px] font-black text-text-secondary">Core</span>
-                          </div>
-                        </div>
-
-                        <div className="space-y-1">
-                          <h3 className="text-2xl font-display font-medium text-text-primary uppercase tracking-tight group-hover:text-primary transition-colors leading-tight">
-                            {remedy.name}
-                          </h3>
-                          {remedy.origin && (
-                            <p className="text-xs text-text-tertiary italic font-medium font-serif">
-                              Synonym: {remedy.origin}
-                            </p>
-                          )}
-                        </div>
-
-                        <p className="text-xs text-text-secondary leading-relaxed font-medium line-clamp-3">
-                          {remedy.description || `${remedy.name} is a vital classical remedy with extensive characteristic keynotes, mental syndromes, and thermal requirements.`}
-                        </p>
-
-                        <div className="flex flex-wrap gap-1.5 pt-2">
-                          <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/20 text-accent text-[9px] font-bold rounded-lg border border-accent/20">
-                            🌡️ {remedy.thermal}
-                          </span>
-                          {remedy.modalities.worse.length > 0 && (
-                            <span className="px-2.5 py-1 bg-red-50 dark:bg-red-950/20 text-red-600 dark:text-red-400 text-[9px] font-bold rounded-lg border border-red-500/10">
-                              🚨 Worse: {remedy.modalities.worse[0]}
+                {/* Remedy Cards Layout (Grouped or Grid) */}
+                {sortMode === 'categorical-kingdom' || sortMode === 'categorical-thermal' ? (
+                  <div className="space-y-12">
+                    {groupedRemedies.map(([groupTitle, groupItems]) => (
+                      <div key={groupTitle} className="space-y-6">
+                        <div className="flex items-center justify-between border-b border-border pb-3">
+                          <h3 className="text-lg font-display font-black text-primary uppercase tracking-tight flex items-center gap-2">
+                            <span>{groupTitle}</span>
+                            <span className="px-2.5 py-0.5 text-xs bg-primary/10 text-primary rounded-full font-sans font-bold">
+                              {groupItems.length} {groupItems.length === 1 ? 'remedy' : 'remedies'}
                             </span>
-                          )}
+                          </h3>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                          {groupItems.map((remedy, idx) => {
+                            const isPlant = remedy.family === 'Plant';
+                            const isAnimal = remedy.family === 'Animal';
+                            const isMineral = remedy.family === 'Mineral';
+                            const isBookmarked = bookmarkedIds.includes(remedy.id.toLowerCase());
+
+                            const familyColorClass = isPlant 
+                              ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-850 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/30'
+                              : isAnimal
+                                ? 'bg-purple-50 dark:bg-purple-950/20 text-purple-850 dark:text-purple-400 border border-purple-200/50 dark:border-purple-900/30'
+                                : 'bg-blue-50 dark:bg-blue-950/20 text-blue-850 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/30';
+
+                            return (
+                              <motion.div
+                                key={remedy.id}
+                                initial={{ opacity: 0, y: 15 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.25, delay: Math.min(idx * 0.02, 0.4) }}
+                                className="bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 p-6 rounded-[2rem] shadow-sm hover:shadow-xl transition-all group duration-300 flex flex-col justify-between"
+                              >
+                                <div className="space-y-4">
+                                  <div className="flex items-start justify-between">
+                                    <div className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${familyColorClass} flex items-center gap-1.5`}>
+                                      {isPlant && <Leaf className="w-3.5 h-3.5 text-current" />}
+                                      {isAnimal && <Activity className="w-3.5 h-3.5 text-current" />}
+                                      {isMineral && <Database className="w-3.5 h-3.5 text-current" />}
+                                      <span>{remedy.family} Source</span>
+                                    </div>
+                                    <div className="flex items-center gap-1.5">
+                                      <button
+                                        onClick={(e) => handleCardBookmarkToggle(e, remedy)}
+                                        className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                                          isBookmarked
+                                            ? 'text-amber-500 bg-amber-50 dark:bg-amber-950/30'
+                                            : 'text-text-tertiary hover:text-amber-500 hover:bg-bg-secondary'
+                                        }`}
+                                        title={isBookmarked ? "Bookmarked (Click to remove)" : "Bookmark remedy"}
+                                      >
+                                        <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
+                                      </button>
+                                      <Star className="w-4 h-4 text-accent fill-accent" />
+                                    </div>
+                                  </div>
+
+                                  <div className="space-y-1">
+                                    <h3 className="text-2xl font-display font-semibold text-text-primary uppercase tracking-tight group-hover:text-primary transition-colors leading-tight">
+                                      {remedy.name}
+                                    </h3>
+                                    {remedy.origin && (
+                                      <p className="text-xs text-text-secondary italic font-semibold font-serif">
+                                        Synonym: {remedy.origin}
+                                      </p>
+                                    )}
+                                  </div>
+
+                                  <p className="text-xs text-text-secondary leading-relaxed font-medium line-clamp-3">
+                                    {remedy.description || `${remedy.name} is a vital classical remedy with extensive characteristic keynotes.`}
+                                  </p>
+
+                                  <div className="flex flex-wrap gap-1.5 pt-2">
+                                    <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-400 text-[9px] font-bold rounded-lg border border-amber-200/50">
+                                      🌡️ {remedy.thermal}
+                                    </span>
+                                  </div>
+                                </div>
+
+                                <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
+                                  <button
+                                    onClick={() => setSelectedRemedy(remedy)}
+                                    className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                                  >
+                                    <Sparkles className="w-3.5 h-3.5 text-accent-light" /> Initialize AI Canvas
+                                  </button>
+                                  <button
+                                    onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.id}`)}
+                                    className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
+                                  >
+                                    <span>Full Portrait</span>
+                                    <ArrowUpRight className="w-3.5 h-3.5" />
+                                  </button>
+                                </div>
+                              </motion.div>
+                            );
+                          })}
                         </div>
                       </div>
+                    ))}
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {filteredRemedies.map((remedy, idx) => {
+                      const isPlant = remedy.family === 'Plant';
+                      const isAnimal = remedy.family === 'Animal';
+                      const isMineral = remedy.family === 'Mineral';
+                      const isBookmarked = bookmarkedIds.includes(remedy.id.toLowerCase());
 
-                      <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
-                        <button
-                          onClick={() => setSelectedRemedy(remedy)}
-                          className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                      const familyColorClass = isPlant 
+                        ? 'bg-emerald-50 dark:bg-emerald-950/20 text-emerald-850 dark:text-emerald-400 border border-emerald-200/50 dark:border-emerald-900/30'
+                        : isAnimal
+                          ? 'bg-purple-50 dark:bg-purple-950/20 text-purple-850 dark:text-purple-400 border border-purple-200/50 dark:border-purple-900/30'
+                          : 'bg-blue-50 dark:bg-blue-950/20 text-blue-850 dark:text-blue-400 border border-blue-200/50 dark:border-blue-900/30';
+
+                      const hoverBorderClass = isPlant 
+                        ? 'hover:border-emerald-500/50 dark:hover:border-emerald-500/30' 
+                        : isAnimal 
+                          ? 'hover:border-purple-500/50 dark:hover:border-purple-500/30' 
+                          : 'hover:border-blue-500/50 dark:hover:border-blue-500/30';
+
+                      const glowClass = isPlant
+                        ? 'group-hover:shadow-[0_20px_50px_rgba(16,185,129,0.06)]'
+                        : isAnimal
+                          ? 'group-hover:shadow-[0_20px_50px_rgba(168,85,247,0.06)]'
+                          : 'group-hover:shadow-[0_20px_50px_rgba(59,130,246,0.06)]';
+
+                      return (
+                        <motion.div
+                          key={remedy.id}
+                          initial={{ opacity: 0, y: 15 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.25, delay: Math.min(idx * 0.02, 0.4) }}
+                          className={`bg-white dark:bg-zinc-900 border border-border/85 ${hoverBorderClass} p-6 rounded-[2rem] shadow-sm hover:shadow-2xl ${glowClass} transition-all group duration-300 flex flex-col justify-between`}
                         >
-                          <Sparkles className="w-3.5 h-3.5 text-accent-light animate-pulse" /> Initialize AI Canvas
-                        </button>
-                        <button
-                          onClick={() => navigate(`/remedy/${remedy.id}`)}
-                          className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
-                        >
-                          <span>Full Portrait</span>
-                          <ArrowUpRight className="w-3.5 h-3.5" />
-                        </button>
+                          <div className="space-y-4">
+                            <div className="flex items-start justify-between">
+                              <div className={`px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest ${familyColorClass} flex items-center gap-1.5`}>
+                                {isPlant && <Leaf className="w-3.5 h-3.5 text-current" />}
+                                {isAnimal && <Activity className="w-3.5 h-3.5 text-current" />}
+                                {isMineral && <Database className="w-3.5 h-3.5 text-current" />}
+                                <span>{remedy.family} Source</span>
+                              </div>
+                              <div className="flex items-center gap-1.5">
+                                <button
+                                  onClick={(e) => handleCardBookmarkToggle(e, remedy)}
+                                  className={`p-1.5 rounded-lg transition-all cursor-pointer ${
+                                    isBookmarked
+                                      ? 'text-amber-500 bg-amber-50 dark:bg-amber-950/30'
+                                      : 'text-text-tertiary hover:text-amber-500 hover:bg-bg-secondary'
+                                  }`}
+                                  title={isBookmarked ? "Bookmarked (Click to remove)" : "Bookmark remedy"}
+                                >
+                                  <Bookmark className={`w-4 h-4 ${isBookmarked ? 'fill-amber-500 text-amber-500' : ''}`} />
+                                </button>
+                                <Star className="w-4 h-4 text-accent fill-accent animate-pulse" />
+                              </div>
+                            </div>
+
+                            <div className="space-y-1">
+                              <h3 className="text-2xl font-display font-semibold text-text-primary uppercase tracking-tight group-hover:text-primary transition-colors leading-tight">
+                                {remedy.name}
+                              </h3>
+                              {remedy.origin && (
+                                <p className="text-xs text-text-secondary italic font-semibold font-serif">
+                                  Synonym: {remedy.origin}
+                                </p>
+                              )}
+                            </div>
+
+                            <p className="text-xs text-text-secondary leading-relaxed font-medium line-clamp-3">
+                              {remedy.description || `${remedy.name} is a vital classical remedy with extensive characteristic keynotes, mental syndromes, and thermal requirements.`}
+                            </p>
+
+                            <div className="flex flex-wrap gap-1.5 pt-2">
+                              <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-400 text-[9px] font-bold rounded-lg border border-amber-200/50 dark:border-amber-900/30">
+                                🌡️ {remedy.thermal}
+                              </span>
+                              {remedy.modalities.worse.length > 0 && (
+                                <span className="px-2.5 py-1 bg-rose-50 dark:bg-rose-950/20 text-rose-700 dark:text-rose-400 text-[9px] font-bold rounded-lg border border-rose-500/10">
+                                  🚨 Worse: {remedy.modalities.worse[0]}
+                                </span>
+                              )}
+                            </div>
+                          </div>
+
+                          <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
+                            <button
+                              onClick={() => setSelectedRemedy(remedy)}
+                              className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                            >
+                              <Sparkles className="w-3.5 h-3.5 text-accent-light animate-pulse" /> Initialize AI Canvas
+                            </button>
+                            <button
+                              onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.id}`)}
+                              className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
+                            >
+                              <span>Full Portrait</span>
+                              <ArrowUpRight className="w-3.5 h-3.5" />
+                            </button>
+                          </div>
+                        </motion.div>
+                      );
+                    })}
+
+                    {filteredRemedies.length === 0 && (
+                      <div className="col-span-full py-20 text-center bg-white dark:bg-zinc-900 border border-border rounded-3xl p-8">
+                        <div className="w-16 h-16 bg-primary/10 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                          <Bookmark className="w-8 h-8" />
+                        </div>
+                        <h4 className="text-lg font-black text-text-primary">
+                          {sortMode === 'saved-remedies' ? 'No Saved Remedies Yet' : 'No remedies found'}
+                        </h4>
+                        <p className="text-sm text-text-secondary font-medium mt-1 max-w-md mx-auto">
+                          {sortMode === 'saved-remedies'
+                            ? 'Click the bookmark icon on any remedy card or remedy profile page to save remedies here for fast access.'
+                            : 'Try resetting the letter filter or searching for alternative common terms or keynotes.'}
+                        </p>
                       </div>
-                    </motion.div>
-                  ))}
-
-                  {filteredRemedies.length === 0 && (
-                    <div className="col-span-full py-20 text-center bg-white border border-border rounded-3xl">
-                      <div className="text-5xl mb-4">🔬</div>
-                      <h4 className="text-lg font-black text-text-primary">No remedies found</h4>
-                      <p className="text-sm text-text-secondary font-medium mt-1">Try resetting the alphabet filter or searching for alternative common synonyms.</p>
-                    </div>
-                  )}
-                </div>
+                    )}
+                  </div>
+                )}
               </div>
             ) : (
               /* ====================================================
-                 ✨ COOPERATIVE HOMEOPATHIC AI ACADEMY SUITE
+                 ✨ COOPERATIVE HomoeoPATHIC AI ACADEMY SUITE
                  ==================================================== */
               <div className="space-y-8 animate-fade select-none">
                 
@@ -783,7 +1072,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                             />
                             <button
                               onClick={() => {
-                                handleAnalyzeWithAi(`Analyze these symptoms for a classical homeopathic remedy match: "${symptomsInput}". Format your reply EXACTLY like this:
+                                handleAnalyzeWithAi(`Analyze these symptoms for a classical Homoeopathic remedy match: "${symptomsInput}". Format your reply EXACTLY like this:
                                   - ANALYSES: (Mental/Physical symptoms, Modalities, Sensations, Location)
                                   - PREDICTIONS: (List top 3 remedies with realistic Match % e.g., Arsenicum Album 96%, Phosphorus 81%, Sulphur 76%)
                                   - EXPLANATIONS: (Detailed reasons why these are selected, keynotes matched, and important clinical differentiating points).
@@ -1109,7 +1398,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
 
                                     <button
                                       onClick={() => {
-                                        handleAnalyzeWithAi(`Generate a highly challenging, board exam level multiple-choice question on classical homeopathic materia medica tailored for an AIAPGET aspirant. Include 4 options, the correct answer, and an in-depth clinical explanation pearl.`);
+                                        handleAnalyzeWithAi(`Generate a highly challenging, board exam level multiple-choice question on classical Homoeopathic materia medica tailored for an AIAPGET aspirant. Include 4 options, the correct answer, and an in-depth clinical explanation pearl.`);
                                       }}
                                       className="py-3 px-4 bg-accent hover:bg-accent-light text-white font-black text-[9px] uppercase tracking-widest rounded-xl transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow"
                                     >
@@ -1252,7 +1541,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                             <div className="pt-4 border-t border-border">
                               <button
                                 onClick={() => {
-                                  handleAnalyzeWithAi(`Generate a detailed custom mental and physical flashcard summary mapping keynotes, modalites, and fears/aversions for any major classical homeopathic remedy that is selected at random. Print the flashcard in a beautiful, structured summary format.`);
+                                  handleAnalyzeWithAi(`Generate a detailed custom mental and physical flashcard summary mapping keynotes, modalites, and fears/aversions for any major classical Homoeopathic remedy that is selected at random. Print the flashcard in a beautiful, structured summary format.`);
                                 }}
                                 className="w-full py-4.5 bg-accent hover:bg-accent-light text-white rounded-2xl text-[10px] font-black uppercase tracking-widest transition-all cursor-pointer flex items-center justify-center gap-1.5 shadow"
                               >
@@ -1336,7 +1625,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                             <div className="space-y-1">
                               <p className="text-xs font-black uppercase tracking-widest text-text-secondary">Awaiting Compilation Trigger</p>
                               <p className="text-[10px] text-text-tertiary italic max-w-xs leading-relaxed font-serif mx-auto">
-                                Configure the custom parameters in the left pane and hit the trigger button to summon Curiva's homeopathic team of specialists!
+                                Configure the custom parameters in the left pane and hit the trigger button to summon Curiva's Homoeopathic team of specialists!
                               </p>
                             </div>
                           </div>
@@ -1665,7 +1954,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                     >
                       <h3 className="text-lg font-bold font-display uppercase tracking-wide border-b border-border pb-2 text-primary">Chief Characteristics & Core Identity</h3>
                       <p className="italic font-medium text-text-secondary leading-relaxed bg-primary/5 p-4 rounded-xl border-l-4 border-primary">
-                        {selectedRemedy.description || "Detailed homeopathic portrait from state-approved syllabus registries."}
+                        {selectedRemedy.description || "Detailed Homoeopathic portrait from state-approved syllabus registries."}
                       </p>
                       
                       <div className="space-y-3 pt-2">
@@ -1751,13 +2040,13 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                       
                       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                         {/* Better triggers */}
-                        <div className="space-y-3 bg-green-500/5 p-5 rounded-2xl border border-green-500/10">
-                          <span className="text-[10px] font-black text-green-700 uppercase tracking-widest block border-b border-green-200 pb-2">✓ Amelioration (Better from)</span>
+                        <div className="space-y-3 bg-emerald-500/5 dark:bg-emerald-950/20 p-5 rounded-2xl border border-emerald-500/10 dark:border-emerald-900/30">
+                          <span className="text-[10px] font-black text-emerald-750 dark:text-emerald-400 uppercase tracking-widest block border-b border-emerald-200/50 dark:border-emerald-900/30 pb-2">✓ Amelioration (Better from)</span>
                           {selectedRemedy.modalities.better.length > 0 ? (
-                            <ul className="space-y-2 pt-2 text-xs font-semibold">
+                            <ul className="space-y-2 pt-2 text-xs font-semibold text-text-primary">
                               {selectedRemedy.modalities.better.map((b, bIdx) => (
                                 <li key={bIdx} className="flex items-center gap-2">
-                                  <span className="text-green-600 font-bold select-none">•</span> {b}
+                                  <span className="text-emerald-600 dark:text-emerald-400 font-bold select-none">•</span> {b}
                                 </li>
                               ))}
                             </ul>
@@ -1767,13 +2056,13 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                         </div>
 
                         {/* Worse triggers */}
-                        <div className="space-y-3 bg-red-500/5 p-5 rounded-2xl border border-red-500/10">
-                          <span className="text-[10px] font-black text-red-700 uppercase tracking-widest block border-b border-red-200 pb-2">🚨 Aggravation (Worse from)</span>
+                        <div className="space-y-3 bg-rose-500/5 dark:bg-rose-950/20 p-5 rounded-2xl border border-rose-500/10 dark:border-rose-900/30">
+                          <span className="text-[10px] font-black text-rose-750 dark:text-rose-400 uppercase tracking-widest block border-b border-rose-200/50 dark:border-rose-900/30 pb-2">🚨 Aggravation (Worse from)</span>
                           {selectedRemedy.modalities.worse.length > 0 ? (
-                            <ul className="space-y-2 pt-2 text-xs font-semibold">
+                            <ul className="space-y-2 pt-2 text-xs font-semibold text-text-primary">
                               {selectedRemedy.modalities.worse.map((w, wIdx) => (
                                 <li key={wIdx} className="flex items-center gap-2">
-                                  <span className="text-red-500 font-bold select-none">•</span> {w}
+                                  <span className="text-rose-500 dark:text-rose-400 font-bold select-none">•</span> {w}
                                 </li>
                               ))}
                             </ul>
@@ -1881,111 +2170,111 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                       {/* Relationship Lists */}
                       <div className="space-y-4">
                         {/* Complementary */}
-                        <div className="p-5 bg-emerald-500/5 rounded-2xl border border-emerald-500/10 space-y-2">
-                          <span className="text-[9px] font-black text-emerald-700 uppercase tracking-widest flex items-center gap-1">
-                            <Network className="w-3.5 h-3.5 text-emerald-600" /> Complementary Remedies
+                        <div className="p-5 bg-emerald-500/5 dark:bg-emerald-950/20 rounded-2xl border border-emerald-500/10 dark:border-emerald-900/30 space-y-2">
+                          <span className="text-[9px] font-black text-emerald-700 dark:text-emerald-450 uppercase tracking-widest flex items-center gap-1">
+                            <Network className="w-3.5 h-3.5 text-emerald-650 dark:text-emerald-400" /> Complementary Remedies
                           </span>
                           <p className="text-xs text-text-secondary leading-relaxed font-semibold">
                             These remedies complete the therapeutic action initiated by {selectedRemedy.name}:
                           </p>
                           <div className="flex flex-wrap gap-1.5 pt-1">
                             {(selectedRemedy.complementary && selectedRemedy.complementary.length > 0) ? (
-                              selectedRemedy.complementary.map((comp, cIdx) => (
-                                <button
-                                  key={cIdx}
-                                  onClick={() => {
-                                    const found = enhancedRemedies.find(r => r.name.toLowerCase() === comp.toLowerCase() || r.id.toLowerCase() === comp.toLowerCase());
-                                    if (found) setSelectedRemedy(found);
-                                  }}
-                                  className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-emerald-200/50 text-emerald-700 dark:text-emerald-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
-                                >
-                                  {comp} ↗
-                                </button>
-                              ))
-                            ) : (
-                              ['Sulphur', 'Calcarea Carbonica', 'Lycopodium'].map((fallback, fIdx) => (
-                                <button
-                                  key={fIdx}
-                                  onClick={() => {
-                                    const found = enhancedRemedies.find(r => r.name.toLowerCase() === fallback.toLowerCase());
-                                    if (found) setSelectedRemedy(found);
-                                  }}
-                                  className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-emerald-200/50 text-emerald-700 dark:text-emerald-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
-                                >
-                                  {fallback} ↗
-                                </button>
-                              ))
-                            )}
+                                selectedRemedy.complementary.map((comp, cIdx) => (
+                                  <button
+                                    key={cIdx}
+                                    onClick={() => {
+                                      const found = enhancedRemedies.find(r => r.name.toLowerCase() === comp.toLowerCase() || r.id.toLowerCase() === comp.toLowerCase());
+                                      if (found) setSelectedRemedy(found);
+                                    }}
+                                    className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-emerald-200/50 text-emerald-700 dark:text-emerald-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                                  >
+                                    {comp} ↗
+                                  </button>
+                                ))
+                              ) : (
+                                ['Sulphur', 'Calcarea Carbonica', 'Lycopodium'].map((fallback, fIdx) => (
+                                  <button
+                                    key={fIdx}
+                                    onClick={() => {
+                                      const found = enhancedRemedies.find(r => r.name.toLowerCase() === fallback.toLowerCase());
+                                      if (found) setSelectedRemedy(found);
+                                    }}
+                                    className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-emerald-200/50 text-emerald-700 dark:text-emerald-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-emerald-500 hover:text-white transition-all cursor-pointer"
+                                  >
+                                    {fallback} ↗
+                                  </button>
+                                ))
+                              )}
                           </div>
                         </div>
 
                         {/* Inimical */}
-                        <div className="p-5 bg-red-500/5 rounded-2xl border border-red-500/10 space-y-2">
-                          <span className="text-[9px] font-black text-red-700 uppercase tracking-widest flex items-center gap-1">
-                            <ShieldAlert className="w-3.5 h-3.5 text-red-600" /> Inimical (Incompatible / Antagonistic)
+                        <div className="p-5 bg-rose-500/5 dark:bg-rose-950/20 rounded-2xl border border-rose-500/10 dark:border-rose-900/30 space-y-2">
+                          <span className="text-[9px] font-black text-rose-700 dark:text-rose-450 uppercase tracking-widest flex items-center gap-1">
+                            <ShieldAlert className="w-3.5 h-3.5 text-rose-650 dark:text-rose-400" /> Inimical (Incompatible / Antagonistic)
                           </span>
                           <p className="text-xs text-text-secondary leading-relaxed font-semibold">
                             These remedies must NOT be administered immediately before or after {selectedRemedy.name}:
                           </p>
                           <div className="flex flex-wrap gap-1.5 pt-1">
                             {(selectedRemedy.inimical && selectedRemedy.inimical.length > 0) ? (
-                              selectedRemedy.inimical.map((inim, iIdx) => (
-                                <span
-                                  key={iIdx}
-                                  className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-red-200 text-red-700 dark:text-red-400 rounded-xl text-[10px] font-black uppercase tracking-wider"
-                                >
-                                  ⚠️ {inim}
-                                </span>
-                              ))
-                            ) : (
-                              ['Pulsatilla', 'Coffea Cruda'].map((fallback, fIdx) => (
-                                <span
-                                  key={fIdx}
-                                  className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-red-200 text-red-700 dark:text-red-400 rounded-xl text-[10px] font-black uppercase tracking-wider"
-                                >
-                                  ⚠️ {fallback}
-                                </span>
-                              ))
-                            )}
+                                selectedRemedy.inimical.map((inim, iIdx) => (
+                                  <span
+                                    key={iIdx}
+                                    className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-rose-200 text-rose-700 dark:text-rose-450 rounded-xl text-[10px] font-black uppercase tracking-wider"
+                                  >
+                                    ⚠️ {inim}
+                                  </span>
+                                ))
+                              ) : (
+                                ['Pulsatilla', 'Coffea Cruda'].map((fallback, fIdx) => (
+                                  <span
+                                    key={fIdx}
+                                    className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-rose-200 text-rose-700 dark:text-rose-450 rounded-xl text-[10px] font-black uppercase tracking-wider"
+                                  >
+                                    ⚠️ {fallback}
+                                  </span>
+                                ))
+                              )}
                           </div>
                         </div>
 
                         {/* Follows Well */}
-                        <div className="p-5 bg-blue-500/5 rounded-2xl border border-blue-500/10 space-y-2">
-                          <span className="text-[9px] font-black text-blue-700 uppercase tracking-widest flex items-center gap-1">
-                            <Layers className="w-3.5 h-3.5 text-blue-600" /> Follows Well (Complementary Post-Sequelae)
+                        <div className="p-5 bg-blue-500/5 dark:bg-blue-950/20 rounded-2xl border border-blue-500/10 dark:border-blue-900/30 space-y-2">
+                          <span className="text-[9px] font-black text-blue-700 dark:text-blue-450 uppercase tracking-widest flex items-center gap-1">
+                            <Layers className="w-3.5 h-3.5 text-blue-650 dark:text-blue-400" /> Follows Well (Complementary Post-Sequelae)
                           </span>
                           <p className="text-xs text-text-secondary leading-relaxed font-semibold">
                             These remedies are clinical successors that commonly follow {selectedRemedy.name} with optimal curative action:
                           </p>
                           <div className="flex flex-wrap gap-1.5 pt-1">
                             {(selectedRemedy.followsWell && selectedRemedy.followsWell.length > 0) ? (
-                              selectedRemedy.followsWell.map((foll, fIdx) => (
-                                <button
-                                  key={fIdx}
-                                  onClick={() => {
-                                    const found = enhancedRemedies.find(r => r.name.toLowerCase() === foll.toLowerCase() || r.id.toLowerCase() === foll.toLowerCase());
-                                    if (found) setSelectedRemedy(found);
-                                  }}
-                                  className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-blue-200 text-blue-700 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-blue-500 hover:text-white transition-all cursor-pointer"
-                                >
-                                  {foll} ↗
-                                </button>
-                              ))
-                            ) : (
-                              ['Arsenicum Album', 'Silicea', 'Merc Sol'].map((fallback, fIdx) => (
-                                <button
-                                  key={fIdx}
-                                  onClick={() => {
-                                    const found = enhancedRemedies.find(r => r.name.toLowerCase() === fallback.toLowerCase());
-                                    if (found) setSelectedRemedy(found);
-                                  }}
-                                  className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-blue-200 text-blue-700 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-blue-500 hover:text-white transition-all cursor-pointer"
-                                >
-                                  {fallback} ↗
-                                </button>
-                              ))
-                            )}
+                                selectedRemedy.followsWell.map((foll, fIdx) => (
+                                  <button
+                                    key={fIdx}
+                                    onClick={() => {
+                                      const found = enhancedRemedies.find(r => r.name.toLowerCase() === foll.toLowerCase() || r.id.toLowerCase() === foll.toLowerCase());
+                                      if (found) setSelectedRemedy(found);
+                                    }}
+                                    className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-blue-200 text-blue-700 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-blue-500 hover:text-white transition-all cursor-pointer"
+                                  >
+                                    {foll} ↗
+                                  </button>
+                                ))
+                              ) : (
+                                ['Arsenicum Album', 'Silicea', 'Merc Sol'].map((fallback, fIdx) => (
+                                  <button
+                                    key={fIdx}
+                                    onClick={() => {
+                                      const found = enhancedRemedies.find(r => r.name.toLowerCase() === fallback.toLowerCase());
+                                      if (found) setSelectedRemedy(found);
+                                    }}
+                                    className="px-3 py-1.5 bg-white dark:bg-zinc-850 border border-blue-200 text-blue-700 dark:text-blue-400 rounded-xl text-[10px] font-black uppercase tracking-wider hover:bg-blue-500 hover:text-white transition-all cursor-pointer"
+                                  >
+                                    {fallback} ↗
+                                  </button>
+                                ))
+                              )}
                           </div>
                         </div>
                       </div>

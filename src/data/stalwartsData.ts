@@ -18,7 +18,7 @@ export const stalwartsData: Stalwart[] = [
     name: "Samuel Hahnemann",
     title: "Founder of Homoeopathy",
     years: "1755 - 1843",
-    description: "Christian Friedrich Samuel Hahnemann was a German physician, linguist, and chemist, best known for creating the system of alternative medicine called homeopathy. He discovered the Law of Similars and authored the Organon of Medicine.",
+    description: "Christian Friedrich Samuel Hahnemann was a German physician, linguist, and chemist, best known for creating the system of alternative medicine called Homoeopathy. He discovered the Law of Similars and authored the Organon of Medicine.",
     contributions: [
       "Discovery of the Law of Similars (Like Cures Like)",
       "Authored the Organon of Medicine (6 Editions)",
@@ -41,7 +41,7 @@ export const stalwartsData: Stalwart[] = [
     name: "Clemens von Bönninghausen",
     title: "The Pioneer of Repertory",
     years: "1785 - 1864",
-    description: "A close friend and confidant of Hahnemann, Clemens Maria Franz von Bönninghausen was a Prussian jurist, botanist, and physician who developed the first reliable homeopathic repertory.",
+    description: "A close friend and confidant of Hahnemann, Clemens Maria Franz von Bönninghausen was a Prussian jurist, botanist, and physician who developed the first reliable Homoeopathic repertory.",
     contributions: [
       "Created the Therapeutic Pocketbook (First structured repertory)",
       "Developed the Doctrine of Analogies for generalized symptoms",
@@ -49,7 +49,7 @@ export const stalwartsData: Stalwart[] = [
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/4/43/Clemens_Maria_Franz_von_B%C3%B6nninghausen.jpg",
     quote: "The totality of symptoms is the only guide to the remedy.",
-    biography: "Baron von Bönninghausen received a doctor's degree in civil and criminal law in 1806 and held several high judicial posts. In 1827, he was diagnosed with life-threatening pulmonary tuberculosis. Having lost hope in orthodox medical options, he wrote a farewell letter to his botanist friend Dr. A. Weihe, who was a homeopath. Weihe prescribed Pulsatilla, which cured Bönninghausen completely. Impressed by this gentle restoration of health, Bönninghausen dedicated the rest of his life to studying and practicing homeopathy, eventually becoming a close advisor to Samuel Hahnemann.",
+    biography: "Baron von Bönninghausen received a doctor's degree in civil and criminal law in 1806 and held several high judicial posts. In 1827, he was diagnosed with life-threatening pulmonary tuberculosis. Having lost hope in orthodox medical options, he wrote a farewell letter to his botanist friend Dr. A. Weihe, who was a Homoeopath. Weihe prescribed Pulsatilla, which cured Bönninghausen completely. Impressed by this gentle restoration of health, Bönninghausen dedicated the rest of his life to studying and practicing Homoeopathy, eventually becoming a close advisor to Samuel Hahnemann.",
     clinicalPhilosophy: "He introduced the concept of 'Grand Generalization,' arguing that what is true of a part is true of the whole. He structured case analysis into seven core coordinates: Quis (Personality/Constitution), Quid (Nature of disease), Ubi (Seat of disease), Quibus Auxiliis (Concomitants), Cur (Causes), Quomodo (Modalities), and Quando (Time of occurrence).",
     keyWorks: [
       "The Therapeutic Pocket Book",
@@ -62,15 +62,15 @@ export const stalwartsData: Stalwart[] = [
     name: "Constantine Hering",
     title: "The Father of American Homoeopathy",
     years: "1800 - 1880",
-    description: "Originally tasked with writing a book to disprove homeopathy, he became its greatest advocate instead after a personal cure. He is famous for formulating Hering's Law of Direction of Cure.",
+    description: "Originally tasked with writing a book to disprove Homoeopathy, he became its greatest advocate instead after a personal cure. He is famous for formulating Hering's Law of Direction of Cure.",
     contributions: [
       "Formulated Hering's Law of Direction of Cure",
       "Proved Lachesis Mutus, Apis Mellifica, and Glonoinum",
-      "Founded the first homeopathic medical college in the US (Allentown)"
+      "Founded the first Homoeopathic medical college in the US (Allentown)"
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/05/Constantine_Hering.jpg/800px-Constantine_Hering.jpg",
     quote: "If I find the truth, I must follow it.",
-    biography: "Constantine Hering was born in Oschatz, Germany. While studying medicine at the University of Leipzig, he was employed by a prominent publisher to write a book exposing homeopathy as a fraudulent system. Hering undertook the work with scientific zeal. However, when a dissecting wound on his hand became severely gangrenous and orthodox surgeons recommended amputation, a homeopathic student treated him with Arsenicum Album. His hand was saved, and he abandoned his anti-homeopathic book to become Hahnemann's student. He emigrated to Philadelphia in 1833.",
+    biography: "Constantine Hering was born in Oschatz, Germany. While studying medicine at the University of Leipzig, he was employed by a prominent publisher to write a book exposing Homoeopathy as a fraudulent system. Hering undertook the work with scientific zeal. However, when a dissecting wound on his hand became severely gangrenous and orthodox surgeons recommended amputation, a Homoeopathic student treated him with Arsenicum Album. His hand was saved, and he abandoned his anti-Homoeopathic book to become Hahnemann's student. He emigrated to Philadelphia in 1833.",
     clinicalPhilosophy: "Hering established the absolute directional progression of true healing: cure occurs from within outward, from above downward, from more vital to less vital organs, and in the reverse order of the appearance of symptoms.",
     keyWorks: [
       "The Guiding Symptoms of our Materia Medica (10 Volumes)",
@@ -91,7 +91,7 @@ export const stalwartsData: Stalwart[] = [
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/James_Tyler_Kent.jpg/800px-James_Tyler_Kent.jpg",
     quote: "Treat the patient, not the disease.",
-    biography: "Born in Woodhull, New York, Kent graduated with an MA and studied Eclectic medicine. His conversion to homeopathy occurred when his second wife became gravely ill with persistent insomnia and nervous exhaustion that defied conventional treatment. A homeopathic physician, Dr. Richard Phelan, was called and administered a single dose of Lachesis, which brought about a profound cure. Kent immediately began studying the Organon and dedicated himself to the classical Hahnemannian system.",
+    biography: "Born in Woodhull, New York, Kent graduated with an MA and studied Eclectic medicine. His conversion to Homoeopathy occurred when his second wife became gravely ill with persistent insomnia and nervous exhaustion that defied conventional treatment. A Homoeopathic physician, Dr. Richard Phelan, was called and administered a single dose of Lachesis, which brought about a profound cure. Kent immediately began studying the Organon and dedicated himself to the classical Hahnemannian system.",
     clinicalPhilosophy: "Kent championed a strongly spiritual, Swedenborgian view of the Vital Force and disease. He argued that the mind and will are the innermost core of the human being; hence, mental and emotional symptoms are of the highest hierarchical importance in selecting a matching remedy (constitutional prescribing).",
     keyWorks: [
       "Repertory of the Homoeopathic Materia Medica",
@@ -104,17 +104,17 @@ export const stalwartsData: Stalwart[] = [
     name: "Dr. Mahendra Lal Sircar",
     title: "Pioneer of Indian Homoeopathy",
     years: "1833 - 1904",
-    description: "The second MD graduate of the Calcutta Medical College, Dr. Sircar was an exceptional intellectual who transitioned to homeopathy and founded the first scientific research association in India.",
+    description: "The second MD graduate of the Calcutta Medical College, Dr. Sircar was an exceptional intellectual who transitioned to Homoeopathy and founded the first scientific research association in India.",
     contributions: [
-      "First orthodox MD physician in India to embrace and scientifically validate homeopathy",
+      "First orthodox MD physician in India to embrace and scientifically validate Homoeopathy",
       "Founded the Calcutta Journal of Medicine in 1868",
       "Established the Indian Association for the Cultivation of Science (IACS) in 1876",
       "Treated high-profile spiritual and political stalwarts, including Sri Ramakrishna Paramahamsa"
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/d7/Mahendralal_Sarkar.jpg/640px-Mahendralal_Sarkar.jpg",
     quote: "Homoeopathy is not a mere system of therapeutics, but a law of nature.",
-    biography: "Mahendra Lal Sircar was born in Paikpara, Bengal. He received his MD with top honors from Calcutta Medical College in 1863. He was initially a staunch opponent of homeopathy. However, when asked to review Morgan's 'Philosophy of Homeopathy' for a journal, he realized that a fair trial was necessary. He observed the outstanding clinical results achieved by Babu Rajendra Lal Dutt. Confessing his conversion at a meeting of the British Medical Association, he was promptly ostracized and stripped of his university posts. Undeterred, he went on to build India's premier homeopathic and scientific organizations.",
-    clinicalPhilosophy: "Dr. Sircar advocated for a highly scientific approach to homeopathy, insisting on the thorough study of modern physiology and clinical diagnosis alongside symptomatology. He rejected dogmatism and pushed for rigorous proving standards.",
+    biography: "Mahendra Lal Sircar was born in Paikpara, Bengal. He received his MD with top honors from Calcutta Medical College in 1863. He was initially a staunch opponent of Homoeopathy. However, when asked to review Morgan's 'Philosophy of Homoeopathy' for a journal, he realized that a fair trial was necessary. He observed the outstanding clinical results achieved by Babu Rajendra Lal Dutt. Confessing his conversion at a meeting of the British Medical Association, he was promptly ostracized and stripped of his university posts. Undeterred, he went on to build India's premier Homoeopathic and scientific organizations.",
+    clinicalPhilosophy: "Dr. Sircar advocated for a highly scientific approach to Homoeopathy, insisting on the thorough study of modern physiology and clinical diagnosis alongside symptomatology. He rejected dogmatism and pushed for rigorous proving standards.",
     keyWorks: [
       "The Calcutta Journal of Medicine (Editor)",
       "On the Desirability of a National Institution for the Cultivation of the Physical Sciences"
@@ -125,19 +125,19 @@ export const stalwartsData: Stalwart[] = [
     name: "Babu Rajendra Lal Dutt",
     title: "Father of Indian Homoeopathy",
     years: "1818 - 1889",
-    description: "A wealthy, compassionate philanthropist and lay-practitioner who established homeopathy's repute in India through legendary clinical successes.",
+    description: "A wealthy, compassionate philanthropist and lay-practitioner who established Homoeopathy's repute in India through legendary clinical successes.",
     contributions: [
-      "Introduced classical homeopathy to high-society and common households in Bengal",
+      "Introduced classical Homoeopathy to high-society and common households in Bengal",
       "Directly converted Dr. Mahendra Lal Sircar through verifiable cures",
-      "Opened the first free homeopathic dispensary in Calcutta with Dr. Tonnerre"
+      "Opened the first free Homoeopathic dispensary in Calcutta with Dr. Tonnerre"
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/b/b3/Rajendralal_Dutta.jpg/400px-Rajendralal_Dutta.jpg",
     quote: "Charity is the highest virtue of a healer.",
-    biography: "Babu Rajendra Lal Dutt was born into an affluent family in Wellington Square, Calcutta. Deeply touched by the suffering of the poor, he studied medicine extensively on his own and imported homeopathic literature and medicines from Europe. He partnered with the French physician Dr. Tonnerre to establish a clinic. His clinical cures of severe chronic conditions—such as gangrene, paralysis, and asthma—attracted the attention of the orthodox medical community and initiated the golden age of homeopathy in Bengal.",
+    biography: "Babu Rajendra Lal Dutt was born into an affluent family in Wellington Square, Calcutta. Deeply touched by the suffering of the poor, he studied medicine extensively on his own and imported Homoeopathic literature and medicines from Europe. He partnered with the French physician Dr. Tonnerre to establish a clinic. His clinical cures of severe chronic conditions—such as gangrene, paralysis, and asthma—attracted the attention of the orthodox medical community and initiated the golden age of Homoeopathy in Bengal.",
     clinicalPhilosophy: "Believed that clinical outcomes are the ultimate test of medical theory. He practiced selfless service, prescribing classical remedies in moderate potencies with a deep focus on patient comfort.",
     keyWorks: [
       "Clinical Reports of Wellington Square Free Dispensary",
-      "Essays on the Superiority of Homeopathy in Cholera Treatment"
+      "Essays on the Superiority of Homoeopathy in Cholera Treatment"
     ]
   },
   {
@@ -145,7 +145,7 @@ export const stalwartsData: Stalwart[] = [
     name: "Dr. Diwan Harish Chand",
     title: "Global Envoy of Indian Homoeopathy",
     years: "1924 - 2011",
-    description: "A highly distinguished 20th-century physician who integrated academic medicine with homeopathy and represented India on international homeopathic councils.",
+    description: "A highly distinguished 20th-century physician who integrated academic medicine with Homoeopathy and represented India on international Homoeopathic councils.",
     contributions: [
       "President of the Liga Medicorum Homoeopathica Internationalis (LMHI)",
       "Awarded the Padma Shri in 1984 for outstanding services to medicine",
@@ -153,7 +153,7 @@ export const stalwartsData: Stalwart[] = [
     ],
     imageUrl: "https://ui-avatars.com/api/?name=Diwan+Harish+Chand&background=1e40af&color=fff&size=512",
     quote: "Homoeopathy provides the ultimate gentle restoration of health in chronic diseases.",
-    biography: "Born in Lahore, Dr. Harish Chand graduated from the King Edward Medical College and later completed post-graduate studies in homeopathy at the Royal London Homoeopathic Hospital. He dedicated his life to achieving national and international recognition for Indian homeopathy, ensuring it became an officially recognized stream of medicine. He served as the personal physician to several Presidents of India.",
+    biography: "Born in Lahore, Dr. Harish Chand graduated from the King Edward Medical College and later completed post-graduate studies in Homoeopathy at the Royal London Homoeopathic Hospital. He dedicated his life to achieving national and international recognition for Indian Homoeopathy, ensuring it became an officially recognized stream of medicine. He served as the personal physician to several Presidents of India.",
     clinicalPhilosophy: "Emphasized the necessity of clinical research and academic excellence. He bridged the gap between modern diagnostics and classical repertorisation, ensuring safe and reproducible therapeutic outcomes.",
     keyWorks: [
       "A Compendium of Lectures on Homoeopathy",
@@ -174,7 +174,7 @@ export const stalwartsData: Stalwart[] = [
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Cyrus_Maxwell_Boger.jpg/640px-Cyrus_Maxwell_Boger.jpg",
     quote: "Individualize each case.",
-    biography: "Boger graduated from the Philadelphia College of Pharmacy and later obtained his medical degree from Cleveland Homeopathic College. His German heritage allowed him to read Bönninghausen's original writings in German, which inspired him to reformulate and expand the repertorial methods to better match modern clinical pathology.",
+    biography: "Boger graduated from the Philadelphia College of Pharmacy and later obtained his medical degree from Cleveland Homoeopathic College. His German heritage allowed him to read Bönninghausen's original writings in German, which inspired him to reformulate and expand the repertorial methods to better match modern clinical pathology.",
     clinicalPhilosophy: "Boger developed a methodology based on the chronological onset of symptoms (cause-effect timeline). He introduced 'Pathological Generals' (how the patient's tissues react as a whole) and emphasized the diagnostic value of fever patterns and thermal states.",
     keyWorks: [
       "Boger Boenninghausen's Characteristics and Repertory",
@@ -187,7 +187,7 @@ export const stalwartsData: Stalwart[] = [
     name: "William Boericke",
     title: "The Pocket Manual Author",
     years: "1849 - 1929",
-    description: "An Austrian-born American homeopath, compiler, and professor of Materia Medica whose pocket manual remains a universal clinical guide worldwide.",
+    description: "An Austrian-born American Homoeopath, compiler, and professor of Materia Medica whose pocket manual remains a universal clinical guide worldwide.",
     contributions: [
       "Pocket Manual of Homoeopathic Materia Medica (A standard clinical desk-reference)",
       "First Professor of Materia Medica at the University of California, San Francisco",
@@ -215,8 +215,8 @@ export const stalwartsData: Stalwart[] = [
       "Pioneered constitutional treatment in the British medical aristocracy"
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/8/8e/John_Henry_Clarke.jpg",
-    quote: "Homeopathy is a system of precision.",
-    biography: "Clarke studied at the University of Edinburgh and received his MD in 1877. He became a consulting physician to the London Homoeopathic Hospital. A radical intellectual, he was deeply committed to making homeopathy easy to comprehend for busy clinicians, leading to his monumental dictionary project.",
+    quote: "Homoeopathy is a system of precision.",
+    biography: "Clarke studied at the University of Edinburgh and received his MD in 1877. He became a consulting physician to the London Homoeopathic Hospital. A radical intellectual, he was deeply committed to making Homoeopathy easy to comprehend for busy clinicians, leading to his monumental dictionary project.",
     clinicalPhilosophy: "Clarke integrated clinical experiences of many different practitioners. He championed the use of 'clinical' symptoms (symptoms resolved in patients but not necessarily produced in provings), expanding the therapeutic scope of remedies.",
     keyWorks: [
       "A Dictionary of Practical Materia Medica (3 Volumes)",
@@ -229,15 +229,15 @@ export const stalwartsData: Stalwart[] = [
     name: "George Vithoulkas",
     title: "The Modern Stalwart",
     years: "1932 - Present",
-    description: "A Greek homeopath who revitalized classical homeopathy internationally in the late 20th century and received the Right Livelihood Award (Alternative Nobel Prize).",
+    description: "A Greek Homoeopath who revitalized classical Homoeopathy internationally in the late 20th century and received the Right Livelihood Award (Alternative Nobel Prize).",
     contributions: [
       "Authored 'The Science of Homoeopathy'",
-      "Established the International Academy of Classical Homeopathy (Alonissos)",
+      "Established the International Academy of Classical Homoeopathy (Alonissos)",
       "Developed the revolutionary Level of Health theory for prognosis"
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/George_Vithoulkas.jpg/400px-George_Vithoulkas.jpg",
     quote: "Homoeopathy is the medicine of the future.",
-    biography: "Vithoulkas was born in Athens. Originally an engineer, he discovered homeopathy while working in South Africa. He studied in India and returned to Greece to establish a global training center. He has trained thousands of doctors and practitioners, playing a pivotal role in the scientific revival of classical practice.",
+    biography: "Vithoulkas was born in Athens. Originally an engineer, he discovered Homoeopathy while working in South Africa. He studied in India and returned to Greece to establish a global training center. He has trained thousands of doctors and practitioners, playing a pivotal role in the scientific revival of classical practice.",
     clinicalPhilosophy: "Vithoulkas established that a patient's defense mechanism operates on different 'Levels of Health.' The level of health dictates whether a cure is possible, what potency is safe, and the nature of the expected reaction.",
     keyWorks: [
       "The Science of Homoeopathy",
@@ -250,7 +250,7 @@ export const stalwartsData: Stalwart[] = [
     name: "Dr. Jnanendra Nath Majumdar",
     title: "Pioneer of Academic Homoeopathy",
     years: "1907 - 1978",
-    description: "A visionary academician, administrator, and physician who played an indispensable role in institutionalizing and organizing homeopathic education in India, culminating in the establishment of the National Institute of Homoeopathy (NIH).",
+    description: "A visionary academician, administrator, and physician who played an indispensable role in institutionalizing and organizing Homoeopathic education in India, culminating in the establishment of the National Institute of Homoeopathy (NIH).",
     contributions: [
       "Crucial force in the central recognition of homoeopathy in India",
       "Pioneered structured, college-level homoeopathic curricula in West Bengal",
@@ -277,7 +277,7 @@ export const stalwartsData: Stalwart[] = [
       "Developed the Kishore Card Repertory, the first mechanical retrieval system for remedies",
       "Honorary Physician to three Presidents of India",
       "President of the Central Council of Homoeopathy (CCH)",
-      "Advocated for homeopathic scientific research on international medical forums"
+      "Advocated for Homoeopathic scientific research on international medical forums"
     ],
     imageUrl: "https://ui-avatars.com/api/?name=Jugal+Kishore&background=047857&color=fff&size=512",
     quote: "The search for the matching remedy is a science of indexing and precision.",
@@ -299,7 +299,7 @@ export const stalwartsData: Stalwart[] = [
       "Founded the Delhi Homoeopathic Medical Association (DHMA) in 1937",
       "Established the National Journal of Homoeopathy to encourage scientific publishing",
       "Introduced public health and hygienic sanitation guidelines into homoeopathic practices",
-      "Bridges orthodox diagnostic systems with classical homeopathic therapeutics"
+      "Bridges orthodox diagnostic systems with classical Homoeopathic therapeutics"
     ],
     imageUrl: "https://ui-avatars.com/api/?name=Diwan+Jai+Chand&background=0d9488&color=fff&size=512",
     quote: "Let science be our guide and the welfare of the patient our only goal.",
@@ -309,6 +309,94 @@ export const stalwartsData: Stalwart[] = [
       "The Scientific Basis of Homoeopathy",
       "Delhi Homoeopathic Journal (Founding Editor)",
       "Hygiene and Public Health in Classical Prescribing"
+    ]
+  },
+  {
+    id: "stuart-close",
+    name: "Dr. Stuart Close",
+    title: "Philosopher & Author of 'The Genius of Homoeopathy'",
+    years: "1860 - 1929",
+    description: "A master philosopher and educator whose landmark treatise 'The Genius of Homoeopathy' systematically elucidated Hahnemannian principles in the light of modern scientific logic.",
+    contributions: [
+      "Authored 'The Genius of Homoeopathy: Lectures and Essays on Homoeopathic Philosophy'",
+      "Elucidated the Psychological Point of View and Schools of Philosophy in Medicine",
+      "Provided scientific exposition of Susceptibility, Reaction, and Posology"
+    ],
+    imageUrl: "https://ui-avatars.com/api/?name=Stuart+Close&background=7c2d12&color=fff&size=512",
+    quote: "Homoeopathy is a general system of therapeutics based upon a law of nature.",
+    biography: "Dr. Stuart Close was born in Solon, New York. He graduated from the Medical College of the Pacific and later completed his medical education at the New York Homoeopathic Medical College in 1885. He practiced in Brooklyn and served as Professor of Homoeopathic Philosophy at the New York Homoeopathic Medical College for many years. His profound lectures formed the bedrock of philosophical education for generations of homoeopaths across North America and India.",
+    clinicalPhilosophy: "Stuart Close emphasized the 'Psychological Point of View', demonstrating that health and disease are dynamic, functional states governed by kinetic energy and vital susceptibility. He bridged Hahnemannian vitalism with physical and biological science, showing that disease is not an entity but a altered state of vital motion.",
+    keyWorks: [
+      "The Genius of Homoeopathy: Lectures and Essays on Homoeopathic Philosophy",
+      "The Medical World and Homoeopathy"
+    ]
+  },
+  {
+    id: "ha-roberts",
+    name: "Dr. Herbert A. Roberts",
+    title: "Author of 'The Principles and Art of Cure by Homoeopathy'",
+    years: "1868 - 1950",
+    description: "A prominent American physician, educator, and author who connected modern atomic physics and biology with Hahnemannian vitalism and posology.",
+    contributions: [
+      "Authored 'The Principles and Art of Cure by Homoeopathy'",
+      "Authored 'Sensations As If...'",
+      "President of the International Hahnemannian Association (IHA)",
+      "Editor of 'The Homoeopathic Recorder'"
+    ],
+    imageUrl: "https://ui-avatars.com/api/?name=Herbert+A+Roberts&background=1e3a8a&color=fff&size=512",
+    quote: "Homoeopathy is the application of natural law to the cure of human suffering.",
+    biography: "Herbert A. Roberts graduated from the New York Homoeopathic Medical College. He practiced extensively in Derby, Connecticut, and served as a medical officer during World War I. Roberts was a profound scholar of both ancient philosophy and contemporary 20th-century physics, enabling him to explain potentization and dynamic medicine in terms of quantum energy and cellular resonance.",
+    clinicalPhilosophy: "Roberts stressed the importance of understanding the 'Vital Force' as energy in motion. He analyzed the three miasms (Psora, Sycosis, Syphilis) in terms of deficiency, excess/coordination, and destruction/degeneration, giving clinicians a clear diagnostic framework for chronic disease.",
+    keyWorks: [
+      "The Principles and Art of Cure by Homoeopathy",
+      "Sensations As If...",
+      "The Rheumatic Remedies",
+      "Studies in Homoeopathic Philosophy"
+    ]
+  },
+  {
+    id: "carroll-dunham",
+    name: "Dr. Carroll Dunham",
+    title: "Author of 'Homoeopathy: The Science of Therapeutics'",
+    years: "1828 - 1877",
+    description: "A brilliant American scholar, linguist, and physician known as the 'Melanchthon of Homoeopathy' for his irenic wisdom and scientific rigor.",
+    contributions: [
+      "Authored 'Homoeopathy: The Science of Therapeutics'",
+      "Authored 'Lectures on Materia Medica'",
+      "President of the American Institute of Homoeopathy (World Centennial Congress, 1876)",
+      "Defended the scientific necessity of single remedy and minimum dose"
+    ],
+    imageUrl: "https://ui-avatars.com/api/?name=Carroll+Dunham&background=312e81&color=fff&size=512",
+    quote: "Freedom of medical opinion and action is the right of every physician.",
+    biography: "Carroll Dunham was born in New York City and graduated with high honors from Columbia University and the College of Physicians and Surgeons (MD, 1850). He traveled extensively in Europe, studying under Boenninghausen in Münster and observing Hahnemannian practice in Paris and Dublin. His scholarly essays clarified the exact relationship between Pathology and Therapeutics in homoeopathy.",
+    clinicalPhilosophy: "Dunham established that homoeopathy is a science of observation based on phenomena. He demonstrated that while pathology informs diagnosis and prognosis, the therapeutic choice depends on the totality of characteristic symptoms.",
+    keyWorks: [
+      "Homoeopathy: The Science of Therapeutics",
+      "Lectures on Materia Medica",
+      "Versatility of Similia"
+    ]
+  },
+  {
+    id: "dudgeon",
+    name: "Dr. Robert Ellis Dudgeon",
+    title: "Translator of the Organon & Author of 'Lectures on Homoeopathy'",
+    years: "1820 - 1904",
+    description: "A monumental British physician, translator, and historian whose English translation of Hahnemann's Organon (5th/6th Edition) remains the gold standard in academic institutions.",
+    contributions: [
+      "Translated Hahnemann's Organon of Medicine (5th Edition) and Materia Medica Pura into English",
+      "Authored 'Lectures on the Theory and Practice of Homoeopathy'",
+      "Invented Dudgeon's Sphygmograph for cardiovascular diagnostics",
+      "Editor of the 'British Journal of Homoeopathy' for over 40 years"
+    ],
+    imageUrl: "https://ui-avatars.com/api/?name=Robert+Ellis+Dudgeon&background=065f46&color=fff&size=512",
+    quote: "The truth of homoeopathy rests on the immovable rock of nature's law.",
+    biography: "Born in Edinburgh, Dudgeon graduated MD from the University of Edinburgh in 1841. After studying in Vienna and Berlin, he embraced homoeopathy in London. His unmatched knowledge of German enabled him to translate Hahnemann's original texts with pristine precision, preserving every footnote, nuance, and historical context for the English-speaking world.",
+    clinicalPhilosophy: "Dudgeon provided an objective, critical history of medicine, showing how Hahnemann's empirical discovery surpassed the speculative theories of ancient medical sects. He championed precise clinical observation and transparent documentation.",
+    keyWorks: [
+      "Organon of Medicine (Translation of Hahnemann's 5th Edition)",
+      "Lectures on the Theory and Practice of Homoeopathy",
+      "Materia Medica Pura (Translation)",
+      "Hahnemann's Therapeutic Hints"
     ]
   }
 ];

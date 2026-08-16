@@ -254,7 +254,7 @@ const remedyFamilyTrees = [
 
 const studyCalendar = [
   { day: "Monday", focus: "Materia Medica: Chilly Remedies (Silicea, Arsenicum, Hepar)" },
-  { day: "Tuesday", focus: "Organon & Philosophy: Kent's Lectures 1 to 5 on Homeopathic Law" },
+  { day: "Tuesday", focus: "Organon & Philosophy: Kent's Lectures 1 to 5 on Homoeopathic Law" },
   { day: "Wednesday", focus: "Repertorial Analysis: Understanding Modalities of Rheumatic pain" },
   { day: "Thursday", focus: "Materia Medica: Hot Remedies (Sulphur, Pulsatilla, Apis Mellifica)" },
   { day: "Friday", focus: "Clinical Case Studies: Migraine right-sided vs. left-sided differential" },
@@ -420,7 +420,7 @@ export default function DiseaseHub() {
       </header>
 
       {/* Navigation Tabs */}
-      <div className="sticky top-20 z-40 bg-bg-primary/95 backdrop-blur-md border-b border-border shadow-soft">
+      <div className="sticky top-10 z-40 bg-bg-primary/95 backdrop-blur-md border-b border-border shadow-soft">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex gap-4">
@@ -525,7 +525,7 @@ export default function DiseaseHub() {
 
                 {/* 2. Disease Definition, Causes & Risk Factors */}
                 <div className="grid md:grid-cols-3 gap-8">
-                  <div className="md:col-span-2 p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="md:col-span-2 p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <Book className="w-4 h-4 text-primary" /> Definition
                     </h3>
@@ -534,7 +534,7 @@ export default function DiseaseHub() {
                     </p>
                   </div>
                   
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <AlertCircle className="w-4 h-4 text-orange-500" /> Risk Factors
                     </h3>
@@ -551,7 +551,7 @@ export default function DiseaseHub() {
 
                 {/* 3. Causes & Pathogenesis */}
                 <div className="grid md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <ListFilter className="w-4 h-4 text-primary" /> Etiology & Causes
                     </h3>
@@ -565,7 +565,7 @@ export default function DiseaseHub() {
                     </ul>
                   </div>
 
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <Activity className="w-4 h-4 text-emerald-500" /> Pathogenesis
                     </h3>
@@ -577,7 +577,7 @@ export default function DiseaseHub() {
 
                 {/* 4. Clinical Features & Diagnostics */}
                 <div className="grid md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <Layers className="w-4 h-4 text-primary" /> Clinical Features
                     </h3>
@@ -591,7 +591,7 @@ export default function DiseaseHub() {
                     </ul>
                   </div>
 
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <Search className="w-4 h-4 text-primary" /> Investigations
                     </h3>
@@ -608,7 +608,7 @@ export default function DiseaseHub() {
 
                 {/* 5. Differential Diagnosis & Conventional Treatment */}
                 <div className="grid md:grid-cols-3 gap-8">
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <Users className="w-4 h-4 text-purple-500" /> Differential Diagnosis
                     </h3>
@@ -622,7 +622,7 @@ export default function DiseaseHub() {
                     </ul>
                   </div>
 
-                  <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4 md:col-span-2">
+                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4 md:col-span-2">
                     <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
                       <FileText className="w-4 h-4 text-primary" /> Conventional Treatment Overview
                     </h3>
@@ -637,7 +637,7 @@ export default function DiseaseHub() {
                 </div>
 
                 {/* 6. Classical Homoeopathic Approach */}
-                <div className="p-8 bg-gradient-to-br from-primary/5 via-white to-primary/5 dark:from-zinc-900/40 dark:via-zinc-900 dark:to-zinc-900 border border-primary/10 rounded-[2.5rem] shadow-soft space-y-4">
+                <div className="p-8 bg-gradient-to-br from-primary/5 via-white to-primary/5 border border-primary/10 rounded-[2.5rem] shadow-soft space-y-4">
                   <h3 className="text-xl font-display font-black uppercase tracking-wide text-primary flex items-center gap-2 border-b border-border pb-3">
                     <Sparkles className="w-5 h-5 text-accent animate-pulse" /> The Homoeopathic Approach
                   </h3>
@@ -647,13 +647,13 @@ export default function DiseaseHub() {
                 </div>
 
                 {/* 7. Top 10 remedies list for this disease */}
-                <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-6">
+                <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6">
                   <div>
                     <h3 className="text-xl font-display font-black uppercase tracking-tight text-text-primary flex items-center gap-2">
                       <Table className="w-5 h-5 text-primary" /> Top 10 Classical Remedies Collection
                     </h3>
                     <p className="text-xs font-bold text-text-secondary mt-1">
-                      Detailed diagnostic profiles of primary homeopathic therapeutic agents for {currentDisease.title}.
+                      Detailed diagnostic profiles of primary Homoeopathic therapeutic agents for {currentDisease.title}.
                     </p>
                   </div>
 
@@ -714,7 +714,7 @@ export default function DiseaseHub() {
                 </div>
 
                 {/* 9. Interactive MCQs */}
-                <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-6">
+                <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6">
                   <div className="flex justify-between items-center border-b border-border pb-4">
                     <div>
                       <h3 className="text-xl font-display font-black uppercase tracking-tight text-text-primary flex items-center gap-2">
@@ -749,9 +749,9 @@ export default function DiseaseHub() {
                               
                               if (isGraded) {
                                 if (isCorrect) {
-                                  buttonClass = 'bg-emerald-500/10 border-emerald-500 text-emerald-600 dark:text-emerald-400';
+                                  buttonClass = 'bg-emerald-500/10 border-emerald-500 text-emerald-600';
                                 } else if (isSelected) {
-                                  buttonClass = 'bg-rose-500/10 border-rose-500 text-rose-600 dark:text-rose-400';
+                                  buttonClass = 'bg-rose-500/10 border-rose-500 text-rose-600';
                                 } else {
                                   buttonClass = 'bg-bg-primary border-border text-text-secondary opacity-60';
                                 }
@@ -898,7 +898,7 @@ export default function DiseaseHub() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-6"
+                    className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6"
                   >
                     <div className="flex justify-between items-center border-b border-border pb-4">
                       <div>
@@ -906,7 +906,7 @@ export default function DiseaseHub() {
                           <GitFork className="w-5 h-5 text-primary" /> Remedy Relationship Concordance Network
                         </h3>
                         <p className="text-xs font-bold text-text-secondary mt-1">
-                          Map interactions between homeopathic remedies: Complementaries, Inimicals, and Antidotes.
+                          Map interactions between Homoeopathic remedies: Complementaries, Inimicals, and Antidotes.
                         </p>
                       </div>
                       
@@ -953,7 +953,7 @@ export default function DiseaseHub() {
                   <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
-                    className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-6"
+                    className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6"
                   >
                     <div>
                       <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
@@ -1076,7 +1076,7 @@ export default function DiseaseHub() {
                   >
                     {/* Organ-wise & Causation grids */}
                     <div className="grid md:grid-cols-2 gap-8">
-                      <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                      <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                         <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2 border-b border-border pb-3">
                           <Activity className="w-4 h-4 text-primary" /> Organ-wise Remedy Index
                         </h3>
@@ -1094,7 +1094,7 @@ export default function DiseaseHub() {
                         </div>
                       </div>
 
-                      <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                      <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                         <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2 border-b border-border pb-3">
                           <Compass className="w-4 h-4 text-orange-500" /> Remedy by Causation (Triggers)
                         </h3>
@@ -1115,7 +1115,7 @@ export default function DiseaseHub() {
 
                     {/* Mentals & Pathological diagnostics grids */}
                     <div className="grid md:grid-cols-2 gap-8">
-                      <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                      <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                         <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2 border-b border-border pb-3">
                           <Brain className="w-4 h-4 text-purple-500" /> Remedy by Mental Symptoms
                         </h3>
@@ -1133,7 +1133,7 @@ export default function DiseaseHub() {
                         </div>
                       </div>
 
-                      <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                      <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                         <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2 border-b border-border pb-3">
                           <Shield className="w-4 h-4 text-emerald-500" /> Remedy by Pathological Diagnosis
                         </h3>
@@ -1153,7 +1153,7 @@ export default function DiseaseHub() {
                     </div>
 
                     {/* Modalities Library */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-6">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6">
                       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
                         <div>
                           <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2">
@@ -1281,7 +1281,7 @@ export default function DiseaseHub() {
                     className="space-y-8"
                   >
                     {/* Constitution Guide */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                         <Users className="w-5 h-5 text-primary" /> Constitution Guide (Grauvogl & Hahnemannian classification)
                       </h3>
@@ -1303,7 +1303,7 @@ export default function DiseaseHub() {
                     </div>
 
                     {/* Miasm Comparative Chart */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                         <Layers className="w-5 h-5 text-primary" /> Miasm Reference Charts (The Three Chronic Miasms)
                       </h3>
@@ -1336,7 +1336,7 @@ export default function DiseaseHub() {
 
                     {/* Kent Philosophy & Boericke Quick Reference Pages */}
                     <div className="grid md:grid-cols-2 gap-8">
-                      <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                      <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                         <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2 border-b border-border pb-3">
                           <Book className="w-4 h-4 text-primary" /> Kent Philosophy Summaries
                         </h3>
@@ -1353,7 +1353,7 @@ export default function DiseaseHub() {
                         </div>
                       </div>
 
-                      <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                      <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                         <h3 className="text-lg font-black uppercase text-text-primary flex items-center gap-2 border-b border-border pb-3">
                           <FileText className="w-4 h-4 text-primary" /> Boericke Quick-Reference Pages
                         </h3>
@@ -1382,7 +1382,7 @@ export default function DiseaseHub() {
                     className="space-y-8"
                   >
                     {/* Allen's Keynotes Revision Cards */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <div>
                         <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                           <Brain className="w-5 h-5 text-primary" /> Allen's Keynotes Revision Cards (Active Recall)
@@ -1401,10 +1401,10 @@ export default function DiseaseHub() {
                             >
                               <div className={`w-full h-full duration-500 transform-style-preserve-3d relative ${isFlipped ? 'rotate-y-180' : ''}`}>
                                 {/* Front Face */}
-                                <div className="absolute inset-0 backface-hidden bg-gradient-to-br from-[#1c3244] to-[#122330] dark:from-[#0a1218] dark:to-[#04080b] p-8 rounded-[2.5rem] border border-border text-center flex flex-col justify-center items-center space-y-3 shadow-lg">
-                                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-emerald-400">Allen's Keynotes</span>
+                                <div className="absolute inset-0 backface-hidden bg-primary text-white p-8 rounded-[2.5rem] border border-border text-center flex flex-col justify-center items-center space-y-3 shadow-lg">
+                                  <span className="text-[9px] font-black uppercase tracking-[0.2em] text-white/80">Allen's Keynotes</span>
                                   <h4 className="text-xl font-display font-black text-white uppercase">{card.remedy}</h4>
-                                  <div className="inline-flex items-center gap-1 text-[10px] bg-white/5 border border-white/10 px-3 py-1 rounded-full text-zinc-300">
+                                  <div className="inline-flex items-center gap-1 text-[10px] bg-white/10 border border-white/20 px-3 py-1 rounded-full text-white/90">
                                     Click to Flip <RefreshCw className="w-3 h-3 animate-spin-slow" />
                                   </div>
                                 </div>
@@ -1429,7 +1429,7 @@ export default function DiseaseHub() {
                     </div>
 
                     {/* Remedy Memory Tricks & Mnemonics */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                         <Award className="w-5 h-5 text-primary" /> Remedy Memory Tricks & Mnemonics
                       </h3>
@@ -1448,7 +1448,7 @@ export default function DiseaseHub() {
                     </div>
 
                     {/* Remedy Family Trees */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                         <GitFork className="w-5 h-5 text-primary" /> Remedy Family Trees & Taxonomic Groups
                       </h3>
@@ -1482,7 +1482,7 @@ export default function DiseaseHub() {
                     className="space-y-8"
                   >
                     {/* Materia Medica Revision Calendar */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <div>
                         <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                           <Calendar className="w-5 h-5 text-primary" /> Materia Medica Study Revision Calendar
@@ -1502,7 +1502,7 @@ export default function DiseaseHub() {
                     </div>
 
                     {/* Disease-wise Remedy Collections */}
-                    <div className="p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] shadow-soft space-y-4">
+                    <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
                       <div>
                         <h3 className="text-xl font-display font-black uppercase text-text-primary flex items-center gap-2">
                           <Layers className="w-5 h-5 text-primary" /> Disease-wise Remedy Collections

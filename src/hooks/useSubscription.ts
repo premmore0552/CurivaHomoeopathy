@@ -31,11 +31,19 @@ export function useSubscription() {
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    let unsubscribeDoc: (() => void) | null = null;
+
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
+      // Clean up previous doc subscription if it exists
+      if (unsubscribeDoc) {
+        unsubscribeDoc();
+        unsubscribeDoc = null;
+      }
+
       if (user) {
         const userDocRef = doc(db, 'users', user.uid);
         
-        const unsubscribeDoc = onSnapshot(userDocRef, (docSnap) => {
+        unsubscribeDoc = onSnapshot(userDocRef, (docSnap) => {
           if (docSnap.exists()) {
             setSubscription({
               ...(docSnap.data() as UserSubscription),
@@ -61,8 +69,6 @@ export function useSubscription() {
           handleFirestoreError(error, OperationType.GET, 'users/' + user.uid);
           setLoading(false);
         });
-
-        return () => unsubscribeDoc();
       } else {
         setSubscription({
           uid: 'guest',
@@ -74,7 +80,12 @@ export function useSubscription() {
       }
     });
 
-    return () => unsubscribeAuth();
+    return () => {
+      unsubscribeAuth();
+      if (unsubscribeDoc) {
+        unsubscribeDoc();
+      }
+    };
   }, []);
 
   const incrementUsage = async () => {

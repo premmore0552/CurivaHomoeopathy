@@ -21,24 +21,30 @@ export const materiaMedicaData: RemedyDetail[] = [
     family: "Ranunculaceae",
     imageUrl: "https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?auto=format&fit=crop&q=80&w=800",
     keynotes: [
-      "Sudden onset of symptoms",
-      "Great anxiety and fear of death",
-      "Intolerable pains",
-      "Restlessness"
+      "Sudden and violent onset of symptoms",
+      "Great fear and anxiety, especially fear of death",
+      "Physical and mental restlessness; cannot remain still",
+      "Intense thirst for large quantities of cold water",
+      "Dry, hot skin with little or no sweat",
+      "Pains are intolerable and driving the patient crazy"
     ],
     mind: [
-      "State of fear and anxiety; predicts the hour of death",
-      "Physical and mental restlessness",
-      "Oversensitivity to light and noise"
+      "Extreme anxiety and constant fear; predicts the exact date and time of death",
+      "Great restlessness; changes position frequently",
+      "Oversensitivity to light, noise, and touch",
+      "Music is unbearable",
+      "Contra-indicated in a calm mental state"
     ],
     physical: [
-      "Fever with dry, hot skin and red face",
-      "Tingling, coldness and numbness",
-      "Thirst for large quantities of cold water"
+      "Sudden high fever with dry, hot, red skin and severe chill",
+      "Alternate red and pale face; red when sitting, pale when rising",
+      "Congestive states of inflammation with intense pain",
+      "Tingling, coldness and numbness in various parts",
+      "Complaints from exposure to dry cold air, draft, fear, or shock"
     ],
     modalities: {
-      better: ["Open air", "Rest"],
-      worse: ["Dry, cold winds", "Around midnight", "Music", "Tobacco smoke"]
+      better: ["Open air", "Sweating"],
+      worse: ["Evening and night", "Warm room", "Rising from bed", "Lying on affected side", "Dry, cold winds"]
     }
   },
   {
@@ -48,24 +54,29 @@ export const materiaMedicaData: RemedyDetail[] = [
     family: "Compositae",
     imageUrl: "https://images.unsplash.com/photo-1596272875729-ed2ff7d6d9c5?auto=format&fit=crop&q=80&w=800",
     keynotes: [
-      "Bruised, sore feeling all over",
-      "Aversion to being touched",
-      "Head hot, body cool",
-      "Results of trauma/injury"
+      "Sore, lame, bruised feeling all over the body, as if beaten",
+      "Fear of being touched or even approached due to soreness",
+      "Head hot, body and extremities cool",
+      "Results of mechanical trauma, even old injuries years later",
+      "Answers questions correctly while unconscious and then drifts back into stupor",
+      "Ecchymosis (blue-black discoloration) from blood accumulation under tissues"
     ],
     mind: [
-      "Says there is nothing the matter with him",
-      "Fear of being touched or approached",
-      "Stupor from head injury"
+      "Unconscious yet answers correctly when questioned, then drifts back into stupor",
+      "Fear of being touched or approached; says 'I am well' when seriously ill",
+      "Low muttering delirium in severe illnesses",
+      "Depression, indifference, and sudden fear of death"
     ],
     physical: [
-      "Ecchymosis and hemorrhages",
-      "Soreness of parts after overexertion",
-      "Offensive breath and sweat"
+      "Ecchymosis and hemorrhages; blue-black spots from bruising or trauma",
+      "Soreness and lameness of parts after overexertion, falls, or blows",
+      "Recurrent small painful boils appearing one after another",
+      "Involuntary stool and urine in stuporous states",
+      "Upper body hot, lower body cold"
     ],
     modalities: {
-      better: ["Lying down with head low"],
-      worse: ["Least touch", "Motion", "Damp builds", "Cold"]
+      better: ["Rest", "Lying down with head low", "Motion (gentle)"],
+      worse: ["Least touch", "Motion", "Pressure", "Handling", "Damp cold"]
     }
   },
   {
@@ -75,24 +86,29 @@ export const materiaMedicaData: RemedyDetail[] = [
     family: "Mineral",
     imageUrl: "https://images.unsplash.com/photo-1635349704207-66a93322108b?auto=format&fit=crop&q=80&w=800",
     keynotes: [
-      "Burning pains relieved by heat",
-      "Great prostration and weakness",
-      "Anxiety about health",
-      "Thirst for small sips of water frequently"
+      "Great restlessness; changes place continually despite extreme weakness",
+      "Burning pains relieved by heat and warm applications",
+      "Extreme prostration out of proportion to the disease",
+      "Fear of death and anxiety about health; believes recovery is impossible",
+      "Thirst for small quantities of water frequently ('sip frequently')",
+      "Fastidious; wants everything in its place and organized"
     ],
     mind: [
-      "Fastidious; wants everything in its place",
-      "Fear of death and being alone",
-      "Despair of recovery"
+      "Extreme anxiety, especially after midnight and when alone",
+      "Fear of death, disease, poverty, and being alone",
+      "Despair of recovery; believes recovery is impossible and medicine is useless",
+      "Fastidious; extremely tidy and wants everything in its place"
     ],
     physical: [
-      "Thin, acrid, excoriating discharges",
-      "Periodicity of symptoms",
-      "Worse after midnight (1-2 AM)"
+      "Thin, acrid, excoriating discharges from all mucous membranes",
+      "Food poisoning from spoiled food or bad meat; violent vomiting and burning diarrhoea",
+      "Marked aggravation after midnight, especially between 1-3 AM",
+      "Ulcers with burning, offensive, and gangrenous tendency",
+      "Periodicity of symptoms (every 14 days, every year)"
     ],
     modalities: {
-      better: ["Heat", "Hot drinks", "Head elevated"],
-      worse: ["Wet weather", "After midnight", "Cold food and drinks"]
+      better: ["Heat", "Hot drinks", "Hot applications", "Warm room", "Company"],
+      worse: ["After midnight (1-3 AM)", "Cold air", "Cold food and drinks", "Wet weather", "Being alone"]
     }
   },
   {
@@ -102,24 +118,28 @@ export const materiaMedicaData: RemedyDetail[] = [
     family: "Solanaceae",
     imageUrl: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&q=80&w=800",
     keynotes: [
-      "Sudden, violent onset",
-      "Redness, heat, and burning",
-      "Throbbing pains",
-      "Dilated pupils"
+      "Sudden and violent onset of symptoms",
+      "Intense congestion with red face, hot head, and throbbing carotids",
+      "Burning heat that radiates and can be felt by the examiner",
+      "Violent throbbing in the head, carotids, and inflamed parts",
+      "Widely dilated pupils and bright red, staring eyes",
+      "Marked dryness of mouth, tongue, and throat"
     ],
     mind: [
-      "Hallucinations; sees monsters and animals",
-      "Desire to bite and strike",
-      "Acuteness of all senses"
+      "Furious delirium: bites, strikes, tears clothes, and tries to escape",
+      "Hallucinations: sees monsters, black dogs, and frightful images",
+      "Hyperaesthesia: extreme sensitivity to light, noise, touch, and motion"
     ],
     physical: [
-      "Hot head with cold feet",
-      "Right-sided symptoms",
-      "Congestion of blood to parts"
+      "Violent, throbbing, bursting headache; worse from jar and motion",
+      "Bright red, burning, dry throat with painful swallowing",
+      "Sudden high fever with dry hot skin and hot head; throbbing carotids",
+      "Febrile convulsions and cerebral congestion in children",
+      "Predominantly right-sided symptoms"
     ],
     modalities: {
-      better: ["Leaning against something", "Semi-erect posture"],
-      worse: ["Touch", "Noise", "Light", "Lying down", "Jarring"]
+      better: ["Warmth", "Wrapping the head", "Rest", "Semi-erect position"],
+      worse: ["Light", "Noise", "Motion", "Jar", "Touch", "Cold", "Draft of air"]
     }
   },
   {
@@ -129,24 +149,27 @@ export const materiaMedicaData: RemedyDetail[] = [
     family: "Cucurbitaceae",
     imageUrl: "https://images.unsplash.com/photo-1550989460-0adf914b9c1d?auto=format&fit=crop&q=80&w=800",
     keynotes: [
-      "Worse from least motion",
-      "Better from absolute rest and pressure",
-      "Great dryness of mucous membranes",
-      "Irrability and desire for quiet"
+      "Extreme dryness of all mucous membranes (lips, mouth, throat, stool)",
+      "Sharp stitching pains, especially in the chest and joints",
+      "Aggravation from the slightest motion; wants to lie perfectly still",
+      "Better from absolute rest and pressure (lying on the painful side)",
+      "Great thirst for large quantities of cold water at long intervals"
     ],
     mind: [
-      "Talks about business especially in delirium",
-      "Desires to go home",
-      "Very irritable; wants to be left alone"
+      "Very irritable; dislikes questions and wants to be left alone",
+      "Business delirium: talks about office, business, and responsibilities during fever",
+      "Anxiety about finances and home affairs; desires to go home when at home"
     ],
     physical: [
-      "Stitching pains",
-      "Great thirst for large amounts of cold water",
-      "Hard, dry stool like burnt"
+      "Bursting, splitting frontal headache, worse from motion and stooping",
+      "Dry, painful cough; must hold the chest while coughing to prevent stitching pain",
+      "Hard, dry stool as if burnt; very difficult to pass due to lack of moisture",
+      "Sharp stitching pains in joints and liver, worse from any movement",
+      "Stitching pains in serous membranes (pleurisy, peritonitis)"
     ],
     modalities: {
-      better: ["Absolute rest", "Pressure", "Lying on painful side"],
-      worse: ["Least motion", "Exertion", "Touch", "Warmth"]
+      better: ["Absolute rest", "Pressure", "Lying on painful side", "Cool air"],
+      worse: ["Motion", "Touch", "Deep breathing", "Morning", "Heat"]
     }
   },
   {
@@ -156,24 +179,28 @@ export const materiaMedicaData: RemedyDetail[] = [
     family: "Animal (Calcium)",
     imageUrl: "https://images.unsplash.com/photo-1544654803-b69140b285a1?auto=format&fit=crop&q=80&w=800",
     keynotes: [
-      "Fair, fat, and flabby",
-      "Easily chilled and breaks into sweat",
-      "Sweat on head, especially during sleep",
-      "Craves eggs and indigestible things"
+      "Profuse head perspiration, especially during sleep (soaks the pillow)",
+      "Fat, fair, and flabby constitution with soft muscles",
+      "Delayed milestones in children (walking, teething, closure of fontanelles)",
+      "Extreme chilliness; sensitive to cold and damp weather",
+      "Strong craving for eggs and indigestible things like chalk or pencils",
+      "Easy fatigue from slight exertion like climbing stairs"
     ],
     mind: [
-      "Apprehensive; fears losing reason or being observed",
-      "Slow and sluggish mentally",
-      "Forgetful"
+      "Anxiety about health, future, and financial matters",
+      "Fear of heights, insanity, and misfortune",
+      "Slow comprehension; forgetful and easily discouraged"
     ],
     physical: [
-      "Cold, damp feet",
-      "Swollen glands",
-      "Sour smelling body and discharges"
+      "Large head with fontanelles remaining open too long; pot-bellied abdomen",
+      "Enlarged glands (tonsils, adenoids, cervical glands)",
+      "Bones are weak; rickets and curvature of bones",
+      "Ravenous hunger but weak digestion; excessive gas",
+      "Early and profuse menstruation; chronic leucorrhoea"
     ],
     modalities: {
-      better: ["Dry weather", "Lying on painful side"],
-      worse: ["Damp builds", "Cold air", "Ascending", "Physical exertion"]
+      better: ["Dry weather", "Warm clothing", "Rest"],
+      worse: ["Cold and damp", "Exertion", "Climbing stairs", "Mental work"]
     }
   },
   {
@@ -290,24 +317,28 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Honey Bee",
     family: "Animal",
     keynotes: [
-      "Stinging, burning pains",
-      "Edema and puffiness under eyes",
-      "Thirstlessness",
-      "Better from cold applications"
+      "Stinging and burning pains (like a bee sting)",
+      "Edematous swelling; puffy, waxy appearance with bag-like swelling under lower eyelids",
+      "Thirstlessness is a key indicator, especially during fevers and dropsy",
+      "Intolerance of heat and close, warm rooms",
+      "Extreme sensitivity to touch; cannot tolerate pressure"
     ],
     mind: [
-      "Jealous and irritable",
-      "Awkwardness; drops things",
-      "Busy, restless state"
+      "Irritable, nervous, and hard to please; frequently weeping",
+      "Awkward behavior; drops things while handling them",
+      "Mental confusion; cannot think clearly",
+      "Ailments from jealousy, fear, anger, or bad news"
     ],
     physical: [
-      "Swellings after stings or infections",
-      "Ovaritis (right-sided)",
-      "High-pitched screeching during sleep"
+      "Bag-like puffy swelling under lower eyelids; pale waxy face",
+      "Oedema or Anasarca; generalized fluid accumulation in tissues",
+      "Sudden screaming and stupor in meningitis; rolls head from side to side",
+      "Urination frequent, painful, and scanty; burning during urination",
+      "Urticaria with burning, stinging, and pricking sensations"
     ],
     modalities: {
-      better: ["Cold air", "Cold water", "Uncovering"],
-      worse: ["Heat", "Touch", "Pressure", "After sleep"]
+      better: ["Cold air", "Cold water", "Uncovering", "Open air", "Cold applications"],
+      worse: ["Heat", "Touch", "Pressure", "After sleep", "Warm room", "Afternoon (3 PM)"]
     }
   },
   {
@@ -584,22 +615,25 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Red Onion",
     family: "Liliaceae",
     keynotes: [
-      "Acrid nasal discharge, bland lacrimation",
-      "Like a long thread pain in nerves",
-      "Worse in warm room, better in open air"
+      "Acrid, watery nasal discharge that excoriates the nose and upper lip",
+      "Bland lacrimation (tears flow freely but do not burn)",
+      "Violent sneezing, especially on entering a warm room",
+      "Neuralgic pains like a long thread, running in a straight line",
+      "Strong craving for raw onions"
     ],
     mind: [
-      "Fear of pain",
-      "Confused and forgetful"
+      "Very sleepy; fear that the pain will become unbearable",
+      "Symptoms often travel from left to right"
     ],
     physical: [
-      "Spring coryza",
-      "Neuralgic pains following amputations",
-      "Shooting pains like a thread"
+      "Nasal discharge burns the upper lip; violent sneezing",
+      "Eyes red and watering; burning, biting, or smarting sensation",
+      "Violent laryngitis: cough as if it would tear the larynx; grabs throat while coughing",
+      "Thread-like neuralgic pains, often after trauma or amputation"
     ],
     modalities: {
       better: ["Open air", "Cold room"],
-      worse: ["Evening", "Warm room"]
+      worse: ["Warm room", "Evening", "Wet feet", "North-west wind"]
     }
   },
   {
@@ -608,23 +642,26 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Socotrine Aloe",
     family: "Liliaceae",
     keynotes: [
-      "Insecurity of rectum; 'jelly-like' stools",
-      "Gurgling and rumbling in abdomen before stool",
-      "Portal congestion",
-      "Better from cold water applications"
+      "Insecurity of rectum: weak sphincter and loss of control",
+      "Jelly-like mucus from all mucous membranes",
+      "Blue grape-like hemorrhoids, swollen, bleeding, and sore",
+      "Diarrhoea early in the morning on getting out of bed",
+      "Diarrhoea alternating with constipation"
     ],
     mind: [
-      "Dissatisfied and angry about himself",
-      "Aversion to mental labor"
+      "Dissatisfied and irritable, especially during constipation",
+      "Angry with self and because of complaints",
+      "Indolent and sedentary individuals"
     ],
     physical: [
-      "Hemorrhoids like a bunch of grapes",
-      "Heavy, dragging sensation in pelvis",
-      "Headache alternating with diarrhea"
+      "Involuntary solid stool may escape; lack of rectal sensation",
+      "Abdominal rumbling and gas before stool",
+      "Cutting and griping pains during stool followed by prostration",
+      "Hemorrhoids tender and burning; bearing-down pain in rectum"
     ],
     modalities: {
-      better: ["Cold water", "Open air", "Discharge of flatus"],
-      worse: ["Early morning", "Hot weather", "After eating", "Standing"]
+      better: ["Cold applications", "Cold weather", "Open air"],
+      worse: ["Heat", "Warm weather", "After eating", "Standing"]
     }
   },
   {
@@ -1235,7 +1272,7 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Phosphate of Magnesia",
     family: "Mineral",
     keynotes: [
-      "The 'Homeopathic Aspirin'",
+      "The 'Homoeopathic Aspirin'",
       "Cramping, neuralgic pains relieved by warmth and pressure",
       "Lightning-like pains",
       "Right-sided symptoms"
@@ -1793,48 +1830,53 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Red Onion",
     family: "Liliaceae",
     keynotes: [
-      "Acute coryza with acrid nasal discharge and bland lachrymation",
-      "Spring coryza; after damp north-easterly winds",
-      "Intense sneezing on entering a warm room",
-      "Neuralgic pains like a long thread"
+      "Acrid, watery nasal discharge that excoriates the nose and upper lip",
+      "Bland lacrimation (tears flow freely but do not burn)",
+      "Violent sneezing, especially on entering a warm room",
+      "Neuralgic pains like a long thread, running in a straight line",
+      "Strong craving for raw onions"
     ],
     mind: [
-      "Very sleepy",
-      "Fear that the pain will become unbearable"
+      "Very sleepy; fear that the pain will become unbearable",
+      "Symptoms often travel from left to right"
     ],
     physical: [
-      "Nasal discharge burns the upper lip",
-      "Eyes red and watering",
-      "Catarrhal laryngitis; cough as if it would tear the larynx"
+      "Nasal discharge burns the upper lip; violent sneezing",
+      "Eyes red and watering; burning, biting, or smarting sensation",
+      "Violent laryngitis: cough as if it would tear the larynx; grabs throat while coughing",
+      "Thread-like neuralgic pains, often after trauma or amputation"
     ],
     modalities: {
-      better: ["Cold room", "Open air"],
-      worse: ["Evening", "Warm room"]
+      better: ["Open air", "Cold room"],
+      worse: ["Warm room", "Evening", "Wet feet", "North-west wind"]
     }
   },
   {
     id: "aloe",
     name: "Aloe Socotrina",
-    commonName: "Common Aloes",
+    commonName: "Socotrine Aloe",
     family: "Liliaceae",
     keynotes: [
-      "Great insecurity of the sphincter ani; feels like stool would escape",
-      "Diarrhea drives him out of bed in the morning",
-      "Jelly-like mucus in stools",
-      "Hemorrhoids like a bunch of grapes; relieved by cold water"
+      "Insecurity of rectum: weak sphincter and loss of control",
+      "Jelly-like mucus from all mucous membranes",
+      "Blue grape-like hemorrhoids, swollen, bleeding, and sore",
+      "Diarrhoea early in the morning on getting out of bed",
+      "Diarrhoea alternating with constipation"
     ],
     mind: [
-      "Dissatisfied and angry about himself",
-      "Aversion to mental labor"
+      "Dissatisfied and irritable, especially during constipation",
+      "Angry with self and because of complaints",
+      "Indolent and sedentary individuals"
     ],
     physical: [
-      "Abdomen feels bloated, heavy, and hot",
-      "Pains around the navel",
-      "Headache across forehead, better from cold applications"
+      "Involuntary solid stool may escape; lack of rectal sensation",
+      "Abdominal rumbling and gas before stool",
+      "Cutting and griping pains during stool followed by prostration",
+      "Hemorrhoids tender and burning; bearing-down pain in rectum"
     ],
     modalities: {
-      better: ["Cold water", "Open air", "Cooling things"],
-      worse: ["Early morning", "Hot weather", "After eating or drinking"]
+      better: ["Cold applications", "Cold weather", "Open air"],
+      worse: ["Heat", "Warm weather", "After eating", "Standing"]
     }
   },
   {
@@ -4108,43 +4150,45 @@ export const materiaMedicaData: RemedyDetail[] = [
     }
   },
   {
-  "id": "aethusa",
-  "name": "Aethusa Cynapium",
-  "commonName": "Fool's Parsley",
-  "family": "Plant",
-  "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800",
-  "keynotes": [
-    "Anguish, crying, and expression of uneasiness and discontent",
-    "Marked inability to digest milk, it is vomited in large curds",
-    "Linea nasalis marked, a white line from ala nasi to angle of mouth",
-    "Ears feel obstructed, with a sense of something hot from them"
-  ],
-  "mind": [
-    "Restless, anxious, crying",
-    "Sees rats, cats, dogs, etc. with dream-like hallucinations",
-    "Inability to think, to fix the attention; brain-fag"
-  ],
-  "physical": [
-    "Sudden violent vomiting of a white frothy matter, with sweat and great weakness",
-    "Greenish, thin, undigested stool, preceded by colic, with tenesmus",
-    "Vertigo with drowsiness, hair feels pulled, head feels as if bound in a vise"
-  ],
-  "modalities": {
-    "better": [
-      "Open air",
-      "Company",
-      "Expelling flatus",
-      "Stool"
+    "id": "aethusa",
+    "name": "Aethusa Cynapium",
+    "commonName": "Fool's Parsley",
+    "family": "Plant",
+    "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800",
+    "keynotes": [
+      "Milk cannot be digested; vomited immediately in large curds",
+      "Profound weakness, drowsiness, and prostration after vomiting",
+      "Complete absence of thirst",
+      "Sunken face with well-marked linea nasalis (white line from nose to mouth)",
+      "Inability to think or fix attention; idiotic appearance during illness"
     ],
-    "worse": [
-      "3 to 4 AM",
-      "Evenings",
-      "Warmth",
-      "Summer",
-      "Milk"
-    ]
-  }
-},
+    "mind": [
+      "Idiotic appearance; confused and unable to think",
+      "Hallucinations: sees rats, cats, or mice running around",
+      "Expression of great anxiety and pain; restless and crying"
+    ],
+    "physical": [
+      "Violent vomiting of curdled milk, white or yellow, followed by great exhaustion",
+      "Sunken face with linea nasalis; herpetic eruptions around the nose",
+      "Epileptic features: clenched thumbs, red face, dilated pupils, eyes turned downward",
+      "Child cannot hold head up or stand due to extreme weakness"
+    ],
+    "modalities": {
+      "better": [
+        "Open air",
+        "Rest",
+        "Covering",
+        "Company"
+      ],
+      "worse": [
+        "Milk",
+        "Hot summer weather",
+        "Dentition",
+        "Dietary errors",
+        "Evenings"
+      ]
+    }
+  },
   {
   "id": "ammonium-mur",
   "name": "Ammonium Muriaticum",

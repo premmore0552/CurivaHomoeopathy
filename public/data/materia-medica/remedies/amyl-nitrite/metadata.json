@@ -1,0 +1,14 @@
+{
+  "slug": "amyl-nitrite",
+  "title": "Amyl Nitrite",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Eyes", "Face", "Throat", "Respiratory", "Heart", "Female", "Modalities", "Relationship", "Dose"],
+  "word_count": 180,
+  "character_count": 1300,
+  "paragraph_count": 12,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amy123nitrit"
+}

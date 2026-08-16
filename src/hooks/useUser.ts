@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, onSnapshot, doc, db } from '../lib/firebase';
+import { auth, onAuthStateChanged, onSnapshot, doc, db, handleFirestoreError, OperationType } from '../lib/firebase';
 import { userService, UserProfile } from '../services/userService';
 
 export function useUser() {
@@ -36,7 +36,7 @@ export function useUser() {
             setLoading(false);
           },
           (error) => {
-            console.error("Profile subscription error:", error);
+            handleFirestoreError(error, OperationType.GET, 'users/' + user.uid);
             setLoading(false);
           }
         );

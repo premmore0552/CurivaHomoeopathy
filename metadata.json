@@ -1,6 +1,6 @@
 {
-  "name": "Curiva",
-  "description": "Premium educational platform and clinical AI assistant for BHMS students and homeopathic practitioners. Features Materia Medica AI, Organon simplified lectures, Repertory tools, BHMS Study Hub, and classic PDF study library.",
+  "name": "Curiva Homoeopathy",
+  "description": "Premium educational platform and clinical AI assistant for BHMS students and homoeopathic practitioners. Features Materia Medica AI, Organon simplified lectures, Repertory tools, BHMS Study Hub, and classic PDF study library.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

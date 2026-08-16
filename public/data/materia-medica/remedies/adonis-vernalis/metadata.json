@@ -1,0 +1,14 @@
+{
+  "slug": "adonis-vernalis",
+  "title": "Adonis Vernalis",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Mouth", "Heart", "Stomach", "Urine", "Respiratory", "Sleep", "Extremities", "Relationship", "Dose"],
+  "word_count": 165,
+  "character_count": 1150,
+  "paragraph_count": 11,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "ado123vernalis"
+}

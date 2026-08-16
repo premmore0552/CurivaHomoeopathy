@@ -222,7 +222,7 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
       {/* Floating Controls Overlay */}
       <div className="absolute top-10 right-10 z-20 flex flex-col gap-3">
         {/* View Switcher */}
-        <div className="p-1.5 bg-white dark:bg-zinc-900 border border-border rounded-2xl shadow-xl flex gap-1">
+        <div className="p-1.5 bg-white border border-border rounded-2xl shadow-xl flex gap-1">
           <button 
             onClick={() => setViewMode('radial')}
             className={`p-2 rounded-xl transition-all ${viewMode === 'radial' ? 'bg-primary text-white shadow-lg shadow-primary/20' : 'text-text-tertiary hover:bg-bg-primary'}`}
@@ -240,7 +240,7 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
         </div>
 
         {/* Zoom Controls */}
-        <div className="p-2 bg-white dark:bg-zinc-900 border border-border rounded-2xl shadow-xl flex flex-col gap-2 items-center">
+        <div className="p-2 bg-white border border-border rounded-2xl shadow-xl flex flex-col gap-2 items-center">
           <button 
             onClick={() => handleZoom(zoomLevel * 1.2)}
             className="p-2 text-text-secondary hover:text-primary transition-colors"
@@ -289,18 +289,18 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
         </div>
 
         {/* Extra Actions */}
-        <button className="p-3 bg-white dark:bg-zinc-900 border border-border rounded-2xl shadow-xl text-text-secondary hover:text-primary transition-all hover:scale-105">
+        <button className="p-3 bg-white border border-border rounded-2xl shadow-xl text-text-secondary hover:text-primary transition-all hover:scale-105">
           <Settings2 className="w-5 h-5" />
         </button>
       </div>
 
       {/* Bottom Status */}
       <div className="absolute bottom-10 left-10 z-10 flex gap-4">
-        <div className="flex items-center gap-3 px-5 py-2.5 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-border rounded-2xl shadow-lg">
+        <div className="flex items-center gap-3 px-5 py-2.5 bg-white/80 backdrop-blur-md border border-border rounded-2xl shadow-lg">
           <span className="w-2 h-2 bg-primary rounded-full animate-pulse" />
           <span className="text-[10px] font-black text-text-primary uppercase tracking-widest">{Math.round(zoomLevel * 100)}% Magnification</span>
         </div>
-        <div className="hidden md:flex items-center gap-3 px-5 py-2.5 bg-white/80 dark:bg-zinc-900/80 backdrop-blur-md border border-border rounded-2xl shadow-lg">
+        <div className="hidden md:flex items-center gap-3 px-5 py-2.5 bg-white/80 backdrop-blur-md border border-border rounded-2xl shadow-lg">
            <Share2 className="w-3.5 h-3.5 text-text-tertiary" />
            <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">Share Research</span>
         </div>

@@ -13,7 +13,7 @@ async function main() {
   fs.writeFileSync('./destination.html', html);
 
   // Search inside destination.html for typical terms case-insensitively
-  const terms = ['materia', 'remedy', 'canvas', 'homeopath', 'card', 'color', 'theme', 'brand'];
+  const terms = ['materia', 'remedy', 'canvas', 'Homoeopath', 'card', 'color', 'theme', 'brand'];
   terms.forEach(t => {
     const rx = new RegExp(t, 'gi');
     const matches = html.match(rx);

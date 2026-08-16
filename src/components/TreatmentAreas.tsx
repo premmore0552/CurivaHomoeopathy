@@ -16,12 +16,12 @@ export default function TreatmentAreas() {
             Explore by <span className="text-primary italic">Symptoms</span>
           </h2>
           <p className="text-lg text-text-secondary max-w-2xl mx-auto mb-10">
-            Rather than just disease labels, we focus on symptom patterns. Choose an area below to understand the homeopathic "fingerprint" of the condition.
+            Rather than just disease labels, we focus on symptom patterns. Choose an area below to understand the Homoeopathic "fingerprint" of the condition.
           </p>
           <div className="p-6 bg-white dark:bg-zinc-900 border border-border rounded-3xl flex gap-4 text-left max-w-3xl mx-auto">
             <Info className="w-6 h-6 text-primary shrink-0 mt-1" />
             <p className="text-xs text-text-secondary dark:text-text-secondary leading-relaxed font-medium">
-              We are strictly educational and currently not treating patients clinically. The information below describes homeopathic perspectives and does not constitute medical advice or prescriptions.
+              We are strictly educational and currently not treating patients clinically. The information below describes Homoeopathic perspectives and does not constitute medical advice or prescriptions.
             </p>
           </div>
         </div>

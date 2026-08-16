@@ -464,7 +464,7 @@ export default function ClinicalHandbook() {
           className="absolute -bottom-48 -right-48 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" 
         />
         
-        <div className="max-w-5xl mx-auto px-4 relative z-10 space-y-6 text-center">
+        <div className="max-w-7xl mx-auto px-4 relative z-10 space-y-6 text-center">
           <motion.div 
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -489,7 +489,7 @@ export default function ClinicalHandbook() {
             transition={{ delay: 0.2 }}
             className="text-base md:text-lg text-text-secondary max-w-2xl mx-auto font-normal leading-relaxed"
           >
-            An interactive, peer-reviewed clinical guide covering 15 major disease processes. Map contemporary diagnostic guidelines with chronic homeopathic miasms and precise remedy keynotes.
+            An interactive, peer-reviewed clinical guide covering 15 major disease processes. Map contemporary diagnostic guidelines with chronic Homoeopathic miasms and precise remedy keynotes.
           </motion.p>
           
           <div className="pt-2 text-xs text-text-tertiary flex items-center justify-center gap-2">
@@ -1059,7 +1059,7 @@ export default function ClinicalHandbook() {
         </div>
 
         {/* SECTION 2: CLINICAL FLASHCARDS (TAPPING FLIP CARDS) */}
-        <section className="mt-20 space-y-6">
+        <section className="mt-10 space-y-6">
           <motion.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1123,7 +1123,7 @@ export default function ClinicalHandbook() {
         </section>
 
         {/* SECTION 3: SOCIAL CLINICAL KIT SLIDES (CAROUSEL) */}
-        <section className="mt-20 space-y-6">
+        <section className="mt-10 space-y-6">
           <motion.div
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
@@ -1228,7 +1228,7 @@ export default function ClinicalHandbook() {
         </section>
 
         {/* SECTION 4: INTERACTIVE DIAGNOSTIC CHALLENGE (NEW HIGHLY ANIMATED QUIZ) */}
-        <section className="mt-20">
+        <section className="mt-10">
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             whileInView={{ opacity: 1, y: 0 }}

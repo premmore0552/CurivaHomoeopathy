@@ -1,6 +1,6 @@
 /**
  * Remedy Image mapping utility
- * Provides high-resolution, matching Unsplash images for all homeopathic remedies,
+ * Provides high-resolution, matching Unsplash images for all Homoeopathic remedies,
  * ensuring No broken or blank images under the encyclopedia and remedy pages.
  */
 

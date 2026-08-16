@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
-import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User, ShieldCheck } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
+import { useRole } from '../context/RoleContext';
 import { categories } from '../data/mockData';
 import * as Icons from 'lucide-react';
 import { motion, AnimatePresence, Variants } from 'motion/react';
@@ -13,11 +14,20 @@ import Logo from './Logo';
 import { useUser } from '../hooks/useUser';
 
 import SearchAutocomplete from './SearchAutocomplete';
+import ProfileSwitch from './ProfileSwitch';
 
 const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location }: any) => {
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
-  const hasDropdown = 'dropdown' in link;
+  const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
   const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
+
+  const dropdownItems = React.useMemo(() => {
+    if (link.dropdown) return link.dropdown;
+    const items = [];
+    if (link.popular) items.push(...link.popular);
+    if (link.pinned) items.push(...link.pinned);
+    return items;
+  }, [link.dropdown, link.popular, link.pinned]);
 
   if (hasDropdown) {
     return (
@@ -29,7 +39,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
         <button
           onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
           className={`flex items-center justify-between w-full p-5 rounded-3xl font-black transition-all border group ${
-            isActive || link.dropdown?.some((d: any) => location.pathname === d.to)
+            isActive || dropdownItems.some((d: any) => location.pathname === d.to)
             ? 'bg-primary/5 text-primary border-primary/20' 
             : 'bg-bg-secondary text-text-primary border-transparent shadow-sm'
           }`}
@@ -49,7 +59,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
               exit={{ height: 0, opacity: 0 }}
               className="overflow-hidden pl-4 pr-1 py-1 space-y-3"
             >
-              {link.dropdown.map((sub: any) => {
+              {dropdownItems.map((sub: any) => {
                 const isSubActive = location.pathname === sub.to;
                 const hasHighlight = link.isGlossary && sub.highlight;
                 const isExternal = typeof sub.to === 'string' && sub.to.startsWith('http');
@@ -203,48 +213,124 @@ const Header: React.FC = () => {
 
 
 
+  const { currentRole, setCurrentRole, authorizedRoles } = useRole();
+  const [isRoleDropdownOpen, setIsRoleDropdownOpen] = useState(false);
+
+  // Define full links list with granular role requirements (allowedRoles)
   const navLinks = [
-    { name: 'Home', to: '/', icon: 'Home' },
-    { 
-      name: 'Symptoms', 
-      to: '/symptom-checker',
-      icon: 'Activity',
-      tooltip: 'Map patient symptoms and modalities to locate aligned homeopathic remedies in real-time.'
-    },
-    { 
-      name: 'Study Hub', 
+    {
+      name: 'Syllabus',
       to: '/student-resources',
-      isGlossary: true,
-      icon: 'BookOpen',
-      tooltip: 'Access classical texts, remedy relationship charts, and interactive comparative study guides.',
-      dropdown: [
-        { name: 'Materia Medica Canvas', to: '/lexicon/all', desc: 'Interactive AI-assisted study workspace' },
-        { name: 'Organon & Philosophy', to: '/lexicon/philosophy', desc: "Read Samuel Hahnemann's aphorisms & laws" },
-        { name: 'Interactive Study Maps', to: '/visualization', desc: 'Visualize remedy systems and connections' },
-        { name: 'Relationship Nexus', to: '/nexus', desc: 'Explore remedy concordances & drug linkages' },
-        { name: 'Miasms Encyclopedia', to: '/miasms', desc: 'Detailed chronic miasms study portal' },
-        { name: 'Public Education Center', to: '/public-education', desc: 'Beginner-friendly guides & FAQs' },
-        { name: 'Comparative Analyzer', to: '/analysis', desc: 'Side-by-side remedy clinical comparer' },
-        { name: 'MCQ Practice Board', to: '/mcq-practice', desc: 'Mock BHMS & AIAPGET exam board preps' },
-        { name: 'Clinical Therapeutics Guide', to: '/clinical-guides', desc: 'High-yield practical disease therapeutics' },
-        { name: 'CBC Diagnostic Handbook', to: '/cbc-handbook', desc: 'Interactive hemogram analyzer & miasm mapping' },
-        { name: 'Clinical Conditions Handbook', to: '/clinical-handbook', desc: 'Comprehensive diagnostic guide & simulator for 15 major conditions' },
-        { name: 'Historical Pioneers', to: '/lexicon/historical', desc: 'Timelines of stalwarts and milestones' }
+      icon: 'GraduationCap',
+      megaMenu: true,
+      dropdownWidth: 'w-[920px]',
+      tooltip: 'Hierarchical BHMS syllabus progression from 1st to 4th Year.',
+      allowedRoles: ['BHMS Student', 'Intern', 'Faculty', 'Administrator'],
+      featured: {
+        name: 'BHMS Curriculum Overview',
+        to: '/cbdc-syllabus',
+        desc: 'Complete NCH CBDC competency-based curriculum mapping for all professional years.',
+        badge: 'Official',
+        icon: 'Compass'
+      },
+      popular: [
+        { name: '1st BHMS Portal', to: '/student-resources', desc: 'Anatomy, Physiology, Pharmacy, MM & Organon', badge: 'Foundations', icon: 'BookOpen' },
+        { name: '2nd BHMS Portal', to: '/portal/2nd-bhms', desc: 'Pathology, FMT, MM, Organon, Surgery, ObGyn & PM', badge: 'Active Hub', icon: 'Layers' },
+        { name: '3rd BHMS Portal', to: '/coming-soon?topic=3rd BHMS&status=coming-soon', desc: 'Surgery, OBG, MM & Organon', badge: 'Clinical', icon: 'Heart' },
+        { name: '4th BHMS Portal', to: '/coming-soon?topic=4th BHMS&status=coming-soon', desc: 'Medicine, Repertory, MM & Organon', badge: 'Professional', icon: 'ShieldCheck' }
+      ],
+      pinned: [
+        { name: '1st BHMS Crash Course', to: '/first-bhms-crash-course', desc: 'Flagship exam preparation for 1st Year', badge: 'Flagship', icon: 'Zap' },
+        { name: 'Anatomy Library', to: '/anatomy', desc: 'Regional & clinical anatomy modules', icon: 'Activity' },
+        { name: 'Physiology Hub', to: '/physiology', desc: 'Vital systems & biochemistry', icon: 'Cpu' },
+        { name: 'Organon Philosophy', to: '/organon-philosophy', desc: 'The Art of Healing (§1–294)', icon: 'BookOpenText' }
       ]
     },
-    { name: 'Student Guides', to: '/student-resources', icon: 'GraduationCap' },
-    { name: 'Patient Hub', to: '/profile', icon: 'User' }
+    {
+      name: 'Clinical Hub',
+      to: '/clinical-guides',
+      icon: 'Activity',
+      megaMenu: true,
+      dropdownWidth: 'w-[840px]',
+      tooltip: 'Remedy profiles, miasms, and clinical diagnostic handbooks.',
+      allowedRoles: ['BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'Administrator'],
+      featured: {
+        name: 'Materia Medica Search',
+        to: '/materia-medica',
+        desc: 'Advanced search through 150+ classical remedies with keynotes and modalities.',
+        badge: 'Reference',
+        icon: 'Search'
+      },
+      popular: [
+        { name: 'Disease Library', to: '/clinical-handbook', desc: 'Diagnostic criteria & therapeutic maps', icon: 'Heart' },
+        { name: 'Miasms Encyclopedia', to: '/miasms', desc: 'Psora, Sycosis & Syphilis study', icon: 'Sparkles' },
+        { name: 'Symptom Repertory', to: '/symptom-checker', desc: 'Repertorization tools & case logs', icon: 'Compass' }
+      ],
+      pinned: [
+        { name: 'CBC Hemogram Tool', to: '/cbc-handbook', desc: 'Interactive blood report analyzer', icon: 'Activity' },
+        { name: 'Clinical Therapeutics', to: '/clinical-guides', desc: 'Condition-wise remedy mapping', icon: 'BookOpen' }
+      ]
+    },
+    {
+      name: 'Academy',
+      to: '/student-resources',
+      icon: 'Sparkles',
+      megaMenu: true,
+      dropdownWidth: 'w-[840px]',
+      align: 'right',
+      tooltip: 'Exam prep, MCQs, and active recall study modules.',
+      allowedRoles: ['BHMS Student', 'Intern', 'Faculty', 'Administrator'],
+      featured: {
+        name: 'MCQ Practice Board',
+        to: '/mcq-practice',
+        desc: '5,000+ solved entrance exam and university mock questions.',
+        badge: 'Exam Prep',
+        icon: 'Award'
+      },
+      popular: [
+        { name: 'Study Hub Portal', to: '/student-resources', desc: 'Unified study plans & revision notes', icon: 'GraduationCap' },
+        { name: 'Visual Node Maps', to: '/visualization', desc: 'Interactive remedy relationship maps', icon: 'Compass' }
+      ],
+      pinned: [
+        { name: 'University PYQs', to: '/student-resources', desc: 'Solved previous year papers', icon: 'Award' },
+        { name: 'Viva Oral Booster', to: '/student-resources', desc: 'Oral examination keys & definitions', icon: 'Clock' }
+      ]
+    },
+    {
+      name: 'Resources',
+      to: '/about',
+      icon: 'Info',
+      columns: 1,
+      dropdownWidth: 'w-72',
+      align: 'right',
+      tooltip: 'Historical lineage, stalwarts, and public health guides.',
+      allowedRoles: ['Guest', 'General Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'Administrator'],
+      dropdown: [
+        { name: 'About Curiva', to: '/about', desc: 'Our vision & academic board', icon: 'Info' },
+        { name: 'Stalwarts Gallery', to: '/stalwarts', desc: 'Biographies of the masters', icon: 'Award' },
+        { name: 'Historical Timeline', to: '/lexicon/historical', desc: 'Evolution of Homoeopathy', icon: 'Clock' },
+        { name: 'Patient Education', to: '/public-education', desc: 'Public health guides & FAQs', icon: 'Globe' }
+      ]
+    }
   ];
 
-  const userNavLinks = [...navLinks] as any[];
+  // Dynamically filter links based on current selected role
+  const roleFilteredLinks = navLinks.filter(link => link.allowedRoles.includes(currentRole));
+
+  const userNavLinks = [...roleFilteredLinks] as any[];
+  const half = Math.ceil(userNavLinks.length / 2);
+  const leftLinks = userNavLinks.slice(0, half);
+  const rightLinks = userNavLinks.slice(half);
   if (profile) {
     userNavLinks.push({
       name: 'Dashboard',
       to: '/profile',
       isProfile: true,
-      photoURL: profile.photoURL
+      photoURL: profile.photoURL,
+      allowedRoles: ['Guest', 'General Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'Administrator']
     });
   }
+
 
   const handleLinkClick = (to: string) => {
     setIsMenuOpen(false);
@@ -318,222 +404,251 @@ const Header: React.FC = () => {
 
       <header className={`sticky top-0 z-50 transition-all duration-500 ${
         isScrolled 
-        ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-20' 
-        : 'bg-bg-primary border-b border-transparent h-24'
+        ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-14' 
+        : 'bg-bg-primary border-b border-transparent h-16'
       }`}>
-      <div className="max-w-[1600px] mx-auto px-6 h-full">
-        <div className="flex justify-between items-center h-full gap-8">
-          {/* Logo Section */}
-          <div className="flex items-center gap-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+        <div className="flex items-center justify-between h-full relative gap-4">
+          
+          {/* Desktop Navigation Left */}
+          <nav className="hidden 2xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
+            {leftLinks.map((link: any, idx: number) => {
+              const isActive = location.pathname === link.to;
+              const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
+              const isDropdownActive = hasDropdown && (
+                (link.dropdown && link.dropdown.some((d: any) => location.pathname === d.to)) ||
+                (link.popular && link.popular.some((d: any) => location.pathname === d.to)) ||
+                (link.pinned && link.pinned.some((d: any) => location.pathname === d.to))
+              );
+              const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
+              const isHovered = hoveredIndex === idx;
+              
+              return (
+                <div 
+                  key={link.name || idx} 
+                  className="relative"
+                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseLeave={() => setHoveredIndex(null)}
+                >
+                  <Link
+                    to={link.to}
+                    onClick={() => {
+                      trackEvent('nav_click', { link_name: link.name, link_to: link.to });
+                      handleLinkClick(link.to);
+                    }}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${
+                      isActive || isDropdownActive
+                      ? 'text-primary bg-primary/5 border-primary/10' 
+                      : isHovered 
+                        ? 'text-primary bg-bg-secondary border-transparent' 
+                        : 'text-text-secondary border-transparent hover:text-primary'
+                    }`}
+                  >
+                    {LinkIcon && <LinkIcon className="w-4 h-4 text-accent shrink-0" />}
+                    <span>{link.name}</span>
+                    {hasDropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />}
+                  </Link>
+
+                  <AnimatePresence>
+                    {isHovered && hasDropdown && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                        animate={{ opacity: 1, y: 0, scale: 1 }}
+                        exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                        className={`absolute top-full left-0 mt-3 bg-white dark:bg-zinc-950 border border-border dark:border-zinc-800 rounded-3xl shadow-2xl p-6 z-50 ${link.dropdownWidth || 'w-64'}`}
+                      >
+                         {/* MegaMenu content is rendered dynamically based on link.megaMenu boolean */}
+                         {link.megaMenu ? (
+                           <div className="grid grid-cols-12 gap-8">
+                             <div className="col-span-4 border-r border-border pr-6 flex flex-col justify-between">
+                               <div className="space-y-4">
+                                  <div className="flex items-center gap-3">
+                                    <div className="p-2 bg-primary/10 rounded-xl text-primary">
+                                      {React.createElement((Icons as any)[link.icon] || Icons.BookOpen, { className: 'w-5 h-5' })}
+                                    </div>
+                                    <h4 className="text-xs font-black uppercase tracking-widest text-primary">{link.name}</h4>
+                                  </div>
+                                  <p className="text-[11px] text-text-secondary leading-relaxed">{link.tooltip}</p>
+                               </div>
+                               {link.featured && (
+                                 <Link to={link.featured.to} className="mt-6 p-5 rounded-2xl bg-primary/5 border border-primary/10 hover:border-primary/30 transition-all block group">
+                                   <span className="px-2 py-1 rounded bg-primary text-white text-[8px] font-black uppercase tracking-widest mb-3 inline-block">{link.featured.badge}</span>
+                                   <h5 className="text-xs font-black uppercase tracking-wider mb-1 group-hover:text-primary">{link.featured.name}</h5>
+                                   <p className="text-[10px] text-text-secondary leading-relaxed">{link.featured.desc}</p>
+                                 </Link>
+                               )}
+                             </div>
+                             <div className="col-span-4 space-y-4">
+                               <h4 className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">Progression Path</h4>
+                               <div className="space-y-2">
+                                 {link.popular?.map((sub: any) => (
+                                   <Link key={sub.name} to={sub.to} className="flex flex-col p-3 rounded-2xl hover:bg-bg-secondary border border-transparent hover:border-border transition-all">
+                                     <span className="text-[11px] font-black uppercase tracking-wider mb-1">{sub.name}</span>
+                                     <span className="text-[10px] text-text-tertiary font-serif italic">{sub.desc}</span>
+                                   </Link>
+                                 ))}
+                               </div>
+                             </div>
+                             <div className="col-span-4 space-y-4">
+                               <h4 className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">Quick Links</h4>
+                               <div className="space-y-2">
+                                 {link.pinned?.map((sub: any) => (
+                                   <Link key={sub.name} to={sub.to} className="flex flex-col p-3 rounded-2xl hover:bg-bg-secondary border border-transparent hover:border-border transition-all">
+                                     <span className="text-[11px] font-black uppercase tracking-wider mb-1">{sub.name}</span>
+                                     <span className="text-[10px] text-text-tertiary font-serif italic">{sub.desc}</span>
+                                   </Link>
+                                 ))}
+                               </div>
+                             </div>
+                           </div>
+                         ) : (
+                           <div className="space-y-1">
+                             {link.dropdown?.map((sub: any) => (
+                               <Link key={sub.name} to={sub.to} className="flex flex-col p-3 rounded-2xl hover:bg-bg-secondary border border-transparent hover:border-border transition-all">
+                                 <span className="text-[11px] font-black uppercase tracking-wider mb-1">{sub.name}</span>
+                                 <span className="text-[10px] text-text-tertiary font-serif italic">{sub.desc}</span>
+                               </Link>
+                             ))}
+                           </div>
+                         )}
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </nav>
+
+          {/* Logo Center */}
+          <div className="flex justify-center px-2 sm:px-4 lg:px-6 flex-shrink-0">
             <Link 
               to="/" 
               onClick={() => handleLinkClick('/')} 
-              className="flex items-center hover:scale-105 transition-transform"
+              className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <Logo size={isScrolled ? "xs" : "sm"} />
+              <Logo size="md" />
             </Link>
+          </div>
 
-            <div className="hidden lg:block w-px h-8 bg-border/50" />
-
-            {/* Desktop Navigation */}
-            <nav className="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
-              {userNavLinks.map((link: any, idx: number) => {
+          {/* Desktop Navigation Right */}
+          <div className="hidden 2xl:flex items-center justify-end gap-1.5 flex-1">
+            <nav className="flex items-center gap-1.5" aria-label="Main Navigation Right">
+              {rightLinks.map((link: any, idx: number) => {
+                const actualIdx = idx + half;
                 const isActive = location.pathname === link.to;
-                const hasDropdown = 'dropdown' in link;
+                const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
+                const isHovered = hoveredIndex === actualIdx;
                 const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
-                const isHovered = hoveredIndex === idx;
-                
+
                 return (
                   <div 
-                    key={link.name || idx} 
+                    key={link.name || actualIdx} 
                     className="relative"
-                    onMouseEnter={() => setHoveredIndex(idx)}
+                    onMouseEnter={() => setHoveredIndex(actualIdx)}
                     onMouseLeave={() => setHoveredIndex(null)}
                   >
-                    {(() => {
-                      const isExternal = typeof link.to === 'string' && link.to.startsWith('http');
-                      const LinkComponent = (isExternal ? 'a' : Link) as any;
-                      const linkProps = isExternal 
-                        ? { href: link.to, target: "_blank", rel: "noopener noreferrer" }
-                        : { to: link.to };
+                    <Link
+                      to={link.to}
+                      onClick={() => handleLinkClick(link.to)}
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${
+                        isActive 
+                        ? 'text-primary bg-primary/5 border-primary/10' 
+                        : isHovered 
+                          ? 'text-primary bg-bg-secondary border-transparent' 
+                          : 'text-text-secondary border-transparent hover:text-primary'
+                      }`}
+                    >
+                      {LinkIcon && <LinkIcon className="w-4 h-4 text-accent shrink-0" />}
+                      <span>{link.name}</span>
+                      {hasDropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />}
+                    </Link>
 
-                      return (
-                        <LinkComponent
-                          {...linkProps}
-                          onClick={() => {
-                            const trackLabel = (typeof link.name === 'string' ? link.name : 'Unknown');
-                            trackEvent('nav_click', { link_name: trackLabel, link_to: link.to });
-                            if (!isExternal) handleLinkClick(link.to);
-                          }}
-                          aria-current={isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to)) ? 'page' : undefined}
-                          className={`flex items-center gap-1.5 xl:gap-2 px-3 xl:px-4.5 py-2.5 rounded-full text-[10px] xl:text-[11px] font-black uppercase tracking-[0.1em] xl:tracking-[0.15em] transition-all relative whitespace-nowrap border ${
-                            isActive || (hasDropdown && link.dropdown?.some((d: any) => location.pathname === d.to))
-                            ? 'text-primary bg-primary/5 border-primary/10' 
-                            : isHovered 
-                              ? 'text-primary bg-bg-secondary border-transparent' 
-                              : 'text-text-secondary border-transparent hover:text-primary'
-                          }`}
+                    <AnimatePresence>
+                      {isHovered && hasDropdown && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 10, scale: 0.95 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 10, scale: 0.95 }}
+                          className={`absolute top-full right-0 mt-3 bg-white dark:bg-zinc-950 border border-border dark:border-zinc-800 rounded-3xl shadow-2xl p-6 z-50 ${link.dropdownWidth || 'w-64'}`}
                         >
-                          {link.isProfile ? (
-                            <div className="flex items-center gap-1.5">
-                              <img 
-                                src={link.photoURL || 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=32&q=80'} 
-                                alt="User Accent" 
-                                className="w-4.5 h-4.5 rounded-full object-cover border border-primary/20 shrink-0" 
-                              />
-                              <span>Dashboard</span>
-                            </div>
-                          ) : (
-                            <div className="flex items-center gap-1.5">
-                              {LinkIcon && <LinkIcon className="w-3.5 h-3.5 text-accent shrink-0" />}
-                              <span>{link.name}</span>
-                            </div>
-                          )}
-                          {hasDropdown && (
-                            <ChevronDown className={`w-3 h-3 transition-transform duration-300 opacity-60 ${isHovered ? 'rotate-180 text-primary' : ''}`} />
-                          )}
-                          {link.isNew && (
-                            <span className="px-1.5 py-0.5 rounded-md bg-primary text-[7px] text-white font-black uppercase tracking-widest absolute -top-1 -right-1 shadow-sm">New</span>
-                          )}
-                        </LinkComponent>
-                      );
-                    })()}
-
-                    {/* Smooth AnimatePresence Dropdown */}
-                    {hasDropdown && (
-                      <AnimatePresence>
-                        {isHovered && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 12, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 12, scale: 0.95 }}
-                            transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                            className={`absolute top-full left-0 mt-3 bg-white dark:bg-zinc-900 border border-border dark:border-zinc-800 rounded-[2rem] shadow-[0_30px_80px_rgba(0,0,0,0.12)] p-4 z-50 ${
-                              link.isGlossary ? 'w-80' : 'w-64'
-                            }`}
-                          >
-                            <div className="grid gap-1.5 font-sans">
-                              {link.dropdown?.map((sub: any) => {
-                                const isSubActive = location.pathname === sub.to;
-                                const hasHighlight = link.isGlossary && sub.highlight;
-                                const isExternal = typeof sub.to === 'string' && sub.to.startsWith('http');
-                                const LinkComponent = (isExternal ? 'a' : Link) as any;
-                                const linkProps = isExternal 
-                                  ? { href: sub.to, target: "_blank", rel: "noopener noreferrer" }
-                                  : { to: sub.to };
-
-                                return (
-                                  <LinkComponent
-                                    key={sub.name}
-                                    {...linkProps}
-                                    aria-current={isSubActive ? 'page' : undefined}
-                                    className={`flex flex-col items-start px-4.5 py-2.5 rounded-2xl transition-all border group/sub text-left ${
-                                      isSubActive 
-                                      ? 'text-primary bg-primary/5 border-primary/20 shadow-sm' 
-                                      : hasHighlight 
-                                        ? `${sub.highlight} border hover:shadow-soft hover:scale-[1.01]`
-                                        : 'text-text-secondary hover:text-primary hover:bg-bg-secondary border-transparent'
-                                    }`}
-                                    onClick={() => {
-                                      trackEvent('nav_click', { link_name: sub.name, link_to: sub.to });
-                                      if (!isExternal) handleLinkClick(sub.to);
-                                    }}
-                                  >
-                                    <div className="flex items-center justify-between w-full">
-                                      <div className="flex items-center gap-2">
-                                        <span className="text-[11px] font-black uppercase tracking-wider leading-none whitespace-nowrap">{sub.name}</span>
-                                        {sub.badge && (
-                                          <span className="px-1.5 py-0.5 rounded text-[8px] font-black uppercase tracking-widest bg-current/10 border border-current/20">
-                                            {sub.badge}
-                                          </span>
-                                        )}
+                          {link.megaMenu ? (
+                             <div className="grid grid-cols-12 gap-8">
+                               <div className="col-span-4 border-r border-border pr-6 flex flex-col justify-between">
+                                 <div className="space-y-4">
+                                    <div className="flex items-center gap-3">
+                                      <div className="p-2 bg-primary/10 rounded-xl text-primary">
+                                        {React.createElement((Icons as any)[link.icon] || Icons.Sparkles, { className: 'w-5 h-5' })}
                                       </div>
-                                      <ChevronRight className="w-3.5 h-3.5 opacity-0 group-hover/sub:opacity-100 -translate-x-2 group-hover/sub:translate-x-0 transition-all text-current" />
+                                      <h4 className="text-xs font-black uppercase tracking-widest text-primary">{link.name}</h4>
                                     </div>
-                                    {sub.desc && (
-                                      <span className="text-[10px] text-text-tertiary mt-1.5 group-hover/sub:text-current font-serif italic font-medium leading-tight text-left">
-                                        {sub.desc}
-                                      </span>
-                                    )}
-                                  </LinkComponent>
-                                );
-                              })}
+                                    <p className="text-[11px] text-text-secondary leading-relaxed">{link.tooltip}</p>
+                                 </div>
+                               </div>
+                               <div className="col-span-8 grid grid-cols-2 gap-4">
+                                 <div className="space-y-4">
+                                   <h4 className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">Resources</h4>
+                                   <div className="space-y-2">
+                                     {link.popular?.map((sub: any) => (
+                                       <Link key={sub.name} to={sub.to} className="flex flex-col p-3 rounded-2xl hover:bg-bg-secondary border border-transparent hover:border-border transition-all">
+                                         <span className="text-[11px] font-black uppercase tracking-wider mb-1">{sub.name}</span>
+                                         <span className="text-[10px] text-text-tertiary font-serif italic">{sub.desc}</span>
+                                       </Link>
+                                     ))}
+                                   </div>
+                                 </div>
+                                 <div className="space-y-4">
+                                   <h4 className="text-[9px] font-black uppercase tracking-widest text-text-tertiary">Pinned</h4>
+                                   <div className="space-y-2">
+                                     {link.pinned?.map((sub: any) => (
+                                       <Link key={sub.name} to={sub.to} className="flex flex-col p-3 rounded-2xl hover:bg-bg-secondary border border-transparent hover:border-border transition-all">
+                                         <span className="text-[11px] font-black uppercase tracking-wider mb-1">{sub.name}</span>
+                                         <span className="text-[10px] text-text-tertiary font-serif italic">{sub.desc}</span>
+                                       </Link>
+                                     ))}
+                                   </div>
+                                 </div>
+                               </div>
+                             </div>
+                          ) : (
+                            <div className="space-y-1">
+                              {link.dropdown?.map((sub: any) => (
+                                <Link key={sub.name} to={sub.to} className="flex flex-col p-3 rounded-2xl hover:bg-bg-secondary border border-transparent hover:border-border transition-all">
+                                  <span className="text-[11px] font-black uppercase tracking-wider mb-1">{sub.name}</span>
+                                  <span className="text-[10px] text-text-tertiary font-serif italic">{sub.desc}</span>
+                                </Link>
+                              ))}
                             </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    )}
-
-                    {/* Smooth Tooltip Section */}
-                    {link.tooltip && !hasDropdown && (
-                      <AnimatePresence>
-                        {isHovered && (
-                          <motion.div
-                            initial={{ opacity: 0, y: 10, scale: 0.95 }}
-                            animate={{ opacity: 1, y: 0, scale: 1 }}
-                            exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                            transition={{ duration: 0.2, ease: 'easeOut' }}
-                            className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-64 p-3.5 bg-zinc-950 dark:bg-zinc-900 border border-zinc-850 dark:border-zinc-800 text-white rounded-2xl shadow-xl z-50 pointer-events-none origin-top"
-                          >
-                            <div className="text-[9px] font-black text-accent uppercase tracking-widest mb-1 select-none flex items-center gap-1">
-                              <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" /> Clinical Hub Resource
-                            </div>
-                            <div className="text-[10.5px] font-medium leading-relaxed text-zinc-200">
-                              {link.tooltip}
-                            </div>
-                            {/* Arrow Indicator */}
-                            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1 w-2.5 h-2.5 rotate-45 bg-zinc-950 dark:bg-zinc-900 border-t border-l border-zinc-850 dark:border-zinc-800"></div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    )}
+                          )}
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                 );
               })}
             </nav>
+            <div className="w-px h-8 bg-border/50" />
+            <div className="flex items-center gap-3">
+              <ThemeToggle />
+              <ProfileSwitch />
+              <AuthButton />
+            </div>
           </div>
 
-          {/* Right Section */}
-          <div className="flex items-center gap-6">
-            <div className="hidden xl:flex items-center bg-bg-secondary h-12 px-2 rounded-full border border-border shadow-inner">
-               <SearchAutocomplete />
-            </div>
-
-            <div className="hidden lg:flex items-center gap-4 pl-4 border-l border-border/50">
-               <ThemeToggle />
-               <AuthButton />
-               
-               <Link
-                to="/my-library"
-                className={`w-12 h-12 rounded-full flex items-center justify-center transition-all relative group shadow-sm border ${
-                  location.pathname === '/my-library'
-                  ? 'bg-primary text-white border-primary shadow-lg shadow-primary/20'
-                  : 'bg-bg-secondary text-text-tertiary border-border hover:text-primary hover:border-primary/50 hover:bg-white'
-                }`}
-                title="My Library"
-              >
-                <Library className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 flex h-3 w-3">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-3 w-3 bg-primary border-2 border-bg-primary"></span>
-                </span>
-              </Link>
-            </div>
-
-            <div className="lg:hidden flex items-center gap-3">
-               <ThemeToggle />
-               <button
-                onClick={() => setIsMenuOpen(!isMenuOpen)}
-                className="p-3 rounded-2xl bg-primary text-white hover:bg-primary/90 transition-all shadow-xl shadow-primary/20 relative z-[60] active:scale-95"
-                aria-label="Toggle menu"
-              >
-                {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
-              </button>
-            </div>
+          {/* Mobile/Tablet Menu Button */}
+          <div className="2xl:hidden absolute right-0 flex items-center gap-3">
+             <ThemeToggle />
+             <button
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="p-3 rounded-2xl bg-primary text-white shadow-xl active:scale-95 transition-all"
+              aria-label="Toggle menu"
+            >
+              {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
+            </button>
           </div>
         </div>
       </div>
+      </header>
 
 
 
@@ -600,10 +715,32 @@ const Header: React.FC = () => {
                 </nav>
               </div>
 
-              {/* Account Portal */}
+              {/* Account Portal & Mobile Role Switcher */}
               <motion.div variants={itemVariants} className="space-y-4">
                 <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] px-2 italic">
-                  Account Portal & Workspace
+                  Active Workspace Profile
+                </h3>
+                <div className="grid grid-cols-2 gap-2 px-2">
+                  {authorizedRoles.map((role) => (
+                    <button
+                      key={role}
+                      onClick={() => {
+                        setCurrentRole(role);
+                        setIsMenuOpen(false);
+                      }}
+                      className={`px-3 py-2 border rounded-xl text-[10px] font-bold uppercase tracking-wider text-center transition-all ${
+                        currentRole === role
+                          ? 'bg-primary text-white border-primary shadow-sm'
+                          : 'bg-bg-secondary text-text-secondary border-transparent'
+                      }`}
+                    >
+                      {role}
+                    </button>
+                  ))}
+                </div>
+
+                <h3 className="text-[10px] font-black text-text-secondary uppercase tracking-[0.2em] px-2 italic pt-2">
+                  Account Portal
                 </h3>
                 <div className="px-2 flex justify-start w-full">
                   <AuthButton isMobile={true} onCloseMenu={() => setIsMenuOpen(false)} />
@@ -622,7 +759,6 @@ const Header: React.FC = () => {
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
   </>
   );
 };

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Heart, 
@@ -15,7 +16,9 @@ import {
   Droplets,
   Activity,
   HeartCrack,
-  FileText
+  FileText,
+  BookOpen,
+  ArrowRight
 } from 'lucide-react';
 import SEO from '../components/SEO';
 
@@ -45,8 +48,8 @@ const PUBLIC_FAQS = [
     a: "Homoeopathic remedies are generally considered safe and non-toxic because of their highly diluted nature. However, it is essential to consult with a qualified professional before starting any treatment. Self-prescribing without proper diagnosis can lead to delayed medical attention for serious conditions."
   },
   {
-    q: "What are 'Modalities' in homeopathic selection?",
-    a: "Modalities are factors that make a patient's symptoms feel better or worse. Examples include temperature (feeling better from warm wraps), time (worse at 3 AM), posture (better sitting upright), and weather (worse in damp humidity). Modalities help the homeopathic practitioner individualize the prescription to the unique presentation of the patient."
+    q: "What are 'Modalities' in Homoeopathic selection?",
+    a: "Modalities are factors that make a patient's symptoms feel better or worse. Examples include temperature (feeling better from warm wraps), time (worse at 3 AM), posture (better sitting upright), and weather (worse in damp humidity). Modalities help the Homoeopathic practitioner individualize the prescription to the unique presentation of the patient."
   }
 ];
 
@@ -155,6 +158,33 @@ export default function PublicEducation() {
         </div>
       </header>
 
+      {/* Public Health eBook Feature Banner */}
+      <div className="max-w-4xl mx-auto px-4 mb-10">
+        <Link 
+          to="/ebooks"
+          className="group p-6 bg-gradient-to-r from-primary/10 via-bg-secondary to-accent/10 border border-primary/20 rounded-3xl flex flex-col sm:flex-row items-center justify-between gap-4 shadow-soft hover:border-primary/50 transition-all"
+        >
+          <div className="flex items-center gap-4">
+            <div className="w-12 h-12 rounded-2xl bg-primary text-white flex items-center justify-center shrink-0 shadow-md">
+              <BookOpen className="w-6 h-6" />
+            </div>
+            <div>
+              <span className="text-[10px] font-black uppercase tracking-widest text-primary block">Official Curiva Publications</span>
+              <h3 className="text-lg font-bold text-text-primary group-hover:text-primary transition-colors">
+                Public Health eBook Reader
+              </h3>
+              <p className="text-xs text-text-secondary mt-0.5">
+                Read comprehensive evidence-based medical eBooks on PCOS, Diabetes, High Blood Pressure, and Hair Loss.
+              </p>
+            </div>
+          </div>
+          <div className="px-5 py-2.5 bg-primary text-white text-xs font-bold rounded-xl flex items-center gap-2 shrink-0 group-hover:bg-primary-strong transition-all">
+            <span>Read eBooks</span>
+            <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+          </div>
+        </Link>
+      </div>
+
       {/* Disclaimer Alert banner */}
       <div className="max-w-4xl mx-auto px-4 mb-16">
         <div className="p-6 bg-amber-50 border border-amber-200 rounded-3xl flex gap-4 items-start shadow-sm">
@@ -193,7 +223,7 @@ export default function PublicEducation() {
               </div>
               <h3 className="text-xl font-bold text-accent">2. Individualization</h3>
               <p className="text-xs text-text-secondary leading-relaxed font-medium">
-                No two prescriptions are the same. Homeopaths treat the entire individual, assessing mental characteristics, emotional reactions, food preferences, and temperature responses alongside physical complaints.
+                No two prescriptions are the same. Homoeopaths treat the entire individual, assessing mental characteristics, emotional reactions, food preferences, and temperature responses alongside physical complaints.
               </p>
             </div>
 

@@ -82,7 +82,8 @@ service cloud.firestore {
     // --- Collection: Users ---
     
     match /users/{userId} {
-      allow get, list: if isOwner(userId) || isAdmin();
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isOwner(userId) || (isSignedIn() && request.auth.token.email == 'premmore0552@gmail.com');
       
       allow create: if isOwner(userId) && 
                       isValidUser(incoming()) &&
@@ -95,7 +96,8 @@ service cloud.firestore {
                        incoming().diff(existing()).affectedKeys().hasOnly([
                          'displayName', 'photoURL', 'profession', 'bio', 'qualifications', 
                          'clinicAddress', 'interests', 'bookmarks', 'readingHistory', 
-                         'activities', 'studyStats', 'updatedAt'
+                         'activities', 'studyStats', 'streakCount', 'lastActiveDate', 
+                         'phoneNumber', 'updatedAt'
                        ]) &&
                        incoming().updatedAt == request.time;
 
@@ -108,8 +110,11 @@ service cloud.firestore {
 
     // --- Collection: Questions ---
     match /questions/{questionId} {
-      allow read: if resource.data.status == 'featured' || resource.data.status == 'answered';
-      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
       
       allow create: if isSignedIn() && 
                       isValidQuestion(incoming()) &&
@@ -125,7 +130,8 @@ service cloud.firestore {
 
     // --- Collection: Orders ---
     match /orders/{orderId} {
-      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
       
       allow create: if (
                       (isSignedIn() && incoming().userId == request.auth.uid) ||
@@ -140,7 +146,8 @@ service cloud.firestore {
 
     // --- Collection: Kits ---
     match /kits/{kitId} {
-      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
       allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
       allow update: if isSignedIn() && (
         (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
@@ -151,7 +158,8 @@ service cloud.firestore {
 
     // --- Collection: Screenings ---
     match /screenings/{screeningId} {
-      allow read: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
       allow create: if isSignedIn() && isValidScreening(incoming()) && incoming().createdAt == request.time;
       allow update: if isSignedIn() && resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId;
       allow delete: if isAdmin();

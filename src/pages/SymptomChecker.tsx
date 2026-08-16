@@ -49,7 +49,7 @@ export default function SymptomChecker() {
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showResult, setShowResult] = useState(false);
 
-  // Homeopathic Case State
+  // Homoeopathic Case State
   const [caseData, setCaseData] = useState<CaseInputs>({
     mentalState: '',
     thermalPreference: '',
@@ -287,7 +287,7 @@ export default function SymptomChecker() {
             </div>
             <div>
               <h1 id="symptom-checker-title" className="text-xl md:text-2xl font-display font-medium text-primary">Case Repertorizer Simulator</h1>
-              <p className="text-xs text-text-tertiary">Interactive student simulator for homeopathic case taking &amp; repertory matrices</p>
+              <p className="text-xs text-text-tertiary">Interactive student simulator for Homoeopathic case taking &amp; repertory matrices</p>
             </div>
           </div>
           <Link to="/student-resources" className="text-xs text-primary hover:text-accent font-bold transition-colors">
@@ -319,7 +319,7 @@ export default function SymptomChecker() {
               <div className="space-y-1">
                 <p className="font-bold">Academic Educational Sandbox Only</p>
                 <p className="leading-relaxed opacity-90">
-                  This simulator is designed exclusively as an educational study tool for BHMS students and homeopathic scholars. It does not replace professional clinical diagnosis or medical consultations.
+                  This simulator is designed exclusively as an educational study tool for BHMS students and Homoeopathic scholars. It does not replace professional clinical diagnosis or medical consultations.
                 </p>
               </div>
             </div>
@@ -379,7 +379,7 @@ export default function SymptomChecker() {
                 >
                   <div className="space-y-1">
                     <h3 className="text-lg font-display font-bold text-primary">Select Patient's Prominent Mental State</h3>
-                    <p className="text-xs text-text-secondary">Homeopathic remedy prescription is highly dependent on psychological traits and emotional expressions.</p>
+                    <p className="text-xs text-text-secondary">Homoeopathic remedy prescription is highly dependent on psychological traits and emotional expressions.</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {[

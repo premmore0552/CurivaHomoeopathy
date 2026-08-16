@@ -1,38 +1,86 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&family=Cinzel:wght@500;700;900&family=Lora:ital,wght@0,400;0,500;0,600;0,700;1,400&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-display: "Poppins", "Inter", sans-serif;
-  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-serif-reader: "Lora", Georgia, serif;
-  --font-display-book: "Cinzel", "Poppins", serif;
-  --font-sans-book: "Plus Jakarta Sans", "Inter", sans-serif;
+  --font-display: "Newsreader", "Cormorant Garamond", Georgia, serif;
+  --font-sans: "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-mono: "Space Mono", ui-monospace, SFMono-Regular, monospace;
+  --font-newsreader: "Newsreader", "Cormorant Garamond", serif;
+  --font-serif-reader: "Newsreader", Georgia, serif;
+  --font-display-book: "Newsreader", "Cormorant Garamond", serif;
+  --font-sans-book: "Plus Jakarta Sans", sans-serif;
 
-  --color-primary: #0F766E;
-  --color-primary-light: #ECFDF5;
-  --color-primary-dark: #115E59;
+  --color-emerald: #134634;
+  --color-cream: #F9F9F3;
+  --color-gold: #BF8F02;
+  --color-ink: #1D1818;
+
+  --color-primary: #134634;
+  --color-primary-light: #F4F4EB;
+  --color-primary-dark: #0c2f23;
   
-  --color-secondary: #2563EB;
-  --color-secondary-light: #EFF6FF;
-  --color-secondary-dark: #1D4ED8;
+  --color-secondary: #1D1818;
+  --color-secondary-light: #F9F9F3;
+  --color-secondary-dark: #000000;
 
-  --color-accent: #22C55E;
-  --color-accent-light: #F0FDF4;
-  --color-accent-dark: #15803D;
+  --color-accent: #BF8F02;
+  --color-accent-light: #FFFDF2;
+  --color-accent-dark: #806001;
   
-  --color-bg-primary: #FFFFFF;
-  --color-bg-secondary: #F8FAFC;
-  --color-bg-tertiary: #F1F5F9;
-  --color-bg-dark: #0F172A;
-  --color-text-primary: #1F2937;
-  --color-text-secondary: #64748B;
-  --color-text-tertiary: #94A3B8;
-  --color-border: #E5E7EB;
+  --color-bg-primary: #F9F9F3;
+  --color-bg-secondary: #FFFFFF;
+  --color-bg-tertiary: #F1F1E8;
+  --color-bg-dark: #121010;
+  --color-text-primary: #1D1818;
+  --color-text-secondary: #3D3737;
+  --color-text-tertiary: #756B6B;
+  --color-border: rgba(29, 24, 24, 0.08);
 
-  --shadow-soft: 0 8px 24px rgba(15, 23, 42, 0.05);
-  --shadow-header: 0 10px 40px -15px rgba(15, 23, 42, 0.03);
-  --shadow-hover-card: 0 12px 32px rgba(15, 23, 42, 0.08);
+  --shadow-soft: 0 12px 32px rgba(29, 24, 24, 0.03);
+  --shadow-header: 0 10px 40px -15px rgba(29, 24, 24, 0.02);
+  --shadow-hover-card: 0 20px 40px rgba(19, 70, 52, 0.08);
+}
+
+.dark {
+  --color-bg-primary: #121010;
+  --color-bg-secondary: #1C1919;
+  --color-bg-tertiary: #272323;
+  --color-text-primary: #F9F9F3;
+  --color-text-secondary: #D8D2D2;
+  --color-text-tertiary: #BF8F02;
+  --color-border: rgba(249, 249, 243, 0.12);
+  --color-primary-light: #1A2822;
+  --color-secondary-light: #2A2525;
+  --color-accent-light: #262110;
+}
+
+/* Global Dark Mode Helper & Overrides for legacy hardcoded colors */
+.dark .bg-white {
+  background-color: var(--color-bg-secondary) !important;
+}
+
+.dark .text-slate-900,
+.dark .text-slate-850,
+.dark .text-gray-900,
+.dark .text-neutral-900,
+.dark .text-zinc-900 {
+  color: var(--color-text-primary) !important;
+}
+
+.dark .text-slate-800,
+.dark .text-slate-700,
+.dark .text-gray-800,
+.dark .text-gray-700,
+.dark .text-zinc-800,
+.dark .text-zinc-700 {
+  color: var(--color-text-secondary) !important;
+}
+
+.dark .border-gray-100,
+.dark .border-gray-200,
+.dark .border-slate-100,
+.dark .border-slate-200 {
+  border-color: var(--color-border) !important;
 }
 
 @layer base {
@@ -658,6 +706,23 @@ body, header, aside, .card, button, input, select, textarea, div {
 .ebook-theme-dark [class*="bg-slate-50"] *,
 .ebook-theme-dark [class*="bg-slate-100"] * {
   color: #cbd5e1 !important;
+}
+
+/* Premium Brand Logo Subtle Floating Animation */
+@keyframes logoFloat {
+  0%, 100% {
+    transform: translateY(0px) scale(1);
+    filter: drop-shadow(0 2px 6px rgba(19, 70, 52, 0.1));
+  }
+  50% {
+    transform: translateY(-3.5px) scale(1.02);
+    filter: drop-shadow(0 8px 14px rgba(19, 70, 52, 0.2));
+  }
+}
+
+.animate-float-logo {
+  animation: logoFloat 3.5s ease-in-out infinite;
+  will-change: transform, filter;
 }
 
 

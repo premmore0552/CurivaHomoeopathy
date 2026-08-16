@@ -1,6 +1,6 @@
 # Curiva Homoeopathy
 
-An educational blog focused on homeopathy, holistic healing, and natural medicine awareness.
+An educational blog focused on Homoeopathy, holistic healing, and natural medicine awareness.
 
 ## Deployment to Netlify
 

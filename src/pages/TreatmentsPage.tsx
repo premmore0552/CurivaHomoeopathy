@@ -22,7 +22,7 @@ export default function TreatmentsPage() {
     <div className="bg-bg-primary min-h-screen transition-colors duration-300">
       <SEO 
         title="Homoeopathy Care & Information | Curiva Homoeopathy" 
-        description="Learn about comprehensive homeopathic approaches for skin health, chronic pain, mental wellness, and more."
+        description="Learn about comprehensive Homoeopathic approaches for skin health, chronic pain, mental wellness, and more."
       />
       
       <section className="pt-24 pb-4 bg-bg-secondary transition-colors duration-300 border-b border-border/50">
@@ -49,7 +49,7 @@ export default function TreatmentsPage() {
 
       <TreatmentAreas />
 
-      <section className="py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-16 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center gap-4 mb-12">
           <div className="p-4 bg-primary/10 rounded-[2rem] text-primary">
             <Book className="w-8 h-8" />
@@ -66,12 +66,12 @@ export default function TreatmentsPage() {
         <AZIndex items={ailments} />
       </section>
 
-      <section className="py-24 bg-primary text-white overflow-hidden relative">
+      <section className="py-16 bg-primary text-white overflow-hidden relative">
         <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
           <h2 className="text-3xl font-display font-bold mb-6">Curious About Homoeopathy?</h2>
           <p className="text-xl text-white/80 max-w-2xl mx-auto mb-10">
-            Though we are not currently treating patients, we are building a vast library of educational resources. Feel free to explore our blogs or connect with us on Instagram to learn more.
+            Though we are not currently treating patients, we are building a vast library of educational resources. Feel free to explore our Medical Reference Library or connect with us on Instagram to learn more.
           </p>
           <a 
             href="https://www.instagram.com/curivahomoeopathy/" 

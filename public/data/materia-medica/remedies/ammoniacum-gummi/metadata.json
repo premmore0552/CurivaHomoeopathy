@@ -1,0 +1,14 @@
+{
+  "slug": "ammoniacum-gummi",
+  "title": "Ammoniacum Gummi",
+  "alphabet": "A",
+  "detected_headings": ["Eyes", "Nose", "Throat", "Stomach", "Respiratory", "Extremities", "Relationship", "Dose"],
+  "word_count": 125,
+  "character_count": 950,
+  "paragraph_count": 9,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amm123gummi"
+}

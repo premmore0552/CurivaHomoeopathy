@@ -12,8 +12,8 @@ export interface Resource {
 
 export const resources: Resource[] = [
   {
-    id: 'homeopathy-modalities-cheat-sheet',
-    title: 'Homeopathy Modalities Cheat Sheet',
+    id: 'Homoeopathy-modalities-cheat-sheet',
+    title: 'Homoeopathy Modalities Cheat Sheet',
     description: 'The ultimate rapid revision guide for Materia Medica. Master Thermal, Motion, Time, and Food & Drink modalities of 50+ key remedies in one high-yield visual sheet. Perfect for BHMS students and clinical practitioners.',
     category: 'PDF',
     pageCount: 1,

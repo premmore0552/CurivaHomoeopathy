@@ -93,7 +93,10 @@ export async function getDocs(queryRef: any) {
   };
 }
 
-export function setDoc(docRef: any, data: any) {
+export function setDoc(docRef: any, data: any, options?: any) {
+  if (options) {
+    return firestoreSetDoc(docRef, data, options);
+  }
   return firestoreSetDoc(docRef, data);
 }
 
@@ -161,8 +164,12 @@ export enum OperationType {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
+  const errCode = (error as any)?.code || '';
+  const errMsg = error instanceof Error ? error.message : String(error);
+
   const errInfo = {
-    error: error instanceof Error ? error.message : String(error),
+    error: errMsg,
+    code: errCode,
     authInfo: {
       userId: auth.currentUser?.uid,
       email: auth.currentUser?.email,
@@ -177,17 +184,25 @@ export function handleFirestoreError(error: unknown, operationType: OperationTyp
     operationType,
     path
   };
+
+  if (errCode === 'unavailable' || errMsg.includes('unavailable') || errMsg.includes('offline')) {
+    console.warn('Firestore is temporarily offline or unreachable; using local cached state.', JSON.stringify(errInfo));
+    return;
+  }
+
   console.error('Firestore Error: ', JSON.stringify(errInfo));
   throw new Error(JSON.stringify(errInfo));
 }
 
-// Validation run for Firestore
+// Safe connection check for Firestore
 async function testConnection() {
+  if (typeof window === 'undefined') return;
   try {
-    await getDocFromServer(doc(db, 'test', 'connection'));
-  } catch (error) {
-    if (error instanceof Error && error.message.includes('the client is offline')) {
-      console.error("Please check your Firebase configuration.");
+    const testDocRef = doc(db, 'test', 'connection');
+    await firestoreGetDoc(testDocRef);
+  } catch (error: any) {
+    if (error?.code === 'unavailable' || error?.message?.includes('unavailable')) {
+      console.warn("Firestore operating in offline/cached mode.");
     }
   }
 }

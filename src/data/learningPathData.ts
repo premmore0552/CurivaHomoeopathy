@@ -48,18 +48,18 @@ export const learningPathSteps: LearningStep[] = [
     subtitle: "The Philosophical Foundations of Similia",
     duration: "Week 1-2",
     badge: "Level 1",
-    description: "Master the fundamental natural laws governing homeopathy, from the Core Law of Similars to the concepts of Dynamization and the Dynamic Vital Force.",
+    description: "Master the fundamental natural laws governing Homoeopathy, from the Core Law of Similars to the concepts of Dynamization and the Dynamic Vital Force.",
     articles: [
       {
         id: "law-of-similars",
-        title: "The Law of Similars: Foundation of Homeopathic Science",
+        title: "The Law of Similars: Foundation of Homoeopathic Science",
         readTime: "8 min read",
         summary: "Trace the origin of 'Similia Similibus Curentur' from Hippocrates and Paracelsus to Samuel Hahnemann's breakthrough cinchona bark experiments.",
         content: [
           "The Principle of Simila (Like cures like) states that any pharmacological agent capable of producing a specific set of clinical manifestations in a healthy, sensitive human individual can resolve a similar pattern of suffering in a diseased patient.",
           "In 1790, while translating William Cullen's Materia Medica, Dr. Samuel Hahnemann questioned the explanation that Spanish Bark (Cinchona) cured malaria solely because of its bitterness. He ingested Cinchona bark twice daily and observed symptoms similar to malaria (fever, chills, joint soreness).",
           "This historic self-proving led Hahnemann to recognize that a drug's healing power resides in its ability to generate an artificial disease state, which overrides and extinguishes the natural disease process via the biological counter-action of the organism.",
-          "Unlike modern active suppressive therapies (contraria contrariis curantur), homeopathy aims to stimulate host-defense homeostasis, prompting a secondary restorative recoil of the Vital Force to eliminate susceptibility, rather than merely masking the primary symptoms."
+          "Unlike modern active suppressive therapies (contraria contrariis curantur), Homoeopathy aims to stimulate host-defense Homoeostasis, prompting a secondary restorative recoil of the Vital Force to eliminate susceptibility, rather than merely masking the primary symptoms."
         ],
         keyTakeaways: [
           "A drug's symptom-producing power correlates directly with its symptom-curing power.",
@@ -74,9 +74,9 @@ export const learningPathSteps: LearningStep[] = [
         summary: "Explore Organon Aphorisms 9-17, detailing how the immaterial spiritual force (Dynamis) coordinates physiology and reacts during disease.",
         content: [
           "In Aphorism 9, Hahnemann states: 'In the healthy condition of man, the spiritual vital force, the dynamis that animates the material body, rules with unbounded sway, and retains all the parts of the organism in harmonious play.'",
-          "Without this dynamic organizing principle, the physical body is incapable of feeling, action, or self-preservation. It is the Vital Force that maintains the harmonious thermal, enzymatic, and physiological processes we call homeostatic health.",
+          "Without this dynamic organizing principle, the physical body is incapable of feeling, action, or self-preservation. It is the Vital Force that maintains the harmonious thermal, enzymatic, and physiological processes we call Homoeostatic health.",
           "Disease does not begin as a physical lesion or pathological cell structural change. It begins as a dynamic, non-material disturbance of the Vital Principle by inimical external forces. True healing must therefore act on this dynamic level.",
-          "Homeopathic diluted potencies, prepared through succussion, act as dynamic vibrational triggers that align directly with the energetic state of the Vital Principal, removing the energetic barrier of the illness."
+          "Homoeopathic diluted potencies, prepared through succussion, act as dynamic vibrational triggers that align directly with the energetic state of the Vital Principal, removing the energetic barrier of the illness."
         ],
         keyTakeaways: [
           "Health is dynamic biological harmony maintained by the Vital Force (Aphorism 9).",
@@ -109,15 +109,15 @@ export const learningPathSteps: LearningStep[] = [
     subtitle: "Systematic Drug Study and Remedy Comparison",
     duration: "Week 3-4",
     badge: "Level 2",
-    description: "Learn how to systematically study homeopathic drug profiles, catalog keynotes, utilize thermal relations, and classify remedies.",
+    description: "Learn how to systematically study Homoeopathic drug profiles, catalog keynotes, utilize thermal relations, and classify remedies.",
     articles: [
       {
         id: "remedy-study-methodology",
-        title: "How to Study a Homeopathic Remedy: A Professional Guide",
+        title: "How to Study a Homoeopathic Remedy: A Professional Guide",
         readTime: "8 min read",
         summary: "Stop memorizing checklists. Learn the structural approach to dissecting Materia Medica based on proving records, origins, and clinical keynotes.",
         content: [
-          "A common error among students is attempting to memorize hundreds of symptoms per remedy mechanically. A professional homeopathic student studies the 'genius' or core theme of the remedy first.",
+          "A common error among students is attempting to memorize hundreds of symptoms per remedy mechanically. A professional Homoeopathic student studies the 'genius' or core theme of the remedy first.",
           "The systematic study of a remedy should always follow this structural schema: 1) Botanical/mineral/animal origin; 2) Proving history and primary provers; 3) Sphere of Action (tissue affinity, e.g., venous system vs. nervous system); 4) Core Mental Theme; 5) Prominent Modalities (thermal, temporal, physical); 6) Keynotes and PQRS symptoms.",
           "For instance, studying Lycopodium Clavatum becomes intuitive when you understand its core theme: physical weakness, digestive flatulence, and mental compensation for lack of self-confidence.",
           "By linking physiological actions (sluggish portal circulation, gas from right-to-left) to the psychological compensating theme, the complete drug picture forms a memorable, living human prototype."
@@ -176,7 +176,7 @@ export const learningPathSteps: LearningStep[] = [
         id: "pqrs-symptoms",
         title: "Extracting the PQRS: Peculiar, Queer, Rare, and Strange Symptoms",
         readTime: "7 min read",
-        summary: "Aphorisms 153 emphasizes the value of characteristic symptoms. Learn to differentiate common clinical diagnostic signs from homeopathic prescription keys.",
+        summary: "Aphorisms 153 emphasizes the value of characteristic symptoms. Learn to differentiate common clinical diagnostic signs from Homoeopathic prescription keys.",
         content: [
           "In Aphorism 153, Hahnemann establishes: 'We ought to be almost solely attentive to the more striking, singular, uncommon and peculiar (characteristic) signs and symptoms.'",
           "Common symptoms are diagnostic: for example, joint pain and inflammation in a case of Rheumatoid Arthritis. These are of low value for choosing a remedy because all arthritis patients have them.",
@@ -222,14 +222,14 @@ export const learningPathSteps: LearningStep[] = [
         readTime: "8 min read",
         summary: "Dr. James Tyler Kent's 12 observations on patient response. Learn to wait, repeat, change the remedy, or antidote.",
         content: [
-          "Selecting the first remedy is only half the battle. The true genius of a homeopath lies in the management of the follow-up, famously structured by J.T. Kent's 12 Clinical Observations.",
+          "Selecting the first remedy is only half the battle. The true genius of a Homoeopath lies in the management of the follow-up, famously structured by J.T. Kent's 12 Clinical Observations.",
           "Rule 1: If symptoms improve on all levels (mind, energy, physical), change absolutely nothing! Do not repeat the dose; let the dynamic reaction unfold naturally (sacred waiting).",
           "Rule 2: If a sharp healing aggravation occurs shortly after the dose, followed by sustained, long-term improvement, it is a very positive prognosis indicating robust Vital Force clearing.",
           "Rule 3: If symptoms disappear in the reverse order of their chronological appearance (Hering's Law), the cure is proceeding beautifully. Let it act. Never interfere with a dynamic process in progress."
         ],
         keyTakeaways: [
           "Never repeat a remedy or change to a new one while the patient is showing steady progress.",
-          "A slight, transient homeopathic aggravation is generally a sign of a perfect prescription.",
+          "A slight, transient Homoeopathic aggravation is generally a sign of a perfect prescription.",
           "If the remedy selection is wrong, first antidote if suffering is severe, then re-evaluate the case."
         ]
       }
@@ -259,7 +259,7 @@ export const studyGuideSheets: StudyGuideSheet[] = [
       { label: "Aphorism 9: Dynamic Health", details: "In healthy state, the spiritual vital force animates the physical organism and maintains all parts in harmonious play." },
       { label: "Aphorism 26: Cosmic Law", details: "A weaker dynamic affection is permanently extinguished in the living organism by a stronger one, if the latter (while differing in kind) is very similar in its manifestations." },
       { label: "Aphorism 83: Case-Taking", details: "Demands from the physician nothing but an unprejudiced mind, sound senses, attentive observation, and fidelity in tracing the disease picture." },
-      { label: "Aphorism 153: PQRS Key", details: "In looking for the homeopathic specific, focus almost solely on the striking, singular, uncommon and peculiar (characteristic) symptoms." }
+      { label: "Aphorism 153: PQRS Key", details: "In looking for the Homoeopathic specific, focus almost solely on the striking, singular, uncommon and peculiar (characteristic) symptoms." }
     ]
   }
 ];
@@ -314,7 +314,7 @@ export const learningQuizzes: CaseQuiz[] = [
     ],
     questions: [
       {
-        questionText: "Which homeopathic remedy fits this symptom profile perfectly?",
+        questionText: "Which Homoeopathic remedy fits this symptom profile perfectly?",
         options: [
           "Lycopodium Clavatum",
           "Lachesis Muta",

@@ -1,0 +1,14 @@
+{
+  "slug": "ailanthus-glandulosa",
+  "title": "Ailanthus Glandulosa",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Face", "Throat", "Stomach", "Abdomen", "Respiratory", "Skin", "Modalities", "Relationship", "Dose"],
+  "word_count": 145,
+  "character_count": 1050,
+  "paragraph_count": 12,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "ail123gland"
+}

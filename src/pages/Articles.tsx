@@ -62,25 +62,25 @@ export default function Articles() {
   return (
     <>
       <SEO
-        title="Educational Blog | Curiva Homoeopathy"
-        description="Deep dive into the world of homoeopathy with our curated articles and educational resources."
+        title="Medical Reference Library & Reference Center | Curiva Homoeopathy"
+        description="Deep dive into clinical therapeutics, Materia Medica reference sheets, and academic BHMS studies."
       />
       <main className="bg-bg-primary transition-colors duration-300 pb-12">
         <div className="pt-20 pb-16 bg-bg-secondary border-b border-border">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div className="inline-flex items-center justify-center p-4 bg-primary/10 rounded-[2rem] text-primary mb-6 shadow-sm border border-primary/20">
               <Newspaper className="w-10 h-10" />
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-text-primary mb-6 tracking-tight">
-              Educational <span className="text-primary italic">Articles</span>
+              Medical Reference <span className="text-primary italic">Library</span>
             </h1>
             <p className="text-lg md:text-xl text-text-secondary leading-relaxed mb-8 relative z-10">
-              Discover natural healing insights, student-curated research, and trusted
-              guides to help you explore the patterns of holistic wellness.
+              Discover academic reference indices, clinical therapeutics guides, and classical study materials
+              curated for BHMS students and clinical practitioners.
             </p>
             <div className="inline-flex items-center justify-center gap-2 bg-primary/5 text-primary px-5 py-2.5 rounded-full font-bold text-sm border border-primary/20 relative z-10 uppercase tracking-widest">
                <span className="w-2 h-2 rounded-full bg-primary animate-pulse block"></span>
-               Evidence-Based Homoeopathy Awareness
+               Evidence-Based Clinical Reference Library
             </div>
           </div>
         </div>
@@ -96,7 +96,7 @@ export default function Articles() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
           >
-            <div id="blog-grid" className="scroll-mt-24">
+            <div id="blog-grid" className="scroll-mt-12">
               <BlogGrid onSelectPost={handleSelectPost} />
             </div>
           </motion.div>

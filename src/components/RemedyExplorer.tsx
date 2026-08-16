@@ -188,7 +188,7 @@ export default function RemedyExplorer() {
                 </div>
                 <h4 className="text-xl font-display font-bold text-text-primary mb-4 uppercase tracking-widest">Select a condition</h4>
                 <p className="text-text-secondary max-w-sm font-medium leading-relaxed">
-                  Start your exploration by selecting a clinical category from the research database to view associated homeopathic patterns and academic summaries.
+                  Start your exploration by selecting a clinical category from the research database to view associated Homoeopathic patterns and academic summaries.
                 </p>
               </div>
             )}

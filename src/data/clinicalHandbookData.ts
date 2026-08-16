@@ -170,7 +170,7 @@ export const clinicalConditions: ClinicalCondition[] = [
       {
         name: "Rauwolfia Serpentina",
         keynotes: [
-          "A classic homeopathic hypotensive agent; acts directly on vasomotor centers.",
+          "A classic Homoeopathic hypotensive agent; acts directly on vasomotor centers.",
           "High blood pressure with symptoms of congestion in head, throbbing of arteries, and restlessness.",
           "Indicated for hyper-irritable, anxious patients with insomnia and high arterial tension."
         ]
@@ -645,7 +645,7 @@ export const clinicalConditions: ClinicalCondition[] = [
       {
         name: "Eupatorium Perfoliatum",
         keynotes: [
-          "Specific homeopathic remedy for dengue; known as the 'bone-set'.",
+          "Specific Homoeopathic remedy for dengue; known as the 'bone-set'.",
           "Sensation as if all bones were broken; intense, aching pain in back, limbs, and head.",
           "Severe retro-orbital pain; soreness of eyeballs; high fever with severe chills.",
           "Nausea and vomiting of bile; thirst for cold water during chill."
@@ -888,7 +888,7 @@ export const clinicalConditions: ClinicalCondition[] = [
     id: "aki",
     title: "Acute Kidney Injury",
     system: "Renal",
-    overview: "A rapid decline in glomerular filtration rate (GFR) occurring over hours to days, leading to the accumulation of nitrogenous waste products (uremia) and disruption of fluid, electrolyte, and acid-base homeostasis.",
+    overview: "A rapid decline in glomerular filtration rate (GFR) occurring over hours to days, leading to the accumulation of nitrogenous waste products (uremia) and disruption of fluid, electrolyte, and acid-base Homoeostasis.",
     symptoms: [
       "Oliguria (urine output < 0.5 mL/kg/hour for > 6 hours) or Anuria",
       "Generalized edema (anasarca, puffiness of face, swollen ankles)",
@@ -1033,7 +1033,7 @@ export const clinicalConditions: ClinicalCondition[] = [
       {
         name: "Serum Anguillae (Eel Serum)",
         keynotes: [
-          "Outstanding homeopathic remedy for slowing progression of CKD and lowering creatinine.",
+          "Outstanding Homoeopathic remedy for slowing progression of CKD and lowering creatinine.",
           "Chronic interstitial nephritis with oliguria, severe albuminuria, and hypertension.",
           "Helps re-establish urinary secretion, halts nephrosclerosis, and postpones dialysis."
         ]
@@ -1419,7 +1419,7 @@ export const clinicalConditions: ClinicalCondition[] = [
       {
         name: "Iodum",
         keynotes: [
-          "Classic homeopathic specific for hyperthyroidism with rapid emaciation.",
+          "Classic Homoeopathic specific for hyperthyroidism with rapid emaciation.",
           "Rapid wasting of tissues despite a ravenous, constant hunger; must eat constantly to avoid feeling anxious.",
           "Intense heat intolerance; feels hot all over, must have cool air and cold surroundings.",
           "Goiter with hardness; rapid tachycardia, pulsations felt all over the body, and fine trembling."

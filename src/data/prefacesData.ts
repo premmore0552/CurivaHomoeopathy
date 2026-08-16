@@ -71,7 +71,7 @@ export const prefacesData: Preface[] = [
       "A great help to the spread of the good cause in foreign lands is won by the good French translation of the last edition, recently brought out at great sacrifice, by that genuine philanthropist, my learned friend Baron von Brunnow, who has enriched it with an exposition of the homoeopathic system and its history.",
       "In this third edition I have not refrained from making any alterations and emendations suggested by increased knowledge and necessitated by further experience."
     ],
-    keyTakeaway: "Celebrates the spreading global acceptance of Homeopathy and the release of Baron von Brunnow's French translation, while embracing iterative refinement."
+    keyTakeaway: "Celebrates the spreading global acceptance of Homoeopathy and the release of Baron von Brunnow's French translation, while embracing iterative refinement."
   },
   {
     id: "fourth-1829",
@@ -83,7 +83,7 @@ export const prefacesData: Preface[] = [
       "But this is far from being the case! That nature, whose self-help was alleged to be the incomparable healing art, is merely the individual nature of the organic man, is nothing but the instinctive, irrational, unreasoning vital force subject to the organic laws of our body, which is ordained to maintain health in harmonious condition, but was not intended nor adapted for restoration.",
       "For should our vital force have its integrity impaired by injurious influences from without, then this force strives instinctively and automatically to free itself by revolutionary processes (evacuations, fever, crises), but these very efforts are themselves disease; they are a second different malady substituted for the original one.",
       "The vital force produces, in accordance with the laws of the constitution of the organism, a disease of a different sort, intended to expel the disease by which it was attacked, which it strives to accomplish by pain, metastases, and so forth, but mainly by evacuations and the sacrifice of much fluid and solid constituents, with difficult and frequently disastrous results.",
-      "But as what has hitherto been termed 'healing art' was a mere imperfect imitation of those unhelpful, useless, and not infrequently injurious efforts of the instinctive vital force when left to itself, it will be conceded that before me the true healing art was not discovered. Homeopathy is this true healing art."
+      "But as what has hitherto been termed 'healing art' was a mere imperfect imitation of those unhelpful, useless, and not infrequently injurious efforts of the instinctive vital force when left to itself, it will be conceded that before me the true healing art was not discovered. Homoeopathy is this true healing art."
     ],
     keyTakeaway: "Expounds the core concept of the Vital Force as an automatic, instinctive, but often blind regulatory mechanism that requires scientific, dynamic assistance."
   },
@@ -151,15 +151,7 @@ export const westernPhilosophyData: PhilosophyChapter = {
       ]
     },
     {
-      heading: "Hahnemann's Organic Synthesis",
-      paragraphs: [
-        "An ideal physician should combine the best traits of all three: the Rationalist's search for principle, the Machinist's attention to anatomy, and the Empiric's focus on pure observation. Hahnemann achieved this integration by establishing medicine as a branch of biology from an organismal standpoint.",
-        "A machine is an aggregate of separate parts; a living body is a holistic organism where the whole is logically prior to its parts. This holistic concept forms the root of the ideological conflict between Homoeopathy and orthodox medicine.",
-        "Whereas materialistic medicine treats individual tissues and organs, Homoeopathy treats the patient as an indivisible biological whole. In medicine, according to Hahnemann, 'the category of life is the primary aspect for a physician, other categories being secondary.'"
-      ]
-    },
-    {
-      heading: "The Cinchona Experiment and Phenomenology",
+      heading: "The Cinchona Experiment",
       paragraphs: [
         "In 1790, while translating Cullen's Materia Medica, Hahnemann struck upon the primary clue. Cullen attributed the malaria-curing power of Cinchona (Peruvian bark) solely to its bitterness. Rejecting this explanation, Hahnemann tested Cinchona on his own healthy body and experienced typical ague (intermittent fever) symptoms.",
         "This led to his epochal induction: 'A medicine cures ague because it produces ague-like symptoms in a healthy person.' He tested more drugs and formulated his deduction: 'Let likes be treated by likes' (Similia Similibus Curentur).",

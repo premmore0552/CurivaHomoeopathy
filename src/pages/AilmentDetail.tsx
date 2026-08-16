@@ -3,7 +3,9 @@ import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, CheckCircle2, ShieldCheck, Activity, Heart, Sparkles, Search, ArrowUpRight, BookOpen, LayoutGrid } from 'lucide-react';
 import SEO from '../components/SEO';
+import ShareButton from '../components/ShareButton';
 import InteractiveMindMap from '../components/InteractiveMindMap';
+import { ContentNavigator } from '../components/ContentNavigator';
 
 interface AilmentData {
   id: string;
@@ -19,9 +21,9 @@ interface AilmentData {
 const ailments: Record<string, AilmentData> = {
   'skin-health': {
     id: 'skin-health',
-    title: 'Homeopathy for Skin Conditions',
+    title: 'Homoeopathy for Skin Conditions',
     subtitle: 'Healing from within for vibrant, clear skin.',
-    description: 'Vibrant skin is often a reflection of internal health. Homeopathy treats skin disorders by addressing the underlying constitution rather than merely suppressing surface symptoms with topical creams. Whether you are dealing with chronic Eczema, Psoriasis, or persistent Acne, our tailored approach helps restore your skin\'s natural balance.',
+    description: 'Vibrant skin is often a reflection of internal health. Homoeopathy treats skin disorders by addressing the underlying constitution rather than merely suppressing surface symptoms with topical creams. Whether you are dealing with chronic Eczema, Psoriasis, or persistent Acne, our tailored approach helps restore your skin\'s natural balance.',
     approach: 'We look at your unique triggers—be it digestive issues, stress, or environmental factors. By selecting a remedy that matches your whole physical and emotional state, we help your body regulate its immune response and detoxify effectively.',
     benefits: [
       'Reduces inflammation and redness naturally',
@@ -37,7 +39,7 @@ const ailments: Record<string, AilmentData> = {
     id: 'chronic-pain',
     title: 'Managing Chronic Pain Naturally',
     subtitle: 'Gentle relief for stiffness, inflammation, and discomfort.',
-    description: 'Chronic pain, whether from Arthritis, Fibromyalgia, or old injuries, can significantly impact quality of life. Homeopathy offers a non-addictive, gentle alternative for managing pain. Our remedies work with the body\'s nervous and musculoskeletal systems to reduce sensitivity and improve mobility.',
+    description: 'Chronic pain, whether from Arthritis, Fibromyalgia, or old injuries, can significantly impact quality of life. Homoeopathy offers a non-addictive, gentle alternative for managing pain. Our remedies work with the body\'s nervous and musculoskeletal systems to reduce sensitivity and improve mobility.',
     approach: 'We analyze the nature of your pain—is it better with movement or rest? Is it worse in damp weather? These specific details lead us to the precise remedy that can alleviate your discomfort and improve joint function.',
     benefits: [
       'Improves mobility and joint flexibility',
@@ -51,9 +53,9 @@ const ailments: Record<string, AilmentData> = {
   },
   'stress-anxiety': {
     id: 'stress-anxiety',
-    title: 'Homeopathy for Mental Wellness',
+    title: 'Homoeopathy for Mental Wellness',
     subtitle: 'Restoring emotional equilibrium and inner peace.',
-    description: 'In today\'s fast-paced world, stress, anxiety, and burnout are common challenges. Homeopathy treats the mind and body as one. Our remedies help balance the nervous system, allowing you to manage life\'s stressors with greater resilience without the "brain fog" or numbing effects of traditional sedatives.',
+    description: 'In today\'s fast-paced world, stress, anxiety, and burnout are common challenges. Homoeopathy treats the mind and body as one. Our remedies help balance the nervous system, allowing you to manage life\'s stressors with greater resilience without the "brain fog" or numbing effects of traditional sedatives.',
     approach: 'We focus on your specific experience of anxiety—be it performance stress, grief-related sadness, or panic attacks. By matching a remedy to your specific emotional triggers, we facilitate a natural state of calm and focus.',
     benefits: [
       'Promotes restful sleep and reduces insomnia',
@@ -69,8 +71,8 @@ const ailments: Record<string, AilmentData> = {
     id: 'digestive-issues',
     title: 'Holistic Digestive Support',
     subtitle: 'Relief for IBS, Gastritis, and food sensitivities.',
-    description: 'A healthy gut is essential for overall vitality. Digestive complaints like IBS, bloating, and food intolerances often indicate an system-wide imbalance. Homeopathy helps strengthen the digestive fire and resolve inflammation in the gut lining.',
-    approach: 'We assess your dietary habits, energy patterns, and how your digestion reacts to specific stressors. Homeopathic treatment aims to recalibrate your digestive processes so you can enjoy food again without fear of discomfort.',
+    description: 'A healthy gut is essential for overall vitality. Digestive complaints like IBS, bloating, and food intolerances often indicate an system-wide imbalance. Homoeopathy helps strengthen the digestive fire and resolve inflammation in the gut lining.',
+    approach: 'We assess your dietary habits, energy patterns, and how your digestion reacts to specific stressors. Homoeopathic treatment aims to recalibrate your digestive processes so you can enjoy food again without fear of discomfort.',
     benefits: [
       'Reduces bloating, gas, and abdominal discomfort',
       'Effective for Irritable Bowel Syndrome (IBS)',
@@ -85,7 +87,7 @@ const ailments: Record<string, AilmentData> = {
     id: 'respiratory-health',
     title: 'Breathe Easy: Respiratory Care',
     subtitle: 'Support for Asthma, Hay Fever, and Allergies.',
-    description: 'Respiratory challenges like seasonal allergies or chronic asthma can be exhausting. Homeopathy treats the hypersensitivity of the immune system that causes these reactions, helping you breathe more freely throughout the seasons.',
+    description: 'Respiratory challenges like seasonal allergies or chronic asthma can be exhausting. Homoeopathy treats the hypersensitivity of the immune system that causes these reactions, helping you breathe more freely throughout the seasons.',
     approach: 'Whether it is a reaction to pollen, dust, or cold air, we find the remedy that matches your respiratory symptoms and your overall susceptibility. Over time, this decreases the frequency and severity of allergic episodes.',
     benefits: [
       'Alleviates seasonal hay fever naturally',
@@ -101,7 +103,7 @@ const ailments: Record<string, AilmentData> = {
     id: 'immunity-wellness',
     title: 'Immunity & Constitutional Wellness',
     subtitle: 'Strengthening your defenses from the ground up.',
-    description: 'Immunity is not just about avoiding a cold; it is about the body\'s innate ability to maintain balance against external stressors. Homeopathy focuses on "hosting resistance"—strengthening the individual\'s constitution so they are less susceptible to illness and recover faster when they do fall sick.',
+    description: 'Immunity is not just about avoiding a cold; it is about the body\'s innate ability to maintain balance against external stressors. Homoeopathy focuses on "hosting resistance"—strengthening the individual\'s constitution so they are less susceptible to illness and recover faster when they do fall sick.',
     approach: 'We look at your overall vitality, sleep patterns, and susceptibility to seasonal changes. Constitutional remedies are chosen to optimize your immune response and provide a deep sense of well-being.',
     benefits: [
       'Reduces frequency of recurrent colds and flu',
@@ -118,6 +120,14 @@ const ailments: Record<string, AilmentData> = {
 export default function AilmentDetail() {
   const { ailmentId } = useParams<{ ailmentId: string }>();
   const data = ailmentId ? ailments[ailmentId] : null;
+
+  const ailmentKeys = Object.keys(ailments);
+  const currentIndex = ailmentKeys.indexOf(ailmentId || '');
+  const prevKey = currentIndex > 0 ? ailmentKeys[currentIndex - 1] : null;
+  const nextKey = currentIndex < ailmentKeys.length - 1 ? ailmentKeys[currentIndex + 1] : null;
+
+  const prev = prevKey ? ailments[prevKey] : null;
+  const next = nextKey ? ailments[nextKey] : null;
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -150,7 +160,7 @@ export default function AilmentDetail() {
           referrerPolicy="no-referrer"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent"></div>
-        <div className="absolute bottom-0 left-0 w-full p-8 lg:p-16">
+        <div className="absolute bottom-0 left-0 w-full p-8 lg:p-8">
           <div className="max-w-7xl mx-auto">
             <Link 
               to="/health-guides" 
@@ -162,15 +172,23 @@ export default function AilmentDetail() {
             <h1 className="text-3xl md:text-5xl font-display font-bold text-white mb-4">
               {data.title}
             </h1>
-            <p className="text-lg md:text-xl text-white/90 font-medium italic">
-              — {data.subtitle}
-            </p>
+            <div className="flex flex-wrap items-center justify-between gap-4">
+              <p className="text-lg md:text-xl text-white/90 font-medium italic">
+                — {data.subtitle}
+              </p>
+              <ShareButton 
+                title={data.title} 
+                text={data.description} 
+                variant="outline" 
+                label="Share Guide" 
+              />
+            </div>
           </div>
         </div>
       </header>
 
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16">
-        <div className="grid lg:grid-cols-3 gap-16">
+        <div className="grid lg:grid-cols-3 gap-8">
           <div className="lg:col-span-2 space-y-12">
             {/* Quick Navigation / Table of Contents */}
             <div className="p-6 bg-bg-secondary rounded-3xl border border-border shadow-sm mb-8">
@@ -214,7 +232,7 @@ export default function AilmentDetail() {
                 <div className="p-2 bg-primary/10 rounded-lg">
                   <Heart className="w-6 h-6 text-primary" />
                 </div>
-                <h2 className="text-2xl font-display font-bold text-text-primary">Our Homeopathic Approach</h2>
+                <h2 className="text-2xl font-display font-bold text-text-primary">Our Homoeopathic Approach</h2>
               </div>
               <p className="text-text-secondary leading-relaxed">
                 {data.approach}
@@ -251,7 +269,7 @@ export default function AilmentDetail() {
                 <div className="p-2 bg-primary/10 rounded-lg">
                   <ShieldCheck className="w-6 h-6 text-primary" />
                 </div>
-                <h2 className="text-2xl font-display font-bold text-text-primary">Benefits of Homeopathy</h2>
+                <h2 className="text-2xl font-display font-bold text-text-primary">Benefits of Homoeopathy</h2>
               </div>
               <div className="grid sm:grid-cols-2 gap-4">
                 {data.benefits.map((benefit, idx) => (
@@ -286,6 +304,12 @@ export default function AilmentDetail() {
                 <ArrowUpRight className="w-5 h-5" />
               </Link>
             </div>
+
+            {/* Previous / Next Ailment Navigation */}
+            <ContentNavigator 
+              prev={prev ? { to: `/ailment/${prev.id}`, title: prev.title, label: 'Previous Ailment' } : null}
+              next={next ? { to: `/ailment/${next.id}`, title: next.title, label: 'Next Ailment' } : null}
+            />
           </div>
 
           <aside className="space-y-8">
@@ -318,7 +342,7 @@ export default function AilmentDetail() {
                 ))}
               </div>
               <p className="mt-4 text-[10px] text-text-secondary italic">
-                *Remedies are provided for academic study. Authentic homeopathic prescribing always requires an individualized case-taking by a qualified professional.
+                *Remedies are provided for academic study. Authentic Homoeopathic prescribing always requires an individualized case-taking by a qualified professional.
               </p>
             </div>
           </aside>

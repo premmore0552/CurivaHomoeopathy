@@ -205,11 +205,11 @@ export default function RemedyFinder() {
           <AlertTriangle className="w-6 h-6" />
         </div>
         <div className="space-y-2">
-          <h4 className="text-sm font-black uppercase tracking-[0.25em] text-red-650 dark:text-red-400">
+          <h4 className="text-sm font-black uppercase tracking-[0.25em] text-red-600">
             Mandatory Medical Disclaimer
           </h4>
           <p className="text-base font-serif italic text-text-primary leading-relaxed">
-            <strong>Educational use only.</strong> This interactive symptom matching finder is built purely to explain historical and clinical Materia Medica correlations. It does <strong>not</strong> diagnose medical conditions, deliver clinical evaluation, or prescribe treatment. Homeopathic medicine requires individualized assessment of holistic constitutions. Do not use this tool as a substitute for professional medical advice or clinical consultations. Always consult a certified homeopath or qualified medical practitioner regarding any health concerns.
+            <strong>Educational use only.</strong> This interactive symptom matching finder is built purely to explain historical and clinical Materia Medica correlations. It does <strong>not</strong> diagnose medical conditions, deliver clinical evaluation, or prescribe treatment. Homoeopathic medicine requires individualized assessment of holistic constitutions. Do not use this tool as a substitute for professional medical advice or clinical consultations. Always consult a certified Homoeopath or qualified medical practitioner regarding any health concerns.
           </p>
         </div>
       </div>
@@ -235,13 +235,13 @@ export default function RemedyFinder() {
             {Object.entries(categoriesMap).map(([catKey, catInfo]) => {
               const catSymptoms = SYMPTOMS.filter(s => s.category === catKey);
               return (
-                <div key={catKey} className="bg-white dark:bg-zinc-900 rounded-[2rem] border border-border pb-8 overflow-hidden shadow-soft">
+                <div key={catKey} className="bg-white rounded-[2rem] border border-border pb-8 overflow-hidden shadow-soft">
                   <div className="px-8 py-5 border-b border-border bg-bg-secondary/40 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
                     <div>
                       <h4 className="text-base font-display font-extrabold text-text-primary tracking-tight uppercase">{catInfo.label}</h4>
                       <p className="text-[10px] text-text-tertiary font-serif italic">{catInfo.desc}</p>
                     </div>
-                    <span className="px-3 py-1 bg-white dark:bg-zinc-800 text-text-tertiary border border-border rounded-xl text-[9px] font-black uppercase tracking-wider w-fit">
+                    <span className="px-3 py-1 bg-white text-text-tertiary border border-border rounded-xl text-[9px] font-black uppercase tracking-wider w-fit">
                       {catSymptoms.length} indications
                     </span>
                   </div>
@@ -256,7 +256,7 @@ export default function RemedyFinder() {
                           className={`flex items-start text-left gap-4 p-5 border rounded-2xl transition-all hover:scale-[1.01] cursor-pointer ${
                             isChecked
                               ? 'bg-primary/5 border-primary text-text-primary shadow-sm'
-                              : 'border-border hover:border-primary/20 bg-white dark:bg-zinc-800 text-text-secondary'
+                              : 'border-border hover:border-primary/20 bg-white text-text-secondary'
                           }`}
                         >
                           <div className={`mt-0.5 shrink-0 transition-colors ${isChecked ? 'text-primary' : 'text-text-tertiary'}`}>
@@ -307,7 +307,7 @@ export default function RemedyFinder() {
                 </div>
                 <div>
                    <p className="font-semibold text-lg text-text-secondary not-italic font-display uppercase tracking-tight">No symptoms active</p>
-                   <p className="text-sm mt-1">Select one or more symptoms on the left to resolve related Homeopathic remedies immediately.</p>
+                   <p className="text-sm mt-1">Select one or more symptoms on the left to resolve related Homoeopathic remedies immediately.</p>
                 </div>
               </div>
             ) : (
@@ -320,7 +320,7 @@ export default function RemedyFinder() {
                       animate={{ opacity: 1, x: 0 }}
                       exit={{ opacity: 0, scale: 0.95 }}
                       transition={{ duration: 0.3 }}
-                      className="p-5 bg-white dark:bg-zinc-900 rounded-2xl border border-border hover:border-primary/20 hover:shadow-soft transition-all space-y-3"
+                      className="p-5 bg-white rounded-2xl border border-border hover:border-primary/20 hover:shadow-soft transition-all space-y-3"
                     >
                       <div className="flex items-center justify-between gap-4">
                         <div>
@@ -398,7 +398,7 @@ export default function RemedyFinder() {
                 
                 <button
                   onClick={() => setShowDetailedRemedy(null)}
-                  className="w-10 h-10 rounded-full bg-white dark:bg-zinc-800 flex items-center justify-center hover:bg-border transition-colors border border-border cursor-pointer"
+                  className="w-10 h-10 rounded-full bg-bg-secondary flex items-center justify-center hover:bg-border transition-colors border border-border cursor-pointer"
                 >
                   <svg className="w-5 h-5 text-text-secondary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path d="M6 18L18 6M6 6l12 12" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" />
@@ -412,7 +412,7 @@ export default function RemedyFinder() {
                 
                 <div className="space-y-4">
                   {matchingRemedies.find(r => r.remedyId === showDetailedRemedy)?.matchedBy.map((factor, fIdx) => (
-                    <div key={fIdx} className="p-5 bg-white dark:bg-zinc-800 border border-border rounded-2xl flex items-start gap-4">
+                    <div key={fIdx} className="p-5 bg-white border border-border rounded-2xl flex items-start gap-4">
                       <div className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center shrink-0 mt-0.5 border border-primary/20 text-[10px] font-black">
                         {fIdx + 1}
                       </div>

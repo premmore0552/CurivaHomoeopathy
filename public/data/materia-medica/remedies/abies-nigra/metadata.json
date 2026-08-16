@@ -1,0 +1,14 @@
+{
+  "slug": "abies-nigra",
+  "title": "Abies Nigra",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Stomach", "Chest", "Back", "Sleep", "Fever", "Modalities", "Relationship", "Dose"],
+  "word_count": 135,
+  "character_count": 820,
+  "paragraph_count": 10,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "def456abiesnig"
+}

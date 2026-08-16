@@ -239,7 +239,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
                       }`}
                     >
                       <LayoutGrid className="w-4 h-4" />
-                      All Posts
+                      All Reference Units
                       <span
                         className={`text-[10px] px-2 py-0.5 rounded-full font-black ${selectedCategory === "All" ? "bg-white/20" : "bg-primary/10 text-primary"}`}
                       >

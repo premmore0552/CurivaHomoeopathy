@@ -10,11 +10,9 @@ const Breadcrumbs: React.FC = () => {
   const hiddenRoutes = [
     '/',
     '/repertory',
-    '/relationships',
-    '/nexus',
     '/visualization',
     '/analysis',
-    '/ask-homeopath',
+    '/ask-a-homoeopath',
     '/mcq-practice',
     '/stalwarts',
     '/research',
@@ -44,7 +42,7 @@ const Breadcrumbs: React.FC = () => {
     const map: Record<string, string> = {
       'materia-medica': 'Materia Medica',
       'remedy-comparator': 'Remedy Comparison',
-      'organon-philosophy': 'Organon Philosophy',
+      'organon-of-medicine-Fundamentals-of-Psychology-Homoeopathy-philosophy': 'Organon of Medicine, Fundamental of Psychology and Homoeopathic Philosophy',
       'principles': 'Core Principles',
       'about-us': 'About Curiva',
       'feedback': 'Get in Touch',
@@ -54,8 +52,8 @@ const Breadcrumbs: React.FC = () => {
       'terms-of-service': 'Terms of Service',
       'topics': 'Research Database',
       'student-resources': 'Student Resources',
-      'glossary': 'Homeopathic Encyclopedia',
-      'lexicon': 'Homeopathic Encyclopedia',
+      'glossary': 'Homoeopathic Encyclopedia',
+      'lexicon': 'Homoeopathic Encyclopedia',
       'philosophy': 'Philosophy',
       'clinical': 'Clinical',
       'historical': 'Historical',
@@ -64,13 +62,11 @@ const Breadcrumbs: React.FC = () => {
       'conditions': 'Ailment',
       'explore-symptoms': 'Ailments',
       'repertory': 'Repertory Tool',
-      'relationships': 'Remedy Nexus',
-      'nexus': 'Remedy Nexus',
       'visualization': 'Visualizer',
       'library': 'Library',
       'profile': 'Profile',
       'subscription': 'Subscription',
-      'ask-homeopath': 'Ask Expert',
+      'ask-a-homoeopath': 'Ask Expert',
       'mcq-practice': 'MCQ Practice'
     };
     return map[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');

@@ -5,7 +5,7 @@ export interface Flashcard {
   clinicalSignificance: string;
 }
 
-export const homeopathicFlashcards: Flashcard[] = [
+export const HomoeopathicFlashcards: Flashcard[] = [
   {
     term: "Polychrest Remedy",
     subType: "Materia Medica",
@@ -15,7 +15,7 @@ export const homeopathicFlashcards: Flashcard[] = [
   {
     term: "Simillimum",
     subType: "Philosophy & Organon",
-    definition: "The most precisely matching homeopathic remedy corresponding to the totality of symptoms, initiating a curative reaction.",
+    definition: "The most precisely matching Homoeopathic remedy corresponding to the totality of symptoms, initiating a curative reaction.",
     clinicalSignificance: "Requires deep case taking, mental/physical generals evaluation, and repertorization."
   },
   {
@@ -27,20 +27,20 @@ export const homeopathicFlashcards: Flashcard[] = [
   {
     term: "Secondary Action",
     subType: "Philosophy & Organon",
-    definition: "The natural, reactive response of the Vital Force to restore physiological homeostasis after a primary action.",
-    clinicalSignificance: "Homeopathic cure relies entirely on this reaction of the vital force clearing symptoms permanently."
+    definition: "The natural, reactive response of the Vital Force to restore physiological Homoeostasis after a primary action.",
+    clinicalSignificance: "Homoeopathic cure relies entirely on this reaction of the vital force clearing symptoms permanently."
   },
   {
     term: "Causa Occasionalis",
     subType: "Philosophy & Organon",
     definition: "The exciting or maintaining cause of a disease, such as poor sanitation, bad habits, or exposure to damp cold.",
-    clinicalSignificance: "Must be removed or corrected first before constitutional homeopathic remedies can work successfully (Aphorism 7)."
+    clinicalSignificance: "Must be removed or corrected first before constitutional Homoeopathic remedies can work successfully (Aphorism 7)."
   },
   {
     term: "LM Potency",
     subType: "Pharmacy",
     definition: "Fifty-Millesimal scale of dilution (1:50,000, designated as 0/1, 0/2, etc.) introduced in the 6th edition of Organon.",
-    clinicalSignificance: "Allows frequent daily repetition with minimal risk of homeopathic aggravation, ideal for hypersensitive chronic cases."
+    clinicalSignificance: "Allows frequent daily repetition with minimal risk of Homoeopathic aggravation, ideal for hypersensitive chronic cases."
   },
   {
     term: "Keynote",
@@ -76,36 +76,36 @@ export const homeopathicFlashcards: Flashcard[] = [
     term: "Totality of Symptoms",
     subType: "Philosophy & Organon",
     definition: "The logically organized, complete picture of the patient's devitalized state, including mental, physical, and general characteristics.",
-    clinicalSignificance: "The sole guide for selecting the homeopathic simillimum, as defined in Aphorism 7."
+    clinicalSignificance: "The sole guide for selecting the Homoeopathic simillimum, as defined in Aphorism 7."
   },
   {
     term: "Idiosyncrasy",
     subType: "Philosophy & Organon",
     definition: "A highly peculiar, individual hypersensitivity to specific substances or environmental conditions.",
-    clinicalSignificance: "Homeopathic remedies act deeply on idiosyncratic individuals, requiring careful potency selection."
+    clinicalSignificance: "Homoeopathic remedies act deeply on idiosyncratic individuals, requiring careful potency selection."
   },
   {
     term: "Drug Proving",
     subType: "Philosophy & Organon",
     definition: "The systematic process of testing medicinal substances on healthy human provers to record their pathogenesis (Aphorisms 105-145).",
-    clinicalSignificance: "Provides the raw scientific data for the Homeopathic Materia Medica."
+    clinicalSignificance: "Provides the raw scientific data for the Homoeopathic Materia Medica."
   },
   {
     term: "Isopathy",
     subType: "Philosophy & Organon",
     definition: "The treatment of disease with the identical causative agent, rather than a similar one (e.g., giving a toxin for the same toxin).",
-    clinicalSignificance: "Distinct from homeopathy (like cures like); often useful in nosode preparations."
+    clinicalSignificance: "Distinct from Homoeopathy (like cures like); often useful in nosode preparations."
   },
   {
     term: "Nosode",
     subType: "Pharmacy",
-    definition: "A homeopathic preparation made from diseased tissues, secretions, or bacterial culture isolates.",
+    definition: "A Homoeopathic preparation made from diseased tissues, secretions, or bacterial culture isolates.",
     clinicalSignificance: "Examples: Psorinum, Medorrhinum, Tuberculinum, Syphilinum. Used as deep intercurrent remedies."
   },
   {
     term: "Sarcode",
     subType: "Pharmacy",
-    definition: "A homeopathic preparation derived from healthy animal tissues, endocrine glands, or physiological secretions.",
+    definition: "A Homoeopathic preparation derived from healthy animal tissues, endocrine glands, or physiological secretions.",
     clinicalSignificance: "Examples: Thyroidinum, Thyroid extract, Adrenalinum, Cholesterinum."
   },
   {
@@ -136,7 +136,7 @@ export const homeopathicFlashcards: Flashcard[] = [
     term: "Aphorism 26",
     subType: "Philosophy & Organon",
     definition: "The Therapeutic Law of Nature: 'A weaker dynamic affection is permanently extinguished in the living organism by a stronger one, if the latter is very similar.'",
-    clinicalSignificance: "The natural scientific law upon which the entire practice of homeopathic cure is based."
+    clinicalSignificance: "The natural scientific law upon which the entire practice of Homoeopathic cure is based."
   },
   {
     term: "Doctrine of Signatures",
@@ -159,7 +159,7 @@ export const homeopathicFlashcards: Flashcard[] = [
   {
     term: "Rubric",
     subType: "Repertory",
-    definition: "A standardized symptom heading in a homeopathic repertory under which corresponding remedies are indexed.",
+    definition: "A standardized symptom heading in a Homoeopathic repertory under which corresponding remedies are indexed.",
     clinicalSignificance: "The structural foundation of repertories, enabling systematic cross-referencing."
   },
   {
@@ -208,7 +208,7 @@ export const homeopathicFlashcards: Flashcard[] = [
     term: "Silicea Keynotes",
     subType: "Materia Medica",
     definition: "Chilly, lacking vital heat; sweat of feet is highly offensive and causes soreness; promotes expulsion of foreign bodies.",
-    clinicalSignificance: "The 'homeopathic scalpel'; sensitive to cold drafts; has a dread of pins/needles."
+    clinicalSignificance: "The 'Homoeopathic scalpel'; sensitive to cold drafts; has a dread of pins/needles."
   },
   {
     term: "Arsenicum Album Thirst",
@@ -310,7 +310,7 @@ export const homeopathicFlashcards: Flashcard[] = [
     term: "Pyrogenium Action",
     subType: "Materia Medica",
     definition: "Great discordance between pulse rate and temperature (e.g., high pulse with low temp, or vice-versa).",
-    clinicalSignificance: "A highly effective homeopathic antiseptic, prepared from rotten lean beef."
+    clinicalSignificance: "A highly effective Homoeopathic antiseptic, prepared from rotten lean beef."
   },
   {
     term: "Staphysagria Mentals",
@@ -682,7 +682,7 @@ export const homeopathicFlashcards: Flashcard[] = [
     term: "Vital Force",
     subType: "Philosophy & Organon",
     definition: "The spiritual, autocratic, dynamic, and unintelligent force that animates the physical human body in health and disease (Aphorisms 9-10).",
-    clinicalSignificance: "Diseases originate dynamically in the Vital Force, and dynamic homeopathic remedies cure through it."
+    clinicalSignificance: "Diseases originate dynamically in the Vital Force, and dynamic Homoeopathic remedies cure through it."
   },
   {
     term: "Apis Mellifica",
@@ -711,7 +711,7 @@ export const homeopathicFlashcards: Flashcard[] = [
   {
     term: "Silicea Suppuration",
     subType: "Materia Medica",
-    definition: "The 'homeopathic lancet'. Promotes the rapid suppuration and expulsion of foreign bodies (splinters, needles) from tissues.",
+    definition: "The 'Homoeopathic lancet'. Promotes the rapid suppuration and expulsion of foreign bodies (splinters, needles) from tissues.",
     clinicalSignificance: "Chilly, sweats on feet (highly offensive), lacks self-confidence, but highly headstrong. Worse in cold."
   },
   {
@@ -784,13 +784,13 @@ export const homeopathicFlashcards: Flashcard[] = [
     term: "Repertory Synthesis",
     subType: "Repertory",
     definition: "A modern, comprehensive repertory edited by Dr. Frederik Schroyens, based on Kent's Repertory but updated with clinical additions.",
-    clinicalSignificance: "Widely used in digital homeopathy software for precise cross-referencing and structural clarity."
+    clinicalSignificance: "Widely used in digital Homoeopathy software for precise cross-referencing and structural clarity."
   },
   {
     term: "Kent's Repertory",
     subType: "Repertory",
     definition: "The monumental work by Dr. J.T. Kent, structured hierarchically from Generals (Mind, Generals) to Particulars (Head, Eyes, Chest, etc.).",
-    clinicalSignificance: "Serves as the gold standard for constitutional repertorization in classical homeopathy."
+    clinicalSignificance: "Serves as the gold standard for constitutional repertorization in classical Homoeopathy."
   },
   {
     term: "Boericke's Repertory",
@@ -807,7 +807,7 @@ export const homeopathicFlashcards: Flashcard[] = [
   {
     term: "External Applications",
     subType: "Pharmacy",
-    definition: "The use of homeopathic mother tinctures or low potencies in ointments/lotions (e.g. Arnica, Calendula) on local tissues.",
+    definition: "The use of Homoeopathic mother tinctures or low potencies in ointments/lotions (e.g. Arnica, Calendula) on local tissues.",
     clinicalSignificance: "Authorized only for external mechanical injuries with unbroken skin (Aphorism 285)."
   }
 ];

@@ -9,7 +9,7 @@ export default function FAQPage() {
     <div className="bg-bg-primary min-h-screen transition-colors duration-300">
       <SEO 
         title="FAQ | Curiva Homoeopathy" 
-        description="Frequently asked questions about homeopathy, treatment duration, and safety."
+        description="Frequently asked questions about Homoeopathy, treatment duration, and safety."
       />
       
       <section className="pt-24 pb-12 bg-bg-secondary border-b border-border transition-colors duration-300">
@@ -26,7 +26,7 @@ export default function FAQPage() {
               Frequently Asked <span className="text-primary italic">Questions.</span>
             </h1>
             <p className="text-lg text-text-secondary max-w-2xl mx-auto">
-              We understand you may have questions about starting your homeopathic journey. Here are some of the most common inquiries we receive.
+              We understand you may have questions about starting your Homoeopathic journey. Here are some of the most common inquiries we receive.
             </p>
           </motion.div>
         </div>
@@ -34,7 +34,7 @@ export default function FAQPage() {
 
       <FAQ />
 
-      <section className="py-20 bg-bg-primary">
+      <section className="py-12 bg-bg-primary">
         <div className="max-w-xl mx-auto px-4 text-center">
           <h3 className="text-2xl font-bold text-text-primary mb-4">Still have questions?</h3>
           <p className="text-text-secondary mb-8">

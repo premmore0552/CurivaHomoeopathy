@@ -1,0 +1,14 @@
+{
+  "slug": "aesculus-hippocastanum",
+  "title": "Aesculus Hippocastanum",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Nose", "Mouth", "Throat", "Stomach", "Abdomen", "Rectum", "Urinary", "Female", "Respiratory", "Heart", "Back", "Extremities", "Modalities", "Relationship", "Dose"],
+  "word_count": 320,
+  "character_count": 2150,
+  "paragraph_count": 17,
+  "estimated_reading_time": "2 mins",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "aes123hippoc"
+}

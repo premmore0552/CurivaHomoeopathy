@@ -21,7 +21,7 @@ export interface AcademicResource {
 export const glossary: GlossaryTerm[] = [
   {
     term: "Similia Similibus Curentur",
-    definition: "The fundamental law of Homeopathy, meaning 'let likes be cured by likes'. It states that a substance that can cause symptoms in a healthy person can cure similar symptoms in a sick person.",
+    definition: "The fundamental law of Homoeopathy, meaning 'let likes be cured by likes'. It states that a substance that can cause symptoms in a healthy person can cure similar symptoms in a sick person.",
     category: 'Philosophy'
   },
   {
@@ -31,12 +31,12 @@ export const glossary: GlossaryTerm[] = [
   },
   {
     term: "Potentization",
-    definition: "The process of preparing homeopathic medicines through serial dilution and succussion (vigorous shaking), which is believed to release the medicinal power of the substance.",
+    definition: "The process of preparing Homoeopathic medicines through serial dilution and succussion (vigorous shaking), which is believed to release the medicinal power of the substance.",
     category: 'Pharmacy'
   },
   {
     term: "Succussion",
-    definition: "The act of vigorously shaking a homeopathic solution during the process of potentization.",
+    definition: "The act of vigorously shaking a Homoeopathic solution during the process of potentization.",
     category: 'Pharmacy'
   },
   {
@@ -71,7 +71,7 @@ export const glossary: GlossaryTerm[] = [
   },
   {
     term: "Repertory",
-    definition: "An index of symptoms and the remedies associated with them, used by practitioners to select the most appropriate homeopathic medicine.",
+    definition: "An index of symptoms and the remedies associated with them, used by practitioners to select the most appropriate Homoeopathic medicine.",
     category: 'Clinical'
   },
   {
@@ -91,7 +91,7 @@ export const glossary: GlossaryTerm[] = [
   },
   {
     term: "Antidote",
-    definition: "A substance or remedy that neutralizes the action of a previously administered homeopathic medicine.",
+    definition: "A substance or remedy that neutralizes the action of a previously administered Homoeopathic medicine.",
     category: 'Pharmacy'
   },
   {
@@ -136,7 +136,7 @@ export const glossary: GlossaryTerm[] = [
   },
   {
     term: "Organon",
-    definition: "The book 'Organon of Medicine' by Samuel Hahnemann, outlining the philosophy and principles of Homeopathy.",
+    definition: "The book 'Organon of Medicine' by Samuel Hahnemann, outlining the philosophy and principles of Homoeopathy.",
     category: 'Historical'
   },
   {
@@ -228,7 +228,7 @@ export const materiaMedicaConcepts: MateriaMedicaConcept[] = [
   },
   {
     title: "Hering's Law of Cure",
-    summary: "Constantine Hering's observations on the direction of healing in a successful homeopathic treatment.",
+    summary: "Constantine Hering's observations on the direction of healing in a successful Homoeopathic treatment.",
     keyPoints: [
       "From above downwards",
       "From within outwards",
@@ -240,8 +240,8 @@ export const materiaMedicaConcepts: MateriaMedicaConcept[] = [
 
 export const academicLinks: AcademicResource[] = [
   {
-    title: "Homeopathy Journal (Faculty of Homeopathy)",
-    description: "The primary international peer-reviewed journal dedicated to research in homeopathy.",
+    title: "Homoeopathy Journal (Faculty of Homoeopathy)",
+    description: "The primary international peer-reviewed journal dedicated to research in Homoeopathy.",
     url: "https://www.thieme-connect.com/products/ejournals/journal/10.1055/s-00034911",
     type: 'Journal'
   },
@@ -252,31 +252,31 @@ export const academicLinks: AcademicResource[] = [
     type: 'Journal'
   },
   {
-    title: "Homeopathy Research Institute (HRI)",
-    description: "An international charity providing high-quality scientific research into homeopathy.",
+    title: "Homoeopathy Research Institute (HRI)",
+    description: "An international charity providing high-quality scientific research into Homoeopathy.",
     url: "https://www.hri-research.org/",
     type: 'Research'
   },
   {
-    title: "National Center for Homeopathy (NCH)",
-    description: "Providing education and advocacy to make homeopathy a household name.",
-    url: "https://www.homeopathycenter.org/",
+    title: "National Center for Homoeopathy (NCH)",
+    description: "Providing education and advocacy to make Homoeopathy a household name.",
+    url: "https://www.Homoeopathycenter.org/",
     type: 'Study Material'
   },
   {
     title: "The Vithoulkas Academy",
-    description: "The world leader in classical homeopathic training directed by Prof. George Vithoulkas.",
+    description: "The world leader in classical Homoeopathic training directed by Prof. George Vithoulkas.",
     url: "https://www.vithoulkas.com/",
     type: 'Academy'
   },
   {
-    title: "Homeopathy UK Learning Portal",
+    title: "Homoeopathy UK Learning Portal",
     description: "Vast collection of articles, study guides, and clinical research for practitioners.",
-    url: "https://homeopathy-uk.org/homeopathy-explained/research/",
+    url: "https://Homoeopathy-uk.org/Homoeopathy-explained/research/",
     type: 'Study Material'
   },
   {
-    title: "Encyclopedia Homeopathica (RadarOpus)",
+    title: "Encyclopedia Homoeopathica (RadarOpus)",
     description: "Comprehensive database for classical texts and modern repertories.",
     url: "https://www.radaropus.com/knowledge-base",
     type: 'Database'

@@ -1,0 +1,14 @@
+{
+  "slug": "agaricus-muscarius",
+  "title": "Agaricus Muscarius",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Eyes", "Face", "Stomach", "Abdomen", "Rectum", "Urinary", "Respiratory", "Heart", "Back", "Extremities", "Skin", "Modalities", "Relationship", "Dose"],
+  "word_count": 250,
+  "character_count": 1750,
+  "paragraph_count": 17,
+  "estimated_reading_time": "2 mins",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "aga123muscar"
+}

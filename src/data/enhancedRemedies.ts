@@ -38,36 +38,41 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Aconitum Napellus',
     latinName: 'Aconitum napellus',
     family: 'Plant',
-    origin: 'Monkshood (Ranunculaceae)',
-    description: 'Aconite is known as the "Homeopathic Lancet." It is primarily indicated for sudden, violent onset of symptoms, especially after exposure to dry, cold winds. It is the first remedy to think of in acute inflammatory stages.',
+    origin: 'Monkshood (Ranunculaceae) | Prover: Hahnemann',
+    description: 'Aconite is one of the most rapidly acting remedies. It is an acute, short-acting remedy where complaints appear suddenly and violently. It acts primarily on the circulation and is characterized by "Tension, Fear and Suddenness".',
     keyCharacteristics: [
-      'Great fear and anxiety of mind, with great nervous excitability',
-      'Restlessness, tossing about',
-      'Sudden and great sinking of strength',
-      'Fear of death; predicts the day or even the hour of death',
-      'Pains are intolerable, they drive him crazy'
+      'Sudden and violent onset of symptoms',
+      'Great fear and anxiety, especially fear of death',
+      'Physical and mental restlessness; cannot remain still',
+      'Intense thirst for large quantities of cold water',
+      'Dry, hot skin with little or no sweat',
+      'Pains are intolerable and driving the patient crazy'
     ],
     modalities: {
-      better: ['Open air', 'Rest', 'Warm perspiration'],
-      worse: ['Dry, cold winds', 'Midnight', 'Crowded places', 'Music', 'Lying on affected side']
+      better: ['Open air', 'Sweating'],
+      worse: ['Evening and night', 'Warm room', 'Rising from bed', 'Lying on affected side', 'Dry, cold winds']
     },
-    thermal: 'Chilly',
-    thirst: 'Burning thirst for large quantities of cold water. Everything tastes bitter, except water.',
+    thermal: 'Hot',
+    thirst: 'Intense thirst for large quantities of cold water.',
     mind: [
-      "State of fear and anxiety; predicts the hour of death",
-      "Physical and mental restlessness",
-      "Oversensitivity to light and noise"
+      "Extreme anxiety and constant fear; predicts the exact date and time of death",
+      "Great restlessness; changes position frequently",
+      "Oversensitivity to light, noise, and touch",
+      "Music is unbearable",
+      "Contra-indicated in a calm mental state"
     ],
     physical: [
-      "Fever with dry, hot skin and red face",
-      "Tingling, coldness and numbness",
-      "Thirst for large quantities of cold water"
+      "Sudden high fever with dry, hot, red skin and severe chill",
+      "Alternate red and pale face; red when sitting, pale when rising",
+      "Congestive states of inflammation with intense pain",
+      "Tingling, coldness and numbness in various parts",
+      "Complaints from exposure to dry cold air, draft, fear, or shock"
     ],
     clinicalApplications: [
       'Acute fevers',
       'Influenza (early stage)',
       'Angina Pectoris',
-      'Panic attacks',
+      'Panic attacks and Shock',
       'Croup',
       'Neuralgia'
     ],
@@ -81,9 +86,9 @@ export const enhancedRemedies: RemedyDetailData[] = [
       { id: 'migraine', name: 'Neuralgic Headache' }
     ],
     relatedBlogPosts: ['aconite'],
-    complementary: ['Sulfur', 'Coffea', 'Arnica'],
+    complementary: ['Sulphur', 'Coffea', 'Arnica'],
     inimical: ['Merc Sol'],
-    followsWell: ['Belladonna', 'Bryonia', 'Sulfur'],
+    followsWell: ['Belladonna', 'Bryonia', 'Sulphur'],
     imageUrl: 'https://images.unsplash.com/photo-1464454709131-ffd692591ee5?auto=format&fit=crop&q=80&w=800'
   },
   {
@@ -91,39 +96,46 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Arnica Montana',
     latinName: 'Arnica montana',
     family: 'Plant',
-    origin: 'Leopard\'s Bane (Compositae)',
-    description: 'Arnica is the premier remedy for trauma, bruising, and overexertion. It acts on the blood vessels, particularly the capillaries.',
+    origin: 'Leopard\'s Bane (Compositae) | Prover: Hahnemann',
+    description: 'Arnica is the premier "Trauma Remedy" for falls, blunt injuries, and bruises. It acts on the blood vessels, particularly the capillaries, and is characterized by a "Sore, Lame and Bruised" feeling throughout the body, as if the patient has been beaten all over.',
     keyCharacteristics: [
       'Sore, lame, bruised feeling all over the body, as if beaten',
-      'The bed feels too hard; keeps moving to find a soft spot',
-      'Says "I am well" when seriously ill or injured',
-      'Fear of being touched or even approached'
+      'Fear of being touched or even approached due to soreness',
+      'Head hot, body and extremities cool',
+      'Results of mechanical trauma, even old injuries years later',
+      'Answers questions correctly while unconscious and then drifts back into stupor',
+      'Ecchymosis (blue-black discoloration) from blood accumulation under tissues'
     ],
     modalities: {
-      better: ['Lying down', 'Head low', 'Motion (gentle)'],
-      worse: ['Touch', 'Motion', 'Damp cold', 'Overexertion']
+      better: ['Rest', 'Lying down with head low', 'Motion (gentle)'],
+      worse: ['Least touch', 'Motion', 'Pressure', 'Handling', 'Damp cold']
     },
     thermal: 'Chilly',
     thirst: 'Thirst during chill; thirstless during heat.',
     mind: [
-      "Says there is nothing the matter with him when seriously ill",
-      "Fear of being touched or even approached by anyone",
-      "Stupor from head injury; unconsciousness"
+      "Unconscious yet answers correctly when questioned, then drifts back into stupor",
+      "Fear of being touched or approached; says 'I am well' when seriously ill",
+      "Low muttering delirium in severe illnesses",
+      "Depression, indifference, and sudden fear of death"
     ],
     physical: [
-      "Ecchymosis and hemorrhages; blue-black spots from bruising",
-      "Soreness of parts after overexertion or trauma",
-      "Offensive breath, sweat, and discharges like rotten eggs"
+      "Ecchymosis and hemorrhages; blue-black spots from bruising or trauma",
+      "Soreness and lameness of parts after overexertion, falls, or blows",
+      "Recurrent small painful boils appearing one after another",
+      "Involuntary stool and urine in stuporous states",
+      "Upper body hot, lower body cold"
     ],
     clinicalApplications: [
       'Mechanical injuries',
       'Concussions',
       'Post-surgery recovery',
       'Muscle strain',
-      'Bruising and hematomas'
+      'Bruising and hematomas',
+      'Old injury sequelae'
     ],
     comparisons: [
-      { id: 'bryonia', name: 'Bryonia', keyDifference: 'Bryonia is worse from any motion, Arnica has a bruised soreness that makes them restless.' }
+      { id: 'bryonia', name: 'Bryonia', keyDifference: 'Bryonia is worse from any motion; Arnica has a bruised soreness that makes them restless.' },
+      { id: 'ruta', name: 'Ruta', keyDifference: 'Arnica is for soft tissue bruises; Ruta for injury to periosteum and tendons.' }
     ],
     relatedAilments: [
       { id: 'chronic-pain', name: 'Muscle & Joint Pain' },
@@ -136,36 +148,41 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Arsenicum Album',
     latinName: 'Arsenic Trioxide',
     family: 'Mineral',
-    origin: 'Arsenic',
-    description: 'A deeply acting remedy affecting every organ and tissue. It is characterized by three great essentials: Fear, Restlessness, and Burning.',
+    origin: 'White Oxide of Arsenic (As2O3) | Prover: Hahnemann',
+    description: 'Arsenicum is characterized by three great essentials: Anxiety, Restlessness, and Prostration. It is a deeply acting mineral remedy affecting every organ and tissue, with burning pains that are paradoxically relieved by heat.',
     keyCharacteristics: [
-      'Great anguish and restlessness, changes place continually',
-      'Fear of death, of being alone',
-      'Burning pains, better by heat',
-      'Great prostration, out of proportion to the disease'
+      'Great restlessness; changes place continually despite extreme weakness',
+      'Burning pains relieved by heat and warm applications',
+      'Extreme prostration out of proportion to the disease',
+      'Fear of death and anxiety about health; believes recovery is impossible',
+      'Thirst for small quantities of water frequently ("sip frequently")',
+      'Fastidious; wants everything in its place and organized'
     ],
     modalities: {
-      better: ['Heat', 'Hot drinks', 'Hot applications', 'Company'],
-      worse: ['Midnight (1-2 AM)', 'Cold air', 'Cold food/drink', 'Right side']
+      better: ['Heat', 'Hot drinks', 'Hot applications', 'Warm room', 'Company'],
+      worse: ['After midnight (1-3 AM)', 'Cold air', 'Cold food and drinks', 'Wet weather', 'Being alone']
     },
     thermal: 'Chilly',
     thirst: 'Thirst for small quantities of water at short intervals.',
     mind: [
-      "Fastidious; wants everything in its place; extremely tidy",
-      "Great fear of death and of being left alone",
-      "Despair of recovery; thinks it is useless to take medicine"
+      "Extreme anxiety, especially after midnight and when alone",
+      "Fear of death, disease, poverty, and being alone",
+      "Despair of recovery; believes recovery is impossible and medicine is useless",
+      "Fastidious; extremely tidy and wants everything in its place"
     ],
     physical: [
       "Thin, acrid, excoriating discharges from all mucous membranes",
-      "Periodicity of symptoms (every 14 days, every year)",
-      "Marked aggravation after midnight, especially between 1-2 AM"
+      "Food poisoning from spoiled food or bad meat; violent vomiting and burning diarrhoea",
+      "Marked aggravation after midnight, especially between 1-3 AM",
+      "Ulcers with burning, offensive, and gangrenous tendency",
+      "Periodicity of symptoms (every 14 days, every year)"
     ],
     clinicalApplications: [
       'Food poisoning',
       'Asthma (worse at midnight)',
       'Eczema with burning',
-      'Gastritis',
-      'Anxiety disorders'
+      'Gastritis and Cholera',
+      'Anxiety and Health anxiety'
     ],
     comparisons: [
       { id: 'aconite', name: 'Aconite', keyDifference: 'Both are restless, but Aconite is more an acute panicked state, Arsenic is more chronic exhaustion and coldness.' }
@@ -182,37 +199,41 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Belladonna',
     latinName: 'Atropa belladonna',
     family: 'Plant',
-    origin: 'Deadly Nightshade (Solanaceae)',
-    description: 'Belladonna corresponds to states of suddenness and intensity. It is the remedy for congestion and inflammation with redness, heat, and throbbing.',
+    origin: 'Deadly Nightshade (Solanaceae) | Prover: Hahnemann',
+    description: 'Belladonna is the remedy of "Sudden Congestion" and violent inflammatory states. Its entire picture revolves around the four "Rs": Redness, Rapid onset, Restless delirium, and Radiating heat.',
     keyCharacteristics: [
-      'Sudden onset, sudden disappearance',
-      'Redness, heat, and burning are prominent',
-      'Throbbing carotids and pulsating pains',
-      'Dilated pupils, staring eyes',
-      'Great sensitivity to light, noise, and jar'
+      'Sudden and violent onset of symptoms',
+      'Intense congestion with red face, hot head, and throbbing carotids',
+      'Burning heat that radiates and can be felt by the examiner',
+      'Violent throbbing in the head, carotids, and inflamed parts',
+      'Widely dilated pupils and bright red, staring eyes',
+      'Marked dryness of mouth, tongue, and throat'
     ],
     modalities: {
-      better: ['Semi-erect position', 'Warmth', 'Light pressure'],
-      worse: ['Touch', 'Drafts', 'Noise', 'Light', '3 PM', 'Lying down']
+      better: ['Warmth', 'Wrapping the head', 'Rest', 'Semi-erect position'],
+      worse: ['Light', 'Noise', 'Motion', 'Jar', 'Touch', 'Cold', 'Draft of air']
     },
     thermal: 'Hot',
     thirst: 'Thirstless, though mouth and throat are very dry.',
     mind: [
-      "Hallucinations; sees monsters, animals, and ghosts",
-      "Desire to bite, strike, and kick; violent delirium",
-      "Extreme acuteness of all senses (light, sound, smell)"
+      "Furious delirium: bites, strikes, tears clothes, and tries to escape",
+      "Hallucinations: sees monsters, black dogs, and frightful images",
+      "Hyperaesthesia: extreme sensitivity to light, noise, touch, and motion"
     ],
     physical: [
-      "Hot head with icy cold hands and feet during fever",
-      "Predominantly right-sided symptoms",
-      "Violent congestion of blood to the head and other parts"
+      "Violent, throbbing, bursting headache; worse from jar and motion",
+      "Bright red, burning, dry throat with painful swallowing",
+      "Sudden high fever with dry hot skin and hot head; throbbing carotids",
+      "Febrile convulsions and cerebral congestion in children",
+      "Predominantly right-sided symptoms"
     ],
     clinicalApplications: [
       'High fevers with delirium',
       'Throbbing headaches',
       'Acute tonsillitis',
-      'Sunstroke',
-      'Boils (early stage)'
+      'Sunstroke and Cerebral congestion',
+      'Boils (early stage)',
+      'Febrile convulsions'
     ],
     comparisons: [
       { id: 'aconite', name: 'Aconite', keyDifference: 'Aconite has dry skin; Belladonna has moist/sweaty skin and more congestion.' }
@@ -228,35 +249,39 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Bryonia Alba',
     latinName: 'Bryonia alba',
     family: 'Plant',
-    origin: 'Wild Hops (Cucurbitaceae)',
-    description: 'The "Remedy of Rest." Every symptom is worse for the least motion. It acts especially on serous membranes and their secretions.',
+    origin: 'White Bryony (Cucurbitaceae) | Prover: Hahnemann',
+    description: 'Known as the "Remedy of Rest," Bryonia is characterized by extreme dryness of all mucous membranes, sharp stitching pains, and marked aggravation from the slightest movement. It acts especially on serous and synovial membranes.',
     keyCharacteristics: [
-      'Extreme dryness of mucous membranes',
-      'All complaints aggravated by the least motion',
-      'Business-like delirium; talks about his business',
-      'Pressure relieves the pain'
+      'Extreme dryness of mucous membranes (lips, mouth, throat, stool)',
+      'Sharp stitching pains, especially in the chest and joints',
+      'Aggravation from the slightest motion; wants to lie perfectly still',
+      'Better from absolute rest and pressure (lying on the painful side)',
+      'Great thirst for large quantities of cold water at long intervals'
     ],
     modalities: {
-      better: ['Absolute rest', 'Pressure', 'Lying on painful side', 'Cold drinks'],
-      worse: ['Motion', 'Heat', 'Eating', 'Morning (on first moving)']
+      better: ['Absolute rest', 'Pressure', 'Lying on painful side', 'Cool air'],
+      worse: ['Motion', 'Touch', 'Deep breathing', 'Morning', 'Heat']
     },
     thermal: 'Hot',
     thirst: 'Great thirst for large quantities of cold water at long intervals.',
     mind: [
-      "Talks about business especially during delirium",
-      "Desires to go home, even when he is at home",
-      "Very irritable; wants to be left alone and quiet"
+      "Very irritable; dislikes questions and wants to be left alone",
+      "Business delirium: talks about office, business, and responsibilities during fever",
+      "Anxiety about finances and home affairs; desires to go home when at home"
     ],
     physical: [
-      "Stitching, sharp pains, often relieved by lying on the affected side",
-      "Great thirst for large quantities of cold water at long intervals",
-      "Hard, dry stool as if burnt; very difficult to pass"
+      "Bursting, splitting frontal headache, worse from motion and stooping",
+      "Dry, painful cough; must hold the chest while coughing to prevent stitching pain",
+      "Hard, dry stool as if burnt; very difficult to pass due to lack of moisture",
+      "Sharp stitching pains in joints and liver, worse from any movement",
+      "Stitching pains in serous membranes (pleurisy, peritonitis)"
     ],
     clinicalApplications: [
       'Dry cough / Pleurisy',
-      'Arthritis (pain worse for motion)',
+      'Arthritis and Rheumatism',
       'Constipation (dry stools)',
-      'Rheumatism'
+      'Hepatitis and Hepatic pain',
+      'Typhoid fever'
     ],
     comparisons: [
       { id: 'rhus-tox', name: 'Rhus Tox', keyDifference: 'Bryonia is worse for motion; Rhus Tox is better for continued motion.' }
@@ -497,7 +522,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     latinName: 'Matricaria chamomilla',
     family: 'Plant',
     origin: 'German Chamomile (Asteraceae)',
-    description: 'The "Opium of Homeopathy." Primarily a remedy for children and hypersensitive individuals with unbearable pain.',
+    description: 'The "Opium of Homoeopathy." Primarily a remedy for children and hypersensitive individuals with unbearable pain.',
     keyCharacteristics: [
       'Extraordinary irritability and peevishness',
       'One cheek red, the other pale',
@@ -538,7 +563,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     thirst: 'Thirstless.',
     clinicalApplications: ['Influenza', 'Stage fright', 'Paralysis', 'Dull headaches'],
     comparisons: [
-      { id: 'bryonia', name: 'Bryonia', keyDifference: 'Bryonia is worse for motion; Gelsem is often better for continued motion.' }
+      { id: 'bryonia', name: 'Bryonia', keyDifference: 'Bryonia is worse for motion; Gelsemium is often better for continued motion.' }
     ],
     relatedAilments: [],
     imageUrl: 'https://images.unsplash.com/photo-1533220556209-6a3f55462cf8?auto=format&fit=crop&q=80&w=800'
@@ -549,7 +574,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     latinName: 'Strychnos ignatii',
     family: 'Plant',
     origin: 'St. Ignatius Bean (Loganiaceae)',
-    description: 'The "Homeopathic Prozac." A remedy of contradictions and hysterical manifestations, especially from grief.',
+    description: 'The "Homoeopathic Prozac." A remedy of contradictions and hysterical manifestations, especially from grief.',
     keyCharacteristics: [
       'Rapid change of mental and physical states',
       'Frequent sighing and sobbing',
@@ -653,7 +678,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     latinName: 'Silica',
     family: 'Mineral',
     origin: 'Pure Flint',
-    description: 'The "Homeopathic Surgeon." Known for its ability to expel foreign bodies and promote suppuration.',
+    description: 'The "Homoeopathic Surgeon." Known for its ability to expel foreign bodies and promote suppuration.',
     keyCharacteristics: [
       'Offensive, sour-smelling foot sweat',
       'Sensitive to cold air; wraps head up warmly',
@@ -671,7 +696,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
       { id: 'pulsatilla', name: 'Pulsatilla', keyDifference: 'Pulsatilla is better for uncovering; Silicea must be covered.' }
     ],
     relatedAilments: [],
-    imageUrl: 'https://images.unsplash.com/photo-1549419139-44ba58444458?auto=format&fit=crop&q=80&w=800'
+    imageUrl: 'photo-1549419139-44ba58444458?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: 'thuja',
@@ -705,7 +730,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     latinName: 'Calcium Sulphide',
     family: 'Mineral',
     origin: 'Hahnemann\'s Calcium Sulphide',
-    description: 'The "Homeopathic Knife." A remedy that promotes suppuration when needed or stops it.',
+    description: 'The "Homoeopathic Knife." A remedy that promotes suppuration when needed or stops it.',
     keyCharacteristics: [
       'Extremely chilly; sensitive to the slightest draft of air',
       'Pains are sticking, like a splinter or a fishbone in the throat',
@@ -888,26 +913,52 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Apis Mellifica',
     latinName: 'Honey Bee',
     family: 'Animal',
-    origin: 'The whole Bee',
-    description: 'The remedy for edema, stinging pains, and sudden puffiness. It acts on the cellular tissue, producing inflammation with dropsy.',
+    origin: 'Poison of the Honey Bee (Apidae) | Prover: Dr. Bunsen',
+    description: 'The remedy for edema, stinging pains, and sudden puffiness. It acts on the cellular tissue, producing inflammation with dropsy. Its symptoms resemble the effects of a bee sting: burning, stinging, redness, and swelling.',
     keyCharacteristics: [
       'Stinging and burning pains (like a bee sting)',
-      'Edematous swelling; puffy, waxy appearance',
-      'Thirstlessness is a key indicator during fevers',
-      'Intolerance of heat and a close, warm room'
+      'Edematous swelling; puffy, waxy appearance with bag-like swelling under lower eyelids',
+      'Thirstlessness is a key indicator, especially during fevers and dropsy',
+      'Intolerance of heat and close, warm rooms',
+      'Extreme sensitivity to touch; cannot tolerate pressure'
     ],
     modalities: {
-      better: ['Cold applications', 'Open air', 'Uncovering'],
-      worse: ['Warm room', 'Heat', 'Touch', 'Sleep', 'Right side']
+      better: ['Cold applications', 'Open air', 'Uncovering', 'Cold drinks'],
+      worse: ['Warm room', 'Heat', 'Touch', 'Pressure', 'Afternoon (3 PM)', 'Sleep']
     },
     thermal: 'Hot',
     thirst: 'Generally thirstless, even during fever.',
-    clinicalApplications: ['Hives/Urticaria', 'Nephritis', 'Arthritis with swelling', 'Ovarian cysts (right side)'],
-    comparisons: [
-      { id: 'arsenicum', name: 'Arsenicum', keyDifference: 'Both have burning pains, but Apis is hot and better for cold; Arsenicum is chilly and better for heat.' }
+    mind: [
+      "Irritable, nervous, and hard to please; frequently weeping",
+      "Awkward behavior; drops things while handling them",
+      "Mental confusion; cannot think clearly",
+      "Ailments from jealousy, fear, anger, or bad news"
     ],
-    relatedAilments: [],
-    relatedBlogPosts: ['apis']
+    physical: [
+      "Bag-like puffy swelling under lower eyelids; pale waxy face",
+      "Oedema or Anasarca; generalized fluid accumulation in tissues",
+      "Sudden screaming and stupor in meningitis; rolls head from side to side",
+      "Urination frequent, painful, and scanty; burning during urination",
+      "Urticaria with burning, stinging, and pricking sensations"
+    ],
+    clinicalApplications: [
+      'Hives / Urticaria',
+      'Dropsy and Oedematous conditions',
+      'Arthritis with swelling',
+      'Ovarian cysts (right side)',
+      'Acute tonsillitis and Meningitis',
+      'Urinary complaints (scanty/painful)'
+    ],
+    comparisons: [
+      { id: 'arsenicum', name: 'Arsenicum', keyDifference: 'Both have burning pains, but Apis is hot and better for cold; Arsenicum is chilly and better for heat.' },
+      { id: 'rhus-tox', name: 'Rhus Tox', keyDifference: 'Apis is right-sided and thirstless; Rhus Tox is left-sided and thirsty.' }
+    ],
+    relatedAilments: [
+      { id: 'skin-health', name: 'Urticaria' },
+      { id: 'joint-pain', name: 'Arthritis with Swelling' }
+    ],
+    relatedBlogPosts: ['apis'],
+    imageUrl: 'https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800'
   },
   {
     id: 'chelidonium',
@@ -940,32 +991,40 @@ export const enhancedRemedies: RemedyDetailData[] = [
     name: 'Allium Cepa',
     latinName: 'Allium cepa',
     family: 'Plant',
-    origin: 'Red Onion (Liliaceae)',
-    description: 'A premier remedy for acute coryza and hay fever, characterized by acrid nasal discharge and bland lacrimation.',
+    origin: 'Red Onion (Liliaceae) | Prover: Hering',
+    description: 'A premier remedy for acute coryza and hay fever, characterized by acrid nasal discharge and bland lacrimation. The classic picture is: "Nose burns but tears remain bland."',
     keyCharacteristics: [
-      'Acrid nasal discharge that excoriates the upper lip',
-      'Bland lacrimation (tears do not burn)',
-      'Intense sneezing, especially on entering a warm room',
-      'Neuralgic pains like a long thread'
+      'Acrid, watery nasal discharge that excoriates the nose and upper lip',
+      'Bland lacrimation (tears flow freely but do not burn)',
+      'Violent sneezing, especially on entering a warm room',
+      'Neuralgic pains like a long thread, running in a straight line',
+      'Strong craving for raw onions'
     ],
     modalities: {
-      better: ['Cold room', 'Open air'],
-      worse: ['Evening', 'Warm room']
+      better: ['Open air', 'Cold room'],
+      worse: ['Warm room', 'Evening', 'Wet feet', 'North-west wind']
     },
     thermal: 'Hot',
-    thirst: 'Thirsty.',
+    thirst: 'Thirsty for cold water.',
     mind: [
-      'Very sleepy',
-      'Fear that the pain will become unbearable'
+      'Very sleepy; fear that the pain will become unbearable',
+      'Symptoms often travel from left to right'
     ],
     physical: [
-      'Nasal discharge burns the upper lip',
-      'Eyes red and watering',
-      'Catarrhal laryngitis; cough as if it would tear the larynx'
+      'Nasal discharge burns the upper lip; violent sneezing',
+      'Eyes red and watering; burning, biting, or smarting sensation',
+      'Violent laryngitis: cough as if it would tear the larynx; grabs throat while coughing',
+      'Thread-like neuralgic pains, often after trauma or amputation'
     ],
-    clinicalApplications: ['Hay fever', 'Common cold', 'Neuralgia', 'Laryngitis'],
+    clinicalApplications: [
+      'Hay fever and Coryza',
+      'Common cold and Influenza',
+      'Laryngitis (tearing cough)',
+      'Neuralgia',
+      'Nasal polyps'
+    ],
     comparisons: [
-      { id: 'euphrasia', name: 'Euphrasia', keyDifference: 'Euphrasia has acrid tears and bland nasal discharge; Allium Cepa is the opposite.' }
+      { id: 'euphrasia', name: 'Euphrasia', keyDifference: 'Euphrasia has acrid tears and bland nasal discharge; Allium Cepa has acrid nasal discharge and bland tears.' }
     ],
     relatedAilments: [
       { id: 'cold-flu', name: 'Common Cold' },
@@ -1347,72 +1406,69 @@ export const enhancedRemedies: RemedyDetailData[] = [
     imageUrl: 'https://images.unsplash.com/photo-1596708051759-994df558d94e?auto=format&fit=crop&q=80&w=800'
   },
   {
-  "id": "aethusa",
-  "name": "Aethusa Cynapium",
-  "latinName": "Aethusa cynapium",
-  "family": "Plant",
-  "origin": "Fool's Parsley (Umbelliferae)",
-  "description": "Aethusa Cynapium is characterized mainly by symptoms relating to the brain and nervous system, closely coupled with severe gastro-intestinal disturbances. It is primarily indicated in children during dentition and hot summer weather, marked by a complete, violent inability to digest milk, sudden vomiting of curdled masses, and profound weakness with an inability to hold the head up.",
-  "keyCharacteristics": [
-    "Anguish, crying, and expression of uneasiness and discontent",
-    "Marked inability to digest milk, it is vomited in large curds",
-    "Linea nasalis marked, a white line from ala nasi to angle of mouth",
-    "Ears feel obstructed, with a sense of something hot from them"
-  ],
-  "modalities": {
-    "better": [
-      "Open air",
-      "Company",
-      "Expelling flatus",
-      "Stool"
+    "id": "aethusa",
+    "name": "Aethusa Cynapium",
+    "latinName": "Aethusa cynapium",
+    "family": "Plant",
+    "origin": "Fool's Parsley (Umbelliferae) | Prover: Dr. Nanni",
+    "description": "Best remedy for vomiting in children, especially during dentition and hot weather. It is characterized by a complete intolerance of milk and profound weakness with an inability to hold the head up.",
+    "keyCharacteristics": [
+      "Milk cannot be digested; vomited immediately in large curds",
+      "Profound weakness, drowsiness, and prostration after vomiting",
+      "Complete absence of thirst",
+      "Sunken face with well-marked linea nasalis (white line from nose to mouth)",
+      "Inability to think or fix attention; idiotic appearance during illness"
     ],
-    "worse": [
-      "3 to 4 AM",
-      "Evenings",
-      "Warmth",
-      "Summer",
-      "Milk"
-    ]
+    "modalities": {
+      "better": [
+        "Open air",
+        "Rest",
+        "Covering",
+        "Company"
+      ],
+      "worse": [
+        "Milk",
+        "Hot summer weather",
+        "Dentition",
+        "Dietary errors",
+        "Evenings"
+      ]
+    },
+    "thermal": "Chilly",
+    "thirst": "Complete absence of thirst",
+    "mind": [
+      "Idiotic appearance; confused and unable to think",
+      "Hallucinations: sees rats, cats, or mice running around",
+      "Expression of great anxiety and pain; restless and crying"
+    ],
+    "physical": [
+      "Violent vomiting of curdled milk, white or yellow, followed by great exhaustion",
+      "Sunken face with linea nasalis; herpetic eruptions around the nose",
+      "Epileptic features: clenched thumbs, red face, dilated pupils, eyes turned downward",
+      "Child cannot hold head up or stand due to extreme weakness"
+    ],
+    "clinicalApplications": [
+      "Vomiting in infants",
+      "Dentition troubles",
+      "Cholera infantum",
+      "Epilepsy in children",
+      "Brain-fag and examination fear"
+    ],
+    "comparisons": [
+      { "id": "gelsemium", "name": "Gelsemium", "keyDifference": "Both have examination fear, but Aethusa has more focus on inability to think and milk intolerance." }
+    ],
+    "relatedAilments": [
+      {
+        "id": "indigestion",
+        "name": "Indigestion"
+      },
+      {
+        "id": "convulsions",
+        "name": "Convulsions"
+      }
+    ],
+    "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
   },
-  "thermal": "Chilly",
-  "thirst": "Thirstless during coldness, but craves cold water during fever",
-  "mind": [
-    "Restless, anxious, crying; looks of suffering and distress",
-    "Sees rats, cats, dogs, etc. with dream-like hallucinations",
-    "Inability to think, to fix the attention; brain-fag; idleness"
-  ],
-  "physical": [
-    "Sudden violent vomiting of a white frothy matter, with sweat and great weakness",
-    "Greenish, thin, undigested stool, preceded by colic, with tenesmus",
-    "Vertigo with drowsiness, hair feels pulled, head feels as if bound in a vise"
-  ],
-  "clinicalApplications": [
-    "Indigestion",
-    "Convulsions",
-    "Brain-fag",
-    "Cholera infantum"
-  ],
-  "comparisons": [],
-  "relatedAilments": [
-    {
-      "id": "indigestion",
-      "name": "Indigestion"
-    },
-    {
-      "id": "convulsions",
-      "name": "Convulsions"
-    },
-    {
-      "id": "brain-fag",
-      "name": "Brain-fag"
-    },
-    {
-      "id": "cholera-infantum",
-      "name": "Cholera infantum"
-    }
-  ],
-  "imageUrl": "https://images.unsplash.com/photo-1544816155-12df9643f363?auto=format&fit=crop&q=80&w=800"
-},
   {
   "id": "ammonium-mur",
   "name": "Ammonium Muriaticum",
@@ -2026,5 +2082,103 @@ export const enhancedRemedies: RemedyDetailData[] = [
     }
   ],
   "imageUrl": "https://images.unsplash.com/photo-1447752875215-b2761acb3c5d?auto=format&fit=crop&q=80&w=800"
+},
+{
+  "id": "aloe",
+  "name": "Aloe Socotrina",
+  "latinName": "Aloe socotrina",
+  "family": "Plant",
+  "origin": "Socotrine Aloe (Liliaceae) | Prover: Helbig",
+  "description": "The hallmark of Aloe is the 'Insecurity of Rectum'—the patient feels they may lose stool at any moment. It is also a premier remedy for blue, grape-like hemorrhoids and gastrointestinal disorders alternating with skin complaints.",
+  "keyCharacteristics": [
+    "Insecurity of rectum: weak sphincter and loss of control",
+    "Jelly-like mucus from all mucous membranes",
+    "Blue grape-like hemorrhoids, swollen, bleeding, and sore",
+    "Diarrhoea early in the morning on getting out of bed",
+    "Diarrhoea alternating with constipation"
+  ],
+  "modalities": {
+    "better": ["Cold applications", "Cold weather", "Open air"],
+    "worse": ["Heat", "Warm weather", "After eating", "Standing"]
+  },
+  "thermal": "Hot",
+  "thirst": "Thirsty.",
+  "mind": [
+    "Dissatisfied and irritable, especially during constipation",
+    "Angry with self and because of complaints",
+    "Indolent and sedentary individuals"
+  ],
+  "physical": [
+    "Involuntary solid stool may escape; lack of rectal sensation",
+    "Abdominal rumbling and gas before stool",
+    "Cutting and griping pains during stool followed by prostration",
+    "Hemorrhoids tender and burning; bearing-down pain in rectum"
+  ],
+  "clinicalApplications": [
+    "Diarrhoea and Dysentery",
+    "Hemorrhoids (Piles)",
+    "Constipation",
+    "Portal congestion",
+    "After-effects of excessive medication"
+  ],
+  "comparisons": [
+    { "id": "sulphur", "name": "Sulphur", "keyDifference": "Both have early morning diarrhoea, but Aloe is more focused on rectal insecurity and jelly-like mucus." }
+  ],
+  "relatedAilments": [
+    { "id": "digestive-issues", "name": "Diarrhoea" },
+    { "id": "haemorrhoids", "name": "Piles" }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1596708051493-99d91f24e930?auto=format&fit=crop&q=80&w=800"
+},
+{
+  "id": "calc-carb",
+  "name": "Calcarea Carbonica",
+  "latinName": "Calcium Carbonate",
+  "family": "Animal",
+  "origin": "Middle layer of the Oyster Shell | Prover: Hahnemann",
+  "description": "One of the greatest constitutional anti-psoric remedies. It is suited to individuals who are 'Fat, Fair, Flabby, Fearful, and Perspiring.' It acts deeply on nutrition, bone formation, and the glandular system.",
+  "keyCharacteristics": [
+    "Profuse head perspiration, especially during sleep (soaks the pillow)",
+    "Fat, fair, and flabby constitution with soft muscles",
+    "Delayed milestones in children (walking, teething, closure of fontanelles)",
+    "Extreme chilliness; sensitive to cold and damp weather",
+    "Strong craving for eggs and indigestible things like chalk or pencils",
+    "Easy fatigue from slight exertion like climbing stairs"
+  ],
+  "modalities": {
+    "better": ["Dry weather", "Warm clothing", "Rest"],
+    "worse": ["Cold and damp", "Exertion", "Climbing stairs", "Mental work"]
+  },
+  "thermal": "Chilly",
+  "thirst": "Thirst for cold drinks.",
+  "mind": [
+    "Anxiety about health, future, and financial matters",
+    "Fear of heights, insanity, and misfortune",
+    "Slow comprehension; forgetful and easily discouraged"
+  ],
+  "physical": [
+    "Large head with fontanelles remaining open too long; pot-bellied abdomen",
+    "Enlarged glands (tonsils, adenoids, cervical glands)",
+    "Bones are weak; rickets and curvature of bones",
+    "Ravenous hunger but weak digestion; excessive gas",
+    "Early and profuse menstruation; chronic leucorrhoea"
+  ],
+  "clinicalApplications": [
+    "Delayed development",
+    "Rickets and Bone diseases",
+    "Obesity",
+    "Glandular swellings",
+    "Hypothyroidism",
+    "Menstrual disorders"
+  ],
+  "comparisons": [
+    { "id": "sulphur", "name": "Sulphur", "keyDifference": "Calc-Carb is chilly and fat; Sulphur is hot and lean." },
+    { "id": "baryta-carb", "name": "Baryta Carb", "keyDifference": "Calc-Carb is fat; Baryta Carb is underdeveloped and dwarf-like." }
+  ],
+  "relatedAilments": [
+    { "id": "obesity", "name": "Obesity" },
+    { "id": "bone-health", "name": "Delayed Growth" }
+  ],
+  "imageUrl": "https://images.unsplash.com/photo-1544070078-a212eda27b49?auto=format&fit=crop&q=80&w=800"
 }
 ];

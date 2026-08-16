@@ -448,10 +448,14 @@ export default function Auth() {
                               onChange={(e) => setProfession(e.target.value)}
                               className="w-full px-5 py-4 bg-bg-secondary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none font-medium text-sm text-text-primary placeholder:text-text-tertiary transition-all appearance-none cursor-pointer"
                             >
-                              <option value="doctor">🩺 Homoeopathy Doctor (BHMS, MD-Hom)</option>
-                              <option value="practitioner">🌿 Clinical Practitioner</option>
-                              <option value="student">🎓 Academic Student / Scholar</option>
-                              <option value="user">📖 General Reader & Enthusiast</option>
+                              <option value="Guest">Guest - Guest Visitor / Sandbox User</option>
+                              <option value="Public">Public - Public Reader / Patient / Health Enthusiast</option>
+                              <option value="BHMS Student">BHMS Student - BHMS Undergraduate Student</option>
+                              <option value="Intern">Intern - BHMS Hospital / Clinical Intern</option>
+                              <option value="Practitioner">Practitioner - Registered Homoeopathic Doctor (BHMS/MD)</option>
+                              <option value="Faculty">Faculty - Homoeopathy College Professor / Lecturer</option>
+                              <option value="Researcher">Researcher - Postgrad Scholar / Clinical Researcher</option>
+                              <option value="Administrator">Administrator - Portal Administrator</option>
                             </select>
                             <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-4 text-text-tertiary">
                               <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z"/></svg>

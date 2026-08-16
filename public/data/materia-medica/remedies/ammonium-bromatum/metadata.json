@@ -1,0 +1,14 @@
+{
+  "slug": "ammonium-bromatum",
+  "title": "Ammonium Bromatum",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Eyes", "Nose", "Throat", "Stomach", "Abdomen", "Respiratory", "Relationship", "Dose"],
+  "word_count": 115,
+  "character_count": 850,
+  "paragraph_count": 10,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amm123broma"
+}

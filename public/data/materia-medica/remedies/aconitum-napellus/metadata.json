@@ -1,0 +1,14 @@
+{
+  "slug": "aconitum-napellus",
+  "title": "Aconitum Napellus",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Eyes", "Ears", "Nose", "Face", "Mouth", "Throat", "Stomach", "Abdomen", "Rectum", "Urine", "Male", "Female", "Respiratory", "Heart", "Back", "Extremities", "Sleep", "Skin", "Fever", "Modalities", "Relationship", "Dose"],
+  "word_count": 1150,
+  "character_count": 7500,
+  "paragraph_count": 25,
+  "estimated_reading_time": "6 mins",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "vwx234aconite"
+}

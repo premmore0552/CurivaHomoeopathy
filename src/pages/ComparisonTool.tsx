@@ -26,12 +26,12 @@ export default function ComparisonTool() {
     <div className="min-h-screen bg-bg-primary pb-20">
       <SEO 
         title="Remedy Comparison Tool | Curiva Homoeopathy"
-        description="Side-by-side differential analysis of homeopathic remedies for practitioners and students."
+        description="Side-by-side differential analysis of Homoeopathic remedies for practitioners and students."
       />
 
       <header className="relative pt-32 pb-48 overflow-hidden bg-bg-secondary border-b border-border text-text-primary">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(15,118,110,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
-        <div className="absolute top-0 right-0 p-32 opacity-10 pointer-events-none animate-pulse">
+        <div className="absolute top-0 right-0 p-8 opacity-10 pointer-events-none animate-pulse">
            <Scale className="w-96 h-96 text-primary" />
         </div>
         
@@ -57,7 +57,7 @@ export default function ComparisonTool() {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-12 relative z-20">
         <RemedyComparison remedies={uniqueComparisonRemedies} preSelectedId={preSelectedId} preSelectedIds={preSelectedIds} />
 
-        <div className="mt-20 grid md:grid-cols-2 gap-8">
+        <div className="mt-10 grid md:grid-cols-2 gap-8">
            <div className="p-10 bg-white rounded-[3rem] border border-border shadow-soft">
               <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary mb-6">
                 <BookOpen className="w-6 h-6" />
@@ -74,7 +74,7 @@ export default function ComparisonTool() {
               </div>
               <h3 className="text-3xl font-display font-medium mb-4 relative z-10 tracking-tight italic">Clinical Correlation</h3>
               <p className="text-text-secondary leading-relaxed font-serif italic text-lg relative z-10">
-                Differential diagnosis is the cornerstone of effective homeopathic prescribing. Use this tool to refine your understanding of "remedy families" and "complementary relationships".
+                Differential diagnosis is the cornerstone of effective Homoeopathic prescribing. Use this tool to refine your understanding of "remedy families" and "complementary relationships".
               </p>
            </div>
         </div>

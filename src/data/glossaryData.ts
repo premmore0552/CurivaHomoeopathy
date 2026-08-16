@@ -14,15 +14,15 @@ export const glossaryData: GlossaryItem[] = [
     term: 'Vital Force',
     category: 'Concept',
     definition: 'The spiritual, automatic, self-moving life-energy (dynamis) that animates the physical human organism in health, directs its functions, and preserves its harmonious integrity.',
-    explanation: 'In homeopathic philosophy, the Vital Force (Lebenskraft) constitutes the healing energy of the body. When in health, this force keeps all parts of the organism in perfect, harmonious activity. When disturbed by pathogenetic influences, it manifests disharmony as symptoms of disease. Homeopathic remedies act dynamically on this level to restore equilibrium.',
+    explanation: 'In Homoeopathic philosophy, the Vital Force (Lebenskraft) constitutes the healing energy of the body. When in health, this force keeps all parts of the organism in perfect, harmonious activity. When disturbed by pathogenetic influences, it manifests disharmony as symptoms of disease. Homoeopathic remedies act dynamically on this level to restore equilibrium.',
     source: 'Samuel Hahnemann, Organon of Medicine (Aphorisms 9-16)',
-    relatedTerms: ['Dynamization', 'Miasm', 'Homeopathy']
+    relatedTerms: ['Dynamization', 'Miasm', 'Homoeopathy']
   },
   {
     id: 'similia-similibus-curentur',
     term: 'Similia Similibus Curentur',
     category: 'Concept',
-    definition: 'Wait! The foundational law of Homeopathy, meaning "Let Likes Be Cured by Likes ."',
+    definition: 'Wait! The foundational law of Homoeopathy, meaning "Let Likes Be Cured by Likes ."',
     explanation: 'This law states that a pharmacodynamically active substance that produces a specific set of symptoms in a healthy prover can cure a patient exhibiting a similar symptom picture. For example, red onion (Allium Cepa) causes watery eyes and a runny nose; thus, it is a primary remedy for hay fever.',
     source: 'Samuel Hahnemann',
     relatedTerms: ['Proving', 'Remedy', 'Materia Medica']
@@ -40,9 +40,9 @@ export const glossaryData: GlossaryItem[] = [
     id: 'succussion',
     term: 'Succussion',
     category: 'Term',
-    definition: 'The process of vigorously shaking a liquid homeopathic dilution against a firm but semi-elastic surface (traditionally a leather-bound book) to activate and release its dynamic curative potential.',
-    explanation: 'In the preparation of homeopathic dilutions, succussion is performed at each stage of serial dilution. This physical impact is believed to transfer the systemic pattern of the solute into the molecular architecture of the solvent (water/alcohol).',
-    source: 'Homeopathic Pharmacopoeia',
+    definition: 'The process of vigorously shaking a liquid Homoeopathic dilution against a firm but semi-elastic surface (traditionally a leather-bound book) to activate and release its dynamic curative potential.',
+    explanation: 'In the preparation of Homoeopathic dilutions, succussion is performed at each stage of serial dilution. This physical impact is believed to transfer the systemic pattern of the solute into the molecular architecture of the solvent (water/alcohol).',
+    source: 'Homoeopathic Pharmacopoeia',
     relatedTerms: ['Potentization', 'Trituration']
   },
   {
@@ -92,7 +92,7 @@ export const glossaryData: GlossaryItem[] = [
     term: 'Proving',
     category: 'Term',
     definition: 'The scientific method of drug testing where healthy human volunteers ingest potentized substances to systematically observe, verify, and record the physical and mental symptoms produced.',
-    explanation: 'A proving (Hahnemannian "Prüfung") forms the genuine basis of the Homeopathic Materia Medica. Symptoms generated during provings are cataloged extensively. Since likes are cured by likes, these recorded symptoms outline the exact therapeutic profile of the tested substance.',
+    explanation: 'A proving (Hahnemannian "Prüfung") forms the genuine basis of the Homoeopathic Materia Medica. Symptoms generated during provings are cataloged extensively. Since likes are cured by likes, these recorded symptoms outline the exact therapeutic profile of the tested substance.',
     source: 'Organon of Medicine (Aphorisms 105-145)',
     relatedTerms: ['Materia Medica', 'Similia Similibus Curentur']
   },
@@ -100,7 +100,7 @@ export const glossaryData: GlossaryItem[] = [
     id: 'repertory',
     term: 'Repertory',
     category: 'Term',
-    definition: 'A systematic index of clinical symptoms (rubrics) with lists of homeopathic remedies associated with each, graded by their clinical efficacy.',
+    definition: 'A systematic index of clinical symptoms (rubrics) with lists of Homoeopathic remedies associated with each, graded by their clinical efficacy.',
     explanation: 'While the Materia Medica lists remedies and their respective symptoms, a Repertory is structured the opposite way: it indices symptoms (e.g., "headache in cold wind") and lists the corresponding remedies. Prominent repertories include those of Kent, Boenninghausen, and Boger.',
     relatedTerms: ['Materia Medica', 'Proving']
   },
@@ -109,7 +109,7 @@ export const glossaryData: GlossaryItem[] = [
     term: 'Materia Medica',
     category: 'Term',
     definition: 'A compilation of comprehensive remedy profiles, detailing the mental state, physical symptoms, modalities, and keynotes observed during provings and clinical practice.',
-    explanation: 'Materia Medica ("materials of medicine") serves as the homeopathic encyclopedia of drug properties. Famous classical works include Allen\'s Keynotes, Boericke\'s Pocket Manual, and Kent\'s Lectures on Homeopathic Materia Medica.',
+    explanation: 'Materia Medica ("materials of medicine") serves as the Homoeopathic encyclopedia of drug properties. Famous classical works include Allen\'s Keynotes, Boericke\'s Pocket Manual, and Kent\'s Lectures on Homoeopathic Materia Medica.',
     relatedTerms: ['Proving', 'Repertory']
   },
   {
@@ -118,14 +118,14 @@ export const glossaryData: GlossaryItem[] = [
     category: 'Term',
     definition: 'A term coined by Samuel Hahnemann to describe the orthodox, conventional system of medicine that treats symptoms using drugs that produce opposite or unrelated effects.',
     explanation: 'Allopathic treatments (e.g., anti-inflammatories for inflammation, laxatives for constipation) represent the law of contraries. Hahnemann argued that this suppressive action often drives disease deeper into vital organs, rather than stimulating a dynamic self-healing response of the Vital Force.',
-    relatedTerms: ['Homeopathy', 'Vital Force']
+    relatedTerms: ['Homoeopathy', 'Vital Force']
   },
   {
     id: 'infinitesimal-dose',
     term: 'Infinitesimal Dose',
     category: 'Term',
-    definition: 'A dose of a homeopathic remedy that has been diluted beyond Avogadro\'s number, containing virtually no molecules of the original crude substance but retaining its dynamic curative imprint.',
-    explanation: 'Because homeopathic remedies are potentized through serial dilution and succussion, they act on a non-molecular, dynamic level, bypassing chemical side-effects and toxicities, allowing the Vital Force to receive clean, energetic cues for healing.',
+    definition: 'A dose of a Homoeopathic remedy that has been diluted beyond Avogadro\'s number, containing virtually no molecules of the original crude substance but retaining its dynamic curative imprint.',
+    explanation: 'Because Homoeopathic remedies are potentized through serial dilution and succussion, they act on a non-molecular, dynamic level, bypassing chemical side-effects and toxicities, allowing the Vital Force to receive clean, energetic cues for healing.',
     relatedTerms: ['Potentization', 'Vital Force']
   },
   {
@@ -140,7 +140,7 @@ export const glossaryData: GlossaryItem[] = [
     id: 'belladonna',
     term: 'Belladonna',
     category: 'Remedy',
-    definition: 'A major homeopathic remedy for sudden, violent onset of acute inflammation, high fever, intense throbbing congestions, flushed face, and hot skin.',
+    definition: 'A major Homoeopathic remedy for sudden, violent onset of acute inflammation, high fever, intense throbbing congestions, flushed face, and hot skin.',
     explanation: 'Prepared from Deadly Nightshade, Belladonna symptoms are characterized by "heat, redness, throbbing, and burning." Fevers are high with dilated pupils, hot head with cold extremities, and severe localized throbbing. Symptoms come and go like a flash of lightning.',
     relatedTerms: ['Remedy', 'Materia Medica']
   },

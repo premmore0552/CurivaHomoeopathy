@@ -1,12 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
-import { Sparkles, Leaf, Database, Activity, BookOpen, ShieldCheck } from 'lucide-react';
+import { Sparkles, ShieldCheck } from 'lucide-react';
 import SEO from '../components/SEO';
-import AZIndex from '../components/AZIndex';
-import { enhancedRemedies } from '../data/enhancedRemedies';
-import { materiaMedicaData } from '../data/materiaMedica';
-import HomeopathicGlossary from '../components/HomeopathicGlossary';
+import MateriaMedicaSearch from '../components/MateriaMedicaSearch';
+import HomoeopathicGlossary from '../components/HomoeopathicGlossary';
 import RemedyFinder from '../components/RemedyFinder';
 import ModalitiesCheatSheet from '../components/ModalitiesCheatSheet';
 import MateriaMedicaCanvas from '../components/MateriaMedicaCanvas';
@@ -40,42 +38,10 @@ export default function Encyclopedia() {
     navigate(link);
   };
 
-  const families = [
-    { id: 'Plant', icon: Leaf },
-    { id: 'Mineral', icon: Database },
-    { id: 'Animal', icon: Activity },
-  ];
-
-  const rawEncyclopediaItems = [
-    ...materiaMedicaData
-      .filter(r => !activeFamily || r.family?.includes(activeFamily))
-      .map(r => ({
-        id: `rem-${r.id}`,
-        name: r.name,
-        category: 'Remedy',
-        description: r.commonName + ' (' + r.family + ')',
-        link: `/remedy/${r.id}`
-      })),
-    ...enhancedRemedies
-      .filter(r => !activeFamily || r.family === activeFamily)
-      .map(r => ({
-        id: `enh-rem-${r.id}`,
-        name: r.name,
-        category: 'Remedy',
-        description: r.family + ' Family',
-        link: `/remedy/${r.id}`
-      }))
-  ];
-
-  // Uniqueify by lowercase name to prevent duplicates of the same remedy
-  const encyclopediaItems = Array.from(
-    new Map(rawEncyclopediaItems.map(item => [item.name.toLowerCase().trim(), item])).values()
-  );
-
   return (
     <div className="min-h-screen bg-bg-primary pb-20">
       <SEO 
-        title="Materia Medica Homeopathic Encyclopedia | Curiva Homoeopathy"
+        title="Materia Medica Homoeopathic Encyclopedia | Curiva Homoeopathy"
         description="Browse our comprehensive A-Z database of remedies, drug pictures, symptoms, and classical definitions."
       />
 
@@ -105,7 +71,7 @@ export default function Encyclopedia() {
                    Materia <br/> <span className="text-primary italic">Medica</span>
                  </h1>
                  <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
-                   Your centralized gateway for evidence-based homeopathic remedy profiles, keynotes, and clinical indications.
+                   Your centralized gateway for evidence-based Homoeopathic remedy profiles, keynotes, and clinical indications.
                  </p>
                </motion.div>
              )}
@@ -119,7 +85,7 @@ export default function Encyclopedia() {
                  className="space-y-6"
                >
                  <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-medium text-text-primary tracking-tighter leading-[0.85]">
-                   Homeopathic <br/> <span className="text-primary italic">Glossary</span>
+                   Homoeopathic <br/> <span className="text-primary italic">Glossary</span>
                  </h1>
                  <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
                    Explore foundational concepts, dynamic energetic definitions, and primary remedy designations linked to authentic sources.
@@ -139,7 +105,7 @@ export default function Encyclopedia() {
                     Symptom <br/> <span className="text-primary italic">Modalities</span>
                   </h1>
                   <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
-                    Browse exact homeopathic aggravations and ameliorations. Filter major remedies by temporal, thermal, positional, and environmental dynamics.
+                    Browse exact Homoeopathic aggravations and ameliorations. Filter major remedies by temporal, thermal, positional, and environmental dynamics.
                   </p>
                 </motion.div>
               )}
@@ -165,32 +131,34 @@ export default function Encyclopedia() {
       </header>
 
       {/* Dynamic Sub-navigation Tab Selector */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 -mt-16 relative z-30">
-        <div className="flex flex-col sm:flex-row bg-white border border-border p-2 rounded-[2rem] shadow-2xl items-center justify-between gap-4">
-          <div className="flex flex-wrap gap-1 bg-bg-secondary p-1 rounded-[1.5rem] w-full sm:w-auto">
-            {[
-              { id: 'remedies', label: '📖 Materia Index' },
-              { id: 'glossary', label: '📜 Terms & Definitions' },
-              { id: 'finder', label: '🎯 Remedy Finder' },
-              { id: 'modalities', label: '🌡️ Symptom Modalities' }
-            ].map(tab => (
-              <button
-                key={tab.id}
-                onClick={() => handleTabChange(tab.id)}
-                className={`px-3 sm:px-6 py-3.5 rounded-xl sm:rounded-[1.25rem] text-[9px] sm:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all cursor-pointer ${
-                  activeTab === tab.id
-                    ? 'bg-primary text-white shadow-lg shadow-primary/20'
-                    : 'text-text-secondary hover:bg-zinc-200/50'
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </div>
+      <div className="sticky top-0 z-[100] transition-all duration-300">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex flex-col sm:flex-row bg-white/80 backdrop-blur-lg border border-border p-2 rounded-[2rem] shadow-2xl items-center justify-between gap-4">
+            <div className="flex flex-wrap gap-1 bg-bg-secondary p-1 rounded-[1.5rem] w-full sm:w-auto">
+              {[
+                { id: 'remedies', label: '📖 Materia Index' },
+                { id: 'glossary', label: '📜 Terms & Definitions' },
+                { id: 'finder', label: '🎯 Remedy Finder' },
+                { id: 'modalities', label: '🌡️ Symptom Modalities' }
+              ].map(tab => (
+                <button
+                  key={tab.id}
+                  onClick={() => handleTabChange(tab.id)}
+                  className={`px-3 sm:px-6 py-3.5 rounded-xl sm:rounded-[1.25rem] text-[9px] sm:text-xs font-black uppercase tracking-wider md:tracking-widest transition-all cursor-pointer ${
+                    activeTab === tab.id
+                      ? 'bg-primary text-white shadow-lg shadow-primary/20'
+                      : 'text-text-secondary hover:bg-zinc-200/50'
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
+            </div>
 
-          <div className="flex items-center gap-3 px-4 py-2 bg-primary/5 text-primary text-xs font-bold rounded-2xl border border-primary/10">
-            <ShieldCheck className="w-4 h-4 shrink-0 text-primary" />
-            <span>Accurate References &middot; Evidence-Backed</span>
+            <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-primary/5 text-primary text-xs font-bold rounded-2xl border border-primary/10">
+              <ShieldCheck className="w-4 h-4 shrink-0 text-primary" />
+              <span>Accurate References &middot; Evidence-Backed</span>
+            </div>
           </div>
         </div>
       </div>
@@ -217,7 +185,7 @@ export default function Encyclopedia() {
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.25 }}
             >
-              <HomeopathicGlossary />
+              <HomoeopathicGlossary />
             </motion.div>
           )}
 
@@ -246,6 +214,7 @@ export default function Encyclopedia() {
           )}
         </AnimatePresence>
       </main>
+      <MateriaMedicaSearch />
     </div>
   );
 }

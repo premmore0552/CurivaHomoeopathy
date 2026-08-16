@@ -1,0 +1,9 @@
+[
+  { "remedy": "China", "slug": "cinchona-officinalis" },
+  { "remedy": "Bryon.", "slug": "bryonia-alba" },
+  { "remedy": "Pulsat.", "slug": "pulsatilla-nigricans" },
+  { "remedy": "Thuja", "slug": "thuja-occidentalis" },
+  { "remedy": "Sabina", "slug": "sabina" },
+  { "remedy": "Nux vom.", "slug": "nux-vomica" },
+  { "remedy": "Kali carb.", "slug": "kali-carbonicum" }
+]

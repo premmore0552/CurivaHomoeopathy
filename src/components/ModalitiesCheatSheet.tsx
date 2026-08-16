@@ -145,7 +145,7 @@ export default function ModalitiesCheatSheet() {
               <BookOpen className="w-4 h-4" /> Comprehensive Clinical Guide
             </div>
             <h2 className="text-4xl md:text-6xl font-display font-black text-white mb-6 tracking-tighter italic leading-none">
-              Homeopathy <br/> <span className="text-primary not-italic uppercase tracking-widest text-2xl md:text-3xl">Modalities Cheat Sheet.</span>
+              Homoeopathy <br/> <span className="text-primary not-italic uppercase tracking-widest text-2xl md:text-3xl">Modalities Cheat Sheet.</span>
             </h2>
             <p className="text-xl text-white/60 font-medium mb-10 leading-relaxed italic">
               Critical aggravations and ameliorations at a glance. Master the "fingerprints" of major remedies for quick clinical recall.

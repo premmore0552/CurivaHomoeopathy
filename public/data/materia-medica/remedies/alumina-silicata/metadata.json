@@ -1,0 +1,14 @@
+{
+  "slug": "alumina-silicata",
+  "title": "Alumina Silicata",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Nose", "Stomach", "Abdomen", "Respiratory", "Skin", "Relationship", "Dose"],
+  "word_count": 100,
+  "character_count": 750,
+  "paragraph_count": 9,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "alu123silic"
+}

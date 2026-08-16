@@ -111,7 +111,7 @@ const StudyTool: React.FC = () => {
         // 1. Key Characteristic
         newCards.push({
           id: `${remedy.id}-key-${idx}`,
-          question: `Which homeopathic remedy is characterized by: "${remedy.keyCharacteristic}"?`,
+          question: `Which Homoeopathic remedy is characterized by: "${remedy.keyCharacteristic}"?`,
           answer: remedy.name,
           remedy: remedy.name,
           remedyId: remedy.id,
@@ -447,7 +447,7 @@ const StudyTool: React.FC = () => {
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 -mt-16 md:-mt-20 relative z-20 space-y-10 md:space-y-12">
+      <main className="max-w-7xl mx-auto px-4 -mt-16 md:-mt-10 relative z-20 space-y-10 md:space-y-12">
         {/* CONFIGURATION DASHBOARD (SETUP MODE) */}
         <AnimatePresence mode="wait">
           {isConfiguring ? (
@@ -655,7 +655,7 @@ const StudyTool: React.FC = () => {
               className="space-y-8"
             >
               {/* Back to configuration button */}
-              <div className="flex justify-between items-center max-w-6xl mx-auto">
+              <div className="flex justify-between items-center max-w-7xl mx-auto">
                 <button
                   onClick={() => setIsConfiguring(true)}
                   className="flex items-center gap-1.5 text-[10px] font-black uppercase tracking-widest text-text-secondary dark:text-zinc-400 hover:text-primary transition-all bg-white dark:bg-zinc-900 px-4.5 py-3.5 border border-border dark:border-zinc-800 rounded-xl"
@@ -670,7 +670,7 @@ const StudyTool: React.FC = () => {
               </div>
 
               {!completed ? (
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-6xl mx-auto">
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start max-w-7xl mx-auto">
                   {/* Left Spatial Panel: Segment Details & Progress Indicator */}
                   <div className="lg:col-span-4 space-y-6">
                     {/* Part Identifier info card */}
@@ -976,7 +976,7 @@ const StudyTool: React.FC = () => {
                   animate={{ opacity: 1, scale: 1 }}
                   className="bg-white dark:bg-zinc-900 p-8 md:p-14 rounded-[3rem] border-2 border-emerald-500/10 text-center shadow-2xl relative overflow-hidden max-w-4xl mx-auto"
                 >
-                  <div className="absolute top-0 right-0 p-16 opacity-5 rotate-12 pointer-events-none">
+                  <div className="absolute top-0 right-0 p-8 opacity-5 rotate-12 pointer-events-none">
                      <GraduationCap className="w-56 h-56 text-emerald-500" />
                   </div>
 

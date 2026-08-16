@@ -1,0 +1,14 @@
+{
+  "slug": "ambra-grisea",
+  "title": "Ambra Grisea",
+  "alphabet": "A",
+  "detected_headings": ["Mind", "Head", "Eyes", "Ears", "Mouth", "Stomach", "Abdomen", "Rectum", "Urinary", "Respiratory", "Heart", "Sleep", "Extremities", "Skin", "Modalities", "Relationship", "Dose"],
+  "word_count": 250,
+  "character_count": 1750,
+  "paragraph_count": 18,
+  "estimated_reading_time": "2 mins",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amb123grisea"
+}

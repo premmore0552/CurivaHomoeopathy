@@ -1,0 +1,19 @@
+[
+  { "remedy": "Ambra.", "slug": "ambra-grisea" },
+  { "remedy": "Indigo.", "slug": "indigo" },
+  { "remedy": "Nux.", "slug": "nux-vomica" },
+  { "remedy": "Opium", "slug": "opium" },
+  { "remedy": "Cham.", "slug": "chamomilla" },
+  { "remedy": "Ipec.", "slug": "ipecacuanha" },
+  { "remedy": "Antim. crud.", "slug": "antimonium-crudum" },
+  { "remedy": "Hamam.", "slug": "hamamelis-virginiana" },
+  { "remedy": "Cact.", "slug": "cactus-grandiflorus" },
+  { "remedy": "Crotal.", "slug": "crotalus-horridus" },
+  { "remedy": "Kalmia", "slug": "kalmia-latifolia" },
+  { "remedy": "Tabac.", "slug": "tabacum" },
+  { "remedy": "Aescul.", "slug": "aesculus-hippocastanum" },
+  { "remedy": "Sulph.", "slug": "sulphur" },
+  { "remedy": "Bellad.", "slug": "belladonna" },
+  { "remedy": "Coffea", "slug": "coffea-cruda" },
+  { "remedy": "Ferr. phos.", "slug": "ferrum-phosphoricum" }
+]

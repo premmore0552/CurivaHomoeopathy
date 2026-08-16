@@ -111,7 +111,7 @@ const data: MindMapNode = {
           children: [
             { id: "acne-clinical", name: "Acne Vulgaris", type: "research", articleId: "/read/acne-healing", summary: "Treating inflammatory pustules and scars with Berberis Aquifolium, Pulsatilla, and Sulfur." },
             { id: "eczema-clinical", name: "Eczema & Dermatitis", type: "research", articleId: "/read/eczema-treatment", summary: "Calming dry, cracked skin eruptions and itching with Graphites, Mezereum, and Petroleum." },
-            { id: "hair-loss-clinical", name: "Hairfall & Thinning", type: "research", articleId: "/read/hair-loss-homeopathy", summary: "Restoring hair follicle vitality and treating alopecia areata with Fluoric Acid, Phosphorus, and Lycopodium." }
+            { id: "hair-loss-clinical", name: "Hairfall & Thinning", type: "research", articleId: "/read/hair-loss-Homoeopathy", summary: "Restoring hair follicle vitality and treating alopecia areata with Fluoric Acid, Phosphorus, and Lycopodium." }
           ]
         },
         {
@@ -503,7 +503,7 @@ export default function ResearchMindMap() {
                     {selectedNode.type} Information
                  </div>
                  <p className="text-text-secondary leading-relaxed mb-8">
-                   {selectedNode.summary || "Explore clinical patterns, traditional uses, and academic research regarding this specific homeopathic entity."}
+                   {selectedNode.summary || "Explore clinical patterns, traditional uses, and academic research regarding this specific Homoeopathic entity."}
                  </p>
 
                  <div className="w-full space-y-3">

@@ -1,0 +1,14 @@
+{
+  "slug": "ammonium-phosphoricum",
+  "title": "Ammonium Phosphoricum",
+  "alphabet": "A",
+  "detected_headings": ["Head", "Stomach", "Urinary", "Respiratory", "Extremities", "Relationship", "Dose"],
+  "word_count": 95,
+  "character_count": 700,
+  "paragraph_count": 8,
+  "estimated_reading_time": "1 min",
+  "import_date": "2026-08-03",
+  "parser_version": "3.0",
+  "source_filename": "Boericke_Materia_Medica.txt",
+  "checksum": "amm123phosp"
+}
