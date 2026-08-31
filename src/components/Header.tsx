@@ -262,11 +262,13 @@ const Header: React.FC = () => {
         icon: 'Search'
       },
       popular: [
+        { name: 'Find Your Remedy', to: '/find-your-remedy', desc: 'Symptomatic remedy match guide', badge: 'New', icon: 'BookOpen' },
         { name: 'Disease Library', to: '/clinical-handbook', desc: 'Diagnostic criteria & therapeutic maps', icon: 'Heart' },
         { name: 'Miasms Encyclopedia', to: '/miasms', desc: 'Psora, Sycosis & Syphilis study', icon: 'Sparkles' },
         { name: 'Symptom Repertory', to: '/symptom-checker', desc: 'Repertorization tools & case logs', icon: 'Compass' }
       ],
       pinned: [
+        { name: 'Conditions Explained', to: '/conditions', desc: 'Understanding clinical patterns in common ailments', icon: 'BookOpenText' },
         { name: 'CBC Hemogram Tool', to: '/cbc-handbook', desc: 'Interactive blood report analyzer', icon: 'Activity' },
         { name: 'Clinical Therapeutics', to: '/clinical-guides', desc: 'Condition-wise remedy mapping', icon: 'BookOpen' }
       ]
@@ -411,7 +413,7 @@ const Header: React.FC = () => {
         <div className="flex items-center justify-between h-full relative gap-4">
           
           {/* Desktop Navigation Left */}
-          <nav className="hidden 2xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
+          <nav className="hidden xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
             {leftLinks.map((link: any, idx: number) => {
               const isActive = location.pathname === link.to;
               const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
@@ -532,7 +534,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Desktop Navigation Right */}
-          <div className="hidden 2xl:flex items-center justify-end gap-1.5 flex-1">
+          <div className="hidden xl:flex items-center justify-end gap-1.5 flex-1">
             <nav className="flex items-center gap-1.5" aria-label="Main Navigation Right">
               {rightLinks.map((link: any, idx: number) => {
                 const actualIdx = idx + half;
@@ -629,6 +631,14 @@ const Header: React.FC = () => {
             </nav>
             <div className="w-px h-8 bg-border/50" />
             <div className="flex items-center gap-3">
+              <Link
+                to="/find-your-remedy"
+                className="hidden 2xl:flex items-center gap-2 px-4 py-2 bg-[#134634] hover:bg-[#BF8F02] text-white rounded-full font-bold text-[10px] uppercase tracking-wider transition-all shadow-sm group"
+              >
+                <BookOpen className="w-3.5 h-3.5 text-amber-300" />
+                <span>Find Remedy</span>
+                <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
+              </Link>
               <ThemeToggle />
               <ProfileSwitch />
               <AuthButton />
@@ -636,7 +646,7 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile/Tablet Menu Button */}
-          <div className="2xl:hidden absolute right-0 flex items-center gap-3">
+          <div className="xl:hidden absolute right-0 flex items-center gap-3">
              <ThemeToggle />
              <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
@@ -660,7 +670,7 @@ const Header: React.FC = () => {
             initial="closed"
             animate="open"
             exit="closed"
-            className="lg:hidden fixed inset-0 z-[60] w-full h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
+            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
             style={{ perspective: 1200, transformStyle: "preserve-3d" }}
           >
             <div className="flex items-center justify-between p-6 border-b border-border">

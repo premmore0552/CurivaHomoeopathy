@@ -1,12 +1,13 @@
 import { BlogPost } from '../types';
 import { allBlogPosts } from '../data/blogPosts';
 
-export const fetchPosts = async (category?: string, search?: string, tag?: string): Promise<BlogPost[]> => {
+export const fetchPosts = async (category?: string, search?: string, tag?: string, dateRange?: string): Promise<BlogPost[]> => {
   try {
     const params = new URLSearchParams();
     if (category && category !== 'All') params.append('category', category);
     if (search) params.append('search', search);
     if (tag) params.append('tag', tag);
+    if (dateRange) params.append('dateRange', dateRange);
     
     const response = await fetch(`/api/posts?${params.toString()}`);
     if (!response.ok) throw new Error('Failed to fetch posts');
@@ -32,6 +33,20 @@ export const fetchPosts = async (category?: string, search?: string, tag?: strin
     
     if (tag) {
       posts = posts.filter(p => p.tags?.some(t => t.toLowerCase() === tag.toLowerCase()));
+    }
+
+    if (dateRange && dateRange !== 'all') {
+      const now = new Date();
+      posts = posts.filter(p => {
+        const postDate = new Date(p.date);
+        const diffTime = Math.abs(now.getTime() - postDate.getTime());
+        const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+        
+        if (dateRange === 'recent') return diffDays <= 30;
+        if (dateRange === 'last-6-months') return diffDays <= 180;
+        if (dateRange === 'last-year') return diffDays <= 365;
+        return true;
+      });
     }
     
     return posts;

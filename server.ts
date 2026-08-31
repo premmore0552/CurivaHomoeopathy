@@ -2442,7 +2442,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
 
   // API Routes
   app.get("/api/posts", (req, res) => {
-    const { category, search, tag } = req.query;
+    const { category, search, tag, startDate, endDate } = req.query;
     let filtered = [...postsDb];
 
     if (category && category !== "All") {
@@ -2463,6 +2463,14 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
       filtered = filtered.filter(p => 
         p.tags && p.tags.some((t: string) => t.toLowerCase() === tagStr)
       );
+    }
+
+    if (startDate) {
+      filtered = filtered.filter(p => new Date(p.date) >= new Date(startDate as string));
+    }
+
+    if (endDate) {
+      filtered = filtered.filter(p => new Date(p.date) <= new Date(endDate as string));
     }
 
     res.json(filtered);

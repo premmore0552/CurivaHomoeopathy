@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
+import { ContentBlocks } from '../components/ContentBlocks';
 import { 
   ArrowLeft, BookOpen, Clock, Award, HelpCircle, ShieldAlert, CheckCircle, CheckCircle2,
   ChevronRight, Sparkles, AlertCircle, FileText, Compass, List, HeartPulse, 
   MapPin, RefreshCw, PenTool, Layout, Layers, CheckSquare, X, Activity, 
   BookOpenCheck, Zap, Scale, Brain, Bookmark, BookmarkCheck, ArrowRight,
-  Eye, EyeOff, RotateCcw, Shuffle, MessageSquare, AlertTriangle, Lightbulb
+  Eye, EyeOff, RotateCcw, Shuffle, MessageSquare, AlertTriangle, Lightbulb,
+  GraduationCap
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import ShareButton from '../components/ShareButton';
@@ -16,7 +19,7 @@ import KnowledgeDNA from '../components/KnowledgeDNA';
 import { ContentNavigator } from '../components/ContentNavigator';
 
 export default function FmtTopicDetail() {
-  const params = useParams<{ chapterId?: string; '*': string }>();
+  const params = useParams<{ moduleId?: string; chapterId?: string; '*': string }>();
   const activeChapterId = params.chapterId || params['*'] || 'legal-procedure';
   const navigate = useNavigate();
 
@@ -44,15 +47,16 @@ export default function FmtTopicDetail() {
   const [activeScrollSection, setActiveScrollSection] = useState('section-objectives');
 
   const studySections = [
-    { id: 'section-objectives', num: '1', label: '1. Learning Objectives', hasData: true },
-    { id: 'section-explanation', num: '2', label: '2. Plain English', hasData: true },
-    { id: 'section-definitions', num: '3', label: '3. Key Definitions', hasData: !!(chapterDetail.keyTerms && chapterDetail.keyTerms.length > 0) },
-    { id: 'section-procedure', num: '4', label: '4. Sequential Steps', hasData: !!(chapterDetail.stepByStep && chapterDetail.stepByStep.length > 0) },
-    { id: 'section-critical', num: '5', label: '5. Critical Concepts', hasData: !!(chapterDetail.importantConcepts && chapterDetail.importantConcepts.length > 0) },
-    { id: 'section-flowchart', num: '6', label: '6. Interactive Flowchart', hasData: !!(chapterDetail.flowcharts && chapterDetail.flowcharts.length > 0) },
-    { id: 'section-tables', num: '7', label: '7. Comparison Tables', hasData: !!(chapterDetail.tables && chapterDetail.tables.length > 0) },
-    { id: 'section-clinical', num: '8', label: '8. Clinical Scenarios', hasData: !!(chapterDetail.clinicalExamples && chapterDetail.clinicalExamples.length > 0) },
-    { id: 'section-mnemonics', num: '9', label: '9. Memory Mnemonics', hasData: !!(chapterDetail.mnemonics && chapterDetail.mnemonics.length > 0) },
+    { id: 'section-objectives', num: '1', label: '1. Objectives & Overview', hasData: true },
+    { id: 'section-subtopics', num: '2', label: '2. Chapter Subtopics', hasData: !!(chapterDetail.subtopics && chapterDetail.subtopics.length > 0) },
+    { id: 'section-learn', num: '3', label: '3. Detailed Notes', hasData: !!chapterDetail.detailedNotes },
+    { id: 'section-explanation', num: '4', label: '4. Plain English', hasData: true },
+    { id: 'section-definitions', num: '5', label: '5. Key Definitions', hasData: !!(chapterDetail.keyTerms && chapterDetail.keyTerms.length > 0) },
+    { id: 'section-procedure', num: '6', label: '6. Sequential Steps', hasData: !!(chapterDetail.stepByStep && chapterDetail.stepByStep.length > 0) },
+    { id: 'section-critical', num: '7', label: '7. Critical Concepts', hasData: !!(chapterDetail.importantConcepts && chapterDetail.importantConcepts.length > 0) },
+    { id: 'section-tables', num: '8', label: '8. Comparison Tables', hasData: !!(chapterDetail.comparisonTables && chapterDetail.comparisonTables.length > 0) },
+    { id: 'section-clinical', num: '9', label: '9. Clinical Scenarios', hasData: !!(chapterDetail.clinicalExamples && chapterDetail.clinicalExamples.length > 0) },
+    { id: 'section-mnemonics', num: '10', label: '10. Memory Mnemonics', hasData: !!(chapterDetail.mnemonics && chapterDetail.mnemonics.length > 0) },
   ].filter(s => s.hasData);
 
   useEffect(() => {
@@ -258,18 +262,53 @@ export default function FmtTopicDetail() {
           <Breadcrumbs />
 
           <div className="space-y-4">
-            <div className="flex flex-wrap items-center gap-2">
-              <span className="px-3 py-1 bg-primary/15 text-primary text-xs font-bold rounded-full font-mono">
-                {chapterDetail.section}
-              </span>
-              <span className="px-3 py-1 bg-bg-secondary text-text-secondary text-xs font-semibold rounded-full flex items-center gap-1">
-                <Clock className="w-3.5 h-3.5 text-primary" />
-                {chapterDetail.readTime}
-              </span>
-              <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-semibold rounded-full">
-                Difficulty: {chapterDetail.difficulty}
-              </span>
-            </div>
+              <div className="flex flex-wrap items-center gap-2">
+                {chapterDetail.priority && (
+                  <span className={`px-3 py-1 text-xs font-bold rounded-full ${
+                    chapterDetail.priority === 'Highest' ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300' :
+                    chapterDetail.priority === 'High' ? 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300' :
+                    'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300'
+                  }`}>
+                    Priority: {chapterDetail.priority}
+                  </span>
+                )}
+                <span className="px-3 py-1 bg-primary/15 text-primary text-xs font-bold rounded-full font-mono">
+                  {chapterDetail.section}
+                </span>
+                <span className="px-3 py-1 bg-bg-secondary text-text-secondary text-xs font-semibold rounded-full flex items-center gap-1">
+                  <Clock className="w-3.5 h-3.5 text-primary" />
+                  {chapterDetail.readTime}
+                </span>
+                <span className="px-3 py-1 bg-emerald-100 dark:bg-emerald-950 text-emerald-700 dark:text-emerald-300 text-xs font-semibold rounded-full">
+                  Difficulty: {chapterDetail.difficulty}
+                </span>
+                {chapterDetail.bhmsYear && (
+                  <span className="px-3 py-1 bg-violet-100 dark:bg-violet-950 text-violet-700 dark:text-violet-300 text-xs font-bold rounded-full flex items-center gap-1">
+                    <GraduationCap className="w-3.5 h-3.5" />
+                    {chapterDetail.bhmsYear}
+                  </span>
+                )}
+                {chapterDetail.examImportance && (
+                  <span className={`px-3 py-1 text-xs font-bold rounded-full flex items-center gap-1 ${
+                    chapterDetail.examImportance === 'Very High' ? 'bg-rose-100 text-rose-700 dark:bg-rose-950 dark:text-rose-300' :
+                    chapterDetail.examImportance === 'High' ? 'bg-orange-100 text-orange-700 dark:bg-orange-950 dark:text-orange-300' :
+                    'bg-blue-100 text-blue-700 dark:bg-blue-950 dark:text-blue-300'
+                  }`}>
+                    <Sparkles className="w-3.5 h-3.5" />
+                    Importance: {chapterDetail.examImportance}
+                  </span>
+                )}
+              </div>
+
+              {chapterDetail.tags && chapterDetail.tags.length > 0 && (
+                <div className="flex flex-wrap gap-2">
+                  {chapterDetail.tags.map((tag, idx) => (
+                    <span key={idx} className="text-[10px] font-bold text-text-tertiary bg-white dark:bg-zinc-800 px-2 py-0.5 rounded-md border border-border/50">
+                      #{tag}
+                    </span>
+                  ))}
+                </div>
+              )}
 
             <h1 className="text-3xl md:text-5xl font-display font-bold text-text-primary tracking-tight">
               {chapterDetail.title}
@@ -459,14 +498,91 @@ export default function FmtTopicDetail() {
                 </div>
               </div>
 
-              {/* Simple Conversational Explanation */}
-              <div id="section-explanation" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-4">
-                <div className="flex items-center gap-2">
-                  <MessageSquare className="w-5 h-5 text-primary" />
-                  <h3 className="text-xl font-display font-bold text-text-primary">
-                    2. Plain English Explanation (Zero Jargon)
-                  </h3>
+              {/* Chapter Subtopics Navigation */}
+              {chapterDetail.subtopics && chapterDetail.subtopics.length > 0 && (
+                <div id="section-subtopics" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-4">
+                  <div className="flex items-center gap-2">
+                    <List className="w-5 h-5 text-primary" />
+                    <h3 className="text-xl font-display font-bold text-text-primary">
+                      2. Chapter Subtopics
+                    </h3>
+                  </div>
+                  <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-3">
+                    {chapterDetail.subtopics.map((sub, idx) => {
+                      const slug = sub.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+                      return (
+                        <Link 
+                          key={idx} 
+                          to={`/fmt/${slug}`}
+                          className="p-3 bg-bg-secondary/40 border border-border/60 rounded-xl text-center hover:border-primary hover:bg-primary/5 transition-all group"
+                        >
+                          <span className="text-xs font-bold text-text-secondary group-hover:text-primary transition-colors line-clamp-1">{sub}</span>
+                        </Link>
+                      );
+                    })}
+                  </div>
                 </div>
+              )}
+
+              {/* Comparison Topics Callout */}
+              {chapterDetail.comparisonTopics && chapterDetail.comparisonTopics.length > 0 && (
+                <div className="bg-indigo-50/50 dark:bg-indigo-950/20 border border-indigo-200 dark:border-indigo-800 rounded-3xl p-6 space-y-4">
+                  <div className="flex items-center gap-2 text-indigo-600 dark:text-indigo-400">
+                    <Layers className="w-5 h-5" />
+                    <h3 className="text-lg font-bold">Key Comparisons in this Chapter</h3>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    {chapterDetail.comparisonTopics.map((comp, idx) => (
+                      <div key={idx} className="flex items-center gap-2 text-xs font-semibold text-text-primary bg-white dark:bg-zinc-900 p-3 rounded-xl border border-indigo-100 dark:border-indigo-900">
+                        <CheckCircle2 className="w-3.5 h-3.5 text-indigo-500" />
+                        {comp}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
+              {/* Detailed Study Notes (Markdown) */}
+              {chapterDetail.detailedNotes && (
+                <div id="section-learn" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-primary" />
+                    <h3 className="text-xl font-display font-bold text-text-primary">
+                      3. Detailed Study Notes (Standard Textbook)
+                    </h3>
+                  </div>
+                  <div className="markdown-body text-sm leading-relaxed text-text-secondary">
+                    <ReactMarkdown>{chapterDetail.detailedNotes}</ReactMarkdown>
+                  </div>
+                  
+                  {chapterDetail.contentBlocks && chapterDetail.contentBlocks.length > 0 && (
+                    <div className="mt-8 pt-8 border-t border-border/40">
+                      <ContentBlocks blocks={chapterDetail.contentBlocks} />
+                    </div>
+                  )}
+                </div>
+              )}
+
+              {/* In case there are ONLY contentBlocks and no detailedNotes */}
+              {!chapterDetail.detailedNotes && chapterDetail.contentBlocks && chapterDetail.contentBlocks.length > 0 && (
+                <div id="section-learn" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
+                  <div className="flex items-center gap-2">
+                    <BookOpen className="w-5 h-5 text-primary" />
+                    <h3 className="text-xl font-display font-bold text-text-primary">
+                      3. Detailed Study Notes (Standard Textbook)
+                    </h3>
+                  </div>
+                  <ContentBlocks blocks={chapterDetail.contentBlocks} />
+                </div>
+              )}
+
+                <div id="section-explanation" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-4">
+                  <div className="flex items-center gap-2">
+                    <MessageSquare className="w-5 h-5 text-primary" />
+                    <h3 className="text-xl font-display font-bold text-text-primary">
+                      4. Plain English Explanation (Zero Jargon)
+                    </h3>
+                  </div>
                 <div className="p-5 bg-primary/5 border border-primary/20 rounded-2xl text-xs text-text-primary leading-relaxed space-y-3">
                   <p className="font-medium text-sm leading-relaxed">
                     {chapterDetail.simpleExplanation}
@@ -502,6 +618,50 @@ export default function FmtTopicDetail() {
                   ))}
                 </div>
               </div>
+
+              {/* Comparison Tables Section */}
+              {chapterDetail.comparisonTables && chapterDetail.comparisonTables.length > 0 && (
+                <div id="section-tables" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
+                  <div className="flex items-center gap-2 text-text-primary">
+                    <Layers className="w-5 h-5 text-primary" />
+                    <h3 className="text-xl font-display font-bold">Comparison Tables</h3>
+                  </div>
+                  <div className="space-y-8">
+                    {chapterDetail.comparisonTables.map((table, tIdx) => (
+                      <div key={tIdx} className="space-y-4">
+                        <h4 className="text-sm font-bold text-primary flex items-center gap-2">
+                          <span className="w-1.5 h-4 bg-primary rounded-full" />
+                          {table.title}
+                        </h4>
+                        <div className="overflow-x-auto rounded-2xl border border-border/60">
+                          <table className="w-full text-xs">
+                            <thead>
+                              <tr className="bg-bg-secondary border-b border-border/60">
+                                {table.headers.map((header, hIdx) => (
+                                  <th key={hIdx} className="px-4 py-3 text-left font-black text-text-tertiary uppercase tracking-widest">
+                                    {header}
+                                  </th>
+                                ))}
+                              </tr>
+                            </thead>
+                            <tbody className="divide-y divide-border/40">
+                              {table.rows.map((row, rIdx) => (
+                                <tr key={rIdx} className="hover:bg-primary/5 transition-colors">
+                                  {row.map((cell, cIdx) => (
+                                    <td key={cIdx} className={`px-4 py-3 ${cIdx === 0 ? 'font-bold text-text-primary bg-bg-secondary/30' : 'text-text-secondary font-medium'}`}>
+                                      {cell}
+                                    </td>
+                                  ))}
+                                </tr>
+                              ))}
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
 
               {/* Step by Step Explanation */}
               <div id="section-procedure" className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
@@ -1072,6 +1232,55 @@ export default function FmtTopicDetail() {
               exit={{ opacity: 0, y: -10 }}
               className="space-y-10"
             >
+              {/* Quick Revision Section */}
+              {chapterDetail.quickRevision && (
+                <div className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
+                  <div className="space-y-1">
+                    <span className="text-[10px] font-black uppercase tracking-widest text-primary">
+                      1-Minute Rapid Revision
+                    </span>
+                    <h3 className="text-xl font-display font-bold text-text-primary">
+                      Quick Recall: {chapterDetail.title}
+                    </h3>
+                  </div>
+
+                  <div className="space-y-4">
+                    <div className="p-5 bg-primary/5 border border-primary/20 rounded-2xl">
+                      <h4 className="text-xs font-black uppercase text-primary tracking-wider mb-2">Core Definition</h4>
+                      <p className="text-sm font-bold text-text-primary leading-relaxed">
+                        {chapterDetail.quickRevision.definition}
+                      </p>
+                    </div>
+
+                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                      {chapterDetail.quickRevision.keyPoints.map((point, idx) => (
+                        <div key={idx} className="flex items-start gap-2 p-3 bg-bg-secondary/40 border border-border/60 rounded-xl">
+                          <CheckCircle className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
+                          <span className="text-xs font-medium text-text-secondary">{point}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </div>
+              )}
+
+              {/* Related Topics Exploration */}
+              {chapterDetail.relatedTopics && chapterDetail.relatedTopics.length > 0 && (
+                <div className="bg-bg-secondary/30 border border-border/60 rounded-3xl p-6 space-y-4">
+                  <div className="flex items-center gap-2 text-text-secondary">
+                    <Compass className="w-5 h-5" />
+                    <h3 className="text-sm font-bold uppercase tracking-wider">Related Modules</h3>
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    {chapterDetail.relatedTopics.map((topic, idx) => (
+                      <div key={idx} className="px-4 py-2 bg-white dark:bg-zinc-900 border border-border/60 rounded-xl text-xs font-bold text-primary shadow-soft-xs">
+                        {topic}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+
               {/* Short Notes & Model Answers */}
               <div className="bg-white dark:bg-zinc-900 border border-border/70 rounded-3xl p-6 md:p-8 shadow-soft space-y-6">
                 <div className="space-y-1">
@@ -1140,39 +1349,87 @@ export default function FmtTopicDetail() {
           )}
         </AnimatePresence>
 
-        {/* Bottom Chapter Switcher */}
-        <div className="mt-14 pt-8 border-t border-border/60 flex flex-col sm:flex-row items-center justify-between gap-4">
-          {prevChapter ? (
-            <Link
-              to={`/fmt/${prevChapter.id}`}
-              className="w-full sm:w-auto p-4 bg-white dark:bg-zinc-900 border border-border/70 hover:border-primary rounded-2xl flex items-center gap-3 transition-all group shadow-soft"
-            >
-              <ArrowLeft className="w-5 h-5 text-primary group-hover:-translate-x-1 transition-transform" />
-              <div className="text-left">
-                <span className="text-[10px] uppercase font-bold text-text-tertiary block">Previous Chapter</span>
-                <span className="text-xs font-bold text-text-primary group-hover:text-primary transition-colors">
-                  Ch.{prevChapter.chapterNumber}: {prevChapter.title}
-                </span>
+        {/* Next Steps / Practice Section */}
+        <div className="mt-20 space-y-12">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div className="group p-8 bg-emerald-50/50 dark:bg-emerald-950/10 border border-emerald-200 dark:border-emerald-800/30 rounded-[2.5rem] flex flex-col justify-between gap-6 hover:shadow-glow transition-all">
+              <div className="space-y-4">
+                <div className="w-14 h-14 bg-emerald-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-emerald-500/20 group-hover:scale-110 transition-transform">
+                  <CheckSquare className="w-8 h-8" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-display font-black text-emerald-950 dark:text-emerald-100">MCQ Challenge</h3>
+                  <p className="text-sm text-emerald-800/70 dark:text-emerald-400 font-medium leading-relaxed">
+                    Test your understanding of {chapterDetail.title} with 10 interactive questions.
+                  </p>
+                </div>
               </div>
-            </Link>
-          ) : <div />}
+              <Link 
+                to="/fmt/mcq"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-emerald-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all"
+              >
+                Start Practice
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
 
-          {nextChapter && (
-            <Link
-              to={`/fmt/${nextChapter.id}`}
-              className="w-full sm:w-auto p-4 bg-white dark:bg-zinc-900 border border-border/70 hover:border-primary rounded-2xl flex items-center justify-end gap-3 transition-all group shadow-soft text-right"
-            >
-              <div>
-                <span className="text-[10px] uppercase font-bold text-text-tertiary block">Next Chapter</span>
-                <span className="text-xs font-bold text-text-primary group-hover:text-primary transition-colors">
-                  Ch.{nextChapter.chapterNumber}: {nextChapter.title}
-                </span>
+            <div className="group p-8 bg-indigo-50/50 dark:bg-indigo-950/10 border border-indigo-200 dark:border-indigo-800/30 rounded-[2.5rem] flex flex-col justify-between gap-6 hover:shadow-glow transition-all">
+              <div className="space-y-4">
+                <div className="w-14 h-14 bg-indigo-500 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-indigo-500/20 group-hover:scale-110 transition-transform">
+                  <Brain className="w-8 h-8" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-2xl font-display font-black text-indigo-950 dark:text-indigo-100">Viva Voice</h3>
+                  <p className="text-sm text-indigo-800/70 dark:text-indigo-400 font-medium leading-relaxed">
+                    Master oral exam questions and click-to-reveal answers for this module.
+                  </p>
+                </div>
               </div>
-              <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
-            </Link>
-          )}
+              <Link 
+                to="/fmt/viva"
+                className="inline-flex items-center justify-center gap-2 px-6 py-4 bg-indigo-600 text-white rounded-2xl font-black uppercase tracking-widest text-xs hover:scale-105 active:scale-95 transition-all"
+              >
+                Open Viva Bank
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          </div>
+
+          {/* Topic Navigation */}
+          <div className="flex items-center justify-between gap-4 pt-8 border-t border-border/60">
+            {prevChapter ? (
+              <Link 
+                to={`/fmt/learn/${params.moduleId || 'death-postmortem-changes'}/${prevChapter.id}`}
+                className="flex-1 p-6 bg-white dark:bg-zinc-900 border border-border/60 rounded-3xl hover:border-primary/30 transition-all group"
+              >
+                <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-1">
+                  <ArrowLeft className="w-3 h-3" />
+                  Previous Topic
+                </div>
+                <h4 className="text-sm font-bold text-text-primary group-hover:text-primary transition-colors truncate">
+                  {prevChapter.title}
+                </h4>
+              </Link>
+            ) : <div className="flex-1" />}
+
+            {nextChapter ? (
+              <Link 
+                to={`/fmt/learn/${params.moduleId || 'death-postmortem-changes'}/${nextChapter.id}`}
+                className="flex-1 p-6 bg-white dark:bg-zinc-900 border border-border/60 rounded-3xl hover:border-primary/30 transition-all group text-right"
+              >
+                <div className="flex items-center justify-end gap-2 text-[10px] font-black uppercase tracking-widest text-text-tertiary mb-1">
+                  Next Topic
+                  <ArrowRight className="w-3 h-3" />
+                </div>
+                <h4 className="text-sm font-bold text-text-primary group-hover:text-primary transition-colors truncate">
+                  {nextChapter.title}
+                </h4>
+              </Link>
+            ) : <div className="flex-1" />}
+          </div>
         </div>
       </main>
+      <FmtBottomNav />
     </div>
   );
 }

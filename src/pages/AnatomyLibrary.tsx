@@ -10,27 +10,47 @@ import SEO from '../components/SEO';
 import { getAnatomyModule } from '../data/anatomyModulesData';
 import LearningSidebar from '../components/LearningSidebar';
 
-export const UPPER_LIMB_TOPICS = [
-  { id: 'clavicle', title: 'Clavicle (Collar Bone)', region: 'Bones', competency: 'AN1.1', desc: 'S-shaped horizontal long bone that acts as a shock transmitter and structural chest strut.' },
-  { id: 'humerus', title: 'Humerus (Arm Bone)', region: 'Bones', competency: 'AN1.2', desc: 'Longest bone of the upper arm, famous for surgical neck, spiral groove, and epicondylar nerve relations.' },
-  { id: 'scapula', title: 'Scapula (Shoulder Blade)', region: 'Bones', competency: 'AN1.1', desc: 'Flat triangular bone on the posterolateral chest wall, key to rotator cuff and shoulder movements.' },
-  { id: 'radius', title: 'Radius Bone', region: 'Bones', competency: 'AN1.2', desc: 'Lateral forearm bone that rotates during pronation and supination; prone to Colles\' fracture.' },
-  { id: 'ulna', title: 'Ulna Bone', region: 'Bones', competency: 'AN1.2', desc: 'Medial forearm bone acting as the elbow hinge stabilizer, featuring the olecranon process.' },
-  { id: 'carpal-bones', title: 'Carpal Bones', region: 'Bones', competency: 'AN1.2', desc: 'Eight small wrist bones forming the carpal tunnel floor; scaphoid fracture risks avascular necrosis.' },
-  { id: 'mammary-gland', title: 'Mammary Gland (Breast)', region: 'Soft Tissue', competency: 'AN2.1', desc: 'Modified sweat gland in superficial fascia; crucial lymphatic drainage pathways in cancer spread.' },
-  { id: 'brachial-plexus', title: 'Brachial Plexus', region: 'Nerves', competency: 'AN3.1', desc: 'Complex somatic nerve network (C5-T1) supplying motor and sensory pathways to the entire arm.' },
-  { id: 'shoulder-joint', title: 'Shoulder Joint', region: 'Joints', competency: 'AN3.3', desc: 'Highly mobile but unstable ball-and-socket synovial joint, stabilized dynamically by the SITS rotator cuff.' },
-  { id: 'elbow-joint', title: 'Elbow Joint', region: 'Joints', competency: 'AN3.3', desc: 'Uniaxial hinge joint forming the elbow; features the carrying angle and nursemaid\'s subluxation.' },
-  { id: 'wrist-joint', title: 'Wrist Joint', region: 'Joints', competency: 'AN3.3', desc: 'Ellipsoid joint connecting radius to scaphoid and lunate, excluding the ulna via an articular disc.' },
-  { id: 'axilla', title: 'Axilla (Armpit)', region: 'Regions', competency: 'AN3.1', desc: 'Pyramidal gateway conducting the brachial plexus cords and axillary vessels from neck to arm.' },
-  { id: 'axillary-artery', title: 'Axillary Artery', region: 'Vessels', competency: 'AN3.2', desc: 'Continuation of subclavian artery, divided into 3 segments by pectoralis minor, yielding 6 branches.' },
-  { id: 'median-nerve', title: 'Median Nerve', region: 'Nerves', competency: 'AN4.2', desc: 'Labourer\'s nerve of precision, supplying forearm flexors and thenars; compressed in carpal tunnel.' },
-  { id: 'ulnar-nerve', title: 'Ulnar Nerve', region: 'Nerves', competency: 'AN4.2', desc: 'Musician\'s nerve of fine motor dexterity, passing behind medial epicondyle; injury causes claw hand.' },
-  { id: 'radial-nerve', title: 'Radial Nerve', region: 'Nerves', competency: 'AN4.2', desc: 'Nerve of arm extension running in the spiral groove; compression causes Saturday night wrist drop.' },
-  { id: 'pectoral-region', title: 'Pectoral Region', region: 'Regions', competency: 'AN2.1', desc: 'Anterior chest wall muscles and clavipectoral fascia; crucial surgical and clinical landmark zone.' },
-  { id: 'cubital-fossa', title: 'Cubital Fossa', region: 'Regions', competency: 'AN4.1', desc: 'Triangular depression at the front of the elbow containing crucial nerves, arteries, and venipuncture vein.' },
-  { id: 'palmar-aponeurosis', title: 'Palmar Aponeurosis', region: 'Soft Tissue', competency: 'AN4.4', desc: 'Tough triangular palm fascia; fibrotic shortening results in Dupuytren\'s flexion contracture.' }
-];
+export const ANATOMY_TOPICS = {
+  upperLimb: [
+    { id: 'clavicle', title: 'Clavicle (Collar Bone)', region: 'Bones', competency: 'AN1.1', desc: 'S-shaped horizontal long bone that acts as a shock transmitter and structural chest strut.' },
+    { id: 'humerus', title: 'Humerus (Arm Bone)', region: 'Bones', competency: 'AN1.2', desc: 'Longest bone of the upper arm, famous for surgical neck, spiral groove, and epicondylar nerve relations.' },
+    { id: 'scapula', title: 'Scapula (Shoulder Blade)', region: 'Bones', competency: 'AN1.1', desc: 'Flat triangular bone on the posterolateral chest wall, key to rotator cuff and shoulder movements.' },
+    { id: 'radius', title: 'Radius Bone', region: 'Bones', competency: 'AN1.2', desc: 'Lateral forearm bone that rotates during pronation and supination; prone to Colles\' fracture.' },
+    { id: 'ulna', title: 'Ulna Bone', region: 'Bones', competency: 'AN1.2', desc: 'Medial forearm bone acting as the elbow hinge stabilizer, featuring the olecranon process.' },
+    { id: 'carpal-bones', title: 'Carpal Bones', region: 'Bones', competency: 'AN1.2', desc: 'Eight small wrist bones forming the carpal tunnel floor; scaphoid fracture risks avascular necrosis.' },
+    { id: 'mammary-gland', title: 'Mammary Gland (Breast)', region: 'Soft Tissue', competency: 'AN2.1', desc: 'Modified sweat gland in superficial fascia; crucial lymphatic drainage pathways in cancer spread.' },
+    { id: 'brachial-plexus', title: 'Brachial Plexus', region: 'Nerves', competency: 'AN3.1', desc: 'Complex somatic nerve network (C5-T1) supplying motor and sensory pathways to the entire arm.' },
+    { id: 'shoulder-joint', title: 'Shoulder Joint', region: 'Joints', competency: 'AN3.3', desc: 'Highly mobile but unstable ball-and-socket synovial joint, stabilized dynamically by the SITS rotator cuff.' },
+    { id: 'elbow-joint', title: 'Elbow Joint', region: 'Joints', competency: 'AN3.3', desc: 'Uniaxial hinge joint forming the elbow; features the carrying angle and nursemaid\'s subluxation.' },
+    { id: 'wrist-joint', title: 'Wrist Joint', region: 'Joints', competency: 'AN3.3', desc: 'Ellipsoid joint connecting radius to scaphoid and lunate, excluding the ulna via an articular disc.' },
+    { id: 'axilla', title: 'Axilla (Armpit)', region: 'Regions', competency: 'AN3.1', desc: 'Pyramidal gateway conducting the brachial plexus cords and axillary vessels from neck to arm.' },
+    { id: 'axillary-artery', title: 'Axillary Artery', region: 'Vessels', competency: 'AN3.2', desc: 'Continuation of subclavian artery, divided into 3 segments by pectoralis minor, yielding 6 branches.' },
+    { id: 'median-nerve', title: 'Median Nerve', region: 'Nerves', competency: 'AN4.2', desc: 'Labourer\'s nerve of precision, supplying forearm flexors and thenars; compressed in carpal tunnel.' },
+    { id: 'ulnar-nerve', title: 'Ulnar Nerve', region: 'Nerves', competency: 'AN4.2', desc: 'Musician\'s nerve of fine motor dexterity, passing behind medial epicondyle; injury causes claw hand.' },
+    { id: 'radial-nerve', title: 'Radial Nerve', region: 'Nerves', competency: 'AN4.2', desc: 'Nerve of arm extension running in the spiral groove; compression causes Saturday night wrist drop.' },
+    { id: 'pectoral-region', title: 'Pectoral Region', region: 'Regions', competency: 'AN2.1', desc: 'Anterior chest wall muscles and clavipectoral fascia; crucial surgical and clinical landmark zone.' },
+    { id: 'cubital-fossa', title: 'Cubital Fossa', region: 'Regions', competency: 'AN4.1', desc: 'Triangular depression at the front of the elbow containing crucial nerves, arteries, and venipuncture vein.' },
+    { id: 'palmar-aponeurosis', title: 'Palmar Aponeurosis', region: 'Soft Tissue', competency: 'AN4.4', desc: 'Tough triangular palm fascia; fibrotic shortening results in Dupuytren\'s flexion contracture.' }
+  ],
+  abdomen: [
+    { id: 'abdomen-overview', title: 'Abdomen Overview', region: 'General', competency: 'AN44.1', desc: 'Introduction to abdominal boundaries, 9 regions, and 4 quadrants of clinical importance.' },
+    { id: 'abdominal-wall', title: 'Anterior Abdominal Wall', region: 'Regions', competency: 'AN44.2', desc: 'Layers, muscles, rectus sheath, and blood supply of the anterior abdominal wall.' },
+    { id: 'inguinal-canal', title: 'Inguinal Canal & Groin', region: 'Regions', competency: 'AN44.3', desc: 'Detailed anatomy of the inguinal canal, Hesselbach\'s triangle, and hernia mechanisms.' },
+    { id: 'stomach', title: 'Stomach Anatomy', region: 'Viscera', competency: 'AN47.1', desc: 'Gross anatomy, blood supply, and clinical correlations of the stomach bed.' },
+    { id: 'liver', title: 'Liver & Biliary System', region: 'Viscera', competency: 'AN48.1', desc: 'Liver segments, gallbladder, and extrahepatic biliary apparatus (Calot\'s triangle).' },
+    { id: 'kidneys', title: 'Kidneys & Ureters', region: 'Viscera', competency: 'AN52.1', desc: 'Renal anatomy, relations, and ureteric constrictions at clinical sites.' }
+  ],
+  lowerLimb: [
+    { id: 'lower-limb-intro', title: 'Lower Limb Introduction', region: 'General', competency: 'AN10.1', desc: 'Overview of weight transmission and structural organization of the lower extremity.' },
+    { id: 'femur', title: 'Femur (Thigh Bone)', region: 'Bones', competency: 'AN10.2', desc: 'Longest and strongest bone in the body; details of head, neck, and trochanters.' },
+    { id: 'hip-joint', title: 'Hip Joint', region: 'Joints', competency: 'AN12.1', desc: 'Ball-and-socket synovial joint, stability mechanisms, and blood supply (AVN risks).' },
+    { id: 'femoral-triangle', title: 'Femoral Triangle', region: 'Regions', competency: 'AN11.1', desc: 'Boundaries and contents of the femoral triangle (NAVEL mnemonic).' },
+    { id: 'knee-joint', title: 'Knee Joint', region: 'Joints', competency: 'AN14.1', desc: 'Complex hinge joint involving menisci, cruciate ligaments, and locking mechanisms.' },
+    { id: 'popliteal-fossa', title: 'Popliteal Fossa', region: 'Regions', competency: 'AN15.1', desc: 'Diamond-shaped space behind the knee containing popliteal vessels and nerves.' }
+  ]
+};
+
+export const ALL_TOPICS = [...ANATOMY_TOPICS.upperLimb, ...ANATOMY_TOPICS.abdomen, ...ANATOMY_TOPICS.lowerLimb];
 
 interface GraphNode {
   id: string;
@@ -114,7 +134,7 @@ export default function AnatomyLibrary() {
 
   // Get module details dynamically to support filter logic
   const enrichedTopics = useMemo(() => {
-    return UPPER_LIMB_TOPICS.map(t => {
+    return ALL_TOPICS.map(t => {
       const details = getAnatomyModule(t.id);
       return {
         ...t,
@@ -146,8 +166,8 @@ export default function AnatomyLibrary() {
 
   // Calculations for progress
   const progressPercent = useMemo(() => {
-    if (UPPER_LIMB_TOPICS.length === 0) return 0;
-    return Math.round((completedTopics.length / UPPER_LIMB_TOPICS.length) * 100);
+    if (ALL_TOPICS.length === 0) return 0;
+    return Math.round((completedTopics.length / ALL_TOPICS.length) * 100);
   }, [completedTopics]);
 
   return (
@@ -176,16 +196,16 @@ export default function AnatomyLibrary() {
             Welcome to the ultimate learning companion for First BHMS Anatomy! Designed strictly according to the latest <strong>National Commission for Homoeopathy (NCH) CBDC Syllabus</strong>. Master osteology, arthrology, myology, neuroanatomy, and clinical correlations in simple Indian English.
           </p>
 
-          <div className="flex flex-wrap gap-4 pt-2">
-            <div className="flex items-center gap-2 text-xs text-slate-300 font-medium bg-white/5 px-4 py-2 rounded-xl border border-white/10">
-              <BookOpenCheck className="w-4 h-4 text-blue-400" />
-              19 Core Upper Limb Modules
+            <div className="flex flex-wrap gap-4 pt-2">
+              <div className="flex items-center gap-2 text-xs text-slate-300 font-medium bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                <BookOpenCheck className="w-4 h-4 text-blue-400" />
+                {ALL_TOPICS.length} Core Curriculum Modules
+              </div>
+              <div className="flex items-center gap-2 text-xs text-slate-300 font-medium bg-white/5 px-4 py-2 rounded-xl border border-white/10">
+                <Layers className="w-4 h-4 text-purple-400" />
+                Upper Limb, Abdomen & Lower Limb
+              </div>
             </div>
-            <div className="flex items-center gap-2 text-xs text-slate-300 font-medium bg-white/5 px-4 py-2 rounded-xl border border-white/10">
-              <Award className="w-4 h-4 text-amber-400" />
-              Exam-Oriented Vivas & PYQs Included
-            </div>
-          </div>
         </div>
       </section>
 
@@ -198,7 +218,7 @@ export default function AnatomyLibrary() {
               Syllabus Completion Tracker
             </h3>
             <p className="text-xs text-text-secondary">
-              Track your preparation progress across all 19 mandatory upper-extremity competencies. Mark topics as completed as you study to reach 100% exam readiness!
+              Track your preparation progress across all {ALL_TOPICS.length} mandatory competencies. Mark topics as completed as you study to reach 100% exam readiness!
             </p>
           </div>
 
@@ -216,7 +236,7 @@ export default function AnatomyLibrary() {
               />
             </div>
             <p className="text-[10px] text-text-tertiary">
-              {completedTopics.length} of {UPPER_LIMB_TOPICS.length} competencies mastered
+              {completedTopics.length} of {ALL_TOPICS.length} competencies mastered
             </p>
           </div>
         </div>
@@ -230,7 +250,7 @@ export default function AnatomyLibrary() {
           <LearningSidebar 
             currentSubject="anatomy" 
             completedCount={completedTopics.length} 
-            totalCount={UPPER_LIMB_TOPICS.length} 
+            totalCount={ALL_TOPICS.length} 
             activeItem="overview" 
           />
         </div>
@@ -358,104 +378,132 @@ export default function AnatomyLibrary() {
             </div>
           </div>
 
-          {/* Competency Card Grid */}
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <AnimatePresence mode="popLayout">
-              {filteredTopics.map((topic, index) => {
-                const isCompleted = completedTopics.includes(topic.id);
-                return (
-                  <motion.div
-                    key={topic.id}
-                    layout
-                    initial={{ opacity: 0, y: 12 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, scale: 0.95 }}
-                    transition={{ duration: 0.3, delay: Math.min(index * 0.04, 0.4) }}
-                    className={`bg-white dark:bg-zinc-950 border rounded-3xl p-5 shadow-soft hover:shadow-md hover:border-primary/40 transition-all flex flex-col justify-between group relative overflow-hidden ${
-                      isCompleted ? "border-green-500/30 bg-green-500/[0.01]" : "border-border"
-                    }`}
-                  >
-                    {/* Completion Ribbon */}
-                    {isCompleted && (
-                      <div className="absolute top-0 right-0 bg-green-500 text-white text-[9px] font-black uppercase px-3 py-1 rounded-bl-xl shadow-sm flex items-center gap-1">
-                        <CheckCircle className="w-3 h-3" />
-                        Mastered
-                      </div>
-                    )}
+          {/* Competency Card Grid - Stacked Vertically */}
+          <div className="flex flex-col gap-12">
+            {Object.entries(ANATOMY_TOPICS).map(([sectionKey, topics]) => {
+              const sectionTitle = sectionKey === 'upperLimb' ? 'Upper Limb & Thorax' : 
+                                  sectionKey === 'abdomen' ? 'Abdomen & Pelvis' : 'Lower Limb';
+              
+              const sectionTopics = filteredTopics.filter(ft => topics.some(t => t.id === ft.id));
+              
+              if (sectionTopics.length === 0) return null;
 
-                    <div className="space-y-3">
-                      {/* Top Badges row */}
-                      <div className="flex justify-between items-center pr-12">
-                        <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-primary/10 text-primary">
-                          Competency {topic.competency}
-                        </span>
-                        
-                        <div className="flex gap-1">
-                          <span className="text-[9px] font-mono font-bold text-text-tertiary px-1.5 py-0.5 bg-bg-secondary border border-border/50 rounded uppercase">
-                            {topic.region}
-                          </span>
-                        </div>
-                      </div>
-
-                      {/* Title & Description */}
-                      <div className="space-y-1">
-                        <h4 className="text-base font-bold text-text-primary tracking-tight group-hover:text-primary transition-colors">
-                          {topic.title}
-                        </h4>
-                        <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">
-                          {topic.desc}
-                        </p>
-                      </div>
-
-                      {/* Details pills */}
-                      <div className="flex flex-wrap gap-2 pt-1">
-                        <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-bg-secondary border border-border/40 text-text-secondary">
-                          <Clock className="w-3 h-3 text-primary" />
-                          {topic.studyTime}
-                        </span>
-
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold border ${
-                          topic.difficulty === 'Easy'
-                            ? "bg-green-500/10 text-green-600 border-green-500/20"
-                            : topic.difficulty === 'Medium'
-                            ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
-                            : "bg-rose-500/10 text-rose-600 border-rose-500/20"
-                        }`}>
-                          {topic.difficulty}
-                        </span>
-
-                        <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold bg-purple-500/10 text-purple-600 border border-purple-500/20">
-                          {topic.importance.split(' ')[1]} {topic.importance.split(' ')[2] || ''}
-                        </span>
-                      </div>
+              return (
+                <div key={sectionKey} className="space-y-6">
+                  <div className="flex items-center gap-4">
+                    <div className="h-px flex-1 bg-border/60" />
+                    <div className="flex flex-col items-center gap-1">
+                      <h3 className="text-base font-black uppercase tracking-[0.25em] text-primary px-6 py-1.5 bg-primary/5 rounded-full border border-primary/20 shadow-sm">
+                        {sectionTitle}
+                      </h3>
+                      <span className="text-[10px] font-bold text-text-tertiary uppercase tracking-widest">
+                        {sectionTopics.length} Core Topics
+                      </span>
                     </div>
+                    <div className="h-px flex-1 bg-border/60" />
+                  </div>
 
-                    {/* Bottom Actions Row */}
-                    <div className="border-t border-border/40 mt-5 pt-3.5 flex justify-between items-center">
-                      <button
-                        onClick={(e) => toggleComplete(topic.id, e)}
-                        className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
-                          isCompleted 
-                            ? "text-green-600 hover:text-green-700" 
-                            : "text-text-tertiary hover:text-primary"
-                        }`}
-                      >
-                        <CheckSquare className={`w-4 h-4 ${isCompleted ? "fill-green-600 text-green-600" : ""}`} />
-                        {isCompleted ? "Mastered" : "Mark Mastered"}
-                      </button>
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    <AnimatePresence mode="popLayout">
+                      {sectionTopics.map((topic, index) => {
+                        const isCompleted = completedTopics.includes(topic.id);
+                        return (
+                          <motion.div
+                            key={topic.id}
+                            layout
+                            initial={{ opacity: 0, y: 12 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            exit={{ opacity: 0, scale: 0.95 }}
+                            transition={{ duration: 0.3, delay: Math.min(index * 0.04, 0.4) }}
+                            className={`bg-white dark:bg-zinc-950 border rounded-3xl p-5 shadow-soft hover:shadow-md hover:border-primary/40 transition-all flex flex-col justify-between group relative overflow-hidden h-full ${
+                              isCompleted ? "border-green-500/30 bg-green-500/[0.01]" : "border-border"
+                            }`}
+                          >
+                            {/* Completion Ribbon */}
+                            {isCompleted && (
+                              <div className="absolute top-0 right-0 bg-green-500 text-white text-[9px] font-black uppercase px-3 py-1 rounded-bl-xl shadow-sm flex items-center gap-1 z-10">
+                                <CheckCircle2 className="w-3 h-3" />
+                                Mastered
+                              </div>
+                            )}
 
-                      <Link
-                        to={`/anatomy/${topic.id}`}
-                        className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-primary hover:text-primary-strong transition-all"
-                      >
-                        Start Learning
-                        <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
-                      </Link>
-                    </div>
-                  </motion.div>
-                );
-              })}
-            </AnimatePresence>
+                            <div className="space-y-3">
+                              {/* Top Badges row */}
+                              <div className="flex justify-between items-center pr-12">
+                                <span className="inline-flex items-center px-2 py-0.5 rounded-md text-[9px] font-black uppercase tracking-wider bg-primary/10 text-primary">
+                                  Comp {topic.competency}
+                                </span>
+                                
+                                <div className="flex gap-1">
+                                  <span className="text-[9px] font-mono font-bold text-text-tertiary px-1.5 py-0.5 bg-bg-secondary border border-border/50 rounded uppercase">
+                                    {topic.region}
+                                  </span>
+                                </div>
+                              </div>
+
+                              {/* Title & Description */}
+                              <div className="space-y-1.5">
+                                <h4 className="text-base font-bold text-text-primary tracking-tight group-hover:text-primary transition-colors line-clamp-1">
+                                  {topic.title}
+                                </h4>
+                                <p className="text-xs text-text-secondary leading-relaxed line-clamp-2 min-h-[2.5rem]">
+                                  {topic.desc}
+                                </p>
+                              </div>
+
+                              {/* Details pills */}
+                              <div className="flex flex-wrap gap-2 pt-1">
+                                <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded text-[9px] font-bold bg-bg-secondary border border-border/40 text-text-secondary">
+                                  <Clock className="w-3 h-3 text-primary" />
+                                  {topic.studyTime}
+                                </span>
+
+                                <span className={`inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold border ${
+                                  topic.difficulty === 'Easy'
+                                    ? "bg-green-500/10 text-green-600 border-green-500/20"
+                                    : topic.difficulty === 'Medium'
+                                    ? "bg-amber-500/10 text-amber-600 border-amber-500/20"
+                                    : "bg-rose-500/10 text-rose-600 border-rose-500/20"
+                                }`}>
+                                  {topic.difficulty}
+                                </span>
+
+                                <span className="inline-flex items-center px-2 py-0.5 rounded text-[9px] font-bold bg-purple-500/10 text-purple-600 border border-purple-500/20">
+                                  {topic.importance.split(' ')[1]} {topic.importance.split(' ')[2] || ''}
+                                </span>
+                              </div>
+                            </div>
+
+                            {/* Bottom Actions Row */}
+                            <div className="border-t border-border/40 mt-5 pt-3.5 flex justify-between items-center">
+                              <button
+                                onClick={(e) => toggleComplete(topic.id, e)}
+                                className={`flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider transition-colors cursor-pointer ${
+                                  isCompleted 
+                                    ? "text-green-600 hover:text-green-700" 
+                                    : "text-text-tertiary hover:text-primary"
+                                }`}
+                              >
+                                <CheckCircle2 className={`w-4 h-4 ${isCompleted ? "fill-green-600 text-green-600" : ""}`} />
+                                {isCompleted ? "Mastered" : "Mark Mastered"}
+                              </button>
+
+                              <Link
+                                to={`/anatomy/${topic.id}`}
+                                className="inline-flex items-center gap-1 text-[10px] font-black uppercase tracking-widest text-primary hover:text-primary-strong transition-all"
+                              >
+                                Start Learning
+                                <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                              </Link>
+                            </div>
+                          </motion.div>
+                        );
+                      })}
+                    </AnimatePresence>
+                  </div>
+                </div>
+              );
+            })}
 
             {filteredTopics.length === 0 && (
               <div className="col-span-full py-12 text-center bg-white dark:bg-zinc-950 border border-border border-dashed rounded-[2rem] space-y-3">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   Send, Edit2, Save, BookOpen, TableProperties, X, Volume2, 
   Printer, Download, Sparkles, Plus, Search, ArrowLeft, 
@@ -9,6 +9,7 @@ import {
   Layers, ArrowUpRight, Network, ShieldAlert, GraduationCap,
   Bookmark, BookmarkCheck, ArrowUpDown, SlidersHorizontal
 } from 'lucide-react';
+import { useSearchParams } from 'react-router-dom';
 import { enhancedRemedies, RemedyDetailData } from '../data/enhancedRemedies';
 import { materiaMedicaData, RemedyDetail } from '../data/materiaMedica';
 import { 
@@ -205,8 +206,47 @@ const VIVA_QUESTIONS = [
   { q: "Name three trios of remedies widely recognized in Homoeopathic literature.", a: "1. Trio of Restlessness (Aconite, Arsenicum, Rhus Tox). 2. Trio of Flatulence (Carbo Veg, Lycopodium, China). 3. Trio of Burning (Arsenicum, Sulphur, Phosphorus)." }
 ];
 
+// Merge datasets to provide maximum rich entries
+const allRemedies: RemedyDetailData[] = (() => {
+  const mergedMap = new Map<string, RemedyDetailData>();
+
+  // Seed with material data with compatibility conversion
+  materiaMedicaData.forEach((r: RemedyDetail) => {
+    const converted: RemedyDetailData = {
+      id: r.id,
+      name: r.name,
+      latinName: r.name,
+      family: (r.family === 'Compositae' || r.family === 'Ranunculaceae' || r.family === 'Solanaceae' || r.family === 'Liliaceae') ? 'Plant' : 'Mineral',
+      origin: r.commonName,
+      description: `${r.name} (${r.commonName}) is a highly active remedy detailed extensively in classical materia medica records.`,
+      keyCharacteristics: r.keynotes && r.keynotes.length > 0 ? r.keynotes : ['Keynote characteristics being processed.'],
+      modalities: r.modalities || { better: [], worse: [] },
+      thermal: 'Ambi-thermal',
+      thirst: 'Normal thirst dynamics.',
+      mind: r.mind || [],
+      physical: r.physical || [],
+      clinicalApplications: ['General constitutional disorders'],
+      comparisons: [],
+      relatedAilments: [],
+      imageUrl: r.imageUrl,
+      dosage: r.dosage
+    };
+    mergedMap.set(r.id, converted);
+  });
+
+  // Override with enhanced profiles
+  enhancedRemedies.forEach((r: RemedyDetailData) => {
+    mergedMap.set(r.id, r);
+  });
+
+  return Array.from(mergedMap.values()).sort((a, b) => a.name.localeCompare(b.name));
+})();
+
 export default function MateriaMedicaCanvas() {
   const navigate = useNavigate();
+  const location = useLocation();
+  const [searchParams] = useSearchParams();
+
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
   const [activeFamily, setActiveFamily] = useState<string | null>(null);
@@ -297,40 +337,33 @@ export default function MateriaMedicaCanvas() {
     { id: 'Animal', label: 'Animal', icon: Activity },
   ];
 
-  // Merge datasets to provide maximum rich entries
-  const allRemedies: RemedyDetailData[] = useMemo(() => {
-    const mergedMap = new Map<string, RemedyDetailData>();
-
-    // Seed with material data with compatibility conversion
-    materiaMedicaData.forEach((r: RemedyDetail) => {
-      const converted: RemedyDetailData = {
-        id: r.id,
-        name: r.name,
-        latinName: r.name,
-        family: (r.family === 'Compositae' || r.family === 'Ranunculaceae' || r.family === 'Solanaceae' || r.family === 'Liliaceae') ? 'Plant' : 'Mineral',
-        origin: r.commonName,
-        description: `${r.name} (${r.commonName}) is a highly active remedy detailed extensively in classical materia medica records.`,
-        keyCharacteristics: r.keynotes && r.keynotes.length > 0 ? r.keynotes : ['Keynote characteristics being processed.'],
-        modalities: r.modalities || { better: [], worse: [] },
-        thermal: 'Ambi-thermal',
-        thirst: 'Normal thirst dynamics.',
-        mind: r.mind || [],
-        physical: r.physical || [],
-        clinicalApplications: ['General constitutional disorders'],
-        comparisons: [],
-        relatedAilments: [],
-        imageUrl: r.imageUrl
-      };
-      mergedMap.set(r.id, converted);
-    });
-
-    // Override with enhanced profiles
-    enhancedRemedies.forEach((r: RemedyDetailData) => {
-      mergedMap.set(r.id, r);
-    });
-
-    return Array.from(mergedMap.values()).sort((a, b) => a.name.localeCompare(b.name));
-  }, []);
+  useEffect(() => {
+    const remedySlug = searchParams.get('remedy');
+    
+    if (remedySlug && allRemedies.length > 0) {
+      const normalizedSlug = remedySlug.toLowerCase().replace(/[^a-z0-9]/g, '');
+      const match = allRemedies.find(r => {
+        const idMatch = r.id.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedSlug;
+        const nameMatch = r.name.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedSlug;
+        const slugifiedName = r.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+        const slugMatch = slugifiedName === remedySlug.toLowerCase();
+        
+        // Handle common variations and part matches (e.g. "aconite" vs "aconitum-napellus")
+        const nameParts = r.name.toLowerCase().split(' ');
+        const partialMatch = nameParts.some(part => part.replace(/[^a-z0-9]/g, '') === normalizedSlug);
+        
+        return idMatch || nameMatch || slugMatch || partialMatch;
+      });
+      
+      if (match) {
+        setSelectedRemedy(match);
+        // Reset advanced view if active to ensure we see the remedy
+        setActiveSection('directory');
+        // Scroll to top of study view if needed
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      }
+    }
+  }, [searchParams, allRemedies]);
 
   // Filter & Sort items alphabet / search query / families / sortMode
   const filteredRemedies = useMemo(() => {
@@ -828,6 +861,11 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                                     <span className="px-2.5 py-1 bg-amber-50 dark:bg-amber-950/20 text-amber-800 dark:text-amber-400 text-[9px] font-bold rounded-lg border border-amber-200/50">
                                       🌡️ {remedy.thermal}
                                     </span>
+                                    {remedy.dosage && (
+                                      <span className="px-2.5 py-1 bg-blue-50 dark:bg-blue-950/20 text-blue-800 dark:text-blue-400 text-[9px] font-bold rounded-lg border border-blue-200/50">
+                                        💊 {remedy.dosage}
+                                      </span>
+                                    )}
                                   </div>
                                 </div>
 
@@ -1903,12 +1941,17 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                     )}
                   </div>
 
-                  <div className="flex gap-2 text-[9px] font-bold">
+                  <div className="flex flex-wrap gap-2 text-[9px] font-bold">
                     <span className="px-3 py-1.5 bg-white/5 border border-white/15 rounded-lg text-accent-light flex items-center gap-1">
                       🌡️ Thermals: {selectedRemedy.thermal}
                     </span>
-                    <span className="px-3 py-1.5 bg-white/5 border border-white/15 rounded-lg text-accent-light flex items-center gap-1">
-                      💧 Synonyms
+                    {selectedRemedy.dosage && (
+                      <span className="px-3 py-1.5 bg-white/10 border border-white/20 rounded-lg text-accent flex items-center gap-1">
+                        💊 Dosage: {selectedRemedy.dosage}
+                      </span>
+                    )}
+                    <span className="px-3 py-1.5 bg-white/5 border border-white/15 rounded-lg text-white/80 flex items-center gap-1">
+                      💧 Thirst: {selectedRemedy.thirst?.split(' ')[0]}...
                     </span>
                   </div>
                 </div>
@@ -1956,6 +1999,16 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                       <p className="italic font-medium text-text-secondary leading-relaxed bg-primary/5 p-4 rounded-xl border-l-4 border-primary">
                         {selectedRemedy.description || "Detailed Homoeopathic portrait from state-approved syllabus registries."}
                       </p>
+
+                      {selectedRemedy.dosage && (
+                        <div className="bg-blue-500/5 dark:bg-blue-950/20 p-4 rounded-xl border border-blue-500/10 flex items-start gap-3">
+                          <Activity className="w-5 h-5 text-blue-600 dark:text-blue-400 shrink-0 mt-0.5" />
+                          <div>
+                            <span className="text-[10px] font-black text-blue-600 dark:text-blue-400 uppercase tracking-widest block mb-1">Standard Posology & Dosage:</span>
+                            <p className="text-xs font-semibold text-text-primary">{selectedRemedy.dosage}</p>
+                          </div>
+                        </div>
+                      )}
                       
                       <div className="space-y-3 pt-2">
                         {selectedRemedy.keyCharacteristics.map((chr, cIdx) => (

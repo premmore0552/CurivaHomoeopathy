@@ -9,7 +9,7 @@ import {
 import SEO from '../components/SEO';
 import ShareButton from '../components/ShareButton';
 import { getAnatomyModule } from '../data/anatomyModulesData';
-import { UPPER_LIMB_TOPICS } from './AnatomyLibrary';
+import { ANATOMY_TOPICS, ALL_TOPICS } from './AnatomyLibrary';
 import KnowledgeDNA from '../components/KnowledgeDNA';
 import { ContentNavigator } from '../components/ContentNavigator';
 
@@ -285,6 +285,81 @@ const CLINICAL_CONCEPTS_MAP: Record<string, {
         significance: "Leads to a fixed flexion deformity, pulling the ring and little fingers towards the palm, restricting hand opening."
       }
     ]
+  },
+  'femur': {
+    title: "Femur Clinical Correlations",
+    concepts: [
+      {
+        name: "Fracture Neck of Femur",
+        quickFact: "Common in elderly women with osteoporosis; disrupts the blood supply to the head of the femur.",
+        significance: "Leads to Avascular Necrosis (AVN) of the femoral head. Clinically presents with a shortened and externally rotated limb."
+      },
+      {
+        name: "Coxa Vara and Coxa Valga",
+        quickFact: "Changes in the angle of inclination (normally 125 degrees) between the neck and shaft.",
+        significance: "Coxa Vara (<120°) increases the risk of neck fractures; Coxa Valga (>135°) can lead to subluxation or dislocation of the hip."
+      }
+    ]
+  },
+  'hip-joint': {
+    title: "Hip Joint Clinical Correlations",
+    concepts: [
+      {
+        name: "Congenital Dislocation of Hip (CDH)",
+        quickFact: "Failure of the acetabulum to develop properly, making it shallow.",
+        significance: "Common in female infants; diagnosed by Ortolani and Barlow tests. If untreated, it leads to a characteristic 'waddling gait'."
+      },
+      {
+        name: "Shenton's Line",
+        quickFact: "A radiological curve formed by the superior pubic ramus and the medial femoral neck.",
+        significance: "Interruption of this line on an X-ray is a key sign of hip dislocation or femoral neck fracture."
+      }
+    ]
+  },
+  'knee-joint': {
+    title: "Knee Joint Clinical Correlations",
+    concepts: [
+      {
+        name: "Unhappy Triad (O'Donoghue's Triad)",
+        quickFact: "Simultaneous injury to the ACL, MCL, and Medial Meniscus.",
+        significance: "Often occurs in athletes when the foot is fixed and a lateral force is applied to the knee (valgus stress)."
+      },
+      {
+        name: "Housemaid's Knee",
+        quickFact: "Prepatellar bursitis caused by frequent kneeling.",
+        significance: "Inflammation of the bursa between the skin and the patella, causing pain and swelling at the front of the knee."
+      }
+    ]
+  },
+  'abdominal-wall': {
+    title: "Abdominal Wall Clinical Correlations",
+    concepts: [
+      {
+        name: "Caput Medusae",
+        quickFact: "Radiating veins around the umbilicus due to portal-systemic anastomosis.",
+        significance: "A classic sign of portal hypertension (often due to liver cirrhosis), where paraumbilical veins provide a bypass route."
+      },
+      {
+        name: "Divarication of Recti",
+        quickFact: "Separation of the two rectus abdominis muscles in the midline.",
+        significance: "Common after multiple pregnancies or in obese individuals; causes a midline bulge when the patient attempts to sit up."
+      }
+    ]
+  },
+  'inguinal-canal': {
+    title: "Inguinal Region Clinical Correlations",
+    concepts: [
+      {
+        name: "Indirect Inguinal Hernia",
+        quickFact: "The most common type of hernia, where abdominal contents enter the deep ring lateral to the inferior epigastric artery.",
+        significance: "Often congenital (patent processus vaginalis). The hernia sac can descend into the scrotum."
+      },
+      {
+        name: "Direct Inguinal Hernia",
+        quickFact: "Occurs through a weakness in the posterior wall of the inguinal canal (Hesselbach's triangle).",
+        significance: "Common in elderly males; the sac is medial to the inferior epigastric artery and rarely enters the scrotum."
+      }
+    ]
   }
 };
 
@@ -365,11 +440,11 @@ export default function AnatomyTopicDetail() {
     );
   }
 
-  // Find next topic in UPPER_LIMB_TOPICS list to suggest for "Continue Learning"
-  const currentIndex = UPPER_LIMB_TOPICS.findIndex(t => t.id === topicId);
-  const nextTopic = currentIndex !== -1 && currentIndex < UPPER_LIMB_TOPICS.length - 1 
-    ? UPPER_LIMB_TOPICS[currentIndex + 1] 
-    : UPPER_LIMB_TOPICS[0];
+  // Find next topic in ALL_TOPICS list to suggest for "Continue Learning"
+  const currentIndex = ALL_TOPICS.findIndex(t => t.id === topicId);
+  const nextTopic = currentIndex !== -1 && currentIndex < ALL_TOPICS.length - 1 
+    ? ALL_TOPICS[currentIndex + 1] 
+    : ALL_TOPICS[0];
 
   const toggleViva = (index: number) => {
     setRevealedVivas(prev => ({
@@ -1030,8 +1105,8 @@ export default function AnatomyTopicDetail() {
 
           {/* Previous / Next Navigation */}
           <ContentNavigator 
-            prev={currentIndex > 0 ? { to: `/anatomy/topic/${UPPER_LIMB_TOPICS[currentIndex - 1].id}`, title: UPPER_LIMB_TOPICS[currentIndex - 1].title, label: 'Previous Topic' } : null}
-            next={currentIndex < UPPER_LIMB_TOPICS.length - 1 ? { to: `/anatomy/topic/${UPPER_LIMB_TOPICS[currentIndex + 1].id}`, title: UPPER_LIMB_TOPICS[currentIndex + 1].title, label: 'Next Topic' } : null}
+            prev={currentIndex > 0 ? { to: `/anatomy/topic/${ALL_TOPICS[currentIndex - 1].id}`, title: ALL_TOPICS[currentIndex - 1].title, label: 'Previous Topic' } : null}
+            next={currentIndex < ALL_TOPICS.length - 1 ? { to: `/anatomy/topic/${ALL_TOPICS[currentIndex + 1].id}`, title: ALL_TOPICS[currentIndex + 1].title, label: 'Next Topic' } : null}
           />
         </div>
 

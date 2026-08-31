@@ -4,6 +4,7 @@ export interface RemedyDetail {
   commonName: string;
   family: string;
   imageUrl?: string;
+  dosage?: string;
   keynotes: string[];
   mind: string[];
   physical: string[];
@@ -20,6 +21,7 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Monkshood",
     family: "Ranunculaceae",
     imageUrl: "https://images.unsplash.com/photo-1628556270448-4d4e4148e1b1?auto=format&fit=crop&q=80&w=800",
+    dosage: "Acute cases: 30C or 200C every 1-2 hours. Chronic: 6CH daily.",
     keynotes: [
       "Sudden and violent onset of symptoms",
       "Great fear and anxiety, especially fear of death",
@@ -53,6 +55,7 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Leopard's Bane",
     family: "Compositae",
     imageUrl: "https://images.unsplash.com/photo-1596272875729-ed2ff7d6d9c5?auto=format&fit=crop&q=80&w=800",
+    dosage: "External: Tincture for injuries. Internal: 30C or 200C after trauma.",
     keynotes: [
       "Sore, lame, bruised feeling all over the body, as if beaten",
       "Fear of being touched or even approached due to soreness",
@@ -85,6 +88,7 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "White Oxide of Arsenic",
     family: "Mineral",
     imageUrl: "https://images.unsplash.com/photo-1635349704207-66a93322108b?auto=format&fit=crop&q=80&w=800",
+    dosage: "Low potencies (3X-6X) for metabolic issues. High potencies (200C+) for mental symptoms.",
     keynotes: [
       "Great restlessness; changes place continually despite extreme weakness",
       "Burning pains relieved by heat and warm applications",
@@ -117,6 +121,7 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "Deadly Nightshade",
     family: "Solanaceae",
     imageUrl: "https://images.unsplash.com/photo-1509114397022-ed747cca3f65?auto=format&fit=crop&q=80&w=800",
+    dosage: "Acute high fever: 200C frequently. Children: 30C.",
     keynotes: [
       "Sudden and violent onset of symptoms",
       "Intense congestion with red face, hot head, and throbbing carotids",
@@ -148,6 +153,7 @@ export const materiaMedicaData: RemedyDetail[] = [
     commonName: "White Bryony",
     family: "Cucurbitaceae",
     imageUrl: "https://images.unsplash.com/photo-1550989460-0adf914b9c1d?auto=format&fit=crop&q=80&w=800",
+    dosage: "30C to 200C. Repeat less frequently as improvement sets in.",
     keynotes: [
       "Extreme dryness of all mucous membranes (lips, mouth, throat, stool)",
       "Sharp stitching pains, especially in the chest and joints",

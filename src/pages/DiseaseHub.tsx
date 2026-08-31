@@ -477,8 +477,10 @@ export default function DiseaseHub() {
                   </h3>
                   <div className="space-y-1.5">
                     {diseaseHubData.map(d => (
-                      <button
+                      <motion.button
                         key={d.id}
+                        whileHover={{ scale: 1.01, x: 4 }}
+                        whileTap={{ scale: 0.98 }}
                         onClick={() => {
                           setSelectedDiseaseId(d.id);
                           resetMCQs(d.id);
@@ -491,7 +493,7 @@ export default function DiseaseHub() {
                       >
                         <span className="truncate">{d.title}</span>
                         <ChevronRight className="w-3.5 h-3.5 opacity-65 shrink-0" />
-                      </button>
+                      </motion.button>
                     ))}
                   </div>
                 </div>

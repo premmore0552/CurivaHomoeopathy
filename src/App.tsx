@@ -56,6 +56,7 @@ const FAQPage = lazyLoad(() => import('./pages/FAQPage'));
 const TreatmentsPage = lazyLoad(() => import('./pages/TreatmentsPage'));
 const MythsAndFacts = lazyLoad(() => import('./pages/MythsAndFacts'));
 const UnderstandingHomoeopathy = lazyLoad(() => import('./pages/UnderstandingHomoeopathy'));
+const ConditionsExplained = lazyLoad(() => import('./pages/ConditionsExplained'));
 const ConditionDetail = lazyLoad(() => import('./pages/ConditionDetail'));
 const RemedyDetail = lazyLoad(() => import('./pages/RemedyDetail'));
 const OrganonMedicine = lazyLoad(() => import('./pages/OrganonMedicine'));
@@ -66,6 +67,7 @@ const StudyTool = lazyLoad(() => import('./pages/StudyTool'));
 const Stalwarts = lazyLoad(() => import('./pages/Stalwarts'));
 const Profile = lazyLoad(() => import('./pages/Profile'));
 const Auth = lazyLoad(() => import('./pages/Auth'));
+const FindRemedy = lazyLoad(() => import('./pages/FindRemedy'));
 const MCQPractice = lazyLoad(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazyLoad(() => import('./pages/ClinicalGuides'));
 const DiseaseHub = lazyLoad(() => import('./pages/DiseaseHub'));
@@ -83,6 +85,14 @@ const PhysiologyLibrary = lazyLoad(() => import('./pages/PhysiologyLibrary'));
 const PhysiologyTopicDetail = lazyLoad(() => import('./pages/PhysiologyTopicDetail'));
 const FmtLibrary = lazyLoad(() => import('./pages/FmtLibrary'));
 const FmtTopicDetail = lazyLoad(() => import('./pages/FmtTopicDetail'));
+const FmtComparisons = lazyLoad(() => import('./pages/FmtComparisons'));
+const FmtComparisonDetail = lazyLoad(() => import('./pages/FmtComparisonDetail'));
+const FmtQuickRevision = lazyLoad(() => import('./pages/FmtQuickRevision'));
+const FmtVivaBank = lazyLoad(() => import('./pages/FmtVivaBank'));
+const FmtHome = lazyLoad(() => import('./pages/FmtHome'));
+const FmtModuleDetail = lazyLoad(() => import('./pages/FmtModuleDetail'));
+const FmtMcqSystem = lazyLoad(() => import('./pages/FmtMcqSystem'));
+const FmtSearchPage = lazyLoad(() => import('./pages/FmtSearchPage'));
 const AskHomoeopath = lazyLoad(() => import('./pages/AskHomoeopath'));
 const FirstBhmsCrashCourse = lazyLoad(() => import('./pages/FirstBhmsCrashCourse'));
 const AdminLinkAudit = lazyLoad(() => import('./pages/AdminLinkAudit'));
@@ -207,7 +217,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
       animate={{ opacity: 1, scale: 1 }}
       exit={{ opacity: 0, scale: 1.02 }}
       transition={{ duration: 0.4, ease: "easeOut" }}
-      className={`w-full min-h-screen flex flex-col transition-all duration-300 ${readerClasses}`}
+      className={`w-full max-w-full min-h-[100dvh] flex flex-col overflow-x-hidden transition-all duration-300 ${readerClasses}`}
     >
       <div className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {children}
@@ -374,6 +384,7 @@ function AppRoutes() {
                 <Route path="/read/hair-loss-Homoeopathy" element={<PageWrapper><HairFallGuide /></PageWrapper>} />
                 <Route path="/read/:slug" element={<PageWrapper><Articles /></PageWrapper>} />
                 <Route path="/materia-medica/:remedyId" element={<PageWrapper><RemedyDetail /></PageWrapper>} />
+                <Route path="/conditions" element={<PageWrapper><ConditionsExplained /></PageWrapper>} />
                 <Route path="/conditions/:slug" element={<PageWrapper><ConditionDetail /></PageWrapper>} />
                 <Route path="/explore-symptoms" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
                 <Route path="/about" element={<PageWrapper><About /></PageWrapper>} />
@@ -382,6 +393,7 @@ function AppRoutes() {
                 <Route path="/privacy-policy" element={<PageWrapper><PrivacyPolicy /></PageWrapper>} />
                 <Route path="/terms-of-service" element={<PageWrapper><TermsOfService /></PageWrapper>} />
                 <Route path="/marketplace" element={<PageWrapper><ResourceStore /></PageWrapper>} />
+                <Route path="/find-your-remedy" element={<PageWrapper><FindRemedy /></PageWrapper>} />
                 
                 {/* Redirects & Top Portals */}
                 <Route path="/remedy" element={<Navigate to="/materia-medica" replace />} />
@@ -390,7 +402,16 @@ function AppRoutes() {
                 <Route path="/anatomy/:topicId" element={<PageWrapper><AnatomyTopicDetail /></PageWrapper>} />
                 <Route path="/physiology" element={<PageWrapper><PhysiologyLibrary /></PageWrapper>} />
                 <Route path="/physiology/:topicId" element={<PageWrapper><PhysiologyTopicDetail /></PageWrapper>} />
-                <Route path="/fmt" element={<PageWrapper><FmtLibrary /></PageWrapper>} />
+                <Route path="/fmt" element={<PageWrapper><FmtHome /></PageWrapper>} />
+                <Route path="/fmt/learn" element={<PageWrapper><FmtLibrary /></PageWrapper>} />
+                <Route path="/fmt/learn/:moduleId" element={<PageWrapper><FmtModuleDetail /></PageWrapper>} />
+                <Route path="/fmt/learn/:moduleId/:chapterId" element={<PageWrapper><FmtTopicDetail /></PageWrapper>} />
+                <Route path="/fmt/compare" element={<PageWrapper><FmtComparisons /></PageWrapper>} />
+                <Route path="/fmt/compare/:comparisonSlug" element={<PageWrapper><FmtComparisonDetail /></PageWrapper>} />
+                <Route path="/fmt/quick-revision" element={<PageWrapper><FmtQuickRevision /></PageWrapper>} />
+                <Route path="/fmt/viva" element={<PageWrapper><FmtVivaBank /></PageWrapper>} />
+                <Route path="/fmt/mcq" element={<PageWrapper><FmtMcqSystem /></PageWrapper>} />
+                <Route path="/fmt/search" element={<PageWrapper><FmtSearchPage /></PageWrapper>} />
                 <Route path="/fmt/:chapterId" element={<PageWrapper><FmtTopicDetail /></PageWrapper>} />
                 <Route path="/forensic-medicine" element={<Navigate to="/fmt" replace />} />
                 <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />

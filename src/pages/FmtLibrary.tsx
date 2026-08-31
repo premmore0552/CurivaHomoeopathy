@@ -4,11 +4,14 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   BookOpen, Search, ShieldAlert, Award, Clock, ArrowRight, CheckCircle2, 
   Sparkles, FileText, Scale, HelpCircle, Layers, Bookmark, BookmarkCheck,
-  ChevronRight, Activity, Zap, Brain, CheckSquare, RefreshCw
+  ChevronRight, Activity, Zap, Brain, CheckSquare, RefreshCw, HeartPulse
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { FMT_DETAILED_CHAPTERS, FMTChapterDetail } from '../data/fmtDetailedChapters';
+import { searchFMTTopics } from '../utils/fmtSearch';
+
+import FmtBottomNav from '../components/FmtBottomNav';
 
 export default function FmtLibrary() {
   const [searchQuery, setSearchQuery] = useState('');
@@ -42,281 +45,165 @@ export default function FmtLibrary() {
     localStorage.setItem('curiva_fmt_bookmarks', JSON.stringify(updated));
   };
 
-  const filteredChapters = FMT_DETAILED_CHAPTERS.filter((ch) => {
-    // Section filter
-    if (activeSection === 'section-a' && ch.section !== 'Section A: Forensic Medicine') return false;
-    if (activeSection === 'section-b' && ch.section !== 'Section B: Toxicology') return false;
-
-    // Search query filter
-    if (!searchQuery.trim()) return true;
-    const q = searchQuery.toLowerCase();
-    return (
-      ch.title.toLowerCase().includes(q) ||
-      ch.introduction.toLowerCase().includes(q) ||
-      ch.keyTerms.some((kt) => kt.term.toLowerCase().includes(q) || kt.definition.toLowerCase().includes(q)) ||
-      ch.highYieldPoints.some((hyp) => hyp.toLowerCase().includes(q))
-    );
-  });
-
-  const completionPercentage = Math.round((completedChapters.length / FMT_DETAILED_CHAPTERS.length) * 100) || 0;
+  const modules = [
+    {
+      id: 'death-postmortem-changes',
+      title: 'Death & Postmortem Changes',
+      icon: <Clock className="w-6 h-6" />,
+      section: 'Forensic Medicine',
+      topics: FMT_DETAILED_CHAPTERS.filter(t => t.id.includes('death-postmortem-changes'))
+    },
+    {
+      id: 'mechanical-injuries',
+      title: 'Mechanical Injuries',
+      icon: <Activity className="w-6 h-6" />,
+      section: 'Forensic Medicine',
+      topics: FMT_DETAILED_CHAPTERS.filter(t => t.id.includes('mechanical-injuries'))
+    },
+    {
+      id: 'asphyxia',
+      title: 'Violent Asphyxia',
+      icon: <HeartPulse className="w-6 h-6" />,
+      section: 'Forensic Medicine',
+      topics: FMT_DETAILED_CHAPTERS.filter(t => t.id.includes('asphyxia'))
+    },
+    {
+      id: 'general-toxicology',
+      title: 'General Toxicology',
+      icon: <ShieldAlert className="w-6 h-6" />,
+      section: 'Toxicology',
+      topics: FMT_DETAILED_CHAPTERS.filter(t => t.id.includes('general-toxicology'))
+    },
+    {
+      id: 'pesticides',
+      title: 'Pesticides & Agrochemicals',
+      icon: <Zap className="w-6 h-6" />,
+      section: 'Toxicology',
+      topics: FMT_DETAILED_CHAPTERS.filter(t => t.id.includes('pesticides'))
+    }
+  ];
 
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary transition-colors duration-300 pb-20">
-      <SEO
-        title="Forensic Medicine & Toxicology (FMT) Interactive Learning Hub | Curiva Homoeopathy"
-        description="Interactive, CBDC-aligned Forensic Medicine and Toxicology learning platform for 2nd BHMS students. Master jurisprudence, autopsy, thanatology, toxicology, and legal sections."
+    <div className="min-h-screen bg-bg-primary pb-20">
+      <SEO 
+        title="Learn FMT | Structured BHMS Learning Dashboard | Curiva Homoeopathy"
+        description="Master Forensic Medicine and Toxicology with our module-based learning paths."
       />
 
-      {/* Header Banner */}
-      <section className="bg-gradient-to-b from-primary/10 via-primary/5 to-bg-primary border-b border-border/60 py-12 md:py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-6">
+      <div className="max-w-5xl mx-auto px-4 pt-10 sm:px-6 lg:px-8 space-y-12">
+        <div className="space-y-6">
           <Breadcrumbs />
-
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
-            <div className="space-y-3 max-w-3xl">
-              <div className="inline-flex items-center gap-2 px-3 py-1 bg-primary/10 border border-primary/20 rounded-full text-xs font-semibold text-primary">
-                <Scale className="w-3.5 h-3.5" />
-                <span>NCH CBDC 2nd BHMS Curriculum</span>
-              </div>
-              <h1 className="text-3xl md:text-5xl font-display font-bold text-text-primary tracking-tight">
-                Forensic Medicine &amp; Toxicology
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-2">
+              <h1 className="text-3xl md:text-5xl font-display font-black text-text-primary tracking-tight">
+                Learn FMT
               </h1>
-              <p className="text-base text-text-secondary leading-relaxed">
-                Recreated textbook content into an interactive, high-yield learning hub. Conversational explanations, step-by-step legal procedures, animated flowcharts, viva QA, and instant MCQs.
+              <p className="text-lg text-text-secondary font-medium italic">
+                Structured learning paths for BHMS students.
               </p>
             </div>
-
-            {/* Study Progress Card */}
-            <div className="bg-white dark:bg-zinc-900 border border-border/70 rounded-2xl p-5 shadow-soft max-w-xs w-full shrink-0 space-y-3">
-              <div className="flex items-center justify-between text-xs font-bold text-text-secondary">
-                <span className="flex items-center gap-1.5">
-                  <Activity className="w-4 h-4 text-primary" />
-                  Syllabus Progress
-                </span>
-                <span className="font-mono text-primary font-black">{completionPercentage}%</span>
-              </div>
-              <div className="w-full h-2.5 bg-bg-secondary rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${completionPercentage}%` }}
-                  transition={{ duration: 0.8, ease: 'easeOut' }}
-                  className="h-full bg-gradient-to-r from-primary to-accent rounded-full"
-                />
-              </div>
-              <div className="flex items-center justify-between text-[11px] text-text-tertiary font-medium">
-                <span>{completedChapters.length} of {FMT_DETAILED_CHAPTERS.length} Chapters Done</span>
-                <span>{bookmarkedChapters.length} Bookmarked</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Search and Section Filter Bar */}
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-4">
-            <div className="relative w-full sm:max-w-md">
-              <Search className="absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
-              <input
+            <div className="relative w-full md:w-80">
+              <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-4 h-4 text-text-tertiary" />
+              <input 
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search topics, legal sections, poisons, or keywords..."
-                className="w-full pl-10 pr-4 py-3 bg-white dark:bg-zinc-900 border border-border/70 rounded-xl text-xs text-text-primary focus:outline-none focus:border-primary transition-all placeholder:text-text-tertiary shadow-soft-xs"
+                placeholder="Search topics..."
+                className="w-full pl-12 pr-4 py-3 bg-white dark:bg-zinc-900 border border-border/60 rounded-2xl text-xs font-medium focus:border-primary outline-none transition-all shadow-soft"
               />
             </div>
-
-            <div className="flex items-center gap-2 w-full sm:w-auto overflow-x-auto pb-1 sm:pb-0">
-              <button
-                onClick={() => setActiveSection('all')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  activeSection === 'all'
-                    ? 'bg-primary text-white shadow-md shadow-primary/20'
-                    : 'bg-white dark:bg-zinc-900 border border-border/60 text-text-secondary hover:text-text-primary'
-                }`}
-              >
-                All Chapters ({FMT_DETAILED_CHAPTERS.length})
-              </button>
-              <button
-                onClick={() => setActiveSection('section-a')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  activeSection === 'section-a'
-                    ? 'bg-primary text-white shadow-md shadow-primary/20'
-                    : 'bg-white dark:bg-zinc-900 border border-border/60 text-text-secondary hover:text-text-primary'
-                }`}
-              >
-                Section A: Forensic Medicine
-              </button>
-              <button
-                onClick={() => setActiveSection('section-b')}
-                className={`px-4 py-2.5 rounded-xl text-xs font-bold transition-all whitespace-nowrap ${
-                  activeSection === 'section-b'
-                    ? 'bg-primary text-white shadow-md shadow-primary/20'
-                    : 'bg-white dark:bg-zinc-900 border border-border/60 text-text-secondary hover:text-text-primary'
-                }`}
-              >
-                Section B: Toxicology
-              </button>
-            </div>
           </div>
         </div>
-      </section>
 
-      {/* Main Chapter Grid */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-10">
-        {filteredChapters.length === 0 ? (
-          <div className="text-center py-16 bg-white dark:bg-zinc-900 border border-border/60 rounded-3xl p-8 space-y-4 max-w-md mx-auto">
-            <ShieldAlert className="w-12 h-12 text-primary/60 mx-auto" />
-            <h3 className="text-lg font-bold text-text-primary">No Matching FMT Topics Found</h3>
-            <p className="text-xs text-text-secondary">
-              Try adjusting your search query or switching between Section A and Section B filters.
-            </p>
-            <button
-              onClick={() => {
-                setSearchQuery('');
-                setActiveSection('all');
-              }}
-              className="px-4 py-2 bg-primary text-white text-xs font-bold rounded-xl shadow-soft"
-            >
-              Reset Search Filter
-            </button>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {filteredChapters.map((ch) => {
-              const isDone = completedChapters.includes(ch.id);
-              const isBookmarked = bookmarkedChapters.includes(ch.id);
-
-              return (
-                <motion.div
-                  key={ch.id}
-                  layout
-                  initial={{ opacity: 0, y: 20, scale: 0.95 }}
-                  animate={{ opacity: 1, y: 0, scale: 1 }}
-                  transition={{ duration: 0.3 }}
-                  className="group bg-white dark:bg-zinc-900 border border-border/70 hover:border-primary/50 rounded-3xl p-6 shadow-soft hover:shadow-soft-md transition-all duration-300 flex flex-col justify-between relative overflow-hidden"
-                >
-                  {/* Top Bar inside Card */}
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2">
-                        <span className="w-8 h-8 rounded-xl bg-primary/10 text-primary font-mono font-black text-xs flex items-center justify-center">
-                          Ch.{ch.chapterNumber}
-                        </span>
-                        <span className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary bg-bg-secondary px-2.5 py-1 rounded-md">
-                          {ch.section.split(':')[0]}
-                        </span>
-                      </div>
-
-                      <div className="flex items-center gap-2">
-                        {isDone && (
-                          <span className="flex items-center gap-1 text-[10px] font-bold text-emerald-600 dark:text-emerald-400 bg-emerald-50 dark:bg-emerald-950/60 px-2.5 py-1 rounded-md border border-emerald-200/50">
-                            <CheckCircle2 className="w-3 h-3" />
-                            Completed
-                          </span>
-                        )}
-                        <button
-                          onClick={(e) => toggleBookmark(ch.id, e)}
-                          title={isBookmarked ? 'Remove Bookmark' : 'Bookmark Chapter'}
-                          className={`p-2 rounded-xl transition-colors ${
-                            isBookmarked
-                              ? 'text-amber-500 bg-amber-50 dark:bg-amber-950/50'
-                              : 'text-text-tertiary hover:text-text-primary hover:bg-bg-secondary'
-                          }`}
-                        >
-                          {isBookmarked ? <BookmarkCheck className="w-4 h-4" /> : <Bookmark className="w-4 h-4" />}
-                        </button>
-                      </div>
-                    </div>
-
-                    <div className="space-y-2">
-                      <h3 className="text-xl font-display font-bold text-text-primary group-hover:text-primary transition-colors">
-                        {ch.title}
-                      </h3>
-                      <p className="text-xs text-text-secondary leading-relaxed line-clamp-2">
-                        {ch.whyThisMatters}
-                      </p>
-                    </div>
-
-                    {/* Features Badges */}
-                    <div className="flex flex-wrap items-center gap-2 text-[11px] font-semibold text-text-secondary pt-1">
-                      <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg-secondary/60">
-                        <Clock className="w-3 h-3 text-primary" />
-                        {ch.readTime}
-                      </span>
-                      <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg-secondary/60">
-                        <Brain className="w-3 h-3 text-accent" />
-                        {ch.vivaQuestions.length} Viva QA
-                      </span>
-                      <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg-secondary/60">
-                        <CheckSquare className="w-3 h-3 text-emerald-600" />
-                        {ch.mcqs.length} MCQs
-                      </span>
-                      <span className="flex items-center gap-1 px-2.5 py-1 rounded-lg bg-bg-secondary/60">
-                        <Zap className="w-3 h-3 text-amber-500" />
-                        {ch.flashcards.length} Flashcards
-                      </span>
-                    </div>
-
-                    {/* High Yield Key Concepts Preview */}
-                    <div className="pt-2 border-t border-border/40 space-y-1.5">
-                      <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">
-                        Core Learning Objectives
-                      </span>
-                      <ul className="space-y-1 text-xs text-text-secondary">
-                        {ch.learningObjectives.slice(0, 2).map((obj, oIdx) => (
-                          <li key={oIdx} className="flex items-start gap-2">
-                            <span className="w-1.5 h-1.5 rounded-full bg-primary shrink-0 mt-1.5" />
-                            <span className="line-clamp-1">{obj}</span>
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  </div>
-
-                  {/* Action Link Button */}
-                  <div className="pt-5 mt-4 border-t border-border/50 flex items-center justify-between">
-                    <span className="text-xs font-bold text-primary flex items-center gap-1">
-                      Start Interactive Learning
-                    </span>
-                    <Link
-                      to={`/fmt/${ch.id}`}
-                      className="inline-flex items-center justify-center gap-2 px-5 py-2.5 bg-primary hover:bg-primary-dark text-white rounded-xl font-bold text-xs shadow-soft transition-all transform group-hover:translate-x-1"
-                    >
-                      <span>Study Chapter</span>
-                      <ArrowRight className="w-4 h-4" />
-                    </Link>
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        )}
-      </section>
-
-      {/* Quick Legal Reference & Exam Tips Callout */}
-      <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-16">
-        <div className="bg-gradient-to-r from-primary/10 via-accent/5 to-primary/10 border border-primary/20 rounded-3xl p-8 shadow-soft flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="space-y-2 max-w-2xl">
-            <div className="inline-flex items-center gap-2 text-xs font-bold text-primary bg-primary/10 px-3 py-1 rounded-md">
-              <Sparkles className="w-4 h-4" />
-              <span>NMC 2nd BHMS Exam Preparation</span>
+        {/* Forensic Medicine Section */}
+        <section className="space-y-8">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-primary rounded-xl text-white">
+              <Scale className="w-5 h-5" />
             </div>
-            <h3 className="text-2xl font-display font-bold text-text-primary">
-              22-Step Pedagogical Learning Framework
-            </h3>
-            <p className="text-xs text-text-secondary leading-relaxed">
-              Every FMT module includes conversational simple explanations, step-by-step legal workflows, animated flowcharts, IPC/BNS legal sections, mnemonics, viva QA with click-to-reveal answers, interactive flashcards, and instant MCQs with explanations.
-            </p>
+            <h2 className="text-xl font-display font-black text-text-primary uppercase tracking-widest">
+              Forensic Medicine
+            </h2>
           </div>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {modules.filter(m => m.section === 'Forensic Medicine').map((module) => (
+              <Link 
+                key={module.id}
+                to={`/fmt/learn/${module.id}`}
+                className="group p-8 bg-white dark:bg-zinc-900 border border-border/60 rounded-[2rem] shadow-soft hover:shadow-glow hover:border-primary/30 transition-all flex flex-col gap-6"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-3 bg-bg-secondary rounded-2xl text-primary group-hover:scale-110 transition-transform">
+                    {module.icon}
+                  </div>
+                  <div className="px-3 py-1 bg-primary/5 rounded-full text-[10px] font-black uppercase tracking-widest text-primary border border-primary/10">
+                    {module.topics.length} Topics
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-display font-black text-text-primary group-hover:text-primary transition-colors">
+                    {module.title}
+                  </h3>
+                  <div className="w-full h-1.5 bg-bg-secondary rounded-full overflow-hidden">
+                    <div className="w-1/3 h-full bg-primary rounded-full" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">
+                    Continue Learning
+                  </span>
+                  <ChevronRight className="w-5 h-5 text-text-tertiary group-hover:text-primary group-hover:translate-x-1 transition-all" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
 
-          <div className="flex items-center gap-3 shrink-0">
-            <Link
-              to="/student-resources"
-              className="px-6 py-3 bg-white dark:bg-zinc-900 border border-border/70 hover:border-primary text-text-primary text-xs font-bold rounded-2xl shadow-soft transition-all"
-            >
-              Browse All BHMS Subjects
-            </Link>
+        {/* Toxicology Section */}
+        <section className="space-y-8">
+          <div className="flex items-center gap-3">
+            <div className="p-2 bg-rose-500 rounded-xl text-white">
+              <ShieldAlert className="w-5 h-5" />
+            </div>
+            <h2 className="text-xl font-display font-black text-text-primary uppercase tracking-widest">
+              Toxicology
+            </h2>
           </div>
-        </div>
-      </section>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            {modules.filter(m => m.section === 'Toxicology').map((module) => (
+              <Link 
+                key={module.id}
+                to={`/fmt/learn/${module.id}`}
+                className="group p-8 bg-white dark:bg-zinc-900 border border-border/60 rounded-[2rem] shadow-soft hover:shadow-glow hover:border-rose-500/30 transition-all flex flex-col gap-6"
+              >
+                <div className="flex items-center justify-between">
+                  <div className="p-3 bg-bg-secondary rounded-2xl text-rose-500 group-hover:scale-110 transition-transform">
+                    {module.icon}
+                  </div>
+                  <div className="px-3 py-1 bg-rose-500/5 rounded-full text-[10px] font-black uppercase tracking-widest text-rose-500 border border-rose-500/10">
+                    {module.topics.length} Topics
+                  </div>
+                </div>
+                <div className="space-y-1">
+                  <h3 className="text-xl font-display font-black text-text-primary group-hover:text-rose-500 transition-colors">
+                    {module.title}
+                  </h3>
+                  <div className="w-full h-1.5 bg-bg-secondary rounded-full overflow-hidden">
+                    <div className="w-0 h-full bg-rose-500 rounded-full" />
+                  </div>
+                </div>
+                <div className="flex items-center justify-between pt-2">
+                  <span className="text-[10px] font-black text-text-tertiary uppercase tracking-widest">
+                    Start Module
+                  </span>
+                  <ChevronRight className="w-5 h-5 text-text-tertiary group-hover:text-rose-500 group-hover:translate-x-1 transition-all" />
+                </div>
+              </Link>
+            ))}
+          </div>
+        </section>
+      </div>
+      <FmtBottomNav />
     </div>
   );
 }

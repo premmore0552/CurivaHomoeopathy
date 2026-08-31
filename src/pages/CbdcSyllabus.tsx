@@ -1230,6 +1230,22 @@ export default function CbdcSyllabus() {
   const [activeStudyTopic, setActiveStudyTopic] = useState<TopicStudyDetail | null>(null);
   const [activeStudyRemedy, setActiveStudyRemedy] = useState<any | null>(null);
 
+  // Dynamic Slug matching for Materia Medica Hub links
+  const getRemedyUrl = (remedyName: string) => {
+    const cleanName = remedyName.toLowerCase().replace(/[^a-z0-9]/g, '');
+    const match = (materiaMedicaData as any[]).find((r: any) => 
+      r.id?.toLowerCase().replace(/[^a-z0-9]/g, '') === cleanName ||
+      r.name?.toLowerCase().includes(remedyName.toLowerCase()) ||
+      remedyName.toLowerCase().includes(r.name?.toLowerCase())
+    );
+    
+    // Generate a fallback slug that handles parentheses: "Actaea Racemosa (Cimicifuga)" -> "actaea-racemosa"
+    const fallbackSlug = remedyName.split('(')[0].trim().toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
+    const slug = match?.id || fallbackSlug;
+    
+    return `/materia-medica?remedy=${slug}`;
+  };
+
   const toggleUnit = (unitKey: string) => {
     setExpandedUnits(prev => ({
       ...prev,
@@ -2107,16 +2123,15 @@ export default function CbdcSyllabus() {
                                                   BHMS {year.yearId} Year
                                                 </span>
                                                 <div className="flex items-center gap-2">
-                                                  <button 
-                                                    type="button"
-                                                    onClick={() => handleOpenRemedy(med.name, med.term, year.yearTitle)}
+                                                  <Link 
+                                                    to={getRemedyUrl(med.name)}
                                                     className="font-bold text-primary hover:underline flex items-center gap-1 cursor-pointer"
                                                   >
                                                     <span>Quick Study</span>
                                                     <Sparkles className="w-3 h-3 text-amber-500" />
-                                                  </button>
+                                                  </Link>
                                                   <Link 
-                                                    to="/homoeopathy/materia-medica"
+                                                    to={getRemedyUrl(med.name)}
                                                     className="font-bold text-text-secondary hover:text-primary flex items-center gap-0.5 cursor-pointer"
                                                   >
                                                     <span>Hub</span>
@@ -3203,7 +3218,7 @@ export default function CbdcSyllabus() {
               {/* Modal Footer */}
               <div className="sticky bottom-0 bg-white/95 dark:bg-zinc-950/95 backdrop-blur-md p-4 sm:p-5 border-t border-border/30 flex items-center justify-between gap-3 z-20">
                 <Link
-                  to="/homoeopathy/materia-medica"
+                  to={getRemedyUrl(activeStudyRemedy.name)}
                   onClick={() => setActiveStudyRemedy(null)}
                   className="px-4 py-2 rounded-xl bg-primary text-white text-xs font-extrabold flex items-center gap-1.5 shadow-sm hover:opacity-90 transition-all cursor-pointer"
                 >

@@ -178,21 +178,20 @@ export const allBhmsSubjects: SubjectItem[] = [
     theoryHours: 80,
     practicalHours: 40,
     totalMarks: 100,
-    examPattern: 'Foundational Aphorisms §1–70, Pioneer History, and Basic Principles',
+    examPattern: 'Foundational Aphorisms §1–27, Pioneer History, and Basic Principles',
     summary: 'The scientific and philosophical basis of homoeopathic medicine, Vital Principle, Similia principle, and disease dynamics.',
     chapters: [
       { title: 'Life of Dr. Samuel Hahnemann & Discovery of Homoeopathy', tag: 'Historical', link: '/subject/organon' },
       { title: 'Cinchona Bark Experiment (1790)', tag: 'Discovery', link: '/subject/organon' },
       { title: 'Aphorisms §1–§4: Physician\'s Mission, Highest Ideal of Cure', tag: 'Core §1-4', link: '/subject/organon' },
       { title: 'Aphorisms §9–§17: Vital Principle in Health, Disease & Cure', tag: 'Vital Force', link: '/subject/organon' },
-      { title: 'Aphorisms §26–§34: Therapeutic Law of Nature', tag: 'Law of Similars', link: '/subject/organon' },
-      { title: 'Aphorisms §52–§70: Systems of Medicine (Allopathy, Enantiopathy, Homoeopathy)', tag: 'Systems', link: '/subject/organon' }
+      { title: 'Aphorisms §26–§28: Therapeutic Law of Nature', tag: 'Law of Similars', link: '/subject/organon' },
     ],
     highYieldTopics: [
       'Aphorism 1: The physician\'s mission and meaning of \'To Cure\'',
       'Aphorism 9: Dynamic Vital Force operating in health',
       'Aphorism 26: Therapeutic Law of Nature and its scientific explanation',
-      'Primary vs. Secondary Action of medicines on Vital Force (§59–63)',
+      'Primary vs. Secondary Action of medicines on Vital Force',
       'Difference between Homoeopathy, Antipathy, and Isopathy'
     ]
   },

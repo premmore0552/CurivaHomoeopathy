@@ -34,6 +34,10 @@ import { conditionsData } from '../data/conditionsData';
 
 const activeFAQ = [
   {
+    q: "What is Curiva Homoeopathy?",
+    a: "An integrated digital platform providing study materials, classical literature, and clinical decision-support tools for BHMS students, educators, and clinicians."
+  },
+  {
     q: "How does Curiva support Homoeopathic Students & BHMS Learners?",
     a: "Curiva provides an integrated suite of study aids: a fully indexed classical Materia Medica (with Allen's Keynotes and Kent's lectures), an interactive Organon & Philosophy tool for learning Hahnemann's aphorisms, high-yield Student Reference Guides, and mock clinical MCQ practice boards tailored for AIAPGET exam preparations."
   },
@@ -170,12 +174,12 @@ export default function Home() {
 
   // Intent-based tabs data
   const intentTabs = [
-    { id: 'curriculum', label: "🎓 Study BHMS Curriculum", subtitle: "I need to prepare for my university courses or check the official syllabus." },
-    { id: 'remedy', label: "🌿 Research Remedies", subtitle: "I want to read the Materia Medica, evaluate relationships, or compare remedies." },
-    { id: 'practice', label: "📚 Practice & Review", subtitle: "I want to challenge myself with MCQs, study maps, flashcards, or viva preparation." },
-    { id: 'allied', label: "🩺 Allied Medical Sciences", subtitle: "I need to review Anatomy, Physiology, CBC diagnostics, or clinical handbooks." },
-    { id: 'clinical', label: "💻 Clinical Decision Tools", subtitle: "I want to repertorize a case or map specific symptom modalities to candidate remedies." },
-    { id: 'heritage', label: "🏛️ Heritage & History", subtitle: "I want to explore pioneering doctors, stalwarts, and the timeline of Homoeopathy." }
+    { id: 'curriculum', label: "🎓 Study BHMS Curriculum"},
+    { id: 'remedy', label: "🌿 Research Remedies"},
+    { id: 'practice', label: "📚 Practice & Review"},
+    { id: 'allied', label: "🩺 Allied Medical Sciences"},
+    { id: 'clinical', label: "💻 Clinical Decision Tools"},
+    { id: 'heritage', label: "🏛️ Heritage & History"}
   ] as const;
 
   const intentCards = {
@@ -189,7 +193,7 @@ export default function Home() {
         badge: "NCH Official"
       },
       {
-        title: "Anatomy Core Studies",
+        title: "Anatomy",
         description: "High-yield anatomy notes, structural diagrams, and regional dissection references.",
         icon: Activity,
         link: "/anatomy",
@@ -197,7 +201,7 @@ export default function Home() {
         badge: "1st BHMS"
       },
       {
-        title: "Physiology Core Studies",
+        title: "Physiology",
         description: "Systemic physiology vital mechanisms, Homoeostatic controls, and biochemistry portals.",
         icon: Layers,
         link: "/physiology",
@@ -205,7 +209,7 @@ export default function Home() {
         badge: "1st BHMS"
       },
       {
-        title: "Materia Medica Core",
+        title: "Materia Medica",
         description: "Classic drug proving records, keynotes, characteristics, and basic polychrests.",
         icon: BookOpen,
         link: "/materia-medica",
@@ -213,7 +217,7 @@ export default function Home() {
         badge: "Core"
       },
       {
-        title: "Organon & Philosophy",
+        title: "Organon of Medicine, Homoeopathic Philosophy & Fundamentals of Psychology",
         description: "Samuel Hahnemann's classical laws and active aphorisms annotated for modern students.",
         icon: GraduationCap,
         link: "/organon-philosophy",
@@ -221,7 +225,7 @@ export default function Home() {
         badge: "Philosophy"
       },
       {
-        title: "Academic Revisions Hub",
+        title: "Student Resources",
         description: "Browse university solved previous year papers, university plans, and guides.",
         icon: CheckCircle2,
         link: "/student-resources",
@@ -247,7 +251,7 @@ export default function Home() {
         badge: "Nexus"
       },
       {
-        title: "Comparative Analyzer",
+        title: "Remedy Comparison",
         description: "Interactive clinical comparison matrix to differentiate overlapping remedy parameters.",
         icon: Cpu,
         link: "/analysis",
@@ -255,7 +259,7 @@ export default function Home() {
         badge: "Analyzer"
       },
       {
-        title: "Miasms Encyclopedia",
+        title: "Miasms",
         description: "Deep study portal mapping chronic disease roots: Psora, Sycosis, and Syphilis.",
         icon: Layers,
         link: "/miasms",
@@ -265,7 +269,7 @@ export default function Home() {
     ],
     practice: [
       {
-        title: "MCQ Practice Arena",
+        title: "MCQ Practice",
         description: "Challenge your concepts with over 5,000 university and AIAPGET exam board preps.",
         icon: Zap,
         link: "/mcq-practice",
@@ -289,7 +293,7 @@ export default function Home() {
         badge: "Active Recall"
       },
       {
-        title: "Viva Oral Booster",
+        title: "Viva",
         description: "Quick-response oral definitions, standard clinical values, and examiner lists.",
         icon: HelpCircle,
         link: "/student-resources",
@@ -299,7 +303,7 @@ export default function Home() {
     ],
     allied: [
       {
-        title: "Anatomy Library",
+        title: "Anatomy",
         description: "Detailed systems covering osteology, muscles, neurovascular pathways & regional organs.",
         icon: Activity,
         link: "/anatomy",
@@ -307,7 +311,7 @@ export default function Home() {
         badge: "Anatomy"
       },
       {
-        title: "Physiology Library",
+        title: "Physiology",
         description: "Learn vital renal, respiratory, cardiac, and endocrine pathways with high-yield notes.",
         icon: Layers,
         link: "/physiology",
@@ -333,7 +337,7 @@ export default function Home() {
     ],
     clinical: [
       {
-        title: "Symptom Repertoriser",
+        title: "Symptom Checker",
         description: "Input multiple symptoms, select thermal modalities, and compute mathematical remedy matches.",
         icon: Cpu,
         link: "/symptom-checker",
@@ -341,7 +345,7 @@ export default function Home() {
         badge: "Decision Engine"
       },
       {
-        title: "Clinical Therapeutics",
+        title: "Disease Hub",
         description: "Direct organ-wise pathology index matching clinical symptoms to high-yield remedies.",
         icon: Activity,
         link: "/disease-hub",
@@ -351,7 +355,7 @@ export default function Home() {
     ],
     heritage: [
       {
-        title: "Historic Pioneer Timelines",
+        title: "Pioneers of Homoeopathy",
         description: "Explore standard milestones, chronicles, and historical development of Hahnemann's system.",
         icon: Clock,
         link: "/lexicon/historical",
@@ -359,7 +363,7 @@ export default function Home() {
         badge: "History"
       },
       {
-        title: "Stalwarts Biography Gallery",
+        title: "Stalwarts",
         description: "Read biographies, historical essays, and classic cases from historical clinical masters.",
         icon: Users,
         link: "/stalwarts",
@@ -367,7 +371,7 @@ export default function Home() {
         badge: "Stalwarts"
       },
       {
-        title: "Public Education Center",
+        title: "Public Education",
         description: "Beginner-friendly introductory guides, safe health rules, and standard patient FAQs.",
         icon: Globe,
         link: "/public-education",
@@ -412,22 +416,20 @@ export default function Home() {
             {heroDescription}
           </p>
 
-          <div className="pt-2 flex flex-col sm:flex-row items-center justify-center gap-4">
-            {heroPrimaryLink.startsWith('#') ? (
-              <a
-                href={heroPrimaryLink}
-                className="px-8 py-4 bg-[#134634] hover:bg-[#BF8F02] text-white rounded-full font-bold text-sm tracking-wide transition-all shadow-md hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
-              >
-                {heroPrimaryCTA} <GraduationCap className="w-4 h-4 text-amber-300" />
-              </a>
-            ) : (
-              <Link
-                to={heroPrimaryLink}
-                className="px-8 py-4 bg-[#134634] hover:bg-[#BF8F02] text-white rounded-full font-bold text-sm tracking-wide transition-all shadow-md hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
-              >
-                {heroPrimaryCTA} <GraduationCap className="w-4 h-4 text-amber-300" />
-              </Link>
-            )}
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              to="/auth"
+              className="px-8 py-4 bg-primary hover:bg-[#BF8F02] text-white rounded-full font-bold text-sm tracking-wide transition-all shadow-lg hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+            >
+              Portal Access <Icons.ShieldCheck className="w-4 h-4 text-accent animate-pulse" />
+            </Link>
+
+            <Link
+              to="/find-your-remedy"
+              className="px-8 py-4 bg-[#134634] hover:bg-[#BF8F02] text-white rounded-full font-bold text-sm tracking-wide transition-all shadow-md hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+            >
+              Find Your Remedy <BookOpen className="w-4 h-4 text-amber-300" />
+            </Link>
 
             {heroSecondaryLink.startsWith('#') ? (
               <a
@@ -569,13 +571,6 @@ export default function Home() {
                 </button>
               );
             })}
-          </div>
-
-          {/* Active Tab Subtitle Indicator */}
-          <div className="text-center max-w-xl mx-auto mt-2 animate-fadeIn">
-            <p className="text-xs font-serif italic text-text-tertiary">
-              &ldquo;{intentTabs.find((t) => t.id === activeIntentTab)?.subtitle}&rdquo;
-            </p>
           </div>
 
           {/* Dynamic Grid of Cards matching user intent */}
@@ -815,22 +810,30 @@ export default function Home() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <Link to="/conditions/migraine-headaches" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all group block">
-                <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Migraine</h4>
-                <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Nervous System</p>
-              </Link>
-              <Link to="/conditions/acidity-gerd" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all group block">
-                <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">GERD</h4>
-                <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Digestive Hub</p>
-              </Link>
-              <Link to="/conditions/stress-anxiety" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all group block">
-                <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Anxiety</h4>
-                <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Mental Health</p>
-              </Link>
-              <Link to="/conditions/respiratory-asthma-allergies" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all group block">
-                <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Asthma</h4>
-                <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Respiratory Lab</p>
-              </Link>
+              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/migraine-headaches" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Migraine</h4>
+                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Nervous System</p>
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/acidity-gerd" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">GERD</h4>
+                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Digestive Hub</p>
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/stress-anxiety" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Anxiety</h4>
+                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Mental Health</p>
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/respiratory-asthma-allergies" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Asthma</h4>
+                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Respiratory Lab</p>
+                </Link>
+              </motion.div>
             </div>
           </div>
         </div>

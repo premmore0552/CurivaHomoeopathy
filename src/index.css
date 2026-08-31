@@ -94,6 +94,11 @@
     @apply font-sans transition-colors duration-300 overflow-x-hidden w-full;
   }
 
+  img, video, canvas {
+    max-width: 100%;
+    height: auto;
+  }
+
   h1, h2, h3, h4, h5, h6 {
     @apply font-display tracking-tight text-text-primary text-balance font-bold;
   }
@@ -723,6 +728,80 @@ body, header, aside, .card, button, input, select, textarea, div {
 .animate-float-logo {
   animation: logoFloat 3.5s ease-in-out infinite;
   will-change: transform, filter;
+}
+
+/* Root Container Responsiveness */
+#root {
+  width: 100%;
+  max-width: 100%;
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden; /* Prevent horizontal scroll on root */
+}
+
+/* Global Container & Fluidity Overrides */
+.container,
+.max-w-7xl,
+.max-w-6xl,
+.max-w-5xl {
+  width: 100% !important;
+  max-width: min(100%, var(--max-width, 80rem)) !important;
+  margin-left: auto !important;
+  margin-right: auto !important;
+  padding-left: clamp(1rem, 5vw, 2rem) !important;
+  padding-right: clamp(1rem, 5vw, 2rem) !important;
+  box-sizing: border-box !important;
+}
+
+/* Ensure all sections and main wrappers are fluid */
+section, main, article, aside, nav, footer {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Fluid Media Scaling */
+img, video, canvas, svg, iframe {
+  max-width: 100% !important;
+  height: auto !important;
+  display: block;
+}
+
+/* Fluid Grid Helpers */
+.fluid-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr));
+  gap: 1.5rem;
+  width: 100%;
+}
+
+/* Global Card Fluidity */
+.card, 
+[class*="rounded-"], 
+[class*="shadow-"] {
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* Table Responsiveness */
+.table-container {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: 1.5rem;
+  border-radius: 1rem;
+}
+
+table {
+  width: 100%;
+  min-width: 600px; /* Force scroll on very small screens for data integrity */
+}
+
+@media (max-width: 640px) {
+  table {
+    min-width: 500px;
+  }
 }
 
 

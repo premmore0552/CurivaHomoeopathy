@@ -33,10 +33,12 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
 
   const selectedCategory = searchParams.get("category") || "All";
   const selectedTag = searchParams.get("tag") || null;
+  const selectedDateRange = searchParams.get("dateRange") || "all";
   const currentPage = parseInt(searchParams.get("page") || "1", 10);
   const [searchQuery, setSearchQuery] = useState(
     searchParams.get("search") || "",
   );
+  const [isAdvancedFiltersOpen, setIsAdvancedFiltersOpen] = useState(false);
 
   const [posts, setPosts] = useState<BlogPost[]>([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -71,6 +73,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
         selectedCategory === "All" ? undefined : selectedCategory,
         query,
         selectedTag || undefined,
+        selectedDateRange === "all" ? undefined : selectedDateRange
       );
       setPosts(data);
     } catch (error) {
@@ -82,7 +85,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
 
   useEffect(() => {
     loadPosts();
-  }, [selectedCategory, selectedTag]);
+  }, [selectedCategory, selectedTag, selectedDateRange]);
 
   const handleSearchTrigger = (e?: React.FormEvent) => {
     e?.preventDefault();
@@ -95,6 +98,17 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
     newParams.set("page", "1");
     setSearchParams(newParams);
     loadPosts();
+  };
+
+  const handleDateRangeChange = (range: string) => {
+    const newParams = new URLSearchParams(searchParams);
+    if (range === "all") {
+      newParams.delete("dateRange");
+    } else {
+      newParams.set("dateRange", range);
+    }
+    newParams.set("page", "1");
+    setSearchParams(newParams);
   };
 
   const handleCategoryChange = (category: string) => {
@@ -305,7 +319,7 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
                 <div className="relative flex-grow">
                   <input
                     type="text"
-                    placeholder="Search articles..."
+                    placeholder="Search titles and content..."
                     aria-label="Search articles"
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
@@ -314,6 +328,14 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
                   <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-text-secondary w-5 h-5" />
                 </div>
                 <button
+                  type="button"
+                  onClick={() => setIsAdvancedFiltersOpen(!isAdvancedFiltersOpen)}
+                  className={`p-3 rounded-xl border transition-all ${isAdvancedFiltersOpen ? 'bg-primary/10 border-primary text-primary' : 'bg-bg-secondary border-transparent text-text-secondary hover:border-primary/20'}`}
+                  title="Advanced Filters"
+                >
+                  <Filter className="w-5 h-5" />
+                </button>
+                <button
                   type="submit"
                   className="px-6 py-3 bg-primary text-white rounded-xl font-bold hover:bg-primary/90 transition-all flex items-center gap-2 shadow-lg shadow-primary/20"
                 >
@@ -321,6 +343,65 @@ const BlogGrid: React.FC<BlogGridProps> = ({ onSelectPost }) => {
                 </button>
               </form>
             </div>
+
+            <AnimatePresence>
+              {isAdvancedFiltersOpen && (
+                <motion.div
+                  initial={{ height: 0, opacity: 0 }}
+                  animate={{ height: "auto", opacity: 1 }}
+                  exit={{ height: 0, opacity: 0 }}
+                  className="overflow-hidden"
+                >
+                  <div className="pt-6 mt-6 border-t border-border grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-text-tertiary flex items-center gap-2">
+                        <Calendar className="w-4 h-4" /> Publication Date
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {[
+                          { id: 'all', name: 'Any Time' },
+                          { id: 'recent', name: 'Past Month' },
+                          { id: 'last-6-months', name: 'Past 6 Months' },
+                          { id: 'last-year', name: 'Past Year' }
+                        ].map((range) => (
+                          <button
+                            key={range.id}
+                            onClick={() => handleDateRangeChange(range.id)}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                              selectedDateRange === range.id
+                                ? "bg-primary text-white border-primary shadow-sm"
+                                : "bg-bg-secondary text-text-secondary border-transparent hover:border-primary/20"
+                            }`}
+                          >
+                            {range.name}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                    <div className="space-y-3">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-text-tertiary flex items-center gap-2">
+                        <Star className="w-4 h-4" /> Quick Filters
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {['Repertory', 'Organon', 'Pharmacy', 'Clinical'].map((tag) => (
+                          <button
+                            key={tag}
+                            onClick={() => handleTagClick(tag)}
+                            className={`px-4 py-2 rounded-xl text-xs font-bold transition-all border ${
+                              selectedTag === tag
+                                ? "bg-primary text-white border-primary shadow-sm"
+                                : "bg-bg-secondary text-text-secondary border-transparent hover:border-primary/20"
+                            }`}
+                          >
+                            #{tag}
+                          </button>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
         </div>
 

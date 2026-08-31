@@ -30,6 +30,7 @@ export interface RemedyDetailData {
   inimical?: string[];
   followsWell?: string[];
   imageUrl?: string;
+  dosage?: string;
 }
 
 export const enhancedRemedies: RemedyDetailData[] = [
@@ -40,6 +41,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     family: 'Plant',
     origin: 'Monkshood (Ranunculaceae) | Prover: Hahnemann',
     description: 'Aconite is one of the most rapidly acting remedies. It is an acute, short-acting remedy where complaints appear suddenly and violently. It acts primarily on the circulation and is characterized by "Tension, Fear and Suddenness".',
+    dosage: 'Acute panic/fever: 30C or 200C every 30-60 mins until relief. Shock: 200C single dose.',
     keyCharacteristics: [
       'Sudden and violent onset of symptoms',
       'Great fear and anxiety, especially fear of death',
@@ -98,6 +100,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     family: 'Plant',
     origin: 'Leopard\'s Bane (Compositae) | Prover: Hahnemann',
     description: 'Arnica is the premier "Trauma Remedy" for falls, blunt injuries, and bruises. It acts on the blood vessels, particularly the capillaries, and is characterized by a "Sore, Lame and Bruised" feeling throughout the body, as if the patient has been beaten all over.',
+    dosage: 'Trauma: 200C or 1M immediately. Muscle soreness: 30C three times daily.',
     keyCharacteristics: [
       'Sore, lame, bruised feeling all over the body, as if beaten',
       'Fear of being touched or even approached due to soreness',
@@ -150,6 +153,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     family: 'Mineral',
     origin: 'White Oxide of Arsenic (As2O3) | Prover: Hahnemann',
     description: 'Arsenicum is characterized by three great essentials: Anxiety, Restlessness, and Prostration. It is a deeply acting mineral remedy affecting every organ and tissue, with burning pains that are paradoxically relieved by heat.',
+    dosage: 'Food poisoning: 30C every hour. Chronic anxiety: 200C weekly.',
     keyCharacteristics: [
       'Great restlessness; changes place continually despite extreme weakness',
       'Burning pains relieved by heat and warm applications',
@@ -201,6 +205,7 @@ export const enhancedRemedies: RemedyDetailData[] = [
     family: 'Plant',
     origin: 'Deadly Nightshade (Solanaceae) | Prover: Hahnemann',
     description: 'Belladonna is the remedy of "Sudden Congestion" and violent inflammatory states. Its entire picture revolves around the four "Rs": Redness, Rapid onset, Restless delirium, and Radiating heat.',
+    dosage: 'High fever: 200C every 2 hours. Throbbing headache: 30C.',
     keyCharacteristics: [
       'Sudden and violent onset of symptoms',
       'Intense congestion with red face, hot head, and throbbing carotids',
