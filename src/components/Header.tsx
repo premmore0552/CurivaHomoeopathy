@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User, ShieldCheck } from 'lucide-react';
+import { Search, Menu, X, ChevronDown, ChevronRight, Home, ArrowRight, Globe, Sun, Moon, Sparkles, ShoppingBag, Library, Crown, Activity, HelpCircle, Cpu, BookOpen, GraduationCap, User, ShieldCheck, Brain } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import ThemeToggle from './ThemeToggle';
 import { useRole } from '../context/RoleContext';
@@ -274,6 +274,21 @@ const Header: React.FC = () => {
       ]
     },
     {
+      name: 'Materia Medica',
+      to: '/materia-medica',
+      icon: 'Library',
+      columns: 1,
+      dropdownWidth: 'w-72',
+      align: 'left',
+      tooltip: 'Materia Medica resources, case repertories, and diagnostic guides.',
+      allowedRoles: ['Guest', 'General Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'Administrator'],
+      dropdown: [
+        { name: 'Materia Medica', to: '/materia-medica', desc: 'Search through 150+ classical remedies' },
+        { name: 'Repertory Tools', to: '/repertory', desc: 'Case analysis and symptoms mapping' },
+        { name: 'Clinical Guides', to: '/clinical-guides', desc: 'Condition-wise therapeutic references' }
+      ]
+    },
+    {
       name: 'Academy',
       to: '/student-resources',
       icon: 'Sparkles',
@@ -291,6 +306,7 @@ const Header: React.FC = () => {
       },
       popular: [
         { name: 'Study Hub Portal', to: '/student-resources', desc: 'Unified study plans & revision notes', icon: 'GraduationCap' },
+        { name: 'Interactive Quizzes', to: '/quizzes', desc: 'Short, engaging knowledge checks', badge: 'New', icon: 'Brain' },
         { name: 'Visual Node Maps', to: '/visualization', desc: 'Interactive remedy relationship maps', icon: 'Compass' }
       ],
       pinned: [
@@ -309,6 +325,7 @@ const Header: React.FC = () => {
       allowedRoles: ['Guest', 'General Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'Administrator'],
       dropdown: [
         { name: 'About Curiva', to: '/about', desc: 'Our vision & academic board', icon: 'Info' },
+        { name: 'Interactive Quizzes', to: '/quizzes', desc: 'Test your homoeopathic knowledge', icon: 'Brain' },
         { name: 'Stalwarts Gallery', to: '/stalwarts', desc: 'Biographies of the masters', icon: 'Award' },
         { name: 'Historical Timeline', to: '/lexicon/historical', desc: 'Evolution of Homoeopathy', icon: 'Clock' },
         { name: 'Patient Education', to: '/public-education', desc: 'Public health guides & FAQs', icon: 'Globe' }
@@ -410,7 +427,20 @@ const Header: React.FC = () => {
         : 'bg-bg-primary border-b border-transparent h-16'
       }`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
-        <div className="flex items-center justify-between h-full relative gap-4">
+        <div 
+          className="flex items-center justify-between h-full relative gap-4"
+          style={{
+            height: '100px',
+            width: '0px',
+            marginLeft: '-40px',
+            marginRight: '3px',
+            marginTop: '12px',
+            paddingTop: '4px',
+            paddingLeft: '26px',
+            paddingRight: '60px',
+            paddingBottom: '9px'
+          }}
+        >
           
           {/* Desktop Navigation Left */}
           <nav className="hidden xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
@@ -553,6 +583,7 @@ const Header: React.FC = () => {
                     <Link
                       to={link.to}
                       onClick={() => handleLinkClick(link.to)}
+                      style={idx === 0 ? { height: '39px', width: '133.719px' } : undefined}
                       className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${
                         isActive 
                         ? 'text-primary bg-primary/5 border-primary/10' 
@@ -639,7 +670,7 @@ const Header: React.FC = () => {
                 <span>Find Remedy</span>
                 <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </Link>
-              <ThemeToggle />
+              <ThemeToggle style={{ width: '300px' }} />
               <ProfileSwitch />
               <AuthButton />
             </div>

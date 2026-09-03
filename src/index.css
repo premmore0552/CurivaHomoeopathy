@@ -10,48 +10,48 @@
   --font-display-book: "Newsreader", "Cormorant Garamond", serif;
   --font-sans-book: "Plus Jakarta Sans", sans-serif;
 
-  --color-emerald: #134634;
-  --color-cream: #F9F9F3;
-  --color-gold: #BF8F02;
-  --color-ink: #1D1818;
+  --color-emerald: #10b981;
+  --color-cream: #FDFDFC;
+  --color-gold: #10b981;
+  --color-ink: #111111;
 
-  --color-primary: #134634;
-  --color-primary-light: #F4F4EB;
-  --color-primary-dark: #0c2f23;
+  --color-primary: #10b981;
+  --color-primary-light: #e6fcf5;
+  --color-primary-dark: #047857;
   
-  --color-secondary: #1D1818;
-  --color-secondary-light: #F9F9F3;
+  --color-secondary: #111111;
+  --color-secondary-light: #f9f9f8;
   --color-secondary-dark: #000000;
 
-  --color-accent: #BF8F02;
-  --color-accent-light: #FFFDF2;
-  --color-accent-dark: #806001;
+  --color-accent: #10b981;
+  --color-accent-light: #e6fcf5;
+  --color-accent-dark: #047857;
   
-  --color-bg-primary: #F9F9F3;
+  --color-bg-primary: #FDFDFC;
   --color-bg-secondary: #FFFFFF;
-  --color-bg-tertiary: #F1F1E8;
+  --color-bg-tertiary: #f9f9f8;
   --color-bg-dark: #121010;
-  --color-text-primary: #1D1818;
-  --color-text-secondary: #3D3737;
-  --color-text-tertiary: #756B6B;
-  --color-border: rgba(29, 24, 24, 0.08);
+  --color-text-primary: #111111;
+  --color-text-secondary: #444444;
+  --color-text-tertiary: #6b7280;
+  --color-border: rgba(17, 17, 17, 0.08);
 
-  --shadow-soft: 0 12px 32px rgba(29, 24, 24, 0.03);
-  --shadow-header: 0 10px 40px -15px rgba(29, 24, 24, 0.02);
-  --shadow-hover-card: 0 20px 40px rgba(19, 70, 52, 0.08);
+  --shadow-soft: 0 12px 32px rgba(17, 17, 17, 0.03);
+  --shadow-header: 0 10px 40px -15px rgba(17, 17, 17, 0.02);
+  --shadow-hover-card: 0 20px 40px rgba(16, 185, 129, 0.08);
 }
 
 .dark {
   --color-bg-primary: #121010;
   --color-bg-secondary: #1C1919;
   --color-bg-tertiary: #272323;
-  --color-text-primary: #F9F9F3;
+  --color-text-primary: #F9F9FD;
   --color-text-secondary: #D8D2D2;
-  --color-text-tertiary: #BF8F02;
-  --color-border: rgba(249, 249, 243, 0.12);
-  --color-primary-light: #1A2822;
+  --color-text-tertiary: #10b981;
+  --color-border: rgba(249, 249, 253, 0.12);
+  --color-primary-light: #112c22;
   --color-secondary-light: #2A2525;
-  --color-accent-light: #262110;
+  --color-accent-light: #112c22;
 }
 
 /* Global Dark Mode Helper & Overrides for legacy hardcoded colors */

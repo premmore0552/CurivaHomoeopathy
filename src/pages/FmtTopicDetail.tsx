@@ -17,6 +17,7 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import { getFMTChapterDetail, FMT_DETAILED_CHAPTERS, FMTChapterDetail } from '../data/fmtDetailedChapters';
 import KnowledgeDNA from '../components/KnowledgeDNA';
 import { ContentNavigator } from '../components/ContentNavigator';
+import FmtBottomNav from '../components/FmtBottomNav';
 
 export default function FmtTopicDetail() {
   const params = useParams<{ moduleId?: string; chapterId?: string; '*': string }>();

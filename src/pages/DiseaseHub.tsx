@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Sparkles, 
@@ -40,6 +41,13 @@ import {
 import SEO from '../components/SEO';
 import { diseaseHubData, Disease, ImportantRemedy } from '../data/diseaseHubData';
 import { comparisonRemedies, ComparisonData } from '../data/comparisonData';
+import { SystemGrid } from '../components/disease-hub/SystemGrid';
+import { DiseaseList } from '../components/disease-hub/DiseaseList';
+import { DiseaseSearch } from '../components/disease-hub/DiseaseSearch';
+import { LearningJourney } from '../components/disease-hub/LearningJourney';
+import { QuickAccess } from '../components/disease-hub/QuickAccess';
+import { StudyGuide } from '../components/disease-hub/StudyGuide';
+import { DiseaseCard } from '../components/disease-hub/DiseaseCard';
 
 // --- Static Repertorial & Academic Datasets ---
 
@@ -296,14 +304,14 @@ const diseaseWiseRemedyCollections = [
 
 export default function DiseaseHub() {
   const [activeTab, setActiveTab] = useState<'clinical' | 'academic'>('clinical');
+  const navigate = useNavigate();
   
-  // --- Clinical Tab State ---
-  const [selectedDiseaseId, setSelectedDiseaseId] = useState<string>(diseaseHubData[0].id);
-  const currentDisease = diseaseHubData.find(d => d.id === selectedDiseaseId) || diseaseHubData[0];
-  
-  // MCQ grading state
-  const [userAnswers, setUserAnswers] = useState<Record<string, number>>({});
-  const [showGrading, setShowGrading] = useState<Record<string, boolean>>({});
+  // --- Disease Hub (Clinical) View State ---
+  const [viewMode, setViewMode] = useState<'systems' | 'diseases'>('systems');
+  const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
+
+  // Derived data
+  const diseasesInSystem = diseaseHubData.filter(d => d.system === selectedSystem);
   
   // --- Academic Tab State ---
   const [academicSearch, setAcademicSearch] = useState('');
@@ -319,27 +327,22 @@ export default function DiseaseHub() {
   const [modalityFilter, setModalityFilter] = useState<'better' | 'worse' | 'all'>('all');
   const [modalityQuery, setModalityQuery] = useState('');
 
-  // Handle MCQ Answer click
-  const handleMCQAnswer = (mcqId: string, optionIndex: number) => {
-    setUserAnswers(prev => ({
-      ...prev,
-      [mcqId]: optionIndex
-    }));
-    setShowGrading(prev => ({
-      ...prev,
-      [mcqId]: true
-    }));
+  // Navigation Handlers
+  const handleSelectSystem = (system: string) => {
+    navigate(`/disease-hub/${system}`);
   };
 
-  const resetMCQs = (diseaseId: string) => {
-    const updatedAnswers = { ...userAnswers };
-    const updatedGrading = { ...showGrading };
-    currentDisease.mcqs.forEach(q => {
-      delete updatedAnswers[q.id];
-      delete updatedGrading[q.id];
-    });
-    setUserAnswers(updatedAnswers);
-    setShowGrading(updatedGrading);
+  const handleSelectDisease = (id: string) => {
+    const disease = diseaseHubData.find(d => d.id === id);
+    if (disease) {
+      navigate(`/disease-hub/${disease.system}/${disease.slug}`);
+    }
+  };
+
+  const handleBackToSystems = () => {
+    setViewMode('systems');
+    setSelectedSystem(null);
+    window.scrollTo(0, 0);
   };
 
   // Get Remedy Relationship data dynamically
@@ -467,334 +470,113 @@ export default function DiseaseHub() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -15 }}
               transition={{ duration: 0.3 }}
-              className="grid lg:grid-cols-4 gap-8"
+              className="space-y-12"
             >
-              {/* Sidebar list of diseases */}
-              <aside className="lg:col-span-1 space-y-4">
-                <div className="p-6 bg-bg-secondary rounded-3xl border border-border">
-                  <h3 className="text-xs font-black uppercase tracking-wider text-text-secondary mb-4 flex items-center gap-2">
-                    <Compass className="w-3.5 h-3.5 text-primary" /> Select Condition
-                  </h3>
-                  <div className="space-y-1.5">
-                    {diseaseHubData.map(d => (
-                      <motion.button
-                        key={d.id}
-                        whileHover={{ scale: 1.01, x: 4 }}
-                        whileTap={{ scale: 0.98 }}
-                        onClick={() => {
-                          setSelectedDiseaseId(d.id);
-                          resetMCQs(d.id);
-                        }}
-                        className={`w-full text-left p-3.5 rounded-2xl text-xs font-bold uppercase tracking-wider border transition-all flex items-center justify-between ${
-                          selectedDiseaseId === d.id
-                            ? 'bg-primary text-white border-primary shadow-md'
-                            : 'bg-bg-primary text-text-primary border-border hover:border-primary/30 hover:bg-bg-secondary'
-                        }`}
+              {viewMode === 'systems' && (
+                <div className="space-y-20 pb-20">
+                  {/* SECTION 1 — HERO SECTION */}
+                  <div className="text-center space-y-12 max-w-5xl mx-auto pt-10">
+                    <div className="space-y-6">
+                      <motion.h1 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        className="text-5xl md:text-8xl font-display font-black text-text-primary uppercase tracking-tight leading-[0.9]"
                       >
-                        <span className="truncate">{d.title}</span>
-                        <ChevronRight className="w-3.5 h-3.5 opacity-65 shrink-0" />
-                      </motion.button>
-                    ))}
-                  </div>
-                </div>
-
-                {/* Top 10 remedies shortcut box */}
-                <div className="p-6 bg-emerald-500/5 rounded-3xl border border-emerald-500/10 text-center space-y-4 shadow-sm">
-                  <div className="w-10 h-10 bg-emerald-500/15 rounded-2xl flex items-center justify-center mx-auto text-emerald-600">
-                    <Sparkles className="w-5 h-5" />
-                  </div>
-                  <div className="space-y-1">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-emerald-600">High Yield Resource</h4>
-                    <p className="text-xs text-text-secondary font-medium leading-relaxed">
-                      Every condition includes an optimized <strong>Top 10 Remedies list</strong> curated from standard classical textbooks.
-                    </p>
-                  </div>
-                </div>
-              </aside>
-
-              {/* Central Clinical Workspace */}
-              <section className="lg:col-span-3 space-y-10">
-                
-                {/* 1. Header with title & category */}
-                <div className="p-8 bg-bg-secondary border border-border rounded-[2.5rem] relative overflow-hidden shadow-soft">
-                  <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 rounded-full blur-2xl pointer-events-none" />
-                  <span className="text-[10px] font-black uppercase text-primary tracking-widest bg-primary/10 border border-primary/20 px-3 py-1 rounded-full">{currentDisease.category}</span>
-                  <h2 className="text-3xl md:text-5xl font-display font-black text-text-primary mt-4 mb-3 uppercase tracking-tight">{currentDisease.title}</h2>
-                  <p className="text-sm font-bold text-text-secondary leading-relaxed max-w-3xl">
-                    Follow the standard classical framework of pathology, diagnostics, and therapeutics.
-                  </p>
-                </div>
-
-                {/* 2. Disease Definition, Causes & Risk Factors */}
-                <div className="grid md:grid-cols-3 gap-8">
-                  <div className="md:col-span-2 p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <Book className="w-4 h-4 text-primary" /> Definition
-                    </h3>
-                    <p className="text-sm font-medium text-text-secondary leading-relaxed font-serif italic text-justify">
-                      &ldquo;{currentDisease.definition}&rdquo;
-                    </p>
-                  </div>
-                  
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <AlertCircle className="w-4 h-4 text-orange-500" /> Risk Factors
-                    </h3>
-                    <ul className="space-y-2">
-                      {currentDisease.riskFactors.map((r, i) => (
-                        <li key={i} className="text-xs font-bold text-text-secondary flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-orange-500 mt-1.5 shrink-0" />
-                          <span>{r}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* 3. Causes & Pathogenesis */}
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <ListFilter className="w-4 h-4 text-primary" /> Etiology & Causes
-                    </h3>
-                    <ul className="space-y-3">
-                      {currentDisease.causes.map((c, i) => (
-                        <li key={i} className="text-xs font-bold text-text-secondary flex items-start gap-2">
-                          <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0" />
-                          <span>{c}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <Activity className="w-4 h-4 text-emerald-500" /> Pathogenesis
-                    </h3>
-                    <p className="text-xs font-bold text-text-secondary leading-relaxed text-justify">
-                      {currentDisease.pathogenesis}
-                    </p>
-                  </div>
-                </div>
-
-                {/* 4. Clinical Features & Diagnostics */}
-                <div className="grid md:grid-cols-2 gap-8">
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <Layers className="w-4 h-4 text-primary" /> Clinical Features
-                    </h3>
-                    <ul className="space-y-3">
-                      {currentDisease.clinicalFeatures.map((f, i) => (
-                        <li key={i} className="text-xs font-bold text-text-secondary flex items-start gap-2.5">
-                          <span className="w-4.5 h-4.5 rounded-md bg-primary/10 text-primary flex items-center justify-center text-[10px] font-black shrink-0">{i+1}</span>
-                          <span className="mt-0.5">{f}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <Search className="w-4 h-4 text-primary" /> Investigations
-                    </h3>
-                    <ul className="space-y-3">
-                      {currentDisease.investigations.map((inv, i) => (
-                        <li key={i} className="text-xs font-bold text-text-secondary flex items-start gap-2.5">
-                          <CheckCircle2 className="w-4 h-4 text-emerald-500 mt-0.5 shrink-0" />
-                          <span>{inv}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-                </div>
-
-                {/* 5. Differential Diagnosis & Conventional Treatment */}
-                <div className="grid md:grid-cols-3 gap-8">
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <Users className="w-4 h-4 text-purple-500" /> Differential Diagnosis
-                    </h3>
-                    <ul className="space-y-3">
-                      {currentDisease.differentialDiagnosis.map((dd, i) => (
-                        <li key={i} className="text-xs font-bold text-text-secondary flex flex-col gap-1">
-                          <span className="text-primary uppercase tracking-wider text-[9px] font-black">{dd.split(':')[0]}</span>
-                          <span className="pl-2 border-l border-primary/20 leading-relaxed">{dd.split(':').slice(1).join(':')}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-4 md:col-span-2">
-                    <h3 className="text-lg font-black uppercase tracking-wide text-text-primary flex items-center gap-2 border-b border-border pb-3">
-                      <FileText className="w-4 h-4 text-primary" /> Conventional Treatment Overview
-                    </h3>
-                    <p className="text-xs font-bold text-text-secondary leading-relaxed text-justify">
-                      {currentDisease.treatmentOverview}
-                    </p>
-                    <div className="p-4 bg-orange-500/5 rounded-2xl border border-orange-500/10 text-[11px] font-bold text-orange-600 flex items-start gap-2">
-                      <Info className="w-4 h-4 shrink-0 mt-0.5" />
-                      <span>Note for Practitioners: Modern integrative care advises maintaining close communication regarding taper protocols of conventional therapeutics to avoid withdrawal flareups.</span>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 6. Classical Homoeopathic Approach */}
-                <div className="p-8 bg-gradient-to-br from-primary/5 via-white to-primary/5 border border-primary/10 rounded-[2.5rem] shadow-soft space-y-4">
-                  <h3 className="text-xl font-display font-black uppercase tracking-wide text-primary flex items-center gap-2 border-b border-border pb-3">
-                    <Sparkles className="w-5 h-5 text-accent animate-pulse" /> The Homoeopathic Approach
-                  </h3>
-                  <p className="text-sm font-bold text-text-secondary leading-relaxed text-justify">
-                    {currentDisease.homoeopathicApproach}
-                  </p>
-                </div>
-
-                {/* 7. Top 10 remedies list for this disease */}
-                <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6">
-                  <div>
-                    <h3 className="text-xl font-display font-black uppercase tracking-tight text-text-primary flex items-center gap-2">
-                      <Table className="w-5 h-5 text-primary" /> Top 10 Classical Remedies Collection
-                    </h3>
-                    <p className="text-xs font-bold text-text-secondary mt-1">
-                      Detailed diagnostic profiles of primary Homoeopathic therapeutic agents for {currentDisease.title}.
-                    </p>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-6">
-                    {currentDisease.topTenRemedies.map((rem, idx) => (
-                      <div key={idx} className="p-6 bg-bg-secondary rounded-3xl border border-border hover:border-primary/20 transition-all space-y-3 shadow-soft relative overflow-hidden">
-                        <div className="absolute top-0 right-0 w-8 h-8 bg-primary/5 rounded-bl-3xl flex items-center justify-center text-[10px] font-black text-primary">
-                          #{idx+1}
-                        </div>
-                        <h4 className="text-sm font-black uppercase text-primary leading-none">{rem.name}</h4>
-                        <div className="space-y-1.5 text-xs font-bold text-text-secondary">
-                          <p><strong className="text-text-primary">Key Indications:</strong> {rem.keyIndications}</p>
-                          <p><strong className="text-text-primary">Modalities:</strong> {rem.modalities}</p>
-                          <p><strong className="text-text-primary">Constitution:</strong> {rem.constitution}</p>
-                          <p><strong className="text-text-primary">Clinical Pearls & Potency:</strong> {rem.potencyTips}</p>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-
-                {/* 8. Quick Revision Box */}
-                <div className="p-8 bg-zinc-900 text-white rounded-[3rem] space-y-6 shadow-2xl relative overflow-hidden">
-                  <div className="absolute inset-0 bg-gradient-to-tr from-emerald-950/20 via-transparent to-transparent pointer-events-none" />
-                  <div className="flex items-center justify-between border-b border-white/10 pb-4">
-                    <h3 className="text-lg font-black uppercase tracking-widest text-emerald-400 flex items-center gap-2">
-                      <Calendar className="w-5 h-5" /> High-Yield Revision Box
-                    </h3>
-                    <span className="text-[9px] font-black uppercase tracking-widest bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded text-emerald-400">BHMS Rapid Prep</span>
-                  </div>
-
-                  <div className="grid md:grid-cols-2 gap-8">
-                    <div className="space-y-4">
-                      <h4 className="text-[10px] font-black uppercase text-zinc-400 tracking-widest">Key Comparison Pearls</h4>
-                      <ul className="space-y-2">
-                        {currentDisease.quickRevisionBox.keyNotes.map((note, idx) => (
-                          <li key={idx} className="text-xs font-bold text-zinc-200 flex items-start gap-2.5">
-                            <span className="w-4 h-4 rounded bg-emerald-500/20 text-emerald-400 flex items-center justify-center text-[9px] font-black shrink-0">{idx+1}</span>
-                            <span>{note}</span>
-                          </li>
-                        ))}
-                      </ul>
+                        Disease <span className="text-primary italic">Hub</span>
+                      </motion.h1>
+                      <motion.p 
+                        initial={{ opacity: 0, y: 20 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        transition={{ delay: 0.1 }}
+                        className="text-lg md:text-xl font-bold text-text-secondary leading-relaxed max-w-3xl mx-auto"
+                      >
+                        Understand Diseases Systematically — From Pathophysiology and Clinical Diagnosis to the Homoeopathic Approach.
+                      </motion.p>
                     </div>
 
-                    <div className="space-y-4 text-xs font-bold text-zinc-300">
-                      <div className="p-4 bg-white/5 rounded-2xl border border-white/5 space-y-2">
-                        <p><strong className="text-emerald-400 uppercase tracking-wider text-[10px]">Miasmatic Dominance:</strong> {currentDisease.quickRevisionBox.miasmaticDominance}</p>
-                        <p><strong className="text-emerald-400 uppercase tracking-wider text-[10px]">Thermal Response:</strong> {currentDisease.quickRevisionBox.thermalState}</p>
-                        <p><strong className="text-emerald-400 uppercase tracking-wider text-[10px]">Primary Organ Affinity:</strong> {currentDisease.quickRevisionBox.organAffinity}</p>
-                      </div>
-
-                      <div className="p-4 bg-emerald-950/20 rounded-2xl border border-emerald-500/10">
-                        <strong className="text-emerald-400 uppercase tracking-wider text-[10px] block mb-1">Study Mnemonic Device</strong>
-                        <p className="font-mono text-[11px] text-zinc-200">{currentDisease.quickRevisionBox.memoryMnemonic}</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                {/* 9. Interactive MCQs */}
-                <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-soft space-y-6">
-                  <div className="flex justify-between items-center border-b border-border pb-4">
-                    <div>
-                      <h3 className="text-xl font-display font-black uppercase tracking-tight text-text-primary flex items-center gap-2">
-                        <FileQuestion className="w-5 h-5 text-primary" /> Self-Assessment Examination
-                      </h3>
-                      <p className="text-xs font-bold text-text-secondary mt-1">High-yield comparative study questions with immediate feedback.</p>
-                    </div>
-                    <button
-                      onClick={() => resetMCQs(currentDisease.id)}
-                      className="flex items-center gap-1.5 px-3 py-1.5 bg-bg-secondary text-text-secondary hover:text-primary rounded-xl border border-border text-[10px] font-black uppercase tracking-widest transition-all"
+                    <motion.div
+                      initial={{ opacity: 0, scale: 0.95 }}
+                      animate={{ opacity: 1, scale: 1 }}
+                      transition={{ delay: 0.2 }}
                     >
-                      <RotateCcw className="w-3 h-3" /> Reset MCQs
-                    </button>
+                      <DiseaseSearch />
+                    </motion.div>
                   </div>
 
-                  <div className="space-y-8">
-                    {currentDisease.mcqs.map((q, idx) => {
-                      const isGraded = showGrading[q.id];
-                      const selectedAns = userAnswers[q.id];
-                      return (
-                        <div key={q.id} className="p-6 bg-bg-secondary rounded-3xl border border-border space-y-4">
-                          <div className="flex items-start gap-3">
-                            <span className="w-6 h-6 rounded-full bg-primary/10 text-primary flex items-center justify-center text-xs font-black shrink-0">Q{idx+1}</span>
-                            <p className="text-sm font-black text-text-primary">{q.question}</p>
-                          </div>
+                  {/* SECTION 2 — LEARNING JOURNEY */}
+                  <div className="space-y-10">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                      <div>
+                        <h2 className="text-2xl font-display font-black text-text-primary uppercase tracking-tight">The Learning <span className="text-primary italic">Journey</span></h2>
+                        <p className="text-xs font-bold text-text-secondary mt-1">Our methodology from clinical foundation to homoeopathic mastery.</p>
+                      </div>
+                      <div className="text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary px-4 py-1.5 rounded-full border border-primary/10">
+                        Academic Standard
+                      </div>
+                    </div>
+                    <LearningJourney />
+                  </div>
 
-                          <div className="grid md:grid-cols-2 gap-3 pl-9">
-                            {q.options.map((opt, oIdx) => {
-                              const isSelected = selectedAns === oIdx;
-                              const isCorrect = q.correctAnswer === oIdx;
-                              let buttonClass = 'bg-bg-primary border-border text-text-primary hover:border-primary/50';
-                              
-                              if (isGraded) {
-                                if (isCorrect) {
-                                  buttonClass = 'bg-emerald-500/10 border-emerald-500 text-emerald-600';
-                                } else if (isSelected) {
-                                  buttonClass = 'bg-rose-500/10 border-rose-500 text-rose-600';
-                                } else {
-                                  buttonClass = 'bg-bg-primary border-border text-text-secondary opacity-60';
-                                }
-                              } else if (isSelected) {
-                                buttonClass = 'bg-primary/5 border-primary text-primary';
-                              }
+                  {/* SECTION 3 — EXPLORE BY BODY SYSTEM */}
+                  <div className="space-y-10">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                      <div>
+                        <h2 className="text-2xl font-display font-black text-text-primary uppercase tracking-tight">Explore by <span className="text-primary italic">Body System</span></h2>
+                        <p className="text-xs font-bold text-text-secondary mt-1">Systematic clinical resource index for medical students.</p>
+                      </div>
+                    </div>
+                    <SystemGrid onSelectSystem={handleSelectSystem} />
+                  </div>
 
-                              return (
-                                <button
-                                  key={oIdx}
-                                  disabled={isGraded}
-                                  onClick={() => handleMCQAnswer(q.id, oIdx)}
-                                  className={`p-3.5 rounded-xl text-left text-xs font-bold uppercase tracking-wide border transition-all flex items-center justify-between ${buttonClass}`}
-                                >
-                                  <span>{opt}</span>
-                                  {isGraded && isCorrect && <Check className="w-3.5 h-3.5 text-emerald-500" />}
-                                  {isGraded && isSelected && !isCorrect && <XCircle className="w-3.5 h-3.5 text-rose-500" />}
-                                </button>
-                              );
-                            })}
-                          </div>
+                  {/* SECTION 4 — QUICK ACCESS */}
+                  <div className="space-y-10">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4 text-center md:text-left">
+                      <div className="mx-auto md:mx-0">
+                        <h2 className="text-2xl font-display font-black text-text-primary uppercase tracking-tight">Quick <span className="text-primary italic">Access</span></h2>
+                        <p className="text-xs font-bold text-text-secondary mt-1">Rapid navigation to prioritized medical study categories.</p>
+                      </div>
+                    </div>
+                    <QuickAccess />
+                  </div>
 
-                          {isGraded && (
-                            <motion.div 
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              className="pl-9 text-xs font-bold text-text-secondary border-t border-border pt-3 mt-2 flex gap-2"
-                            >
-                              <Info className="w-4 h-4 text-emerald-500 shrink-0 mt-0.5" />
-                              <p>
-                                <strong className="text-text-primary">Clinical Rationale:</strong> {q.explanation}
-                              </p>
-                            </motion.div>
-                          )}
-                        </div>
-                      );
-                    })}
+                  {/* SECTION 5 — HOW TO STUDY A DISEASE */}
+                  <StudyGuide />
+
+                  {/* SECTION 6 — FEATURED DISEASES */}
+                  <div className="space-y-10">
+                    <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                      <div>
+                        <h2 className="text-2xl font-display font-black text-text-primary uppercase tracking-tight">Featured <span className="text-primary italic">Diseases</span></h2>
+                        <p className="text-xs font-bold text-text-secondary mt-1">High-yield study modules for BHMS curriculum.</p>
+                      </div>
+                      <button 
+                        onClick={() => navigate('/disease-hub/directory')}
+                        className="text-xs font-black uppercase tracking-widest text-primary hover:underline underline-offset-4 transition-all"
+                      >
+                        View All Diseases →
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                      {diseaseHubData.slice(0, 3).map((disease) => (
+                        <DiseaseCard 
+                          key={disease.id} 
+                          disease={disease} 
+                          onClick={handleSelectDisease} 
+                        />
+                      ))}
+                    </div>
                   </div>
                 </div>
+              )}
 
-              </section>
+              {viewMode === 'diseases' && selectedSystem && (
+                <DiseaseList 
+                  system={selectedSystem} 
+                  diseases={diseasesInSystem} 
+                  onSelectDisease={handleSelectDisease}
+                  onBack={handleBackToSystems}
+                />
+              )}
             </motion.div>
           )}
         </AnimatePresence>

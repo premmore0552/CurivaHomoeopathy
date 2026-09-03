@@ -113,11 +113,13 @@ export interface FMTChapterDetail {
   module?: string;
   description?: string;
   readTime: string;
+  studyTime?: string;
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   bhmsYear?: string;
   examImportance?: 'Very High' | 'High' | 'Moderate' | 'Basic';
   contentStatus?: 'Draft' | 'Published';
   lastUpdated?: string;
+  revisionContent?: string;
   
   learningObjectives: string[];
   introduction: string;
@@ -142,8 +144,8 @@ export interface FMTChapterDetail {
   previousExamQuestions: { question: string; year: string; marks: number }[];
   importantExamQuestions?: { question: string; type: 'short' | 'long' }[];
   vivaQuestions: VivaQuestion[];
-  shortNotes: { title: string; answer: string }[];
-  longQuestions: { title: string; outline: string[] }[];
+  shortNotes?: { title: string; answer: string }[];
+  longQuestions?: { title: string; outline: string[] }[];
   mcqs: MCQ[];
   caseBasedQuestions: CaseQuestion[];
   summary: string;
@@ -156,15 +158,20 @@ export interface FMTChapterDetail {
   subtopics?: string[];
   comparisonTopics?: string[];
   relatedTopics?: string[];
-  revisionSheet: string[];
+  revisionSheet?: string[];
   flashcards: Flashcard[];
   isComingSoon?: boolean;
 }
 
 import { FMT_FULL_STRUCTURE } from './fmtFullStructure';
+import { DEATH_MODULE } from './modules/deathModule';
 
 export const FMT_DETAILED_CHAPTERS: FMTChapterDetail[] = FMT_FULL_STRUCTURE.map(topic => {
-  // Try to find if we have detailed content for this topic in existing parts
+  // Check our new modules first
+  const moduleTopic = DEATH_MODULE.find(m => m.id === topic.id);
+  if (moduleTopic) return moduleTopic;
+
+  // Fallback to existing parts
   const existingDetailed = [
     ...FMT_SECTION_A_CHAPTERS_PART1,
     ...FMT_SECTION_A_CHAPTERS_PART2,

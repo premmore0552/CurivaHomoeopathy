@@ -10,7 +10,14 @@ interface Question {
   explanation: string;
 }
 
-const QUIZ_DATA: Question[] = [
+interface AssessmentQuizProps {
+  questions?: Question[];
+  title?: string;
+  subtitle?: string;
+  onComplete?: (score: number, total: number) => void;
+}
+
+const DEFAULT_QUIZ_DATA: Question[] = [
   {
     id: 1,
     question: "What is the primary principle of Homoeopathy as defined by Samuel Hahnemann?",
@@ -49,7 +56,12 @@ const QUIZ_DATA: Question[] = [
   }
 ];
 
-export default function AssessmentQuiz() {
+export default function AssessmentQuiz({ 
+  questions = DEFAULT_QUIZ_DATA, 
+  title = "Clinical Self-Assessment",
+  subtitle = "Knowledge Verification Module",
+  onComplete
+}: AssessmentQuizProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [selectedOption, setSelectedOption] = useState<number | null>(null);
   const [isAnswered, setIsAnswered] = useState(false);
@@ -60,18 +72,19 @@ export default function AssessmentQuiz() {
     if (isAnswered) return;
     setSelectedOption(idx);
     setIsAnswered(true);
-    if (idx === QUIZ_DATA[currentStep].correct) {
+    if (idx === questions[currentStep].correct) {
       setScore(prev => prev + 1);
     }
   };
 
   const nextQuestion = () => {
-    if (currentStep < QUIZ_DATA.length - 1) {
+    if (currentStep < questions.length - 1) {
       setCurrentStep(prev => prev + 1);
       setSelectedOption(null);
       setIsAnswered(false);
     } else {
       setShowResults(true);
+      if (onComplete) onComplete(score, questions.length);
     }
   };
 
@@ -94,26 +107,26 @@ export default function AssessmentQuiz() {
                   <HelpCircle className="w-6 h-6" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-display font-black text-text-primary uppercase tracking-tight">Clinical <span className="text-primary">Self-Assessment</span></h3>
-                  <p className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">Knowledge Verification Module</p>
+                  <h3 className="text-xl font-display font-black text-text-primary uppercase tracking-tight">{title.split(' ')[0]} <span className="text-primary">{title.split(' ').slice(1).join(' ')}</span></h3>
+                  <p className="text-[10px] text-text-secondary uppercase tracking-widest font-bold">{subtitle}</p>
                 </div>
               </div>
               <div className="text-sm font-black text-primary bg-primary/10 px-4 py-2 rounded-full border border-primary/20">
-                {currentStep + 1} / {QUIZ_DATA.length}
+                {currentStep + 1} / {questions.length}
               </div>
             </div>
 
             <div className="min-h-[100px]">
               <h4 className="text-2xl md:text-3xl font-display font-bold text-text-primary leading-tight lowercase first-letter:uppercase">
-                {QUIZ_DATA[currentStep].question}
+                {questions[currentStep].question}
               </h4>
             </div>
 
             <div className="grid gap-3">
-              {QUIZ_DATA[currentStep].options.map((option, idx) => {
+              {questions[currentStep].options.map((option, idx) => {
                 let statusClass = 'border-border bg-bg-primary hover:border-primary/50';
                 if (isAnswered) {
-                  if (idx === QUIZ_DATA[currentStep].correct) {
+                  if (idx === questions[currentStep].correct) {
                     statusClass = 'border-green-500 bg-green-500/10 text-green-700';
                   } else if (idx === selectedOption) {
                     statusClass = 'border-red-500 bg-red-500/10 text-red-700';
@@ -130,7 +143,7 @@ export default function AssessmentQuiz() {
                     className={`p-5 rounded-2xl border text-left font-bold transition-all flex items-center justify-between group ${statusClass}`}
                   >
                     <span>{option}</span>
-                    {isAnswered && idx === QUIZ_DATA[currentStep].correct && <CheckCircle2 className="w-5 h-5 text-green-500" />}
+                    {isAnswered && idx === questions[currentStep].correct && <CheckCircle2 className="w-5 h-5 text-green-500" />}
                   </button>
                 );
               })}
@@ -145,13 +158,13 @@ export default function AssessmentQuiz() {
                 >
                   <p className="text-sm text-text-secondary leading-relaxed first-letter:font-black first-letter:text-primary">
                     <span className="font-bold text-primary italic mr-2">Explanation:</span>
-                    {QUIZ_DATA[currentStep].explanation}
+                    {questions[currentStep].explanation}
                   </p>
                   <button
                     onClick={nextQuestion}
                     className="mt-6 flex items-center gap-2 px-8 py-3 bg-primary text-white font-black rounded-xl hover:scale-105 transition-transform uppercase tracking-widest text-xs ml-auto"
                   >
-                    {currentStep < QUIZ_DATA.length - 1 ? 'Next Question' : 'View Results'}
+                    {currentStep < questions.length - 1 ? 'Next Question' : 'View Results'}
                     <ChevronRight className="w-4 h-4" />
                   </button>
                 </motion.div>
@@ -165,10 +178,10 @@ export default function AssessmentQuiz() {
             </div>
             <div>
               <h3 className="text-4xl font-display font-black text-text-primary uppercase tracking-tight italic">
-                {score === QUIZ_DATA.length ? 'Perfect Score!' : 'Well Done!'}
+                {score === questions.length ? 'Perfect Score!' : 'Well Done!'}
               </h3>
               <p className="text-text-secondary font-medium mt-2">
-                You scored <span className="text-primary font-black text-2xl">{score}</span> out of {QUIZ_DATA.length} correctly.
+                You scored <span className="text-primary font-black text-2xl">{score}</span> out of {questions.length} correctly.
               </p>
             </div>
             <div className="flex justify-center gap-4">

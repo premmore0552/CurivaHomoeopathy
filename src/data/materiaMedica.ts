@@ -4566,5 +4566,271 @@ export const materiaMedicaData: RemedyDetail[] = [
       "Sunset to sunrise"
     ]
   }
+},
+{
+  "id": "convallaria",
+  "name": "Convallaria Majalis",
+  "commonName": "Lily of the Valley",
+  "family": "Liliaceae",
+  "dosage": "Tincture to 3X in heart failure. 30C for nervous symptoms.",
+  "keynotes": [
+    "Heart feels too full; extremely rapid and irregular pulse",
+    "Great soreness in the uterine region, with sympathetic heart pains",
+    "Hydrothorax and anasarca dependent on heart disease",
+    "A constant urge to urinate",
+    "Heart's action is weak and irregular"
+  ],
+  "mind": [
+    "Dullness and inability to think",
+    "Irritable and easily angered",
+    "Depression related to physical weakness"
+  ],
+  "physical": [
+    "Palpitations from least exertion",
+    "Dyspnea on lying down; must sit up",
+    "Sensation as if the heart ceased beating and then started again",
+    "Tobacco heart, especially from cigarettes"
+  ],
+  "modalities": {
+    "better": ["Open air"],
+    "worse": ["Warm room", "Lying down", "Exertion"]
+  }
+},
+{
+  "id": "crataegus",
+  "name": "Crataegus Oxyacantha",
+  "commonName": "Hawthorn Berries",
+  "family": "Rosaceae",
+  "dosage": "Tincture, 5-20 drops in water, three times daily for chronic heart conditions.",
+  "keynotes": [
+    "A great heart tonic; acts on the muscle of the heart",
+    "Heart failure with extreme dyspnea on least exertion",
+    "Pulse very feeble, irregular, intermittent",
+    "Insomnia of aortic sufferers",
+    "Diabetes, especially in children"
+  ],
+  "mind": [
+    "Apprehension and irritability",
+    "Despondency about health"
+  ],
+  "physical": [
+    "Extreme dyspnea on least exertion, without much increase in pulse",
+    "Cold extremities and blue lips",
+    "Pain in region of heart and under left clavicle",
+    "Anasarca and edema"
+  ],
+  "modalities": {
+    "better": ["Quiet and rest", "Fresh air"],
+    "worse": ["Warm room", "Exertion"]
+  }
+},
+{
+  "id": "adonis",
+  "name": "Adonis Vernalis",
+  "commonName": "Pheasant's Eye",
+  "family": "Ranunculaceae",
+  "dosage": "5-10 drops of the tincture. 2X or 3X for chronic use.",
+  "keynotes": [
+    "Valvular insufficiency; heart's action is rapid and irregular",
+    "Precordial pain, palpitation, and dyspnea",
+    "A great diuretic; increases urine flow in dropsy",
+    "Low blood pressure with weak heart"
+  ],
+  "mind": [
+    "Mental depression",
+    "Faintness and weakness"
+  ],
+  "physical": [
+    "Oedema and anasarca with heart failure",
+    "Mitral and aortic regurgitation",
+    "Pulse rapid, irregular, and feeble"
+  ],
+  "modalities": {
+    "better": ["Rest", "Quiet"],
+    "worse": ["Exertion"]
+  }
+},
+{
+  "id": "naja",
+  "name": "Naja Tripudians",
+  "commonName": "Cobra Poison",
+  "family": "Viperidae",
+  "dosage": "6C to 30C and higher.",
+  "keynotes": [
+    "Valvular heart disease with dry, teasing cough",
+    "Heart symptoms with pain in left ovary",
+    "Pulse is weak, slow, and irregular",
+    "Sensation as if heart and ovary were drawn together"
+  ],
+  "mind": [
+    "Brooding over imaginary troubles",
+    "Suicidal melancholy",
+    "Fear of being left alone"
+  ],
+  "physical": [
+    "Angina pectoris; pain radiating to left arm",
+    "Weight and oppression on the chest",
+    "Asthma, cardiac in origin"
+  ],
+  "modalities": {
+    "better": ["Walking in open air", "Lying on right side"],
+    "worse": ["Sleep", "Lying on left side", "Cold", "Damp"]
+  }
+},
+{
+  "id": "viscum",
+  "name": "Viscum Album",
+  "commonName": "Mistletoe",
+  "family": "Loranthaceae",
+  "dosage": "Tincture to 30C.",
+  "keynotes": [
+    "Hypertrophy with valvular insufficiency",
+    "Pulse is slow, full, and bounding",
+    "Epileptiform vertigo",
+    "Weight and oppression in the heart region"
+  ],
+  "mind": [
+    "Drowsy and stupid",
+    "Depressed"
+  ],
+  "physical": [
+    "Rheumatic pains in all parts of the body",
+    "Dyspnea on exertion",
+    "Sensation as if a hand were squeezing the heart"
+  ],
+  "modalities": {
+    "better": ["Quiet"],
+    "worse": ["Winter", "Cold", "Movement"]
+  }
+},
+{
+  "id": "strophanthus",
+  "name": "Strophanthus Hispidus",
+  "commonName": "Kombe Seed",
+  "family": "Apocynaceae",
+  "dosage": "Tincture, 1-10 drops. 3X for long term use.",
+  "keynotes": [
+    "A heart tonic; increases the systolic contraction",
+    "Edema of the lungs and cardiac dropsy",
+    "Pulse is rapid, small, and irregular",
+    "Better for old age heart failure"
+  ],
+  "mind": [
+    "Anxious and fearful",
+    "Nervousness"
+  ],
+  "physical": [
+    "Dyspnea, especially on ascending",
+    "Exophthalmic goiter with heart symptoms",
+    "Pruritus of the skin in heart diseases"
+  ],
+  "modalities": {
+    "better": ["Fresh air", "Rest"],
+    "worse": ["Exertion", "Alcohol", "Tobacco"]
+  }
+},
+{
+  "id": "kalmia",
+  "name": "Kalmia Latifolia",
+  "commonName": "Mountain Laurel",
+  "family": "Ericaceae",
+  "dosage": "1X to 30C.",
+  "keynotes": [
+    "Rheumatism and heart complaints; pains shift rapidly",
+    "Heart's action is very slow, with great weakness",
+    "Neuralgia; pains are sharp, tearing, and move downwards",
+    "Hypertrophy of the heart with palpitation"
+  ],
+  "mind": [
+    "Anxious and fearful",
+    "Mental confusion"
+  ],
+  "physical": [
+    "Sharp, stitching pains in the heart, extending to the left shoulder",
+    "Pulse is slow, feeble, and sometimes irregular",
+    "Numbness and coldness of the left arm"
+  ],
+  "modalities": {
+    "better": ["Lying on right side", "Eating"],
+    "worse": ["Motion", "Leaning forward", "Lying on left side"]
+  }
+},
+{
+  "id": "latrodectus",
+  "name": "Latrodectus Mactans",
+  "commonName": "Black Widow Spider",
+  "family": "Araneae",
+  "dosage": "3C to 30C.",
+  "keynotes": [
+    "A great remedy for Angina Pectoris; violent precordial pain",
+    "Pain radiates to the left arm and hand, which feel numb",
+    "Extreme anxiety and fear of death",
+    "Skin is cold as ice; gasping for breath"
+  ],
+  "mind": [
+    "Extreme anxiety and fear",
+    "Restlessness"
+  ],
+  "physical": [
+    "Violent, sharp, stinging pain in the heart region",
+    "Pulse is thready, weak, and rapid",
+    "Sensation of a tight band around the chest"
+  ],
+  "modalities": {
+    "better": ["Quiet", "Stillness"],
+    "worse": ["Motion", "Least exertion"]
+  }
+},
+{
+  "id": "secale",
+  "name": "Secale Cornutum",
+  "commonName": "Ergot of Rye",
+  "family": "Fungi",
+  "dosage": "1X to 30C.",
+  "keynotes": [
+    "Coldness of the body, yet cannot bear to be covered",
+    "Hemorrhages; blood is thin, dark, and persistent",
+    "Gangrene and ulcers, better from cold applications",
+    "Thin, scrawny, withered appearance of the patient"
+  ],
+  "mind": [
+    "Anxious and fearful",
+    "Delirium with tendency to tear things"
+  ],
+  "physical": [
+    "Burning pains in all parts, as if sparks of fire were falling",
+    "Icy coldness of the skin, yet hates warmth",
+    "Cramps in the hands and feet"
+  ],
+  "modalities": {
+    "better": ["Cold applications", "Uncovering", "Rubbing"],
+    "worse": ["Warmth", "Wrapping up", "Hot applications"]
+  }
+},
+{
+  "id": "lycopus",
+  "name": "Lycopus Virginicus",
+  "commonName": "Bugleweed",
+  "family": "Labiatae",
+  "dosage": "Tincture to 3X.",
+  "keynotes": [
+    "A heart sedative; lowers the blood pressure and pulse rate",
+    "Exophthalmic goiter with cardiac symptoms",
+    "Heart's action is rapid, tumultuous, and irregular",
+    "Hemorrhages from the lungs with heart disease"
+  ],
+  "mind": [
+    "Anxious",
+    "Depressed"
+  ],
+  "physical": [
+    "Precordial pain with great oppression",
+    "Palpitations from least exertion or emotion",
+    "Weakness and dizziness"
+  ],
+  "modalities": {
+    "better": ["Lying down on right side"],
+    "worse": ["Motion", "Excitement"]
+  }
 }
 ];

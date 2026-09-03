@@ -3,12 +3,13 @@ import { Sun, Moon } from 'lucide-react';
 import { useTheme } from '../context/ThemeContext';
 import { motion } from 'motion/react';
 
-export default function ThemeToggle() {
+export default function ThemeToggle({ style }: { style?: React.CSSProperties }) {
   const { theme, toggleTheme } = useTheme();
 
   return (
     <button
       onClick={toggleTheme}
+      style={style}
       className="relative p-2 rounded-full border border-border bg-bg-secondary hover:bg-bg-tertiary text-text-secondary hover:text-text-primary transition-all duration-300 flex items-center justify-center cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/40 focus:ring-offset-1 shrink-0"
       aria-label="Toggle Theme"
       id="theme-toggle-btn"

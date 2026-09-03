@@ -3,15 +3,24 @@ import { useSearchParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { Search, ArrowLeft, BookOpen, Layers, Zap, GraduationCap, HelpCircle, ChevronRight } from 'lucide-react';
 import { searchFMTTopics } from '../utils/fmtSearch';
-import { FMT_COMPARISONS } from '../data/fmtComparisons';
+import { FMT_COMPARISONS, FMTComparison } from '../data/fmtComparisons';
 import SEO from '../components/SEO';
+import { FMTChapterDetail } from '../data/fmtDetailedChapters';
 
 import FmtBottomNav from '../components/FmtBottomNav';
+
+interface SearchResults {
+  topics: { topic: FMTChapterDetail; score: number }[];
+  comparisons: FMTComparison[];
+  revision: { topic: FMTChapterDetail; score: number }[];
+  viva: { topic: FMTChapterDetail; score: number }[];
+  mcqs: { topic: FMTChapterDetail; score: number }[];
+}
 
 export default function FmtSearchPage() {
   const [searchParams] = useSearchParams();
   const query = searchParams.get('q') || '';
-  const [results, setResults] = useState<any>({
+  const [results, setResults] = useState<SearchResults>({
     topics: [],
     comparisons: [],
     revision: [],
@@ -31,22 +40,22 @@ export default function FmtSearchPage() {
       );
 
       // Search Revision (for now, reuse topic search but filter by revision availability)
-      const revisionResults = topicResults.filter(r => r.topic.revisionContent);
+      const revisionResults = topicResults.filter(r => r.topic.revisionContent || (r.topic.revisionSheet?.length ?? 0) > 0);
 
       // Search Viva
-      const vivaResults = topicResults.filter(r => r.topic.vivaQuestions?.length > 0);
+      const vivaResults = topicResults.filter(r => (r.topic.vivaQuestions?.length ?? 0) > 0);
 
       setResults({
-        topics: topicResults,
+        topics: topicResults as any,
         comparisons: compResults,
-        revision: revisionResults,
-        viva: vivaResults,
-        mcqs: topicResults // Simplified for now
+        revision: revisionResults as any,
+        viva: vivaResults as any,
+        mcqs: topicResults as any // Simplified for now
       });
     }
   }, [query]);
 
-  const hasResults = Object.values(results).some((arr: any) => arr.length > 0);
+  const hasResults = Object.values(results).some((arr) => (arr as any[]).length > 0);
 
   return (
     <div className="min-h-screen bg-bg-primary pb-20">
@@ -70,7 +79,7 @@ export default function FmtSearchPage() {
               Search: "{query}"
             </h1>
             <p className="text-sm text-text-secondary font-medium">
-              Found {Object.values(results).reduce((acc: number, val: any) => acc + val.length, 0)} results across all learning modules.
+              Found {Object.values(results).reduce((acc: number, val: any) => acc + (val as any[]).length, 0)} results across all learning modules.
             </p>
           </div>
         </div>

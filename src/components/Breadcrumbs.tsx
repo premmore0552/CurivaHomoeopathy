@@ -61,6 +61,8 @@ const Breadcrumbs: React.FC = () => {
       'remedy': 'Remedy',
       'conditions': 'Ailment',
       'explore-symptoms': 'Ailments',
+      'disease-hub': 'Disease Hub',
+      'directory': 'Directory',
       'repertory': 'Repertory Tool',
       'visualization': 'Visualizer',
       'library': 'Library',

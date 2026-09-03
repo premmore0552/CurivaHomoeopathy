@@ -4,7 +4,7 @@ import { motion } from 'motion/react';
 import { 
   Search, BookOpen, Zap, Layers, HelpCircle, 
   ChevronRight, ArrowRight, Sparkles,
-  ShieldAlert, Scale, Clock, Award, GraduationCap
+  ShieldAlert, Scale, Clock, Award, GraduationCap, BarChart3
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import Logo from '../components/Logo';
@@ -105,6 +105,13 @@ export default function FmtHome() {
             >
               <Zap className="w-5 h-5 text-primary" />
               Quick Revision
+            </Link>
+            <Link 
+              to="/fmt/tracker"
+              className="px-8 py-4 bg-white dark:bg-zinc-900 border border-border/60 text-text-primary rounded-2xl font-bold flex items-center gap-2 shadow-soft hover:border-primary/30 transition-all"
+            >
+              <BarChart3 className="w-5 h-5 text-primary" />
+              Content Pipeline
             </Link>
           </motion.div>
 
@@ -208,19 +215,19 @@ export default function FmtHome() {
         {/* Features Quick Access */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
           {[
-            { title: 'Quick Revision', icon: <Zap />, to: '/fmt/quick-revision', color: 'bg-amber-500', desc: 'Revise high-yield topics in minutes.' },
-            { title: 'Comparison Hub', icon: <Layers />, to: '/fmt/compare', color: 'bg-primary', desc: 'Differential findings at a glance.' },
-            { title: 'MCQ Practice', icon: <HelpCircle />, to: '/fmt/mcq', color: 'bg-indigo-500', desc: 'Test your knowledge with 1000+ MCQs.' },
-            { title: 'Viva Mode', icon: <GraduationCap />, to: '/fmt/viva', color: 'bg-emerald-500', desc: 'Master oral exams with flashcards.' }
-          ].map((feat, idx) => (
+            { title: 'Quick Revision', icon: Zap, to: '/fmt/quick-revision', color: 'bg-amber-500', desc: 'Revise high-yield topics in minutes.' },
+            { title: 'Comparison Hub', icon: Layers, to: '/fmt/compare', color: 'bg-primary', desc: 'Differential findings at a glance.' },
+            { title: 'MCQ Practice', icon: HelpCircle, to: '/fmt/mcq', color: 'bg-indigo-500', desc: 'Test your knowledge with 1000+ MCQs.' },
+            { title: 'Viva Mode', icon: GraduationCap, to: '/fmt/viva', color: 'bg-emerald-500', desc: 'Master oral exams with flashcards.' }
+          ].map((feat) => (
             <Link 
               key={feat.title}
               to={feat.to}
               className="p-6 bg-white dark:bg-zinc-900 border border-border/70 rounded-[2rem] shadow-soft hover:shadow-glow hover:border-primary/30 transition-all group"
             >
               <div className="space-y-4">
-                <div className={`w-12 h-12 ${feat.color} rounded-2xl flex items-center justify-center text-white shadow-lg shadow-${feat.color.split('-')[1]}-500/20 group-hover:scale-110 transition-transform`}>
-                  {React.cloneElement(feat.icon as React.ReactElement, { className: 'w-6 h-6' })}
+                <div className={`w-12 h-12 ${feat.color} rounded-2xl flex items-center justify-center text-white shadow-lg shadow-amber-500/20 group-hover:scale-110 transition-transform`}>
+                  <feat.icon className="w-6 h-6" />
                 </div>
                 <div className="space-y-1">
                   <h3 className="text-lg font-display font-black text-text-primary tracking-tight group-hover:text-primary transition-colors">

@@ -71,6 +71,9 @@ const FindRemedy = lazyLoad(() => import('./pages/FindRemedy'));
 const MCQPractice = lazyLoad(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazyLoad(() => import('./pages/ClinicalGuides'));
 const DiseaseHub = lazyLoad(() => import('./pages/DiseaseHub'));
+const DiseaseDirectory = lazyLoad(() => import('./pages/DiseaseDirectory'));
+const DiseaseCategoryPage = lazyLoad(() => import('./pages/DiseaseCategoryPage'));
+const DiseasePage = lazyLoad(() => import('./pages/DiseasePage'));
 const SymptomChecker = lazyLoad(() => import('./pages/SymptomChecker'));
 const HairFallGuide = lazyLoad(() => import('./pages/HairFallGuide'));
 const Miasms = lazyLoad(() => import('./pages/Miasms'));
@@ -110,6 +113,7 @@ const PracticeOfMedicineSubject = lazyLoad(() => import('./pages/PracticeOfMedic
 const CellInjuryMasterPage = lazyLoad(() => import('./pages/CellInjuryMasterPage'));
 const UniversityBlueprints = lazyLoad(() => import('./pages/UniversityBlueprints'));
 const FlashcardsPage = lazyLoad(() => import('./pages/FlashcardsPage'));
+const Quizzes = lazyLoad(() => import('./pages/Quizzes'));
 const AiapgetMcqSimulator = lazyLoad(() => import('./pages/AiapgetMcqSimulator'));
 const ClinicalTherapeuticsPage = lazyLoad(() => import('./pages/ClinicalTherapeuticsPage'));
 
@@ -267,6 +271,8 @@ function AppRoutes() {
                 <Route path="/blueprints" element={<PageWrapper><UniversityBlueprints /></PageWrapper>} />
                 <Route path="/university-blueprints" element={<PageWrapper><UniversityBlueprints /></PageWrapper>} />
                 <Route path="/flashcards" element={<PageWrapper><FlashcardsPage /></PageWrapper>} />
+                <Route path="/quizzes" element={<PageWrapper><Quizzes /></PageWrapper>} />
+                <Route path="/quiz" element={<Navigate to="/quizzes" replace />} />
                 <Route path="/aiapget-mcq-simulator" element={<PageWrapper><AiapgetMcqSimulator /></PageWrapper>} />
                 <Route path="/clinical-therapeutics" element={<PageWrapper><ClinicalTherapeuticsPage /></PageWrapper>} />
 
@@ -324,10 +330,20 @@ function AppRoutes() {
                 <Route path="/homoeopathy/materia-medica/:remedyId" element={<PageWrapper><RemedyDetail /></PageWrapper>} />
                 <Route path="/homoeopathy/miasms" element={<PageWrapper><Miasms /></PageWrapper>} />
 
-                {/* Disease Library Hierarchical Routes */}
-                <Route path="/disease-library" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
-                <Route path="/disease-library/:category" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
-                <Route path="/disease-library/:category/:slug" element={<PageWrapper><ConditionDetail /></PageWrapper>} />
+                {/* Disease Hub Hierarchical Routes */}
+                <Route path="/disease-hub" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
+                <Route path="/disease-hub/directory" element={<PageWrapper><DiseaseDirectory /></PageWrapper>} />
+                <Route path="/disease-hub/:systemSlug" element={<PageWrapper><DiseaseCategoryPage /></PageWrapper>} />
+                <Route path="/disease-hub/:systemSlug/:diseaseSlug" element={<PageWrapper><DiseasePage /></PageWrapper>} />
+                
+                {/* Legacy Redirects */}
+                <Route path="/diseases" element={<Navigate to="/disease-hub/directory" replace />} />
+                <Route path="/diseases/:systemSlug" element={<Navigate to="/disease-hub/:systemSlug" replace />} />
+                <Route path="/diseases/:systemSlug/:diseaseSlug" element={<Navigate to="/disease-hub/:systemSlug/:diseaseSlug" replace />} />
+                <Route path="/disease-library" element={<Navigate to="/disease-hub" replace />} />
+                <Route path="/disease-library/:category" element={<Navigate to="/disease-hub" replace />} />
+                <Route path="/disease-library/:category/:slug" element={<Navigate to="/disease-hub" replace />} />
+                <Route path="/clinical-guides" element={<Navigate to="/disease-hub" replace />} />
 
                 {/* Student Academy Hierarchical Routes */}
                 <Route path="/student-academy" element={<PageWrapper><StudentResources /></PageWrapper>} />
@@ -410,13 +426,12 @@ function AppRoutes() {
                 <Route path="/fmt/compare/:comparisonSlug" element={<PageWrapper><FmtComparisonDetail /></PageWrapper>} />
                 <Route path="/fmt/quick-revision" element={<PageWrapper><FmtQuickRevision /></PageWrapper>} />
                 <Route path="/fmt/viva" element={<PageWrapper><FmtVivaBank /></PageWrapper>} />
+                <Route path="/fmt/tracker" element={<PageWrapper><FmtContentTracker /></PageWrapper>} />
                 <Route path="/fmt/mcq" element={<PageWrapper><FmtMcqSystem /></PageWrapper>} />
                 <Route path="/fmt/search" element={<PageWrapper><FmtSearchPage /></PageWrapper>} />
                 <Route path="/fmt/:chapterId" element={<PageWrapper><FmtTopicDetail /></PageWrapper>} />
                 <Route path="/forensic-medicine" element={<Navigate to="/fmt" replace />} />
                 <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/clinical-guides" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
-                <Route path="/disease-hub" element={<PageWrapper><DiseaseHub /></PageWrapper>} />
                 <Route path="/organon-philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/miasms" element={<PageWrapper><Miasms /></PageWrapper>} />
                 <Route path="/public-education" element={<PageWrapper><PublicEducation /></PageWrapper>} />
@@ -440,6 +455,8 @@ function AppRoutes() {
     </>
   );
 }
+
+import FmtContentTracker from './pages/FmtContentTracker';
 
 export default function App() {
   const [initiallyLoading, setInitiallyLoading] = useState(true);

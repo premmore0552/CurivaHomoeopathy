@@ -450,20 +450,20 @@ export default function Home() {
 
           {/* Hero Circle Stats */}
           <div className="pt-10 flex flex-wrap justify-center gap-4 sm:gap-8 max-w-4xl mx-auto">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:scale-105 transition-transform">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#134634] dark:text-emerald-400">100+</span>
+            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
+              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">100+</span>
               <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">Remedies</label>
             </div>
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:scale-105 transition-transform">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#BF8F02] dark:text-amber-400">290+</span>
+            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
+              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">290+</span>
               <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">Aphorisms</label>
             </div>
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:scale-105 transition-transform">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#134634] dark:text-emerald-400">10k+</span>
+            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
+              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">10k+</span>
               <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">MCQs</label>
             </div>
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:scale-105 transition-transform">
-              <span className="text-2xl sm:text-3xl font-extrabold text-[#BF8F02] dark:text-amber-400">4+</span>
+            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
+              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">4+</span>
               <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">AI Systems</label>
             </div>
           </div>
@@ -475,11 +475,11 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
           <Link 
             to="/cbdc-syllabus"
-            className="group bg-white dark:bg-zinc-900 border border-border/80 hover:border-[#134634]/40 rounded-[32px] p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[300px]"
+            className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
           >
             <div>
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-[#BF8F02] font-bold block mb-2">Academic Hub</span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-[#134634] transition-colors">
+              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Academic Hub</span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
                 NCH CBDC <br />Syllabus Mapping
               </h3>
             </div>
@@ -487,7 +487,7 @@ export default function Home() {
               <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
                 Official year-wise competency syllabus, allocation hours, and curriculum mapping.
               </p>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#134634] dark:text-emerald-400">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
                 View Syllabus <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -495,11 +495,11 @@ export default function Home() {
 
           <Link 
             to="/anatomy"
-            className="group bg-white dark:bg-zinc-900 border border-border/80 hover:border-[#134634]/40 rounded-[32px] p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[300px]"
+            className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
           >
             <div>
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-[#BF8F02] font-bold block mb-2">Anatomy Lab</span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-[#134634] transition-colors">
+              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Anatomy Lab</span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
                 Anatomy Core <br />Studies
               </h3>
             </div>
@@ -507,7 +507,7 @@ export default function Home() {
               <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
                 Regional dissection references and structural diagrams for the first year BHMS student.
               </p>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#134634] dark:text-emerald-400">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
                 Explore Dissections <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -515,11 +515,11 @@ export default function Home() {
 
           <Link 
             to="/student-resources"
-            className="group bg-white dark:bg-zinc-900 border border-border/80 hover:border-[#134634]/40 rounded-[32px] p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 hover:scale-[1.02] flex flex-col justify-between min-h-[300px]"
+            className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
           >
             <div>
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-[#BF8F02] font-bold block mb-2">Clinical Intelligence</span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-[#134634] transition-colors">
+              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Clinical Intelligence</span>
+              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
                 Revisions <br />Exam Board
               </h3>
             </div>
@@ -527,7 +527,7 @@ export default function Home() {
               <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
                 Solved previous year papers, university plans, and targeted clinical revision guides.
               </p>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-[#134634] dark:text-emerald-400">
+              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
                 Access Exam Board <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
               </div>
             </div>
@@ -581,7 +581,7 @@ export default function Home() {
                 <Link
                   key={idx}
                   to={card.link}
-                  className="group relative p-6 bg-white dark:bg-gray-900 border border-border/40 dark:border-border/10 rounded-[2rem] shadow-soft hover:shadow-lg transition-all duration-300 hover:-translate-y-1 hover:border-primary/30 flex flex-col justify-between"
+                  className="group relative p-6 bg-white dark:bg-gray-900 border border-border/80 rounded-2xl shadow-soft hover:shadow-lg transition-all duration-300 hover:border-primary/40 flex flex-col justify-between"
                 >
                   <div className="space-y-4">
                     <div className="flex items-center justify-between">
@@ -788,13 +788,13 @@ export default function Home() {
       {/* SECTION: Interactive Therapeutics Hub */}
       <section id="disease-hub" className="py-12 bg-bg-primary">
         <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-[#134634] text-white rounded-[36px] sm:rounded-[48px] p-8 sm:p-12 lg:p-16 mb-12 shadow-xl">
+          <div className="bg-emerald-950 text-white rounded-2xl p-8 sm:p-12 lg:p-16 mb-12 shadow-xl border border-emerald-900/40">
             <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
               <div className="max-w-lg">
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#BF8F02] font-bold block mb-2">
+                <span className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400 font-bold block mb-2">
                   The Therapeutics Hub
                 </span>
-                <h2 className="font-serif text-3xl sm:text-5xl font-normal leading-tight">
+                <h2 className="font-serif text-3xl sm:text-5xl font-normal leading-tight text-white">
                   Interactive Disease Hub
                 </h2>
                 <p className="text-xs sm:text-sm text-white/70 mt-3 leading-relaxed">
@@ -803,33 +803,33 @@ export default function Home() {
               </div>
               <Link 
                 to="/disease-hub" 
-                className="px-6 py-3 bg-[#BF8F02] hover:bg-amber-600 text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all inline-flex items-center gap-2 self-start md:self-auto cursor-pointer"
+                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all inline-flex items-center gap-2 self-start md:self-auto cursor-pointer"
               >
                 Explore All Patterns <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/migraine-headaches" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/migraine-headaches" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
                   <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Migraine</h4>
                   <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Nervous System</p>
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/acidity-gerd" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/acidity-gerd" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
                   <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">GERD</h4>
                   <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Digestive Hub</p>
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/stress-anxiety" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/stress-anxiety" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
                   <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Anxiety</h4>
                   <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Mental Health</p>
                 </Link>
               </motion.div>
-              <motion.div whileHover={{ y: -6, scale: 1.02 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/respiratory-asthma-allergies" className="bg-white/5 hover:bg-[#BF8F02] border border-white/10 hover:border-[#BF8F02] p-6 rounded-2xl transition-all duration-300 group block h-full">
+              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
+                <Link to="/conditions/respiratory-asthma-allergies" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
                   <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Asthma</h4>
                   <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Respiratory Lab</p>
                 </Link>
@@ -942,14 +942,14 @@ export default function Home() {
       <section className="py-12 bg-bg-primary">
         <div className="max-w-6xl mx-auto px-4 space-y-8">
           <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-[#BF8F02] font-bold block">Philosophy Comparison</span>
+            <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary font-bold block">Philosophy Comparison</span>
             <h2 className="font-serif text-3xl sm:text-4xl text-text-primary">Restoration vs. Suppression</h2>
             <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
               Compare conventional suppression-based drug interactions against the restorative, holistic focus of Homoeopathy.
             </p>
           </div>
 
-          <div className="overflow-x-auto rounded-3xl border border-border bg-white dark:bg-zinc-900 shadow-soft">
+          <div className="overflow-x-auto rounded-2xl border border-border bg-white dark:bg-zinc-900 shadow-soft">
             <table className="w-full border-collapse text-left">
               <thead>
                 <tr className="bg-bg-tertiary/60 border-b border-border">
@@ -969,11 +969,11 @@ export default function Home() {
                 </tr>
                 <tr className="hover:bg-bg-primary/40 transition-colors">
                   <td className="p-6">
-                    <h4 className="font-serif text-xl font-semibold text-[#134634] dark:text-emerald-400">Homoeopathy</h4>
+                    <h4 className="font-serif text-xl font-semibold text-primary dark:text-emerald-400">Homoeopathy</h4>
                     <p className="text-xs text-text-tertiary">Vitalistic Model</p>
                   </td>
                   <td className="p-6 text-sm text-text-secondary">Whole-Vitality Restorative Recovery</td>
-                  <td className="p-6 text-sm font-semibold text-[#134634] dark:text-emerald-400">Constitutional Root Cause</td>
+                  <td className="p-6 text-sm font-semibold text-primary dark:text-emerald-400">Constitutional Root Cause</td>
                 </tr>
               </tbody>
             </table>
