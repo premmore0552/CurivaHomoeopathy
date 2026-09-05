@@ -26018,5 +26018,12244 @@ export const diseaseHubData: Disease[] = [
         symptomAnalysis: "Focus on the character of the scales (Greasy vs. Dry) and the thermal modalities."
       }
     }
+  },
+  {
+    id: "bipolar-disorder",
+    name: "Bipolar Disorder",
+    slug: "bipolar-disorder",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A chronic mood disorder characterized by episodes of mania (or hypomania) and depression, often with periods of normal mood in between.",
+    simpleExplanation: "A condition that causes extreme mood swings, ranging from emotional highs (mania or hypomania) to emotional lows (depression).",
+    examKeywords: ["Mania", "Hypomania", "Bipolar I and II", "Lithium", "Pressured speech"],
+    epidemiology: {
+      ageDistribution: "Typical onset in late teens or early 20s.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["First-degree relatives of affected individuals"],
+    },
+    etiology: {
+      predisposingFactors: ["Strong genetic component", "Neurobiological dysregulation"],
+      precipitatingFactors: ["Sleep deprivation", "Stressful life events", "Antidepressant use (can trigger mania)"],
+      riskFactors: ["History of childhood abuse", "Substance use disorders"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Neurochemical Imbalance", description: "Oversensitivity of dopamine receptors (mania) and undersensitivity (depression)." },
+        { title: "Secondary Messenger Dysfunction", description: "Impairment in signaling pathways (e.g., G-proteins, protein kinase C) within neurons." },
+        { title: "Circadian Rhythm Disruption", description: "Dysregulation of the internal clock, leading to changes in sleep and energy levels." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Mood swings", "Energy changes", "Sleep variability"],
+      localSymptoms: [
+        "Mania Symptoms: Inflated self-esteem (grandiosity), decreased need for sleep, pressured speech, racing thoughts (flight of ideas), distractibility, risky behavior.",
+        "Depression Symptoms: (Same as Major Depressive Disorder)."
+      ],
+      constitutionalFeatures: ["Psychotic features (delusions/hallucinations) during severe mania"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Highest during mixed episodes or depressive phases",
+      "SELF-HARM RISK: Impulsivity during mania leads to high-risk behavior",
+      "PSYCHIATRIC EMERGENCY: Severe mania with psychosis or aggression",
+      "URGENT REFERRAL: If safety cannot be maintained or severe financial/social risk"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "History of at least one manic or hypomanic episode", importance: "Primary method" }
+      ],
+      screening: [
+        { name: "Mood Disorder Questionnaire (MDQ)", findings: "Identifies history of hypomanic symptoms", importance: "Screening for Bipolar II" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Lithium Levels", findings: "Monitoring therapeutic range", importance: "Required for patients on Lithium" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Bipolar I: At least one manic episode (lasting 1 week or requiring hospitalization).",
+        "Bipolar II: At least one hypomanic episode (4 days) AND one major depressive episode.",
+        "Symptoms not better explained by other psychiatric or medical conditions."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Major Depressive Disorder", distinguishingFeatures: "No history of mania or hypomania." },
+      { condition: "Schizoaffective Disorder", distinguishingFeatures: "Psychotic symptoms occur in the absence of mood symptoms for at least 2 weeks." },
+      { condition: "Borderline Personality Disorder", distinguishingFeatures: "Mood changes are more rapid (hours) and tied to interpersonal triggers." }
+    ],
+    complications: {
+      common: ["Financial problems", "Relationship breakdown"],
+      serious: ["Substance abuse", "Legal issues"],
+      lifeThreatening: ["Suicide", "Accidental death during mania"]
+    },
+    conventionalManagement: {
+      general: ["Psychoeducation", "Sleep hygiene", "Support groups"],
+      medical: ["Mood stabilizers (Lithium, Valproate)", "Antipsychotics (Quetiapine, Olanzapine)"],
+      prevention: ["Maintenance therapy to prevent relapse"]
+    },
+    homoeopathicApproach: "Aims to stabilize the 'Psora-Sycotic' fluctuations of the vital force, addressing both the grandiosity of mania and the despair of depression.",
+    relatedRemedies: [
+      { name: "Lachesis", keyIndications: "Mania with intense loquacity (jumps from one subject to another); jealous; suspicious; worse after sleep." },
+      { name: "Hyoscyamus Niger", keyIndications: "Mania with foolish behavior; lascivious; exposes self; jealousy." },
+      { name: "Aurum Metallicum", keyIndications: "Deep depression following manic grandiosity; intensely suicidal; worthlessness." },
+      { name: "Belladonna", keyIndications: "Acute manic states; wild look; red face; biting/striking behavior; sudden onset." }
+    ],
+    relatedDiseases: ["major-depressive-disorder", "schizophrenia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Mania (1 week) vs Hypomania (4 days)", "Lithium toxicity", "DIGFAST mnemonic"],
+      miasmaticDominance: "Psora-Sycotic",
+      thermalState: "Variable",
+      organAffinity: "Mind, Brain",
+      memoryMnemonic: "DIGFAST: Distractibility, Indiscretion, Grandiosity, Flight of ideas, Activity increase, Sleep decrease, Talkativeness"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To avoid triggering mania with antidepressants alone.",
+        severityAssessment: "Based on functional impairment and presence of psychosis.",
+        referralCriteria: ["Danger to self or others", "Psychosis during mania", "Severe depressive stupor"]
+      },
+      individualization: {
+        mentalGenerals: ["Loquacity (Lach)", "Grandiosity (Veratrum)", "Jealousy (Lach/Hyo)"],
+        physicalGenerals: {
+          thermalState: "Hot (Lachesis) or Chilly (Ars)",
+          thirst: "Great thirst or thirstless",
+          appetite: "Increased during mania",
+          desires: ["Stimulants (Lach)"],
+          aversions: ["Company (during depression)"],
+          sleep: "Does not feel the need to sleep (Mania)",
+          perspiration: "Offensive (Lach)"
+        },
+        modalities: ["Agg: After sleep (Lach), spring, touch, suppression.", "Amel: Discharges (Lach), open air"],
+        concomitants: ["Aggression", "Sexual hyperarousal", "Rapid pulse"],
+        characteristicParticulars: [
+          "Mind: Constant talking and changing subjects rapidly (Lachesis).",
+          "Mind: Desire to bite and strike others (Belladonna).",
+          "Mind: Extreme religious grandiosity (Veratrum Alb)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["In mania, the patient is so loquacious that they jump from one subject to another with extraordinary rapidity (Lachesis)."],
+        individualExpression: "A rhythmic, miasmatic swinging of the vital force between psoric exhaustion and sycotic over-expression."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, loquacity", chapter: "Mind" },
+          { rubric: "Mind, mania", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the character of the mania (Lascivious vs. Religious) and the thermal modalities."
+      }
+    }
+  },
+  {
+    id: "schizophrenia",
+    name: "Schizophrenia",
+    slug: "schizophrenia",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A severe mental disorder characterized by disturbances in thought, perception, and behavior, involving 'positive' symptoms (hallucinations/delusions) and 'negative' symptoms (apathy/withdrawal).",
+    simpleExplanation: "A serious condition that affects how a person thinks, feels, and acts. People with schizophrenia may seem like they have lost touch with reality, which can be distressing for them and their families.",
+    examKeywords: ["Dopamine hypothesis", "Hallucinations", "Delusions", "Negative symptoms", "Antipsychotics"],
+    epidemiology: {
+      ageDistribution: "Onset typically late teens to mid-30s; slightly earlier in males.",
+      sexDistribution: "More common and more severe in males.",
+      riskGroups: ["Urban dwellers", "Migrant populations"],
+    },
+    etiology: {
+      predisposingFactors: ["Strong genetic loading", "Neurodevelopmental abnormalities"],
+      precipitatingFactors: ["Cannabis use", "High expressed emotion in families", "Severe stress"],
+      riskFactors: ["Paternal age", "Prenatal infections", "Obstetric complications"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Dopamine Dysregulation", description: "Hyperactivity in the mesolimbic pathway (positive symptoms) and hypoactivity in the mesocortical pathway (negative symptoms)." },
+        { title: "Glutamate Dysfunction", description: "Hypofunction of NMDA receptors, leading to cognitive impairment." },
+        { title: "Brain Structural Changes", description: "Enlarged ventricles and reduced gray matter volume in the frontal and temporal lobes." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Disorganized thinking", "Emotional withdrawal"],
+      localSymptoms: [
+        "Positive Symptoms: Auditory hallucinations, delusions (persecutory/grandiose), disorganized speech.",
+        "Negative Symptoms: Flat affect, alogia (poverty of speech), avolition (lack of motivation), anhedonia."
+      ],
+      constitutionalFeatures: ["Cognitive deficits (memory, executive function)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: 5-10% lifetime risk; highest early in the course",
+      "SELF-HARM RISK: Command hallucinations instructing self-harm",
+      "PSYCHIATRIC EMERGENCY: Acute psychosis with aggression or catatonia",
+      "URGENT REFERRAL: If first-episode psychosis is suspected (URGENT)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "DSM-5 criteria (2+ symptoms for 6 months)", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Drug Screening", findings: "Exclude substance-induced psychosis", importance: "Mandatory first step" },
+        { name: "Brain Imaging (MRI)", findings: "Rule out organic lesions", importance: "Crucial for first episode" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Two or more symptoms for a significant portion of time during a 1-month period: Delusions, Hallucinations, Disorganized speech (one must be from these three).",
+        "Continuous signs of disturbance for at least 6 months."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Schizoaffective Disorder", distinguishingFeatures: "Mood symptoms present for a significant portion of the illness." },
+      { condition: "Drug-Induced Psychosis", distinguishingFeatures: "Symptoms resolve once the drug is cleared." },
+      { condition: "Medical Causes", distinguishingFeatures: "Wilson's disease, SLE, brain tumors." }
+    ],
+    complications: {
+      common: ["Social drift", "Unemployment"],
+      serious: ["Substance abuse", "Homelessness"],
+      lifeThreatening: ["Suicide", "Violence (uncommon but risky during acute episodes)"]
+    },
+    conventionalManagement: {
+      general: ["Social skills training", "Family therapy", "Vocational rehabilitation"],
+      medical: ["Antipsychotics (Risperidone, Olanzapine, Clozapine for resistant cases)"],
+      prevention: ["Early intervention services (EIP)"]
+    },
+    homoeopathicApproach: "Targets the deep 'Syphilitic' destruction of the mental structure, aiming to reduce the intensity of psychosis and support social reintegration alongside conventional care.",
+    relatedRemedies: [
+      { name: "Stramonium", keyIndications: "Violent mania/psychosis; fear of darkness/being alone; talks incessantly; religious delusions." },
+      { name: "Anacardium", keyIndications: "Contradictory impulses (two wills); hears voices; suspicious; profanity; better while eating." },
+      { name: "Hyoscyamus Niger", keyIndications: "Lascivious mania; exposes self; suspicious; jealous; muttering delirium." },
+      { name: "Cannabis Indica", keyIndications: "Exaggerated perception of time and space; vivid hallucinations; 'fixed' ideas." }
+    ],
+    relatedDiseases: ["bipolar-disorder", "substance-use-disorders"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Positive vs Negative symptoms", "6 months duration", "High suicide risk"],
+      miasmaticDominance: "Syphilitic (Mental destruction)",
+      thermalState: "Variable",
+      organAffinity: "Brain, Mind",
+      memoryMnemonic: "HAL: Hallucinations, Avolition, Loose associations"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure early intervention and safety.",
+        severityAssessment: "PANSS scale.",
+        referralCriteria: ["First episode psychosis", "Command hallucinations", "Inability to self-care"]
+      },
+      individualization: {
+        mentalGenerals: ["Suspicion (Hyo/Anac)", "Religious focus (Stram)", "Fear of darkness (Stram)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Great thirst (Stram) or thirstless",
+          appetite: "Better while eating (Anacardium)",
+          desires: ["Eating (Anacardium)"],
+          aversions: ["Variable"],
+          sleep: "Disturbed; screams in sleep",
+          perspiration: "Cold sweat on forehead"
+        },
+        modalities: ["Agg: Dark, being alone, after sleep (Lach).", "Amel: Light (Stram), eating (Anac)"],
+        concomitants: ["Grimacing", "Inappropriate laughter", "Stereotypical movements"],
+        characteristicParticulars: [
+          "Mind: Feels as if there is a demon sitting on his shoulder whispering instructions (Anacardium).",
+          "Mind: Intense fear of water and shiny objects (Stramonium).",
+          "Mind: Desire to go naked (Hyoscyamus)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The patient feels as if they have two wills, one commanding what the other forbids (Anacardium Orientale)."],
+        individualExpression: "A deep syphilitic disintegration of the personality, where the internal reality is completely severed from the external world."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, delusions, voices, hearing", chapter: "Mind" },
+          { rubric: "Mind, suspicious", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the content of the delusions (Persecutory vs. Grandiose) and the presence of violent impulses."
+      }
+    }
+  },
+  {
+    id: "delirium",
+    name: "Delirium",
+    slug: "delirium",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "An acute, fluctuating disturbance in attention, awareness, and cognition, typically caused by an underlying medical condition, substance, or medication.",
+    simpleExplanation: "A sudden state of confusion that often changes throughout the day. It is usually caused by a physical illness, infection, or reaction to medicine and is a medical emergency.",
+    examKeywords: ["Acute onset", "Fluctuating course", "Inattention", "Medical emergency"],
+    epidemiology: {
+      ageDistribution: "Most common in the elderly (>65 years).",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Hospitalized patients", "Patients with dementia", "Post-operative patients"],
+    },
+    etiology: {
+      predisposingFactors: ["Advanced age", "Cognitive impairment (Dementia)", "Sensory deprivation"],
+      precipitatingFactors: ["Infections (UTI, Pneumonia)", "Medications (Anticholinergics)", "Electrolyte imbalance", "Withdrawal"],
+      riskFactors: ["Dehydration", "Sleep deprivation", "Physical restraints"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Neuroinflammation", description: "Systemic inflammation causes cytokines to cross the blood-brain barrier." },
+        { title: "Neurotransmitter Dysfunction", description: "Acute deficiency in acetylcholine and excess of dopamine." },
+        { title: "Network Dysfunction", description: "Breakdown in communication between the prefrontal cortex and other brain regions." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Acute confusion", "Fluctuating consciousness", "Inattention"],
+      localSymptoms: [
+        "Mental: Disorientation (time/place), impaired memory, incoherent speech, hallucinations (visual common).",
+        "Behavioral: Hyperactive (agitation) or Hypoactive (withdrawn/lethargic)."
+      ],
+      constitutionalFeatures: ["Disturbed sleep-wake cycle (sun-downing)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Risk of accidental harm due to confusion",
+      "SELF-HARM RISK: Pulling out IV lines or catheters",
+      "PSYCHIATRIC EMERGENCY: DELIRIUM IS A MEDICAL EMERGENCY",
+      "URGENT REFERRAL: Immediate hospitalization to find and treat the underlying cause"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Confusion Assessment Method (CAM)", importance: "Gold standard for bedside diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "Full Blood Count / Urine Analysis", findings: "Evidence of infection", importance: "Crucial for identifying cause" },
+        { name: "Electrolytes / Glucose", findings: "Rule out metabolic triggers", importance: "Common precipitant" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "CAM Criteria",
+      criteria: [
+        "1. Acute onset and fluctuating course.",
+        "2. Inattention (difficulty focusing).",
+        "3. EITHER Disorganized thinking OR Altered level of consciousness."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Dementia", distinguishingFeatures: "Gradual onset; stable course; attention usually preserved early on." },
+      { condition: "Psychosis", distinguishingFeatures: "Usually clear consciousness; history of psychiatric illness; no underlying medical trigger." }
+    ],
+    complications: {
+      common: ["Falls", "Dehydration", "Pressure ulcers"],
+      serious: ["Aspiration pneumonia", "Permanent cognitive decline"],
+      lifeThreatening: ["High mortality if underlying cause is not treated"]
+    },
+    conventionalManagement: {
+      general: ["Treat underlying cause (e.g., antibiotics for UTI)", "Reorientation", "Family presence"],
+      medical: ["Avoid restraints", "Low-dose antipsychotics (Haloperidol) only if severe agitation/safety risk"],
+      prevention: ["Hydration", "Early mobilization", "Avoiding polypharmacy"]
+    },
+    homoeopathicApproach: "Targets the acute 'Psora-Syphilitic' storm of the nervous system, focusing on the character of the delirium and the physical concomitants to support recovery while the medical cause is addressed.",
+    relatedRemedies: [
+      { name: "Belladonna", keyIndications: "Violent delirium; red face; dilated pupils; desire to bite/strike; tries to escape; sudden onset." },
+      { name: "Hyoscyamus Niger", keyIndications: "Muttering delirium; low-grade; picks at bedclothes; lascivious; suspicious." },
+      { name: "Stramonium", keyIndications: "Delirium with intense fear; talkative; desires light and company; screams." },
+      { name: "Baptisia", keyIndications: "Low, typhoid-like delirium; feels scattered; offensive discharges; stupor." }
+    ],
+    relatedDiseases: ["dementia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Acute onset", "Fluctuating", "Identify organic cause", "Medical emergency"],
+      miasmaticDominance: "Psora-Syphilitic (Acute crisis)",
+      thermalState: "Variable",
+      organAffinity: "Brain, Global CNS",
+      memoryMnemonic: "DELIRIUM: Drug use, Electrolyte imbalance, Lack of drugs (withdrawal), Infection, Reduced sensory input, Intracranial, Urinary retention, Myocardial"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "DELIRIUM IS AN EMERGENCY. DO NOT TREAT IN ISOLATION.",
+        severityAssessment: "Based on CAM score and level of agitation.",
+        referralCriteria: ["ANY acute onset of confusion"]
+      },
+      individualization: {
+        mentalGenerals: ["Agitation (Bell)", "Stupor (Baptisia)", "Fear (Stram)"],
+        physicalGenerals: {
+          thermalState: "High fever (Bell) or Low-grade",
+          thirst: "Great thirst (Bell) or Thirstless",
+          appetite: "Lost",
+          desires: ["Light (Stram)"],
+          aversions: ["Darkness (Stram)"],
+          sleep: "Reversed sleep-wake cycle",
+          perspiration: "Hot sweat (Bell) or offensive (Bapt)"
+        },
+        modalities: ["Agg: Night, touch, light (Bell), after sleep.", "Amel: Quiet, darkness (sometimes), cold air"],
+        concomitants: ["Tachycardia", "Incontinence", "Infections"],
+        characteristicParticulars: [
+          "Mind: Sees monsters or animals in the room (Bell/Stram).",
+          "Mind: Muttering to himself and picking at the air (Hyoscyamus).",
+          "Mind: Feels as if his body is scattered all over the bed and tries to gather the pieces (Baptisia)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Acute delirium with a wild, red face and pupils so dilated that they seem to cover the iris (Belladonna)."],
+        individualExpression: "An acute, chaotic collapse of the vital force's coordination, usually due to a severe toxic or metabolic insult."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, delirium", chapter: "Mind" },
+          { rubric: "Mind, delirium, muttering", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the level of activity (Hyperactive vs. Hypoactive) and the appearance of the face."
+      }
+    }
+  },
+  {
+    id: "dementia",
+    name: "Dementia",
+    slug: "dementia",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A chronic, progressive syndrome characterized by a decline in cognitive function beyond what might be expected from normal aging, affecting memory, thinking, and behavior.",
+    simpleExplanation: "A group of symptoms affecting memory, thinking, and social abilities severely enough to interfere with daily life. It is not a single disease, but several different diseases can cause it.",
+    examKeywords: ["Progressive decline", "Alzheimer's", "Beta-amyloid plaques", "Tau tangles"],
+    epidemiology: {
+      ageDistribution: "Incidence increases significantly after age 65.",
+      sexDistribution: "Alzheimer's more common in females; Vascular dementia more common in males.",
+      riskGroups: ["Individuals with Down syndrome", "Family history"],
+    },
+    etiology: {
+      predisposingFactors: ["Advanced age", "ApoE4 gene"],
+      precipitatingFactors: ["Vascular events (Stroke)", "Head trauma"],
+      riskFactors: ["Hypertension", "Diabetes", "Low education level", "Smoking"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Protein Accumulation", description: "Accumulation of abnormal proteins (e.g., beta-amyloid, tau, alpha-synuclein) in and around neurons." },
+        { title: "Neuronal Death", description: "Loss of synapses and eventual death of neurons, especially in the hippocampus and cortex." },
+        { title: "Neurotransmitter Deficit", description: "Severe depletion of acetylcholine and other chemical messengers." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Memory loss", "Confusion", "Difficulty with complex tasks"],
+      localSymptoms: [
+        "Mental: Aphasia (speech difficulty), Apraxia (movement difficulty), Agnosia (recognition difficulty), executive dysfunction.",
+        "Behavioral: Personality changes, depression, wandering, agitation (BPSD)."
+      ],
+      constitutionalFeatures: ["Loss of activities of daily living (ADLs)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Early stages (when insight is present) carry higher risk",
+      "SELF-HARM RISK: Wandering into unsafe areas; accidental injuries",
+      "PSYCHIATRIC EMERGENCY: Sudden worsening of confusion (usually Delirium superimposed on Dementia)",
+      "URGENT REFERRAL: If safety at home cannot be maintained"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview / MMSE", findings: "Decline in multiple cognitive domains", importance: "Primary bedside method" }
+      ],
+      laboratoryFindings: [
+        { name: "Vitamin B12 / TSH", findings: "Rule out reversible causes", importance: "Mandatory screening" },
+        { name: "Brain MRI", findings: "Hippocampal atrophy; vascular lesions", importance: "Identify subtype" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 (Major Neurocognitive Disorder)",
+      criteria: [
+        "Significant cognitive decline from a previous level of performance.",
+        "The cognitive deficits interfere with independence in everyday activities."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Delirium", distinguishingFeatures: "Acute onset; fluctuating; inattention." },
+      { condition: "Depression (Pseudodementia)", distinguishingFeatures: "Symptoms improve with antidepressant treatment; patient often says 'I don't know'." }
+    ],
+    complications: {
+      common: ["Falls", "Incontinence", "Malnutrition"],
+      serious: ["Pneumonia", "Caregiver burnout"],
+      lifeThreatening: ["Aspiration", "Sepsis from bedsores"]
+    },
+    conventionalManagement: {
+      general: ["Environmental adaptation", "Caregiver support", "Advance directives"],
+      medical: ["Cholinesterase inhibitors (Donepezil)", "Memantine", "Management of BPSD"],
+      prevention: ["Managing cardiovascular risk factors"]
+    },
+    homoeopathicApproach: "Aims to slow the progression of the 'Syphilitic' degenerative process and manage behavioral symptoms like agitation or anxiety using constitutional remedies.",
+    relatedRemedies: [
+      { name: "Baryta Carbonica", keyIndications: "Mental and physical weakness; childish behavior; enlarged glands; memory loss for recent events." },
+      { name: "Anacardium", keyIndications: "Extreme forgetfulness; feels as if he has two wills; suspicious; cruel behavior." },
+      { name: "Conium Maculatum", keyIndications: "Gradual decline in mental and physical power; dizzy when lying down; hard glands; indifference." },
+      { name: "Aurum Metallicum", keyIndications: "Depressive dementia; suicidal thoughts; better in open air; nocturnal bone pains." }
+    ],
+    relatedDiseases: ["delirium", "hypertension"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Progressive", "Memory + ADL loss", "Rule out B12/Thyroid"],
+      miasmaticDominance: "Syphilitic (Degenerative)",
+      thermalState: "Variable",
+      organAffinity: "Brain (Cortex/Hippocampus)",
+      memoryMnemonic: "DEMENTIA: Drugs, Emotional, Metabolic, Eyes/Ears, Normal pressure hydrocephalus, Tumor, Infection, Anemia"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify reversible causes and plan long-term care.",
+        severityAssessment: "MMSE or MoCA score.",
+        referralCriteria: ["Sudden worsening of symptoms", "Danger to caregiver"]
+      },
+      individualization: {
+        mentalGenerals: ["Childishness (Baryta Carb)", "Suspicion (Anac)", "Grief"],
+        physicalGenerals: {
+          thermalState: "Chilly (Baryta Carb)",
+          thirst: "Variable",
+          appetite: "Poor or ravenous",
+          desires: ["Sweets"],
+          aversions: ["Company"],
+          sleep: "Wandering at night",
+          perspiration: "Offensive"
+        },
+        modalities: ["Agg: Cold, night, change in routine.", "Amel: Warmth, familiar surroundings"],
+        concomitants: ["Difficulty swallowing", "Tremors", "Incontinence"],
+        characteristicParticulars: [
+          "Mind: Forgets the most familiar names and places (Baryta Carb).",
+          "Mind: Suspicious of family members stealing his things (Anacardium).",
+          "Will: Loss of will; needs to be guided like a child."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Mental weakness so severe the patient becomes childish and forgets how to perform simple, everyday tasks (Baryta Carbonica)."],
+        individualExpression: "A slow, progressive syphilitic decay of the intellectual and cognitive faculties, reflecting the sunset of the vital force."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, memory, loss of", chapter: "Mind" },
+          { rubric: "Mind, childish behavior", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the behavioral changes (Agitation vs. Withdrawal) and the degree of forgetfulness."
+      }
+    }
+  },
+  {
+    id: "major-depressive-disorder",
+    name: "Major Depressive Disorder (MDD)",
+    slug: "major-depressive-disorder",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A mood disorder characterized by persistent feelings of sadness, loss of interest (anhedonia), and significant impairment in daily functioning for at least two weeks.",
+    simpleExplanation: "More than just feeling sad, depression is a serious mental health condition that affects how you feel, think, and handle daily activities like sleeping, eating, or working.",
+    examKeywords: ["Anhedonia", "SIGECAPS", "Monoamine hypothesis", "DSM-5 criteria"],
+    epidemiology: {
+      ageDistribution: "Peak onset in the 20s, but can occur at any age.",
+      sexDistribution: "Twice as common in females.",
+      riskGroups: ["Postpartum women", "Elderly", "Chronic illness sufferers"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history (genetics)", "Early childhood trauma"],
+      precipitatingFactors: ["Major life stressors", "Bereavement", "Job loss"],
+      riskFactors: ["Low socioeconomic status", "Substance abuse", "Personality traits (neuroticism)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Neurotransmitter Dysregulation", description: "Depletion of serotonin, norepinephrine, and dopamine in the synaptic cleft." },
+        { title: "HPA Axis Overactivity", description: "Chronic stress leads to elevated cortisol levels, affecting brain structure (hippocampus)." },
+        { title: "Neuroplasticity Changes", description: "Decreased brain-derived neurotrophic factor (BDNF) leads to reduced neuronal connectivity." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Depressed mood", "Sleep disturbances (insomnia/hypersomnia)", "Changes in appetite/weight"],
+      localSymptoms: [
+        "Mental: Reduced concentration, indecisiveness, feelings of worthlessness or guilt.",
+        "Physical: Psychomotor agitation or retardation, fatigue/loss of energy."
+      ],
+      constitutionalFeatures: ["Recurrent thoughts of death or suicide"],
+      importantSigns: ["Anhedonia (inability to feel pleasure)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Screen for ideation, intent, and plan (URGENT)",
+      "SELF-HARM RISK: Check for history of cutting or burning",
+      "PSYCHIATRIC EMERGENCY: Acute suicidal crisis or catatonia",
+      "URGENT REFERRAL: If patient is a danger to self or others"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "DSM-5 criteria (5/9 symptoms for 2 weeks)", importance: "Primary diagnostic tool" }
+      ],
+      screening: [
+        { name: "PHQ-9 Questionnaire", findings: "Severity score calculation", importance: "Monitor treatment progress" }
+      ],
+      laboratoryFindings: [
+        { name: "Thyroid Function Tests (TSH)", findings: "Exclusion of hypothyroidism", importance: "Rule out organic causes" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Depressed mood OR Anhedonia must be present.",
+        "Total 5 out of 9 symptoms: Sleep, Interest, Guilt, Energy, Concentration, Appetite, Psychomotor, Suicidal ideation (SIGECAPS).",
+        "Symptoms cause clinically significant distress or impairment."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Bipolar Disorder", distinguishingFeatures: "History of manic or hypomanic episodes." },
+      { condition: "Hypothyroidism", distinguishingFeatures: "Physical signs (cold intolerance, bradycardia); high TSH." },
+      { condition: "Adjustment Disorder", distinguishingFeatures: "Symptoms occur in response to a specific stressor and are less severe." }
+    ],
+    complications: {
+      common: ["Social isolation", "Work/School impairment"],
+      serious: ["Substance use disorders", "Suicide completion"],
+      lifeThreatening: ["Suicide"]
+    },
+    conventionalManagement: {
+      general: ["Psychoeducation", "Lifestyle modifications (exercise, sleep hygiene)"],
+      medical: ["SSRIs (Fluoxetine, Sertraline)", "SNRIs", "Psychotherapy (CBT, IPT)"],
+      prevention: ["Early intervention", "Relapse prevention strategies"]
+    },
+    homoeopathicApproach: "Focuses on the deep emotional roots and individual expression of the 'Psora-Syphilitic' miasm, aiming to restore emotional equilibrium and vital energy.",
+    relatedRemedies: [
+      { name: "Aurum Metallicum", keyIndications: "Deeply suicidal depression; feels worthless; better in open air; heart-related concomitants." },
+      { name: "Natrum Muriaticum", keyIndications: "Chronic grief; silent suffering; averse to consolation; worse from sun." },
+      { name: "Ignatia Amara", keyIndications: "Acute grief; changeable moods; sighing; paradoxical symptoms." },
+      { name: "Arsenicum Album", keyIndications: "Depression with intense anxiety and restlessness; fear of death; fastidious." }
+    ],
+    relatedDiseases: ["bipolar-disorder", "generalized-anxiety-disorder"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["DSM-5 (5/9 for 2 weeks)", "SIGECAPS", "Suicide risk is paramount"],
+      miasmaticDominance: "Psora-Syphilitic",
+      thermalState: "Variable (Aurum-Chilly)",
+      organAffinity: "Mind, Brain",
+      memoryMnemonic: "SIGECAPS: Sleep, Interest, Guilt, Energy, Concentration, Appetite, Psychomotor, Suicidal ideation"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To determine suicide risk and distinguish from organic causes.",
+        severityAssessment: "Mild, Moderate, or Severe based on functional impact.",
+        referralCriteria: ["Active suicidal ideation with plan", "Refusal to eat/drink", "Psychotic symptoms"]
+      },
+      individualization: {
+        mentalGenerals: ["Worthlessness", "Hopelessness", "Grief (Nat Mur)", "Indignation (Staph)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars, Sil) or Hot (Sulph, Puls)",
+          thirst: "Great thirst (Ars) or Thirstless (Puls)",
+          appetite: "Anorexia or Bulimia",
+          desires: ["Salt (Nat Mur)", "Sweets (Arg Nit)"],
+          aversions: ["Company (Nat Mur)", "Life (Aurum)"],
+          sleep: "Early morning waking (Nux Vom) or insomnia",
+          perspiration: "Cold/clammy (Ars)"
+        },
+        modalities: ["Agg: Morning, consolidation, sun, night.", "Amel: Evening (sometimes), open air, distraction"],
+        concomitants: ["Constipation", "Amenorrhea", "Headaches"],
+        characteristicParticulars: [
+          "Mind: Constant sighing (Ignatia).",
+          "Mood: Weeps without cause (Pulsatilla).",
+          "Will: Suicidal impulses (Aurum Met).",
+          "Concentration: Mental fog; unable to read or follow conversation."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense suicidal despair where the patient feels as if they have lost the affection of friends (Aurum Metallicum)."],
+        individualExpression: "A paralysis of the emotional will, reflecting a deep-seated miasmatic blockade of the vital force's creative impulse."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, sadness", chapter: "Mind" },
+          { rubric: "Mind, suicidal disposition", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the causation (Grief vs. Anger) and the patient's reaction to consolation."
+      }
+    }
+  },
+  {
+    id: "generalized-anxiety-disorder",
+    name: "Generalized Anxiety Disorder (GAD)",
+    slug: "generalized-anxiety-disorder",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A disorder characterized by excessive, uncontrollable worry about various aspects of daily life for at least six months, accompanied by physical symptoms of tension.",
+    simpleExplanation: "Anxiety that isn't focused on one specific thing, but rather a constant feeling of worry and tension that interferes with everyday life.",
+    examKeywords: ["Excessive worry", "6 months duration", "Amygdala overactivity", "Muscle tension"],
+    epidemiology: {
+      ageDistribution: "Median age of onset is 30 years, but often older than other anxiety disorders.",
+      sexDistribution: "More common in females.",
+      riskGroups: ["Low-income individuals", "Single/divorced people"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history of anxiety", "Behavioral inhibition as a child"],
+      precipitatingFactors: ["Life transitions", "Chronic stress"],
+      riskFactors: ["Childhood abuse", "Perfectionistic personality"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Neurotransmitter Imbalance", description: "Reduced GABAergic tone and dysregulation of serotonin and norepinephrine." },
+        { title: "Amygdala Hyperactivity", description: "Increased sensitivity to potential threats." },
+        { title: "Prefrontal Cortex Impairment", description: "Reduced top-down regulation of emotional responses." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Excessive worry", "Restlessness", "Fatigue"],
+      localSymptoms: [
+        "Mental: Difficulty concentrating, 'mind going blank', irritability.",
+        "Physical: Muscle tension, sleep disturbances (difficulty falling/staying asleep)."
+      ],
+      constitutionalFeatures: ["Somatic symptoms like IBS, headaches, or palpitations"],
+      importantSigns: ["Muscle tension (especially neck/shoulders)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Anxiety can increase the risk of suicide in depressed patients",
+      "SELF-HARM RISK: Check for maladaptive coping mechanisms",
+      "PSYCHIATRIC EMERGENCY: Panic attacks leading to severe distress",
+      "URGENT REFERRAL: If anxiety prevents essential medical care"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "DSM-5 criteria (Excessive worry > 6 months)", importance: "Primary method" }
+      ],
+      screening: [
+        { name: "GAD-7 Scale", findings: "Severity score assessment", importance: "Monitor treatment efficacy" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Excessive anxiety and worry occurring more days than not for at least 6 months.",
+        "Worry is difficult to control.",
+        "Associated with 3+ symptoms: Restlessness, Fatigue, Concentration issues, Irritability, Muscle tension, Sleep disturbance."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Panic Disorder", distinguishingFeatures: "Anxiety is focused on the occurrence of panic attacks." },
+      { condition: "Social Anxiety Disorder", distinguishingFeatures: "Worry is focused on social scrutiny." },
+      { condition: "Hyperthyroidism", distinguishingFeatures: "Weight loss, heat intolerance, tremor." }
+    ],
+    complications: {
+      common: ["Impaired social functioning", "Secondary depression"],
+      serious: ["Substance abuse (self-medication)", "Cardiovascular issues (due to chronic stress)"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Cognitive Behavioral Therapy (CBT)", "Mindfulness", "Relaxation techniques"],
+      medical: ["SSRIs/SNRIs", "Buspirone", "Benzodiazepines (short-term only)"],
+      prevention: ["Early stress management", "Resilience building"]
+    },
+    homoeopathicApproach: "Targets the 'Psora' miasm, aiming to calm the overactive nervous system and address the core fears and insecurities of the individual.",
+    relatedRemedies: [
+      { name: "Argentum Nitricum", keyIndications: "Anticipatory anxiety; 'hurry-scurry' feeling; diarrhea from anxiety; craves sweets." },
+      { name: "Gelsemium", keyIndications: "Anticipatory anxiety with weakness; trembling; diarrhea; wants to be alone." },
+      { name: "Arsenicum Album", keyIndications: "Anxiety with restlessness; fear of being alone; fear of death; fastidious." },
+      { name: "Lycopodium", keyIndications: "Anxiety about performance; lacks confidence but does well; digestive issues." }
+    ],
+    relatedDiseases: ["panic-disorder", "major-depressive-disorder"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["6 months duration", "3/6 symptoms required", "GABA/Serotonin focus"],
+      miasmaticDominance: "Psora",
+      thermalState: "Variable",
+      organAffinity: "Nervous system",
+      memoryMnemonic: "WATCHERS: Worry, Anxiety, Tension, Concentration, Hyperarousal, Energy (fatigue), Restlessness, Sleep"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from specific phobias and organic causes.",
+        severityAssessment: "Based on GAD-7 score.",
+        referralCriteria: ["Co-morbid severe depression", "Substance abuse escalation"]
+      },
+      individualization: {
+        mentalGenerals: ["Hurry (Arg Nit)", "Dread (Gels)", "Anxiety for others (Phos)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars) or Hot (Arg Nit)",
+          thirst: "Great thirst (Ars) or Thirstless (Gels)",
+          appetite: "Nervous hunger or loss of appetite",
+          desires: ["Sweets (Arg Nit)", "Warm drinks (Ars)"],
+          aversions: ["Crowds (Gels)"],
+          sleep: "Insomnia from worry",
+          perspiration: "Cold sweat on hands"
+        },
+        modalities: ["Agg: Anticipation, morning, heat, crowds.", "Amel: Urination (Gels), motion, company (Phos)"],
+        concomitants: ["Trembling", "Frequent urination", "IBS"],
+        characteristicParticulars: [
+          "Mind: Feels like time passes too slowly (Arg Nit).",
+          "Nervous System: Paralytic weakness from fear (Gelsemium).",
+          "Sleep: Wakes with anxious thoughts at 3 AM."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Anticipatory anxiety so great that it leads to loose stools or frequent urination (Gelsemium/Argentum Nit)."],
+        individualExpression: "A persistent psoric 'itching' of the mind, where every life event is perceived as a threat due to an unstable internal foundation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, anxiety, anticipatory", chapter: "Mind" },
+          { rubric: "Mind, hurry", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the physical expression of anxiety (Trembling vs. Hurry) and the effect of company."
+      }
+    }
+  },
+  {
+    id: "panic-disorder",
+    name: "Panic Disorder",
+    slug: "panic-disorder",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "An anxiety disorder characterized by recurrent, unexpected panic attacks and persistent worry about having more attacks or their consequences.",
+    simpleExplanation: "Having sudden, intense surges of fear that peak within minutes, often making you feel like you're having a heart attack or losing control, even when there's no real danger.",
+    examKeywords: ["Panic attacks", "Anticipatory anxiety", "Agoraphobia", "Autonomic hyperactivity"],
+    epidemiology: {
+      ageDistribution: "Median age of onset is early 20s.",
+      sexDistribution: "Twice as common in females.",
+      riskGroups: ["Individuals with high 'anxiety sensitivity'"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history", "History of 'fearful' childhood"],
+      precipitatingFactors: ["Life stressors", "Caffeine", "Smoking"],
+      riskFactors: ["Recent bereavement", "Personal history of childhood abuse"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fear Circuitry Activation", description: "Inappropriate activation of the amygdala and locus coeruleus." },
+        { title: "Autonomic Surge", description: "Massive release of adrenaline causing rapid heart rate and breathing." },
+        { title: "Cognitive Misinterpretation", description: "Physical sensations (e.g., palpitations) are catastrophically interpreted as a medical emergency (e.g., heart attack)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sudden surge of intense fear", "Palpitations", "Shortness of breath"],
+      localSymptoms: [
+        "Physical: Chest pain, choking sensation, sweating, trembling, nausea, dizziness.",
+        "Mental: Fear of dying, fear of 'going crazy' or losing control."
+      ],
+      constitutionalFeatures: ["Derealization or depersonalization"]
+      },
+    redFlags: [
+      "SUICIDE RISK: Panic disorder is associated with increased suicidal ideation",
+      "SELF-HARM RISK: Impulsive behavior during an attack",
+      "PSYCHIATRIC EMERGENCY: Acute panic attack causing severe distress",
+      "URGENT REFERRAL: If attack symptoms mimic life-threatening medical conditions (e.g., MI, PE)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "Recurrent attacks + 1 month of worry", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "ECG", findings: "Rule out arrhythmia", importance: "Crucial for differential diagnosis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Recurrent unexpected panic attacks.",
+        "At least one attack followed by 1 month of: Persistent worry about more attacks OR Significant maladaptive change in behavior (avoidance)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Myocardial Infarction", distinguishingFeatures: "ECG changes; cardiac enzymes; different character of pain." },
+      { condition: "Pheochromocytoma", distinguishingFeatures: "Paroxysmal hypertension; headache; sweating; lab tests for catecholamines." },
+      { condition: "Hyperthyroidism", distinguishingFeatures: "Weight loss; tremors; thyroid labs." }
+    ],
+    complications: {
+      common: ["Agoraphobia (avoidance of places)", "Work/Social impairment"],
+      serious: ["Major depression", "Substance abuse"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["CBT (Panic control treatment)", "Breathing retraining"],
+      medical: ["SSRIs", "Benzodiazepines (for acute relief)", "Beta-blockers (for physical symptoms)"],
+      prevention: ["Avoiding caffeine and stimulants"]
+    },
+    homoeopathicApproach: "Aims to address the 'Psora-Sycotic' acute surge of fear and the underlying constitutional anxiety to prevent recurrence.",
+    relatedRemedies: [
+      { name: "Aconitum Napellus", keyIndications: "Sudden, violent panic; intense fear of death (predicts time of death); palpitations; follows shock/cold wind." },
+      { name: "Arsenicum Album", keyIndications: "Panic with restlessness; fear of death; better for company; worse at midnight." },
+      { name: "Argentum Nitricum", keyIndications: "Panic with 'hurry-scurry'; fear of heights/closed spaces; flatulence." },
+      { name: "Phosphorus", keyIndications: "Panic from being alone or in the dark; relieved by company and cold drinks." }
+    ],
+    relatedDiseases: ["generalized-anxiety-disorder"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Sudden peak (10 mins)", "Fear of dying/losing control", "Rule out MI"],
+      miasmaticDominance: "Psora-Sycotic",
+      thermalState: "Variable",
+      organAffinity: "Heart, Lungs, Brain",
+      memoryMnemonic: "STUDENTS: Sweating, Trembling, Unsteadiness, Depersonalization, Excessive heart rate, Nausea, Tingling, SOB"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from cardiac or endocrine emergencies.",
+        severityAssessment: "Frequency and severity of attacks.",
+        referralCriteria: ["Chest pain not clearly panic", "Suicidal intent"]
+      },
+      individualization: {
+        mentalGenerals: ["Fear of death (Aconite)", "Anxiety when alone (Ars)", "Hurry (Arg Nit)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars) or Hot (Arg Nit)",
+          thirst: "Great thirst (Aconite) or Thirstless (Puls)",
+          appetite: "Craves cold drinks (Phos)",
+          desires: ["Company (Phos)", "Ice cream (Phos)"],
+          aversions: ["Being alone (Ars)"],
+          sleep: "Starts in sleep with fear",
+          perspiration: "Cold, clammy sweat"
+        },
+        modalities: ["Agg: Midnight (Ars), evening, alone, closed spaces.", "Amel: Company, cold drinks (Phos), open air"],
+        concomitants: ["Palpitations", "Tingling in extremities", "Diarrhea"],
+        characteristicParticulars: [
+          "Heart: Violent palpitation with anxiety (Aconite).",
+          "Lungs: Sensation of choking or suffocation.",
+          "Mind: Sudden, overpowering fear 'as if going to die now'."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense fear of death during a panic attack, where the patient predicts the hour of their death (Aconitum)."],
+        individualExpression: "A violent psoric eruption of fear, where the vital force is temporarily overwhelmed by an internal perception of imminent destruction."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, fear, death, of", chapter: "Mind" },
+          { rubric: "Mind, anxiety, heart, about", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the triggers (Crowds vs. Alone) and the patient's reaction to cold/heat."
+      }
+    }
+  },
+  {
+    id: "obsessive-compulsive-disorder",
+    name: "Obsessive-Compulsive Disorder (OCD)",
+    slug: "obsessive-compulsive-disorder",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A disorder characterized by intrusive, distressing thoughts (obsessions) and repetitive behaviors or mental acts (compulsions) performed to reduce anxiety.",
+    simpleExplanation: "A condition where a person has recurring thoughts or urges that make them feel they need to do certain things over and over again to feel better.",
+    examKeywords: ["Obsessions", "Compulsions", "Basal ganglia", "CBT (ERP)"],
+    epidemiology: {
+      ageDistribution: "Typical onset in late teens or early 20s.",
+      sexDistribution: "More common in females (adults), more common in males (children).",
+      riskGroups: ["First-degree relatives of OCD patients"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic factors", "PANDAS (Post-streptococcal infection in children)"],
+      precipitatingFactors: ["Life stressors", "Pregnancy/Postpartum"],
+      riskFactors: ["High neuroticism", "Internalizing symptoms"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Cortico-Striato-Thalamo-Cortical (CSTC) Circuitry", description: "Abnormal activity in this loop leads to difficulty in 'filtering' thoughts." },
+        { title: "Serotonin Dysregulation", description: "Imbalance in serotonin signaling between neurons." },
+        { title: "Behavioral Reinforcement", description: "Compulsions provide temporary relief from anxiety, reinforcing the cycle." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Obsessions (thoughts)", "Compulsions (actions)"],
+      localSymptoms: [
+        "Obsessions: Contamination, symmetry, aggressive urges, forbidden thoughts.",
+        "Compulsions: Washing, checking, counting, ordering, repeating words."
+      ],
+      constitutionalFeatures: ["None usually"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Increased risk if co-morbid with depression",
+      "SELF-HARM RISK: Excessive washing causing skin damage",
+      "PSYCHIATRIC EMERGENCY: Severe OCD leading to inability to care for self",
+      "URGENT REFERRAL: If obsessions involve high risk of harm to others"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "DSM-5 criteria (Time-consuming > 1 hr/day)", importance: "Primary method" }
+      ],
+      screening: [
+        { name: "Yale-Brown Obsessive Compulsive Scale (Y-BOCS)", findings: "Severity scoring", importance: "Gold standard for monitoring" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Presence of obsessions, compulsions, or both.",
+        "The obsessions or compulsions are time-consuming (e.g., take more than 1 hour per day) or cause significant distress."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "GAD", distinguishingFeatures: "Worry about real-life concerns; no repetitive rituals." },
+      { condition: "Tics / Tourette's", distinguishingFeatures: "Sudden, brief movements; less complex than compulsions." },
+      { condition: "Obsessive-Compulsive Personality Disorder (OCPD)", distinguishingFeatures: "Pervasive perfectionism/rigidity; not usually with specific obsessions/compulsions." }
+    ],
+    complications: {
+      common: ["Social isolation", "Dermatitis (from washing)"],
+      serious: ["Major depression", "Suicidal ideation"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["CBT with Exposure and Response Prevention (ERP)"],
+      medical: ["High-dose SSRIs (Fluoxetine, Fluvoxamine)", "Clomipramine"],
+      prevention: ["Early recognition of symptoms"]
+    },
+    homoeopathicApproach: "Targets the 'Sycotic' miasmatic background, aiming to relax the rigid mental patterns and address the underlying anxiety and 'fixed ideas'.",
+    relatedRemedies: [
+      { name: "Arsenicum Album", keyIndications: "Obsessive checking; fear of germs/contamination; fastidious; restless." },
+      { name: "Silicea", keyIndications: "Obsessive focus on small details; fixed ideas; yielding but stubborn; chilly." },
+      { name: "Thuja Occidentalis", keyIndications: "Fixed ideas; feeling as if made of glass; secretive; sycotic miasm." },
+      { name: "Argentum Nitricum", keyIndications: "Impulsive thoughts; fixed ideas about time; hurry." }
+    ],
+    relatedDiseases: ["generalized-anxiety-disorder"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Time-consuming (>1hr)", "Obsessions vs Compulsions", "Y-BOCS scale"],
+      miasmaticDominance: "Sycotic (Fixed ideas/Repetition)",
+      thermalState: "Variable",
+      organAffinity: "Brain (Basal ganglia)",
+      memoryMnemonic: "CORRECT: Checking, Ordering, Repetitive, Rituals, Excessive, Contamination, Thoughts"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from psychosis and OCPD.",
+        severityAssessment: "Y-BOCS score.",
+        referralCriteria: ["Severe skin damage from compulsions", "Aggressive obsessions"]
+      },
+      individualization: {
+        mentalGenerals: ["Fastidiousness (Ars)", "Fixed ideas (Thuja)", "Impulsivity (Arg Nit)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars, Sil)",
+          thirst: "Small sips (Ars)",
+          appetite: "Variable",
+          desires: ["Sweets (Arg Nit)"],
+          aversions: ["Fat"],
+          sleep: "Disturbed by obsessive thoughts",
+          perspiration: "Offensive (Sil)"
+        },
+        modalities: ["Agg: Night, being alone, cold air.", "Amel: Warmth, movement, company (Ars)"],
+        concomitants: ["Hand dermatitis", "Tics", "Headaches"],
+        characteristicParticulars: [
+          "Mind: Persistent checking of locks or stoves (Arsenicum).",
+          "Mind: Fear of germs and extreme cleanliness (Arsenicum).",
+          "Mind: Impulse to jump from heights when crossing a bridge (Argentum Nit)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Fixed ideas, such as a feeling as if the body is made of glass and easily broken (Thuja Occidentalis)."],
+        individualExpression: "A sycotic crystallization of the mind, where the vital force becomes trapped in repetitive, non-productive loops of thought and action."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, washing, hands, always", chapter: "Mind" },
+          { rubric: "Mind, thoughts, persistent", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the theme of the obsession (Contamination vs. Symmetry) and the patient's thermal state."
+      }
+    }
+  },
+  {
+    id: "insomnia",
+    name: "Insomnia",
+    slug: "insomnia",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A sleep disorder characterized by persistent difficulty with sleep initiation, duration, consolidation, or quality, despite adequate opportunity for sleep, resulting in daytime impairment.",
+    simpleExplanation: "Having trouble falling asleep, staying asleep, or waking up too early and not being able to get back to sleep, which makes you feel tired or irritable during the day.",
+    examKeywords: ["Sleep hygiene", "Hyperarousal", "CBT-I", "3-P model"],
+    epidemiology: {
+      ageDistribution: "Increases with age; very common in elderly.",
+      sexDistribution: "More common in females.",
+      riskGroups: ["Shift workers", "Patients with chronic pain", "Caregivers"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history", "Anxious personality traits (hyperarousal)"],
+      precipitatingFactors: ["Life stressors", "Acute illness", "Loss of a loved one"],
+      riskFactors: ["Caffeine", "Alcohol", "Irregular sleep schedule", "Blue light exposure"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Hyperarousal Model", description: "Increased physiological and psychological activation during sleep periods." },
+        { title: "Neurotransmitter Involvement", description: "Overactivity of arousal-promoting systems (e.g., orexin, histamine) or underactivity of sleep-promoting systems (e.g., GABA, adenosine)." },
+        { title: "Conditioned Arousal", description: "The bed and bedroom become associated with wakefulness and frustration rather than sleep." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Difficulty falling asleep", "Waking during the night", "Waking too early"],
+      localSymptoms: [
+        "Daytime Symptoms: Fatigue, irritability, poor concentration, daytime sleepiness, reduced performance.",
+        "Mental: Anxiety about sleep, 'dread' of bedtime."
+      ],
+      constitutionalFeatures: ["Tension headaches", "Gastrointestinal symptoms"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Chronic insomnia is a significant risk factor for suicidal ideation",
+      "SELF-HARM RISK: Accidental injuries due to daytime sleepiness",
+      "PSYCHIATRIC EMERGENCY: Severe sleep deprivation leading to psychosis",
+      "URGENT REFERRAL: If insomnia is a symptom of an underlying major depressive or manic episode"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Sleep Diary", findings: "Patterns of sleep/wake over 2 weeks", importance: "Primary assessment tool" }
+      ],
+      laboratoryFindings: [
+        { name: "Polysomnography (PSG)", findings: "Rule out sleep apnea or PLMD", importance: "Only if other sleep disorders suspected" },
+        { name: "Actigraphy", findings: "Objective measure of rest/activity", importance: "Research or complex cases" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Dissatisfaction with sleep quantity or quality (initiation, maintenance, or early waking).",
+        "The sleep disturbance occurs at least 3 nights per week and is present for at least 3 months.",
+        "Occurs despite adequate opportunity for sleep."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Obstructive Sleep Apnea (OSA)", distinguishingFeatures: "Snoring; witnessed apneas; morning headache; obesity." },
+      { condition: "Restless Legs Syndrome (RLS)", distinguishingFeatures: "Urge to move legs, especially in the evening/night." },
+      { condition: "Delayed Sleep Phase Disorder", distinguishingFeatures: "Consistent sleep schedule but 'shifted' (e.g., 3 AM to 11 AM)." }
+    ],
+    complications: {
+      common: ["Impaired work performance", "Mood disturbances"],
+      serious: ["Increased risk of hypertension", "Depression"],
+      lifeThreatening: ["Accidents (driving, machinery)"]
+    },
+    conventionalManagement: {
+      general: ["Sleep hygiene education", "Cognitive Behavioral Therapy for Insomnia (CBT-I)"],
+      medical: ["Melatonin", "Sedative-hypnotics (Z-drugs like Zolpidem - short-term)", "Orexin antagonists"],
+      prevention: ["Consistent sleep-wake times", "Limiting daytime naps"]
+    },
+    homoeopathicApproach: "Aims to address the 'Psoric' hyperarousal and the specific triggers (e.g., grief, anticipation, overwork) that disrupt the natural sleep-wake rhythm.",
+    relatedRemedies: [
+      { name: "Coffea Cruda", keyIndications: "Insomnia from 'crowding of thoughts' (pleasant or unpleasant); joyous excitement; sensitive to noise." },
+      { name: "Nux Vomica", keyIndications: "Insomnia from overwork/stress; wakes at 3 AM and falls asleep just before dawn; irritable; chilly." },
+      { name: "Aconitum Napellus", keyIndications: "Insomnia from acute fear or shock; restless; tosses and turns; fear of death." },
+      { name: "Cocculus Indicus", keyIndications: "Insomnia from night-watching (nursing the sick); feels 'empty' or dizzy; better for sitting." }
+    ],
+    relatedDiseases: ["generalized-anxiety-disorder", "major-depressive-disorder"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["3 nights/week for 3 months", "Hyperarousal model", "CBT-I is first line"],
+      miasmaticDominance: "Psora",
+      thermalState: "Variable",
+      organAffinity: "Mind, Brain, Nervous system",
+      memoryMnemonic: "3-3-3: 3 nights a week, for 3 months, causes 3 types of daytime distress"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from organic sleep disorders (e.g., Sleep Apnea).",
+        severityAssessment: "ISI (Insomnia Severity Index).",
+        referralCriteria: ["Suspected Sleep Apnea", "Severe daytime sleepiness affecting safety"]
+      },
+      individualization: {
+        mentalGenerals: ["Anticipation (Arg Nit/Gels)", "Overactive mind (Coffea)", "Grief (Ignatia)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Nux V, Ars)",
+          thirst: "Small sips (Ars)",
+          appetite: "Poor or irregular",
+          desires: ["Stimulants (Nux V)"],
+          aversions: ["Food odors (Colch)"],
+          sleep: "Wakes at 3 AM (Nux V) or 1 AM (Ars)",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Coffee, excitement, night-watching, mental effort.", "Amel: Evening (Coffea), quiet, darkness"],
+        concomitants: ["Palpitations", "Headaches", "Digestive issues"],
+        characteristicParticulars: [
+          "Mind: Wide awake at night but very tired during the day (Coffea).",
+          "Mind: Wakes with anxious thoughts about work (Nux Vomica).",
+          "Mind: Sleep is disturbed by the slightest noise (Silicea/Theridion)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Wide awake at night; the mind is so active with ideas that it is impossible to sleep (Coffea Cruda)."],
+        individualExpression: "A psoric tension where the nervous system is 'stuck' in an arousal state, failing to transition into the restorative phase of rest."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Sleep, sleeplessness", chapter: "Sleep" },
+          { rubric: "Sleep, sleeplessness, thoughts from activity of", chapter: "Sleep" }
+        ],
+        symptomAnalysis: "Focus on the time of waking and the cause (Excitement vs. Care/Worry)."
+      }
+    }
+  },
+  {
+    id: "substance-use-disorders",
+    name: "Substance Use Disorders",
+    slug: "substance-use-disorders",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A cluster of cognitive, behavioral, and physiological symptoms indicating that the individual continues using the substance despite significant substance-related problems.",
+    simpleExplanation: "A pattern of using alcohol or drugs that leads to significant problems or distress, such as not being able to stop using, neglecting responsibilities, or experiencing health issues.",
+    examKeywords: ["Withdrawal", "Tolerance", "Cravings", "Mesolimbic pathway", "Dual diagnosis"],
+    epidemiology: {
+      ageDistribution: "High prevalence in young adults (18-25).",
+      sexDistribution: "More common in males.",
+      riskGroups: ["Individuals with co-morbid mental illness", "Trauma survivors"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic vulnerability (heritability up to 50%)", "Impulsivity traits"],
+      precipitatingFactors: ["Peer pressure", "Easy availability", "High stress environments"],
+      riskFactors: ["History of physical/sexual abuse", "Early age of first use"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Dopamine Hijack", description: "Substances cause massive dopamine release in the nucleus accumbens, reinforcing use." },
+        { title: "Neuroadaptation", description: "The brain reduces its own dopamine production/receptors (tolerance), requiring more substance for the same effect." },
+        { title: "Executive Control Failure", description: "Prefrontal cortex function declines, impairing the ability to resist cravings." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Strong desire to use (cravings)", "Loss of control over use", "Tolerance"],
+      localSymptoms: [
+        "Withdrawal: Nausea, tremors, anxiety, seizures (Alcohol/Benzos), sweating, body aches (Opioids).",
+        "Behavioral: Neglect of roles, social withdrawal, illegal activities to obtain substance."
+      ],
+      constitutionalFeatures: ["Weight loss", "Signs of liver disease (Alcohol)", "Track marks (IV drugs)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Significantly higher during intoxication or withdrawal",
+      "SELF-HARM RISK: Risk-taking behaviors and self-injurious accidents",
+      "PSYCHIATRIC EMERGENCY: Overdose (Respiratory depression) or Delirium Tremens (DTs)",
+      "URGENT REFERRAL: If severe withdrawal symptoms are present (e.g., tremors, hallucinations)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical History / DSM-5", findings: "Pattern of problematic use (11 criteria)", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Toxicology Screen (Urine/Blood)", findings: "Presence of metabolites", importance: "Confirm substance use" },
+        { name: "Liver Function Tests (GGT/MCV)", findings: "Evidence of chronic alcohol use", importance: "Screening/Monitoring" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "A pattern of use leading to 2+ of 11 symptoms in a 12-month period.",
+        "Symptoms include: Tolerance, Withdrawal, Cravings, Giving up important activities, Using more than intended."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Bipolar Disorder", distinguishingFeatures: "Mood changes occur independently of substance use." },
+      { condition: "Chronic Pain", distinguishingFeatures: "Substance use is specifically for pain relief, but may transition to disorder." }
+    ],
+    complications: {
+      common: ["Job loss", "Family conflict"],
+      serious: ["Infectious diseases (HIV/HCV)", "Cirrhosis", "Brain damage"],
+      lifeThreatening: ["Overdose", "Withdrawal seizures (Alcohol/Benzos)", "Suicide"]
+    },
+    conventionalManagement: {
+      general: ["12-step programs (AA/NA)", "Motivational Interviewing", "Rehabilitation"],
+      medical: ["Naltrexone/Acamprosate (Alcohol)", "Methadone/Buprenorphine (Opioids)", "Nicotine replacement"],
+      prevention: ["School-based education", "Screening and brief intervention (SBIRT)"]
+    },
+    homoeopathicApproach: "Aims to reduce the intensity of cravings, support the detoxification process, and address the underlying emotional pain and 'Syphilitic' self-destructive impulses.",
+    relatedRemedies: [
+      { name: "Nux Vomica", keyIndications: "Classic remedy for overindulgence in alcohol/stimulants; irritable; chilly; digestive issues; wants quiet." },
+      { name: "Quercus", keyIndications: "Specific for cravings for alcohol; helps in reducing the habit." },
+      { name: "Sulphuric Acid", keyIndications: "Great craving for brandy; hot flushes; hurried; weak and exhausted." },
+      { name: "Arsenicum Album", keyIndications: "Anxiety and restlessness during withdrawal; fear of death; chilly." }
+    ],
+    relatedDiseases: ["major-depressive-disorder", "bipolar-disorder"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Tolerance vs Withdrawal", "Mesolimbic dopamine", "Dual diagnosis common"],
+      miasmaticDominance: "Syphilitic (Destructive use)",
+      thermalState: "Variable",
+      organAffinity: "Liver, Brain, Nervous system",
+      memoryMnemonic: "CAGE (Alcohol): Cut down, Annoyed by criticism, Guilty, Eye-opener"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage withdrawal safely and address co-morbidities.",
+        severityAssessment: "Based on number of DSM-5 criteria met.",
+        referralCriteria: ["History of withdrawal seizures", "Suicidal ideation during use/withdrawal"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability (Nux V)", "Gloom (Aurum)", "Impulsivity"],
+        physicalGenerals: {
+          thermalState: "Chilly (Nux V, Ars)",
+          thirst: "Great thirst (Ars)",
+          appetite: "Anorexia or 'Sinkings' in stomach",
+          desires: ["Alcohol (Nux V/Lach)", "Stimulants (Nux V)"],
+          aversions: ["Bread (Lach)"],
+          sleep: "Insomnia; nightmares",
+          perspiration: "Offensive (Lach)"
+        },
+        modalities: ["Agg: Morning, suppression, anger.", "Amel: Warmth (Nux V), discharging (Lach)"],
+        concomitants: ["Tremors", "Gastritis", "Morning vomiting"],
+        characteristicParticulars: [
+          "Mind: Morning irritability and 'cannot bear the light' (Nux Vomica).",
+          "Stomach: Intense craving for alcohol that burns (Sulphuric Acid).",
+          "Liver: Pain and sensitivity in the hepatic region."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense craving for stimulants to keep going, followed by a total collapse of energy (Nux Vomica)."],
+        individualExpression: "A syphilitic drive toward self-destruction, where the vital force uses a substance as a 'false vitalization' to mask deep-seated psoric inadequacy."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, alcoholism", chapter: "Mind" },
+          { rubric: "Stomach, craving, alcoholic stimulants", chapter: "Stomach" }
+        ],
+        symptomAnalysis: "Focus on the physical reaction to the substance and the time of the worst cravings."
+      }
+    }
+  },
+  {
+    id: "somatoform-disorders",
+    name: "Somatoform Disorders (Somatic Symptom Disorders)",
+    slug: "somatoform-disorders",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A group of disorders where psychological distress is expressed through physical symptoms that lack a sufficient medical explanation, causing significant distress and impairment.",
+    simpleExplanation: "Having physical symptoms (like pain or fatigue) that cause a lot of worry or distress, even when doctors can't find a clear physical cause for them.",
+    examKeywords: ["Somatic symptom disorder", "Conversion disorder", "Illness anxiety", "Secondary gain"],
+    epidemiology: {
+      ageDistribution: "Often begins in early adulthood.",
+      sexDistribution: "More common in females.",
+      riskGroups: ["History of childhood illness", "Patients with chronic pain"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history of somatic complaints", "Heightened sensitivity to physical sensations"],
+      precipitatingFactors: ["Severe stress", "Emotional trauma (Conversion)"],
+      riskFactors: ["Alexithymia (difficulty identifying emotions)", "Low socioeconomic status"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Central Sensitization", description: "The brain becomes hypersensitive to normal bodily signals." },
+        { title: "Cognitive Distortions", description: "Catastrophic misinterpretation of benign physical sensations." },
+        { title: "Psychological Defense", description: "Internal conflicts are 'converted' into physical symptoms to avoid emotional pain." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Multiple physical complaints", "Excessive anxiety about symptoms"],
+      localSymptoms: [
+        "Somatic Symptom Disorder: Persistent pain, fatigue, GI issues.",
+        "Conversion Disorder: Sudden loss of function (blindness, paralysis) without neurological cause.",
+        "Illness Anxiety: Preoccupation with having a serious undiagnosed disease."
+      ],
+      constitutionalFeatures: ["History of frequent healthcare visits with negative results"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Risk of suicide if symptoms are perceived as 'hopeless'",
+      "SELF-HARM RISK: Unnecessary invasive medical procedures requested by patient",
+      "PSYCHIATRIC EMERGENCY: Acute conversion symptoms (e.g., pseudo-seizures)",
+      "URGENT REFERRAL: If symptoms indicate a high-risk medical condition (must always rule out physical causes first)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview", findings: "Symptoms causing distress > 6 months", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Comprehensive Medical Workup", findings: "Negative/Inconclusive results", importance: "Mandatory to rule out organic disease" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "One or more somatic symptoms that are distressing or result in significant disruption of daily life.",
+        "Excessive thoughts, feelings, or behaviors related to the somatic symptoms.",
+        "State of being symptomatic is persistent (typically > 6 months)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Multiple Sclerosis", distinguishingFeatures: "Objective neurological findings; MRI lesions." },
+      { condition: "Systemic Lupus Erythematosus (SLE)", distinguishingFeatures: "Auto-antibodies; systemic signs (rash, joint swelling)." },
+      { condition: "Malingering", distinguishingFeatures: "Intentional production of symptoms for external gain (e.g., money, avoiding work)." }
+    ],
+    complications: {
+      common: ["Medical polypharmacy", "Work disability"],
+      serious: ["Iatrogenic harm from unnecessary surgeries", "Depression"],
+      lifeThreatening: ["Suicide"]
+    },
+    conventionalManagement: {
+      general: ["CBT", "Regular appointments with a single primary care provider", "Mindfulness"],
+      medical: ["Treating co-morbid anxiety/depression (SSRIs)"],
+      prevention: ["Early validation of distress without reinforcing the 'sick' role"]
+    },
+    homoeopathicApproach: "Focuses on the 'Psora-Sycotic' internal conflict, aiming to harmonize the mind-body connection and resolve the emotional causes expressed as physical symptoms.",
+    relatedRemedies: [
+      { name: "Ignatia Amara", keyIndications: "Classic remedy for conversion symptoms following grief/shock; paradoxical symptoms (e.g., sore throat better for swallowing solids); sighing; hysterical." },
+      { name: "Argentum Nitricum", keyIndications: "Symptoms from anticipatory anxiety; flatulence; hurry; palpitations." },
+      { name: "Natrum Muriaticum", keyIndications: "Suppressed emotions; silent grief; averse to consolation; headaches." },
+      { name: "Pulsatilla", keyIndications: "Changeable symptoms; seeks sympathy; weeps easily; better for open air." }
+    ],
+    relatedDiseases: ["generalized-anxiety-disorder", "major-depressive-disorder"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Rule out organic disease", "Distress is real, even if cause is not organic", "CBT focus"],
+      miasmaticDominance: "Psora-Sycotic (Distortion of sensation)",
+      thermalState: "Variable",
+      organAffinity: "Nervous system, Sensory organs",
+      memoryMnemonic: "SOMA: Somatic focus, Organic cause ruled out, Mental distress, Anxiety"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To avoid harmful medical interventions.",
+        severityAssessment: "Based on functional impairment.",
+        referralCriteria: ["Sudden loss of sight/movement (Conversion)", "Severe illness anxiety"]
+      },
+      individualization: {
+        mentalGenerals: ["Contradictory impulses (Ignatia)", "Hysterical (Moschus)", "Anxious (Ars)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Nervous indigestion",
+          desires: ["Sweets (Arg Nit)"],
+          aversions: ["Company (Nat Mur)"],
+          sleep: "Disturbed by somatic worry",
+          perspiration: "Cold sweat from anxiety"
+        },
+        modalities: ["Agg: Grief, excitement, morning, consolation.", "Amel: Open air, weeping (Puls), motion"],
+        concomitants: ["Globus hystericus", "Tingling", "Palpitations"],
+        characteristicParticulars: [
+          "Mind: Paradoxical symptoms: sore throat better when swallowing hard food (Ignatia).",
+          "Mind: Sudden paralysis or blindness following emotional shock (Ignatia).",
+          "GI: Extreme flatulence and abdominal distension related to anxiety."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Symptoms that are completely paradoxical and change with the emotional state (Ignatia Amara)."],
+        individualExpression: "A psoric struggle to voice emotional pain, which the vital force 'crystallizes' into physical sensations as a survival mechanism."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, hysteria", chapter: "Mind" },
+          { rubric: "Generalities, paradoxical symptoms", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the 'causation' (Grief/Anger) and the 'bizarre' nature of the symptoms."
+      }
+    }
+  },
+  {
+    id: "eating-disorders",
+    name: "Eating Disorders",
+    slug: "eating-disorders",
+    system: "psychiatry",
+    category: "Psychiatric",
+    definition: "A range of psychological conditions characterized by abnormal or disturbed eating habits, often driven by intense concern about body weight or shape.",
+    simpleExplanation: "Serious conditions related to persistent eating behaviors that negatively impact your health, your emotions, and your ability to function in important areas of life.",
+    examKeywords: ["Anorexia Nervosa", "Bulimia Nervosa", "Binge Eating Disorder", "Lanugo", "Russell's sign"],
+    epidemiology: {
+      ageDistribution: "Peak onset in adolescence and young adulthood.",
+      sexDistribution: "Significantly more common in females.",
+      riskGroups: ["Athletes (gymnastics, ballet)", "Models", "History of childhood obesity"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic vulnerability", "Perfectionistic personality traits", "High anxiety"],
+      precipitatingFactors: ["Dieting", "Negative life events", "Weight-related bullying"],
+      riskFactors: ["Western beauty standards", "Over-controlling families (Anorexia)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Neurocircuitry Alterations", description: "Changes in the reward system (dopamine) affecting the perception of food." },
+        { title: "Serotonin Dysregulation", description: "High serotonin (Anorexia) associated with anxiety and inhibition; low serotonin (Bulimia) associated with impulsivity." },
+        { title: "Hormonal Adaptive Changes", description: "Suppression of the HPO axis leading to amenorrhea; changes in ghrelin and leptin." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Abnormal eating patterns", "Distorted body image"],
+      localSymptoms: [
+        "Anorexia: Extreme weight loss, fear of weight gain, amenorrhea, lanugo hair, bradycardia.",
+        "Bulimia: Binge eating followed by purging (vomiting, laxatives), Russell's sign (calluses on knuckles), parotid swelling.",
+        "Binge Eating: Recurrent bingeing without purging; feelings of guilt."
+      ],
+      constitutionalFeatures: ["Cold intolerance", "Fatigue", "Dental enamel erosion (Bulimia)"]
+    },
+    redFlags: [
+      "SUICIDE RISK: Highest among all psychiatric disorders in Anorexia",
+      "SELF-HARM RISK: Check for history of cutting or burning",
+      "PSYCHIATRIC EMERGENCY: Severe electrolyte imbalance (Low K+) or BMI < 13",
+      "URGENT REFERRAL: If rapid weight loss, bradycardia (<40 bpm), or severe fainting occurs"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Interview / BMI", findings: "Assessment of eating habits and weight", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Urea and Electrolytes (U&Es)", findings: "Low Potassium (Hypokalemia)", importance: "Critical for safety in Bulimia/Purging" },
+        { name: "ECG", findings: "Bradycardia or QT prolongation", importance: "Assess cardiac risk" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "DSM-5 Criteria",
+      criteria: [
+        "Anorexia: Restriction of energy intake leading to low body weight; intense fear of gaining weight; distorted body image.",
+        "Bulimia: Recurrent binge eating + recurrent compensatory behavior (e.g., vomiting); at least 1/week for 3 months."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Hyperthyroidism", distinguishingFeatures: "Weight loss but increased appetite; normal body image." },
+      { condition: "Malabsorption (Celiac)", distinguishingFeatures: "Weight loss; diarrhea; no fear of weight gain." },
+      { condition: "Brain Tumors", distinguishingFeatures: "Vomiting without bingeing; neurological signs." }
+    ],
+    complications: {
+      common: ["Osteoporosis", "Amenorrhea"],
+      serious: ["Cardiac arrhythmias", "Esophageal tears (Mallory-Weiss)"],
+      lifeThreatening: ["Refeeding syndrome", "Cardiac arrest", "Suicide"]
+    },
+    conventionalManagement: {
+      general: ["Nutritional rehabilitation", "Family Based Therapy (FBT) - gold standard for teens", "CBT-E"],
+      medical: ["SSRIs (Fluoxetine for Bulimia)", "Olanzapine (for weight gain in Anorexia)"],
+      prevention: ["Body positivity education"]
+    },
+    homoeopathicApproach: "Targets the 'Psora-Syphilitic' distorted self-perception and the deep-seated fears or control issues that drive the eating behavior.",
+    relatedRemedies: [
+      { name: "Natrum Muriaticum", keyIndications: "Suppressed grief; body image issues; averse to consolation; desires salt; perfectionist." },
+      { name: "Hyoscyamus Niger", keyIndications: "Obsessive fear of being poisoned; refuses food; suspicious; lascivious." },
+      { name: "Arsenicum Album", keyIndications: "Anxiety about health/weight; fastidious; fear of death; restless." },
+      { name: "Pulsatilla", keyIndications: "Fear of weight gain; changeable moods; seeks attention/love; weeps easily." }
+    ],
+    relatedDiseases: ["major-depressive-disorder", "somatoform-disorders"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Anorexia = Low weight", "Bulimia = Purging", "Hypokalemia risk"],
+      miasmaticDominance: "Psora-Syphilitic (Self-destruction)",
+      thermalState: "Variable",
+      organAffinity: "Stomach, Heart, Mind",
+      memoryMnemonic: "ANOREXIA: Anemia, No periods, Osteoporosis, Russell's sign (Bulimia), Electrolyte imbalance, X-ray (bone density), Image distortion, Arrhythmia"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To monitor physical safety and nutritional status.",
+        severityAssessment: "Based on BMI (Anorexia) and frequency of purging (Bulimia).",
+        referralCriteria: ["BMI < 15", "Low Potassium (< 3.0)", "Suicidal ideation"]
+      },
+      individualization: {
+        mentalGenerals: ["Suppressed grief (Nat Mur)", "Control issues (Sil)", "Suspicion (Hyo)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Sil, Ars)",
+          thirst: "Variable",
+          appetite: "Suppressed or Bingeing",
+          desires: ["Salt (Nat Mur)", "Sweets"],
+          aversions: ["Food (Anorexia)", "Fat"],
+          sleep: "Disturbed by hunger or anxiety",
+          perspiration: "Cold"
+        },
+        modalities: ["Agg: Morning, consolidation, cold air.", "Amel: Warmth, being alone (Nat Mur)"],
+        concomitants: ["Amenorrhea", "Constipation", "Lanugo hair"],
+        characteristicParticulars: [
+          "Mind: Refusal to eat because she feels fat, even when skeletal (Natrum Mur).",
+          "Stomach: Intense hunger but fear of eating even a bite.",
+          "Teeth: Enamel erosion from frequent vomiting."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense hatred of one's own body and a refusal to eat even when the body is visibly wasting away (Natrum Muriaticum)."],
+        individualExpression: "A syphilitic denial of the self, where the vital force's survival instinct is overridden by a distorted mental image of perfection or purity."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Mind, body, image of; distorted", chapter: "Mind" },
+          { rubric: "Mind, refuse; to eat", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the 'why' behind the refusal (Fear of weight vs. Grief vs. Suspicion)."
+      }
+    }
+  },
+  {
+    id: "conjunctivitis",
+    name: "Conjunctivitis",
+    slug: "conjunctivitis",
+    system: "ophthalmology",
+    category: "Infectious/Allergic",
+    definition: "Inflammation of the conjunctiva, the thin transparent layer covering the white part of the eye and the inner surface of the eyelids.",
+    simpleExplanation: "Commonly known as 'pink eye', it's an irritation or infection of the clear membrane that covers the white part of your eye and lines your eyelid.",
+    examKeywords: ["Pink eye", "Cobblestone papillae", "Purulent discharge", "Pre-auricular lymphadenopathy"],
+    epidemiology: {
+      ageDistribution: "All ages; viral/bacterial common in children; allergic common in young adults.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Contact lens wearers", "School children", "Individuals with allergies"],
+    },
+    etiology: {
+      predisposingFactors: ["Poor hand hygiene", "Sharing towels/cosmetics"],
+      precipitatingFactors: ["Adenovirus (Viral)", "Staph/Strep (Bacterial)", "Pollen/Dust (Allergic)"],
+      riskFactors: ["Dry eye disease", "Upper respiratory tract infection"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Exposure", description: "Pathogen or allergen comes into contact with the conjunctival surface." },
+        { title: "Inflammatory Response", description: "Dilation of conjunctival blood vessels (hyperemia) and infiltration of inflammatory cells." },
+        { title: "Exudation", description: "Increased vascular permeability leads to tearing or discharge (serous, mucoid, or purulent)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Redness (Hyperemia)", "Tearing (Epiphora)", "Grittiness/Foreign body sensation"],
+      localSymptoms: [
+        "Viral: Watery discharge, itchy, often starts in one eye then moves to the second.",
+        "Bacterial: Thick, yellow/green purulent discharge; eyelids 'stuck' together in morning.",
+        "Allergic: Intense itching, ropy discharge, bilateral, chemosis (swelling of conjunctiva)."
+      ],
+      constitutionalFeatures: ["Associated URI symptoms (Viral)", "Sneezing/Runny nose (Allergic)"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: If associated with severe pain, photophobia, or reduced vision",
+      "URGENT REFERRAL: If no improvement within 48 hours of treatment",
+      "URGENT REFERRAL: If neonate (Neonatal conjunctivitis can be sight-threatening)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Slit-lamp Examination", findings: "Follicular or papillary reaction", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Conjunctival Swab/Culture", findings: "Identification of bacteria", importance: "Only in severe or chronic cases" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Diffuse conjunctival injection.",
+        "Presence of discharge (serous/purulent).",
+        "Absence of severe pain or significant vision loss (which would suggest deeper inflammation)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Acute Glaucoma", distinguishingFeatures: "Severe pain; vomiting; hazy cornea; fixed mid-dilated pupil." },
+      { condition: "Uveitis", distinguishingFeatures: "Deep ciliary flush; photophobia; constricted pupil." },
+      { condition: "Corneal Ulcer", distinguishingFeatures: "Localized white infiltrate on cornea; severe pain." }
+    ],
+    complications: {
+      common: ["Chronic conjunctivitis", "Spread to others"],
+      serious: ["Keratitis (Involvement of cornea)", "Pre-septal cellulitis"],
+      lifeThreatening: ["Rare (systemic spread in neonates)"]
+    },
+    conventionalManagement: {
+      general: ["Hand hygiene", "Cool/Warm compresses", "Discard contaminated cosmetics"],
+      medical: ["Antibiotic drops (Bacterial)", "Antihistamine drops (Allergic)", "Artificial tears"],
+      prevention: ["Frequent hand washing", "Avoiding sharing of towels"]
+    },
+    homoeopathicApproach: "Aims to address the acute inflammatory stage and the specific character of discharge (bland vs. acrid) and the patient's thermal/thirst modalities.",
+    relatedRemedies: [
+      { name: "Euphrasia", keyIndications: "Acrid lachrymation and bland nasal discharge; burning; frequent blinking." },
+      { name: "Argentum Nitricum", keyIndications: "Profuse, thick, purulent discharge; corners of eyes red and swollen; inner canthi especially involved." },
+      { name: "Pulsatilla", keyIndications: "Thick, yellow-green, bland discharge; worse in warm room; better in open air; weeps easily." },
+      { name: "Belladonna", keyIndications: "Early stage; sudden onset; bright red eyes; throbbing; dry heat; photophobia." }
+    ],
+    relatedDiseases: ["keratitis", "uveitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Cobblestone papillae = Allergic", "Pre-auricular node = Viral", "Stuck eyelids = Bacterial"],
+      miasmaticDominance: "Psora (Allergic/Acute viral)",
+      thermalState: "Variable",
+      organAffinity: "Conjunctiva, Eyelids",
+      memoryMnemonic: "PINK: Purulent (Bacterial), Itchy (Allergic), Nodes (Viral), Keratitis (Complication)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out sight-threatening conditions like Acute Glaucoma.",
+        severityAssessment: "Based on vision and pain levels.",
+        referralCriteria: ["Reduced visual acuity", "Ciliary flush", "Corneal opacity"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability (Bell)", "Mildness/Weeping (Puls)", "Anxiety (Ars)"],
+        physicalGenerals: {
+          thermalState: "Warm-blooded (Puls)",
+          thirst: "Thirstless (Puls)",
+          appetite: "Normal",
+          desires: ["Cold water (Bell)"],
+          aversions: ["Fat (Puls)"],
+          sleep: "Disturbed by irritation",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Warmth (Puls), light (Bell), morning (Euph).", "Amel: Open air (Puls), cold washing (Euph)"],
+        concomitants: ["Coryza", "Sneezing", "Headache"],
+        characteristicParticulars: [
+          "Eyes: Acrid, burning tears that excoriate the cheeks (Euphrasia).",
+          "Eyes: Lids are stuck together in the morning with thick yellow discharge (Pulsatilla).",
+          "Eyes: Eyes look like a 'raw beefsteak' (Argentum Nitricum)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense burning of the eyes with acrid tears, but the discharge from the nose is perfectly bland (Euphrasia)."],
+        individualExpression: "An acute inflammatory flare-up of the psoric miasm, characterized by rapid vascular response and specific discharge qualities."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, inflammation, conjunctiva", chapter: "Eye" },
+          { rubric: "Eye, discharge, purulent", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the nature of the discharge (Acrid vs. Bland) and the effect of temperature."
+      }
+    }
+  },
+  {
+    id: "keratitis",
+    name: "Keratitis",
+    slug: "keratitis",
+    system: "ophthalmology",
+    category: "Infectious/Inflammatory",
+    definition: "Inflammation of the cornea, the clear, dome-shaped tissue on the front of your eye that covers the pupil and iris.",
+    simpleExplanation: "A painful condition where the front clear part of the eye (the cornea) becomes inflamed or infected, often causing blurred vision and light sensitivity.",
+    examKeywords: ["Corneal ulcer", "Dendritic ulcer (Herpes)", "Hypopyon", "Contact lens keratitis"],
+    epidemiology: {
+      ageDistribution: "All ages; HSV common in adults; Acanthamoeba in contact lens wearers.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Contact lens wearers", "Immune compromised", "Farmers (Fungal keratitis)"],
+    },
+    etiology: {
+      predisposingFactors: ["Contact lens misuse (overnight wear)", "Corneal trauma"],
+      precipitatingFactors: ["Bacteria (Pseudomonas)", "Viruses (HSV, VZV)", "Fungi", "Parasites (Acanthamoeba)"],
+      riskFactors: ["Vitamin A deficiency", "Dry eyes", "Topical steroid use"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Epithelial Breach", description: "Breakdown of the corneal epithelium allows entry of pathogens." },
+        { title: "Infiltration", description: "Inflammatory cells migrate into the corneal stroma (corneal infiltrate)." },
+        { title: "Ulceration", description: "Necrosis of the corneal tissue leading to ulcer formation and potential perforation." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Severe eye pain", "Photophobia", "Blurred vision", "Red eye"],
+      localSymptoms: [
+        "Bacterial: White/gray spot on cornea; hypopyon (pus in anterior chamber).",
+        "Viral (HSV): Dendritic (branch-like) ulcer; reduced corneal sensitivity.",
+        "Fungal: Feathery borders; satellite lesions."
+      ],
+      constitutionalFeatures: ["Rarely systemic, unless associated with VZV (shingles)"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: This is a medical emergency",
+      "URGENT REFERRAL: Any suspected corneal ulcer requires immediate ophthalmic assessment",
+      "HYPOPYON: Presence of pus in the eye is a sign of severe infection",
+      "REDUCED VISION: Significant drops in visual acuity"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Fluorescein Staining", findings: "Ulcer shows green staining", importance: "Primary diagnostic tool" }
+      ],
+      laboratoryFindings: [
+        { name: "Corneal Scraping", findings: "Culture/Sensitivity for pathogens", importance: "Identify causative agent" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Corneal opacity/infiltrate.",
+        "Positive fluorescein staining over the infiltrate.",
+        "Ciliary injection (redness around the cornea)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Conjunctivitis", distinguishingFeatures: "No corneal infiltrate; vision usually normal; pain is mild/gritty." },
+      { condition: "Acute Glaucoma", distinguishingFeatures: "Cornea is hazy/steamy (edema) but not ulcerated; high IOP." },
+      { condition: "Uveitis", distinguishingFeatures: "No corneal staining; cells in anterior chamber." }
+    ],
+    complications: {
+      common: ["Corneal scarring", "Permanent vision loss"],
+      serious: ["Corneal perforation", "Endophthalmitis (infection inside the eye)"],
+      lifeThreatening: ["None (strictly ocular risk)"]
+    },
+    conventionalManagement: {
+      general: ["Stop contact lens wear immediately", "Shielding the eye"],
+      medical: ["Frequent antibiotic drops (fortified)", "Antiviral drops/gels (Acyclovir)", "Antifungal drops"],
+      prevention: ["Proper contact lens hygiene", "Eye protection in high-risk occupations"]
+    },
+    homoeopathicApproach: "Used as supportive therapy to reduce pain and inflammation and to promote healing of the corneal tissue after/alongside emergency conventional care.",
+    relatedRemedies: [
+      { name: "Mercurius Corrosivus", keyIndications: "Severe, burning, agonizing pain; profuse acrid lachrymation; excessive photophobia; hypopyon." },
+      { name: "Hepar Sulphur", keyIndications: "Ulcer with hypopyon; pain as from a splinter; extremely sensitive to cold air; wants eye wrapped warm." },
+      { name: "Conium Maculatum", keyIndications: "Intense photophobia out of proportion to inflammation; superficial keratitis." },
+      { name: "Aurum Metallicum", keyIndications: "Deep keratitis; bones around eye painful; severe depression; pain worse at night." }
+    ],
+    relatedDiseases: ["conjunctivitis", "uveitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Dendritic ulcer = HSV", "Hypopyon = Bacterial", "Contact lens = Pseudomonas"],
+      miasmaticDominance: "Syphilitic (Destruction of tissue)",
+      thermalState: "Chilly (Hepar S)",
+      organAffinity: "Cornea",
+      memoryMnemonic: "PAIN: Photophobia, Acuity loss, Infiltrate, Nerve sensitivity loss (HSV)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent permanent blindness and corneal perforation.",
+        severityAssessment: "Size and depth of the ulcer.",
+        referralCriteria: ["Immediate referral for all suspected cases of keratitis"]
+      },
+      individualization: {
+        mentalGenerals: ["Extreme irritability (Hepar)", "Despair of recovery (Aurum)", "Hurried (Merc)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Hepar S, Sil)",
+          thirst: "Thirsty (Merc)",
+          appetite: "Normal or decreased",
+          desires: ["Sour (Hepar)"],
+          aversions: ["Fat"],
+          sleep: "Worse at night (Merc)",
+          perspiration: "Profuse, oily, offensive (Merc)"
+        },
+        modalities: ["Agg: Cold air (Hepar), light (Conium), night (Merc).", "Amel: Warmth/Wrapping (Hepar)"],
+        concomitants: ["Enlarged glands", "Salivation (Merc)", "Bone pain (Aurum)"],
+        characteristicParticulars: [
+          "Eyes: Pain is so intense the patient can hardly bear to have the eye examined (Hepar S).",
+          "Eyes: Small branch-like ulcers on the cornea with reduced sensation.",
+          "Eyes: Pus in the lower part of the anterior chamber (Hypopyon)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense photophobia with very little visible redness or inflammation (Conium Maculatum)."],
+        individualExpression: "A syphilitic destructive process where the cornea (the window of the eye) is rapidly broken down, reflecting a deep vulnerability in the vital force."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, inflammation, cornea", chapter: "Eye" },
+          { rubric: "Eye, ulceration, cornea", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the intensity of the pain, the photophobia, and the miasmatic (destructive) depth."
+      }
+    }
+  },
+  {
+    id: "uveitis",
+    name: "Uveitis",
+    slug: "uveitis",
+    system: "ophthalmology",
+    category: "Inflammatory",
+    definition: "Inflammation of the uvea, which is the middle layer of the eye wall consisting of the iris, ciliary body, and choroid.",
+    simpleExplanation: "Inflammation inside the eye that can cause pain, redness, and blurred vision. It's more serious than common pink eye and can affect the iris or the back part of the eye.",
+    examKeywords: ["Ciliary flush", "Keratic precipitates (KP)", "Cells and flare", "Synechiae", "HLA-B27"],
+    epidemiology: {
+      ageDistribution: "Common in young and middle-aged adults (20-60).",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Patients with autoimmune diseases (AS, IBD, Sarcoidosis)"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic (HLA-B27 positivity)", "Smoking"],
+      precipitatingFactors: ["Infections (Herpes, Syphilis, TB)", "Autoimmune flare-ups"],
+      riskFactors: ["Ankylosing spondylitis", "Juvenile idiopathic arthritis (JIA)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Immune Activation", description: "Leukocytes enter the eye from the uveal blood vessels." },
+        { title: "Breakdown of Blood-Ocular Barrier", description: "Proteins and cells leak into the aqueous humor (Cells and Flare)." },
+        { title: "Structural Damage", description: "Chronic inflammation can lead to adhesions between the iris and lens (posterior synechiae)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Deep eye pain (Aching)", "Photophobia", "Redness", "Blurred vision"],
+      localSymptoms: [
+        "Anterior Uveitis (Iritis): Ciliary flush; constricted pupil; Keratic precipitates on corneal endothelium.",
+        "Posterior Uveitis: Floaters; painless vision loss; retinal lesions.",
+        "Intermediate Uveitis: Floaters; 'Snowballing' in vitreous."
+      ],
+      constitutionalFeatures: ["Back pain (AS)", "Joint swelling (RA/JIA)", "Rash (Sarcoidosis)"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: Can lead to glaucoma and cataracts if untreated",
+      "URGENT REFERRAL: Any red eye with pain and photophobia needs urgent specialist review",
+      "CILIARY FLUSH: A sign of deep intraocular inflammation"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Slit-lamp Examination", findings: "Aqueous cells and flare", importance: "Gold standard" }
+      ],
+      laboratoryFindings: [
+        { name: "HLA-B27 testing", findings: "Positive in many anterior uveitis cases", importance: "Identify underlying cause" },
+        { name: "Chest X-ray", findings: "Hilar lymphadenopathy (Sarcoidosis)", importance: "Systemic screening" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Unilateral red eye (usually).",
+        "Circumcorneal (ciliary) injection.",
+        "Presence of inflammatory cells in the anterior chamber."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Conjunctivitis", distinguishingFeatures: "Bilateral; no photophobia; vision normal; discharge present." },
+      { condition: "Acute Glaucoma", distinguishingFeatures: "High IOP; mid-dilated pupil; nauseated." },
+      { condition: "Keratitis", distinguishingFeatures: "Corneal staining with fluorescein." }
+    ],
+    complications: {
+      common: ["Posterior synechiae", "Cataract"],
+      serious: ["Glaucoma", "Macular edema"],
+      lifeThreatening: ["None (strictly ocular)"]
+    },
+    conventionalManagement: {
+      general: ["Dark glasses for photophobia"],
+      medical: ["Topical Steroids (Dexamethasone/Prednisolone)", "Cycloplegic drops (Atropine - to prevent synechiae)"],
+      prevention: ["Managing underlying systemic conditions"]
+    },
+    homoeopathicApproach: "Aims to reduce the recurring tendency and manage the pain/photophobia as an adjunct to steroid therapy.",
+    relatedRemedies: [
+      { name: "Belladonna", keyIndications: "Acute onset; intense photophobia; bright red; throbbing; pupils dilated (paradoxical) or constricted; better for dark room." },
+      { name: "Mercurius Solubilis", keyIndications: "Pain worse at night; syphilitic origin; profuse sweating; mouth symptoms." },
+      { name: "Terebinthina", keyIndications: "Uveitis with kidney involvement; dark, smoky urine; aching pain in eye." },
+      { name: "Spigelia", keyIndications: "Neuralgic pain around eye; feels 'too large'; worse for motion." }
+    ],
+    relatedDiseases: ["conjunctivitis", "keratitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Cells and flare", "Ciliary flush", "Posterior synechiae"],
+      miasmaticDominance: "Syphilitic (Deep inflammation)",
+      thermalState: "Variable",
+      organAffinity: "Iris, Choroid",
+      memoryMnemonic: "UVEA: Unilateral, Vision loss, Erythema (Ciliary), Autoimmune link"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent synechiae and secondary glaucoma.",
+        severityAssessment: "Grading of cells in anterior chamber.",
+        referralCriteria: ["All cases of suspected uveitis"]
+      },
+      individualization: {
+        mentalGenerals: ["Suddenness (Bell)", "Hurriedness (Merc)", "Depression"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Cold water (Bell)"],
+          aversions: ["Bread (Merc)"],
+          sleep: "Worse at night (Merc)",
+          perspiration: "Profuse, oily (Merc)"
+        },
+        modalities: ["Agg: Light, movement, night.", "Amel: Darkness (Bell), quiet"],
+        concomitants: ["Joint pains", "Salivation", "Backache"],
+        characteristicParticulars: [
+          "Eyes: Iris looks muddy or discolored.",
+          "Eyes: Pupil is small and irregular (due to synechiae).",
+          "Eyes: Pain is deep, boring, or throbbing."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense pain that follows the course of the nerves around the eye, worse for even the slightest touch or motion (Spigelia)."],
+        individualExpression: "A syphilitic-sycotic deep tissue inflammation where the body's own immune system attacks the delicate internal structures of the eye."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, inflammation, iris", chapter: "Eye" },
+          { rubric: "Eye, synechiae", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the 'type' of pain and the underlying systemic (miasmatic) history."
+      }
+    }
+  },
+  {
+    id: "cataract",
+    name: "Cataract",
+    slug: "cataract",
+    system: "ophthalmology",
+    category: "Degenerative",
+    definition: "Clouding of the normally clear lens of the eye, which leads to a decrease in vision.",
+    simpleExplanation: "A gradual clouding of the eye's natural lens, like looking through a frosty or fogged-up window, making it harder to read or drive.",
+    examKeywords: ["Opacification", "Nuclear sclerosis", "Phacoemulsification", "Glare", "Second sight"],
+    epidemiology: {
+      ageDistribution: "Most common in those over 65 (Age-related).",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Diabetics", "Individuals with long-term steroid use"],
+    },
+    etiology: {
+      predisposingFactors: ["Age (Senile)", "Congenital (Rubella)"],
+      precipitatingFactors: ["UV light exposure", "Trauma", "Ionizing radiation"],
+      riskFactors: ["Smoking", "Alcohol", "Diabetes", "Steroid use"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Protein Aggregation", description: "Lenticular proteins (crystallins) become damaged and clump together." },
+        { title: "Light Scattering", description: "The clumps scatter light rather than focusing it on the retina." },
+        { title: "Opacification", description: "The lens becomes progressively thicker and yellowish/brownish (Nuclear sclerosis)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Painless, gradual blurring of vision", "Glare (especially at night)", "Reduced color intensity"],
+      localSymptoms: [
+        "Nuclear: Distance vision worsens; 'Second sight' (temporary improvement in near vision).",
+        "Cortical: Spoke-like opacities; glare from headlights.",
+        "Posterior Subcapsular: Rapid progression; affects reading more than distance; related to steroids."
+      ],
+      constitutionalFeatures: ["None (strictly ocular)"]
+    },
+    redFlags: [
+      "SUDDEN VISION LOSS: Cataracts do NOT cause sudden vision loss; if present, suspect other pathology",
+      "PAIN: Cataracts are painless; pain suggests glaucoma or inflammation",
+      "LEUKOCORIA: A white pupil in a child is a medical emergency (rule out Retinoblastoma)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Slit-lamp Examination", findings: "Opacity in the lens", importance: "Primary diagnosis" },
+        { name: "Ophthalmoscopy", findings: "Diminished red reflex", importance: "Simple screening" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood Glucose", findings: "Elevated (if diabetic cataract suspected)", importance: "Identify risk factors" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Progressive decline in visual acuity.",
+        "Visible opacity on slit-lamp exam.",
+        "Patient complaints of glare and 'misty' vision."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Glaucoma", distinguishingFeatures: "Visual field loss; increased IOP; optic nerve cupping." },
+      { condition: "Macular Degeneration", distinguishingFeatures: "Central vision loss; distortion (metamorphopsia)." },
+      { condition: "Refractive Error", distinguishingFeatures: "Correctable with glasses." }
+    ],
+    complications: {
+      common: ["Falls and injuries due to poor vision"],
+      serious: ["Phacomorphic glaucoma (if lens swells)", "Hypermature cataract"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Stronger lighting", "Updated glasses prescription"],
+      medical: ["No effective medical drops to 'reverse' cataract"],
+      surgical: ["Cataract surgery (Phacoemulsification with IOL implantation) - definitive treatment"],
+      prevention: ["UV protection", "Controlling diabetes", "Regular eye check-ups"]
+    },
+    homoeopathicApproach: "Aims to slow down the progression in early stages (immature cataract) and manage the underlying constitutional miasm (Sycotic/Syphilitic).",
+    relatedRemedies: [
+      { name: "Cineraria Maritima", keyIndications: "Used as local drops to help absorb opacities (traditional use)." },
+      { name: "Calcarea Fluorica", keyIndications: "Degenerative changes; stony hardness; cataracts in the elderly." },
+      { name: "Silicea", keyIndications: "Cataracts in office workers or those with weak nutrition; following suppressed foot sweat." },
+      { name: "Causticum", keyIndications: "Cataract with motor weakness of eyelids; better for damp weather." }
+    ],
+    relatedDiseases: ["glaucoma", "age-related-macular-degeneration"],
+    examPriority: "High",
+    clinicalPriority: "Medium",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Gradual and Painless", "Second sight", "Diminished red reflex"],
+      miasmaticDominance: "Sycotic (Accumulation/Clouding)",
+      thermalState: "Variable",
+      organAffinity: "Lens",
+      memoryMnemonic: "CLOUDY: Clear lens lost, Opacity, UV risk, Diabetes link, Young (Congenital)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out other causes of vision loss like Glaucoma.",
+        severityAssessment: "Visual acuity and functional impact.",
+        referralCriteria: ["When vision affects daily life (driving, reading)", "White pupil in children"]
+      },
+      individualization: {
+        mentalGenerals: ["Stout/Flabby (Calc)", "Yielding (Sil)", "Weakness (Caust)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Sil, Calc F)",
+          thirst: "Variable",
+          appetite: "Variable",
+          desires: ["Indigestible things (Sil)"],
+          aversions: ["Fat"],
+          sleep: "Normal",
+          perspiration: "Head sweat (Sil), Foot sweat"
+        },
+        modalities: ["Agg: UV light, night driving.", "Amel: Damp weather (Caust), warmth (Sil)"],
+        concomitants: ["Osteophytes", "Hard glands (Calc F)", "Eyelid ptosis (Caust)"],
+        characteristicParticulars: [
+          "Eyes: Vision is like looking through a veil or smoke.",
+          "Eyes: Objects appear multi-colored or distorted.",
+          "Eyes: Vision is better in twilight (some cases)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The patient feels as if there is a film or thin skin over the eyes that must be wiped away (Causticum)."],
+        individualExpression: "A sycotic crystallization of the lens protein, representing a slow, indurating process within the ocular system."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, cataract", chapter: "Eye" },
+          { rubric: "Eye, vision, foggy", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the patient's general constitution (Calc/Sil) and the type of vision change."
+      }
+    }
+  },
+  {
+    id: "glaucoma",
+    name: "Glaucoma",
+    slug: "glaucoma",
+    system: "ophthalmology",
+    category: "Neurodegenerative",
+    definition: "A group of eye conditions that damage the optic nerve, often due to abnormally high pressure in the eye, leading to irreversible vision loss.",
+    simpleExplanation: "A condition where high pressure in the eye damages the main nerve connected to the brain. It's often called the 'silent thief of sight' because it can slowly destroy vision without any early pain.",
+    examKeywords: ["Intraocular pressure (IOP)", "Optic disc cupping", "Visual field defect", "Angle-closure", "Tonometry"],
+    epidemiology: {
+      ageDistribution: "Increases with age; significantly more common after 60.",
+      sexDistribution: "Angle-closure more common in females.",
+      riskGroups: ["African/Hispanic descent (Open-angle)", "Asian descent (Angle-closure)"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history", "Myopia (Open-angle)", "Hyperopia (Angle-closure)"],
+      precipitatingFactors: ["Pupil dilation (in narrow angles)", "Stress"],
+      riskFactors: ["Diabetes", "Hypertension", "Long-term steroid use"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Aqueous Outflow Resistance", description: "The drainage system (trabecular meshwork) becomes clogged or blocked." },
+        { title: "Increased IOP", description: "Fluid builds up, increasing the internal pressure of the eye." },
+        { title: "Optic Nerve Damage", description: "The pressure compresses the nerve fibers at the optic disc, leading to cell death." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Gradual peripheral vision loss (Open-angle)", "Asymptomatic early on"],
+      localSymptoms: [
+        "Open-Angle: 'Tunnel vision' in advanced stages; painless.",
+        "Acute Angle-Closure: SEVERE eye pain; nausea/vomiting; halos around lights; hazy cornea; rock-hard eye."
+      ],
+      constitutionalFeatures: ["Vomiting and headache (Acute stage)"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: Vision loss from glaucoma is irreversible",
+      "URGENT REFERRAL: Acute Angle-Closure is a surgical emergency",
+      "SEVERE PAIN + NAUSEA: Suggests acute high pressure",
+      "HALOS AROUND LIGHTS: A classic sign of corneal edema in high pressure"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Tonometry", findings: "IOP > 21 mmHg", importance: "Primary screening" },
+        { name: "Ophthalmoscopy", findings: "Cup-to-disc ratio > 0.5", importance: "Assess nerve damage" },
+        { name: "Visual Field Testing", findings: "Peripheral scotomas", importance: "Map functional loss" }
+      ],
+      laboratoryFindings: [
+        { name: "Pachymetry", findings: "Measurement of corneal thickness", importance: "Adjust IOP readings" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Characteristic optic nerve head damage.",
+        "Corresponding visual field defects.",
+        "Elevated IOP (not always present in normal-tension glaucoma)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Cataract", distinguishingFeatures: "Gradual blurring; no field loss; painless; nerve looks normal." },
+      { condition: "Optic Neuritis", distinguishingFeatures: "Pain with eye movement; central vision loss; rapid onset." },
+      { condition: "Migraine", distinguishingFeatures: "Vision changes are temporary (aura); headache follows." }
+    ],
+    complications: {
+      common: ["Progressive loss of peripheral vision"],
+      serious: ["Total blindness", "Corneal decompensation"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Regular eye screening for high-risk individuals"],
+      medical: ["Prostalgandin analogs (Latanoprost)", "Beta-blockers (Timolol)", "Carbonic anhydrase inhibitors"],
+      surgical: ["Laser Trabeculoplasty", "Iridotomy (Angle-closure)", "Trabeculectomy"],
+      prevention: ["Regular eye pressure checks", "Early diagnosis"]
+    },
+    homoeopathicApproach: "Aims to reduce the subjective symptoms (pain/halos) and the 'Sycotic' tendency to fluid accumulation, strictly as a support to conventional IOP-lowering therapy.",
+    relatedRemedies: [
+      { name: "Phosphorus", keyIndications: "Halo around lights; objects appear red; peripheral field loss; atrophy of optic nerve." },
+      { name: "Osmium", keyIndications: "Classic remedy for glaucoma; iridescent vision; halos around light; pressure in globes." },
+      { name: "Physostigma", keyIndications: "Increasing myopia; profuse lachrymation; twitching of eyelids; contraction of pupils." },
+      { name: "Gelsemium", keyIndications: "Serous inflammation; dimness of sight; heaviness of eyelids; 'tired' eyes." }
+    ],
+    relatedDiseases: ["cataract", "diabetic-retinopathy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Silent thief of sight", "Optic disc cupping", "Peripheral field loss first"],
+      miasmaticDominance: "Sycotic (Pressure/Accumulation)",
+      thermalState: "Variable",
+      organAffinity: "Optic Nerve, Aqueous humor",
+      memoryMnemonic: "HALO: Halos around light, Atrophy of nerve, Loss of field, Ocular pressure high"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent permanent, irreversible blindness.",
+        severityAssessment: "Based on IOP and Visual Field mapping.",
+        referralCriteria: ["All suspected glaucoma cases", "Sudden pain + nausea (Emergency)"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety (Phos)", "Dullness (Gels)", "Nervous sensitivity"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Small sips (Phos)",
+          appetite: "Normal",
+          desires: ["Cold drinks (Phos)", "Salt"],
+          aversions: ["Sweets"],
+          sleep: "Normal",
+          perspiration: "Cold (Gels)"
+        },
+        modalities: ["Agg: Stress, darkness (Angle-closure), movement.", "Amel: Light (some cases), cold water"],
+        concomitants: ["Headache", "Nausea", "Trembling (Gels)"],
+        characteristicParticulars: [
+          "Eyes: Vision is blurred as if looking through a mist.",
+          "Eyes: Rainbow-colored rings around lights (Osmium/Phos).",
+          "Eyes: Eyeballs feel too tight or too full."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vivid flashes of light or colors even when the eyes are closed (Phosphorus)."],
+        individualExpression: "A sycotic-syphilitic conflict where the internal pressure of the eye (the microcosm) exceeds its drainage capacity, leading to the destruction of the 'light-sensing' nerve."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, glaucoma", chapter: "Eye" },
+          { rubric: "Eye, vision, halos around light, variegated", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the visual sensations (halos) and the patient's general reactive type."
+      }
+    }
+  },
+  {
+    id: "diabetic-retinopathy",
+    name: "Diabetic Retinopathy",
+    slug: "diabetic-retinopathy",
+    system: "ophthalmology",
+    category: "Vascular",
+    definition: "A microvascular complication of diabetes mellitus that causes damage to the blood vessels of the light-sensitive tissue at the back of the eye (retina).",
+    simpleExplanation: "A complication of diabetes that affects the eyes. It's caused by damage to the blood vessels in the retina, which can lead to blurred vision and even blindness if not managed.",
+    examKeywords: ["Cotton wool spots", "Neovascularization", "Hard exudates", "Dot and blot hemorrhages", "Vitreous hemorrhage"],
+    epidemiology: {
+      ageDistribution: "Primarily adults; risk increases with the duration of diabetes.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Individuals with Type 1 or Type 2 Diabetes", "Pregnant women with diabetes"],
+    },
+    etiology: {
+      predisposingFactors: ["Hyperglycemia (Chronic high blood sugar)"],
+      precipitatingFactors: ["Poorly controlled hypertension", "Hyperlipidemia"],
+      riskFactors: ["Smoking", "Pregnancy", "Duration of diabetes (> 10 years)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Microvascular Damage", description: "High glucose levels damage the capillary walls in the retina (loss of pericytes)." },
+        { title: "Ischemia", description: "Capillaries become blocked, leading to retinal hypoxia." },
+        { title: "Proliferation", description: "Hypoxia triggers the release of VEGF, causing growth of fragile new blood vessels (neovascularization)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Often asymptomatic in early stages", "Floaters", "Blurred vision"],
+      localSymptoms: [
+        "Non-proliferative (NPDR): Microaneurysms, dot/blot hemorrhages, hard exudates (lipid leaks).",
+        "Proliferative (PDR): Growth of new vessels on the retina/optic disc; vitreous hemorrhage (sudden loss of vision)."
+      ],
+      constitutionalFeatures: ["Associated symptoms of diabetes (thirst, polyuria, neuropathy)"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: Can cause sudden vision loss from vitreous hemorrhage or retinal detachment",
+      "SUDDEN SHOWER OF FLOATERS: May indicate a vitreous hemorrhage",
+      "SUDDEN VISION LOSS: Requires emergency ophthalmic assessment",
+      "PREGNANCY: Requires more frequent screening"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Fundus Examination (Dilated)", findings: "Dot/Blot hemorrhages; neovascularization", importance: "Primary method" },
+        { name: "Optical Coherence Tomography (OCT)", findings: "Macular edema", importance: "Assess for fluid in the retina" }
+      ],
+      laboratoryFindings: [
+        { name: "HbA1c", findings: "Elevated levels", importance: "Monitor blood sugar control" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Grading",
+      criteria: [
+        "Based on the presence and severity of retinal lesions (exudates, hemorrhages, new vessels).",
+        "Regular screening is mandatory for all diabetics."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Hypertensive Retinopathy", distinguishingFeatures: "Arteriolar narrowing; silver wiring; disk edema in severe cases." },
+      { condition: "Retinal Vein Occlusion", distinguishingFeatures: "Unilateral; massive hemorrhages; sudden onset." },
+      { condition: "Sickle Cell Retinopathy", distinguishingFeatures: "Sea-fan neovascularization; sickle cell history." }
+    ],
+    complications: {
+      common: ["Diabetic Macular Edema (DME)"],
+      serious: ["Vitreous hemorrhage", "Tractional retinal detachment"],
+      lifeThreatening: ["Increased risk of stroke/MI (microvascular marker)"]
+    },
+    conventionalManagement: {
+      general: ["Tight glycemic control", "Blood pressure management"],
+      medical: ["Intravitreal Anti-VEGF injections (Ranibizumab)", "Laser Photocoagulation"],
+      prevention: ["Annual dilated eye exams for all diabetics"]
+    },
+    homoeopathicApproach: "Focuses on the microvascular fragility and the 'Syphilitic' degenerative process, aiming to support capillary health and manage the diabetic constitution.",
+    relatedRemedies: [
+      { name: "Phosphorus", keyIndications: "Retinal hemorrhages; objects appear red; halo around lights; weak eyes; degenerative changes." },
+      { name: "Arnica Montana", keyIndications: "Used after retinal hemorrhage to promote absorption of blood; 'bruised' feeling in eyes." },
+      { name: "Lachesis", keyIndications: "Left-sided; retinal hemorrhages; dark, blackish blood; sensitive to touch/pressure." },
+      { name: "Secale Cornutum", keyIndications: "Small hemorrhages; thin, black, non-coagulable blood; better for cold applications." }
+    ],
+    relatedDiseases: ["hypertensive-retinopathy", "retinal-detachment"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Dot and blot hemorrhages", "Neovascularization (PDR)", "Anti-VEGF is common treatment"],
+      miasmaticDominance: "Syphilitic (Vascular destruction)",
+      thermalState: "Variable",
+      organAffinity: "Retina, Blood vessels",
+      memoryMnemonic: "DIABETIC: Dot/Blot, Ischemia, Anti-VEGF, Blood sugar control, Exudates, Tractional detachment, Injections, Cotton wool spots"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent permanent blindness via early detection and intervention.",
+        severityAssessment: "Grading from Mild NPDR to PDR.",
+        referralCriteria: ["Any new vision changes in a diabetic", "Sudden vision loss (Emergency)"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety (Phos)", "Fear of future (Ars)", "Aura of danger"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Intense thirst (Diabetes)",
+          appetite: "Increased (polyphagia)",
+          desires: ["Sweets (Sycotic)", "Cold drinks (Phos)"],
+          aversions: ["Fat"],
+          sleep: "Normal",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Eye strain, evening.", "Amel: Cold washing (some), rest"],
+        concomitants: ["Neuropathy", "Nephropathy", "Fatigue"],
+        characteristicParticulars: [
+          "Eyes: Retinal vessels look fragile and tortuous.",
+          "Eyes: Sudden blurring due to bleeding into the vitreous.",
+          "Eyes: Spots (scotomas) in the visual field."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Everything appears to have a red tint, as if looking through a red glass (Phosphorus)."],
+        individualExpression: "A syphilitic breakdown of the micro-circulation, where the vital force is unable to maintain the structural integrity of the delicate retinal vessels under the stress of chronic metabolic disturbance."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, hemorrhage, retina", chapter: "Eye" },
+          { rubric: "Eye, vision, red", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the nature of the hemorrhage and the patient's general miasmatic depth."
+      }
+    }
+  },
+  {
+    id: "hypertensive-retinopathy",
+    name: "Hypertensive Retinopathy",
+    slug: "hypertensive-retinopathy",
+    system: "ophthalmology",
+    category: "Vascular",
+    definition: "Retinal vascular damage caused by systemic arterial hypertension.",
+    simpleExplanation: "Damage to the blood vessels in the retina at the back of the eye due to high blood pressure. It's often a sign of how high blood pressure is affecting other organs in your body.",
+    examKeywords: ["Silver wiring", "AV nipping", "Flame hemorrhages", "Papilledema", "Keith-Wagener-Barker classification"],
+    epidemiology: {
+      ageDistribution: "More common in older adults with chronic hypertension.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Individuals with poorly controlled high blood pressure", "African descent"],
+    },
+    etiology: {
+      predisposingFactors: ["Essential Hypertension", "Renal Hypertension"],
+      precipitatingFactors: ["Hypertensive Crisis / Malignant Hypertension"],
+      riskFactors: ["High salt intake", "Obesity", "Smoking", "Sedentary lifestyle"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vasoconstriction", description: "Retinal arterioles narrow in response to high pressure." },
+        { title: "Sclerosis", description: "Arteriolar walls thicken (Copper/Silver wiring) and compress veins where they cross (AV nipping)." },
+        { title: "Exudation", description: "Blood-retinal barrier breaks down, leading to flame-shaped hemorrhages and hard exudates (Macular star)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Often asymptomatic until advanced stages", "Blurred vision", "Headaches"],
+      localSymptoms: [
+        "Grade 1-2: Narrowing of vessels; light reflex changes (wiring).",
+        "Grade 3: Flame hemorrhages; cotton wool spots; hard exudates.",
+        "Grade 4: Papilledema (Swelling of optic disc) - indicates Hypertensive Crisis."
+      ],
+      constitutionalFeatures: ["Signs of high blood pressure (Headache, palpitations, nosebleeds)"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: Grade 4 is a medical emergency",
+      "PAPILLEDEMA: Swelling of the optic nerve head is a sign of severely high pressure (Malignant hypertension)",
+      "SUDDEN VISION LOSS: Risk of retinal artery or vein occlusion",
+      "HYPERTENSIVE EMERGENCY: Vision changes with severe headache/confusion"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Fundus Examination", findings: "Wiring, Hemorrhages, AV nipping", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood Pressure Monitoring", findings: "Elevated BP (>140/90)", importance: "Confirm systemic cause" },
+        { name: "Renal Function Tests", findings: "Check for associated kidney damage", importance: "Systemic assessment" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Keith-Wagener-Barker Grading",
+      criteria: [
+        "Grade 1: Mild arteriolar narrowing.",
+        "Grade 2: AV nipping.",
+        "Grade 3: Hemorrhages/Exudates.",
+        "Grade 4: Papilledema."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Diabetic Retinopathy", distinguishingFeatures: "Dot/Blot hemorrhages; microaneurysms; Keith-Wagener grade 3/4 absent." },
+      { condition: "Central Retinal Vein Occlusion", distinguishingFeatures: "Unilateral; massive hemorrhages; sudden onset." }
+    ],
+    complications: {
+      common: ["Chronic vision impairment"],
+      serious: ["Retinal Vein Occlusion", "Retinal Artery Occlusion"],
+      lifeThreatening: ["Stroke", "Myocardial Infarction", "Heart Failure"]
+    },
+    conventionalManagement: {
+      general: ["Strict BP control (Lifestyle + Medication)"],
+      medical: ["Antihypertensives (ACE inhibitors, CCBs, Diuretics)"],
+      prevention: ["Routine screening in all hypertensive patients"]
+    },
+    homoeopathicApproach: "Aims to manage the hypertensive constitution and support the microvasculature, focusing on remedies for the 'fullness' and 'pulsation' of the Sycotic-Syphilitic miasm.",
+    relatedRemedies: [
+      { name: "Glonoinum", keyIndications: "Sudden congestion to head/eyes; throbbing; cannot bear anything on neck; better for cold water." },
+      { name: "Aurum Metallicum", keyIndications: "Hypertension with severe depression; bone pains; optic nerve congestion; high blood pressure." },
+      { name: "Plumbum Metallicum", keyIndications: "Advanced cases with arteriosclerosis; chronic renal issues; flame hemorrhages." },
+      { name: "Baryta Muriatica", keyIndications: "Elderly with high blood pressure and vascular sclerosis; dizziness." }
+    ],
+    relatedDiseases: ["diabetic-retinopathy", "glaucoma"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Silver wiring", "AV nipping", "Papilledema = Grade 4"],
+      miasmaticDominance: "Syphilitic (Vascular sclerosis)",
+      thermalState: "Variable",
+      organAffinity: "Retina, Optic nerve, Heart",
+      memoryMnemonic: "FLAME: Flame hemorrhages, Light reflex change, AV nipping, Macular star, Edema (Disc)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "The eye is the only place to directly visualize the microvasculature; it predicts systemic risk.",
+        severityAssessment: "Grade 1 to 4 (Keith-Wagener).",
+        referralCriteria: ["Grade 4 Retinopathy (Immediate A&E/ER referral)", "Sudden vision loss"]
+      },
+      individualization: {
+        mentalGenerals: ["Congestive irritability (Bell)", "Deep sadness (Aurum)", "Hurriedness"],
+        physicalGenerals: {
+          thermalState: "Hot (Glon, Bell)",
+          thirst: "Thirsty (Bell)",
+          appetite: "Variable",
+          desires: ["Salt"],
+          aversions: ["Food odors"],
+          sleep: "Restless",
+          perspiration: "Head sweat"
+        },
+        modalities: ["Agg: Heat, bending forward, stimulants.", "Amel: Cold washing, open air"],
+        concomitants: ["Headache", "Tinnitus", "Epistaxis"],
+        characteristicParticulars: [
+          "Eyes: Retinal vessels appear like silver or copper wires.",
+          "Eyes: Flame-shaped hemorrhages near the optic disc.",
+          "Eyes: Sudden 'black out' or transient vision loss (Amaurosis Fugax)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense throbbing in the eyeballs, synchronized with the heart rate (Glonoinum)."],
+        individualExpression: "A sycotic induration of the vessels under the syphilitic pressure of high arterial tension, leading to structural 'wiring' and eventual rupture."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, vision, dim, hypertension, from", chapter: "Eye" },
+          { rubric: "Eye, arteries, narrowed", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the congestive state (Glon/Bell) vs. the sclerotic state (Plumb/Aurum)."
+      }
+    }
+  },
+  {
+    id: "retinal-detachment",
+    name: "Retinal Detachment",
+    slug: "retinal-detachment",
+    system: "ophthalmology",
+    category: "Structural Emergency",
+    definition: "An emergency situation in which the thin layer of tissue (the retina) at the back of the eye pulls away from the layer of blood vessels that provides it with oxygen and nutrients.",
+    simpleExplanation: "A serious condition where the light-sensitive lining at the back of the eye peels off. It's like wallpaper peeling off a wall; without it, the eye can't see properly and needs urgent repair.",
+    examKeywords: ["Photopsia (Flashes)", "Floaters", "Curtain falling", "Shafer's sign", "Tobacco dust"],
+    epidemiology: {
+      ageDistribution: "More common in adults aged 40-70.",
+      sexDistribution: "Slightly more common in males.",
+      riskGroups: ["Highly myopic (short-sighted) individuals", "Post-cataract surgery patients"],
+    },
+    etiology: {
+      predisposingFactors: ["High Myopia", "Retinal thinning (Lattice degeneration)"],
+      precipitatingFactors: ["Eye trauma", "Vitreous detachment (PVD)"],
+      riskFactors: ["Previous retinal detachment in other eye", "Family history"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Retinal Tear", description: "A hole or tear develops in the retina (Rhegmatogenous)." },
+        { title: "Fluid Entry", description: "Vitreous fluid seeps through the tear and accumulates behind the retina." },
+        { title: "Separation", description: "The fluid pushes the retina away from the underlying pigment epithelium (RPE), depriving it of blood supply." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sudden appearance of many floaters", "Flashes of light (Photopsia)"],
+      localSymptoms: [
+        "Visual Field Defect: A 'shadow' or 'curtain' moving across the field of vision.",
+        "Acuity Loss: Rapid decrease in vision if the macula becomes detached.",
+        "Shafer's Sign: Brown pigment cells ('tobacco dust') seen in the anterior vitreous."
+      ],
+      constitutionalFeatures: ["None"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: This is a surgical emergency",
+      "SUDDEN SHOWER OF FLOATERS: Warning sign of a retinal tear",
+      "CURTAIN OVER VISION: Classic sign of detachment",
+      "FLASHES OF LIGHT: Indicates mechanical pulling on the retina"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Fundus Examination (Dilated)", findings: "Corrugated, gray/white retina; visible tears", importance: "Gold standard" },
+        { name: "Ocular Ultrasound", findings: "Retinal separation", importance: "If vitreous hemorrhage prevents view" }
+      ],
+      laboratoryFindings: [
+        { name: "None", findings: "N/A", importance: "Primary diagnosis is clinical/imaging" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Presence of retinal tear or break.",
+        "Sub-retinal fluid accumulation.",
+        "Visual field defect corresponding to the area of detachment."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Posterior Vitreous Detachment (PVD)", distinguishingFeatures: "Flashes and floaters but NO field defect or retinal separation." },
+      { condition: "Migraine Aura", distinguishingFeatures: "Bilateral flashes; temporary; lasts < 30 minutes; followed by headache." }
+    ],
+    complications: {
+      common: ["Permanent loss of vision in the affected area"],
+      serious: ["Proliferative vitreoretinopathy (PVR)", "Phthisis bulbi (shrunken, non-functional eye)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Strict bed rest and positioning (post-op)"],
+      medical: ["No medical treatment for detachment itself"],
+      surgical: ["Laser Retinopexy (for tears)", "Scleral Buckle", "Pneumatic Retinopexy", "Pars Plana Vitrectomy"],
+      prevention: ["Regular eye exams for high myopes", "Protective eyewear"]
+    },
+    homoeopathicApproach: "Used strictly as an adjunct post-surgery to promote healing and in high-risk (highly myopic) patients to support retinal health.",
+    relatedRemedies: [
+      { name: "Arnica Montana", keyIndications: "Traumatic detachment; promotes absorption of fluid/blood; bruised feeling." },
+      { name: "Digitalis", keyIndications: "Objects appear yellow; blue vision; used in detachment following trauma or exertion." },
+      { name: "Apis Mellifica", keyIndications: "Edematous swelling; stinging pains; helps in absorption of sub-retinal fluid." },
+      { name: "Gelsemium", keyIndications: "Serous detachment; heavy eyelids; blurry vision." }
+    ],
+    relatedDiseases: ["diabetic-retinopathy", "cataract"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Flashes and Floaters", "Curtain falling", "Tobacco dust sign"],
+      miasmaticDominance: "Syphilitic (Structural separation)",
+      thermalState: "Variable",
+      organAffinity: "Retina, Vitreous",
+      memoryMnemonic: "FLASH: Flashes, Loss of vision, A curtain, Shafer's sign, High myopia risk"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To save vision; 'Macula-on' detachments are higher priority for surgery.",
+        severityAssessment: "Based on extent of detachment and macular involvement.",
+        referralCriteria: ["Immediate (same-day) ophthalmic referral for any suspected case"]
+      },
+      individualization: {
+        mentalGenerals: ["Shock (Acon/Arnica)", "Fear of blindness", "Dullness (Gels)"],
+        physicalGenerals: {
+          thermalState: "Hot (Apis)",
+          thirst: "Thirstless (Apis)",
+          appetite: "Decreased due to shock",
+          desires: ["Cold drinks"],
+          aversions: ["Heat"],
+          sleep: "Disturbed",
+          perspiration: "Cold (Gels)"
+        },
+        modalities: ["Agg: Motion (of eye or body), heat (Apis).", "Amel: Rest, cold applications (Apis)"],
+        concomitants: ["Head injury (history of)", "Weak pulse"],
+        characteristicParticulars: [
+          "Eyes: Vision appears blue or yellow.",
+          "Eyes: Sudden flashes like lightning in the dark.",
+          "Eyes: Feeling of a 'weight' or 'pressure' in the globe."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Visual field defect that changes with the position of the head (highly suggestive of fluid shift)."],
+        individualExpression: "A syphilitic separation of the 'receiving' retina from its life-giving choroid, often precipitated by the psoric shock of trauma or the sycotic strain of high myopia."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, detachment of retina", chapter: "Eye" },
+          { rubric: "Eye, vision, sparks", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the 'causation' (Trauma vs. Strain) and the healing of the tissue post-op."
+      }
+    }
+  },
+  {
+    id: "age-related-macular-degeneration",
+    name: "Age-Related Macular Degeneration (AMD)",
+    slug: "age-related-macular-degeneration",
+    system: "ophthalmology",
+    category: "Degenerative",
+    definition: "A chronic eye disease that causes central vision loss due to damage to the macula, the small central area of the retina.",
+    simpleExplanation: "A common condition in older adults that blurs the sharp, central vision needed for activities like reading and driving. It doesn't affect side vision but makes seeing faces or fine details difficult.",
+    examKeywords: ["Drusen", "Metamorphopsia", "Amsler grid", "Geographic atrophy", "Choroidal neovascularization"],
+    epidemiology: {
+      ageDistribution: "Leading cause of vision loss in those over 60.",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Smokers", "Caucasian descent", "Positive family history"],
+    },
+    etiology: {
+      predisposingFactors: ["Aging", "Genetics (Complement factor H)"],
+      precipitatingFactors: ["Oxidative stress", "Chronic inflammation"],
+      riskFactors: ["Smoking (3x risk)", "Obesity", "Hypertension", "UV exposure"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Drusen Accumulation", description: "Yellowish waste products (drusen) build up under the retina." },
+        { title: "Atrophy (Dry AMD)", description: "Gradual thinning and death of macular cells (geographic atrophy)." },
+        { title: "Neovascularization (Wet AMD)", description: "Abnormal blood vessels grow from the choroid, leaking fluid and blood into the macula." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Gradual central vision blurring", "Distortion of straight lines (Metamorphopsia)"],
+      localSymptoms: [
+        "Dry AMD (85%): Slow progression; difficulty reading; central scotoma (blind spot).",
+        "Wet AMD (15%): Rapid vision loss; severe distortion; central hemorrhage."
+      ],
+      constitutionalFeatures: ["None"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: Wet AMD can cause rapid, permanent blindness",
+      "METAMORPHOPSIA: Distortion of straight lines is a sign of macular fluid",
+      "SUDDEN CENTRAL BLIND SPOT: Emergency ophthalmic referral needed",
+      "AMSLER GRID CHANGE: Any new 'wavy' lines require immediate review"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Fundus Examination", findings: "Drusen; geographic atrophy; hemorrhage", importance: "Primary method" },
+        { name: "Amsler Grid", findings: "Wavy or missing lines", importance: "Home monitoring/Screening" },
+        { name: "OCT", findings: "Sub-retinal fluid; retinal thickening", importance: "Monitor Wet AMD" }
+      ],
+      laboratoryFindings: [
+        { name: "None", findings: "N/A", importance: "Clinical diagnosis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Presence of macular drusen and/or retinal pigmentary changes.",
+        "Central visual field defect.",
+        "Evidence of sub-retinal fluid (in Wet AMD)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Cataract", distinguishingFeatures: "Gradual blurring; NO distortion (Amsler is straight); red reflex diminished." },
+      { condition: "Diabetic Macular Edema", distinguishingFeatures: "History of diabetes; hemorrhages outside the macula as well." }
+    ],
+    complications: {
+      common: ["Loss of independence (reading, driving)"],
+      serious: ["Legal blindness", "Depression due to vision loss"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Smoking cessation", "UV protection", "Low-vision aids"],
+      medical: ["AREDS2 vitamins (for Dry AMD progression)", "Anti-VEGF injections (for Wet AMD)"],
+      prevention: ["Healthy diet rich in lutein and zeaxanthin"]
+    },
+    homoeopathicApproach: "Aims to slow down the 'Syphilitic' degenerative process and support retinal health through mineral and plant remedies that match the patient's constitution.",
+    relatedRemedies: [
+      { name: "Phosphorus", keyIndications: "Retinal degeneration; flashes; objects appear red; halo around lights; weak eyes." },
+      { name: "Lycopodium", keyIndications: "Vertical hemiopia (seeing only half); better for evening; digestive issues." },
+      { name: "Calcarea Phosphorica", keyIndications: "Degenerative changes in the elderly; weak nutrition; photophobia." },
+      { name: "Aurum Metallicum", keyIndications: "Deep retinal changes; upper half of vision lost; black spots; depression." }
+    ],
+    relatedDiseases: ["cataract", "glaucoma"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Central vision loss", "Distortion = Wet AMD", "Drusen = Dry AMD"],
+      miasmaticDominance: "Syphilitic (Degeneration/Atrophy)",
+      thermalState: "Variable",
+      organAffinity: "Macula, Retina",
+      memoryMnemonic: "DRY vs WET: Drusen/Slow (Dry), Wavy lines/Exudative/Treatment urgent (Wet)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To catch Wet AMD early enough for injection therapy to be effective.",
+        severityAssessment: "Based on visual acuity and Amsler grid distortion.",
+        referralCriteria: ["Any new metamorphopsia (Emergency)", "New central blind spot"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety (Phos)", "Depression (Aurum)", "Desire for warm drinks (Lyco)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Lyco, Sil)",
+          thirst: "Variable",
+          appetite: "Bloated (Lyco)",
+          desires: ["Sweets (Lyco)"],
+          aversions: ["Cold food"],
+          sleep: "Normal",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: 4-8 PM (Lyco), dusk.", "Amel: Warmth"],
+        concomitants: ["Hearing loss", "Digestive bloating", "Sallow complexion"],
+        characteristicParticulars: [
+          "Eyes: Straight lines look wavy or bent.",
+          "Eyes: Colors appear dull or washed out.",
+          "Eyes: A dark spot appears in the center of the vision."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Seeing only the lower half of objects; the upper half is cut off (Aurum Metallicum)."],
+        individualExpression: "A syphilitic atrophic process where the 'focal point' of the eye (the macula) is slowly extinguished, mirroring a withdrawal of the vital force from the most precise sensory function."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, vision, distorted, objects", chapter: "Eye" },
+          { rubric: "Eye, vision, hemiopia, upper half", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the pattern of vision loss (Central vs. Hemiopia) and the patient's general mineral balance."
+      }
+    }
+  },
+  {
+    id: "dry-eye-disease",
+    name: "Dry Eye Disease",
+    slug: "dry-eye-disease",
+    system: "ophthalmology",
+    category: "Functional",
+    definition: "A common condition that occurs when your tears aren't able to provide adequate lubrication for your eyes.",
+    simpleExplanation: "A condition where your eyes don't produce enough tears or produce poor-quality tears, leading to a stinging or burning sensation and watery eyes as the eye tries to compensate.",
+    examKeywords: ["Tear film breakup time (TBUT)", "Schirmer test", "Meibomian gland dysfunction (MGD)", "Hyperosmolarity"],
+    epidemiology: {
+      ageDistribution: "More common with aging; very common after menopause.",
+      sexDistribution: "Significantly more common in females.",
+      riskGroups: ["Office workers (screen use)", "Contact lens wearers", "Sjogren's syndrome patients"],
+    },
+    etiology: {
+      predisposingFactors: ["Aging", "Hormonal changes", "Environment (Air conditioning)"],
+      precipitatingFactors: ["Prolonged screen time", "Wind", "Low humidity"],
+      riskFactors: ["Antihistamines", "Antidepressants", "Refractive surgery (LASIK)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Tear Film Instability", description: "Aqueous deficiency or excessive evaporation (lipid layer deficiency)." },
+        { title: "Hyperosmolarity", description: "The tears become too salty, irritating the corneal surface." },
+        { title: "Inflammation", description: "Hyperosmolarity triggers an inflammatory response on the ocular surface." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Stinging or burning sensation", "Foreign body sensation ('Grit')", "Redness"],
+      localSymptoms: [
+        "Paradoxical Tearing: The eye waters in response to irritation from dryness.",
+        "Blurred Vision: Worsens toward the end of the day or after reading.",
+        "Stringy Mucus: Accumulates in or around the eyes."
+      ],
+      constitutionalFeatures: ["Dry mouth (if Sjogren's)", "Joint pains"]
+    },
+    redFlags: [
+      "VISION-THREATENING CONDITION: Severe dry eye can lead to corneal ulcers and scarring",
+      "SEVERE PAIN: Suggests corneal involvement (Keratitis)",
+      "UNILATERAL DRYNESS: Rule out nerve palsy (e.g., Bell's palsy)",
+      "SYSTEMIC SYMPTOMS: Dry eyes + Dry mouth (Sjogren's syndrome)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Schirmer's Test", findings: "Low tear production (< 5-10mm)", importance: "Primary diagnostic tool" },
+        { name: "Fluorescein Staining", findings: "Punctate keratitis (dots of staining)", importance: "Assess surface damage" }
+      ],
+      laboratoryFindings: [
+        { name: "Tear Osmolarity", findings: "Increased (> 308 mOsm/L)", importance: "Objective marker of dryness" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "TFOS DEWS II Criteria",
+      criteria: [
+        "Patient symptoms (OSDI score).",
+        "Evidence of ocular surface damage.",
+        "Tear film instability or hyperosmolarity."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Allergic Conjunctivitis", distinguishingFeatures: "Itching is the main symptom; ropy discharge; history of allergy." },
+      { condition: "Blepharitis", distinguishingFeatures: "Eyelid margin inflammation; crusting; 'dandruff' on lashes." }
+    ],
+    complications: {
+      common: ["Chronic discomfort", "Inability to wear contact lenses"],
+      serious: ["Corneal ulceration", "Corneal scarring"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Frequent blinking during screen use", "Humidifiers", "Lid hygiene"],
+      medical: ["Artificial tears (Preservative-free)", "Cyclosporine drops (Restasis)", "Warm compresses (for MGD)"],
+      surgical: ["Punctal plugs (to block drainage)"],
+      prevention: ["Avoiding dry/windy environments", "Taking breaks from screens"]
+    },
+    homoeopathicApproach: "Aims to address the underlying 'Psoric' dryness and constitutional factors, focusing on remedies that restore secretory function and reduce surface inflammation.",
+    relatedRemedies: [
+      { name: "Alumina", keyIndications: "Extreme dryness of mucous membranes; eyes feel dry and hot; better for cold water; sluggish constitution." },
+      { name: "Sulphur", keyIndications: "Burning in eyes; red lid margins; worse for washing; feels like sand in the eyes." },
+      { name: "Arsenicum Album", keyIndications: "Burning pain better for warm compresses (paradoxical); sensitive to light; chilly." },
+      { name: "Natrum Muriaticum", keyIndications: "Eyes water on exposure to wind; burning lachrymation; worse for sun/light." }
+    ],
+    relatedDiseases: ["conjunctivitis", "keratitis"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Schirmer test", "Paradoxical tearing", "Artificial tears are first-line"],
+      miasmaticDominance: "Psora (Dryness/Deficiency)",
+      thermalState: "Variable",
+      organAffinity: "Lacrimal glands, Cornea",
+      memoryMnemonic: "DRY: Damage to surface, Reduced production, Yielding of tear film"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent chronic corneal damage and identify Sjogren's.",
+        severityAssessment: "Based on OSDI score and staining.",
+        referralCriteria: ["Non-responsive to artificial tears", "Severe pain or vision loss"]
+      },
+      individualization: {
+        mentalGenerals: ["Sluggishness (Alum)", "Irritability (Sulph)", "Anxiety (Ars)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Intense dryness but low thirst (some)",
+          appetite: "Normal",
+          desires: ["Salt (Nat Mur)"],
+          aversions: ["Milk (Sulph)"],
+          sleep: "Normal",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Screen use, wind, morning, washing (Sulph).", "Amel: Warmth (Ars), cold water (Alum/Nat Mur)"],
+        concomitants: ["Dry mouth", "Constipation (Alum)", "Skin issues"],
+        characteristicParticulars: [
+          "Eyes: Feeling of sand or dust in the eyes (Sulphur).",
+          "Eyes: Eyes water profusely in the wind but feel dry indoors (Natrum Mur).",
+          "Eyes: Upper lids feel heavy and stiff."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense burning of the eyes that is actually relieved by warm applications (Arsenicum Album)."],
+        individualExpression: "A psoric state of 'deficiency' where the vital force fails to maintain the protective lubrication of the most exposed sensory organ."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Eye, dryness", chapter: "Eye" },
+          { rubric: "Eye, sand, sensation as of", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the modality (Heat vs. Cold relief) and the presence of systemic dryness."
+      }
+    }
+  },
+  {
+    id: "allergic-rhinitis",
+    name: "Allergic Rhinitis",
+    slug: "allergic-rhinitis",
+    system: "ent",
+    category: "Immunological",
+    definition: "An IgE-mediated inflammatory response of the nasal mucous membranes to inhaled allergens.",
+    simpleExplanation: "Commonly called 'hay fever', it's when your nose gets irritated and runny because you're breathing in things you're allergic to, like pollen or dust.",
+    examKeywords: ["Allergic shiners", "Nasal crease", "Pale/Boggy turbinates", "IgE", "Nasal smear (Eosinophils)"],
+    epidemiology: {
+      ageDistribution: "Often starts in childhood or adolescence.",
+      sexDistribution: "Slightly more common in boys before puberty; equal in adults.",
+      riskGroups: ["Individuals with Atopic triad (Asthma, Eczema, Hay fever)"],
+    },
+    etiology: {
+      predisposingFactors: ["Family history of atopy", "Early exposure to allergens"],
+      precipitatingFactors: ["Pollen (seasonal)", "Dust mites (perennial)", "Pet dander", "Mold"],
+      riskFactors: ["Second-hand smoke", "Pollution"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Sensitization", description: "Allergen exposure leads to IgE production by B cells." },
+        { title: "Mast Cell Degranulation", description: "IgE binds to mast cells; subsequent exposure causes release of histamine and leukotrienes." },
+        { title: "Tissue Response", description: "Vasodilation (congestion), increased mucus production (rhinorrhea), and nerve stimulation (sneezing/itching)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sneezing paroxysms", "Itchy nose/eyes", "Clear rhinorrhea"],
+      localSymptoms: [
+        "Nasal: Congestion, 'allergic salute' (rubbing nose upwards).",
+        "Ocular: Red, itchy, watery eyes.",
+        "Pharyngeal: Post-nasal drip leading to dry cough or throat clearing."
+      ],
+      constitutionalFeatures: ["Fatigue", "Irritability", "Poor sleep due to congestion"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: If associated with acute facial swelling or difficulty breathing (Anaphylaxis risk)",
+      "URGENT REFERRAL: If unilateral symptoms (Rule out foreign body or tumor)",
+      "URGENT REFERRAL: If associated with severe facial pain (suggests secondary sinusitis)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical History", findings: "Classic symptoms and triggers", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Skin Prick Testing", findings: "Wheal and flare response to specific allergens", importance: "Identify triggers" },
+        { name: "Specific IgE (RAST)", findings: "Elevated IgE for specific allergens", importance: "If skin testing is not possible" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "History of characteristic symptoms (2 or more for >1 hour on most days).",
+        "Physical findings (pale turbinates, nasal crease).",
+        "Positive allergy testing (supporting evidence)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Infectious Rhinitis (Common Cold)", distinguishingFeatures: "Thicker/colored discharge; sore throat/fever; lasts 7-10 days." },
+      { condition: "Vasomotor Rhinitis", distinguishingFeatures: "Triggered by temperature/humidity; negative allergy tests." },
+      { condition: "Nasal Polyps", distinguishingFeatures: "Persistent obstruction; anosmia (loss of smell); visible on exam." }
+    ],
+    complications: {
+      common: ["Secondary sinusitis", "Otitis media"],
+      serious: ["Exacerbation of asthma", "Sleep apnea"],
+      lifeThreatening: ["Rare (Anaphylaxis if systemic)"]
+    },
+    conventionalManagement: {
+      general: ["Allergen avoidance", "Nasal saline rinses"],
+      medical: ["Intranasal corticosteroids (Fluticasone)", "Oral antihistamines (Loratadine)", "Leukotriene antagonists"],
+      prevention: ["Keeping windows closed during high pollen count", "Dust-proof bedding"]
+    },
+    homoeopathicApproach: "Aims to desensitize the 'Psoric' over-reaction of the immune system and manage the acute symptoms like sneezing and lachrymation.",
+    relatedRemedies: [
+      { name: "Allium Cepa", keyIndications: "Acrid nasal discharge and bland lachrymation (opposite of Euphrasia); sneezing; better in open air; worse in warm room." },
+      { name: "Arsenicum Album", keyIndications: "Thin, watery, excoriating discharge; burning; sneezing; better for warmth; restless and anxious." },
+      { name: "Sabadilla", keyIndications: "Spasmodic sneezing with running nose; severe itching in nose; sensitive to smell of flowers; better for warm drinks." },
+      { name: "Arundo Mauritanica", keyIndications: "Intense itching of the palate and roof of the mouth; sneezing." }
+    ],
+    relatedDiseases: ["acute-sinusitis", "allergic-dermatitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["IgE mediated", "Pale turbinates", "Allergic shiners"],
+      miasmaticDominance: "Psora (Hypersensitivity)",
+      thermalState: "Variable",
+      organAffinity: "Nasal mucosa, Eyes",
+      memoryMnemonic: "SNEEZE: Sneezing, Nasal itch, Excoriating discharge (Ars), Eyes itchy, Zero fever"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from chronic sinusitis and structural issues like polyps.",
+        severityAssessment: "ARIA classification (Intermittent vs. Persistant; Mild vs. Mod-Severe).",
+        referralCriteria: ["Unilateral obstruction", "New onset asthma symptoms", "Recurrent epistaxis"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Anxiety (Ars)", "Better for open air (Allium)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars, Sabad)",
+          thirst: "Small sips (Ars)",
+          appetite: "Normal",
+          desires: ["Warm drinks (Sabad)"],
+          aversions: ["Cold food"],
+          sleep: "Disturbed by mouth breathing",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Flowers (Sabad), warm room (Allium), midnight (Ars).", "Amel: Open air (Allium), warmth (Ars), warm drinks (Sabad)"],
+        concomitants: ["Itching of palate", "Lachrymation", "Asthma"],
+        characteristicParticulars: [
+          "Nose: Discharge is so acrid it makes the upper lip raw (Allium Cepa).",
+          "Nose: Violent sneezing that makes the whole body shake (Sabadilla).",
+          "Mouth: Intense itching of the soft palate, the patient tries to scratch it with the tongue (Arundo)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense itching of the palate and conjunctiva accompanying the nasal symptoms (Arundo)."],
+        individualExpression: "A psoric hyper-responsiveness where the vital force over-reacts to benign environmental particles as if they were life-threatening invaders."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Nose, coryza, hay fever", chapter: "Nose" },
+          { rubric: "Nose, sneezing, paroxysmal", chapter: "Nose" }
+        ],
+        symptomAnalysis: "Focus on the nature of the discharge (Acrid vs. Bland) and the location of the itching (Nose vs. Palate)."
+      }
+    }
+  },
+  {
+    id: "acute-sinusitis",
+    name: "Acute Sinusitis (Rhinosinusitis)",
+    slug: "acute-sinusitis",
+    system: "ent",
+    category: "Infectious",
+    definition: "Acute inflammation of the paranasal sinuses lasting less than 4 weeks, usually following a viral upper respiratory tract infection.",
+    simpleExplanation: "An infection or inflammation of the air-filled spaces behind your nose and forehead. It usually causes facial pain, a stuffed-up nose, and sometimes a fever, often following a cold.",
+    examKeywords: ["Facial tenderness", "Post-nasal drip", "Maxillary call", "Transillumination", "Double sickening"],
+    epidemiology: {
+      ageDistribution: "All ages; common in adults.",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Individuals with allergic rhinitis", "Cystic fibrosis patients", "Dental infections"],
+    },
+    etiology: {
+      predisposingFactors: ["Viral URI (Common cold)", "Nasal polyps", "Deviated nasal septum"],
+      precipitatingFactors: ["Streptococcus pneumoniae", "Haemophilus influenzae", "Moraxella catarrhalis"],
+      riskFactors: ["Smoking", "Swimming/Diving", "Dental procedures"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Ostial Obstruction", description: "Viral infection causes mucosal edema, blocking the sinus drainage ports (ostia)." },
+        { title: "Stasis", description: "Mucus becomes trapped in the sinus cavity, providing a growth medium for bacteria." },
+        { title: "Infection", description: "Secondary bacterial invasion leads to purulent inflammation and pressure." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Facial pain/pressure", "Nasal congestion", "Purulent rhinorrhea"],
+      localSymptoms: [
+        "Maxillary: Pain in the cheeks and upper teeth.",
+        "Frontal: Severe headache in the forehead region.",
+        "Ethmoid: Pain between the eyes; bridge of nose tenderness.",
+        "General: Reduced sense of smell (hyposmia); halitosis (bad breath)."
+      ],
+      constitutionalFeatures: ["Fever", "Fatigue", "General malaise"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Periorbital swelling or redness (risk of orbital cellulitis)",
+      "ENT EMERGENCY: Severe headache, confusion, or neck stiffness (risk of meningitis/brain abscess)",
+      "URGENT REFERRAL: Visual changes or double vision",
+      "URGENT REFERRAL: 'Double sickening' (cold gets better, then suddenly much worse)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Symptoms > 10 days or severe onset", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "CT Sinuses", findings: "Air-fluid levels; mucosal thickening", importance: "Only for complications or chronic cases" },
+        { name: "Nasal Endoscopy", findings: "Pus in middle meatus", importance: "Specialist assessment" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "IDSA Criteria",
+      criteria: [
+        "Purulent nasal discharge + Nasal obstruction + Facial pain.",
+        "Symptoms persisting for > 10 days without improvement.",
+        "Severe symptoms (Fever > 102 F + Purulent discharge) for 3-4 days."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Viral URI", distinguishingFeatures: "Lasts < 10 days; symptoms peak early then resolve; no 'double sickening'." },
+      { condition: "Dental Abscess", distinguishingFeatures: "Localized tooth pain; gingival swelling; no nasal discharge." },
+      { condition: "Migraine", distinguishingFeatures: "No purulent discharge; photophobia; nausea." }
+    ],
+    complications: {
+      common: ["Chronic sinusitis"],
+      serious: ["Orbital cellulitis", "Subperiosteal abscess"],
+      lifeThreatening: ["Meningitis", "Brain abscess", "Cavernous sinus thrombosis"]
+    },
+    conventionalManagement: {
+      general: ["Nasal saline irrigation", "Steam inhalation", "Hydration"],
+      medical: ["Intranasal steroids", "Decongestants (short-term)", "Antibiotics (Amoxicillin - if bacterial)"],
+      prevention: ["Prompt treatment of colds", "Managing allergies"]
+    },
+    homoeopathicApproach: "Aims to promote drainage, reduce mucosal edema, and address the specific character of the pain and discharge.",
+    relatedRemedies: [
+      { name: "Kali Bichromicum", keyIndications: "Thick, ropy, stringy, greenish-yellow discharge; pain at the root of the nose; small spots of pain; better for warmth." },
+      { name: "Hydrastis", keyIndications: "Profuse post-nasal drip; thick, tenacious, yellow mucus; 'empty' feeling in stomach; hawking." },
+      { name: "Pulsatilla", keyIndications: "Thick, yellow, bland discharge; lost sense of smell; worse in warm room; better in open air; changeability." },
+      { name: "Silicea", keyIndications: "Chronic tendency to sinusitis; chilly; sensitive to cold air; discharge from posterior nares; better for wrapping head warm." }
+    ],
+    relatedDiseases: ["allergic-rhinitis", "chronic-sinusitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["10-day rule for antibiotics", "Maxillary is most common", "Double sickening"],
+      miasmaticDominance: "Sycotic (Catarrhal/Thick mucus)",
+      thermalState: "Variable",
+      organAffinity: "Paranasal sinuses, Nasal mucosa",
+      memoryMnemonic: "PAIN: Pressure, Anosmia, Infection (Fever), Nasal drip"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish viral from bacterial and identify complications early.",
+        severityAssessment: "Based on fever and duration.",
+        referralCriteria: ["Orbital swelling", "Altered mental status", "Severe headache"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Mildness (Puls)", "Fastidiousness (Ars)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Kali B, Sil, Ars)",
+          thirst: "Thirstless (Puls)",
+          appetite: "Anorexia with fever",
+          desires: ["Warm drinks (Ars)"],
+          aversions: ["Fat (Puls)"],
+          sleep: "Restless",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Cold air (Sil), morning (Kali B), warm room (Puls).", "Amel: Warmth/Wrapping (Sil, Kali B), open air (Puls)"],
+        concomitants: ["Headache", "Upper toothache", "Loss of smell"],
+        characteristicParticulars: [
+          "Nose: Discharge is so tenacious that it can be drawn out in long strings (Kali Bich).",
+          "Nose: Pain in a small spot that can be covered with the tip of a finger (Kali Bich).",
+          "Nose: Intense pressure at the root of the nose as if being squeezed."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Pain in the frontal sinuses that is relieved by firm pressure or wrapping the head in a warm cloth (Silicea)."],
+        individualExpression: "A sycotic accumulation where the vital force is unable to 'clear' the stagnant secretions, leading to pressure and secondary infection."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Nose, inflammation, sinuses", chapter: "Nose" },
+          { rubric: "Nose, discharge, stringy", chapter: "Nose" }
+        ],
+        symptomAnalysis: "Focus on the 'type' of discharge (Ropy vs. Bland) and the specific sinus involved."
+      }
+    }
+  },
+  {
+    id: "chronic-sinusitis",
+    name: "Chronic Sinusitis (Chronic Rhinosinusitis)",
+    slug: "chronic-sinusitis",
+    system: "ent",
+    category: "Inflammatory",
+    definition: "Inflammation of the paranasal sinuses lasting for 12 weeks or longer, despite attempted medical management.",
+    simpleExplanation: "A long-lasting inflammation of the sinuses that persists for more than 3 months. It's more of a chronic congestion issue than an acute infection, often linked to allergies or nasal polyps.",
+    examKeywords: ["Nasal polyps", "Biofilms", "Osteitis", "Hyposmia", "Endoscopy"],
+    epidemiology: {
+      ageDistribution: "Common in adults aged 20-50.",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Asthmatics (Samter's triad)", "Individuals with allergic rhinitis", "Smokers"],
+    },
+    etiology: {
+      predisposingFactors: ["Nasal Polyps", "Deviated Septum", "Cystic Fibrosis"],
+      precipitatingFactors: ["Biofilm formation", "Staph aureus", "Fungi (in some cases)"],
+      riskFactors: ["Environmental pollutants", "Gastroesophageal reflux (GERD)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Chronic Inflammation", description: "Persistent mucosal swelling leads to permanent changes in the sinus lining." },
+        { title: "Mucociliary Dysfunction", description: "The tiny hairs (cilia) that move mucus fail to function correctly." },
+        { title: "Remodeling", description: "The bone (osteitis) and soft tissue undergo structural changes, often forming polyps." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Persistent nasal obstruction", "Facial 'fullness' or dull ache", "Discolored discharge"],
+      localSymptoms: [
+        "Hyposmia/Anosmia: Significant reduction in the sense of smell (very common).",
+        "Chronic Post-nasal Drip: Constant clearing of the throat; chronic cough.",
+        "Nasal Polyps: Fleshy growths inside the nose causing total blockage."
+      ],
+      constitutionalFeatures: ["Chronic fatigue", "Poor concentration ('Brain fog')"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: If associated with acute facial swelling or vision loss (Acute-on-Chronic flare)",
+      "URGENT REFERRAL: Unilateral symptoms (Rule out malignancy)",
+      "URGENT REFERRAL: Anosmia that doesn't respond to treatment"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Nasal Endoscopy", findings: "Polyps; pus; mucosal edema", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "CT Sinuses", findings: "Opacification of multiple sinuses", importance: "Assess extent of disease" },
+        { name: "Allergy testing", findings: "Identify underlying triggers", importance: "Management planning" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "EPOS Guidelines",
+      criteria: [
+        "Presence of 2 or more symptoms (Obstruction/Discharge/Pain/Anosmia) for > 12 weeks.",
+        "Either endoscopic signs (polyps/mucus) OR CT evidence of disease."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Allergic Rhinitis", distinguishingFeatures: "No CT evidence of sinus opacification; itching is dominant." },
+      { condition: "Wegener's Granulomatosis", distinguishingFeatures: "Bloody crusts; systemic involvement (lungs/kidneys)." },
+      { condition: "Nasal Malignancy", distinguishingFeatures: "Unilateral; epistaxis; facial deformity; rapid progression." }
+    ],
+    complications: {
+      common: ["Nasal polyps", "Chronic cough"],
+      serious: ["Mucocele (sinus cyst)", "Osteomyelitis"],
+      lifeThreatening: ["Orbital/Intracranial spread (Rarely chronic)"]
+    },
+    conventionalManagement: {
+      general: ["Saline large-volume douching", "Avoiding irritants (smoke)"],
+      medical: ["Intranasal steroid sprays/drops (long-term)", "Short courses of oral steroids", "Long-term macrolide antibiotics (for anti-inflammatory effect)"],
+      surgical: ["Functional Endoscopic Sinus Surgery (FESS) - to open drainage and remove polyps"],
+      prevention: ["Treating allergic rhinitis", "Avoiding smoking", "Nasal hygiene"]
+    },
+    homoeopathicApproach: "Aims to reduce the underlying 'Sycotic' or 'Tubercular' miasmatic tendency toward mucosal hypertrophy and chronic discharge.",
+    relatedRemedies: [
+      { name: "Teucrium Marum Virum", keyIndications: "Specific for nasal polyps; crawling sensation in nostrils; discharge of large crusts." },
+      { name: "Sanguinaria Canadensis", keyIndications: "Right-sided sinusitis; pain starts in occiput and settles over right eye; red cheeks; sensitive to odors." },
+      { name: "Thuja Occidentalis", keyIndications: "Chronic sycotic discharge; nasal polyps; thick, green mucus; smelly." },
+      { name: "Lemna Minor", keyIndications: "Nasal polyps; loss of smell; worse in damp weather; crusts in nose." }
+    ],
+    relatedDiseases: ["acute-sinusitis", "allergic-rhinitis"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["12-week rule", "Anosmia is common", "FESS if medical fails"],
+      miasmaticDominance: "Sycotic (Hypertrophy) / Syphilitic (Suppuration)",
+      thermalState: "Variable",
+      organAffinity: "Paranasal sinuses, Nasal mucosa",
+      memoryMnemonic: "PLOP: Polyps, Loss of smell, Obstruction, Persistent (>12w)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To determine if surgery is needed and to rule out serious systemic diseases.",
+        severityAssessment: "SNOT-22 (Sino-Nasal Outcome Test) score.",
+        referralCriteria: ["Unilateral polyps", "Persistent anosmia", "Failed medical management"]
+      },
+      individualization: {
+        mentalGenerals: ["Fixed ideas (Thuja)", "Irritability", "Weak memory"],
+        physicalGenerals: {
+          thermalState: "Chilly (Thuja, Sil)",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Sweets"],
+          aversions: ["Onions (Thuja)"],
+          sleep: "Mouth breathing",
+          perspiration: "Sweetish odor (Thuja)"
+        },
+        modalities: ["Agg: Damp weather (Lemna), cold air, morning.", "Amel: Warmth, dry weather"],
+        concomitants: ["Anosmia", "Chronic cough", "Post-nasal drip"],
+        characteristicParticulars: [
+          "Nose: Large, chunky, green crusts that bleed when removed.",
+          "Nose: Sensation of a plug in the nose that cannot be blown out.",
+          "Nose: Intense crawling in the nose as if from insects (Teucrium)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Loss of smell with a constant sensation of something stinking in the nose (Psorinum/Thuja)."],
+        individualExpression: "A chronic sycotic state where the vital force is unable to resolve the inflammation, resorts to structural proliferation (polyps) as a defensive but obstructive measure."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Nose, polyps", chapter: "Nose" },
+          { rubric: "Nose, anosmia", chapter: "Nose" }
+        ],
+        symptomAnalysis: "Focus on the character of the discharge and the presence of polyps."
+      }
+    }
+  },
+  {
+    id: "pharyngitis",
+    name: "Pharyngitis",
+    slug: "pharyngitis",
+    system: "ent",
+    category: "Infectious",
+    definition: "Inflammation of the pharynx, resulting in a sore throat.",
+    simpleExplanation: "A sore throat caused by inflammation in the back of the throat. It can be due to a virus (like a cold) or bacteria (like strep throat).",
+    examKeywords: ["Pharyngeal erythema", "Exudates", "Centor criteria", "Odynophagia", "Lymphadenopathy"],
+    epidemiology: {
+      ageDistribution: "All ages; Strep throat most common in children (5-15 years).",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Students", "Military recruits", "Smokers"],
+    },
+    etiology: {
+      predisposingFactors: ["Exposure to someone with a cold/flu", "Smoking"],
+      precipitatingFactors: ["Viruses (Rhinovirus, Adenovirus, EBV)", "Bacteria (Group A Strep)", "Irritants (GERD, Dry air)"],
+      riskFactors: ["Immune suppression", "Chronic allergies"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Colonization", description: "Pathogens attach to the pharyngeal mucosa." },
+        { title: "Inflammation", description: "Release of inflammatory mediators causing swelling and redness." },
+        { title: "Systemic Response", description: "Activation of local lymph nodes and fever." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sore throat", "Pain on swallowing (Odynophagia)", "Fever"],
+      localSymptoms: [
+        "Viral: Scratchy throat, cough, rhinorrhea, conjunctivitis.",
+        "Bacterial (Strep): Sudden onset, high fever, swollen tonsils with white exudates, NO cough.",
+        "Mononucleosis (EBV): Severe sore throat, marked fatigue, generalized lymphadenopathy, splenomegaly."
+      ],
+      constitutionalFeatures: ["Fever", "Headache", "Malaise"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Drooling or difficulty breathing (Epiglottitis risk)",
+      "ENT EMERGENCY: Difficulty opening mouth (Trismus - suggests Peritonsillar abscess)",
+      "URGENT REFERRAL: Muffled 'hot potato' voice",
+      "URGENT REFERRAL: Unilateral swelling of the throat"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Examination", findings: "Erythema; exudates; node swelling", importance: "Primary method" },
+        { name: "Centor Score", findings: "Probability of Strep infection", importance: "Guide to testing" }
+      ],
+      laboratoryFindings: [
+        { name: "Rapid Antigen Detection Test (RADT)", findings: "Positive for Strep A", importance: "Point-of-care diagnosis" },
+        { name: "Throat Culture", findings: "Gold standard for bacterial diagnosis", importance: "If RADT negative in children" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Centor Criteria",
+      criteria: [
+        "1. Tonsillar exudate.",
+        "2. Tender anterior cervical lymphadenopathy.",
+        "3. History of fever (> 38 C).",
+        "4. Absence of cough."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Tonsillitis", distinguishingFeatures: "Inflammation primarily limited to tonsils; higher risk of abscess." },
+      { condition: "Epiglottitis", distinguishingFeatures: "Severe pain; drooling; toxic appearance; 'thumbprint' sign on X-ray." },
+      { condition: "GERD", distinguishingFeatures: "Chronic throat clearing; heartburn; worse in morning; no fever." }
+    ],
+    complications: {
+      common: ["Secondary sinusitis", "Otitis media"],
+      serious: ["Peritonsillar abscess (Quinsy)", "Rheumatic fever (from Strep)"],
+      lifeThreatening: ["Airway obstruction (Rare)", "Lemierre's syndrome"]
+    },
+    conventionalManagement: {
+      general: ["Gargling with salt water", "Hydration", "Rest"],
+      medical: ["Analgesics (Paracetamol/Ibuprofen)", "Antibiotics (Penicillin - ONLY if Strep suspected)"],
+      prevention: ["Hand washing", "Avoiding sharing of utensils"]
+    },
+    homoeopathicApproach: "Aims to match the specific character of the pain (splinter-like, burning, raw) and the modalities (worse/better for cold/warm drinks).",
+    relatedRemedies: [
+      { name: "Belladonna", keyIndications: "Sudden onset; bright red; right-sided; throbbing; feels narrow/constricted; worse for swallowing liquids." },
+      { name: "Phytolacca", keyIndications: "Dark red/purple throat; pain shoots to ears on swallowing; feels like a 'hot ball'; better for cold drinks (paradoxical)." },
+      { name: "Hepar Sulphur", keyIndications: "Pain like a splinter or needle in the throat; extremely sensitive to cold; tonsils swollen with pus; better for warm drinks." },
+      { name: "Mercurius Solubilis", keyIndications: "Puffy, indented tongue; increased salivation; offensive breath; pain worse at night." }
+    ],
+    relatedDiseases: ["tonsillitis", "laryngitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Centor criteria", "No cough = Strep hint", "Rule out abscess if trismus"],
+      miasmaticDominance: "Psora (Acute inflammation)",
+      thermalState: "Variable",
+      organAffinity: "Pharynx, Tonsils",
+      memoryMnemonic: "STREP: Swollen nodes, Tonsillar exudate, Raised temp, Exit (No) cough, Pain"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish viral from bacterial and identify rheumatic fever risk.",
+        severityAssessment: "Based on ability to swallow and systemic symptoms.",
+        referralCriteria: ["Drooling", "Difficulty breathing", "Trismus (cannot open mouth)"]
+      },
+      individualization: {
+        mentalGenerals: ["Restless (Bell)", "Angry (Hepar)", "Dullness (Gels)"],
+        physicalGenerals: {
+          thermalState: "Hot (Bell) or Chilly (Hepar)",
+          thirst: "Thirsty (Bell) or Thirstless (Puls)",
+          appetite: "Decreased due to pain",
+          desires: ["Lemons (Bell)", "Warm drinks (Hepar)"],
+          aversions: ["Solids"],
+          sleep: "Restless",
+          perspiration: "Profuse (Merc)"
+        },
+        modalities: ["Agg: Swallowing (especially liquids), cold air, night.", "Amel: Warmth drinks (Hepar), cold drinks (Phytolacca - paradoxical)"],
+        concomitants: ["Earache", "Fever", "Salivation"],
+        characteristicParticulars: [
+          "Throat: Pain shoots into the ears when swallowing (Phytolacca).",
+          "Throat: Sensation of a lump or plug that must be swallowed (Lachesis).",
+          "Throat: Right-sided pain that moves to the left (Lycopodium)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Throat pain that is relieved by cold drinks, despite the throat looking dark red or purple (Phytolacca)."],
+        individualExpression: "An acute psoric-syphilitic flare-up where the portal of the body (the throat) becomes a site of intense inflammatory conflict."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Throat, pain, swallowing, on", chapter: "Throat" },
+          { rubric: "Throat, pain, splinter, as if", chapter: "Throat" }
+        ],
+        symptomAnalysis: "Focus on the side (Right vs. Left) and the sensation (Splinter vs. Burning)."
+      }
+    }
+  },
+  {
+    id: "tonsillitis",
+    name: "Tonsillitis",
+    slug: "tonsillitis",
+    system: "ent",
+    category: "Infectious",
+    definition: "Inflammation of the palatine tonsils, often accompanied by inflammation of the pharynx.",
+    simpleExplanation: "Swelling and infection of the tonsils (the two lumps of tissue at the back of your throat). It usually causes a very sore throat, fever, and difficulty swallowing.",
+    examKeywords: ["Tonsillar hypertrophy", "Exudative crypts", "Kissing tonsils", "Quinsy", "Detritus"],
+    epidemiology: {
+      ageDistribution: "Most common in children (5-15 years).",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["School-aged children", "Daycare workers"],
+    },
+    etiology: {
+      predisposingFactors: ["Hypertrophy of lymphoid tissue", "Frequent URIs"],
+      precipitatingFactors: ["Viruses (EBV, Adenovirus)", "Bacteria (Group A Strep - 30%)"],
+      riskFactors: ["Immune deficiency", "Chronic mouth breathing"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Antigen Presentation", description: "Tonsils (part of Waldeyer's ring) trap pathogens to initiate immune response." },
+        { title: "Hyperplasia", description: "Lymphoid tissue swells as it mounts a defense." },
+        { title: "Exudation", description: "Leukocytes and cellular debris accumulate in the tonsillar crypts (white spots)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Severe sore throat", "Difficulty swallowing", "Fever", "Chills"],
+      localSymptoms: [
+        "Physical: Enlarged, red tonsils; white/yellow coating or spots; swollen neck glands.",
+        "Speech: 'Muffled' or 'Thick' voice.",
+        "Breath: Halitosis (foul breath) due to debris in crypts."
+      ],
+      constitutionalFeatures: ["High fever", "Headache", "Abdominal pain (in children)"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Peritonsillar abscess (Quinsy) - signs include trismus and uvula deviation",
+      "ENT EMERGENCY: Difficulty breathing or noisy breathing (Stridor)",
+      "URGENT REFERRAL: 'Kissing tonsils' (meeting in the midline) - may block airway",
+      "URGENT REFERRAL: Persistent unilateral swelling"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Exam", findings: "Tonsillar exudates; cervical nodes", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Rapid Strep Test", findings: "Positive for Strep A", importance: "Immediate management" },
+        { name: "Throat Culture", findings: "Gold standard", importance: "If RADT negative in children" },
+        { name: "Monospot Test", findings: "Positive for EBV", importance: "If infectious mononucleosis suspected" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Grading",
+      criteria: [
+        "Grade 1: Tonsils within pillars.",
+        "Grade 2: Extend beyond pillars.",
+        "Grade 3: Beyond pillars but not touching.",
+        "Grade 4: Touching in midline ('Kissing')."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Pharyngitis", distinguishingFeatures: "Inflammation is more diffuse; tonsils less prominently involved." },
+      { condition: "Infectious Mononucleosis", distinguishingFeatures: "Marked fatigue; splenomegaly; generalized nodes; long duration." },
+      { condition: "Diphtheria", distinguishingFeatures: "Grey, 'leathery' membrane; bleeds if scraped; toxic appearance (Rare)." }
+    ],
+    complications: {
+      common: ["Otitis media", "Dehydration"],
+      serious: ["Peritonsillar abscess (Quinsy)", "Acute glomerulonephritis"],
+      lifeThreatening: ["Airway obstruction", "Septicemia"]
+    },
+    conventionalManagement: {
+      general: ["Soft diet", "Hydration", "Salt water gargles"],
+      medical: ["Antibiotics (if Strep)", "Corticosteroids (if airway threatened by swelling)"],
+      surgical: ["Tonsillectomy (if recurrent - Paradise criteria)"],
+      prevention: ["Avoiding contact with infected persons", "Hand hygiene"]
+    },
+    homoeopathicApproach: "Aims to reduce the underlying 'Sycotic' or 'Tubercular' miasmatic tendency toward mucosal hypertrophy and chronic discharge.",
+    relatedRemedies: [
+      { name: "Baryta Carbonica", keyIndications: "Chronic tendency to tonsillitis; every cold settles in the throat; tonsils very large; children with delayed development." },
+      { name: "Hepar Sulphur", keyIndications: "Suppurating tonsils; sharp splinter-like pain; extremely chilly; irritable." },
+      { name: "Mercurius Biniodatus", keyIndications: "Right-sided tonsillitis; marked swelling; tongue coated yellow at base; stiff neck." },
+      { name: "Mercurius Protoiodatus", keyIndications: "Left-sided tonsillitis; otherwise similar to Biniodatus." }
+    ],
+    relatedDiseases: ["pharyngitis", "acute-otitis-media"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Quinsy = Uvula deviation", "Kissing tonsils", "Paradise criteria for surgery"],
+      miasmaticDominance: "Sycotic (Hypertrophy) / Syphilitic (Suppuration)",
+      thermalState: "Variable",
+      organAffinity: "Tonsils, Lymph nodes",
+      memoryMnemonic: "TONSILS: Temperature high, Odynophagia, Nodes swollen, Spots (Exudate), Irritability, Lump sensation, Soft diet needed"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify Strep risk and prevent Quinsy.",
+        severityAssessment: "Based on size (Grade 1-4) and swallowing capacity.",
+        referralCriteria: ["Trismus (Quinsy)", "Inability to swallow fluids", "Airway distress"]
+      },
+      individualization: {
+        mentalGenerals: ["Childishness (Baryta C)", "Aggressive pain (Hepar)", "Dullness"],
+        physicalGenerals: {
+          thermalState: "Chilly (Baryta C, Hepar S)",
+          thirst: "Variable",
+          appetite: "Poor due to pain",
+          desires: ["Sweets"],
+          aversions: ["Cold food"],
+          sleep: "Snoring",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Swallowing, cold air, damp weather.", "Amel: Warmth, warm drinks (Hepar)"],
+        concomitants: ["Earache", "Snoring", "Cervical node swelling"],
+        characteristicParticulars: [
+          "Tonsils: So large they almost meet in the center (Baryta C).",
+          "Tonsils: Deep pits (crypts) filled with foul cheesy matter.",
+          "Tonsils: Feeling of a splinter in the throat."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Recurrent tonsillitis every time the patient is exposed to even a slight draft of cold air (Baryta Carbonica)."],
+        individualExpression: "A sycotic-syphilitic state where the tonsils (first line of defense) are perpetually overwhelmed, either remaining permanently enlarged (Sycotic) or breaking down into pus (Syphilitic)."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Throat, inflammation, tonsils", chapter: "Throat" },
+          { rubric: "Throat, suppuration, tonsils", chapter: "Throat" }
+        ],
+        symptomAnalysis: "Focus on the miasmatic state (Hypertrophy vs. Suppuration) and the side of the throat."
+      }
+    }
+  },
+  {
+    id: "laryngitis",
+    name: "Laryngitis",
+    slug: "laryngitis",
+    system: "ent",
+    category: "Infectious/Functional",
+    definition: "Inflammation of the larynx (voice box) due to overuse, irritation, or infection.",
+    simpleExplanation: "Inflammation of your voice box that makes you lose your voice or become very hoarse. It's usually caused by a cold or by yelling too much.",
+    examKeywords: ["Hoarseness", "Aphonia", "Laryngeal edema", "Voice rest", "Stridor"],
+    epidemiology: {
+      ageDistribution: "All ages; viral more common in children; vocal strain in adults.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Teachers", "Singers", "Coaches", "Smokers"],
+    },
+    etiology: {
+      predisposingFactors: ["Viral URI", "Vocal abuse (yelling/singing)"],
+      precipitatingFactors: ["Rhinovirus", "Influenza", "GERD (Acid reflux)", "Smoking"],
+      riskFactors: ["Allergies", "Alcohol use", "Inhaling chemical irritants"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Inflammation", description: "Laryngeal mucosa and vocal cords become swollen." },
+        { title: "Vibration Alteration", description: "Edema prevents the normal vibration of the vocal cords during speech." },
+        { title: "Acoustic Change", description: "The pitch and quality of the voice change, leading to hoarseness or loss of voice." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Hoarseness", "Weak voice or voice loss (Aphonia)", "Tickling sensation in throat"],
+      localSymptoms: [
+        "Throat: Dryness, scratchiness, sore throat, dry cough.",
+        "Children: Barking cough, stridor (if Croup/Laryngotracheobronchitis)."
+      ],
+      constitutionalFeatures: ["Low-grade fever", "Malaise (if viral)"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Acute Epiglottitis - severe pain, drooling, toxic, stridor",
+      "ENT EMERGENCY: Airway obstruction / Stridor",
+      "URGENT REFERRAL: Hoarseness lasting > 3 weeks (Rule out Laryngeal Malignancy)",
+      "URGENT REFERRAL: Difficulty swallowing (Dysphagia)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Typical history of voice change", importance: "Primary method" },
+        { name: "Laryngoscopy", findings: "Erythematous, swollen vocal cords", importance: "If symptoms persist > 3 weeks" }
+      ],
+      laboratoryFindings: [
+        { name: "None", findings: "N/A", importance: "Usually clinical" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Sudden onset of voice change.",
+        "Associated URI or vocal strain history.",
+        "Absence of red flags like stridor or drooling."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Croup", distinguishingFeatures: "Barking 'seal-like' cough; inspiratory stridor; common in toddlers." },
+      { condition: "Laryngeal Cancer", distinguishingFeatures: "Chronic progressive hoarseness; smoking history; older age." },
+      { condition: "Vocal Cord Nodules", distinguishingFeatures: "Chronic hoarseness related to chronic voice overuse; painless." }
+    ],
+    complications: {
+      common: ["Vocal cord nodules (if chronic strain)"],
+      serious: ["Acute airway obstruction (in children)", "Chronic laryngitis"],
+      lifeThreatening: ["Epiglottitis (though distinct, often confused)"]
+    },
+    conventionalManagement: {
+      general: ["Complete voice rest (no whispering)", "Hydration", "Steam inhalation"],
+      medical: ["Corticosteroids (in professional voice users or severe edema)", "Treating GERD"],
+      prevention: ["Voice training", "Smoking cessation"]
+    },
+    homoeopathicApproach: "Aims to reduce edema and irritation of the cords, with specific remedies for 'singers' voice' and 'dry, barking cough'.",
+    relatedRemedies: [
+      { name: "Argentum Metallicum", keyIndications: "Professional voice users (singers/speakers); hoarseness; throat feels raw; expectoration of gray, jelly-like mucus." },
+      { name: "Arnica Montana", keyIndications: "Laryngitis from vocal strain (yelling/singing); cords feel bruised." },
+      { name: "Causticum", keyIndications: "Sudden aphonia (loss of voice) from cold; worse in morning; raw, sore feeling; better for damp weather." },
+      { name: "Spongia Tosta", keyIndications: "Dry, barking cough (Croup); voice box feels sensitive; worse for wind; better for eating/drinking." }
+    ],
+    relatedDiseases: ["pharyngitis", "tonsillitis"],
+    examPriority: "Medium",
+    clinicalPriority: "Medium",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Voice rest is key", "Hoarseness > 3w = Cancer rule out", "Croup has barking cough"],
+      miasmaticDominance: "Psora (Irritation) / Sycotic (Strain/Nodules)",
+      thermalState: "Variable",
+      organAffinity: "Larynx, Vocal Cords",
+      memoryMnemonic: "VOICE: Vocal rest, Obstruction check, Infection, Chronic (>3w rule), Edema"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out laryngeal cancer in chronic cases.",
+        severityAssessment: "Based on airway patency and duration.",
+        referralCriteria: ["Hoarseness > 3 weeks", "Stridor", "Difficulty swallowing"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Weakness (Caust)", "Professional anxiety (Arg Met)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Caust, Spongia)",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Cold drinks (sometimes)"],
+          aversions: ["None specific"],
+          sleep: "Waked by cough (Spongia)",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Speaking, cold air, morning (Caust), wind.", "Amel: Damp weather (Caust), eating (Spongia)"],
+        concomitants: ["Cough", "Throat rawness", "Ptosis (Caust)"],
+        characteristicParticulars: [
+          "Larynx: Sensation of a splinter or a thread in the throat.",
+          "Larynx: Total loss of voice (Aphonia) following exposure to dry cold wind.",
+          "Larynx: Constant need to clear the throat of gray mucus (Arg Met)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Loss of voice that is characteristically worse in the morning but improves during the day (Causticum)."],
+        individualExpression: "An acute psoric irritation or sycotic strain where the 'instrument' of communication is silenced by congestion and edema."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Larynx, hoarseness", chapter: "Larynx" },
+          { rubric: "Larynx, voice, lost", chapter: "Larynx" }
+        ],
+        symptomAnalysis: "Focus on the 'cause' (Strain vs. Cold) and the time of day the hoarseness is worst."
+      }
+    }
+  },
+  {
+    id: "epistaxis",
+    name: "Epistaxis",
+    slug: "epistaxis",
+    system: "ent",
+    category: "Vascular",
+    definition: "Bleeding from the nose, caused by the rupture of tiny blood vessels in the nasal mucous membrane.",
+    simpleExplanation: "A nosebleed. It can happen due to dry air, picking your nose, injury, or sometimes high blood pressure.",
+    examKeywords: ["Kiesselbach's plexus", "Little's area", "Woodruff's plexus", "Posterior bleed", "Silver nitrate cautery"],
+    epidemiology: {
+      ageDistribution: "Bimodal: Common in children (2-10) and the elderly (50-80).",
+      sexDistribution: "Slightly more common in males.",
+      riskGroups: ["Individuals on blood thinners", "Dry climate dwellers", "Cocaine users"],
+    },
+    etiology: {
+      predisposingFactors: ["Dry nasal mucosa", "Nasal septal deviation"],
+      precipitatingFactors: ["Trauma (Nose picking)", "Foreign body", "Acute rhinitis"],
+      riskFactors: ["Hypertension", "Anticoagulants (Aspirin/Warfarin)", "Bleeding disorders (Hemophilia/vWD)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vascular Injury", description: "Rupture of blood vessels in the nasal septum (Anterior) or nasal cavity (Posterior)." },
+        { title: "Hemostasis Failure", description: "Local factors (dryness) or systemic factors (clotting issues) prevent rapid sealing of the vessel." },
+        { title: "Bleeding", description: "Blood exits via nostrils or into the pharynx (posterior)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Blood from one or both nostrils", "Blood in the back of the throat"],
+      localSymptoms: [
+        "Anterior: Usually from Little's area; visible bleeding site; easily controlled.",
+        "Posterior: More severe; blood flowing down the throat; often in elderly with hypertension; harder to control."
+      ],
+      constitutionalFeatures: ["Signs of hypovolemia if severe (Dizziness, tachycardia)"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Bleeding that does not stop after 20 minutes of firm pressure",
+      "ENT EMERGENCY: Severe bleeding resulting in dizziness or fainting",
+      "URGENT REFERRAL: Posterior bleeding (requires packing)",
+      "URGENT REFERRAL: Recurrent unilateral epistaxis (Rule out Juvenile Nasopharyngeal Angiofibroma in boys)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Anterior Rhinoscopy", findings: "Visible bleeding vessel", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Coagulation Profile (PT/INR)", findings: "Check for clotting disorders", importance: "If recurrent or on thinners" },
+        { name: "Blood Pressure", findings: "Check for hypertension", importance: "Common trigger in elderly" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Assessment",
+      criteria: [
+        "Location (Anterior vs. Posterior).",
+        "Duration and volume of blood loss.",
+        "Associated systemic symptoms."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Hemoptysis", distinguishingFeatures: "Coughing up blood; bright red/frothy; lung symptoms." },
+      { condition: "Hematemesis", distinguishingFeatures: "Vomiting blood; 'coffee grounds' appearance; GI symptoms." }
+    ],
+    complications: {
+      common: ["Anemia (if recurrent)", "Anxiety"],
+      serious: ["Hypovolemic shock", "Aspiration of blood"],
+      lifeThreatening: ["Severe posterior hemorrhage"]
+    },
+    conventionalManagement: {
+      general: ["Pinching the nose (soft part) for 10-15 mins", "Leaning forward", "Ice pack on bridge of nose"],
+      medical: ["Topical vasoconstrictors (Oxymetazoline)", "Silver nitrate cautery", "Nasal packing (Anterior/Posterior)"],
+      surgical: ["Arterial ligation", "Embolization"],
+      prevention: ["Avoiding nasal trauma", "Keeping nasal mucosa moist", "Treating hypertension"]
+    },
+    homoeopathicApproach: "Aims to manage the acute bleeding and address the underlying 'Syphilitic' vascular fragility or 'Sycotic' congestive tendency.",
+    relatedRemedies: [
+      { name: "Ferrum Phosphoricum", keyIndications: "Bright red blood; early stage of inflammation; soft, small pulse; pale face." },
+      { name: "Hamamelis", keyIndications: "Passive, dark, clotted blood; nose feels sore; venous congestion." },
+      { name: "Millefolium", keyIndications: "Bright red, fluid blood; painless; following injury or overexertion." },
+      { name: "Phosphorus", keyIndications: "Recurrent epistaxis; bright red blood; difficult to stop; hemorrhagic diathesis." }
+    ],
+    relatedDiseases: ["allergic-rhinitis", "hypertensive-retinopathy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Little's area is most common", "Lean forward, do not tilt back", "Rule out tumors in children"],
+      miasmaticDominance: "Syphilitic (Hemorrhagic tendency)",
+      thermalState: "Variable",
+      organAffinity: "Nasal mucosa, Blood vessels",
+      memoryMnemonic: "PUNCH: Pressure (Firm), Upright position, Not tilting back, Cold compress, Hospital (if 20m+)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish minor anterior bleeds from life-threatening posterior bleeds.",
+        severityAssessment: "Based on duration and hemodynamic stability.",
+        referralCriteria: ["Bleeding > 20 mins", "Posterior bleed", "Fainting"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety (Phos/Acon)", "Irritability", "Vicarious menstruation (Phos)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Phos) or Hot (Hamamelis)",
+          thirst: "Thirsty (Phos)",
+          appetite: "Normal",
+          desires: ["Cold drinks (Phos)"],
+          aversions: ["Warmth"],
+          sleep: "Normal",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Heat, stooping, exertion.", "Amel: Cold, rest, pressure"],
+        concomitants: ["Vicarious bleeding (from other sites)", "Headache", "Weakness"],
+        characteristicParticulars: [
+          "Nose: Blood is bright red and flows freely (Millefolium).",
+          "Nose: Blood is dark, stringy, and looks like 'tar' (Crocus).",
+          "Nose: Bleeding occurs instead of the menses (Phosphorus/Bryonia)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Epistaxis that occurs whenever the patient stoops or blows the nose even gently (Ferrum Phos)."],
+        individualExpression: "A syphilitic-sycotic fragility where the 'gate' of the body (the nose) releases its vital fluid due to pressure or structural weakness."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Nose, epistaxis", chapter: "Nose" },
+          { rubric: "Nose, epistaxis, bright red blood", chapter: "Nose" }
+        ],
+        symptomAnalysis: "Focus on the color of the blood (Bright vs. Dark) and the causation."
+      }
+    }
+  },
+  {
+    id: "acute-otitis-media",
+    name: "Acute Otitis Media",
+    slug: "acute-otitis-media",
+    system: "ent",
+    category: "Infectious",
+    definition: "Acute inflammation of the middle ear, usually bacterial in origin.",
+    simpleExplanation: "A common ear infection, especially in children, where the space behind the eardrum gets inflamed and filled with fluid, causing a lot of pain.",
+    examKeywords: ["Bulging tympanic membrane", "Otorrhoea", "Otalgia", "Eustachian tube dysfunction", "Pneumatic otoscopy"],
+    epidemiology: {
+      ageDistribution: "Peak incidence between 6 and 24 months.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Children in daycare", "Second-hand smoke exposure", "Bottle-fed infants"],
+    },
+    etiology: {
+      predisposingFactors: ["Eustachian tube dysfunction", "URI", "Allergic rhinitis"],
+      precipitatingFactors: ["Streptococcus pneumoniae", "Haemophilus influenzae", "Moraxella catarrhalis"],
+      riskFactors: ["Cleft palate", "Down syndrome", "Pacifier use"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Eustachian Tube Blockage", description: "Viral URI causes swelling of the Eustachian tube lining." },
+        { title: "Negative Pressure", description: "Blocked tube leads to negative pressure in the middle ear, pulling in pathogens from the nasopharynx." },
+        { title: "Effusion/Infection", description: "Pathogens multiply in the trapped fluid, leading to pus formation and pressure." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Severe ear pain (Otalgia)", "Fever", "Irritability"],
+      localSymptoms: [
+        "Infants: Tugging or rubbing the ear; crying while feeding.",
+        "Physical: Bulging, red, immobile tympanic membrane (eardrum).",
+        "Otorrhoea: Discharge from the ear if the eardrum ruptures (usually relieves the pain)."
+      ],
+      constitutionalFeatures: ["Fever", "Anorexia", "Vomiting/Diarrhea in infants"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Mastoiditis - redness, swelling, or tenderness behind the ear",
+      "ENT EMERGENCY: Facial nerve paralysis",
+      "URGENT REFERRAL: Severe headache, vomiting, or neck stiffness (Meningitis risk)",
+      "URGENT REFERRAL: Sudden hearing loss"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Otoscopy", findings: "Bulging TM; loss of landmarks; erythema", importance: "Primary method" },
+        { name: "Pneumatic Otoscopy", findings: "Immobile tympanic membrane", importance: "Confirms fluid" }
+      ],
+      laboratoryFindings: [
+        { name: "Tympanometry", findings: "Flat (Type B) curve", importance: "Confirm middle ear effusion" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "AAP Criteria",
+      criteria: [
+        "1. Moderate to severe bulging of the tympanic membrane.",
+        "2. New onset of ear pain (not due to otitis externa).",
+        "3. Intense erythema of the tympanic membrane."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Otitis Media with Effusion (OME)", distinguishingFeatures: "Fluid in middle ear but NO signs of acute infection/pain/fever." },
+      { condition: "Otitis Externa", distinguishingFeatures: "Pain on moving the pinna; canal swelling; eardrum usually normal." },
+      { condition: "Referred Otalgia", distinguishingFeatures: "Ear pain but normal ear exam; often from teeth or throat." }
+    ],
+    complications: {
+      common: ["Tympanic membrane perforation", "Recurrent AOM"],
+      serious: ["Acute Mastoiditis", "Labyrinthitis"],
+      lifeThreatening: ["Meningitis", "Brain abscess", "Sigmoid sinus thrombosis"]
+    },
+    conventionalManagement: {
+      general: ["Wait-and-watch approach (in older children with mild symptoms)", "Warm compresses"],
+      medical: ["Analgesics (Ibuprofen/Paracetamol)", "Antibiotics (Amoxicillin - if severe or in infants)"],
+      prevention: ["Breastfeeding", "Pneumococcal vaccination", "Avoiding smoke"]
+    },
+    homoeopathicApproach: "Aims to relieve the intense pain and manage the inflammation, with a focus on the suddenness and the character of the pain.",
+    relatedRemedies: [
+      { name: "Belladonna", keyIndications: "Sudden onset; intense throbbing pain; bright red eardrum; high fever; right-sided; pupil dilation." },
+      { name: "Chamomilla", keyIndications: "Extreme irritability/anger; child wants to be carried; one cheek red, the other pale; pain feels unbearable." },
+      { name: "Pulsatilla", keyIndications: "Worse at night; worse in warm room; better for open air; child is clingy/weepy; discharge (if ruptured) is thick and bland." },
+      { name: "Ferrum Phosphoricum", keyIndications: "Early stage; red eardrum; less intense than Belladonna; soft pulse." }
+    ],
+    relatedDiseases: ["tonsillitis", "chronic-suppurative-otitis-media"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Bulging TM", "Watch for Mastoiditis", "Eustachian dysfunction is key"],
+      miasmaticDominance: "Psora (Acute) / Syphilitic (Destructive/Rupture)",
+      thermalState: "Variable",
+      organAffinity: "Middle ear, Tympanic membrane",
+      memoryMnemonic: "EARS: Erythema, Algia (Pain), Redness, Swelling (Bulging)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from OME (which doesn't need antibiotics) and identify mastoiditis.",
+        severityAssessment: "Based on level of pain and fever.",
+        referralCriteria: ["Swelling behind the ear", "Facial droop", "Signs of meningitis"]
+      },
+      individualization: {
+        mentalGenerals: ["Extreme irritability (Cham)", "Fear/Restless (Acon)", "Mild/Weepy (Puls)"],
+        physicalGenerals: {
+          thermalState: "Hot (Bell) or Chilly (Hepar)",
+          thirst: "Thirsty (Bell) or Thirstless (Puls/Apis)",
+          appetite: "Poor",
+          desires: ["Warmth (Hepar)"],
+          aversions: ["Touch (Cham)"],
+          sleep: "Disturbed by pain",
+          perspiration: "Localized (Cham)"
+        },
+        modalities: ["Agg: Night, warmth (Puls), touch.", "Amel: Open air (Puls), being carried (Cham), warmth (Hepar)"],
+        concomitants: ["Teething (Cham)", "Fever", "Ruptured TM"],
+        characteristicParticulars: [
+          "Ear: Pain is so intense that the child screams and cannot be quieted (Cham).",
+          "Ear: Eardrum looks like it is about to burst.",
+          "Ear: Pain shoots into the ear from the throat while swallowing."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Ear pain that is momentarily relieved by being carried rapidly about the room (Chamomilla)."],
+        individualExpression: "An acute psoric-syphilitic eruption where the middle ear becomes a pressure cooker of inflammatory fluid, threatening the structural integrity of the tympanic membrane."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Ear, pain, middle ear", chapter: "Ear" },
+          { rubric: "Ear, inflammation, middle ear, acute", chapter: "Ear" }
+        ],
+        symptomAnalysis: "Focus on the 'type' of child (Irritable vs. Weepy) and the side of the ear involved."
+      }
+    }
+  },
+  {
+    id: "csom",
+    name: "Chronic Suppurative Otitis Media (CSOM)",
+    slug: "csom",
+    system: "ent",
+    category: "Infectious",
+    definition: "Chronic inflammation of the middle ear and mastoid cavity, characterized by a persistent perforation of the tympanic membrane and ear discharge (otorrhoea) for more than 6-12 weeks.",
+    simpleExplanation: "A long-term ear infection where there is a permanent hole in the eardrum and constant or frequent discharge of fluid/pus from the ear, often causing hearing loss.",
+    examKeywords: ["Perforated TM", "Cholesteatoma", "Pulsatile discharge", "Conductive hearing loss", "Attic perforation"],
+    epidemiology: {
+      ageDistribution: "All ages; often starts in childhood.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Developing countries", "Overcrowded living conditions", "Poor hygiene"],
+    },
+    etiology: {
+      predisposingFactors: ["Recurrent AOM", "Eustachian tube dysfunction", "Traumatic perforation"],
+      precipitatingFactors: ["Pseudomonas aeruginosa", "Staph aureus", "Proteus"],
+      riskFactors: ["Upper respiratory tract infections", "Swimming in contaminated water"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Persistent Perforation", description: "Failure of an AOM perforation to heal leads to a permanent opening." },
+        { title: "Chronic Infection", description: "Bacteria enter from the external canal; chronic inflammation of the middle ear mucosa occurs." },
+        { title: "Bone Erosion", description: "In 'unsafe' types, a cholesteatoma (skin cyst) forms and slowly erodes the surrounding bone." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Painless ear discharge (Otorrhoea)", "Hearing loss"],
+      localSymptoms: [
+        "Safe (Tubotympanic): Central perforation; mucoid, non-smelly discharge; rarely leads to serious complications.",
+        "Unsafe (Atticoantral): Marginal/Attic perforation; smelly, purulent discharge; associated with cholesteatoma."
+      ],
+      constitutionalFeatures: ["Usually absent unless complications occur."]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Vertigo, facial weakness, or deep ear pain (complication of cholesteatoma)",
+      "URGENT REFERRAL: Smelly discharge that doesn't stop with drops",
+      "URGENT REFERRAL: Progressive hearing loss",
+      "URGENT REFERRAL: Signs of intracranial spread (Severe headache, vomiting)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Otoscopy", findings: "Perforation; discharge; cholesteatoma flakes", importance: "Primary method" },
+        { name: "Audiometry", findings: "Conductive hearing loss", importance: "Assess function" }
+      ],
+      laboratoryFindings: [
+        { name: "Ear Swab (Culture)", findings: "Identify bacteria", importance: "Guide treatment" },
+        { name: "CT Temporal Bone", findings: "Bone erosion; cholesteatoma extent", importance: "Surgical planning" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "History of discharge for > 6 weeks.",
+        "Persistent perforation on otoscopy.",
+        "Absence of acute symptoms like fever or intense pain."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Otitis Externa", distinguishingFeatures: "Pain is present; TM is intact; canal is primary site." },
+      { condition: "Tuberculous Otitis Media", distinguishingFeatures: "Multiple perforations; painless; pale granulations (Rare)." }
+    ],
+    complications: {
+      common: ["Hearing loss", "Aural polyps"],
+      serious: ["Labyrinthitis", "Facial nerve palsy"],
+      lifeThreatening: ["Brain abscess", "Meningitis", "Lateral sinus thrombosis"]
+    },
+    conventionalManagement: {
+      general: ["Dry mopping of the ear", "Water precautions (keep ear dry)"],
+      medical: ["Topical antibiotic/steroid drops (Ciprofloxacin)"],
+      surgical: ["Myringoplasty (repair TM)", "Tympanomastoidectomy (remove cholesteatoma/infection)"],
+      prevention: ["Keeping ears dry", "Prompt treatment of acute otitis media"]
+    },
+    homoeopathicApproach: "Aims to address the 'Syphilitic' destruction of the eardrum and the 'Sycotic' chronic discharge and granulation tissue.",
+    relatedRemedies: [
+      { name: "Silicea", keyIndications: "Thin, smelly, watery discharge; chilly; sensitive to cold; helps resolve chronic suppuration; promotes healing of perforation." },
+      { name: "Tellurium", keyIndications: "Discharge is thin, watery, and smells like 'fish brine'; causes excoriation of the external ear." },
+      { name: "Hepar Sulphur", keyIndications: "Thick, yellow discharge; very smelly (like old cheese); very sensitive to touch and cold air." },
+      { name: "Aurum Metallicum", keyIndications: "Caries of the mastoid bone; severe boring pain at night; smelly discharge." }
+    ],
+    relatedDiseases: ["acute-otitis-media", "hearing-loss"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Safe vs. Unsafe types", "Cholesteatoma = Unsafe", "Keep ear dry"],
+      miasmaticDominance: "Syphilitic (Destructive/Caries)",
+      thermalState: "Chilly",
+      organAffinity: "Middle ear, Mastoid bone",
+      memoryMnemonic: "CSOM: Chronic, Smelly, Otorrhoea, Mastoid worry"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish between 'safe' and 'unsafe' types that require surgery.",
+        severityAssessment: "Based on hearing loss and presence of cholesteatoma.",
+        referralCriteria: ["Smelly discharge", "Vertigo", "Facial paralysis"]
+      },
+      individualization: {
+        mentalGenerals: ["Yielding (Sil)", "Suicidal thoughts (Aurum)", "Irritability"],
+        physicalGenerals: {
+          thermalState: "Extremely chilly (Sil, Hepar)",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Fat (Sil)"],
+          aversions: ["Meat"],
+          sleep: "Normal",
+          perspiration: "Offensive (Sil)"
+        },
+        modalities: ["Agg: Cold air, night, damp.", "Amel: Warmth, wrapping the head warm (Sil, Hepar)"],
+        concomitants: ["Hearing loss", "Bone pain", "Enlarged glands"],
+        characteristicParticulars: [
+          "Ear: Discharge is so acrid it causes the skin of the external ear to peel off (Tellurium).",
+          "Ear: Sensation of a cold wind blowing into the ear.",
+          "Ear: Boring pain in the mastoid region, worse at night."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Ear discharge that smells intensely of fish brine or old cheese (Tellurium/Hepar)."],
+        individualExpression: "A chronic syphilitic-sycotic state where the vital force is unable to heal the defect, leading to persistent leakage and slow destruction of the auditory apparatus."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Ear, discharge, chronic", chapter: "Ear" },
+          { rubric: "Ear, caries, mastoid process", chapter: "Ear" }
+        ],
+        symptomAnalysis: "Focus on the 'smell' of the discharge and the character of the associated pain."
+      }
+    }
+  },
+  {
+    id: "otitis-externa",
+    name: "Otitis Externa",
+    slug: "otitis-externa",
+    system: "ent",
+    category: "Infectious",
+    definition: "Inflammation of the external auditory canal, often called 'Swimmer's Ear'.",
+    simpleExplanation: "An infection of the outer ear canal (the tube leading to your eardrum). It's usually caused by water trapped in the ear, causing itching and pain when you move the ear.",
+    examKeywords: ["Tragal tenderness", "Canal edema", "Otorrhoea", "Otomycosis", "Malignant OE"],
+    epidemiology: {
+      ageDistribution: "All ages; common in children and young adults.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Swimmers", "Hearing aid users", "Diabetics (risk for Malignant OE)"],
+    },
+    etiology: {
+      predisposingFactors: ["Trapped moisture", "Narrow canals", "Eczema"],
+      precipitatingFactors: ["Pseudomonas aeruginosa (most common)", "Staph aureus", "Fungi (Aspergillus)"],
+      riskFactors: ["Use of cotton swabs (trauma)", "Excessive cleaning", "Diabetes"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Breakdown of Barrier", description: "Loss of protective cerumen (earwax) or skin trauma allows water/bacteria to enter." },
+        { title: "Invasion", description: "Pathogens infect the skin of the canal." },
+        { title: "Inflammation", description: "Edema and debris build up in the narrow canal, causing pain." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Severe ear pain (Otalgia)", "Itching", "Fullness"],
+      localSymptoms: [
+        "Physical: Tragal tenderness (pain when pushing the bump in front of the ear); pain when pulling the earlobe.",
+        "Visual: Swollen canal; discharge; debris (if fungal, may look like wet newspaper).",
+        "Hearing: Muffled hearing if the canal is completely swollen shut."
+      ],
+      constitutionalFeatures: ["Usually absent."]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Malignant Otitis Externa - severe, deep pain in an elderly diabetic; may lead to cranial nerve palsy",
+      "URGENT REFERRAL: Deep-seated pain out of proportion to exam findings",
+      "URGENT REFERRAL: Facial nerve weakness"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Examination", findings: "Tragal tenderness; canal swelling", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Ear Swab", findings: "Identify bacteria/fungi", importance: "If not responding to initial treatment" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Rapid onset of ear pain and itching.",
+        "Tenderness of tragus or pinna.",
+        "Diffuse canal edema and erythema."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Acute Otitis Media", distinguishingFeatures: "No tragal tenderness; TM is bulging/red; often follow a cold." },
+      { condition: "Furunculosis", distinguishingFeatures: "Localized boil in the outer part of the canal; very painful." },
+      { condition: "Contact Dermatitis", distinguishingFeatures: "Intense itching; history of new ear drops or hearing aid." }
+    ],
+    complications: {
+      common: ["Chronic otitis externa", "Cellulitis of the pinna"],
+      serious: ["Malignant Otitis Externa (Skull base osteomyelitis)"],
+      lifeThreatening: ["Intracranial spread (Rare)"]
+    },
+    conventionalManagement: {
+      general: ["Keeping the ear dry", "Avoiding scratching"],
+      medical: ["Topical antibiotic/steroid drops (Polymyxin/Neomycin)", "Antifungal drops (if fungal)"],
+      prevention: ["Using earplugs when swimming", "Drying ears with a hairdryer on cool setting"]
+    },
+    homoeopathicApproach: "Aims to reduce the intense pain and manage the underlying 'Psora' (itching) or 'Syphilitic' (destructive pain in diabetics).",
+    relatedRemedies: [
+      { name: "Graphites", keyIndications: "Eczematous otitis externa; honey-like, sticky discharge; cracks behind the ear; intense itching." },
+      { name: "Hepar Sulphur", keyIndications: "Extreme sensitivity to touch; pain as if from a boil; smelly discharge; better for warmth." },
+      { name: "Pulsatilla", keyIndications: "Swollen canal; discharge is thick and bland; worse for warmth; better for cold application (sometimes)." },
+      { name: "Arsenicum Album", keyIndications: "Burning pain; thin, watery, excoriating discharge; better for warm applications." }
+    ],
+    relatedDiseases: ["acute-otitis-media", "allergic-dermatitis"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Tragal tenderness is classic", "Swimmer's ear", "Malignant OE in diabetics"],
+      miasmaticDominance: "Psora (Itching) / Sycotic (Swelling)",
+      thermalState: "Variable",
+      organAffinity: "External auditory canal",
+      memoryMnemonic: "SWIM: Swelling, Water exposure, Itching, Movement pain (Tragus)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from AOM and identify the dangerous Malignant OE early.",
+        severityAssessment: "Based on canal occlusion and pain level.",
+        referralCriteria: ["Diabetic with severe pain", "Cranial nerve palsy", "Cellulitis spread"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety (Ars)", "Irritability (Cham)", "Clingy (Puls)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars, Hepar)",
+          thirst: "Small sips (Ars)",
+          appetite: "Normal",
+          desires: ["Warmth (Ars)"],
+          aversions: ["Cold"],
+          sleep: "Disturbed by pain",
+          perspiration: "Sticky (Graph)"
+        },
+        modalities: ["Agg: Touching the ear, cold air, water.", "Amel: Warmth (Ars/Hepar), cold (sometimes Puls)"],
+        concomitants: ["Eczema", "Hearing loss (muffled)"],
+        characteristicParticulars: [
+          "Ear: Every attempt to examine the ear causes the patient to scream from pain (Hepar).",
+          "Ear: Sticky, honey-like fluid oozing from the canal.",
+          "Ear: Intense itching that leads to scratching until it bleeds."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Ear pain that is relieved by warm applications, even though the ear looks very inflamed (Arsenicum)."],
+        individualExpression: "An acute psoric irritation where the protective barrier of the skin is lost, leading to secondary infection and reactive swelling."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Ear, inflammation, external meatus", chapter: "Ear" },
+          { rubric: "Ear, itching, in meatus", chapter: "Ear" }
+        ],
+        symptomAnalysis: "Focus on the nature of the discharge (Sticky vs. Watery) and the modalities of the pain."
+      }
+    }
+  },
+  {
+    id: "tinnitus",
+    name: "Tinnitus",
+    slug: "tinnitus",
+    system: "ent",
+    category: "Functional",
+    definition: "The perception of noise or ringing in the ears when no external sound is present.",
+    simpleExplanation: "A 'ringing' or 'buzzing' in the ears that only you can hear. It's not a disease itself, but a symptom of an underlying condition like age-related hearing loss or ear injury.",
+    examKeywords: ["Ringing/Buzzing", "Objective vs. Subjective", "Pulsatile tinnitus", "Tinnitus Handicap Inventory", "Masking"],
+    epidemiology: {
+      ageDistribution: "More common in older adults (over 55).",
+      sexDistribution: "Slightly more common in males.",
+      riskGroups: ["Musicians", "Construction workers", "War veterans (exposure to loud noise)"],
+    },
+    etiology: {
+      predisposingFactors: ["Presbycusis (age-related hearing loss)", "Noise exposure"],
+      precipitatingFactors: ["Cerumen impaction", "Ototoxic drugs (Aspirin, Gentamicin)", "Ear infections"],
+      riskFactors: ["Smoking", "Cardiovascular disease", "Anxiety/Stress"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Input Loss", description: "Damage to hair cells in the cochlea reduces sound signals to the brain." },
+        { title: "Neuroplasticity", description: "The brain tries to 'fill in' the missing frequencies, leading to phantom sound perception." },
+        { title: "Limbic Activation", description: "Emotional reaction to the sound can lead to a cycle of stress and increased perception." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Ringing, buzzing, roaring, or whistling in the ears", "May be constant or intermittent"],
+      localSymptoms: [
+        "Subjective: Only the patient can hear it (most common).",
+        "Objective/Pulsatile: The doctor can hear it too (often sounds like a heartbeat; may indicate vascular issues)."
+      ],
+      constitutionalFeatures: ["Anxiety", "Sleep disturbance", "Poor concentration"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Unilateral tinnitus (Rule out Vestibular Schwannoma/Acoustic Neuroma)",
+      "URGENT REFERRAL: Pulsatile tinnitus (Rule out vascular tumor or aneurysm)",
+      "URGENT REFERRAL: Sudden hearing loss associated with tinnitus",
+      "URGENT REFERRAL: Associated neurological signs (vertigo, weakness)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Audiometry", findings: "Often reveals hearing loss at specific frequencies", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "MRI/CT", findings: "Rule out tumors or vascular issues", importance: "Only if unilateral or pulsatile" },
+        { name: "Tympanometry", findings: "Check middle ear function", importance: "Rule out infections" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: [
+        "Patient report of phantom sound.",
+        "Clinical exam to rule out visible causes (wax/infection).",
+        "Audiological assessment."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Ménière Disease", distinguishingFeatures: "Associated with vertigo and fluctuating hearing loss." },
+      { condition: "Acoustic Neuroma", distinguishingFeatures: "Unilateral; progressive hearing loss; imbalance." },
+      { condition: "Eustachian Tube Dysfunction", distinguishingFeatures: "Pop/click sounds; feeling of fullness." }
+    ],
+    complications: {
+      common: ["Sleep deprivation", "Anxiety/Depression"],
+      serious: ["Social isolation", "Reduced quality of life"],
+      lifeThreatening: ["None directly, but may indicate underlying serious vascular issues"]
+    },
+    conventionalManagement: {
+      general: ["Tinnitus Retraining Therapy (TRT)", "Background white noise"],
+      medical: ["Treating underlying cause (wax removal, changing meds)", "Antidepressants (if associated with severe distress)"],
+      prevention: ["Hearing protection", "Avoiding loud noise"]
+    },
+    homoeopathicApproach: "Aims to address the underlying 'Sycotic' or 'Tubercular' miasmatic sensitivity and the specific 'character' of the sound (roaring, chirping, ringing).",
+    relatedRemedies: [
+      { name: "Chininum Sulphuricum", keyIndications: "Violent ringing, buzzing, or roaring in the ears; associated with vertigo and periodic headache; severe cases." },
+      { name: "Salicylicum Acidum", keyIndications: "Tinnitus from Aspirin or noise; roaring like a train; associated with deafness." },
+      { name: "Graphites", keyIndications: "Noises in ears like hissing or cracking; hearing is better in a noisy environment (Paracusis Willisii)." },
+      { name: "China (Cinchona)", keyIndications: "Ringing in ears; associated with weakness and loss of fluids; sensitive to touch." }
+    ],
+    relatedDiseases: ["meniere-disease", "hearing-loss"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Unilateral = MRI", "Pulsatile = Vascular check", "White noise helps"],
+      miasmaticDominance: "Sycotic (Neuro-plasticity) / Tubercular (Sensitivity)",
+      thermalState: "Variable",
+      organAffinity: "Auditory nerve, Inner ear",
+      memoryMnemonic: "RING: Ringing, Imbalance check, Noise exposure history, General health"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out acoustic neuroma and vascular conditions.",
+        severityAssessment: "Tinnitus Handicap Inventory (THI) score.",
+        referralCriteria: ["Unilateral tinnitus", "Pulsatile tinnitus", "Sudden hearing loss"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Anxiety", "Depression"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None specific"],
+          aversions: ["Noise"],
+          sleep: "Very disturbed",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Silence (makes it more noticeable), night.", "Amel: Background noise, masking sounds"],
+        concomitants: ["Hearing loss", "Vertigo", "Headache"],
+        characteristicParticulars: [
+          "Ear: Sounds like a bell ringing or a train whistling.",
+          "Ear: Roaring noise that is so loud it prevents sleep.",
+          "Ear: Hearing is actually better when the patient is in a noisy place like a car or train (Graphites)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Hearing is improved when in a noisy environment, but worsened in quiet (Graphites - Paracusis Willisii)."],
+        individualExpression: "A chronic sycotic-tubercular state where the auditory nervous system is in a state of phantom hyper-excitation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Ear, noises", chapter: "Ear" },
+          { rubric: "Ear, noises, roaring", chapter: "Ear" }
+        ],
+        symptomAnalysis: "Focus on the 'type' of noise and whether it is associated with hearing loss."
+      }
+    }
+  },
+  {
+    id: "meniere-disease",
+    name: "Ménière Disease",
+    slug: "meniere-disease",
+    system: "ent",
+    category: "Functional",
+    definition: "A disorder of the inner ear characterized by episodes of vertigo, tinnitus, hearing loss, and a feeling of fullness in the ear.",
+    simpleExplanation: "A condition that affects the inner ear and causes sudden attacks of severe dizziness (spinning), ringing in the ear, and hearing loss that comes and goes.",
+    examKeywords: ["Endolymphatic hydrops", "Episodic vertigo", "Sensorineural hearing loss", "Transtympanic steroids", "Low-salt diet"],
+    epidemiology: {
+      ageDistribution: "Most common between 40 and 60 years.",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Individuals with autoimmune disorders", "Family history of the disease"],
+    },
+    etiology: {
+      predisposingFactors: ["Endolymphatic hydrops (excess fluid in inner ear)"],
+      precipitatingFactors: ["Stress", "High salt intake", "Caffeine", "Allergies"],
+      riskFactors: ["Genetics", "Viral infections", "Head trauma"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fluid Accumulation", description: "Increased pressure of the endolymph fluid within the inner ear (hydrops)." },
+        { title: "Membrane Rupture", description: "Occasional ruptures of the membrane allow potassium-rich fluid to bathe the vestibular nerve, causing vertigo." },
+        { title: "Damage", description: "Recurrent episodes lead to permanent damage to the hair cells in the cochlea." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Spontaneous episodic vertigo (lasts 20 mins to hours)", "Fluctuating hearing loss", "Tinnitus"],
+      localSymptoms: [
+        "Aural Fullness: Sensation of pressure or 'plugged' ear during attacks.",
+        "Hearing: Usually low-frequency sensorineural hearing loss (initially fluctuating, eventually permanent).",
+        "Nystagmus: Involuntary eye movements during the attack."
+      ],
+      constitutionalFeatures: ["Nausea and vomiting during vertigo attacks", "Severe fatigue after an attack"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden profound hearing loss",
+      "URGENT REFERRAL: Vertigo that does not resolve or is associated with neurological signs (Rule out Stroke)",
+      "URGENT REFERRAL: Severe vomiting leading to dehydration"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Audiometry", findings: "Low-frequency sensorineural hearing loss", importance: "Primary method" },
+        { name: "Vestibular Testing (VNG)", findings: "Hypofunction of the affected ear", importance: "Assess balance function" }
+      ],
+      laboratoryFindings: [
+        { name: "MRI Internal Auditory Canal", findings: "Rule out Acoustic Neuroma", importance: "Crucial for unilateral symptoms" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "AAO-HNS Criteria",
+      criteria: [
+        "1. Two or more spontaneous episodes of vertigo (20 mins to 12 hours).",
+        "2. Documented low-to-mid frequency hearing loss.",
+        "3. Fluctuating aural symptoms (tinnitus/fullness).",
+        "4. Not better explained by another vestibular diagnosis."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Vestibular Migraine", distinguishingFeatures: "History of migraines; photophobia; hearing loss is rare." },
+      { condition: "BPPV", distinguishingFeatures: "Vertigo lasts seconds; triggered by head movement; no hearing loss." },
+      { condition: "Acoustic Neuroma", distinguishingFeatures: "Slowly progressive hearing loss; constant imbalance (not episodic)." }
+    ],
+    complications: {
+      common: ["Permanent hearing loss", "Chronic imbalance"],
+      serious: ["Drop attacks (Tumarkin's otolithic crisis)"],
+      lifeThreatening: ["Injuries from falls during vertigo"]
+    },
+    conventionalManagement: {
+      general: ["Low-salt diet (<2g/day)", "Avoid caffeine and alcohol", "Stress management"],
+      medical: ["Diuretics (HCTZ)", "Betahistine", "Vestibular suppressants (Diazepam/Meclizine) during acute attacks"],
+      surgical: ["Intratympanic Gentamicin or Steroids", "Endolymphatic sac decompression"],
+      prevention: ["Low-salt intake", "Stress reduction"]
+    },
+    homoeopathicApproach: "Aims to reduce the frequency and severity of attacks by addressing the 'Sycotic' fluid imbalance and the specific modalities of the vertigo.",
+    relatedRemedies: [
+      { name: "Chininum Sulphuricum", keyIndications: "The 'Ménière triad' - vertigo, roaring tinnitus, and deafness; worse for noise; periodic." },
+      { name: "Theridion", keyIndications: "Vertigo with intense nausea; worse for every sound or closing the eyes; hypersensitive to noise." },
+      { name: "Conium Maculatum", keyIndications: "Vertigo when turning in bed or moving the eyes; associated with numbness or weakness." },
+      { name: "Cocculus Indicus", keyIndications: "Vertigo with severe nausea and vomiting; worse for motion (car/boat); worse for loss of sleep." }
+    ],
+    relatedDiseases: ["tinnitus", "hearing-loss"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Episodes last hours (not seconds)", "Low-frequency hearing loss", "Low-salt diet"],
+      miasmaticDominance: "Sycotic (Fluid accumulation)",
+      thermalState: "Variable",
+      organAffinity: "Inner ear, Vestibular nerve",
+      memoryMnemonic: "FULL: Fluctuating hearing loss, Upward pressure (Fullness), Long vertigo, Low-salt diet"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from more serious neurological causes of vertigo.",
+        severityAssessment: "Based on frequency of attacks and degree of hearing loss.",
+        referralCriteria: ["Sudden hearing loss", "Persistent vertigo", "Neurological signs"]
+      },
+      individualization: {
+        mentalGenerals: ["Fear of falling", "Hypersensitivity to noise (Theridion)", "Irritability"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Nausea prevents eating",
+          desires: ["None specific"],
+          aversions: ["Motion"],
+          sleep: "Exhaustion after attack",
+          perspiration: "Cold sweat during attack"
+        },
+        modalities: ["Agg: Motion, noise (Theridion), salt, closing eyes (Theridion).", "Amel: Lying still, darkness"],
+        concomitants: ["Nausea/Vomiting", "Cold sweat", "Headache"],
+        characteristicParticulars: [
+          "Ear: Roaring in ears that sounds like a storm or waterfall.",
+          "Vertigo: Sensation as if the bed is spinning or the ground is tilting.",
+          "Vertigo: Vertigo so severe it causes the patient to fall down instantly (Drop attacks)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vertigo that is made significantly worse by even the smallest sound, which seems to vibrate through the whole body (Theridion)."],
+        individualExpression: "A sycotic state of inner ear hypertension where the vital force is unable to maintain the delicate fluid balance of the vestibular apparatus."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Ear, Ménière's disease", chapter: "Ear" },
+          { rubric: "Vertigo, noise, from", chapter: "Vertigo" }
+        ],
+        symptomAnalysis: "Focus on the 'triad' of symptoms and the specific triggers for the vertigo."
+      }
+    }
+  },
+  {
+    id: "hearing-loss",
+    name: "Hearing Loss",
+    slug: "hearing-loss",
+    system: "ent",
+    category: "Functional",
+    definition: "Partial or total inability to hear sound in one or both ears.",
+    simpleExplanation: "When you have trouble hearing sounds or understanding speech. It can be caused by anything from earwax to age, or damage from loud noise.",
+    examKeywords: ["Conductive vs. Sensorineural", "Rinne test", "Weber test", "Audiogram", "Cochlear implant"],
+    epidemiology: {
+      ageDistribution: "Incidence increases with age (Presbycusis); also common in children (Otitis media).",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Industrial workers", "Musicians", "Elderly individuals"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetics", "Ageing", "History of ear infections"],
+      precipitatingFactors: ["Noise trauma", "Ototoxic medications", "Cerumen impaction"],
+      riskFactors: ["Smoking", "Diabetes", "Cardiovascular disease"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Conductive Loss", description: "Problem in the outer or middle ear prevents sound from reaching the inner ear (e.g., wax, fluid)." },
+        { title: "Sensorineural Loss", description: "Damage to the hair cells in the cochlea or the auditory nerve (e.g., noise, age)." },
+        { title: "Mixed Loss", description: "Combination of both conductive and sensorineural issues." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Difficulty understanding speech", "Needing to turn up the volume", "Asking others to repeat"],
+      localSymptoms: [
+        "Conductive: Sounds are muffled; may hear own voice loudly.",
+        "Sensorineural: Difficulty hearing in background noise; high-pitched sounds are lost first."
+      ],
+      constitutionalFeatures: ["Social withdrawal", "Anxiety", "Fatigue from listening effort"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Sudden Sensorineural Hearing Loss (SSHL) - loss occurring over < 72 hours",
+      "URGENT REFERRAL: Unilateral hearing loss (Rule out tumor)",
+      "URGENT REFERRAL: Associated vertigo or facial weakness"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Audiometry", findings: "Determines type and degree of loss", importance: "Primary method" },
+        { name: "Tuning Fork Tests (Rinne/Weber)", findings: "Distinguish conductive from sensorineural", importance: "Bedside check" }
+      ],
+      laboratoryFindings: [
+        { name: "Tympanometry", findings: "Assess middle ear pressure/fluid", importance: "Rule out conductive causes" },
+        { name: "MRI", findings: "Check for Acoustic Neuroma", importance: "If unilateral loss" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "WHO Grades",
+      criteria: [
+        "Mild: 26-40 dB.",
+        "Moderate: 41-60 dB.",
+        "Severe: 61-80 dB.",
+        "Profound: > 81 dB."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Cerumen Impaction", distinguishingFeatures: "Reversed instantly by wax removal; conductive loss." },
+      { condition: "Otosclerosis", distinguishingFeatures: "Younger adults; progressive conductive loss; fixed stapes bone." },
+      { condition: "Presbycusis", distinguishingFeatures: "Bilateral; progressive; age-related; high-frequency sensorineural loss." }
+    ],
+    complications: {
+      common: ["Social isolation", "Cognitive decline (in elderly)"],
+      serious: ["Depression", "Balance issues"],
+      lifeThreatening: ["None directly."]
+    },
+    conventionalManagement: {
+      general: ["Communication strategies", "Speech therapy"],
+      medical: ["Hearing aids", "Cochlear implants (for profound loss)", "Treating underlying causes (e.g., surgery for otosclerosis)"],
+      prevention: ["Noise protection", "Avoiding ototoxic drugs"]
+    },
+    homoeopathicApproach: "Aims to manage the underlying 'Psora' (sensitivity) or 'Syphilitic' (nerve damage) state, and address conductive issues like catarrh.",
+    relatedRemedies: [
+      { name: "Graphites", keyIndications: "Hardness of hearing; better in noise (Paracusis Willisii); associated with dry skin and cracks." },
+      { name: "Silicea", keyIndications: "Hearing loss from chronic catarrh or suppressed sweat; sensitive to cold; chilly." },
+      { name: "Pulsatilla", keyIndications: "Hearing loss following ear infections; thick yellow discharge; better in open air." },
+      { name: "Phosphorus", keyIndications: "Hardness of hearing; sounds like 'echo' in ears; associated with dizziness." }
+    ],
+    relatedDiseases: ["acute-otitis-media", "tinnitus"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Sudden loss = Emergency", "Rinne negative = Conductive", "Weber lateralizes to bad ear = Conductive"],
+      miasmaticDominance: "Syphilitic (Nerve damage) / Sycotic (Blockage/Catarrh)",
+      thermalState: "Variable",
+      organAffinity: "Auditory nerve, Cochlea, Middle ear",
+      memoryMnemonic: "HEAR: History, Exam (Tuning forks), Audiogram, Referral (if sudden/unilateral)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify treatable conductive causes and serious neurological issues.",
+        severityAssessment: "Based on decibel (dB) loss.",
+        referralCriteria: ["Sudden hearing loss", "Unilateral loss", "Associated vertigo"]
+      },
+      individualization: {
+        mentalGenerals: ["Isolation", "Anxiety", "Weak memory"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None specific"],
+          aversions: ["None specific"],
+          sleep: "Normal",
+          perspiration: "Offensive (Sil)"
+        },
+        modalities: ["Agg: Background noise (Sensorineural), cold (Sil).", "Amel: Noise (Graphites - Paracusis)"],
+        concomitants: ["Tinnitus", "Vertigo", "Ear discharge"],
+        characteristicParticulars: [
+          "Ear: Sensation as if the ears are stuffed with cotton or wool.",
+          "Ear: Hearing improves while riding in a carriage or train.",
+          "Ear: Sounds are heard but words are not understood (difficulty with discrimination)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Hearing is significantly better in the middle of noise or while traveling in a noisy vehicle (Graphites)."],
+        individualExpression: "A chronic syphilitic-sycotic state where the vital force's ability to process auditory information is compromised by structural damage or obstructive catarrh."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Ear, deafness", chapter: "Ear" },
+          { rubric: "Ear, hearing, impaired", chapter: "Ear" }
+        ],
+        symptomAnalysis: "Focus on the 'type' of deafness and the modalities (e.g., better in noise)."
+      }
+    }
+  },
+  {
+    id: "vertigo",
+    name: "Vertigo",
+    slug: "vertigo",
+    system: "ent",
+    category: "Functional",
+    definition: "A sensation of spinning or dizziness, often caused by a problem with the balance mechanism of the inner ear.",
+    simpleExplanation: "A feeling that you or the world around you is spinning or tilting. It's often related to an inner ear problem and can make you feel nauseous or lose your balance.",
+    examKeywords: ["Dix-Hallpike maneuver", "Nystagmus", "BPPV", "Epley maneuver", "HINTS exam"],
+    epidemiology: {
+      ageDistribution: "More common in older adults.",
+      sexDistribution: "More common in females.",
+      riskGroups: ["Elderly individuals", "People with history of head trauma", "Migraineurs"],
+    },
+    etiology: {
+      predisposingFactors: ["Head trauma", "Inner ear infections", "Age-related vestibular degeneration"],
+      precipitatingFactors: ["Head movement (BPPV)", "Stress", "Viral infections (Vestibular neuronitis)"],
+      riskFactors: ["Hypertension", "Diabetes", "History of migraines"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Mismatched Signals", description: "Conflict between signals from the eyes, inner ear (vestibular system), and body position sensors." },
+        { title: "Canalithiasis (BPPV)", description: "Calcium crystals (otoconia) get loose in the semicircular canals, sending false signals of movement." },
+        { title: "Nerve Inflammation", description: "Viral infection of the vestibular nerve causes constant false signaling." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Spinning sensation", "Nausea and vomiting", "Imbalance"],
+      localSymptoms: [
+        "BPPV: Short bursts of vertigo triggered by head movement; no hearing loss.",
+        "Vestibular Neuronitis: Severe, constant vertigo for days; no hearing loss.",
+        "Labyrinthitis: Severe vertigo + Hearing loss.",
+        "Central Vertigo: Less intense spinning but severe imbalance; associated with other neurological signs."
+      ],
+      constitutionalFeatures: ["Nausea", "Cold sweat", "Tachycardia during attacks"]
+    },
+    redFlags: [
+      "ENT EMERGENCY: Vertigo + Neurological signs (Double vision, weakness, slurred speech) - Rule out Stroke",
+      "ENT EMERGENCY: Sudden severe vertigo with ataxia (inability to walk)",
+      "URGENT REFERRAL: New onset vertigo in a patient with cardiovascular risk factors",
+      "URGENT REFERRAL: Vertigo + Sudden hearing loss"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Dix-Hallpike Maneuver", findings: "Characteristic nystagmus (diagnostic for BPPV)", importance: "Primary method" },
+        { name: "HINTS Exam", findings: "Distinguish peripheral from central vertigo", importance: "Crucial in ER" }
+      ],
+      laboratoryFindings: [
+        { name: "MRI Brain", findings: "Rule out stroke/tumor", importance: "Only if central vertigo is suspected" },
+        { name: "Audiometry", findings: "Check for associated hearing loss", importance: "Rule out Ménière's/Labyrinthitis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Classification",
+      criteria: [
+        "Peripheral: Originates in the inner ear; associated with ear symptoms; compensation occurs.",
+        "Central: Originates in the brainstem/cerebellum; severe imbalance; neurological deficits."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Presyncope", distinguishingFeatures: "Feeling of 'fainting'; no spinning; related to blood pressure." },
+      { condition: "Disequilibrium", distinguishingFeatures: "Feeling of imbalance when walking; no spinning; often sensory/vision related." },
+      { condition: "Psychogenic Dizziness", distinguishingFeatures: "Floating sensation; related to anxiety; no nystagmus." }
+    ],
+    complications: {
+      common: ["Falls and injuries", "Fear of falling"],
+      serious: ["Chronic imbalance", "Inability to work/drive"],
+      lifeThreatening: ["None directly, unless it indicates a stroke"]
+    },
+    conventionalManagement: {
+      general: ["Epley maneuver (for BPPV)", "Vestibular rehabilitation exercises"],
+      medical: ["Vestibular suppressants (Meclizine) - short-term only", "Treating underlying infections"],
+      prevention: ["Safety measures at home (to prevent falls)"]
+    },
+    homoeopathicApproach: "Aims to address the 'Psora' (sensitivity) and 'Sycotic' (congestion) states, matching the vertigo to the specific trigger (looking up, turning bed, motion).",
+    relatedRemedies: [
+      { name: "Conium Maculatum", keyIndications: "Vertigo when turning in bed, turning the head, or moving the eyes; associated with a feeling of weakness." },
+      { name: "Cocculus Indicus", keyIndications: "Vertigo with intense nausea; worse for motion (car/boat/looking at moving objects); worse for loss of sleep." },
+      { name: "Gelsemium", keyIndications: "Dizziness with heaviness of eyelids; feels like head is too big; associated with trembling and weakness." },
+      { name: "Bryonia Alba", keyIndications: "Vertigo worse for the slightest motion; better for lying perfectly still; associated with dryness." }
+    ],
+    relatedDiseases: ["meniere-disease", "tinnitus"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Dix-Hallpike for BPPV", "Epley maneuver is curative for BPPV", "Rule out Stroke"],
+      miasmaticDominance: "Psora (Functional) / Sycotic (Fluid/Crystals)",
+      thermalState: "Variable",
+      organAffinity: "Semicircular canals, Vestibular nerve",
+      memoryMnemonic: "SPIN: Sensation of spinning, Positional triggers, Inner ear focus, Nystagmus"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish benign ear causes from life-threatening brain causes (Stroke).",
+        severityAssessment: "Based on ability to stand/walk and frequency.",
+        referralCriteria: ["Neurological deficits", "New onset ataxia", "Sudden hearing loss"]
+      },
+      individualization: {
+        mentalGenerals: ["Fear of falling", "Confusion", "Dullness (Gels)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Nausea prevents eating",
+          desires: ["None specific"],
+          aversions: ["Motion"],
+          sleep: "Drowsiness (Gels)",
+          perspiration: "Cold sweat"
+        },
+        modalities: ["Agg: Motion, turning in bed (Conium), looking at moving objects (Cocculus), rising.", "Amel: Lying still (Bryonia), closing eyes"],
+        concomitants: ["Nausea/Vomiting", "Heaviness of eyelids", "Tinnitus"],
+        characteristicParticulars: [
+          "Vertigo: Sensation as if the patient is floating in the air.",
+          "Vertigo: Vertigo when looking up at a tall building or looking down from a height.",
+          "Vertigo: Vertigo accompanied by a sensation as if the head were expanding."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vertigo that is characteristically triggered by the slightest movement of the eyes or head, or when turning over in bed (Conium)."],
+        individualExpression: "An acute psoric-sycotic disturbance where the vital force's spatial orientation is disrupted by physical (crystals) or functional (nerve) disharmony."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Vertigo, motion, from", chapter: "Vertigo" },
+          { rubric: "Vertigo, turning in bed, on", chapter: "Vertigo" }
+        ],
+        symptomAnalysis: "Focus on the specific trigger of the vertigo and the character of the associated nausea."
+      }
+    }
+  },
+  {
+    id: "normal-pregnancy",
+    name: "Normal Pregnancy",
+    slug: "normal-pregnancy",
+    system: "obstetrics",
+    category: "Physiological",
+    definition: "The state of carrying a developing embryo or fetus within the female body.",
+    simpleExplanation: "A natural process where a baby grows inside the mother's womb over approximately 40 weeks.",
+    examKeywords: ["Amenorrhea", "HCG", "Quickening", "Antenatal care", "Gravida/Para"],
+    epidemiology: {
+      ageDistribution: "Reproductive age (typically 15-45 years).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Women of childbearing age"],
+    },
+    etiology: {
+      predisposingFactors: ["Sexual intercourse", "Ovulation"],
+      precipitatingFactors: ["Fertilization of ovum by sperm"],
+      riskFactors: ["Unprotected intercourse"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fertilization", description: "Sperm meets egg in the fallopian tube." },
+        { title: "Implantation", description: "Zygote attaches to the uterine lining." },
+        { title: "Placentation", description: "Formation of the placenta for nutrient exchange." },
+        { title: "Fetal Growth", description: "Continuous development through three trimesters." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Amenorrhea", "Morning sickness", "Breast tenderness", "Fatigue"],
+      localSymptoms: [
+        "Uterine enlargement",
+        "Quickening (fetal movements)",
+        "Braxton Hicks contractions (late pregnancy)"
+      ],
+      constitutionalFeatures: ["Weight gain", "Increased appetite", "Frequent urination"]
+    },
+    redFlags: [
+      "Vaginal bleeding",
+      "Severe abdominal pain",
+      "Sudden swelling of face/hands",
+      "Absence of fetal movements"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Urine Pregnancy Test", findings: "Positive Beta-hCG", importance: "Initial confirmation" },
+        { name: "Ultrasonography (USG)", findings: "Gestational sac/Fetal heart rate", importance: "Confirm viability and dating" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Physiological anemia", importance: "Baseline monitoring" },
+        { name: "Blood Group/Rh", findings: "Identify potential Rh incompatibility", importance: "Routine screening" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Confirmation of Pregnancy",
+      criteria: [
+        "1. Cessation of menses.",
+        "2. Positive hCG in blood or urine.",
+        "3. Visualization of fetus on USG.",
+        "4. Audible fetal heart sounds."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Pseudocyesis", distinguishingFeatures: "Psychological state; negative hCG; no fetus on USG." },
+      { condition: "Ectopic Pregnancy", distinguishingFeatures: "Severe pain; abnormal hCG rise; empty uterus on USG." },
+      { condition: "Molar Pregnancy", distinguishingFeatures: "Very high hCG; 'snowstorm' appearance on USG." }
+    ],
+    complications: {
+      common: ["Morning sickness", "Constipation", "Leg cramps"],
+      serious: ["Preeclampsia", "Gestational diabetes"],
+      lifeThreatening: ["Eclampsia", "HELLP syndrome"]
+    },
+    conventionalManagement: {
+      general: ["Regular antenatal check-ups", "Balanced diet", "Exercise"],
+      medical: ["Folic acid supplementation", "Iron and calcium", "Vaccination (Tetanus)"],
+      prevention: ["Early registration", "Avoidance of teratogens"]
+    },
+    homoeopathicApproach: "Aims to manage the physiological discomforts (nausea, constipation) and ensure the health of both mother and child through constitutional support.",
+    relatedRemedies: [
+      { name: "Sepia", keyIndications: "Morning sickness; feels indifferent to family; heavy sensation in uterus; better for exercise." },
+      { name: "Pulsatilla", keyIndications: "Changeable symptoms; wants open air; weepy/clingy; thirstless; mild disposition." },
+      { name: "Ipecacuanha", keyIndications: "Persistent nausea not relieved by vomiting; clean tongue; excessive salivation." },
+      { name: "Calcarea Carbonica", keyIndications: "Constitutional support; chilly; sweats on head; fair, fat, flabby type." }
+    ],
+    relatedDiseases: ["hyperemesis-gravidarum", "preeclampsia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["280 days from LMP", "3 Trimesters", "Standard Antenatal Care"],
+      miasmaticDominance: "Psora (Physiological changes)",
+      thermalState: "Variable",
+      organAffinity: "Uterus, Ovaries, Breasts",
+      memoryMnemonic: "GROW: Gestational age, Regular checkups, Optimal diet, Weight gain"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure a healthy outcome for both mother and child.",
+        severityAssessment: "Based on regular clinical monitoring of BP, weight, and fetal growth.",
+        referralCriteria: ["Bleeding", "Hypertension", "Rupture of membranes"]
+      },
+      individualization: {
+        mentalGenerals: ["Mood swings", "Anxiety about labor", "Indifference (Sepia)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Increased or specific cravings",
+          desires: ["Sour things", "Chalk/Earth (Pica)"],
+          aversions: ["Food odors"],
+          sleep: "Drowsiness in early months",
+          perspiration: "Increased"
+        },
+        modalities: ["Agg: Morning (Nausea), smells.", "Amel: Eating small meals, rest"],
+        concomitants: ["Heartburn", "Varicose veins", "Backache"],
+        characteristicParticulars: [
+          "Stomach: Nausea at the sight or smell of food.",
+          "Uterus: Sensation as if the contents would fall out (Sepia).",
+          "Back: Aching in the small of the back, worse for walking."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Desire for unusual things like chalk, coal, or earth (Alumina/Calc Carb)."],
+        individualExpression: "A natural physiological expansion of the vital force to accommodate and nourish new life."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, pregnancy", chapter: "Female" },
+          { rubric: "Stomach, nausea, pregnancy, during", chapter: "Stomach" }
+        ],
+        symptomAnalysis: "Focus on the specific trimester and the most prominent physiological complaints."
+      }
+    }
+  },
+  {
+    id: "hyperemesis-gravidarum",
+    name: "Hyperemesis Gravidarum",
+    slug: "hyperemesis-gravidarum",
+    system: "obstetrics",
+    category: "Complication",
+    definition: "Severe and persistent nausea and vomiting during pregnancy, leading to dehydration, weight loss, and electrolyte imbalance.",
+    simpleExplanation: "An extreme form of morning sickness that can lead to severe dehydration and requires medical attention.",
+    examKeywords: ["Ketosuria", "Dehydration", "Electrolyte imbalance", "Wernicke's encephalopathy", "Weight loss >5%"],
+    epidemiology: {
+      ageDistribution: "More common in young primigravidae.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Multiple pregnancy", "Molar pregnancy", "History of hyperemesis"],
+    },
+    etiology: {
+      predisposingFactors: ["High hCG levels", "Estrogen levels", "Psychological stress"],
+      precipitatingFactors: ["Hormonal changes of early pregnancy"],
+      riskFactors: ["Nulliparity", "Obesity", "Family history"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Hormonal Surge", description: "Rapid rise in hCG and estrogen irritates the chemoreceptor trigger zone." },
+        { title: "Severe Vomiting", description: "Loss of gastric juices leads to dehydration and metabolic alkalosis." },
+        { title: "Starvation Ketosis", description: "Body breaks down fat for energy, leading to ketosuria." },
+        { title: "Complications", description: "Vitamin B1 deficiency (Wernicke's) and liver/kidney strain if untreated." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Persistent vomiting (>3 times/day)", "Severe nausea", "Weight loss"],
+      localSymptoms: ["Epigastric pain", "Salivation (Ptyalism)"],
+      constitutionalFeatures: ["Dehydration (dry tongue, skin tenting)", "Tachycardia", "Hypotension"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Severe dehydration with inability to keep any fluids down",
+      "OBSTETRIC EMERGENCY: Confusion or visual changes (Wernicke's Encephalopathy)",
+      "URGENT REFERRAL: Jaundice or significant weight loss",
+      "URGENT REFERRAL: Ketosuria (Grade 2+)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Urine Analysis", findings: "Ketosuria", importance: "Confirm severity" },
+        { name: "Serum Electrolytes", findings: "Hypokalemia, Hyponatremia", importance: "Assess imbalance" }
+      ],
+      laboratoryFindings: [
+        { name: "Liver Function Tests", findings: "Slightly raised enzymes", importance: "Rule out other causes" },
+        { name: "USG Obstetrics", findings: "Exclude multiple or molar pregnancy", importance: "Etiological check" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Criteria",
+      criteria: [
+        "1. Persistent vomiting unrelated to other causes.",
+        "2. Evidence of dehydration.",
+        "3. Weight loss >5% of pre-pregnancy weight.",
+        "4. Ketonuria."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Morning Sickness", distinguishingFeatures: "Mild; no dehydration or weight loss; keto-negative." },
+      { condition: "Gastroenteritis", distinguishingFeatures: "Diarrhea and abdominal cramps; acute onset." },
+      { condition: "Hydatidiform Mole", distinguishingFeatures: "Very high hCG; 'snowstorm' on USG; larger than dates uterus." }
+    ],
+    complications: {
+      common: ["Dehydration", "Electrolyte imbalance"],
+      serious: ["Wernicke's encephalopathy", "Mallory-Weiss tear"],
+      lifeThreatening: ["Renal failure", "Liver failure", "Esophageal rupture"]
+    },
+    conventionalManagement: {
+      general: ["Hospitalization (if severe)", "Small, frequent, dry meals", "Avoidance of triggers"],
+      medical: ["IV fluids (Normal saline with KCl)", "Vitamin B1 (Thiamine) supplementation", "Antiemetics (Promethazine/Ondansetron)"],
+      prevention: ["Ginger supplements", "Vitamin B6"]
+    },
+    homoeopathicApproach: "Aims to control the vomiting and nausea by matching the specific modalities and the patient's constitution. Homoeopathy must never delay emergency care if dehydration is severe.",
+    relatedRemedies: [
+      { name: "Symphoricarpus Racemosus", keyIndications: "A specific remedy for the vomiting of pregnancy; nausea at the thought of food; better for lying perfectly still on the back." },
+      { name: "Ipecacuanha", keyIndications: "Constant nausea; vomiting does not relieve; clean tongue; salivation." },
+      { name: "Tabacum", keyIndications: "Nausea with deathly paleness; cold sweat; better in open air; sinking feeling in stomach." },
+      { name: "Sepia", keyIndications: "Nausea at the smell of food; sensation of emptiness; indifferent to loved ones." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "ectopic-pregnancy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Starvation ketosis", "IV Thiamine before Glucose", "Keto-positive"],
+      miasmaticDominance: "Psora (Sensory irritation) / Sycotic (Fluid imbalance)",
+      thermalState: "Chilly",
+      organAffinity: "Stomach, Liver, Nervous system",
+      memoryMnemonic: "KETOS: Ketones, Electrolytes, Thiamine, Obstetric emergency, Severe vomiting"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from benign morning sickness and prevent life-threatening complications.",
+        severityAssessment: "Based on ketosuria level and percentage of weight loss.",
+        referralCriteria: ["Unable to tolerate fluids for 24 hours", "Ketones 2+", "Altered consciousness"]
+      },
+      individualization: {
+        mentalGenerals: ["Extreme irritability", "Deathly anxiety", "Indifference"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Intense but vomits after drinking",
+          appetite: "Total loss",
+          desires: ["Ice cold water (Phos)"],
+          aversions: ["All food smells"],
+          sleep: "Prostration",
+          perspiration: "Cold and clammy"
+        },
+        modalities: ["Agg: Smell of cooking, morning, slightest motion.", "Amel: Lying still, open air (Tabicum)"],
+        concomitants: ["Salivation", "Heartburn", "Faintness"],
+        characteristicParticulars: [
+          "Stomach: Nausea so severe the patient feels like she will die.",
+          "Stomach: Vomiting everything, even water, immediately after swallowing.",
+          "Stomach: Sensation as if the stomach is hanging down relaxed."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vomiting of pregnancy that is relieved by even the smallest amount of food (Anacardium - rare)."],
+        individualExpression: "An explosive psoric reaction of the vital force to the hormonal shift of pregnancy, leading to rapid systemic exhaustion."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Stomach, vomiting, pregnancy, during", chapter: "Stomach" },
+          { rubric: "Stomach, nausea, smells, from", chapter: "Stomach" }
+        ],
+        symptomAnalysis: "Focus on the character of the nausea and the specific modalities (motion vs. smell)."
+      }
+    }
+  },
+  {
+    id: "anemia-in-pregnancy",
+    name: "Anemia in Pregnancy",
+    slug: "anemia-in-pregnancy",
+    system: "obstetrics",
+    category: "Nutritional",
+    definition: "A condition where the hemoglobin (Hb) level is less than 11 g/dL during pregnancy, usually due to iron deficiency.",
+    simpleExplanation: "When your blood doesn't have enough healthy red blood cells to carry oxygen to your tissues and the baby. It's very common because your body produces more blood to support the baby.",
+    examKeywords: ["Hb < 11 g/dL", "Iron deficiency", "Microcytic hypochromic", "Serum ferritin", "Pica"],
+    epidemiology: {
+      ageDistribution: "All pregnant women; higher risk in teenagers.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Twin pregnancy", "Frequent pregnancies", "Low socioeconomic status"],
+    },
+    etiology: {
+      predisposingFactors: ["Poor diet", "Pre-pregnancy anemia", "Malabsorption"],
+      precipitatingFactors: ["Increased fetal demand for iron", "Expanded plasma volume (dilutional)"],
+      riskFactors: ["Vegetarian diet", "Heavy menstrual periods before pregnancy"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Plasma Expansion", description: "Blood volume increases by 50%, but red cell mass only increases by 25%, leading to dilution." },
+        { title: "Iron Depletion", description: "Fetus depletes maternal iron stores for its own development." },
+        { title: "Reduced Red Cell Production", description: "Lack of iron prevents the bone marrow from making enough hemoglobin." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Fatigue", "Weakness", "Palpitations", "Shortness of breath"],
+      localSymptoms: ["Pallor of conjunctiva/tongue", "Brittle nails", "Angular stomatitis"],
+      constitutionalFeatures: ["Dizziness", "Headache", "Pica (craving ice/clay)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Hb < 7 g/dL (Severe anemia)",
+      "URGENT REFERRAL: Shortness of breath at rest",
+      "URGENT REFERRAL: Chest pain or congestive heart failure signs"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "CBC with Hb", findings: "Hb < 11 g/dL; Low MCV", importance: "Primary screening" },
+        { name: "Peripheral Smear", findings: "Microcytic hypochromic cells", importance: "Confirm iron deficiency" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Ferritin", findings: "Low (<15 ng/mL)", importance: "Confirms depleted stores" },
+        { name: "Stool Examination", findings: "Hookworm ova", importance: "Rule out chronic blood loss" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "WHO Grading",
+      criteria: [
+        "Mild: 10.0 - 10.9 g/dL.",
+        "Moderate: 7.0 - 9.9 g/dL.",
+        "Severe: < 7.0 g/dL.",
+        "Very Severe: < 4.0 g/dL."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Physiological Anemia", distinguishingFeatures: "Hb stays above 10.5; normocytic." },
+      { condition: "Thalassemia Trait", distinguishingFeatures: "Low Hb but normal/high RBC count; Mentzer index < 13." },
+      { condition: "Folate Deficiency", distinguishingFeatures: "Macrocytic (Large cells) on smear." }
+    ],
+    complications: {
+      common: ["Fatigue", "Increased risk of infections"],
+      serious: ["Preterm labor", "Low birth weight (LBW)", "Postpartum hemorrhage (PPR) intolerance"],
+      lifeThreatening: ["Congestive heart failure", "Shock from minimal blood loss during delivery"]
+    },
+    conventionalManagement: {
+      general: ["Iron-rich diet (spinach, jaggery, meat)", "Vitamin C to aid absorption"],
+      medical: ["Oral Iron (60-100 mg elemental iron/day)", "Parenteral Iron (if oral not tolerated)", "Blood transfusion (if Hb < 7 near term)"],
+      prevention: ["Routine iron/folic acid supplementation for all pregnant women"]
+    },
+    homoeopathicApproach: "Aims to improve iron absorption and assimilation. Homoeopathic remedies act as 'biocatalysts' rather than iron supplements themselves.",
+    relatedRemedies: [
+      { name: "Ferrum Phosphoricum", keyIndications: "Early stage of anemia; pale face with easy flushing; sensitive; soft pulse." },
+      { name: "Calcarea Phosphorica", keyIndications: "Great for anemia in teenagers or following multiple pregnancies; chilly; flabby; desire for smoked meat." },
+      { name: "Natrum Muriaticum", keyIndications: "Anemia with great weakness; headache; craving for salt; mapped tongue." },
+      { name: "Aletris Farinosa", keyIndications: "The 'china of the uterus'; extreme debility with uterine issues; anemia from loss of fluids." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "postpartum-hemorrhage"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Hb < 11 g/dL", "Dilutional effect", "Pica is characteristic"],
+      miasmaticDominance: "Psora (Nutritional deficiency) / Tubercular (Assimilation defect)",
+      thermalState: "Chilly",
+      organAffinity: "Blood, Bone marrow, Uterus",
+      memoryMnemonic: "IRON: Intake poor, Red cells low, Oxygenation reduced, Nutritional support needed"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent complications like PPH and low birth weight.",
+        severityAssessment: "Based on Hb level (WHO grading).",
+        referralCriteria: ["Hb < 7 g/dL", "Signs of heart failure", "Symptoms near expected date of delivery"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Mental fatigue", "Depression (Nat Mur)"],
+        physicalGenerals: {
+          thermalState: "Chilly",
+          thirst: "Increased (Nat Mur)",
+          appetite: "Poor or specific cravings (Pica)",
+          desires: ["Salt (Nat Mur)", "Sour (Calc Phos)", "Earth/Chalk"],
+          aversions: ["Meat", "Fats"],
+          sleep: "Unrefreshing",
+          perspiration: "Cold sweat"
+        },
+        modalities: ["Agg: Exertion, heat (Nat Mur).", "Amel: Cool air, rest"],
+        concomitants: ["Palpitations", "Headache", "Swelling of feet"],
+        characteristicParticulars: [
+          "Blood: Watery, pale, does not stain well.",
+          "Face: Earthy, waxy, or pale yellow complexion.",
+          "Tongue: Clean but pale; or mapped/cracked."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Great weakness, yet the patient feels better for walking slowly (Ferrum)."],
+        individualExpression: "A tubercular-psoric failure of the vital force to properly assimilate the essential building blocks of blood, leading to a systemic state of oxygen starvation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, anemia", chapter: "Generalities" },
+          { rubric: "Female, pregnancy, anemia during", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the constitutional type and the specific cravings/aversions."
+      }
+    }
+  },
+  {
+    id: "gestational-hypertension",
+    name: "Gestational Hypertension",
+    slug: "gestational-hypertension",
+    system: "obstetrics",
+    category: "Cardiovascular",
+    definition: "New-onset hypertension (BP ≥ 140/90 mmHg) after 20 weeks of pregnancy without proteinuria.",
+    simpleExplanation: "High blood pressure that starts for the first time during the second half of pregnancy. It usually goes back to normal after the baby is born.",
+    examKeywords: ["BP ≥ 140/90", "After 20 weeks", "No proteinuria", "PIH (Pregnancy Induced Hypertension)"],
+    epidemiology: {
+      ageDistribution: "Primigravidae; very young or older mothers.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["First pregnancy", "Multiple pregnancy", "Family history"],
+    },
+    etiology: {
+      predisposingFactors: ["Obesity", "Family history of hypertension"],
+      precipitatingFactors: ["Pregnancy-related vascular changes"],
+      riskFactors: ["Nulliparity", "Diabetes", "Kidney disease"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vascular Spasm", description: "Widespread constriction of small blood vessels." },
+        { title: "Increased Resistance", description: "Higher resistance to blood flow leads to elevated blood pressure." },
+        { title: "Resolution", description: "Blood pressure typically normalizes within 12 weeks postpartum." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["High blood pressure readings", "Often asymptomatic initially"],
+      localSymptoms: ["Mild edema of feet"],
+      constitutionalFeatures: ["Headache (mild)", "Dizziness"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: BP > 160/110 mmHg (Severe Hypertension)",
+      "URGENT REFERRAL: Proteinuria (Transition to Preeclampsia)",
+      "URGENT REFERRAL: Persistent headache, blurred vision, or epigastric pain"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "BP Monitoring", findings: "≥ 140/90 mmHg on two occasions", importance: "Primary diagnosis" },
+        { name: "Urine Protein", findings: "Negative", importance: "Rule out Preeclampsia" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC/Platelets", findings: "Normal", importance: "Baseline check" },
+        { name: "LIVER/Renal function", findings: "Normal", importance: "Rule out systemic involvement" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "ISSHP Criteria",
+      criteria: [
+        "1. BP ≥ 140 mmHg systolic or ≥ 90 mmHg diastolic.",
+        "2. Occurring after 20 weeks of gestation.",
+        "3. Previously normotensive.",
+        "4. Absence of proteinuria."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Chronic Hypertension", distinguishingFeatures: "Present before 20 weeks or pre-pregnancy." },
+      { condition: "Preeclampsia", distinguishingFeatures: "Hypertension + Proteinuria + Organ dysfunction." },
+      { condition: "White Coat Hypertension", distinguishingFeatures: "High only in clinic; normal at home/ambulatory." }
+    ],
+    complications: {
+      common: ["Induction of labor", "Preterm birth"],
+      serious: ["Preeclampsia", "Placental abruption"],
+      lifeThreatening: ["Eclampsia", "Stroke (if BP very high)"]
+    },
+    conventionalManagement: {
+      general: ["Frequent BP monitoring", "Bed rest (Left lateral position)", "Monitoring fetal growth"],
+      medical: ["Antihypertensives (Labetalol/Methyldopa) if BP > 150/100"],
+      prevention: ["Low-dose Aspirin (if high risk)", "Regular exercise"]
+    },
+    homoeopathicApproach: "Aims to stabilize the blood pressure and prevent progression to preeclampsia by addressing the patient's stress levels and constitutional miasm.",
+    relatedRemedies: [
+      { name: "Gelsemium", keyIndications: "Dizziness; heavy eyelids; nervous anticipation; hypertension with pulse that is slow when quiet but fast when moving." },
+      { name: "Aconite", keyIndications: "Sudden onset; great anxiety and fear of death; restless; full bounding pulse." },
+      { name: "Natrum Muriaticum", keyIndications: "Chronic tendency; salt craving; water retention; headache like little hammers." },
+      { name: "Lachesis", keyIndications: "Hypertension with hot flushes; worse after sleep; cannot bear tight clothing around neck/waist." }
+    ],
+    relatedDiseases: ["preeclampsia", "normal-pregnancy"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["After 20 weeks", "No protein", "Resolves postpartum"],
+      miasmaticDominance: "Psora (Functional) / Sycotic (Vascular constriction)",
+      thermalState: "Hot",
+      organAffinity: "Blood vessels, Placenta",
+      memoryMnemonic: "GEST: Greater than 20 weeks, Elevated BP, Systemic check, Tension management"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To monitor for the development of preeclampsia.",
+        severityAssessment: "Based on BP readings and presence/absence of warning symptoms.",
+        referralCriteria: ["BP > 160/110", "New onset proteinuria", "Warning signs (Headache/Vision)"]
+      },
+      individualization: {
+        mentalGenerals: ["Stress", "Anxiety about delivery", "Irritability"],
+        physicalGenerals: {
+          thermalState: "Hot (Lachesis)",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Salt", "Open air"],
+          aversions: ["Tight clothing"],
+          sleep: "Insomnia due to anxiety",
+          perspiration: "Increased"
+        },
+        modalities: ["Agg: Stress, morning, heat.", "Amel: Rest, left lateral position, cool air"],
+        concomitants: ["Edema of ankles", "Headache"],
+        characteristicParticulars: [
+          "Head: Pulsating headache that feels like a weight on the vertex.",
+          "Face: Flushed, red face with heat.",
+          "Pulse: Hard, full, or irregular pulse."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Hypertension that is noticeably triggered by even the smallest emotional excitement (Gelsemium/Ignatia)."],
+        individualExpression: "A sycotic-psoric constriction of the vascular bed, reflecting the vital force's struggle to maintain equilibrium under the physiological load of pregnancy."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, hypertension", chapter: "Generalities" },
+          { rubric: "Female, pregnancy, hypertension during", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the 'type' of person and the emotional triggers for the high BP."
+      }
+    }
+  },
+  {
+    id: "preeclampsia",
+    name: "Preeclampsia",
+    slug: "preeclampsia",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "A multi-system disorder characterized by hypertension (BP ≥ 140/90) and proteinuria (or organ dysfunction) after 20 weeks of pregnancy.",
+    simpleExplanation: "A serious condition where a pregnant woman develops high blood pressure and signs that her organs, like kidneys or liver, are struggling. It requires careful medical monitoring.",
+    examKeywords: ["Proteinuria", "Hypertension", "Edema (facies/hands)", "Placental insufficiency", "HELLP syndrome"],
+    epidemiology: {
+      ageDistribution: "Primigravidae; ages <18 or >35.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["First-time mothers", "Diabetes", "History of preeclampsia", "Multiple pregnancy"],
+    },
+    etiology: {
+      predisposingFactors: ["Abnormal placentation", "Vascular disease", "Genetics"],
+      precipitatingFactors: ["Failure of trophoblastic invasion of spiral arteries"],
+      riskFactors: ["Obesity", "Chronic hypertension", "Nulliparity"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Defective Placentation", description: "Spiral arteries do not widen properly, leading to low blood flow to the placenta." },
+        { title: "Placental Stress", description: "Poorly perfused placenta releases factors into maternal circulation." },
+        { title: "Endothelial Dysfunction", description: "Widespread damage to mother's blood vessel lining, leading to leakage (edema/proteinuria) and constriction." },
+        { title: "Organ Damage", description: "Affects kidneys (proteinuria), liver (enzymes), and brain (headache/seizures)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Hypertension", "Proteinuria", "Generalized edema (swelling of face/hands)"],
+      localSymptoms: [
+        "Headache (persistent/severe)",
+        "Visual disturbances (blurring, flashes)",
+        "Epigastric or right upper quadrant pain"
+      ],
+      constitutionalFeatures: ["Weight gain (>2 lbs/week)", "Reduced urine output"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: BP > 160/110 mmHg",
+      "OBSTETRIC EMERGENCY: Severe persistent headache or visual changes (Imminent Eclampsia)",
+      "OBSTETRIC EMERGENCY: Severe epigastric pain (Liver capsule stretching)",
+      "OBSTETRIC EMERGENCY: Reduced fetal movements"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "BP Monitoring", findings: "≥ 140/90 mmHg", importance: "Primary finding" },
+        { name: "Urine Protein", findings: "≥ 300 mg/24h or 1+ on dipstick", importance: "Confirms diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "Liver Function Tests (LFT)", findings: "Elevated AST/ALT", importance: "Assess severity" },
+        { name: "Platelet Count", findings: "Thrombocytopenia (<100,000)", importance: "Rule out HELLP" },
+        { name: "Serum Creatinine", findings: "Elevated (>1.1 mg/dL)", importance: "Assess kidney function" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "ACOG Criteria",
+      criteria: [
+        "1. BP ≥ 140/90 mmHg after 20 weeks.",
+        "2. AND Proteinuria ≥ 300 mg/24h.",
+        "3. OR in the absence of proteinuria: Platelets < 100k, Creatinine > 1.1, Elevated LFTs, or Pulmonary edema."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Gestational Hypertension", distinguishingFeatures: "No proteinuria or organ dysfunction." },
+      { condition: "Chronic Renal Disease", distinguishingFeatures: "Proteinuria present before 20 weeks." },
+      { condition: "HELLP Syndrome", distinguishingFeatures: "Hemolysis, Elevated Liver enzymes, Low Platelets; severe variant." }
+    ],
+    complications: {
+      common: ["IUGR (Fetal growth restriction)", "Preterm birth"],
+      serious: ["Eclampsia (Seizures)", "Placental abruption", "HELLP syndrome"],
+      lifeThreatening: ["Stroke", "Renal failure", "Liver rupture", "Pulmonary edema"]
+    },
+    conventionalManagement: {
+      general: ["Hospitalization (for severe features)", "Close monitoring of mother and fetus"],
+      medical: ["Antihypertensives (Labetalol/Nifedipine)", "Magnesium Sulfate (to prevent seizures)", "Steroids (for fetal lung maturity if preterm)"],
+      surgical: ["Delivery - the only definitive cure"],
+      prevention: ["Low-dose aspirin (75-150mg) for high-risk women starting from 12-16 weeks", "Calcium supplementation", "Regular antenatal checkups"]
+    },
+    homoeopathicApproach: "Aims to manage mild cases and provide support, but MUST NOT delay emergency obstetric care. Remedies focus on edema and vascular tension.",
+    relatedRemedies: [
+      { name: "Apis Mellifica", keyIndications: "Puffiness of face and eyelids; stinging pains; thirstless; urine scanty; worse for heat." },
+      { name: "Arsenicum Album", keyIndications: "Generalized edema; anxiety and restlessness; chilly; thirst for small sips; albuminuria." },
+      { name: "Helleborus", keyIndications: "Deep-seated brain symptoms; stupor; scanty urine with dark sediment; associated with edema." },
+      { name: "Lachesis", keyIndications: "Severe hypertension; purple/flushed face; cannot bear anything tight; worse after sleep." }
+    ],
+    relatedDiseases: ["eclampsia", "gestational-hypertension"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["BP + Proteinuria", "Spiral artery failure", "Watch for epigastric pain"],
+      miasmaticDominance: "Sycotic (Accumulation/Fluid) / Syphilitic (Vascular damage)",
+      thermalState: "Hot",
+      organAffinity: "Placenta, Kidneys, Liver, Brain",
+      memoryMnemonic: "PRE: Proteinuria, Rising BP, Edema"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent maternal and fetal death from eclampsia or organ failure.",
+        severityAssessment: "Based on BP level and presence of 'Severe Features' (ACOG).",
+        referralCriteria: ["Any red flags", "BP > 160/110", "Significant proteinuria"]
+      },
+      individualization: {
+        mentalGenerals: ["Intense anxiety", "Restlessness (Ars)", "Stupor (Helleborus)"],
+        physicalGenerals: {
+          thermalState: "Hot (Apis/Lach) or Chilly (Ars)",
+          thirst: "Thirstless (Apis)",
+          appetite: "Poor",
+          desires: ["None specific"],
+          aversions: ["Heat (Apis)", "Tight clothing (Lach)"],
+          sleep: "Disturbed",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Heat, sleep (Lach), pressure.", "Amel: Cool air (Apis), left side"],
+        concomitants: ["Scanty urine", "Vision changes", "Weight gain"],
+        characteristicParticulars: [
+          "Kidney: Urine is dark, smoky, and loaded with albumin.",
+          "Face: Waxy, pale, and very swollen (Ars).",
+          "Brain: Sensation as if a cloud is over the mind; confusion."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Stinging, burning pains in various parts associated with generalized swelling and lack of thirst (Apis)."],
+        individualExpression: "A dangerous syphilitic-sycotic state where the vital force is overwhelmed by the toxic environment created by placental failure."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Urine, albuminous, pregnancy, in", chapter: "Urine" },
+          { rubric: "Generalities, swelling, pregnancy, in", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the character of the edema and the associated warning symptoms."
+      }
+    }
+  },
+  {
+    id: "eclampsia",
+    name: "Eclampsia",
+    slug: "eclampsia",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "The occurrence of generalized tonic-clonic seizures in a woman with preeclampsia, not attributable to other causes.",
+    simpleExplanation: "A life-threatening complication of pregnancy where high blood pressure leads to seizures (fits). This is a major medical emergency.",
+    examKeywords: ["Tonic-clonic seizures", "Magnesium Sulfate", "Post-ictal state", "Obstetric emergency"],
+    epidemiology: {
+      ageDistribution: "More common in teenage mothers and those over 35.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Untreated preeclampsia", "First pregnancy", "Multiple gestation"],
+    },
+    etiology: {
+      predisposingFactors: ["Severe preeclampsia", "Lack of antenatal care"],
+      precipitatingFactors: ["Cerebral vasospasm", "Cerebral edema", "Ischemia"],
+      riskFactors: ["Same as Preeclampsia"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Severe Hypertension", description: "Failure of cerebral autoregulation leads to breakthrough hyperperfusion." },
+        { title: "Cerebral Edema", description: "Leaking of fluid into the brain tissue." },
+        { title: "Seizure Activity", description: "Irritation of the brain tissue triggers generalized tonic-clonic convulsions." },
+        { title: "Coma", description: "Followed by a period of unconsciousness (post-ictal state)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Generalized seizures", "Unconsciousness", "Hypertension"],
+      localSymptoms: [
+        "Imminent Signs: Severe headache, vision loss, epigastric pain before the fit."
+      ],
+      constitutionalFeatures: ["Cyanosis during fit", "Foaming at mouth", "Bit tongue"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: ANY seizure during pregnancy is eclampsia until proven otherwise",
+      "OBSTETRIC EMERGENCY: Coma or altered mental status",
+      "OBSTETRIC EMERGENCY: Respiratory arrest during or after seizure"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Witnessed tonic-clonic seizure", importance: "Primary for action" },
+        { name: "BP Monitoring", findings: "Usually very high", importance: "Monitoring" }
+      ],
+      laboratoryFindings: [
+        { name: "Urine Protein", findings: "Usually high (3+ or 4+)", importance: "Confirm preeclampsia" },
+        { name: "Serum Magnesium", findings: "Monitor if on MgSO4", importance: "Safety check" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Definition",
+      criteria: [
+        "1. New-onset generalized tonic-clonic seizures.",
+        "2. In a patient with preeclampsia (Hypertension + Proteinuria/Organ damage).",
+        "3. Not due to epilepsy or other brain disorders."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Epilepsy", distinguishingFeatures: "History of fits; no hypertension or proteinuria." },
+      { condition: "Brain Tumor/Hemorrhage", distinguishingFeatures: "Focal neurological signs; abnormal imaging." },
+      { condition: "Meningitis", distinguishingFeatures: "Fever; neck stiffness; positive Kernig sign." }
+    ],
+    complications: {
+      common: ["Tongue biting", "Aspiration pneumonia"],
+      serious: ["Abruptio placentae", "Intracranial hemorrhage", "HELLP syndrome"],
+      lifeThreatening: ["Maternal death", "Fetal death", "Renal failure", "Pulmonary edema"]
+    },
+    conventionalManagement: {
+      general: ["Call for help (Obstetric code)", "ABC: Airway, Breathing, Circulation", "Prevent injury during seizure"],
+      medical: ["Magnesium Sulfate (Loading + Maintenance dose) - drug of choice", "Antihypertensives (Hydralazine/Labetalol IV)", "Oxygen"],
+      surgical: ["Stabilize then Deliver (usually within 6-24 hours)"],
+      prevention: ["Early detection and aggressive management of preeclampsia", "Prophylactic Magnesium Sulfate in severe preeclampsia"]
+    },
+    homoeopathicApproach: "Aims to provide support during the post-ictal state and stabilize the constitution AFTER the emergency has been managed. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Cicuta Virosa", keyIndications: "Violent convulsions; body bent backward (Opisthotonos); eyes fixed; face bluish." },
+      { name: "Cuprum Metallicum", keyIndications: "Seizures starting in fingers/toes; violent cramps; bluish face; better for drinking cold water." },
+      { name: "Veratrum Viride", keyIndications: "Sudden congestion to head; high fever; full, hard, rapid pulse; redness of face." },
+      { name: "Hyoscyamus", keyIndications: "Twitching of muscles; delirious; picking at bedclothes; seizures with jerking." }
+    ],
+    relatedDiseases: ["preeclampsia", "gestational-hypertension"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Seizures = Eclampsia", "Magnesium Sulfate is life-saving", "Deliver after stabilization"],
+      miasmaticDominance: "Syphilitic (Destructive explosion)",
+      thermalState: "Hot",
+      organAffinity: "Brain, Placenta, Kidneys",
+      memoryMnemonic: "FITS: Fluids (control), IV Magnesium, Tension control, Stabilize & Deliver"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Critical life-threatening emergency.",
+        severityAssessment: "Based on person's stability.",
+        referralCriteria: ["IMMEDIATE HOSPITALIZATION REQUIRED"]
+      },
+      individualization: {
+        mentalGenerals: ["Fear", "Confusion (post-ictal)", "Stupor"],
+        physicalGenerals: {
+          thermalState: "Hot",
+          thirst: "Variable",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Comatose state",
+          perspiration: "Profuse"
+        },
+        modalities: ["Agg: Touch, noise, light (can trigger more fits).", "Amel: Darkness, quiet"],
+        concomitants: ["Proteinuria", "Visual loss", "Oliguria"],
+        characteristicParticulars: [
+          "Brain: Convulsions that are followed by profound stupor and snoring breathing.",
+          "Eyes: Pupils dilated and insensible to light.",
+          "Face: Dark red or bluish during the convulsion."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Seizures where the body is violently twisted or bent backward (Cicuta/Cuprum)."],
+        individualExpression: "A catastrophic syphilitic breakdown of the vital force, where the neural pathways are overwhelmed by the systemic toxicity of placental failure."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, convulsions, puerperal", chapter: "Generalities" },
+          { rubric: "Mind, unconsciousness, convulsions, during", chapter: "Mind" }
+        ],
+        symptomAnalysis: "Focus on the character of the convulsion (where it starts) and the state of the patient after the fit."
+      }
+    }
+  },
+  {
+    id: "gestational-diabetes",
+    name: "Gestational Diabetes (GDM)",
+    slug: "gestational-diabetes",
+    system: "obstetrics",
+    category: "Metabolic",
+    definition: "Any degree of glucose intolerance with onset or first recognition during pregnancy.",
+    simpleExplanation: "A type of diabetes that develops during pregnancy when your blood sugar levels get too high. It usually disappears after the baby is born but increases the risk of future Type 2 diabetes.",
+    examKeywords: ["GTT (Glucose Tolerance Test)", "Macrosomia", "Shoulder dystocia", "Insulin resistance", "Postpartum screening"],
+    epidemiology: {
+      ageDistribution: "Increases with maternal age (>25 years).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Obese women", "Family history of diabetes", "PCOS history", "Previous large baby (>4kg)"],
+    },
+    etiology: {
+      predisposingFactors: ["Human Placental Lactogen (hPL)", "Genetics", "Insulin resistance"],
+      precipitatingFactors: ["Placental hormones that block insulin action"],
+      riskFactors: ["Obesity", "Ethnicity (South Asian, Hispanic)", "Previous GDM"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Insulin Resistance", description: "Placenta produces hormones (hPL, cortisol, estrogen) that counteract insulin." },
+        { title: "Hyperglycemia", description: "Mother's pancreas cannot keep up with the increased demand, leading to high blood sugar." },
+        { title: "Fetal Overgrowth", description: "Excess glucose crosses the placenta, causing the baby to produce more insulin, leading to excessive growth (macrosomia)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Often asymptomatic", "Excessive thirst (Polydipsia)", "Frequent urination"],
+      localSymptoms: ["Large for dates uterus (Polyhydramnios)", "Recurrent vaginal infections (moniliasis)"],
+      constitutionalFeatures: ["Fatigue", "Blurred vision (if severe)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Very high blood sugar (>200 mg/dL)",
+      "URGENT REFERRAL: Large for dates (Polyhydramnios/Macrosomia)",
+      "URGENT REFERRAL: Reduced fetal movements"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "OGTT (Oral Glucose Tolerance Test)", findings: "Elevated sugar at 1h or 2h", importance: "Gold standard" },
+        { name: "GCT (Glucose Challenge Test)", findings: ">140 mg/dL after 50g glucose", importance: "Screening at 24-28 weeks" }
+      ],
+      laboratoryFindings: [
+        { name: "HbA1c", findings: "May be normal (reflects long term)", importance: "Baseline check" },
+        { name: "USG Obstetrics", findings: "Macrosomia; increased amniotic fluid", importance: "Monitor fetal growth" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "IADPSG Criteria (75g OGTT)",
+      criteria: [
+        "Fasting: ≥ 92 mg/dL.",
+        "1 hour: ≥ 180 mg/dL.",
+        "2 hour: ≥ 153 mg/dL.",
+        "Any one abnormal value confirms GDM."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Pregestational Diabetes", distinguishingFeatures: "Present before 20 weeks; HbA1c often high; persistent postpartum." },
+      { condition: "Normal Pregnancy Glycosuria", distinguishingFeatures: "Normal blood sugar; only sugar in urine due to lowered renal threshold." }
+    ],
+    complications: {
+      common: ["Macrosomia (Big baby)", "Polyhydramnios"],
+      serious: ["Preeclampsia", "Shoulder dystocia during birth", "Neonatal hypoglycemia"],
+      lifeThreatening: ["Stillbirth (if uncontrolled)", "Ketoacidosis (Rare in GDM)"]
+    },
+    conventionalManagement: {
+      general: ["Medical Nutrition Therapy (MNT)", "Self-monitoring of blood glucose (SMBG)", "Exercise (walking)"],
+      medical: ["Insulin (if diet fails)", "Metformin (in some cases)"],
+      prevention: ["Pre-pregnancy weight control", "Healthy diet"]
+    },
+    homoeopathicApproach: "Aims to support the metabolic process and manage constitutional factors. Remedies can help in stabilizing sugar levels but must be used alongside conventional monitoring.",
+    relatedRemedies: [
+      { name: "Syzygium Jambolanum", keyIndications: "Specific for diabetes; reduces sugar in urine; great thirst; weakness." },
+      { name: "Phosphoric Acid", keyIndications: "Anxiety and grief; passes large amounts of pale urine; weakness; indifferent." },
+      { name: "Natrum Muriaticum", keyIndications: "Great thirst; salt craving; associated with stress and hypertension." },
+      { name: "Lycopodium", keyIndications: "Cravings for sweets; gas/bloating; worse 4-8 PM; constitutional support." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "preeclampsia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Screen at 24-28 weeks", "Macrosomia risk", "hPL is the cause"],
+      miasmaticDominance: "Sycotic (Growth/Over-nutrition) / Psora (Functional defect)",
+      thermalState: "Hot",
+      organAffinity: "Pancreas, Placenta, Liver",
+      memoryMnemonic: "SUGAR: Screening, USG for growth, Glucose control, Antenatal monitoring, Risk of T2DM later"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent birth injuries (shoulder dystocia) and neonatal hypoglycemia.",
+        severityAssessment: "Based on blood glucose profile (fasting and post-prandial).",
+        referralCriteria: ["Consistently high sugars despite diet", "Macrosomia on USG"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Grief (Phos Acid)", "Irritability"],
+        physicalGenerals: {
+          thermalState: "Hot",
+          thirst: "Great thirst (Polydipsia)",
+          appetite: "Increased (Polyphagia)",
+          desires: ["Sweets", "Salt"],
+          aversions: ["Bread"],
+          sleep: "Drowsiness after meals",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: After eating, sweets.", "Amel: Exercise, cool air"],
+        concomitants: ["Pruritus vulvae", "Frequent urination"],
+        characteristicParticulars: [
+          "Mouth: Very dry, even with frequent drinking.",
+          "Skin: Recurrent fungal infections or itching."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Passing of large quantities of urine that leaves a white powdery deposit or feels sticky."],
+        individualExpression: "A sycotic-psoric metabolic disharmony where the vital force is unable to maintain glucose homeostasis against the hormonal surge of the placenta."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Urine, sugar, pregnancy, in", chapter: "Urine" },
+          { rubric: "Stomach, thirst, extreme", chapter: "Stomach" }
+        ],
+        symptomAnalysis: "Focus on the physical generals (thirst/appetite) and the metabolic constitution."
+      }
+    }
+  },
+  {
+    id: "ectopic-pregnancy",
+    name: "Ectopic Pregnancy",
+    slug: "ectopic-pregnancy",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "A pregnancy in which the fertilized egg implants outside the main cavity of the uterus, most commonly in a fallopian tube.",
+    simpleExplanation: "A dangerous condition where the baby starts to grow in the wrong place, usually in the tubes. It cannot survive and can cause life-threatening bleeding for the mother.",
+    examKeywords: ["Tubal pregnancy", "Shoulder tip pain", "Cervical motion tenderness", "Arias-Stella reaction", "Empty uterus with positive hCG"],
+    epidemiology: {
+      ageDistribution: "Women of reproductive age.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["History of PID", "Previous ectopic", "Smoking", "IUD users"],
+    },
+    etiology: {
+      predisposingFactors: ["Damage to fallopian tubes (PID/Surgery)", "Endometriosis"],
+      precipitatingFactors: ["Delayed transport of the fertilized ovum"],
+      riskFactors: ["Smoking", "In vitro fertilization (IVF)", "Tubal ligation reversal"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Abnormal Implantation", description: "Zygote implants in the tubal mucosa instead of the endometrium." },
+        { title: "Trophoblastic Invasion", description: "Placental tissue invades the thin tubal wall and blood vessels." },
+        { title: "Tubal Distension", description: "Growth of the embryo stretches the tube, causing pain." },
+        { title: "Rupture", description: "Tube bursts, leading to massive internal hemorrhage (hemoperitoneum)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Amenorrhea", "Abdominal pain (unilateral)", "Vaginal spotting"],
+      localSymptoms: ["Shoulder tip pain (referred from diaphragm)", "Cervical motion tenderness (Chandelier sign)"],
+      constitutionalFeatures: ["Fainting", "Shock (pallor, tachycardia, hypotension)"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Sudden, severe abdominal pain with fainting",
+      "OBSTETRIC EMERGENCY: Shoulder tip pain (indicates internal bleeding)",
+      "OBSTETRIC EMERGENCY: Signs of shock (rapid pulse, low BP)",
+      "URGENT REFERRAL: Positive pregnancy test with severe one-sided pain"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Transvaginal USG (TVS)", findings: "Empty uterus; Adnexal mass; Fluid in Pouch of Douglas", importance: "Primary imaging" },
+        { name: "Serum Beta-hCG", findings: "Sub-optimal rise (fails to double in 48h)", importance: "Biochemical confirmation" }
+      ],
+      laboratoryFindings: [
+        { name: "Hb/PCV", findings: "Falling Hb", importance: "Monitor internal bleeding" },
+        { name: "Culdocentesis", findings: "Non-clotting blood (rarely done now)", importance: "Confirm hemoperitoneum" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnostic Triad",
+      criteria: [
+        "1. Amenorrhea (Short period).",
+        "2. Abdominal pain.",
+        "3. Vaginal bleeding.",
+        "Plus: Empty uterus on USG with hCG above discriminatory zone (>1500-2000)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Salpingitis (PID)", distinguishingFeatures: "Fever; bilateral pain; negative hCG." },
+      { condition: "Appendicitis", distinguishingFeatures: "Pain starts at umbilicus moves to RLQ; fever; negative hCG." },
+      { condition: "Threatened Abortion", distinguishingFeatures: "IUP seen on USG; pain is midline." }
+    ],
+    complications: {
+      common: ["Vaginal spotting", "Pelvic pain"],
+      serious: ["Tubal rupture", "Hemoperitoneum"],
+      lifeThreatening: ["Hemorrhagic shock", "Maternal death"]
+    },
+    conventionalManagement: {
+      general: ["Hospitalization", "Stabilization of vitals"],
+      medical: ["Methotrexate (if unruptured and small)"],
+      surgical: ["Salpingectomy (removal of tube)", "Salpingostomy (opening tube) - Laparoscopic preferred"],
+      prevention: ["Early treatment of Pelvic Inflammatory Disease (PID)", "Safe sexual practices", "Smoking cessation"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO ROLE in the acute management of ectopic pregnancy. It is a surgical emergency. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Arnica Montana", keyIndications: "Post-operative healing; trauma to pelvic organs." },
+      { name: "Staphysagria", keyIndications: "Healing of clean-cut surgical wounds; psychological trauma." },
+      { name: "China (Cinchona)", keyIndications: "Debility from loss of vital fluids (blood)." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "spontaneous-abortion"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Tube is commonest site", "Empty uterus + Positive hCG", "Surgical Emergency"],
+      miasmaticDominance: "Syphilitic (Structural destruction/Rupture)",
+      thermalState: "Chilly (Shock)",
+      organAffinity: "Fallopian tubes, Peritoneum",
+      memoryMnemonic: "PAIN: Positive hCG, Abdominal pain, Internal bleeding, No IUP"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Life-saving; to prevent death from internal hemorrhage.",
+        severityAssessment: "Based on presence of rupture and hemodynamic stability.",
+        referralCriteria: ["IMMEDIATE SURGICAL REFERRAL"]
+      },
+      individualization: {
+        mentalGenerals: ["Terror", "Fear of death", "Faintness"],
+        physicalGenerals: {
+          thermalState: "Cold (Shock)",
+          thirst: "Great thirst (after blood loss)",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Comatose/Fainting",
+          perspiration: "Cold, clammy"
+        },
+        modalities: ["Agg: Motion, touch.", "Amel: Absolute rest (pre-op)"],
+        concomitants: ["Nausea", "Fainting"],
+        characteristicParticulars: [
+          "Abdomen: Intolerable pain, as if something has burst inside.",
+          "Shoulder: Sharp pain in the right shoulder tip when lying down."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["A sudden feeling of 'something giving way' followed by collapse."],
+        individualExpression: "A catastrophic syphilitic event where the vital force is unable to contain the life-process within the proper physiological boundaries."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, pregnancy, extrauterine", chapter: "Female" },
+          { rubric: "Abdomen, pain, pregnancy, during", chapter: "Abdomen" }
+        ],
+        symptomAnalysis: "N/A - This is a surgical emergency."
+      }
+    }
+  },
+  {
+    id: "spontaneous-abortion",
+    name: "Spontaneous Abortion",
+    slug: "spontaneous-abortion",
+    system: "obstetrics",
+    category: "Complication",
+    definition: "The loss of a pregnancy naturally before 20 weeks of gestation (also called a miscarriage).",
+    simpleExplanation: "A natural loss of pregnancy. It's very common in the first few months and often happens because the baby wasn't developing normally.",
+    examKeywords: ["Miscarriage", "Threatened", "Inevitable", "Incomplete", "Missed abortion"],
+    epidemiology: {
+      ageDistribution: "Increases with maternal age (>35).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Previous miscarriage", "Smoking", "Uncontrolled diabetes"],
+    },
+    etiology: {
+      predisposingFactors: ["Chromosomal abnormalities (50%)", "Hormonal issues (Luteal phase defect)"],
+      precipitatingFactors: ["Infection", "Trauma", "Uterine anomalies"],
+      riskFactors: ["Advanced maternal age", "Alcohol/Drugs", "Environmental toxins"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fetal Demise", description: "Often due to genetic errors, the embryo stops growing." },
+        { title: "Hormonal Withdrawal", description: "Progesterone levels drop, leading to decidual breakdown." },
+        { title: "Uterine Contractions", description: "Uterus attempts to expel the contents." },
+        { title: "Expulsion", description: "Passing of products of conception (blood, clots, tissue)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Vaginal bleeding", "Cramping abdominal pain"],
+      localSymptoms: ["Dilated cervix (in inevitable/incomplete)", "Passage of tissue (fleshy mass)"],
+      constitutionalFeatures: ["Backache", "Faintness (if bleeding is heavy)"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Heavy bleeding (soaking >1 pad/hour)",
+      "OBSTETRIC EMERGENCY: Severe abdominal pain or rigid abdomen",
+      "URGENT REFERRAL: Fever and foul-smelling discharge (Septic abortion)",
+      "URGENT REFERRAL: Passing tissue"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Obstetrics", findings: "Absence of fetal heart; Retained products", importance: "Confirm type of abortion" },
+        { name: "Speculum Exam", findings: "Cervical os status; Bleeding source", importance: "Clinical staging" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Beta-hCG", findings: "Falling levels", importance: "Monitor resolution" },
+        { name: "Blood Group/Rh", findings: "Check for Rh-neg status", importance: "Prevent sensitization" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Types of Abortion",
+      criteria: [
+        "Threatened: OS closed; bleeding mild; fetus alive.",
+        "Inevitable: OS open; bleeding heavy; fetus may be alive.",
+        "Incomplete: OS open; some tissue passed; some retained.",
+        "Missed: OS closed; fetus dead but retained in utero."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Ectopic Pregnancy", distinguishingFeatures: "Adnexal mass; empty uterus; unilateral pain." },
+      { condition: "Molar Pregnancy", distinguishingFeatures: "Snowstorm appearance; high hCG; larger uterus." },
+      { condition: "Cervical Polyp", distinguishingFeatures: "Painless bleeding; visible on speculum exam." }
+    ],
+    complications: {
+      common: ["Emotional distress", "Anemia"],
+      serious: ["Septic abortion", "Severe hemorrhage"],
+      lifeThreatening: ["Disseminated Intravascular Coagulation (DIC)", "Septic shock"]
+    },
+    conventionalManagement: {
+      general: ["Rest (for threatened)", "Emotional support"],
+      medical: ["Misoprostol (to help expel tissue)", "Antibiotics (if septic)", "Anti-D immunoglobulin (for Rh-neg mothers)"],
+      surgical: ["Dilation and Evacuation (D&E) or Manual Vacuum Aspiration (MVA)"],
+      prevention: ["Pre-conception counseling", "Management of underlying maternal diseases (Diabetes, Thyroid)", "Avoiding toxins (smoking, alcohol)"]
+    },
+    homoeopathicApproach: "Aims to prevent abortion in 'Threatened' cases and support the emotional and physical recovery. Must be used with close monitoring.",
+    relatedRemedies: [
+      { name: "Sabina", keyIndications: "Threatened abortion in 3rd month; pain from sacrum to pubes; bright red blood with clots; worse for least motion." },
+      { name: "Secale Cornutum", keyIndications: "Passive bleeding; dark, thin blood; body feels cold but wants to be uncovered; thin, cachectic women." },
+      { name: "Viburnum Opulus", keyIndications: "Frequent and early miscarriages; colicky pains in pelvic region; 'preventive' remedy for habitual abortion." },
+      { name: "Ignatia", keyIndications: "Emotional support for grief following pregnancy loss." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "ectopic-pregnancy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Before 20 weeks", "Chromosomal commonest cause", "Rh-D prophylaxis important"],
+      miasmaticDominance: "Syphilitic (Loss/Death) / Psora (Functional irritability)",
+      thermalState: "Variable",
+      organAffinity: "Uterus, Decidua",
+      memoryMnemonic: "LOSS: Level of hCG, OS status, USG findings, Support needed"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage accordingly (conservative vs. surgical) and prevent sepsis.",
+        severityAssessment: "Based on amount of blood loss and presence of infection.",
+        referralCriteria: ["Heavy bleeding", "Fever", "Severe pain"]
+      },
+      individualization: {
+        mentalGenerals: ["Great anxiety", "Grief", "Irritability"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Nil during crisis",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Disturbed",
+          perspiration: "Cold sweat during pain"
+        },
+        modalities: ["Agg: Least motion (Sabina), heat.", "Amel: Rest, cool air (Secale)"],
+        concomitants: ["Nausea", "Fainting"],
+        characteristicParticulars: [
+          "Uterus: Pain extending from the sacrum to the pubes.",
+          "Blood: Bright red, fluid, and mixed with dark clots (Sabina)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Miscarriage occurring characteristically at the same month in every pregnancy (Habitual abortion)."],
+        individualExpression: "A tragic sycotic-syphilitic event where the vital force is unable to sustain the structural integrity of the pregnancy."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, abortion, threatened", chapter: "Female" },
+          { rubric: "Female, abortion, habitual", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the character of the pain and the type of bleeding."
+      }
+    }
+  },
+  {
+    id: "antepartum-hemorrhage",
+    name: "Antepartum Hemorrhage (APH)",
+    slug: "antepartum-hemorrhage",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "Bleeding from or into the genital tract after 24 weeks of pregnancy but before the birth of the baby.",
+    simpleExplanation: "Vaginal bleeding that happens during the last few months of pregnancy. It is always a serious sign and needs immediate medical check.",
+    examKeywords: ["After 24 weeks", "Placenta previa", "Abruptio placentae", "Obstetric emergency", "Painless vs Painful"],
+    epidemiology: {
+      ageDistribution: "All pregnant women >24 weeks; higher in grand multipara.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Previous APH", "Advanced maternal age", "Hypertension"],
+    },
+    etiology: {
+      predisposingFactors: ["Placental issues", "Vascular disease", "Trauma"],
+      precipitatingFactors: ["Separation of the placenta", "Ruptured vasa previa"],
+      riskFactors: ["Smoking", "Cocaine use", "Uterine scars"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vascular Rupture", description: "Blood vessels at the placental site or cervical area rupture." },
+        { title: "Hemorrhage", description: "Blood may escape vaginally (revealed) or stay behind the placenta (concealed)." },
+        { title: "Fetal Compromise", description: "Reduced blood flow to the baby leading to hypoxia." },
+        { title: "Maternal Shock", description: "If bleeding is heavy, the mother's vitals collapse." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Vaginal bleeding (Bright or dark red)", "Abdominal pain (in abruption)"],
+      localSymptoms: ["Uterine tenderness", "High presenting part"],
+      constitutionalFeatures: ["Tachycardia", "Hypotension", "Pallor"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: ANY vaginal bleeding after 24 weeks",
+      "OBSTETRIC EMERGENCY: Severe abdominal pain with bleeding",
+      "OBSTETRIC EMERGENCY: Signs of shock",
+      "OBSTETRIC EMERGENCY: Tense, tender uterus"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Obstetrics", findings: "Placental position; Retro-placental clot", importance: "Distinguish previa from abruption" },
+        { name: "Clinical Exam", findings: "Avoid PV exam until previa is ruled out", importance: "Crucial safety rule" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC/Cross-match", findings: "Hb level", importance: "Prepare for transfusion" },
+        { name: "Coagulation Profile", findings: "Monitor for DIC", importance: "Rule out clotting failure" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Major Causes",
+      criteria: [
+        "1. Placenta Previa (Painless, revealed).",
+        "2. Abruptio Placentae (Painful, may be concealed).",
+        "3. Local causes (Polyp, cancer).",
+        "4. Vasa Previa (Fetal bleeding)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Placenta Previa", distinguishingFeatures: "Painless; bright red; uterus soft." },
+      { condition: "Abruptio Placentae", distinguishingFeatures: "Painful; dark red; uterus tense/tender." },
+      { condition: "Show", distinguishingFeatures: "Normal labor sign; small amount with mucus." }
+    ],
+    complications: {
+      common: ["Anemia", "Premature delivery"],
+      serious: ["DIC", "Postpartum hemorrhage", "Renal failure"],
+      lifeThreatening: ["Maternal death", "Stillbirth", "Hemorrhagic shock"]
+    },
+    conventionalManagement: {
+      general: ["Hospitalization", "Strict bed rest", "Fetal monitoring (CTG)"],
+      medical: ["IV fluids", "Blood transfusion", "Corticosteroids (for lung maturity)"],
+      surgical: ["Cesarean section (if previa or severe abruption)"],
+      prevention: ["Avoiding smoking and cocaine", "Close monitoring of high-risk pregnancies (twins, previous scars)"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO ROLE in the acute management of APH. It is a life-threatening emergency. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Sabina", keyIndications: "Bright red blood with clots; pain from sacrum to pubes (threatened labor/abortion)." },
+      { name: "Hamamelis", keyIndications: "Passive, dark venous hemorrhage; soreness in abdomen." },
+      { name: "Trillium Pendulum", keyIndications: "Active hemorrhage; bright red; faintness; sense of 'falling apart' in pelvis." }
+    ],
+    relatedDiseases: ["placenta-previa", "placental-abruption"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["After 24 weeks", "NEVER do PV exam first", "Previa vs Abruption"],
+      miasmaticDominance: "Syphilitic (Destructive hemorrhage)",
+      thermalState: "Cold (Shock)",
+      organAffinity: "Uterus, Placenta",
+      memoryMnemonic: "BLEED: Blood loss, Locate placenta, Evaluate fetus, Emergency delivery?, DIC check"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Life-saving; to decide on immediate delivery vs. conservative management.",
+        severityAssessment: "Based on amount of bleeding and fetal heart rate.",
+        referralCriteria: ["ANY bleeding after 24 weeks requires immediate hospital referral"]
+      },
+      individualization: {
+        mentalGenerals: ["Terror", "Gasping for air", "Fear of death"],
+        physicalGenerals: {
+          thermalState: "Cold",
+          thirst: "Intense for cold water (Phos)",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Fainting",
+          perspiration: "Cold sweat"
+        },
+        modalities: ["Agg: Motion.", "Amel: Absolute rest"],
+        concomitants: ["Shock", "Air hunger"],
+        characteristicParticulars: [
+          "Uterus: Tense, hard as a board (Abruption).",
+          "Blood: Flooding of bright red blood (Previa)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["A sudden gush of blood without any preceding pain or injury (Previa)."],
+        individualExpression: "A catastrophic syphilitic-sycotic event where the placental bond is prematurely severed, threatening both lives."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, hemorrhage, pregnancy, during", chapter: "Female" },
+          { rubric: "Female, placenta previa", chapter: "Female" }
+        ],
+        symptomAnalysis: "N/A - This is an obstetric emergency."
+      }
+    }
+  },
+  {
+    id: "placenta-previa",
+    name: "Placenta Previa",
+    slug: "placenta-previa",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "A condition where the placenta implants in the lower segment of the uterus, partially or completely covering the internal cervical os.",
+    simpleExplanation: "When the 'afterbirth' (placenta) is in the wrong place, blocking the exit for the baby. It causes painless bleeding and usually requires a C-section.",
+    examKeywords: ["Lower uterine segment", "Painless bleeding", "Stallworthy's sign", "NEVER do PV", "Marginal/Partial/Total"],
+    epidemiology: {
+      ageDistribution: "More common in older mothers (>35).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Previous C-section", "Multiparity", "Multiple pregnancy", "Previous previa"],
+    },
+    etiology: {
+      predisposingFactors: ["Uterine scarring", "Large placenta (twins)", "Smoking"],
+      precipitatingFactors: ["Low implantation of the blastocyst"],
+      riskFactors: ["Previous curettage", "Multiparity"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Low Implantation", description: "The embryo implants in the lower part of the uterus." },
+        { title: "Placental Growth", description: "The placenta grows and covers the internal opening (os) of the cervix." },
+        { title: "Segment Stretching", description: "As the lower segment stretches in late pregnancy, placental attachments tear." },
+        { title: "Painless Bleeding", description: "Separation causes bright red revealed hemorrhage." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Painless vaginal bleeding (sudden/bright red)", "Bleeding often occurs during sleep"],
+      localSymptoms: ["Soft, non-tender uterus", "Fetal parts easily felt", "Malpresentation (breech/transverse)"],
+      constitutionalFeatures: ["Vitals match the amount of revealed blood"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Sudden painless bright red bleeding",
+      "OBSTETRIC EMERGENCY: Warning bleeds (small gushes before a major one)",
+      "OBSTETRIC EMERGENCY: Signs of fetal distress"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Transabdominal USG", findings: "Placenta covering internal os", importance: "Primary screening" },
+        { name: "Transvaginal USG", findings: "Precise distance from os", importance: "Gold standard; safe if done carefully" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Anemia", importance: "Assess loss" },
+        { name: "Blood Cross-match", findings: "Ready for transfusion", importance: "Preparation" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Classification",
+      criteria: [
+        "Type I (Low-lying): Margin does not reach os.",
+        "Type II (Marginal): Margin reaches internal os.",
+        "Type III (Partial): Partially covers os.",
+        "Type IV (Total): Completely covers internal os."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Abruptio Placentae", distinguishingFeatures: "Painful; dark blood; tense uterus." },
+      { condition: "Vasa Previa", distinguishingFeatures: "Rupture of membranes + Fetal bradycardia." },
+      { condition: "Local Cervical Lesions", distinguishingFeatures: "Visible on speculum exam; usually mild bleeding." }
+    ],
+    complications: {
+      common: ["Preterm delivery", "Anemia"],
+      serious: ["Placenta accreta (placenta stuck to wall)", "PPH", "Malpresentation"],
+      lifeThreatening: ["Exsanguination (Fatal bleeding)", "Fetal hypoxia"]
+    },
+    conventionalManagement: {
+      general: ["Expectant management (MacAfee regime) if <37 weeks and bleeding mild", "Strict bed rest in hospital"],
+      medical: ["Blood transfusion", "Steroids for lung maturity"],
+      surgical: ["Cesarean section (Definitive for Type II-IV)"],
+      prevention: ["Early USG to locate placenta", "Avoiding manual examination (PV) in cases of bleeding"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO ROLE in the management of placenta previa. It is a major obstetric emergency. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Sabina", keyIndications: "Bright red blood with clots; worse for least motion." },
+      { name: "Phosphorus", keyIndications: "Flooding of bright red blood; thirsty for cold water." },
+      { name: "Ipecacuanha", keyIndications: "Bright red bleeding with constant nausea." }
+    ],
+    relatedDiseases: ["antepartum-hemorrhage", "placental-abruption"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Painless, Bright Red", "Lower segment", "C-section usually needed"],
+      miasmaticDominance: "Syphilitic (Destructive/Structural anomaly)",
+      thermalState: "Variable",
+      organAffinity: "Lower uterine segment, Placenta",
+      memoryMnemonic: "PREVIA: Painless, Revealed blood, Every bleed is warning, IV access, Avoid PV"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To avoid fatal hemorrhage during a pelvic exam or labor.",
+        severityAssessment: "Based on amount of bleeding and placental type.",
+        referralCriteria: ["ANY bleeding after 24 weeks"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Fear", "Prostration"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Intense (Phos)",
+          appetite: "Nil",
+          desires: ["Cold drinks"],
+          aversions: ["None"],
+          sleep: "Fainting",
+          perspiration: "Cold"
+        },
+        modalities: ["Agg: Any motion, touch.", "Amel: Absolute rest"],
+        concomitants: ["Nausea (Ipecac)", "Faintness"],
+        characteristicParticulars: [
+          "Uterus: Relaxed and soft even during bleeding.",
+          "Blood: Sudden, profuse, bright red gush."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Painless bleeding that often starts while the patient is asleep and wakes her up."],
+        individualExpression: "A structural sycotic anomaly of implantation leading to a syphilitic vascular crisis."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, placenta previa", chapter: "Female" },
+          { rubric: "Female, hemorrhage, bright red", chapter: "Female" }
+        ],
+        symptomAnalysis: "N/A - This is an obstetric emergency."
+      }
+    }
+  },
+  {
+    id: "placental-abruption",
+    name: "Placental Abruption",
+    slug: "placental-abruption",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "The premature separation of a normally implanted placenta from the uterine wall after 24 weeks of pregnancy.",
+    simpleExplanation: "When the placenta starts to peel away from the womb too early. This causes severe pain and bleeding and is very dangerous for both the mother and baby.",
+    examKeywords: ["Abruptio placentae", "Painful bleeding", "Board-like rigidity", "Couvelaire uterus", "DIC risk"],
+    epidemiology: {
+      ageDistribution: "Grand multipara; advanced maternal age.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Hypertension (Commonest)", "Smoking", "Cocaine use", "Trauma (RTA/Domestic violence)"],
+    },
+    etiology: {
+      predisposingFactors: ["Preeclampsia/Hypertension", "Chronic renal disease"],
+      precipitatingFactors: ["Sudden uterine decompression (ROM with polyhydramnios)", "Short umbilical cord"],
+      riskFactors: ["External cephalic version", "Previous abruption"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vessel Rupture", description: "Rupture of maternal spiral arteries in the decidua basalis." },
+        { title: "Hematoma Formation", description: "Blood accumulates behind the placenta (Retro-placental hematoma)." },
+        { title: "Separation", description: "Pressure from the hematoma shears the placenta off the wall." },
+        { title: "Uterine Tension", description: "Blood may infiltrate the uterine muscle (Couvelaire uterus), causing severe pain and rigidity." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Abdominal pain (severe/persistent)", "Vaginal bleeding (usually dark/scanty)"],
+      localSymptoms: [
+        "Uterus is tense and tender ('Board-like rigidity')",
+        "Fetal parts difficult to feel",
+        "Fetal heart sounds may be absent or distressed"
+      ],
+      constitutionalFeatures: ["Shock (often out of proportion to revealed blood)", "Backache"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Severe, constant abdominal pain",
+      "OBSTETRIC EMERGENCY: Tense, tender 'woody' uterus",
+      "OBSTETRIC EMERGENCY: Signs of shock with little visible bleeding (Concealed hemorrhage)",
+      "OBSTETRIC EMERGENCY: Absent fetal movements"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Pain + Rigid uterus", importance: "Primary for action" },
+        { name: "USG Obstetrics", findings: "Retro-placental clot (may be missed in 50%)", importance: "Rule out previa" }
+      ],
+      laboratoryFindings: [
+        { name: "Coagulation Profile", findings: "Low fibrinogen; Elevated PT/APTT", importance: "Check for DIC" },
+        { name: "Kleihauer-Betke Test", findings: "Fetal cells in maternal blood", importance: "Assess feto-maternal hemorrhage" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Classification",
+      criteria: [
+        "Revealed: Blood escapes vaginally.",
+        "Concealed: Blood stays behind placenta (More dangerous).",
+        "Mixed: Both revealed and concealed."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Placenta Previa", distinguishingFeatures: "Painless; bright red; uterus soft." },
+      { condition: "Uterine Rupture", distinguishingFeatures: "Previous scar; loss of fetal station; shock." },
+      { condition: "Acute Abdomen", distinguishingFeatures: "Negative pregnancy signs or different location." }
+    ],
+    complications: {
+      common: ["Anemia", "Preterm labor"],
+      serious: ["DIC (Clotting failure)", "Couvelaire uterus", "Renal failure"],
+      lifeThreatening: ["Maternal death", "Stillbirth (Fetal death)", "Hemorrhagic shock"]
+    },
+    conventionalManagement: {
+      general: ["Emergency hospitalization", "ABC stabilization"],
+      medical: ["Blood and FFP transfusion", "Fluid replacement"],
+      surgical: ["Immediate delivery (usually C-section unless labor is imminent and fetus is dead)"],
+      prevention: ["Management of maternal hypertension", "Avoiding abdominal trauma", "Cocaine and smoking cessation"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO ROLE in the management of placental abruption. It is a life-threatening surgical emergency. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Secale Cornutum", keyIndications: "Passive bleeding; dark, liquid blood; associated with uterine atony." },
+      { name: "Arnica Montana", keyIndications: "Traumatic causes; bruised feeling; shock." },
+      { name: "Sabina", keyIndications: "Pain from sacrum to pubes; bright red blood." }
+    ],
+    relatedDiseases: ["placenta-previa", "antepartum-hemorrhage"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Painful, Dark blood", "Woody/Hard uterus", "Hypertension is main cause"],
+      miasmaticDominance: "Syphilitic (Destructive separation)",
+      thermalState: "Cold (Shock)",
+      organAffinity: "Uterine wall, Placenta",
+      memoryMnemonic: "PAIN: Painful, Abrupt onset, Internal bleeding (concealed), Note fetal distress"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Critical to prevent maternal death from DIC and shock.",
+        severityAssessment: "Based on uterine tone and maternal vitals.",
+        referralCriteria: ["IMMEDIATE HOSPITALIZATION REQUIRED"]
+      },
+      individualization: {
+        mentalGenerals: ["Terror", "Intense pain", "Restlessness"],
+        physicalGenerals: {
+          thermalState: "Cold",
+          thirst: "Extreme",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Fainting",
+          perspiration: "Cold clammy sweat"
+        },
+        modalities: ["Agg: Pressure on abdomen, motion.", "Amel: None (Absolute emergency)"],
+        concomitants: ["Shock", "Nausea"],
+        characteristicParticulars: [
+          "Uterus: Tense, tender, and becomes larger (if concealed).",
+          "Pain: Constant, agonizing, tearing pain in the abdomen."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Severe abdominal pain followed by the sensation of the baby moving violently then stopping (Fetal demise)."],
+        individualExpression: "A violent syphilitic eruption of the vascular system leading to structural detachment and life-threatening hemorrhage."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, hemorrhage, painful", chapter: "Female" },
+          { rubric: "Abdomen, pain, pregnancy, during", chapter: "Abdomen" }
+        ],
+        symptomAnalysis: "N/A - This is an obstetric emergency."
+      }
+    }
+  },
+  {
+    id: "preterm-labor",
+    name: "Preterm Labor",
+    slug: "preterm-labor",
+    system: "obstetrics",
+    category: "Complication",
+    definition: "Regular uterine contractions resulting in cervical change that occur before 37 completed weeks of gestation.",
+    simpleExplanation: "When the body starts going into labor too early, before the baby is fully ready to be born (before 37 weeks).",
+    examKeywords: ["Before 37 weeks", "Fetal Fibronectin (fFN)", "Cervical shortening", "Tocolytics", "Steroids"],
+    epidemiology: {
+      ageDistribution: "<18 or >35 years.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Previous preterm birth", "Multiple pregnancy", "Infections (UTI/Vaginosis)", "Smoking"],
+    },
+    etiology: {
+      predisposingFactors: ["Overdistension (twins/polyhydramnios)", "Uterine anomalies"],
+      precipitatingFactors: ["Infection", "Stress", "Vascular disease"],
+      riskFactors: ["Low BMI", "Short interpregnancy interval", "Physical overexertion"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Activation", description: "Premature activation of the maternal-fetal HPA axis due to stress or infection." },
+        { title: "Inflammation", description: "Release of prostaglandins and cytokines triggers cervical ripening." },
+        { title: "Contractions", description: "Uterus begins regular contractions." },
+        { title: "Cervical Change", description: "Cervix thins (effaces) and opens (dilates)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Regular uterine contractions (≥4 in 20 mins)", "Dull low backache", "Pelvic pressure"],
+      localSymptoms: ["Vaginal discharge (mucoid/bloody)", "Cervical effacement/dilation"],
+      constitutionalFeatures: ["Abdominal cramps"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Regular contractions before 37 weeks",
+      "OBSTETRIC EMERGENCY: Rupture of membranes (leaking fluid)",
+      "URGENT REFERRAL: Bloody show or increased pressure"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Cervical Length (USG)", findings: "< 25 mm", importance: "Predictor of preterm birth" },
+        { name: "Fetal Fibronectin (fFN)", findings: "Positive", importance: "High negative predictive value" }
+      ],
+      laboratoryFindings: [
+        { name: "Urine Culture", findings: "UTI/Asymptomatic bacteriuria", importance: "Common trigger" },
+        { name: "Vaginal Swab", findings: "Bacterial vaginosis", importance: "Infectious cause" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnostic Criteria",
+      criteria: [
+        "1. Gestational age 20-37 weeks.",
+        "2. Regular contractions.",
+        "3. Cervical effacement ≥ 80% or dilation > 1 cm."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Braxton Hicks Contractions", distinguishingFeatures: "Irregular; no cervical change; disappear with rest/hydration." },
+      { condition: "UTI", distinguishingFeatures: "Pain with urination; positive culture; no cervical change." }
+    ],
+    complications: {
+      common: ["Premature delivery"],
+      serious: ["Respiratory Distress Syndrome (RDS) in neonate", "Intraventricular hemorrhage"],
+      lifeThreatening: ["Neonatal death", "Sepsis"]
+    },
+    conventionalManagement: {
+      general: ["Bed rest", "Hydration", "Treating underlying infections"],
+      medical: ["Tocolytics (Nifedipine) - to delay birth for 48h", "Corticosteroids (Dexamethasone) - for lung maturity", "Magnesium Sulfate - for fetal neuroprotection"],
+      surgical: ["Cervical cerclage (if incompetent cervix)"],
+      prevention: ["Progesterone supplementation in high-risk women", "Cervical cerclage for cervical insufficiency", "Treatment of asymptomatic bacteriuria"]
+    },
+    homoeopathicApproach: "Aims to stop the 'irritable' uterus in threatened cases and support the constitution. Must be used carefully alongside conventional monitoring.",
+    relatedRemedies: [
+      { name: "Caulophyllum", keyIndications: "False labor pains; 'moth patches' on face; needle-like pains in cervix; irritable uterus." },
+      { name: "Viburnum Opulus", keyIndications: "Preventive for early labor; colicky pains from back to pubes; cramps in legs." },
+      { name: "Secale Cornutum", keyIndications: "Threatened labor with constant, bearing down, but ineffective pains." },
+      { name: "Gelsemium", keyIndications: "Labor pains triggered by emotional shock or fear." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "prom"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Before 37 weeks", "Steroids are vital", "Tocolytics delay but don't stop"],
+      miasmaticDominance: "Psora (Functional irritability) / Sycotic (Overdistension)",
+      thermalState: "Variable",
+      organAffinity: "Uterine muscle, Cervix",
+      memoryMnemonic: "TIME: Tocolytics, Infection check, Maturity (steroids), Evaluation of cervix"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To administer steroids and improve neonatal survival.",
+        severityAssessment: "Based on cervical change and gestational age.",
+        referralCriteria: ["ANY regular contractions before 37 weeks"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Fear", "Restlessness"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Disturbed by pains",
+          perspiration: "Increased during pains"
+        },
+        modalities: ["Agg: Motion.", "Amel: Rest, pressure (Viburnum)"],
+        concomitants: ["Leg cramps", "Backache"],
+        characteristicParticulars: [
+          "Uterus: Frequent, short, and annoying contractions.",
+          "Cervix: Sensation of needle-like pricking or sharp pains."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Labor-like pains occurring prematurely, associated with a feeling of great exhaustion and 'moth-spots' on the face (Caulophyllum)."],
+        individualExpression: "An early psoric awakening of the uterine activity, reflecting a vital force unable to maintain the quietude of gestation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, labor, premature", chapter: "Female" },
+          { rubric: "Female, pain, back, sacrum to pubes", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the character of the pains and the emotional triggers."
+      }
+    }
+  },
+  {
+    id: "prom",
+    name: "PROM (Premature Rupture of Membranes)",
+    slug: "prom",
+    system: "obstetrics",
+    category: "Complication",
+    definition: "Rupture of the amniotic sac (leaking of water) before the onset of labor.",
+    simpleExplanation: "When the 'water breaks' before labor has actually started. If this happens before 37 weeks, it's called PPROM.",
+    examKeywords: ["Water breaking", "Nitrazine test", "Fern test", "Pooling in fornix", "Chorioamnionitis risk"],
+    epidemiology: {
+      ageDistribution: "All pregnant women.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["History of PROM", "Smoking", "Infection", "Multiple pregnancy"],
+    },
+    etiology: {
+      predisposingFactors: ["Infection (UTI/Vaginosis)", "Polyhydramnios"],
+      precipitatingFactors: ["Weakness of membrane structure", "Trauma"],
+      riskFactors: ["Smoking", "Nutritional deficiencies (Vit C/Copper)", "Cervical cerclage"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Membrane Weakening", description: "Enzymatic breakdown of collagen in the amniotic membranes." },
+        { title: "Rupture", description: "A hole or tear develops in the sac." },
+        { title: "Fluid Loss", description: "Amniotic fluid leaks out (gush or trickle)." },
+        { title: "Ascending Infection", description: "Pathogens from the vagina can now enter the sterile uterine cavity." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sudden gush of clear fluid from vagina", "Constant trickling of fluid"],
+      localSymptoms: ["Wet undergarments", "Reduction in uterine size"],
+      constitutionalFeatures: ["Fever/Tachycardia (if Chorioamnionitis develops)"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Leaking fluid before labor starts",
+      "OBSTETRIC EMERGENCY: Foul-smelling fluid",
+      "OBSTETRIC EMERGENCY: Fever or maternal tachycardia (Infection)",
+      "OBSTETRIC EMERGENCY: Meconium-stained (Green) fluid"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Speculum Exam", findings: "Pooling of fluid in posterior fornix", importance: "Primary diagnosis" },
+        { name: "Nitrazine Test", findings: "Paper turns blue (pH > 6.5)", importance: "Confirms amniotic fluid" }
+      ],
+      laboratoryFindings: [
+        { name: "Fern Test", findings: "Ferning pattern on dried slide", importance: "Microscopic confirmation" },
+        { name: "USG Obstetrics", findings: "Low amniotic fluid (Oligohydramnios)", importance: "Assess volume" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Categories",
+      criteria: [
+        "PROM: Rupture before labor onset (at term).",
+        "PPROM: Preterm PROM (before 37 weeks).",
+        "Prolonged PROM: > 18-24 hours."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Urinary Incontinence", distinguishingFeatures: "Odor of urine; negative Nitrazine/Fern tests." },
+      { condition: "Vaginal Discharge", distinguishingFeatures: "Thick/Mucoid; doesn't pool in fornix." },
+      { condition: "Liquefaction of Mucus Plug", distinguishingFeatures: "Thick, bloody-tinged; small amount." }
+    ],
+    complications: {
+      common: ["Early labor", "Neonatal jaundice"],
+      serious: ["Chorioamnionitis (Infection)", "Cord prolapse", "Placental abruption"],
+      lifeThreatening: ["Septicemia", "Neonatal sepsis", "Pulmonary hypoplasia (if early PPROM)"]
+    },
+    conventionalManagement: {
+      general: ["Hospitalization", "Avoid frequent PV exams"],
+      medical: ["Antibiotics (Erythromycin) - to prevent infection", "Steroids (if preterm)", "Induction of labor (if at term)"],
+      surgical: ["Delivery (if infection or term)"],
+      prevention: ["Treating vaginal infections early", "Avoiding smoking", "Adequate nutrition (Vitamin C)"]
+    },
+    homoeopathicApproach: "Homoeopathy cannot repair the ruptured sac. Management is primarily conventional to prevent infection. Remedies focus on supporting the immune system and managing labor.",
+    relatedRemedies: [
+      { name: "Pyrogenium", keyIndications: "Prevention and treatment of sepsis; pulse out of proportion to temperature; foul discharges." },
+      { name: "Caulophyllum", keyIndications: "To help in cases where labor is slow to start after PROM." },
+      { name: "Arnica Montana", keyIndications: "Promotes healing; feeling of soreness." }
+    ],
+    relatedDiseases: ["preterm-labor", "normal-pregnancy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Nitrazine/Fern tests", "Antibiotics needed", "Watch for sepsis"],
+      miasmaticDominance: "Syphilitic (Rupture/Destruction)",
+      thermalState: "Variable",
+      organAffinity: "Amniotic membranes, Vagina",
+      memoryMnemonic: "PROM: Pooling, Rising temp?, Os closed?, Monitor fetus"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent life-threatening ascending infection (Chorioamnionitis).",
+        severityAssessment: "Based on presence of fever, foul smell, and gestational age.",
+        referralCriteria: ["ANY leaking of fluid must be evaluated in hospital"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Restlessness", "Fear"],
+        physicalGenerals: {
+          thermalState: "Hot (if fever starts)",
+          thirst: "Great thirst (Pyrogen)",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Restless",
+          perspiration: "Foul smelling (Pyrogen)"
+        },
+        modalities: ["Agg: Motion.", "Amel: Rest"],
+        concomitants: ["Fever", "Rapid pulse"],
+        characteristicParticulars: [
+          "Vagina: Constant leaking of watery fluid that smells 'off'.",
+          "Pulse: Discrepancy between high pulse and low temperature (or vice versa)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Discharges that are characteristically foul, even in the absence of a high fever (Pyrogen)."],
+        individualExpression: "A syphilitic-sycotic breach of the protective barrier, exposing the developing life to the septic environment of the exterior."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, rupture of membranes, premature", chapter: "Female" },
+          { rubric: "Female, discharges, offensive", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on preventing sepsis and managing the onset of labor."
+      }
+    }
+  },
+  {
+    id: "normal-labor",
+    name: "Normal Labor",
+    slug: "normal-labor",
+    system: "obstetrics",
+    category: "Physiological",
+    definition: "The process by which the fetus, placenta, and membranes are expelled from the uterus after 28 weeks of gestation.",
+    simpleExplanation: "The natural process of childbirth, divided into stages: contractions and opening of the cervix, pushing the baby out, and delivering the placenta.",
+    examKeywords: ["Eutocia", "First stage", "Second stage", "Third stage", "Active management", "Partograph"],
+    epidemiology: {
+      ageDistribution: "Women of reproductive age.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Primigravida (longer duration)", "Multigravida"],
+    },
+    etiology: {
+      predisposingFactors: ["Maturity of the fetus", "Hormonal changes (Estrogen/Progesterone balance)"],
+      precipitatingFactors: ["Oxytocin release", "Uterine stretching", "Fetal cortisol"],
+      riskFactors: ["Favorable pelvis", "Longitudinal lie"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "First Stage", description: "From onset of true labor pains to full dilation of the cervix (10cm)." },
+        { title: "Second Stage", description: "From full dilation to the birth of the baby." },
+        { title: "Third Stage", description: "From birth of the baby to delivery of the placenta." },
+        { title: "Fourth Stage", description: "Observation period for 1-hour post-delivery." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Regular, painful uterine contractions", "Show (blood-stained mucus)", "Rupture of membranes"],
+      localSymptoms: ["Cervical effacement and dilation", "Formation of bag of waters", "Descent of the head"],
+      constitutionalFeatures: ["Increased pulse rate", "Sweating", "Emotional irritability during transition"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Prolapse of the umbilical cord",
+      "OBSTETRIC EMERGENCY: Severe bleeding before or during labor",
+      "URGENT REFERRAL: Failure to progress (Stalled labor)",
+      "URGENT REFERRAL: Fetal heart rate abnormalities"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Assessment", findings: "Dilation, station, and position", importance: "Primary monitoring" },
+        { name: "Partograph", findings: "Plotting progress against time", importance: "Early detection of abnormalities" }
+      ],
+      laboratoryFindings: [
+        { name: "CTG", findings: "Fetal heart rate patterns", importance: "Assess fetal well-being" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Signs of True Labor",
+      criteria: [
+        "1. Regular contractions with increasing frequency/intensity.",
+        "2. Progressive cervical dilation and effacement.",
+        "3. Pains not relieved by rest or sedation.",
+        "4. Presence of 'Show'."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "False Labor", distinguishingFeatures: "Irregular pains; no cervical change; relieved by walking/rest." },
+      { condition: "Braxton Hicks", distinguishingFeatures: "Painless; throughout pregnancy; irregular." }
+    ],
+    complications: {
+      common: ["Perineal tears", "Exhaustion"],
+      serious: ["Fetal distress", "Obstructed labor", "PPH"],
+      lifeThreatening: ["Uterine rupture", "Amniotic fluid embolism"]
+    },
+    conventionalManagement: {
+      general: ["Emotional support", "Encourage mobility in early stages", "Empty bladder frequently"],
+      medical: ["Analgesia (Entonox/Epidural)", "Oxytocin (for active management of 3rd stage)"],
+      surgical: ["Episiotomy (if needed)", "Instrumental delivery (Forceps/Ventouse)", "C-section (if complications)"],
+      prevention: ["Antenatal education and birth preparation", "Maintaining good maternal health and nutrition"]
+    },
+    homoeopathicApproach: "Assists in making labor 'natural' and efficient, reducing the need for intervention in 'irritable' or slow cases.",
+    relatedRemedies: [
+      { name: "Caulophyllum", keyIndications: "False labor pains; weak, irregular, spasmodic contractions; cervix rigid and slow to dilate." },
+      { name: "Cimicifuga (Actaea Racemosa)", keyIndications: "Pains fly across the abdomen from side to side; great mental depression and 'shivers' during labor." },
+      { name: "Gelsemium", keyIndications: "Rigid os; labor delayed by fear or emotional excitement; patient is 'dull, drowsy, and dizzy'." },
+      { name: "Arnica Montana", keyIndications: "Feeling of great soreness; prevents bruising and promotes recovery." }
+    ],
+    relatedDiseases: ["normal-pregnancy", "obstructed-labor", "pph"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["3 Stages of labor", "Partograph is essential", "10cm is full dilation"],
+      miasmaticDominance: "Psora (Functional effort)",
+      thermalState: "Hot (during active phase)",
+      organAffinity: "Uterus, Cervix, Pelvic floor",
+      memoryMnemonic: "POWER: Placenta, Opening of os, Water breaking, Expulsion, Recovery"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure a safe delivery and timely intervention if labor becomes abnormal.",
+        severityAssessment: "Based on partograph monitoring and maternal/fetal vitals.",
+        referralCriteria: ["Slow progress", "Fetal distress", "Meconium staining"]
+      },
+      individualization: {
+        mentalGenerals: ["Excitement", "Fear", "Irritability", "Giving up (Coffea)"],
+        physicalGenerals: {
+          thermalState: "Hot",
+          thirst: "Great during labor",
+          appetite: "Nil",
+          desires: ["Cool water"],
+          aversions: ["Food"],
+          sleep: "Nil during labor",
+          perspiration: "Profuse"
+        },
+        modalities: ["Agg: Motion (during contractions).", "Amel: Pressure on back (Kali Carb)"],
+        concomitants: ["Backache", "Nausea", "Leg cramps"],
+        characteristicParticulars: [
+          "Uterus: Contractions that are sharp, spasmodic, and seem to do nothing.",
+          "Cervix: Rigid and 'unyielding' despite strong pains (Gels)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Labor pains that seem to be felt mostly in the back and shoot down the legs (Kali Carb)."],
+        individualExpression: "The final psoric effort of the gestation process, where the vital force must coordinate complex muscular and hormonal systems to transition the fetus into the world."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, labor, slow", chapter: "Female" },
+          { rubric: "Female, labor, pains, spasmodic", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the character of the pains and the mental state of the mother."
+      }
+    }
+  },
+  {
+    id: "obstructed-labor",
+    name: "Obstructed Labor",
+    slug: "obstructed-labor",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "A labor in which progress is arrested by mechanical factors despite good uterine contractions.",
+    simpleExplanation: "A dangerous situation where the baby is physically stuck and cannot come out, even though the mother is having strong contractions.",
+    examKeywords: ["Mechanical obstruction", "Bandl's ring", "Caput succedaneum", "Moulding", "Uterine rupture risk"],
+    epidemiology: {
+      ageDistribution: "More common in very young mothers (immature pelvis).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Cephalopelvic disproportion (CPD)", "Malpresentations (Transverse/Face)", "Contracted pelvis"],
+    },
+    etiology: {
+      predisposingFactors: ["Maternal pelvic deformities (Rickets)", "Large fetus (Macrosomia)"],
+      precipitatingFactors: ["Malposition (OP position)", "Malpresentation (Breech/Shoulder)"],
+      riskFactors: ["Short stature", "Previous pelvic fracture"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Mechanical Block", description: "The baby's head or body cannot pass through the pelvic canal." },
+        { title: "Hyperactive Contractions", description: "Uterus contracts more forcefully to overcome the block." },
+        { title: "Ring Formation", description: "A pathological retraction ring (Bandl's ring) forms between the upper and lower segments." },
+        { title: "Uterine Exhaustion/Rupture", description: "The lower segment becomes dangerously thin and may burst." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Prolonged labor", "Severe, constant pain", "Maternal exhaustion"],
+      localSymptoms: ["Bandl's ring (visible/palpable groove)", "Dry, swollen vagina", "Extreme moulding of the head"],
+      constitutionalFeatures: ["Dehydration", "Fever", "Rapid, thready pulse", "Distended bladder"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Visible Bandl's ring in the abdomen",
+      "OBSTETRIC EMERGENCY: Signs of impending uterine rupture",
+      "OBSTETRIC EMERGENCY: Maternal shock and exhaustion",
+      "OBSTETRIC EMERGENCY: Fetal distress or death"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Exam", findings: "Tense uterus; Grooves; High head", importance: "Primary diagnosis" },
+        { name: "Vaginal Exam", findings: "Edematous cervix; Extreme caput", importance: "Confirm block" }
+      ],
+      laboratoryFindings: [
+        { name: "Urine Analysis", findings: "Ketones; Hematuria", importance: "Assess dehydration and trauma" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Signs of Obstruction",
+      criteria: [
+        "1. Strong contractions but no descent.",
+        "2. Edematous vulva/cervix.",
+        "3. Bandl's ring.",
+        "4. Maternal ketoacidosis and dehydration."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Uterine Inertia", distinguishingFeatures: "Weak contractions; no signs of distress/block." },
+      { condition: "Cervical Dystocia", distinguishingFeatures: "Cervix fails to dilate but no mechanical block of the fetus." }
+    ],
+    complications: {
+      common: ["Postpartum hemorrhage", "Severe infection"],
+      serious: ["Uterine rupture", "Vesicovaginal fistula (VVF)", "Rectovaginal fistula (RVF)"],
+      lifeThreatening: ["Maternal death", "Peritonitis", "Fetal death"]
+    },
+    conventionalManagement: {
+      general: ["Immediate hospitalization", "Rehydration with IV fluids", "Catheterization"],
+      medical: ["Antibiotics"],
+      surgical: ["Emergency Cesarean Section (Commonest)", "Destructive operations (if fetus is dead)"],
+      prevention: ["Early recognition of CPD or malpresentation", "Avoiding 'Trial of Labor' in contracted pelvis", "Skilled birth attendance"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO ROLE in the acute management of obstructed labor. It is a major surgical emergency. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Secale Cornutum", keyIndications: "Uterine exhaustion; dark bleeding; feeling of coldness." },
+      { name: "Arnica Montana", keyIndications: "Prevention of sepsis and healing of traumatic tissue damage." },
+      { name: "Pyrogenium", keyIndications: "Prevention of puerperal sepsis following prolonged obstructed labor." }
+    ],
+    relatedDiseases: ["normal-labor", "pph"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Mechanical block", "Bandl's ring is key sign", "C-section required"],
+      miasmaticDominance: "Syphilitic (Violent destruction/Rupture)",
+      thermalState: "Hot (Fever/Exhaustion)",
+      organAffinity: "Uterus, Pelvic bones",
+      memoryMnemonic: "BLOCK: Bandl's ring, Lower segment thinning, Obstructed descent, C-section needed, Ketosis"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent maternal and fetal death and long-term disability like fistulas.",
+        severityAssessment: "Based on maternal vitals and the state of the lower uterine segment.",
+        referralCriteria: ["ANY failure to progress in labor requires immediate referral"]
+      },
+      individualization: {
+        mentalGenerals: ["Terror", "Exhaustion", "Despair"],
+        physicalGenerals: {
+          thermalState: "Hot (Fever)",
+          thirst: "Burning thirst",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Drowsiness from exhaustion",
+          perspiration: "Cold, clammy sweat"
+        },
+        modalities: ["Agg: Any motion, touch.", "Amel: None (Emergency)"],
+        concomitants: ["Vomiting", "Ketosis", "Rapid pulse"],
+        characteristicParticulars: [
+          "Uterus: Exquisitely tender; a visible groove (Bandl's ring) across the abdomen.",
+          "Bladder: Unable to pass urine; hematuria."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The labor pains suddenly stop, followed by a sharp tearing pain and then shock (Uterine rupture)."],
+        individualExpression: "A violent syphilitic-sycotic mechanical failure where the vital force's efforts at expulsion become self-destructive."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, labor, obstructed", chapter: "Female" },
+          { rubric: "Female, labor, pains, ceasing", chapter: "Female" }
+        ],
+        symptomAnalysis: "N/A - This is a surgical emergency."
+      }
+    }
+  },
+  {
+    id: "pph",
+    name: "Postpartum Hemorrhage (PPH)",
+    slug: "pph",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "Vaginal bleeding in excess of 500 mL following the birth of the baby.",
+    simpleExplanation: "Heavy bleeding after giving birth. It is a serious emergency that can happen if the womb doesn't contract properly or if there are tears.",
+    examKeywords: ["Atopy", "Trauma", "Tissue", "Thrombin (The 4 Ts)", "Uterine massage", "Oxytocin"],
+    epidemiology: {
+      ageDistribution: "All women post-delivery.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Previous PPH", "Grand multiparity", "Multiple pregnancy", "Polyhydramnios"],
+    },
+    etiology: {
+      predisposingFactors: ["Overdistended uterus", "Prolonged labor", "General anesthesia"],
+      precipitatingFactors: ["The 4 Ts: Tone (atony), Trauma (tears), Tissue (retained placenta), Thrombin (clotting issues)"],
+      riskFactors: ["Full bladder", "Induced labor", "Chorioamnionitis"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Failure of Contraction", description: "The uterus fails to contract (atony) after delivery, leaving placental site vessels open." },
+        { title: "Bleeding", description: "Rapid, massive blood loss occurs from the open sinuses." },
+        { title: "Coagulopathy", description: "Large loss of clotting factors leads to secondary bleeding issues." },
+        { title: "Shock", description: "Maternal collapse and multi-organ failure." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Profuse vaginal bleeding", "Blood clots"],
+      localSymptoms: ["Soft, boggy uterus (in atony)", "Perineal/Vaginal tears", "Retained placenta"],
+      constitutionalFeatures: ["Tachycardia", "Hypotension", "Cold extremities", "Air hunger"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: Heavy bleeding soaking pads within minutes",
+      "OBSTETRIC EMERGENCY: Soft, 'boggy' uterus that doesn't firm up",
+      "OBSTETRIC EMERGENCY: Rapid pulse and falling blood pressure",
+      "OBSTETRIC EMERGENCY: Retained placenta (>30 mins)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Assessment", findings: "Uterine tone check; Inspection of tears", importance: "Primary for action" },
+        { name: "Placental Inspection", findings: "Missing lobes or membranes", importance: "Rule out retained tissue" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC/Cross-match", findings: "Low Hb", importance: "Assess loss" },
+        { name: "Coagulation Profile", findings: "Low fibrinogen", importance: "Identify DIC" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Types of PPH",
+      criteria: [
+        "Primary PPH: Within 24 hours of delivery.",
+        "Secondary PPH: From 24 hours to 6 weeks post-delivery.",
+        "Minor: 500-1000 mL.",
+        "Major: > 1000 mL."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Uterine Atony", distinguishingFeatures: "Uterus soft/boggy; bleeding stops with massage." },
+      { condition: "Traumatic PPH", distinguishingFeatures: "Uterus firm; bleeding persists; visible tears." },
+      { condition: "Retained Placenta", distinguishingFeatures: "Placenta not delivered; bleeding continues." }
+    ],
+    complications: {
+      common: ["Anemia", "Failure of lactation (Sheehan syndrome)"],
+      serious: ["DIC", "Hysterectomy", "Renal failure"],
+      lifeThreatening: ["Hemorrhagic shock", "Maternal death"]
+    },
+    conventionalManagement: {
+      general: ["Uterine massage", "Catheterization", "Bimanual compression"],
+      medical: ["Oxytocin (IV)", "Ergometrine", "Misoprostol", "Tranexamic acid"],
+      surgical: ["Suturing of tears", "Manual removal of placenta", "Uterine artery ligation/Hysterectomy (Final resort)"],
+      prevention: ["Active management of the third stage of labor (AMTSL)", "Correcting anemia antenatally", "Identifying high-risk factors"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO ROLE in the acute management of Primary PPH. It is a life-threatening emergency. Homoeopathic correlation MUST NEVER delay emergency obstetric care.",
+    relatedRemedies: [
+      { name: "Secale Cornutum", keyIndications: "Uterus fails to contract; passive bleeding; dark, thin blood; worse for heat." },
+      { name: "Sabina", keyIndications: "Bright red blood with dark clots; pain from sacrum to pubes; uterus sensitive." },
+      { name: "China (Cinchona)", keyIndications: "Essential for recovery from debility due to massive blood loss." },
+      { name: "Ipecacuanha", keyIndications: "Bright red blood with constant nausea and cold skin." }
+    ],
+    relatedDiseases: ["normal-labor", "obstructed-labor"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["The 4 Ts", "Uterine Atony is commonest", "Shock management is vital"],
+      miasmaticDominance: "Syphilitic (Flooding/Vascular collapse)",
+      thermalState: "Cold (Shock)",
+      organAffinity: "Uterus, Blood vessels",
+      memoryMnemonic: "TONE: Tone (massage), Oxytocin, Note blood loss, Empty bladder"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent maternal death within minutes from massive flooding.",
+        severityAssessment: "Based on volume of blood loss and maternal hemodynamic status.",
+        referralCriteria: ["IMMEDIATE EMERGENCY MANAGEMENT"]
+      },
+      individualization: {
+        mentalGenerals: ["Terror", "Air hunger", "Faintness"],
+        physicalGenerals: {
+          thermalState: "Icy cold",
+          thirst: "Intense",
+          appetite: "Nil",
+          desires: ["Cold air"],
+          aversions: ["None"],
+          sleep: "Unconscious/Fainting",
+          perspiration: "Cold, clammy"
+        },
+        modalities: ["Agg: Motion, heat.", "Amel: Pressure, massage (atony)"],
+        concomitants: ["Nausea", "Blindness/Dim vision (from blood loss)"],
+        characteristicParticulars: [
+          "Uterus: Flabby, relaxed, and seems to fill the entire abdomen.",
+          "Blood: Large gushes of hot, bright red blood (Belladonna/Sabina)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The bleeding is characteristically associated with a feeling as if the pelvis was 'giving way' or 'falling apart' (Trillium)."],
+        individualExpression: "A catastrophic syphilitic hemorrhage where the vital force is unable to regain the tonicity of the uterine muscle."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, hemorrhage, puerperal", chapter: "Female" },
+          { rubric: "Female, uterus, atony of", chapter: "Female" }
+        ],
+        symptomAnalysis: "N/A - This is an obstetric emergency."
+      }
+    }
+  },
+  {
+    id: "puerperium",
+    name: "Puerperium (Normal)",
+    slug: "puerperium",
+    system: "obstetrics",
+    category: "Physiological",
+    definition: "The period following childbirth during which the mother's reproductive organs return to their non-pregnant state, usually lasting 6 weeks.",
+    simpleExplanation: "The 6-week recovery period after having a baby, when the body heals and the womb shrinks back to its normal size.",
+    examKeywords: ["Involution", "Lochia", "Lactation", "Postpartum blues", "6 weeks"],
+    epidemiology: {
+      ageDistribution: "All women post-delivery.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["All postpartum women"],
+    },
+    etiology: {
+      predisposingFactors: ["Normal physiological response to delivery"],
+      precipitatingFactors: ["Hormonal shift (drop in Estrogen/Progesterone)"],
+      riskFactors: ["Breastfeeding (promotes involution)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Involution", description: "Uterus shrinks from ~1kg to ~60g through autolysis of muscle fibers." },
+        { title: "Lochia", description: "Vaginal discharge consisting of blood, mucus, and tissue from the uterine lining." },
+        { title: "Lactation", description: "Milk production starts (Prolactin and Oxytocin driven)." },
+        { title: "Hormonal Shift", description: "Restoration of the hypothalamic-pituitary-ovarian axis." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Vaginal discharge (Lochia)", "After-pains (contractions as uterus shrinks)", "Breast engorgement"],
+      localSymptoms: ["Fundus of uterus palpable (shrinks 1cm/day)", "Healing of perineum"],
+      constitutionalFeatures: ["Weight loss", "Diuresis", "Emotional sensitivity"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Fever > 38°C (Infection)",
+      "URGENT REFERRAL: Foul-smelling lochia",
+      "URGENT REFERRAL: Heavy bleeding after 24h (Secondary PPH)",
+      "URGENT REFERRAL: Calf pain and swelling (DVT)",
+      "URGENT REFERRAL: Extreme sadness or thoughts of self-harm (Postpartum Depression)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Exam", findings: "Fundal height; Lochia color", importance: "Monitor involution" }
+      ],
+      laboratoryFindings: [
+        { name: "Hb", findings: "Check for postpartum anemia", importance: "Assess recovery" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Lochia Stages",
+      criteria: [
+        "Lochia Rubra: Red (Day 1-4).",
+        "Lochia Serosa: Pinkish (Day 5-9).",
+        "Lochia Alba: White/Yellow (Day 10-15+)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Puerperal Sepsis", distinguishingFeatures: "Fever; foul lochia; uterine tenderness." },
+      { condition: "Secondary PPH", distinguishingFeatures: "Fresh bright red bleeding after day 4." }
+    ],
+    complications: {
+      common: ["Constipation", "Breast engorgement", "After-pains"],
+      serious: ["Puerperal psychosis", "DVT", "Mastitis"],
+      lifeThreatening: ["Puerperal sepsis", "Pulmonary embolism"]
+    },
+    conventionalManagement: {
+      general: ["Early ambulation", "High protein diet", "Perineal hygiene", "Encourage breastfeeding"],
+      medical: ["Analgesics for after-pains", "Iron supplements"],
+      surgical: ["None (unless complications)"],
+      prevention: ["Postpartum care and counseling", "Monitoring of involution and lochia", "Breastfeeding support"]
+    },
+    homoeopathicApproach: "Supports a smooth recovery, manages 'after-pains', and assists with lactation issues (over-supply/under-supply).",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Lochia changeable; emotional, weepy; 'Milk-fever'; suppressed lochia from cold/damp." },
+      { name: "Arnica Montana", keyIndications: "Soreness; promotes healing of perineum; prevents sepsis." },
+      { name: "Phytolacca", keyIndications: "Breast engorgement; hard, painful breasts; pain radiates from nipple when baby nurses." },
+      { name: "Cuclamen", keyIndications: "Similar to Pulsatilla but with more dizziness and visual disturbances; weepy and discouraged." }
+    ],
+    relatedDiseases: ["normal-labor", "puerperal-sepsis"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["6 weeks duration", "Lochia stages", "Involution 1cm/day"],
+      miasmaticDominance: "Psora (Restorative phase)",
+      thermalState: "Variable",
+      organAffinity: "Uterus, Breasts",
+      memoryMnemonic: "LOCHIA: Lochia, Output (urine), Contractions (afterpains), Hygiene, Involution, Attachment"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure proper healing and early detection of infection or depression.",
+        severityAssessment: "Based on fundal height and lochia characteristics.",
+        referralCriteria: ["Fever", "Foul discharge", "Deep calf pain"]
+      },
+      individualization: {
+        mentalGenerals: ["Emotional", "Weepy (Puls)", "Anxious", "Indifferent (Sepia)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Thirstless (Puls)",
+          appetite: "Variable",
+          desires: ["None"],
+          aversions: ["Fatty foods"],
+          sleep: "Interrupted by baby",
+          perspiration: "Night sweats are common"
+        },
+        modalities: ["Agg: Heat, stuffy rooms.", "Amel: Open air, gentle motion"],
+        concomitants: ["Dizziness", "Backache"],
+        characteristicParticulars: [
+          "Lochia: Suppression of lochia followed by high fever and headache.",
+          "Breasts: Hard, stone-like breasts during milk onset (Bryonia/Phyt)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["A feeling of extreme indifference to the newborn baby (Sepia)."],
+        individualExpression: "A psoric-sycotic restorative phase where the vital force must redirect its energy from gestation to lactation and involution."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, lochia, offensive", chapter: "Female" },
+          { rubric: "Female, milk, suppressed", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the emotional state and the physical characteristics of the discharges."
+      }
+    }
+  },
+  {
+    id: "puerperal-sepsis",
+    name: "Puerperal Sepsis",
+    slug: "puerperal-sepsis",
+    system: "obstetrics",
+    category: "Emergency",
+    definition: "An infection of the genital tract occurring at any time between the onset of rupture of membranes or labor, and the 42nd day postpartum.",
+    simpleExplanation: "A serious infection after giving birth. It used to be called 'childbed fever' and can be very dangerous if not treated with antibiotics.",
+    examKeywords: ["Childbed fever", "Group A Strep", "Endometritis", "Foul lochia", "Pelvic peritonitis"],
+    epidemiology: {
+      ageDistribution: "All postpartum women.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Unsafe delivery", "Prolonged labor", "Retained placenta", "Frequent PV exams"],
+    },
+    etiology: {
+      predisposingFactors: ["Anemia", "Malnutrition", "Diabetes"],
+      precipitatingFactors: ["Ascending infection (Staph/Strep/E. coli)"],
+      riskFactors: ["Home delivery in unsterile conditions", "PPROM", "Manual removal of placenta"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Infection", description: "Bacteria enter the raw placental site or cervical tears." },
+        { title: "Endometritis", description: "Inflammation spreads to the lining of the uterus." },
+        { title: "Parametritis/Peritonitis", description: "Infection spreads to pelvic tissues and the abdominal cavity." },
+        { title: "Septicemia", description: "Bacteria and toxins enter the bloodstream, leading to systemic failure." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["High fever (≥ 38°C)", "Chills and rigors", "Malaise"],
+      localSymptoms: ["Foul-smelling lochia", "Lower abdominal pain", "Tender, sub-involuted uterus"],
+      constitutionalFeatures: ["Rapid pulse out of proportion to fever", "Headache", "Vomiting"]
+    },
+    redFlags: [
+      "OBSTETRIC EMERGENCY: High fever with foul-smelling discharge after birth",
+      "OBSTETRIC EMERGENCY: Severe abdominal pain and distension",
+      "OBSTETRIC EMERGENCY: Signs of septic shock (Cold skin, low BP)",
+      "URGENT REFERRAL: Uterus that is larger than expected and tender"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Exam", findings: "Tender uterus; Foul lochia", importance: "Primary for action" },
+        { name: "USG Pelvis", findings: "Retained products; Pelvic abscess", importance: "Identify source" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood/Vaginal Culture", findings: "Pathogenic bacteria", importance: "Targeted antibiotics" },
+        { name: "WBC Count", findings: "Leukocytosis with left shift", importance: "Confirm infection" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnostic Criteria",
+      criteria: [
+        "1. Temperature ≥ 38°C on any 2 of the first 10 days postpartum.",
+        "2. Pelvic pain.",
+        "3. Abnormal vaginal discharge.",
+        "4. Delay in uterine involution."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "UTI", distinguishingFeatures: "Urinary symptoms; flank pain; clear lochia." },
+      { condition: "Mastitis", distinguishingFeatures: "Breast pain/redness; no pelvic tenderness." },
+      { condition: "Thrombophlebitis", distinguishingFeatures: "Calf pain; low-grade fever; clear lochia." }
+    ],
+    complications: {
+      common: ["Chronic pelvic pain", "Infertility (tubal block)"],
+      serious: ["Pelvic abscess", "Septic thrombophlebitis"],
+      lifeThreatening: ["Septic shock", "Multi-organ failure", "DIC"]
+    },
+    conventionalManagement: {
+      general: ["Hospitalization", "Isolation", "Adequate hydration"],
+      medical: ["Broad-spectrum IV antibiotics (Triple therapy: Ampicillin, Gentamicin, Metronidazole)"],
+      surgical: ["D&E for retained products", "Drainage of abscesses"],
+      prevention: ["Strict aseptic techniques during labor and delivery", "Postpartum perineal hygiene", "Prompt treatment of chorioamnionitis"]
+    },
+    homoeopathicApproach: "Adjuvant therapy to support the immune system and manage specific symptoms. Homoeopathy must NEVER be the sole treatment for acute puerperal sepsis.",
+    relatedRemedies: [
+      { name: "Pyrogenium", keyIndications: "The great remedy for sepsis; pulse and temperature mismatch; horribly offensive lochia; chilly and restless." },
+      { name: "Echinacea", keyIndications: "Septic conditions; blood poisoning; prostration and foul discharges." },
+      { name: "Baptisia", keyIndications: "Besotted face; dark, offensive discharges; patient feels 'scattered' or in pieces; low-grade septic state." },
+      { name: "Arsenicum Album", keyIndications: "Septic state with great anxiety, restlessness, and burning pains relieved by heat." }
+    ],
+    relatedDiseases: ["puerperium", "obstructed-labor"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["Fever + Foul lochia", "Triple antibiotics", "Watch for shock"],
+      miasmaticDominance: "Syphilitic (Septic destruction)",
+      thermalState: "Hot (High fever)",
+      organAffinity: "Uterus, Peritoneum, Blood",
+      memoryMnemonic: "FEVER: Foul lochia, Exhaustion, Vaginal tenderness, Elevated temp, Rapid pulse"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent maternal death from septicemia.",
+        severityAssessment: "Based on maternal vitals and spread of infection to peritoneum.",
+        referralCriteria: ["ANY fever in the postpartum period requires immediate evaluation"]
+      },
+      individualization: {
+        mentalGenerals: ["Delirium", "Stupor (Baptisia)", "Restlessness (Pyrogen)"],
+        physicalGenerals: {
+          thermalState: "Very hot",
+          thirst: "Great for sips (Ars) or large amounts (Pyrogen)",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Comatose or very restless",
+          perspiration: "Offensive, cold, or absent"
+        },
+        modalities: ["Agg: Cold, motion.", "Amel: Heat (Ars)"],
+        concomitants: ["Diarrhea (offensive)", "Rigors"],
+        characteristicParticulars: [
+          "Lochia: Horribly offensive, like carrion or rotten meat.",
+          "Pulse: Pulse of 120 with temperature of 99° or vice versa (Pyrogen)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The bed feels too hard and the patient feels as if her body is in pieces and she cannot get them together (Baptisia)."],
+        individualExpression: "A violent syphilitic septic invasion of the vital organism, following the trauma of birth."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, lochia, offensive", chapter: "Female" },
+          { rubric: "Fever, puerperal", chapter: "Fever" }
+        ],
+        symptomAnalysis: "Focus on the septic characteristics and the profound prostration."
+      }
+    }
+  },
+  {
+    id: "dysmenorrhea",
+    name: "Dysmenorrhea",
+    slug: "dysmenorrhea",
+    system: "gynecology",
+    category: "Functional",
+    definition: "Painful menstruation that interferes with daily activities.",
+    simpleExplanation: "Severe period cramps that are painful enough to stop you from doing your normal daily tasks. It can be just the way the body works (Primary) or due to a medical issue like endometriosis (Secondary).",
+    examKeywords: ["Painful periods", "Prostaglandins", "Primary vs Secondary", "Cramping", "Pelvic pain"],
+    epidemiology: {
+      ageDistribution: "Commonest in adolescents (Primary); older women (Secondary).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Early menarche", "Long/Heavy periods", "Nulliparity", "Family history"],
+    },
+    etiology: {
+      predisposingFactors: ["High prostaglandin levels (PGF2α)", "Uterine ischemia"],
+      precipitatingFactors: ["Onset of menstruation"],
+      riskFactors: ["Smoking", "Stress", "Sedentary lifestyle"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Prostaglandin Release", description: "At the start of the period, the lining of the womb releases prostaglandins." },
+        { title: "Uterine Contraction", description: "These chemicals cause the womb to contract forcefully." },
+        { title: "Ischemia", description: "Strong contractions squeeze blood vessels, reducing oxygen to the muscle." },
+        { title: "Pain Sensation", description: "Low oxygen and high chemicals trigger pain receptors." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Cramping pain in lower abdomen", "Pain radiates to back and thighs"],
+      localSymptoms: ["Nausea", "Vomiting", "Diarrhea (due to prostaglandins)"],
+      constitutionalFeatures: ["Headache", "Faintness", "Irritability"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Pain that starts after years of painless periods (Suggests secondary cause)",
+      "URGENT REFERRAL: Pain that lasts longer than the first 2 days of the period",
+      "URGENT REFERRAL: Fever with pelvic pain",
+      "URGENT REFERRAL: Pain during intercourse (Dyspareunia)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis", findings: "Normal (in primary); Fibroids/Endometriosis (in secondary)", importance: "Rule out structural causes" },
+        { name: "Pelvic Exam", findings: "Tenderness or masses", importance: "Clinical screening" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Normal", importance: "Rule out infection" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Primary vs Secondary",
+      criteria: [
+        "Primary: Starts within 1-2 years of menarche; no underlying pathology; pain starts just before/at onset of menses.",
+        "Secondary: Starts later in life; associated with pathology (Endometriosis/Fibroids); pain may start days before and last through the period."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Endometriosis", distinguishingFeatures: "Deep dyspareunia; pain lasts throughout period; infertility." },
+      { condition: "Adenomyosis", distinguishingFeatures: "Enlarged, tender uterus; heavy periods." },
+      { condition: "PID", distinguishingFeatures: "Fever; cervical motion tenderness; irregular cycles." }
+    ],
+    complications: {
+      common: ["Absenteeism from school/work", "Reduced quality of life"],
+      serious: ["Depression", "Chronic pelvic pain"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Heat pads", "Regular exercise", "Relaxation techniques"],
+      medical: ["NSAIDs (Mefenamic acid/Ibuprofen) - primary treatment", "OCPs (Hormonal pills)"],
+      surgical: ["Laparoscopy (if secondary cause suspected/confirmed)"],
+      prevention: ["Maintaining a regular exercise routine", "Healthy diet", "Stress management"]
+    },
+    homoeopathicApproach: "Very effective for primary dysmenorrhea by addressing the 'irritable' constitution and balancing hormonal/prostaglandin response.",
+    relatedRemedies: [
+      { name: "Magnesia Phosphorica", keyIndications: "The great anti-spasmodic; cramping pains; relieved by heat and doubling up; worse for cold." },
+      { name: "Colocynthis", keyIndications: "Agonizing, doubling-over pain; relieved by hard pressure and heat; associated with anger/indignation." },
+      { name: "Pulsatilla", keyIndications: "Pain changeable; weeping mood; better in open air and for cold applications; menses late and scanty." },
+      { name: "Cimicifuga", keyIndications: "Pains fly across the abdomen; the more the flow, the more the pain; mental depression." },
+      { name: "Chamomilla", keyIndications: "Intolerable pain; patient is extremely irritable, snappy, and oversensitive to pain." }
+    ],
+    relatedDiseases: ["endometriosis", "pcos"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Prostaglandin mediated", "NSAIDs are standard", "Mag-Phos for cramps"],
+      miasmaticDominance: "Psora (Irritability) / Sycotic (if secondary)",
+      thermalState: "Chilly (Mag-Phos) / Hot (Puls)",
+      organAffinity: "Uterus, Pelvic nerves",
+      memoryMnemonic: "PAIN: Prostaglandins, Analgesics, Individualize, Note secondary causes"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish primary from secondary causes that may require surgery.",
+        severityAssessment: "Based on intensity of pain and impact on activities.",
+        referralCriteria: ["Sudden change in pain pattern", "Abnormal findings on exam"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable (Cham)", "Weepy (Puls)", "Restless"],
+        physicalGenerals: {
+          thermalState: "Chilly (Mag-phos)",
+          thirst: "Thirstless (Puls)",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["Fatty food (Puls)"],
+          sleep: "Disturbed by pain",
+          perspiration: "Cold sweat during pain"
+        },
+        modalities: ["Agg: Cold, motion, touch (Cham).", "Amel: Heat, pressure, doubling up (Mag-phos/Coloc)"],
+        concomitants: ["Nausea", "Vomiting", "Diarrhea"],
+        characteristicParticulars: [
+          "Uterus: Spasmodic, labor-like pains.",
+          "Pain: Better for hard pressure (Coloc) vs. cannot bear touch (Cham)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Pains that are so severe they drive the patient out of bed to walk the floor, yet motion makes them worse (Chamomilla)."],
+        individualExpression: "A psoric hypersensitivity of the uterine nerves to the physiological process of desquamation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, menses, painful", chapter: "Female" },
+          { rubric: "Abdomen, pain, menses, during", chapter: "Abdomen" }
+        ],
+        symptomAnalysis: "Focus on the modalities (Heat/Pressure) and the emotional state."
+      }
+    }
+  },
+  {
+    id: "amenorrhea",
+    name: "Amenorrhea",
+    slug: "amenorrhea",
+    system: "gynecology",
+    category: "Functional",
+    definition: "The absence of menstruation.",
+    simpleExplanation: "When a woman doesn't have her periods. It could be because she hasn't started by age 15 (Primary) or they have stopped for 6 months after starting (Secondary).",
+    examKeywords: ["Primary vs Secondary", "Pregnancy (commonest cause)", "PCOS", "Asherman syndrome", "Turner syndrome"],
+    epidemiology: {
+      ageDistribution: "Adolescents (Primary); reproductive age (Secondary).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Athletes", "Eating disorders", "Obese (PCOS)", "Severe stress"],
+    },
+    etiology: {
+      predisposingFactors: ["Chromosomal issues (Turner)", "Hormonal imbalance"],
+      precipitatingFactors: ["Pregnancy", "Stress", "Weight loss"],
+      riskFactors: ["Excessive exercise", "Chronic illness", "Certain medications"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Hormonal Disruption", description: "The brain (Hypothalamus/Pituitary) stops signaling the ovaries." },
+        { title: "Follicular Failure", description: "Ovaries don't develop eggs or produce estrogen/progesterone." },
+        { title: "Endometrial Stasis", description: "The lining of the womb doesn't grow or shed." },
+        { title: "Outflow Block (if applicable)", description: "Physical block (like imperforate hymen) prevents blood exit." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Absence of periods", "Acne/Excess hair (if PCOS)"],
+      localSymptoms: ["Cyclic pelvic pain (if outflow block)", "Vaginal dryness"],
+      constitutionalFeatures: ["Weight changes", "Headache", "Visual changes (if pituitary tumor)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Headache and vision changes (Pituitary tumor)",
+      "URGENT REFERRAL: Rapid onset of male-pattern hair growth (Virilization)",
+      "URGENT REFERRAL: Failure to develop any secondary sexual characteristics by age 13"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Pregnancy Test (Urine hCG)", findings: "Positive/Negative", importance: "MUST DO FIRST" },
+        { name: "Hormone Profile", findings: "FSH, LH, Prolactin, TSH, Testosterone", importance: "Identify hormonal source" },
+        { name: "USG Pelvis", findings: "Uterus present/absent; Polycystic ovaries", importance: "Anatomical check" }
+      ],
+      laboratoryFindings: [
+        { name: "Karyotyping", findings: "45,X (Turner syndrome)", importance: "If primary amenorrhea" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Primary vs Secondary",
+      criteria: [
+        "Primary: No periods by age 15 with secondary sex characteristics OR by age 13 without them.",
+        "Secondary: Absence for 3 months (if regular) or 6 months (if irregular)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Pregnancy", distinguishingFeatures: "Morning sickness; positive hCG; breast tenderness." },
+      { condition: "PCOS", distinguishingFeatures: "Acne; obesity; hirsutism; USG findings." },
+      { condition: "Premature Ovarian Insufficiency (POI)", distinguishingFeatures: "High FSH; hot flashes." }
+    ],
+    complications: {
+      common: ["Infertility", "Osteoporosis (due to low Estrogen)"],
+      serious: ["Endometrial hyperplasia (if untreated PCOS)", "Cardiovascular risk"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Weight management", "Stress reduction", "Moderate exercise"],
+      medical: ["Hormone replacement therapy (HRT)", "OCPs to regularize cycles", "Thyroid meds/Bromocriptine (if needed)"],
+      surgical: ["Correction of outflow blocks (Hymenotomy)"],
+      prevention: ["Maintaining a healthy body weight", "Managing stress", "Adequate nutritional intake"]
+    },
+    homoeopathicApproach: "Aims to restore the hormonal balance and 're-awaken' the hypothalamic-pituitary-ovarian axis. Constitutional treatment is essential.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Commonest remedy; menses suppressed from cold/damp or emotional shock; weepy, mild, thirstless; better in open air." },
+      { name: "Sepia", keyIndications: "Indifference to family; bearing down sensation; yellowish leucorrhea; 'pot-bellied' appearance; menses late and scanty." },
+      { name: "Graphites", keyIndications: "Obese, chilly, constipated; skin issues (eczema with sticky discharge); menses delayed and pale." },
+      { name: "Natrum Muriaticum", keyIndications: "Suppression from grief or heartbreak; 'bashful' kidneys; desire for salt; worse for sun." },
+      { name: "Calcarea Carbonica", keyIndications: "Fair, fat, flabby, easily tired; cold damp feet; history of late starting periods." }
+    ],
+    relatedDiseases: ["pcos", "female-infertility"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Pregnancy is #1 cause", "Primary vs Secondary", "Hormone profile is key"],
+      miasmaticDominance: "Sycotic (Obstruction/Stagnation) / Psora (Functional failure)",
+      thermalState: "Variable",
+      organAffinity: "Ovaries, Pituitary, Uterus",
+      memoryMnemonic: "MISS: Maternal status (pregnancy?), Investigation of hormones, Structural check, Stress/Weight"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify serious causes like tumors or chromosomal issues and prevent bone loss.",
+        severityAssessment: "Based on duration and underlying hormone levels.",
+        referralCriteria: ["Suspicion of pituitary tumor", "Primary amenorrhea"]
+      },
+      individualization: {
+        mentalGenerals: ["Mild, weepy (Puls)", "Indifferent (Sepia)", "Reserved (Nat-m)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Graph/Sepia) / Hot (Puls/Nat-m)",
+          thirst: "Thirstless (Puls)",
+          appetite: "Craves salt (Nat-m)",
+          desires: ["Salt", "Eggs (Calc)"],
+          aversions: ["Fat (Puls)"],
+          sleep: "Variable",
+          perspiration: "Sour smelling (Calc)"
+        },
+        modalities: ["Agg: Cold, damp (Puls/Graph).", "Amel: Open air (Puls), vigorous exercise (Sepia)"],
+        concomitants: ["Acne", "Leucorrhea", "Constipation"],
+        characteristicParticulars: [
+          "Uterus: Sensation as if the contents would fall out (Sepia).",
+          "Menses: First menses delayed for a long time (Calc)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Menses suppressed after getting feet wet or following a sudden fright (Pulsatilla)."],
+        individualExpression: "A sycotic-psoric stagnation where the vital force is unable to complete the rhythmic cycle of renewal."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, menses, absent", chapter: "Female" },
+          { rubric: "Female, menses, suppressed", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the cause (stress/cold) and the patient's constitution."
+      }
+    }
+  },
+  {
+    id: "abnormal-uterine-bleeding",
+    name: "Abnormal Uterine Bleeding (AUB)",
+    slug: "aub",
+    system: "gynecology",
+    category: "Functional",
+    definition: "Any vaginal bleeding not related to normal menstruation, including changes in frequency, duration, or amount.",
+    simpleExplanation: "Any period or bleeding that isn't normal for you—too heavy, too long, too frequent, or bleeding between periods.",
+    examKeywords: ["PALM-COEIN classification", "DUB", "Postmenopausal bleeding", "Menorrhagia", "Metrorrhagia"],
+    epidemiology: {
+      ageDistribution: "Commonest at menarche and perimenopause.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Obese (PCOS)", "Anovulatory cycles", "Perimenopausal women"],
+    },
+    etiology: {
+      predisposingFactors: ["Hormonal imbalance (Estrogen excess)", "Uterine pathology"],
+      precipitatingFactors: ["Stress", "Weight changes", "Medications"],
+      riskFactors: ["Smoking", "Obesity", "Family history of fibroids"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Hormonal Imbalance", description: "Lack of ovulation leads to constant estrogen without progesterone." },
+        { title: "Endometrial Overgrowth", description: "The lining of the womb gets too thick and unstable." },
+        { title: "Irregular Shedding", description: "The lining breaks down randomly, causing heavy or prolonged bleeding." },
+        { title: "Pathological Bleeding", description: "Structural issues like fibroids or polyps cause bleeding by distorting vessels." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Heavy periods (Menorrhagia)", "Irregular periods (Metrorrhagia)"],
+      localSymptoms: ["Bleeding between periods (Intermenstrual)", "Bleeding after sex (Post-coital)"],
+      constitutionalFeatures: ["Fatigue (from anemia)", "Dizziness", "Pale skin"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Bleeding after menopause (Postmenopausal bleeding - MUST rule out cancer)",
+      "URGENT REFERRAL: Post-coital bleeding",
+      "URGENT REFERRAL: Severe flooding causing shock",
+      "URGENT REFERRAL: Palpable pelvic mass"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis (TVS)", findings: "Fibroids, polyps, thickened endometrium", importance: "First-line imaging" },
+        { name: "Endometrial Biopsy", findings: "Hyperplasia or Malignancy", importance: "Essential in women >45" },
+        { name: "Hysteroscopy", findings: "Direct visualization of polyps/fibroids", importance: "Gold standard for diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Iron deficiency anemia", importance: "Assess impact of loss" },
+        { name: "Hormone Profile", findings: "Check TSH, Prolactin, FSH", importance: "Rule out systemic causes" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "PALM-COEIN Classification",
+      criteria: [
+        "PALM (Structural): Polyps, Adenomyosis, Leiomyoma (fibroids), Malignancy.",
+        "COEIN (Non-structural): Coagulopathy, Ovulatory dysfunction, Endometrial, Iatrogenic, Not classified."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Fibroids", distinguishingFeatures: "Heavy periods; enlarged, firm, irregular uterus." },
+      { condition: "Endometrial Cancer", distinguishingFeatures: "Postmenopausal bleeding; thickened lining on USG." },
+      { condition: "Thyroid Disorders", distinguishingFeatures: "Systemic symptoms (weight/temp changes); abnormal TSH." }
+    ],
+    complications: {
+      common: ["Anemia", "Fatigue", "Impact on social life"],
+      serious: ["Endometrial cancer (if hyperplasia untreated)", "Severe hemorrhage"],
+      lifeThreatening: ["Hemorrhagic shock"]
+    },
+    conventionalManagement: {
+      general: ["Iron supplements", "Wait and watch (for adolescent AUB)"],
+      medical: ["OCPs", "Mirena (IUS)", "Tranexamic acid (non-hormonal)", "Progestogens"],
+      surgical: ["D&C (for biopsy/bleeding control)", "Endometrial ablation", "Hysterectomy (Definitive)"],
+      prevention: ["Healthy weight maintenance", "Regular gynecological exams", "Managing PCOS early"]
+    },
+    homoeopathicApproach: "Highly effective for functional (COEIN) causes by balancing the hormonal axis. Structural (PALM) causes may need surgery but symptoms can be palliated.",
+    relatedRemedies: [
+      { name: "Sabina", keyIndications: "Bright red blood with dark clots; worse for motion; pain from sacrum to pubes." },
+      { name: "Secale Cornutum", keyIndications: "Dark, thin, passive bleeding; thin women; body cold but wants to be uncovered." },
+      { name: "Hamamelis", keyIndications: "Dark, venous bleeding; 'vicarious' menstruation; soreness of abdomen." },
+      { name: "Millefolium", keyIndications: "Bright red, active bleeding; painless; following injury or exertion." },
+      { name: "Thlaspi Bursa Pastoris", keyIndications: "The great 'anti-hemorrhagic'; menses profuse with dark clots; one period starts before the other ends." }
+    ],
+    relatedDiseases: ["uterine-fibroids", "endometrial-hyperplasia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["PALM-COEIN", "Postmenopausal bleeding = Cancer until proven otherwise", "Iron profile is vital"],
+      miasmaticDominance: "Sycotic (Hyperplasia/Growths) / Syphilitic (Flooding)",
+      thermalState: "Variable",
+      organAffinity: "Endometrium, Myometrium, Ovaries",
+      memoryMnemonic: "PALM: Polyps, Adenomyosis, Leiomyoma, Malignancy"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out malignancy, especially in older women.",
+        severityAssessment: "Based on amount of blood loss and presence of anemia.",
+        referralCriteria: ["Postmenopausal bleeding", "Severe acute hemorrhage"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Fear", "Prostration"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Great thirst (Phos)",
+          appetite: "Variable",
+          desires: ["None"],
+          aversions: ["Fatty food"],
+          sleep: "Interrupted by flooding",
+          perspiration: "Cold during heavy loss"
+        },
+        modalities: ["Agg: Motion (Sabina).", "Amel: Absolute rest"],
+        concomitants: ["Anemia", "Backache"],
+        characteristicParticulars: [
+          "Menses: One period scarcely stops before another begins (Thlaspi).",
+          "Blood: Large clots that are difficult to expel."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vaginal bleeding associated with a persistent feeling as if the whole abdominal contents were being dragged down (Sepia)."],
+        individualExpression: "A sycotic-syphilitic instability of the hormonal rhythm leading to structural and functional hemorrhage."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, hemorrhage, uterine", chapter: "Female" },
+          { rubric: "Female, menses, profuse", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the type of blood (color/clots) and the modalities."
+      }
+    }
+  },
+  {
+    id: "menorrhagia",
+    name: "Menorrhagia",
+    slug: "menorrhagia",
+    system: "gynecology",
+    category: "Functional",
+    definition: "Abnormally heavy or prolonged menstruation (>80mL or >7 days).",
+    simpleExplanation: "Periods that are very heavy—needing to change pads every hour or lasting more than a week. It can make you feel very tired.",
+    examKeywords: ["Heavy menstrual bleeding", "Iron deficiency", "Clots", "Quality of life", "Flooding"],
+    epidemiology: {
+      ageDistribution: "All reproductive ages; peak at perimenopause.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Fibroid patients", "Coagulopathy history", "Perimenopausal women"],
+    },
+    etiology: {
+      predisposingFactors: ["Uterine fibroids (Leiomyoma)", "Adenomyosis", "Hormonal imbalance"],
+      precipitatingFactors: ["Puberty", "Perimenopause"],
+      riskFactors: ["Obesity", "IUD use (Copper T)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vascular Expansion", description: "Increased surface area of the endometrium (due to fibroids) or increased vessel density." },
+        { title: "Fibrinolysis", description: "Excessive breakdown of clots in the uterine cavity." },
+        { title: "Heavy Flow", description: "Rapid loss of blood and clots during menstruation." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Bleeding > 7 days", "Passing large clots", "Using 'double' protection (pad + tampon)"],
+      localSymptoms: ["Flooding that soaks through clothes", "Pelvic pain (if fibroids/adenomyosis)"],
+      constitutionalFeatures: ["Pallor", "Fatigue", "Shortness of breath (Anemia)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Flooding causing dizziness or fainting",
+      "URGENT REFERRAL: Signs of severe anemia",
+      "URGENT REFERRAL: Sudden increase in flow in an older woman"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis", findings: "Fibroids, thick lining", importance: "Primary investigation" },
+        { name: "Speculum Exam", findings: "Cervical polyps", importance: "Rule out local causes" }
+      ],
+      laboratoryFindings: [
+        { name: "Ferritin/CBC", findings: "Low iron/Hb", importance: "Confirm anemia" },
+        { name: "Coagulation Profile", findings: "Rule out Von Willebrand disease", importance: "If starts at menarche" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnostic Indicators",
+      criteria: [
+        "1. Bleeding > 7 days.",
+        "2. Passing clots > 2.5cm.",
+        "3. Needing to change pads at night.",
+        "4. Subjective impact on daily life."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Uterine Fibroids", distinguishingFeatures: "Enlarged, irregular uterus; pressure symptoms." },
+      { condition: "Adenomyosis", distinguishingFeatures: "Global uterine enlargement; severe pain." },
+      { condition: "Von Willebrand Disease", distinguishingFeatures: "History of easy bruising/epistaxis." }
+    ],
+    complications: {
+      common: ["Iron deficiency anemia", "Fatigue"],
+      serious: ["Acute flooding/Emergency", "Chronic pelvic pain"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Iron-rich diet", "Keep a menstrual diary"],
+      medical: ["Mirena IUS (First line)", "Tranexamic acid", "OCPs", "GnRH analogues (to shrink fibroids)"],
+      surgical: ["Hysteroscopic resection", "Endometrial ablation", "Hysterectomy"],
+      prevention: ["Regular monitoring of menstrual cycle", "Diet rich in iron and nutrients", "Healthy BMI maintenance"]
+    },
+    homoeopathicApproach: "Targets the underlying constitution to reduce the flow and manage the hemorrhagic tendency. Often used alongside iron supplementation.",
+    relatedRemedies: [
+      { name: "Sabina", keyIndications: "Bright red blood with dark clots; worse for least motion; pain sacrum to pubes." },
+      { name: "Thlaspi Bursa Pastoris", keyIndications: "The great remedy for heavy periods with clots; menses are profuse and long-lasting." },
+      { name: "Trillium Pendulum", keyIndications: "Bright red, active bleeding with a sensation that the pelvis is 'falling apart'; better for tight bandage." },
+      { name: "Ustilago", keyIndications: "Flabby uterus; bleeding is part liquid, part clotted; associated with ovarian irritation." },
+      { name: "China", keyIndications: "Menses profuse; ringing in ears; debility; coldness." }
+    ],
+    relatedDiseases: ["uterine-fibroids", "adenomyosis", "aub"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Heavy/Long flow", "Fibroids are commonest structural cause", "Thlaspi is a key remedy"],
+      miasmaticDominance: "Sycotic (Overgrowth/Hyperplasia) / Syphilitic (Destruction of vessels)",
+      thermalState: "Variable",
+      organAffinity: "Endometrium, Myometrium",
+      memoryMnemonic: "HEAVY: Hormone check, Endometrial biopsy, Anemia check, Vitals, Yearly USG"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage the resulting anemia and identify structural causes like fibroids.",
+        severityAssessment: "Based on number of pads used and ferritin levels.",
+        referralCriteria: ["Suspicion of malignancy", "Fibroids larger than 12-week size"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Fear of bleeding", "Weakness"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Intense for cold water (Phos)",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Interrupted by flow",
+          perspiration: "Cold during heavy periods"
+        },
+        modalities: ["Agg: Motion (Sabina).", "Amel: Pressure, lying flat"],
+        concomitants: ["Anemia", "Vertigo", "Palpitations"],
+        characteristicParticulars: [
+          "Menses: Too early, too profuse, too long (Calc).",
+          "Blood: Stringy, dark, and clotted (Crocus)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Menses that are so heavy they seem to 'drain the life' out of the patient (China)."],
+        individualExpression: "A sycotic-syphilitic hyper-vascularity where the vital force is unable to contain the blood within the physiological rhythm."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, menses, profuse", chapter: "Female" },
+          { rubric: "Female, hemorrhage, clotted", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the character of the blood and the systemic impact (Anemia)."
+      }
+    }
+  },
+  {
+    id: "oligomenorrhea",
+    name: "Oligomenorrhea",
+    slug: "oligomenorrhea",
+    system: "gynecology",
+    category: "Functional",
+    definition: "Infrequent menstruation with cycles lasting more than 35 days but less than 6 months.",
+    simpleExplanation: "Periods that come very infrequently—more than a month apart. It is often a sign of hormonal issues like PCOS.",
+    examKeywords: ["Infrequent periods", "PCOS", "Anovulation", "Cycles > 35 days"],
+    epidemiology: {
+      ageDistribution: "Adolescents; perimenopausal women.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Obese (PCOS)", "Elite athletes", "Women with eating disorders"],
+    },
+    etiology: {
+      predisposingFactors: ["PCOS (Commonest)", "Hyperprolactinemia", "Thyroid dysfunction"],
+      precipitatingFactors: ["Stress", "Significant weight loss or gain"],
+      riskFactors: ["Stressful life", "Nutritional deficiencies"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Delayed Ovulation", description: "Follicles in the ovary take longer to mature or fail to mature regularly." },
+        { title: "Extended Follicular Phase", description: "The time before ovulation is lengthened." },
+        { title: "Infrequent Shedding", description: "Because ovulation is rare, the lining sheds infrequently." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Long cycles (>35 days)", "Cycles vary in length"],
+      localSymptoms: ["Acne", "Excess hair (if PCOS)"],
+      constitutionalFeatures: ["Weight changes", "Infertility"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Rapidly increasing facial hair (Virilization)",
+      "URGENT REFERRAL: Visual changes (Pituitary tumor)",
+      "URGENT REFERRAL: Sudden weight gain and purple stretch marks (Cushing's)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Hormone Profile", findings: "High LH:FSH ratio (PCOS); High Prolactin", importance: "Identify cause" },
+        { name: "USG Pelvis", findings: "Polycystic appearance", importance: "Diagnostic for PCOS" }
+      ],
+      laboratoryFindings: [
+        { name: "TSH", findings: "Abnormal", importance: "Rule out thyroid issues" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnostic Parameters",
+      criteria: [
+        "1. Cycle length 35 days to 6 months.",
+        "2. Occurs consistently for several months.",
+        "3. Not related to pregnancy or menopause."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "PCOS", distinguishingFeatures: "Acne; obesity; hirsutism." },
+      { condition: "Pregnancy", distinguishingFeatures: "Positive hCG; breast changes." },
+      { condition: "Perimenopause", distinguishingFeatures: "Older age; hot flashes; rising FSH." }
+    ],
+    complications: {
+      common: ["Infertility", "Acne"],
+      serious: ["Endometrial hyperplasia (due to unopposed Estrogen)"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Weight loss (if obese)", "Healthy diet", "Stress management"],
+      medical: ["OCPs to regularize", "Metformin (if PCOS/insulin resistant)", "Progestogens"],
+      surgical: ["None (unless pituitary tumor)"],
+      prevention: ["Maintaining a healthy weight", "Regular exercise", "Stress management"]
+    },
+    homoeopathicApproach: "Aims to regularize the hormonal rhythm. Remedies are chosen based on the underlying constitution (e.g., Pulsatilla/Sepia/Graphites).",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "The classic remedy for late, scanty periods; weepy; thirstless; better for open air." },
+      { name: "Sepia", keyIndications: "Late and scanty periods; indifferent; bearing down; better for vigorous motion." },
+      { name: "Graphites", keyIndications: "Obese; chilly; skin issues; constipated; menses delayed and pale." },
+      { name: "Senecio Aureus", keyIndications: "A 'homoeopathic catheter'; menses delayed but with respiratory symptoms or urinary irritation." }
+    ],
+    relatedDiseases: ["pcos", "amenorrhea"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Cycles > 35 days", "PCOS is main cause", "Pulsatilla is common remedy"],
+      miasmaticDominance: "Psora (Sluggishness) / Sycotic (PCOS)",
+      thermalState: "Variable",
+      organAffinity: "Ovaries, Pituitary",
+      memoryMnemonic: "LATE: LH:FSH ratio, Acne, Thyroid check, Evaluation of weight"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent long-term risks like infertility and endometrial overgrowth.",
+        severityAssessment: "Based on cycle regularity and presence of androgen excess.",
+        referralCriteria: ["Signs of virilization", "Suspicion of tumor"]
+      },
+      individualization: {
+        mentalGenerals: ["Mild (Puls)", "Indifferent (Sepia)", "Dull (Graph)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Graph) / Hot (Puls)",
+          thirst: "Thirstless (Puls)",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["Fat (Puls)"],
+          sleep: "Variable",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Heat, stuffy rooms (Puls).", "Amel: Open air (Puls), vigorous exercise (Sepia)"],
+        concomitants: ["Acne", "Leucorrhea", "Obesity"],
+        characteristicParticulars: [
+          "Menses: Delayed, scanty, and last only a few hours.",
+          "Pain: No pain, but a general feeling of stagnation."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Menses characteristically delayed by a 'change of climate' or getting feet wet (Pulsatilla)."],
+        individualExpression: "A psoric-sycotic sluggishness of the ovarian response, often reflecting an overall metabolic delay."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, menses, late", chapter: "Female" },
+          { rubric: "Female, menses, scanty", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the constitution and the factors that caused the initial delay."
+      }
+    }
+  },
+  {
+    id: "pcos",
+    name: "Polycystic Ovary Syndrome (PCOS)",
+    slug: "pcos",
+    system: "gynecology",
+    category: "Metabolic",
+    definition: "A hormonal disorder common among women of reproductive age characterized by elevated androgens, menstrual irregularities, and polycystic ovaries on ultrasound.",
+    simpleExplanation: "A common condition caused by hormonal imbalance. It can cause irregular periods, acne, weight gain, and excess facial hair. It makes it harder to get pregnant but can be managed.",
+    examKeywords: ["Rotterdam criteria", "Insulin resistance", "Hyperandrogenism", "LH:FSH ratio", "Infertility"],
+    epidemiology: {
+      ageDistribution: "Reproductive age; often detected in late teens/20s.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Obese women", "Family history of PCOS or Type 2 Diabetes"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetics", "Insulin resistance"],
+      precipitatingFactors: ["Weight gain", "Sedentary lifestyle"],
+      riskFactors: ["Obesity", "Family history"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Insulin Resistance", description: "High insulin levels stimulate the ovaries to produce excess testosterone." },
+        { title: "Follicular Arrest", description: "High androgens stop follicles from maturing and releasing an egg (anovulation)." },
+        { title: "Cyst Formation", description: "Immature follicles accumulate in the ovary, appearing as 'cysts' on USG." },
+        { title: "Metabolic Syndrome", description: "Increased risk of diabetes and high blood pressure." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Irregular/Absent periods", "Infertility"],
+      localSymptoms: ["Acne", "Excess body/facial hair (Hirsutism)", "Thinning of scalp hair"],
+      constitutionalFeatures: ["Weight gain (Abdominal obesity)", "Darkened skin on neck/armpits (Acanthosis nigricans)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Rapid onset of severe male-pattern hair growth (Rule out tumors)",
+      "URGENT REFERRAL: Deepening of voice or clitoral enlargement",
+      "URGENT REFERRAL: Pregnancy in a PCOS patient (Higher risk of complications)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis", findings: "'String of pearls' appearance (12+ follicles)", importance: "Diagnostic criterion" },
+        { name: "Hormone Profile", findings: "LH:FSH ratio > 2:1; High Testosterone", importance: "Biochemical confirmation" }
+      ],
+      laboratoryFindings: [
+        { name: "Oral Glucose Tolerance Test (OGTT)", findings: "Insulin resistance", importance: "Assess metabolic risk" },
+        { name: "Lipid Profile", findings: "High Cholesterol/Triglycerides", importance: "Cardiovascular risk" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Rotterdam Criteria (Need 2/3)",
+      criteria: [
+        "1. Oligo-ovulation or anovulation (irregular periods).",
+        "2. Clinical or biochemical signs of hyperandrogenism (Acne/Hair).",
+        "3. Polycystic ovaries on ultrasound."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Cushing Syndrome", distinguishingFeatures: "Moon face; purple striae; high cortisol." },
+      { condition: "Congenital Adrenal Hyperplasia (CAH)", distinguishingFeatures: "High 17-OHP levels." },
+      { condition: "Hypothyroidism", distinguishingFeatures: "High TSH; cold intolerance." }
+    ],
+    complications: {
+      common: ["Infertility", "Acne/Hirsutism"],
+      serious: ["Type 2 Diabetes", "Endometrial cancer", "Gestational diabetes"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Weight loss (5-10%) - often restores ovulation", "Low glycemic index diet", "Exercise"],
+      medical: ["Metformin (for insulin resistance)", "OCPs (to regularize and reduce acne)", "Clomiphene (to induce ovulation for pregnancy)", "Spironolactone (for hair)"],
+      surgical: ["Laparoscopic Ovarian Drilling (LOD)"],
+      prevention: ["Weight management", "Regular physical activity", "Early screening for insulin resistance"]
+    },
+    homoeopathicApproach: "Aims to balance the hormonal system and reduce the sycotic tendency to form cysts. Often reduces dependency on hormonal pills.",
+    relatedRemedies: [
+      { name: "Apis Mellifica", keyIndications: "Stinging pains in ovaries; right-sided; thirstless; edema; menses suppressed." },
+      { name: "Lachesis", keyIndications: "Left-sided PCOS; hot flashes; jealousy; menses scanty and black; worse after sleep." },
+      { name: "Pulsatilla", keyIndications: "Scanty, late periods; mild, weepy; thirstless; acne; better in open air." },
+      { name: "Thuja Occidentalis", keyIndications: "The great 'anti-sycotic'; left-sided ovary; warts; oily skin; sense of 'something alive' in abdomen." },
+      { name: "Graphites", keyIndications: "Obese, chilly, constipated; skin issues; late periods; follicles don't rupture." }
+    ],
+    relatedDiseases: ["oligomenorrhea", "female-infertility"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Rotterdam criteria", "Insulin resistance", "Weight loss is first line"],
+      miasmaticDominance: "Sycotic (Accumulation/Cyst formation)",
+      thermalState: "Variable",
+      organAffinity: "Ovaries, Skin, Pancreas",
+      memoryMnemonic: "PCOS: Polycystic ovaries, Cysts (follicles), Obesity, Skin issues (acne/hair)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage infertility and prevent long-term metabolic diseases like diabetes.",
+        severityAssessment: "Based on severity of hirsutism and degree of insulin resistance.",
+        referralCriteria: ["Signs of virilization", "Uncontrolled diabetes"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Depressed", "Jealous (Lach)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Thirstless (Apis/Puls)",
+          appetite: "Increased (Metabolic)",
+          desires: ["Sweets (Sycotic)"],
+          aversions: ["Fat (Puls)"],
+          sleep: "Drowsiness",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Sleep (Lach), heat (Apis/Puls).", "Amel: Open air, cool air"],
+        concomitants: ["Acne", "Hirsutism", "Acanthosis nigricans"],
+        characteristicParticulars: [
+          "Ovary: Sharp, stinging pains as from a bee sting (Apis).",
+          "Skin: Oily skin and hair with warts (Thuja)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The patient feels as if her ovaries were 'stone-hard' or extremely heavy (Graphites)."],
+        individualExpression: "A purely sycotic process where the vital force is unable to rupture the follicles, leading to a pathological accumulation and hormonal disharmony."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, ovaries, cysts", chapter: "Female" },
+          { rubric: "Female, menses, late, scanty", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the side affected (Left/Right) and the metabolic constitution (Obesity/Chilly)."
+      }
+    }
+  },
+  {
+    id: "endometriosis",
+    name: "Endometriosis",
+    slug: "endometriosis",
+    system: "gynecology",
+    category: "Chronic",
+    definition: "A condition where tissue similar to the lining of the uterus grows outside the uterus, causing pain and infertility.",
+    simpleExplanation: "When the tissue that usually grows inside the womb grows in other places (like the ovaries or tubes). It causes severe period pain, pain during sex, and can make it hard to get pregnant.",
+    examKeywords: ["Chocolate cyst", "Powder-burn lesions", "Retrograde menstruation", "Deep dyspareunia", "Laparoscopy is gold standard"],
+    epidemiology: {
+      ageDistribution: "Reproductive age (25-40); regresses after menopause.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Nulliparity", "First-degree relative with endometriosis", "Early menarche"],
+    },
+    etiology: {
+      predisposingFactors: ["Retrograde menstruation (Sampson's theory)", "Metaplasia of peritoneal cells"],
+      precipitatingFactors: ["Hormonal cycling (Estrogen stimulates growth)"],
+      riskFactors: ["Short cycles (<27 days)", "Heavy flow", "Uterine anomalies"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Retrograde Flow", description: "Menstrual blood containing endometrial cells flows back through the tubes into the pelvis." },
+        { title: "Implantation", description: "Cells stick to the ovaries, peritoneum, or bladder and grow." },
+        { title: "Cyclic Bleeding", description: "This 'misplaced' tissue bleeds every month with the period." },
+        { title: "Adhesion & Pain", description: "Trapped blood causes inflammation, scarring, and 'stuck' organs (adhesions)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Severe dysmenorrhea (starts before and lasts through period)", "Chronic pelvic pain"],
+      localSymptoms: ["Deep pain during intercourse (Dyspareunia)", "Pain with bowel movements (Dyschezia)"],
+      constitutionalFeatures: ["Infertility", "Fatigue", "Heavy periods"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden severe pelvic pain (Rupture of endometrioma)",
+      "URGENT REFERRAL: Rectal bleeding during periods",
+      "URGENT REFERRAL: Cyclic hematuria (Blood in urine during periods)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Laparoscopy", findings: "Direct visualization of blue/black 'gunpowder' spots", importance: "Gold standard diagnosis" },
+        { name: "USG Pelvis (TVS)", findings: "Ovarian endometriomas ('Chocolate cysts')", importance: "Identify cysts" }
+      ],
+      laboratoryFindings: [
+        { name: "CA-125", findings: "Elevated (non-specific)", importance: "Monitor disease activity" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnostic Triad",
+      criteria: [
+        "1. Dysmenorrhea (Painful periods).",
+        "2. Dyspareunia (Painful sex).",
+        "3. Dyschezia (Painful bowel movements).",
+        "Plus: Infertility."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "PID", distinguishingFeatures: "Fever; cervical motion tenderness; acute onset." },
+      { condition: "Adenomyosis", distinguishingFeatures: "Uniformly enlarged, tender uterus; heavy periods." },
+      { condition: "IBS", distinguishingFeatures: "Pain related to meals/bowel habits; no menstrual link." }
+    ],
+    complications: {
+      common: ["Chronic pelvic pain", "Infertility"],
+      serious: ["Adhesions (Frozen pelvis)", "Ovarian cysts (Endometrioma)"],
+      lifeThreatening: ["Ruptured endometrioma (Acute abdomen)"]
+    },
+    conventionalManagement: {
+      general: ["Emotional support", "Pain management"],
+      medical: ["OCPs", "Progestogens", "GnRH agonists (creates 'temporary menopause')", "NSAIDs"],
+      surgical: ["Laparoscopic excision/ablation of lesions", "Cystectomy", "Hysterectomy (Definitive)"],
+      prevention: ["Healthy weight maintenance", "Regular exercise", "Avoiding excess caffeine and alcohol"]
+    },
+    homoeopathicApproach: "Aims to reduce the inflammatory process and address the 'sycotic' tendency for abnormal tissue growth. Very effective for pain management.",
+    relatedRemedies: [
+      { name: "Xanthoxylum", keyIndications: "Severe, agonizing dysmenorrhea; pains like electrical shocks; better for heat; menses thick and black." },
+      { name: "Sabina", keyIndications: "Pain from sacrum to pubes; bright red blood with clots; worse for least motion." },
+      { name: "Sepia", keyIndications: "Chronic pelvic pain; bearing down; painful intercourse; indifference; better for vigorous exercise." },
+      { name: "Thuja", keyIndications: "Left-sided ovarian pain; sycotic constitution; history of warts or vaccination reactions." },
+      { name: "Lachesis", keyIndications: "Left-sided; pain better as soon as flow starts; jealous and talkative." }
+    ],
+    relatedDiseases: ["female-infertility", "adenomyosis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Misplaced endometrium", "Laparoscopy for diagnosis", "The 3 Ds (Dysmenorrhea, Dyspareunia, Dyschezia)"],
+      miasmaticDominance: "Sycotic (Tissue overgrowth/Adhesions)",
+      thermalState: "Variable",
+      organAffinity: "Ovaries, Utero-sacral ligaments, Peritoneum",
+      memoryMnemonic: "PAIN: Pain during sex, Adhesions, Infertility, Note period link"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent surgical complications and manage infertility early.",
+        severityAssessment: "Based on degree of pain and extent of adhesions (Stages I-IV).",
+        referralCriteria: ["Severe unremitting pain", "Large ovarian cyst"]
+      },
+      individualization: {
+        mentalGenerals: ["Depressed", "Indifferent (Sepia)", "Jealous (Lach)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["Fatty food"],
+          sleep: "Disturbed by pain",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Before/During periods, sleep (Lach).", "Amel: During flow (Lach), motion (Sepia)"],
+        concomitants: ["Infertility", "Painful stool"],
+        characteristicParticulars: [
+          "Uterus: Sensation as if all organs would fall out (Sepia).",
+          "Ovary: Left ovary exquisitely tender (Lach/Thuja)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Pain that is characteristically relieved the moment the flow becomes established (Lachesis)."],
+        individualExpression: "A purely sycotic process where the endometrial life-process 'escapes' its boundaries and invades the pelvic cavity."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, endometriosis", chapter: "Female" },
+          { rubric: "Abdomen, pain, menses, before", chapter: "Abdomen" }
+        ],
+        symptomAnalysis: "Focus on the 'D' symptoms and the time of relief (during/after flow)."
+      }
+    }
+  },
+  {
+    id: "adenomyosis",
+    name: "Adenomyosis",
+    slug: "adenomyosis",
+    system: "gynecology",
+    category: "Chronic",
+    definition: "A condition where the endometrial tissue that normally lines the uterus grows into the muscular wall of the uterus (myometrium).",
+    simpleExplanation: "A condition where the womb lining grows into the muscle of the womb. It makes the womb thick, heavy, and very painful during periods.",
+    examKeywords: ["Globular enlargement", "Boggy uterus", "Tender uterus", "Menorrhagia", "Secondary dysmenorrhea"],
+    epidemiology: {
+      ageDistribution: "Commonest in multiparous women aged 35-50.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Previous uterine surgery (C-section/D&C)", "Multiparity"],
+    },
+    etiology: {
+      predisposingFactors: ["Uterine trauma", "Estrogen dominance"],
+      precipitatingFactors: ["Hormonal cycling"],
+      riskFactors: ["Age (4th-5th decade)", "Previous pregnancy"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Basal Invasion", description: "The basal layer of the endometrium invades the underlying muscle (myometrium)." },
+        { title: "Myometrial Hypertrophy", description: "The muscle reacts by thickening around the islands of endometrium." },
+        { title: "Cyclic Bleeding", description: "The trapped tissue bleeds into the muscle every month." },
+        { title: "Globular Enlargement", description: "The uterus becomes uniformly enlarged, soft, and tender." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Heavy periods (Menorrhagia)", "Severe cramping pain (Dysmenorrhea)"],
+      localSymptoms: ["Enlarged, tender uterus on palpation", "Pelvic pressure"],
+      constitutionalFeatures: ["Anemia", "Chronic pelvic pain"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Severe flooding causing anemia",
+      "URGENT REFERRAL: Rapidly enlarging uterus in a postmenopausal woman (Rule out sarcoma)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis (TVS)", findings: "Globular uterus; asymmetrical wall thickening; cystic spaces in myometrium", importance: "First-line diagnosis" },
+        { name: "MRI Pelvis", findings: "Junctional zone thickening > 12mm", importance: "Gold standard imaging" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Iron deficiency anemia", importance: "Assess blood loss" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Indicators",
+      criteria: [
+        "1. Uniformly enlarged (globular) uterus.",
+        "2. Tenderness especially just before periods.",
+        "3. Heavy and painful menstruation."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Uterine Fibroids", distinguishingFeatures: "Uterus is firm and irregular (nodular); usually less tender." },
+      { condition: "Endometriosis", distinguishingFeatures: "Uterus usually normal size; pain is extra-uterine." },
+      { condition: "Pregnancy", distinguishingFeatures: "Amenorrhea; positive hCG." }
+    ],
+    complications: {
+      common: ["Anemia", "Chronic pain"],
+      serious: ["Impact on fertility", "Reduced quality of life"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Heat pads", "Exercise"],
+      medical: ["Mirena (IUS)", "OCPs", "GnRH agonists", "NSAIDs"],
+      surgical: ["Uterine artery embolization (UAE)", "Hysterectomy (Definitive treatment)"],
+      prevention: ["Early evaluation of heavy and painful periods", "Regular gynecological checkups"]
+    },
+    homoeopathicApproach: "Aims to reduce the congestion and manage the hemorrhagic tendency. Often helps in reducing uterine size and pain.",
+    relatedRemedies: [
+      { name: "Ustilago", keyIndications: "Uterus flabby and enlarged; menses part liquid, part clotted; associated with ovarian pain." },
+      { name: "Sepia", keyIndications: "Bearing down sensation; enlarged uterus; indifferent; better for exercise." },
+      { name: "Sabina", keyIndications: "Pain from sacrum to pubes; bright red flow with dark clots." },
+      { name: "Aurum Muriaticum Natronatum", keyIndications: "Enlarged, indurated uterus; syphilitic-sycotic miasm; chronic pelvic congestion." }
+    ],
+    relatedDiseases: ["endometriosis", "uterine-fibroids"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Globular/Boggy uterus", "Junctional zone > 12mm", "Hysterectomy is definitive"],
+      miasmaticDominance: "Sycotic (Tissue infiltration/Enlargement)",
+      thermalState: "Variable",
+      organAffinity: "Myometrium, Uterine vessels",
+      memoryMnemonic: "BOGGY: Boggy uterus, Old (40s), Globular, Gushes of blood, Yielding to hormone therapy"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from fibroids and manage chronic pelvic pain.",
+        severityAssessment: "Based on uterine size and amount of blood loss.",
+        referralCriteria: ["Severe unremitting pain", "Severe anemia"]
+      },
+      individualization: {
+        mentalGenerals: ["Depressed", "Indifferent (Sepia)", "Anxious"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["Fatty food"],
+          sleep: "Disturbed by pain",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Before/During periods.", "Amel: Pressure, vigorous motion (Sepia)"],
+        concomitants: ["Backache", "Leucorrhea"],
+        characteristicParticulars: [
+          "Uterus: Sensation of extreme weight and bearing down.",
+          "Pain: Cutting, labor-like pains extending to the thighs."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Menses are so profuse that they produce a feeling of profound empty weakness in the stomach (Sepia)."],
+        individualExpression: "A purely sycotic infiltration of the muscle by the lining, reflecting an inward-turning pathlogical growth."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, uterus, enlarged", chapter: "Female" },
+          { rubric: "Female, menses, painful", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the uterine tone (boggy/soft) and the bearing down sensation."
+      }
+    }
+  },
+  {
+    id: "uterine-fibroids",
+    name: "Uterine Fibroids",
+    slug: "uterine-fibroids",
+    system: "gynecology",
+    category: "Chronic",
+    definition: "Non-cancerous growths of the muscle and fibrous tissue of the uterus (also called leiomyomas).",
+    simpleExplanation: "Common, non-cancerous lumps that grow in or on the womb. They can cause very heavy periods, pelvic pressure, and can make it harder to get pregnant.",
+    examKeywords: ["Leiomyoma", "Estrogen dependent", "Intramural/Submucosal/Subserosal", "Red degeneration", "Nodular uterus"],
+    epidemiology: {
+      ageDistribution: "Reproductive age (30-50); shrink after menopause.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["African-Caribbean women (higher risk)", "Obese women", "Nulliparity"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetics", "Estrogen and Progesterone excess"],
+      precipitatingFactors: ["Hormonal cycling"],
+      riskFactors: ["Early menarche", "Obesity", "Red meat diet"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Clonal Expansion", description: "A single smooth muscle cell starts dividing uncontrollably due to genetic mutation." },
+        { title: "Hormonal Growth", description: "Estrogen stimulates the cells to grow into a nodule." },
+        { title: "ECM Accumulation", description: "Excessive collagen and fibrous tissue make the lump firm." },
+        { title: "Degeneration", description: "If the fibroid outgrows its blood supply, it can become painful (Red degeneration)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Heavy periods (Menorrhagia)", "Pelvic pressure/fullness"],
+      localSymptoms: ["Firm, irregular pelvic mass", "Frequent urination (if pressing on bladder)", "Backache"],
+      constitutionalFeatures: ["Anemia", "Infertility", "Pregnancy complications"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden severe pain (Red degeneration or Torsion)",
+      "URGENT REFERRAL: Rapidly increasing size in a postmenopausal woman (Sarcoma risk)",
+      "URGENT REFERRAL: Severe anemia from flooding"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis (TVS)", findings: "Well-defined, hypoechoic masses", importance: "Primary investigation" },
+        { name: "MRI Pelvis", findings: "Precise mapping of location and size", importance: "Pre-surgical planning" },
+        { name: "Hysteroscopy", findings: "Identification of submucosal fibroids", importance: "Check for bleeding source" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Anemia", importance: "Assess blood loss" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Classification",
+      criteria: [
+        "Intramural: Inside the uterine wall.",
+        "Submucosal: Just under the lining (causes most bleeding).",
+        "Subserosal: On the outer surface (causes pressure).",
+        "Pedunculated: Attached by a stalk."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Adenomyosis", distinguishingFeatures: "Uterus is globular and tender; symmetrical." },
+      { condition: "Ovarian Mass", distinguishingFeatures: "Mass felt separate from the uterus." },
+      { condition: "Pregnancy", distinguishingFeatures: "Positive hCG; softer uterus." }
+    ],
+    complications: {
+      common: ["Iron deficiency anemia", "Infertility"],
+      serious: ["Red degeneration (during pregnancy)", "Pressure on ureters (Hydronephrosis)"],
+      lifeThreatening: ["Sarcomatous change (<0.5%)"]
+    },
+    conventionalManagement: {
+      general: ["Wait and watch (if asymptomatic)"],
+      medical: ["Mirena IUS", "GnRH agonists (to shrink before surgery)", "Tranexamic acid"],
+      surgical: ["Myomectomy (removal of fibroids only)", "Uterine Artery Embolization (UAE)", "Hysterectomy (Definitive)"],
+      prevention: ["Maintaining a healthy body weight", "Regular exercise", "Healthy diet rich in fruits and vegetables"]
+    },
+    homoeopathicApproach: "Aims to stop the growth, reduce the size, and manage the heavy bleeding. Most effective for small and intramural fibroids.",
+    relatedRemedies: [
+      { name: "Aurum Muriaticum Natronatum", keyIndications: "The great 'anti-fibroid' remedy; indurated uterus; syphilitic-sycotic miasm." },
+      { name: "Fraxinus Americana", keyIndications: "Uterine tumors with bearing down; enlarged, heavy uterus." },
+      { name: "Thlaspi Bursa Pastoris", keyIndications: "Essential for managing the profuse, clotted hemorrhage associated with fibroids." },
+      { name: "Calcarea Carbonica", keyIndications: "Fair, fat, flabby; menses too early, too profuse; cold damp feet." },
+      { name: "Thuja", keyIndications: "Sycotic constitution; history of suppressed skin conditions; irregular growths." }
+    ],
+    relatedDiseases: ["adenomyosis", "menorrhagia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Leiomyoma", "Submucosal causes most bleeding", "Red degeneration in pregnancy"],
+      miasmaticDominance: "Sycotic (Benign growths/Tumors)",
+      thermalState: "Variable",
+      organAffinity: "Myometrium",
+      memoryMnemonic: "FIRM: Fibroids, Irregular uterus, Revealed blood (heavy), Myomectomy"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To monitor size and rule out malignancy or pressure effects on other organs.",
+        severityAssessment: "Based on size (in weeks), location, and impact on Hb.",
+        referralCriteria: ["Rapid growth", "Pressure on bladder/rectum", "Severe anemia"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxious", "Determined", "History of suppressed emotions"],
+        physicalGenerals: {
+          thermalState: "Chilly (Calc/Frax)",
+          thirst: "Great (Phos)",
+          appetite: "Increased for sweets/eggs (Calc)",
+          desires: ["Eggs", "Indigestible things"],
+          aversions: ["Milk"],
+          sleep: "Variable",
+          perspiration: "Head sweat at night (Calc)"
+        },
+        modalities: ["Agg: Cold, damp.", "Amel: Tight bandage (Trillium), rest"],
+        concomitants: ["Constipation", "Frequent urination", "Leucorrhea"],
+        characteristicParticulars: [
+          "Uterus: Feels like a heavy stone or like 'something alive' inside (Thuja).",
+          "Pain: Dragging, bearing down pain in the pelvis."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Uterine hemorrhage associated with a peculiar sense of 'falling apart' in the pelvic region (Trillium)."],
+        individualExpression: "A sycotic accumulation of muscle fibers, where the vital force attempts to 'wall off' excess energy in the form of a tumor."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, tumors, fibroid", chapter: "Female" },
+          { rubric: "Female, uterus, indurated", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the texture of the uterus (Hard/Nodular) and the character of the hemorrhage."
+      }
+    }
+  },
+  {
+    id: "ovarian-cysts",
+    name: "Ovarian Cysts",
+    slug: "ovarian-cysts",
+    system: "gynecology",
+    category: "Functional",
+    definition: "Fluid-filled sacs or pockets in an ovary or on its surface.",
+    simpleExplanation: "Fluid-filled sacs on the ovary. Most are harmless and disappear on their own, but some can cause pain, bloating, or grow very large.",
+    examKeywords: ["Functional cysts", "Dermoid cyst", "Corpus luteum", "Torsion", "Adnexal mass"],
+    epidemiology: {
+      ageDistribution: "All ages; functional cysts commonest in reproductive age.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Infertility treatment", "Pregnancy", "Endometriosis"],
+    },
+    etiology: {
+      predisposingFactors: ["Hormonal imbalance", "Endometriosis (Chocolate cysts)"],
+      precipitatingFactors: ["Failure of a follicle to rupture"],
+      riskFactors: ["Smoking", "Tamoxifen therapy"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Follicular Failure", description: "The follicle doesn't release an egg and continues to fill with fluid (Follicular cyst)." },
+        { title: "Corpus Luteum Persistence", description: "After ovulation, the sac reseals and fluid builds up inside (Corpus luteum cyst)." },
+        { title: "Dermoid Formation", description: "Cyst develops from germ cells and can contain hair, skin, or teeth." },
+        { title: "Growth", description: "Cyst can grow large, causing pressure or twisting of the ovary (Torsion)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Pelvic pain (dull or sharp)", "Bloating", "Feeling of fullness"],
+      localSymptoms: ["Pain during sex", "Pain with bowel movements", "Irregular periods"],
+      constitutionalFeatures: ["Sudden sharp pain with nausea (if torsion/rupture)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden, severe pelvic pain with nausea/vomiting (Ovarian Torsion)",
+      "URGENT REFERRAL: Rapidly increasing abdominal girth (Ascites - suggests malignancy)",
+      "URGENT REFERRAL: Postmenopausal ovarian mass"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "USG Pelvis (TVS)", findings: "Unilocular/Multilocular fluid; Solid components", importance: "Primary imaging" },
+        { name: "MRI Pelvis", findings: "Characterization of complex cysts", importance: "Detailed mapping" }
+      ],
+      laboratoryFindings: [
+        { name: "CA-125", findings: "Elevated (especially in cancer)", importance: "Screening in postmenopausal women" },
+        { name: "Pregnancy Test", findings: "Rule out ectopic", importance: "Differential diagnosis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Common Types",
+      criteria: [
+        "1. Follicular Cysts (Commonest).",
+        "2. Corpus Luteum Cysts (May bleed).",
+        "3. Dermoid Cysts (Teratoma).",
+        "4. Endometrioma (Chocolate cyst)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Ectopic Pregnancy", distinguishingFeatures: "Positive hCG; severe unilateral pain." },
+      { condition: "PID", distinguishingFeatures: "Fever; bilateral tenderness." },
+      { condition: "Fibroids", distinguishingFeatures: "Attached to uterus; firm/solid." }
+    ],
+    complications: {
+      common: ["Cyst rupture (causes brief sharp pain)"],
+      serious: ["Ovarian Torsion (Surgical emergency)", "Infertility"],
+      lifeThreatening: ["Ovarian Cancer", "Severe internal hemorrhage"]
+    },
+    conventionalManagement: {
+      general: ["Watchful waiting (for functional cysts <5cm)"],
+      medical: ["OCPs (to prevent new cysts)"],
+      surgical: ["Cystectomy (removal of cyst)", "Oophorectomy (removal of ovary) - Laparoscopic preferred"],
+      prevention: ["Regular pelvic examinations", "Early reporting of pelvic symptoms", "Hormonal monitoring"]
+    },
+    homoeopathicApproach: "Very effective for functional and simple cysts. Often prevents the need for surgery by addressing the sycotic miasm.",
+    relatedRemedies: [
+      { name: "Apis Mellifica", keyIndications: "Right-sided; stinging, burning pains; better for cold; thirstless; edema." },
+      { name: "Lachesis", keyIndications: "Left-sided; pain better during menses; worse for touch; jealous." },
+      { name: "Iodium", keyIndications: "Cysts with emaciation despite great hunger; hot patient; ovary feels hard." },
+      { name: "Lycopodium", keyIndications: "Right-sided; with flatulence and red sandy urine; worse 4-8 PM." },
+      { name: "Palladium", keyIndications: "Right-sided; pain relieved by pressure; associated with a desire for praise/social attention." }
+    ],
+    relatedDiseases: ["pcos", "endometriosis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Functional cysts resolve", "Dermoid contains hair/teeth", "Torsion is an emergency"],
+      miasmaticDominance: "Sycotic (Fluid accumulation/Cyst formation)",
+      thermalState: "Variable",
+      organAffinity: "Ovaries",
+      memoryMnemonic: "SIDE: Stinging pain (Apis), Irregular periods, Dermoid cyst, Emergency torsion"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out torsion and distinguish between benign and malignant masses.",
+        severityAssessment: "Based on size, complexity on USG, and symptoms.",
+        referralCriteria: ["Sudden severe pain", "Solid/Complex cyst in postmenopausal woman"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Jealous (Lach)", "Socially sensitive (Pallad)"],
+        physicalGenerals: {
+          thermalState: "Hot (Apis/Lach/Iod)",
+          thirst: "Thirstless (Apis)",
+          appetite: "Voracious (Iod)",
+          desires: ["Open air"],
+          aversions: ["Heat"],
+          sleep: "Variable",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Heat, touch, sleep (Lach).", "Amel: Cold applications (Apis), pressure (Pallad)"],
+        concomitants: ["Bloating", "Frequent urination"],
+        characteristicParticulars: [
+          "Ovary: Right-sided stinging pain (Apis).",
+          "Ovary: Left-sided pain radiating to back (Lach)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Ovarian pain that is characteristically relieved by lying on the affected side and applying hard pressure (Palladium)."],
+        individualExpression: "A sycotic fluid-stagnation where the vital force attempts to 'package' hormonal energy into a cystic form."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, ovaries, cysts", chapter: "Female" },
+          { rubric: "Female, ovaries, pain, stinging", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the side affected (Left vs Right) and the thermal modalities."
+      }
+    }
+  },
+  {
+    id: "pelvic-inflammatory-disease",
+    name: "Pelvic Inflammatory Disease (PID)",
+    slug: "pid",
+    system: "gynecology",
+    category: "Infectious",
+    definition: "An infection and inflammation of the upper female genital tract, including the uterus, fallopian tubes, and ovaries.",
+    simpleExplanation: "An infection of the womb, tubes, and ovaries. It is often caused by STIs and can cause severe pain, fever, and if not treated, lead to problems getting pregnant.",
+    examKeywords: ["Chlamydia", "Gonorrhea", "Cervical motion tenderness", "Salpingitis", "Hydrosalpinx", "Infertility risk"],
+    epidemiology: {
+      ageDistribution: "Commonest in young, sexually active women (15-25).",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Multiple sexual partners", "History of STIs", "IUD insertion"],
+    },
+    etiology: {
+      predisposingFactors: ["Unprotected intercourse", "Douching"],
+      precipitatingFactors: ["Ascending infection (Chlamydia/Gonorrhea/E. coli)"],
+      riskFactors: ["Young age", "New sexual partner"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Ascending Infection", description: "Bacteria move from the vagina through the cervix into the uterus." },
+        { title: "Salpingitis", description: "Inflammation of the fallopian tubes, leading to pus formation." },
+        { title: "Pelvic Spread", description: "Infection spills into the pelvic cavity, affecting ovaries and peritoneum." },
+        { title: "Scarring", description: "Healing results in adhesions and blocked tubes." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Lower abdominal pain (bilateral)", "Fever and chills", "Purulent vaginal discharge"],
+      localSymptoms: ["Cervical motion tenderness (Chandelier sign)", "Adnexal tenderness", "Pain during sex"],
+      constitutionalFeatures: ["Malaise", "Irregular bleeding", "Nausea"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: High fever with severe abdominal pain",
+      "URGENT REFERRAL: Signs of peritonitis (Rigidity/Rebound)",
+      "URGENT REFERRAL: Suspicion of tubo-ovarian abscess"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Vaginal/Cervical Swab", findings: "Chlamydia/Gonorrhea positive", importance: "Identify pathogen" },
+        { name: "USG Pelvis", findings: "Fluid in tubes (Hydrosalpinx); Tubo-ovarian abscess", importance: "Assess extent" },
+        { name: "Laparoscopy", findings: "Red, swollen tubes with pus", importance: "Gold standard diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "WBC/CRP", findings: "Elevated", importance: "Confirm inflammation" },
+        { name: "Pregnancy Test", findings: "Negative", importance: "Rule out ectopic" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Minimum Criteria",
+      criteria: [
+        "1. Lower abdominal tenderness.",
+        "2. Adnexal tenderness.",
+        "3. Cervical motion tenderness (Chandelier sign)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Ectopic Pregnancy", distinguishingFeatures: "Positive hCG; unilateral pain; no fever." },
+      { condition: "Acute Appendicitis", distinguishingFeatures: "Pain starts at umbilicus; no cervical tenderness." },
+      { condition: "Ovarian Torsion", distinguishingFeatures: "Sudden onset; unilateral mass; no fever initially." }
+    ],
+    complications: {
+      common: ["Chronic pelvic pain", "Ectopic pregnancy risk"],
+      serious: ["Tubo-ovarian abscess", "Infertility (tubal block)"],
+      lifeThreatening: ["Pelvic peritonitis", "Septic shock", "Fitz-Hugh-Curtis syndrome (Liver capsule infection)"]
+    },
+    conventionalManagement: {
+      general: ["Rest", "Avoid intercourse until treatment is complete", "Treat partners"],
+      medical: ["Broad-spectrum antibiotics (Ceftriaxone + Doxycycline + Metronidazole)"],
+      surgical: ["Drainage of abscesses (if needed)"],
+      prevention: ["Safe sexual practices", "Regular STI screening", "Prompt treatment of lower genital tract infections"]
+    },
+    homoeopathicApproach: "Adjuvant therapy to manage pain and reduce the inflammatory tendency. Conventional antibiotics are mandatory for acute cases.",
+    relatedRemedies: [
+      { name: "Mercurius Corrosivus", keyIndications: "Severe burning pains; foul, purulent discharge; tenesmus; syphilitic miasm." },
+      { name: "Pulsatilla", keyIndications: "Thick yellow discharge; mild patient; better for open air; changeable symptoms." },
+      { name: "Medorrhinum", keyIndications: "The great 'anti-sycotic' nosode for chronic PID following suppressed gonorrhea." },
+      { name: "Sabina", keyIndications: "Inflammation with bright red bleeding and sacral pain." },
+      { name: "Arnica", keyIndications: "Soreness; feeling of being bruised." }
+    ],
+    relatedDiseases: ["vaginitis", "ectopic-pregnancy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Ascending infection", "Chandelier sign", "Antibiotics are essential"],
+      miasmaticDominance: "Sycotic (Chronic inflammation/Blockage) / Syphilitic (Suppuration)",
+      thermalState: "Hot (Fever)",
+      organAffinity: "Fallopian tubes, Ovaries, Peritoneum",
+      memoryMnemonic: "PAIN: Pelvic pain, Adnexal tenderness, Infection (swab), Note cervical tenderness"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent long-term infertility and ectopic pregnancy.",
+        severityAssessment: "Based on fever, degree of pain, and presence of an abscess.",
+        referralCriteria: ["Signs of peritonitis", "Failure to respond to oral meds"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Anxious", "History of suppressed symptoms"],
+        physicalGenerals: {
+          thermalState: "Hot (Fever)",
+          thirst: "Great thirst (Merc)",
+          appetite: "Poor",
+          desires: ["Cold drinks"],
+          aversions: ["Fatty food"],
+          sleep: "Restless",
+          perspiration: "Profuse, offensive, oily (Merc)"
+        },
+        modalities: ["Agg: Touch, motion, heat.", "Amel: Rest, cool air"],
+        concomitants: ["Vomiting", "Painful urination"],
+        characteristicParticulars: [
+          "Uterus: Cervix is extremely tender to the least touch.",
+          "Discharge: Acrid, thin, and burning (Merc) or thick and bland (Puls)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The pelvic pain is so severe that the patient feels as if the whole abdominal cavity is on fire (Merc-cor)."],
+        individualExpression: "A purely sycotic-syphilitic infection where the vital force is overwhelmed by an ascending bacterial invasion."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, inflammation, tubes", chapter: "Female" },
+          { rubric: "Female, leucorrhea, excoriating", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the type of discharge and the intensity of the inflammatory pain."
+      }
+    }
+  },
+  {
+    id: "vaginitis",
+    name: "Vaginitis",
+    slug: "vaginitis",
+    system: "gynecology",
+    category: "Infectious",
+    definition: "Inflammation of the vagina that results in discharge, itching, and pain.",
+    simpleExplanation: "An infection or irritation of the vagina. It can be caused by yeast (itching), bacteria (smell), or other germs. It's very common and usually easy to treat.",
+    examKeywords: ["Leucorrhea", "Candidiasis", "Bacterial Vaginosis (BV)", "Trichomoniasis", "Fishy odor", "Clue cells"],
+    epidemiology: {
+      ageDistribution: "All ages; commonest in reproductive age.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Antibiotic users (for Yeast)", "Pregnant women", "Sexually active women"],
+    },
+    etiology: {
+      predisposingFactors: ["Diabetes", "Pregnancy", "Immunosuppression"],
+      precipitatingFactors: ["Candidiasis (Yeast)", "Gardnerella (BV)", "Trichomonas vaginalis"],
+      riskFactors: ["Douching", "Scented soaps", "Tight clothing"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Microbial Imbalance", description: "The normal healthy bacteria (Lactobacilli) are reduced." },
+        { title: "Overgrowth", description: "Pathogens like yeast or Gardnerella multiply." },
+        { title: "Inflammation", description: "Vaginal lining becomes red, itchy, and swollen." },
+        { title: "Discharge", description: "Characteristic discharge is produced based on the organism." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Vaginal itching (Pruritus)", "Abnormal discharge", "Vaginal soreness"],
+      localSymptoms: ["Pain with urination (External dysuria)", "Pain during sex"],
+      constitutionalFeatures: ["None usually; unless PID develops"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Fever with vaginal discharge (Suggests PID)",
+      "URGENT REFERRAL: Recurrent infections in a non-diabetic woman",
+      "URGENT REFERRAL: Blisters or ulcers on the vulva (Herpes)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Vaginal pH", findings: "> 4.5 in BV/Trich; < 4.5 in Yeast", importance: "Primary screening" },
+        { name: "Wet Mount Microscopy", findings: "Hyphae (Yeast); Clue cells (BV); Motile protozoa (Trich)", importance: "Definitive diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "Whiff Test", findings: "Fishy odor with KOH (Positive in BV)", importance: "Diagnostic for BV" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Common Types",
+      criteria: [
+        "1. Candidiasis: Thick, white 'curdy' discharge; intense itching.",
+        "2. Bacterial Vaginosis: Thin, grey discharge; fishy odor.",
+        "3. Trichomoniasis: Frothy, green discharge; 'strawberry' cervix."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "PID", distinguishingFeatures: "Pelvic pain; fever; cervical tenderness." },
+      { condition: "Atrophic Vaginitis", distinguishingFeatures: "Postmenopausal; dryness; thinning of skin." },
+      { condition: "Vulvar Herpes", distinguishingFeatures: "Painful blisters/ulcers; fever." }
+    ],
+    complications: {
+      common: ["Discomfort", "Secondary skin infection from scratching"],
+      serious: ["Increased risk of STIs", "Preterm labor (if BV in pregnancy)"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Wear cotton underwear", "Avoid douching/scented products", "Wipe front to back"],
+      medical: ["Antifungals (Clotrimazole/Fluconazole) for Yeast", "Metronidazole for BV and Trich"],
+      surgical: ["None"],
+      prevention: ["Maintaining good local hygiene", "Wearing breathable cotton underwear", "Avoiding douching and scented soaps"]
+    },
+    homoeopathicApproach: "Highly effective for chronic and recurrent cases by improving vaginal immunity and balancing the 'Leucorrhea' tendency.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Thick, yellow-green, bland discharge; weepy; thirsty-less; better in open air." },
+      { name: "Sepia", keyIndications: "Yellowish, milky, or green discharge; very itchy; bearing down sensation; indifferent." },
+      { name: "Kreosotum", keyIndications: "Extremely acrid, burning discharge; smells very foul; causes soreness/excoriation; worse for motion." },
+      { name: "Borax", keyIndications: "Discharge like white of egg; sensation as if warm water were flowing; associated with dread of downward motion." },
+      { name: "Alumina", keyIndications: "Very profuse, acrid discharge; runs down to the heels; associated with extreme dryness and constipation." }
+    ],
+    relatedDiseases: ["pid", "normal-pregnancy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Itching = Yeast", "Smell = BV", "Frothy = Trich"],
+      miasmaticDominance: "Psora (Itching/Irritation) / Sycotic (Discharge/Offensiveness)",
+      thermalState: "Variable",
+      organAffinity: "Vaginal mucosa, Vulva",
+      memoryMnemonic: "ITCH: Itching (yeast), Thin discharge (BV), Color change, Healthy habits"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure correct treatment (antifungal vs antibiotic) and prevent complications in pregnancy.",
+        severityAssessment: "Based on intensity of itching and duration of infection.",
+        referralCriteria: ["Recurrent infections", "Signs of PID"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Weepy (Puls)", "Dread of downward motion (Borax)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Thirstless (Puls)",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["Fatty food"],
+          sleep: "Disturbed by itching",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Heat, night (itching).", "Amel: Cold washing, open air"],
+        concomitants: ["Itching", "Burning during urination"],
+        characteristicParticulars: [
+          "Discharge: Characteristically acrid, making the parts sore and red (Kreos).",
+          "Discharge: Like the 'white of an egg' (Borax)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The discharge is so acrid that it eats holes in the linen (Kreosotum)."],
+        individualExpression: "A sycotic-psoric eruption of the mucous membranes, often reflecting a constitutional vulnerability to dampness and infection."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, leucorrhea", chapter: "Female" },
+          { rubric: "Female, itching, vagina", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the character (acrid/bland) and color of the discharge."
+      }
+    }
+  },
+  {
+    id: "female-infertility",
+    name: "Female Infertility",
+    slug: "female-infertility",
+    system: "gynecology",
+    category: "Chronic",
+    definition: "The inability to conceive after one year of regular unprotected intercourse.",
+    simpleExplanation: "Being unable to get pregnant after trying for a year. It can be caused by issues with the eggs, the tubes, the womb, or hormones. Many cases can be helped with treatment.",
+    examKeywords: ["Primary vs Secondary", "Anovulation", "Tubal block", "Endometriosis", "PCOS", "HSG"],
+    epidemiology: {
+      ageDistribution: "Affects women in reproductive years; increases significantly after 35.",
+      sexDistribution: "Exclusively females (though 30% of cases are male factor).",
+      riskGroups: ["PCOS patients", "History of PID", "Advanced maternal age", "Smoking"],
+    },
+    etiology: {
+      predisposingFactors: ["Hormonal imbalance (Anovulation)", "Uterine anomalies"],
+      precipitatingFactors: ["Tubal damage (from PID)", "Endometriosis"],
+      riskFactors: ["Obesity/Underweight", "Smoking/Alcohol", "Stress"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Ovulatory Failure", description: "Ovaries don't release an egg regularly (e.g., PCOS)." },
+        { title: "Tubal Obstruction", description: "Sperm can't reach the egg due to blocked or damaged tubes." },
+        { title: "Implantation Failure", description: "The womb lining is not receptive or has fibroids/polyps." },
+        { title: "Cervical Factors", description: "Cervical mucus is hostile to sperm." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Failure to conceive", "Irregular periods (often)"],
+      localSymptoms: ["Pelvic pain (if endometriosis/PID)", "Excess hair/Acne (if PCOS)"],
+      constitutionalFeatures: ["Emotional distress", "Anxiety"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Women > 35 who haven't conceived after 6 months",
+      "URGENT REFERRAL: Known history of PID or Endometriosis",
+      "URGENT REFERRAL: Irregular or absent periods"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Hysterosalpingogram (HSG)", findings: "Spill/No spill from tubes", importance: "Check for tubal patency" },
+        { name: "USG Pelvis (TVS)", findings: "Follicular tracking; PCOS; Fibroids", importance: "Monitor ovulation and structure" },
+        { name: "Hormone Profile", findings: "Day 21 Progesterone; Day 2 FSH/LH", importance: "Confirm ovulation and ovarian reserve" }
+      ],
+      laboratoryFindings: [
+        { name: "Anti-Müllerian Hormone (AMH)", findings: "Low", importance: "Indicates low egg reserve" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Common Causes",
+      criteria: [
+        "1. Ovulatory Dysfunction (40%) - e.g. PCOS.",
+        "2. Tubal Factors (30%) - e.g. post-PID.",
+        "3. Pelvic Endometriosis (15%).",
+        "4. Unexplained (15%)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Male Infertility", distinguishingFeatures: "Abnormal semen analysis (MUST check first)." },
+      { condition: "PCOS", distinguishingFeatures: "Irregular cycles; hirsutism; USG findings." },
+      { condition: "Premature Ovarian Insufficiency", distinguishingFeatures: "Amenorrhea; high FSH." }
+    ],
+    complications: {
+      common: ["Psychological stress", "Relationship strain"],
+      serious: ["Ectopic pregnancy risk (if tubal issues)", "Side effects of IVF"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Weight management", "Smoking cessation", "Timed intercourse"],
+      medical: ["Clomiphene/Letrozole (to induce ovulation)", "Metformin (for PCOS)", "Hormone injections", "Assisted reproduction (IUI, IVF, ICSI)"],
+      surgical: ["Laparoscopic tubal surgery", "Myomectomy (for fibroids)", "Laparoscopic drilling (for PCOS)"],
+      prevention: ["Early treatment of STIs", "Healthy weight maintenance", "Avoiding smoking and excessive alcohol"]
+    },
+    homoeopathicApproach: "Aims to regularize ovulation, improve uterine receptivity, and address the 'sycotic' miasm. Constitutional treatment of both partners is often helpful.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Late, scanty periods; mild, weepy; thirstless; ovulation irregular." },
+      { name: "Sepia", keyIndications: "Indifference; bearing down; yellowish leucorrhea; menses scanty; better for exercise." },
+      { name: "Natrum Muriaticum", keyIndications: "Suppressed periods from grief; acrid leucorrhea; desire for salt." },
+      { name: "Borax", keyIndications: "Leucorrhea like white of egg; dread of downward motion; helps in cases with hostile mucus." },
+      { name: "Agnus Castus", keyIndications: "Lowered libido; 'scanty' vitality; history of sexual excess/exhaustion." }
+    ],
+    relatedDiseases: ["pcos", "endometriosis", "amenorrhea"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["1 year of trying", "HSG for tubes", "Anovulation is commonest cause"],
+      miasmaticDominance: "Sycotic (Obstruction/PCOS) / Psora (Functional delay)",
+      thermalState: "Variable",
+      organAffinity: "Ovaries, Fallopian tubes, Uterus",
+      memoryMnemonic: "BABY: Biochemical tests (hormones), Anatomical check (HSG), Body weight, Yearly count (age factor)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify treatable causes early and manage the psychological impact.",
+        severityAssessment: "Based on duration of infertility and age of the mother.",
+        referralCriteria: ["Age > 35", "Blocked tubes on HSG", "Severe male factor"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Grief", "Indifference (Sepia)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["Fat (Puls)"],
+          sleep: "Disturbed by worry",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Stress, cold."],
+        concomitants: ["Irregular periods", "Leucorrhea"],
+        characteristicParticulars: [
+          "Ovary: Ovarian irritation with irregular cycles.",
+          "Mucus: Thick, acrid leucorrhea that 'kills the sperm'."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Infertility associated with a history of suppressed skin eruptions or sycotic discharges (Medorrhinum/Thuja)."],
+        individualExpression: "A sycotic-psoric blockade where the vital force is unable to initiate the process of generation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, sterility", chapter: "Female" },
+          { rubric: "Female, menses, late, scanty", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the underlying constitution and the history of previous infections/trauma."
+      }
+    }
+  },
+  {
+    id: "cervical-cancer",
+    name: "Cervical Cancer",
+    slug: "cervical-cancer",
+    system: "gynecology",
+    category: "Malignancy",
+    definition: "A malignant tumor arising from the cervix, almost always caused by infection with High-Risk Human Papillomavirus (HPV).",
+    simpleExplanation: "Cancer of the neck of the womb (cervix). It is caused by a common virus (HPV) and can be prevented by regular screening (Pap smears) and the HPV vaccine.",
+    examKeywords: ["HPV 16 and 18", "Post-coital bleeding", "Pap smear", "CIN", "Schiller's test"],
+    epidemiology: {
+      ageDistribution: "Peak incidence at 35-45 years.",
+      sexDistribution: "Exclusively females.",
+      riskGroups: ["Multiple sexual partners", "Early first intercourse", "Smoking", "Immunosuppression"],
+    },
+    etiology: {
+      predisposingFactors: ["HPV infection (99% of cases)", "Sexual behavior"],
+      precipitatingFactors: ["Persistent infection with High-Risk HPV strains"],
+      riskFactors: ["Smoking", "Long-term OCP use", "Low socioeconomic status"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "HPV Infection", description: "Virus enters cells at the transformation zone of the cervix." },
+        { title: "Dysplasia (CIN)", description: "Viral proteins E6 and E7 disrupt cell cycle control, leading to precancerous changes." },
+        { title: "Carcinoma in Situ", description: "Changes involve the full thickness of the cervical lining." },
+        { title: "Invasive Cancer", description: "Cells break through the basement membrane and spread to local tissues and lymph nodes." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Post-coital bleeding (Commonest sign)", "Intermenstrual bleeding"],
+      localSymptoms: ["Foul-smelling vaginal discharge", "Pelvic pain (late stage)"],
+      constitutionalFeatures: ["Weight loss", "Anemia", "Leg swelling (late stage)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Bleeding after sex (Post-coital bleeding)",
+      "URGENT REFERRAL: Foul-smelling, blood-tinged vaginal discharge",
+      "URGENT REFERRAL: Abnormal appearance of the cervix on speculum exam"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Pap Smear/HPV Testing", findings: "Dysplastic cells; High-risk HPV positive", importance: "Primary screening" },
+        { name: "Colposcopy", findings: "Atypical vessels; Acetowhite patches", importance: "Visualize lesions" },
+        { name: "Cervical Biopsy", findings: "Squamous cell carcinoma or Adenocarcinoma", importance: "Definitive diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "CT/MRI", findings: "Staging and spread", importance: "Management planning" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Screening & Staging",
+      criteria: [
+        "1. Screening: Pap smear and HPV DNA test.",
+        "2. Diagnosis: Histology from biopsy.",
+        "3. Staging: FIGO staging (Stage I-IV)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Cervical Polyp", distinguishingFeatures: "Soft, red mass; painless bleeding; non-invasive." },
+      { condition: "Cervicitis", distinguishingFeatures: "Inflammation; discharge; no neoplastic cells on biopsy." },
+      { condition: "Endometrial Cancer", distinguishingFeatures: "Bleeding usually not post-coital; intrauterine mass." }
+    ],
+    complications: {
+      common: ["Anemia", "Foul discharge"],
+      serious: ["Ureteral obstruction (Renal failure)", "Vesicovaginal fistula"],
+      lifeThreatening: ["Metastasis", "Severe hemorrhage", "Death"]
+    },
+    conventionalManagement: {
+      general: ["HPV Vaccination (Prevention)", "Smoking cessation"],
+      medical: ["Chemotherapy (Cisplatin)", "Radiotherapy (External beam and Brachytherapy)"],
+      surgical: ["LLETZ/Cone biopsy (for CIN)", "Radical Hysterectomy (for early cancer)"],
+      prevention: ["HPV vaccination in early adolescence", "Regular Pap smear/HPV screening", "Smoking cessation", "Safe sex practices"]
+    },
+    homoeopathicApproach: "Palliative therapy to manage pain, discharges, and support the patient during chemo/radiation. Homoeopathy is NOT a primary treatment for cancer.",
+    relatedRemedies: [
+      { name: "Carbo Animalis", keyIndications: "Induration of cervix; acrid, foul discharge; burning pains; great prostration." },
+      { name: "Kreosotum", keyIndications: "Offensive, excoriating, blood-tinged discharge; post-coital bleeding; burning like fire." },
+      { name: "Hydrastis", keyIndications: "Yellow, ropy discharge; cancer with emaciation; 'gone' feeling in stomach." },
+      { name: "Arsenicum Album", keyIndications: "Burning pains; anxiety; fear of death; cachexia." }
+    ],
+    relatedDiseases: ["vaginitis", "aub"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["HPV is the cause", "Post-coital bleeding is classic", "Prevention via vaccine/smear"],
+      miasmaticDominance: "Syphilitic (Destruction/Malignancy)",
+      thermalState: "Variable",
+      organAffinity: "Cervix, Lymph nodes",
+      memoryMnemonic: "CANCER: Cells (Pap), Acrid discharge, Note bleeding after sex, Cervical biopsy, Evaluate staging, Radiation"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To initiate life-saving cancer treatment early.",
+        severityAssessment: "Based on FIGO staging and spread to lymph nodes.",
+        referralCriteria: ["ANY post-coital bleeding", "Abnormal Pap smear"]
+      },
+      individualization: {
+        mentalGenerals: ["Terror", "Fear of cancer/death", "Despair"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars/Carbo-an)",
+          thirst: "Little and often (Ars)",
+          appetite: "Anorexia (Cachexia)",
+          desires: ["None"],
+          aversions: ["Food"],
+          sleep: "Disturbed by pain",
+          perspiration: "Cold, offensive"
+        },
+        modalities: ["Agg: Night, cold (Ars).", "Amel: Heat (Ars), rest"],
+        concomitants: ["Weight loss", "Foul discharge"],
+        characteristicParticulars: [
+          "Cervix: Hard as a stone; exquisitely sensitive to touch.",
+          "Discharge: Horribly offensive, like rotten meat (Kreos)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vaginal discharge that is so acrid it causes ulcers on the surrounding skin (Kreosotum)."],
+        individualExpression: "A purely syphilitic destructive process where the cellular blueprint is hijacked by a viral force, leading to malignant chaos."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Female, tumors, cancer, cervix", chapter: "Female" },
+          { rubric: "Female, discharges, offensive", chapter: "Female" }
+        ],
+        symptomAnalysis: "Focus on the palliative management of the offensive discharges and the burning pains."
+      }
+    }
+  },
+  {
+    id: "neonatal-jaundice",
+    name: "Neonatal Jaundice",
+    slug: "neonatal-jaundice",
+    system: "pediatrics",
+    category: "Neonatal",
+    definition: "Yellowish discoloration of the skin and sclera in a newborn due to elevated bilirubin levels.",
+    simpleExplanation: "A very common condition where a newborn baby's skin and eyes look yellow. It happens because their young liver is still learning to clear a yellow substance called bilirubin from the blood. Most cases are harmless, but very high levels need treatment with special lights.",
+    examKeywords: ["Bilirubin", "Phototherapy", "Kernicterus", "Physiological vs Pathological", "Crigler-Najjar"],
+    epidemiology: {
+      ageDistribution: "First week of life.",
+      sexDistribution: "Slightly more common in males.",
+      riskGroups: ["Preterm babies", "ABO/Rh incompatibility", "Breastfed infants"],
+    },
+    etiology: {
+      predisposingFactors: ["Immature liver function", "Short lifespan of fetal RBCs"],
+      precipitatingFactors: ["Hemolysis", "Dehydration", "Infection"],
+      riskFactors: ["Sibling had jaundice", "Bruising during birth"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Bilirubin Production", description: "Breakdown of red blood cells produces unconjugated bilirubin." },
+        { title: "Liver Processing", description: "The liver attempts to conjugate (process) bilirubin for excretion." },
+        { title: "Accumulation", description: "Production exceeds the liver's capacity, leading to buildup in the skin." },
+        { title: "Potential Neurotoxicity", description: "Very high levels can cross the blood-brain barrier (Kernicterus)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Yellow skin and sclera", "Lethargy", "Poor feeding"],
+      localSymptoms: ["Yellowish palms and soles (if severe)"],
+      constitutionalFeatures: ["Dark urine/Pale stools (if obstructive)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Jaundice appearing in the first 24 hours of life (Always pathological)",
+      "URGENT REFERRAL: Deep jaundice involving palms and soles",
+      "URGENT REFERRAL: High-pitched cry or arching of the back (Sign of Kernicterus)",
+      "URGENT REFERRAL: Jaundice lasting more than 14 days (Prolonged jaundice)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Serum Bilirubin (Total and Direct)", findings: "Elevated unconjugated or conjugated bilirubin", importance: "Definitive measurement" },
+        { name: "Transcutaneous Bilirubinometry", findings: "Screening value", importance: "Non-invasive check" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood Group/Coombs Test", findings: "Incompatibility", importance: "Identify hemolytic cause" },
+        { name: "G6PD Screen", findings: "Deficiency", importance: "Identify metabolic cause" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Physiological vs Pathological",
+      criteria: [
+        "Physiological: Starts AFTER 24h; peaks day 3-5; resolves by day 10; bilirubin usually < 15mg/dL.",
+        "Pathological: Starts BEFORE 24h; rises rapidly (>5mg/dL/day); lasts > 14 days; associated with illness."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Biliary Atresia", distinguishingFeatures: "Pale stools; dark urine; conjugated hyperbilirubinemia." },
+      { condition: "Breast Milk Jaundice", distinguishingFeatures: "Peaks late (week 2); baby otherwise healthy and thriving." },
+      { condition: "Neonatal Sepsis", distinguishingFeatures: "Temperature instability; poor feeding; lethargy." }
+    ],
+    complications: {
+      common: ["Dehydration", "Poor weight gain"],
+      serious: ["Kernicterus (Brain damage)", "Bilirubin encephalopathy"],
+      lifeThreatening: ["Kernicterus"]
+    },
+    conventionalManagement: {
+      general: ["Frequent breastfeeding (8-12 times/day)", "Keep baby hydrated"],
+      medical: ["Phototherapy (Blue-green light) - standard treatment", "Exchange transfusion (for dangerously high levels)", "IV Immunoglobulin (for Rh/ABO)"],
+      prevention: ["Ensuring frequent breastfeeding", "Early recognition of jaundice in newborns"]
+    },
+    homoeopathicApproach: "Used as supportive therapy for physiological jaundice or to help clear mild persistent jaundice. Never delay phototherapy for high levels.",
+    relatedRemedies: [
+      { name: "Chelidonium", keyIndications: "Yellowish skin; liver sluggishness; baby is sleepy and constipated." },
+      { name: "Aconite", keyIndications: "Jaundice in the newborn with fear and restlessness (rarely used in neonates but indicated if sudden onset)." },
+      { name: "Natrum Sulphuricum", keyIndications: "Greenish-yellow jaundice; associated with dampness; hydrogenoid constitution." },
+      { name: "Chamomilla", keyIndications: "Jaundice following an outburst of anger (in mother/baby); baby is extremely irritable." },
+      { name: "Crotalus Horridus", keyIndications: "Malignant jaundice with tendency to hemorrhage (Syphilitic)." }
+    ],
+    relatedDiseases: ["neonatal-sepsis", "biliary-atresia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Phototherapy is key", "Check palms/soles", "Rule out Kernicterus"],
+      miasmaticDominance: "Psora (Functional liver lag) / Syphilitic (Hemolytic destruction)",
+      thermalState: "Variable",
+      organAffinity: "Liver, Blood, Brain",
+      memoryMnemonic: "YELLOW: Yes (physiological?), Early (<24h?), Low feeding, Liver immature, Observe palms, Watch for encephalopathy"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish physiological jaundice from life-threatening hemolytic or septic jaundice.",
+        severityAssessment: "Based on bilirubin charts (Kramer's rule) and baby's alertness.",
+        referralCriteria: ["Jaundice < 24 hours", "Bilirubin above phototherapy threshold"]
+      },
+      individualization: {
+        mentalGenerals: ["Lethargy", "Irritability (Cham)"],
+        physicalGenerals: {
+          thermalState: "Warm",
+          thirst: "Poor feeding",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Excessive (Lethargy)",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Cold, fasting."],
+        concomitants: ["Pale stools", "Dark urine"],
+        characteristicParticulars: [
+          "Liver: Palpable and tender (Chelidonium).",
+          "Skin: Golden yellow vs Greenish yellow."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Jaundice associated with extreme irritability and one cheek red, one cheek pale (Chamomilla)."],
+        individualExpression: "A psoric functional delay in the liver's ability to transition from fetal to neonatal metabolism."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitals, jaundice, newborn", chapter: "Generalities" },
+          { rubric: "Skin, discoloration, yellow", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the timing of onset and the baby's general activity level."
+      }
+    }
+  },
+  {
+    id: "neonatal-sepsis",
+    name: "Neonatal Sepsis",
+    slug: "neonatal-sepsis",
+    system: "pediatrics",
+    category: "Infectious",
+    definition: "A systemic infection occurring in an infant within the first 28 days of life.",
+    simpleExplanation: "A serious blood infection in a newborn baby. Because babies' immune systems are very weak, an infection can spread quickly and make them very ill. It requires immediate hospital treatment with antibiotics.",
+    examKeywords: ["Early vs Late onset", "Group B Strep", "Bulging fontanelle", "Temperature instability", "Tachycardia"],
+    epidemiology: {
+      ageDistribution: "First 28 days of life.",
+      sexDistribution: "More common in males.",
+      riskGroups: ["Preterm infants", "Low birth weight", "Maternal fever during labor"],
+    },
+    etiology: {
+      predisposingFactors: ["PROM (>18 hours)", "Maternal GBS colonization"],
+      precipitatingFactors: ["Bacterial invasion (GBS, E. coli, Listeria)"],
+      riskFactors: ["Birth asphyxia", "Invasive procedures (NICU)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Invasion", description: "Bacteria enter the bloodstream via the skin, umbilical cord, or lungs." },
+        { title: "Systemic Spread", description: "Infection spreads to organs, including the brain (Meningitis)." },
+        { title: "Inflammatory Response", description: "The baby's body releases chemicals that cause low blood pressure and organ failure." },
+        { title: "Shock", description: "Vital organs stop receiving enough blood." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Temperature instability (Fever or Hypothermia)", "Poor feeding", "Lethargy"],
+      localSymptoms: ["Bulging fontanelle (Meningitis)", "Respiratory distress (Grunting/Retractions)"],
+      constitutionalFeatures: ["Jaundice", "Abdominal distension", "Hypotonia (Floppy baby)"]
+    },
+    redFlags: [
+      "EMERGENCY: Bulging fontanelle (Sign of Meningitis)",
+      "EMERGENCY: Apnea (Stopped breathing) or severe grunting",
+      "EMERGENCY: Temperature < 36°C or > 38°C",
+      "EMERGENCY: Seizures or extreme floppiness"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Blood Culture", findings: "Growth of bacteria", importance: "Gold standard diagnosis" },
+        { name: "Lumbar Puncture (CSF)", findings: "High WBC, low glucose", importance: "Rule out meningitis" },
+        { name: "Chest X-ray", findings: "Pneumonic changes", importance: "Check for source" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC with Diff", findings: "Low/High WBC; High band cells", importance: "Sepsis screen" },
+        { name: "CRP", findings: "Elevated", importance: "Marker of inflammation" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Sepsis Screen",
+      criteria: [
+        "1. Total WBC count (<5000 or >20000).",
+        "2. Absolute Neutrophil Count (low).",
+        "3. Immature to Total (I:T) ratio (>0.2).",
+        "4. Elevated CRP."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Respiratory Distress Syndrome (RDS)", distinguishingFeatures: "Common in preterms; primary breathing issue; no fever." },
+      { condition: "Birth Asphyxia", distinguishingFeatures: "History of difficult birth; immediate onset." },
+      { condition: "Metabolic Disorders", distinguishingFeatures: "Atypical presentation; family history." }
+    ],
+    complications: {
+      common: ["Meningitis", "Pneumonia"],
+      serious: ["Septic shock", "Disseminated Intravascular Coagulation (DIC)", "Brain damage"],
+      lifeThreatening: ["Multi-organ failure", "Death"]
+    },
+    conventionalManagement: {
+      general: ["IV Fluids", "Oxygen/Ventilation support", "Thermoregulation"],
+      medical: ["Empiric IV Antibiotics (Ampicillin + Gentamicin) - START IMMEDIATELY"],
+      prevention: ["Handwashing before handling newborns", "Aseptic delivery and cord care", "Screening and treating maternal GBS infection"]
+    },
+    homoeopathicApproach: "Homoeopathy has NO role as primary treatment for neonatal sepsis. It is a critical medical emergency requiring IV antibiotics.",
+    relatedRemedies: [
+      { name: "Baptisia", keyIndications: "Palliative for profound prostration; septic state; offensive odors; bed feels too hard." },
+      { name: "Arsenicum Album", keyIndications: "Great anxiety (in parents/visible in baby); restlessness; coldness; offensive discharges." },
+      { name: "Pyrogenium", keyIndications: "Pulse out of proportion to temperature; horribly offensive odors." }
+    ],
+    relatedDiseases: ["neonatal-jaundice", "pediatric-pneumonia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["IV antibiotics now", "Check fontanelle", "Temp instability"],
+      miasmaticDominance: "Syphilitic (Rapid destruction)",
+      thermalState: "Variable (often cold/hypothermic)",
+      organAffinity: "Blood, Brain, Lungs",
+      memoryMnemonic: "SEPSIS: Sleepy/Lethargic, Eating poorly, Pulse rapid, Skin pale/mottled, Instability of temp, Seizures"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Neonatal sepsis is rapidly fatal; every minute counts.",
+        severityAssessment: "Based on blood pressure, perfusion, and neurological state.",
+        referralCriteria: ["ANY suspicion of sepsis in a neonate requires immediate hospitalization"]
+      },
+      individualization: {
+        mentalGenerals: ["Stupor", "Coma"],
+        physicalGenerals: {
+          thermalState: "Cold (Hypothermia)",
+          thirst: "Nil",
+          appetite: "Refusal to feed",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Unresponsive",
+          perspiration: "Cold, clammy"
+        },
+        modalities: ["Agg: Cold, motion."],
+        concomitants: ["Vomiting", "Diarrhea", "Seizures"],
+        characteristicParticulars: [
+          "Umbilicus: Redness or discharge (Omphalitis).",
+          "Cry: Weak or high-pitched."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The baby looks 'ashy' or grey with a peculiar pinched expression (Syphilitic facies)."],
+        individualExpression: "A violent syphilitic invasion of the immature neonatal organism."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, sepsis", chapter: "Generalities" },
+          { rubric: "Fever, septic", chapter: "Fever" }
+        ],
+        symptomAnalysis: "Focus is entirely on life-support and emergency medical care."
+      }
+    }
+  },
+  {
+    id: "acute-diarrhea-pediatric",
+    name: "Acute Diarrhea (Pediatric)",
+    slug: "pediatric-diarrhea",
+    system: "pediatrics",
+    category: "Gastrointestinal",
+    definition: "Passing 3 or more loose or watery stools in 24 hours, lasting less than 14 days.",
+    simpleExplanation: "Watery or runny tummy in children. It's usually caused by a virus (like stomach flu). The biggest danger is the child losing too much water (dehydration), so giving plenty of fluids is the most important thing.",
+    examKeywords: ["Rotavirus", "Dehydration", "ORS", "Zinc supplementation", "Gastroenteritis"],
+    epidemiology: {
+      ageDistribution: "Commonest in infants and children < 5 years.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Malnourished children", "Non-breastfed infants", "Poor sanitation areas"],
+    },
+    etiology: {
+      predisposingFactors: ["Contaminated water/food", "Lack of breastfeeding"],
+      precipitatingFactors: ["Rotavirus (Commonest)", "E. coli", "Salmonella", "Shigella (Dysentery)"],
+      riskFactors: ["Vitamin A deficiency", "Immunosuppression"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Ingestion", description: "Pathogens enter the mouth via dirty hands or food." },
+        { title: "Intestinal Invasion", description: "Bacteria/Viruses damage the lining of the small intestine." },
+        { title: "Malabsorption", description: "The intestine can't absorb water or salt properly." },
+        { title: "Fluid Loss", description: "Water stays in the gut and is passed as watery stool." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Watery stools", "Vomiting", "Abdominal pain"],
+      localSymptoms: ["Bloody stools (Dysentery)", "Tenesmus (straining)"],
+      constitutionalFeatures: ["Fever", "Irritability", "Signs of dehydration"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Signs of severe dehydration (Lethargy, sunken eyes, no urine)",
+      "URGENT REFERRAL: Blood in stool (Dysentery)",
+      "URGENT REFERRAL: Persistent vomiting (cannot keep ORS down)",
+      "URGENT REFERRAL: High fever or seizures"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Stool Culture/Routine", findings: "Cysts, ova, or bacterial growth", importance: "Identify pathogen" },
+        { name: "Stool Hanging Drop", findings: "Vibrio cholerae (darting motility)", importance: "If cholera suspected" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Electrolytes", findings: "Sodium/Potassium imbalance", importance: "If severely dehydrated" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Assessment of Dehydration",
+      criteria: [
+        "No Dehydration: Alert; drinks normally; skin pinch goes back quickly.",
+        "Some Dehydration: Restless/Irritable; thirsty; sunken eyes; slow skin pinch.",
+        "Severe Dehydration: Lethargic/Unconscious; unable to drink; very slow skin pinch."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Food Poisoning", distinguishingFeatures: "Acute onset; multiple people affected; vomiting prominent." },
+      { condition: "Cholera", distinguishingFeatures: "Painless 'rice-water' stools; rapid severe dehydration." },
+      { condition: "Intussusception", distinguishingFeatures: "'Red currant jelly' stool; screaming fits; abdominal mass." }
+    ],
+    complications: {
+      common: ["Dehydration", "Electrolyte imbalance"],
+      serious: ["Hypovolemic shock", "Acute Kidney Injury (AKI)", "Persistent diarrhea"],
+      lifeThreatening: ["Shock", "Death"]
+    },
+    conventionalManagement: {
+      general: ["ORS (Oral Rehydration Salts) - Life-saving", "Continue breastfeeding", "Frequent small meals"],
+      medical: ["Zinc supplementation (20mg for 14 days)", "Antibiotics ONLY for dysentery or cholera", "NO anti-diarrheal drugs in children (Danger of toxic megacolon)"],
+      prevention: ["Rotavirus vaccination", "Exclusive breastfeeding for first 6 months", "Handwashing with soap", "Access to safe drinking water"]
+    },
+    homoeopathicApproach: "Extremely effective in managing acute diarrhea by matching the specific characteristics of the stool and modalities.",
+    relatedRemedies: [
+      { name: "Podophyllum", keyIndications: "Profuse, painless, offensive watery stool; 'gushing' like a hydrant; worse in morning; associated with teething." },
+      { name: "Aloe Socotrina", keyIndications: "Jelly-like stool; insecure feeling in rectum (passes stool with flatus); worse after eating." },
+      { name: "Veratrum Album", keyIndications: "Profuse 'rice-water' stool with cold sweat on forehead; collapse; extreme thirst for cold water." },
+      { name: "Arsenicum Album", keyIndications: "Small, offensive stool; great restlessness and anxiety; thirst for sips of water; worse at midnight." },
+      { name: "Croton Tiglium", keyIndications: "Sudden 'shot-out' stool; as soon as baby eats or drinks; yellowish watery." }
+    ],
+    relatedDiseases: ["dehydration", "malnutrition"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["ORS is first line", "Zinc for 14 days", "Assess dehydration"],
+      miasmaticDominance: "Psora (Irritation) / Syphilitic (Destructive diarrhea/Flooding)",
+      thermalState: "Variable",
+      organAffinity: "Small and Large Intestine",
+      memoryMnemonic: "WATER: Watery stool, Assess dehydration, Treat with ORS, Eat normally, Red flags check"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent death from dehydration, which is a leading cause of child mortality.",
+        severityAssessment: "Based on the dehydration assessment (Plan A, B, or C).",
+        referralCriteria: ["Severe dehydration", "Inability to drink", "Bloody stools"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Restless (Ars)", "Lethargic"],
+        physicalGenerals: {
+          thermalState: "Cold (Veratrum)",
+          thirst: "Thirst for sips (Ars) or large quantities (Veratrum)",
+          appetite: "Poor",
+          desires: ["Cold water"],
+          aversions: ["Milk"],
+          sleep: "Restless",
+          perspiration: "Cold sweat on forehead (Veratrum)"
+        },
+        modalities: ["Agg: Morning (Podo), after eating (Aloe/Croton-t), after fruit."],
+        concomitants: ["Vomiting", "Flatulence", "Abdominal pain"],
+        characteristicParticulars: [
+          "Stool: Color (Green/Yellow/Rice-water) and Consistency.",
+          "Rectum: Weakness of sphincter (Aloe)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Stool that gushes out all at once, as if a hydrant were opened (Podophyllum)."],
+        individualExpression: "A psoric-syphilitic reaction of the gut aiming to expel toxins, leading to a dangerous loss of vital fluids."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Stool, watery, gushing", chapter: "Stool" },
+          { rubric: "Stool, rice-water", chapter: "Stool" }
+        ],
+        symptomAnalysis: "Focus on the modalities (When? After what?) and the character of the stool."
+      }
+    }
+  },
+  {
+    id: "dehydration-pediatric",
+    name: "Dehydration (Pediatric)",
+    slug: "pediatric-dehydration",
+    system: "pediatrics",
+    category: "Emergency",
+    definition: "A depletion of body fluids and electrolytes, usually resulting from diarrhea and vomiting.",
+    simpleExplanation: "When a child's body doesn't have enough water and salt. This usually happens after a lot of vomiting or diarrhea. It is very dangerous because the heart and brain need water to work. Treatment with special salt water (ORS) is vital.",
+    examKeywords: ["Skin pinch", "Sunken eyes", "Lethargy", "Capillary refill", "ORS Plans"],
+    epidemiology: {
+      ageDistribution: "Commonest in infants (who have more body water).",
+      sexDistribution: "Equal.",
+      riskGroups: ["Malnourished children", "Infants with gastroenteritis"],
+    },
+    etiology: {
+      predisposingFactors: ["Small body size", "High metabolic rate"],
+      precipitatingFactors: ["Diorrhea (Commonest)", "Vomiting", "Poor fluid intake", "Heat stroke"],
+      riskFactors: ["Fever", "High environmental temperature"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fluid Loss", description: "Loss of water and salts from gut, skin, or urine." },
+        { title: "Extracellular Depletion", description: "Blood volume drops, causing the heart to beat faster." },
+        { title: "Intracellular Shifting", description: "Water leaves cells to keep the blood moving, causing cell dysfunction." },
+        { title: "Circulatory Failure", description: "Blood pressure drops (Shock) and organs stop working." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sunken eyes", "Sunken fontanelle (in infants)", "Dry mouth and tongue"],
+      localSymptoms: ["Skin pinch goes back slowly", "Decreased urine output"],
+      constitutionalFeatures: ["Lethargy or Irritability", "Fast pulse", "Cold hands and feet"]
+    },
+    redFlags: [
+      "EMERGENCY: Lethargy or unconsciousness",
+      "EMERGENCY: Skin pinch goes back very slowly (>2 seconds)",
+      "EMERGENCY: Unable to drink or drinks poorly",
+      "EMERGENCY: No urine for > 6 hours"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Assessment", findings: "Pulse, skin turgor, mucous membranes", importance: "Primary diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Electrolytes", findings: "Sodium/Potassium imbalance", importance: "Assess type (Iso/Hypo/Hypernatremic)" },
+        { name: "Urine Specific Gravity", findings: "High", importance: "Confirms concentration" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "WHO Dehydration Plans",
+      criteria: [
+        "Plan A: No dehydration (Home care with extra fluids/ORS).",
+        "Plan B: Some dehydration (ORS 75ml/kg over 4 hours in clinic).",
+        "Plan C: Severe dehydration (Emergency IV fluids - Ringer's Lactate)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Septic Shock", distinguishingFeatures: "Fever; primary infection site; low BP without necessarily large fluid loss." },
+      { condition: "Diabetes Insipidus", distinguishingFeatures: "Excessive pale urine; high thirst." }
+    ],
+    complications: {
+      common: ["Electrolyte imbalance (Hypokalemia)"],
+      serious: ["Hypovolemic Shock", "Acute Kidney Injury", "Cerebral edema (if rehydrated too fast)"],
+      lifeThreatening: ["Shock", "Death"]
+    },
+    conventionalManagement: {
+      general: ["ORS (Oral Rehydration Salts)", "Frequent sips if vomiting", "Continue feeding"],
+      medical: ["IV Fluids (Ringer's Lactate) for severe cases ONLY"],
+      surgical: ["None"],
+      prevention: ["Early ORS use during diarrhea", "Frequent breastfeeding during illness", "Timely treatment of infections"]
+    },
+    homoeopathicApproach: "Used alongside ORS to stop the loss and improve recovery. Never use homoeopathy as a substitute for fluid replacement in moderate-severe cases.",
+    relatedRemedies: [
+      { name: "China (Cinchona)", keyIndications: "The great remedy for loss of vital fluids; debility; coldness; ringing in ears; gas." },
+      { name: "Veratrum Album", keyIndications: "Dehydration with cold sweat and rice-water stools; collapse." },
+      { name: "Arsenicum Album", keyIndications: "Restless, anxious child; thirsty for small sips; chilly." },
+      { name: "Lycopodium", keyIndications: "Sunken eyes; dry skin; flatulence; worse 4-8 PM." }
+    ],
+    relatedDiseases: ["pediatric-diarrhea", "malnutrition"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["ORS is life-saving", "Check skin pinch", "IV for Plan C"],
+      miasmaticDominance: "Syphilitic (Rapid depletion)",
+      thermalState: "Cold (Shock)",
+      organAffinity: "Heart, Kidneys, Brain",
+      memoryMnemonic: "PINCH: Pulse rapid, Irritable/Lethargic, Note eyes (sunken), Capillary refill slow, Hydrate now!"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Dehydration is a leading cause of death in children globally.",
+        severityAssessment: "Based on WHO clinical signs.",
+        referralCriteria: ["Any Plan C dehydration", "Persistent vomiting", "Altered consciousness"]
+      },
+      individualization: {
+        mentalGenerals: ["Lethargy", "Restlessness (Ars)"],
+        physicalGenerals: {
+          thermalState: "Cold",
+          thirst: "Variable",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Drowsy",
+          perspiration: "Cold sweat (Veratrum)"
+        },
+        modalities: ["Agg: Any motion."],
+        concomitants: ["Weak pulse", "Cold extremities"],
+        characteristicParticulars: [
+          "Eyes: Sunken and surrounded by dark circles.",
+          "Tongue: Dry like a piece of wood."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Extreme debility following loss of vital fluids, with a feeling as if the head would burst (China)."],
+        individualExpression: "A rapid syphilitic depletion of the vital humors leading to collapse of the vital force."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, fluid, loss of", chapter: "Generalities" },
+          { rubric: "Generalities, collapse", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the stage of collapse and the specific cause of loss."
+      }
+    }
+  },
+  {
+    id: "pediatric-pneumonia",
+    name: "Pediatric Pneumonia",
+    slug: "pediatric-pneumonia",
+    system: "pediatrics",
+    category: "Respiratory",
+    definition: "An infection of the lung tissue (alveoli) in a child, causing difficulty in breathing.",
+    simpleExplanation: "A chest infection in children that causes coughing, fever, and difficulty breathing. It's serious because it makes it hard for the child to get enough oxygen. It often needs antibiotics and sometimes hospital care.",
+    examKeywords: ["Chest indrawing", "Tachypnea", "Crackles", "Strep pneumoniae", "Pulse oximetry"],
+    epidemiology: {
+      ageDistribution: "Commonest in children < 5 years.",
+      sexDistribution: "Slightly more common in males.",
+      riskGroups: ["Malnourished children", "Non-breastfed", "Exposure to indoor air pollution/smoke"],
+    },
+    etiology: {
+      predisposingFactors: ["Recent viral URTI (flu/cold)", "Malnutrition"],
+      precipitatingFactors: ["Strep. pneumoniae (Commonest bacteria)", "Viruses (RSV, Flu)", "H. influenzae"],
+      riskFactors: ["Overcrowding", "Lack of vaccination (PCV)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Inhalation", description: "Pathogens are inhaled into the deep parts of the lung." },
+        { title: "Inflammation", description: "The air sacs (alveoli) fill with pus and fluid." },
+        { title: "Consolidation", description: "Parts of the lung become solid and cannot exchange oxygen." },
+        { title: "Hypoxemia", description: "Oxygen levels in the blood drop, causing fast breathing and distress." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Cough", "Fever", "Fast breathing (Tachypnea)"],
+      localSymptoms: ["Chest indrawing (Lower ribs go in on breathing)", "Nasal flaring", "Crackles on auscultation"],
+      constitutionalFeatures: ["Refusal to feed", "Lethargy", "Grunting sound"]
+    },
+    redFlags: [
+      "EMERGENCY: Chest indrawing (Sign of severe pneumonia)",
+      "EMERGENCY: Central Cyanosis (Blue lips/tongue)",
+      "EMERGENCY: Grunting or inability to drink",
+      "EMERGENCY: Oxygen saturation < 90%"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Pulse Oximetry", findings: "SpO2 < 92%", importance: "Assess need for oxygen" },
+        { name: "Chest X-ray", findings: "Consolidation/Infiltrates", importance: "Confirm diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Leukocytosis", importance: "Suggests bacterial cause" },
+        { name: "CRP", findings: "Elevated", importance: "Marker of severity" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "IMCI Fast Breathing Criteria",
+      criteria: [
+        "< 2 months: >= 60 breaths/min.",
+        "2-11 months: >= 50 breaths/min.",
+        "1-5 years: >= 40 breaths/min.",
+        "Plus: Chest indrawing = Severe Pneumonia."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Bronchiolitis", distinguishingFeatures: "Wheezing is prominent; usually < 2 years; viral onset." },
+      { condition: "Childhood Asthma", distinguishingFeatures: "Recurrent episodes; family history; responds to salbutamol." },
+      { condition: "Foreign Body Aspiration", distinguishingFeatures: "Sudden onset; choking history; unilateral signs." }
+    ],
+    complications: {
+      common: ["Pleural effusion", "Dehydration"],
+      serious: ["Empyema (Pus in chest)", "Sepsis", "Lung abscess"],
+      lifeThreatening: ["Respiratory failure", "Death"]
+    },
+    conventionalManagement: {
+      general: ["Oxygen (if saturation < 90%)", "IV Fluids (if not feeding)", "Fever control"],
+      medical: ["Antibiotics (Amoxicillin for fast breathing; IV Ampicillin/Gentamicin for severe pneumonia)"],
+      surgical: ["Chest tube (if empyema)"],
+      prevention: ["PCV and Hib vaccination", "Exclusive breastfeeding", "Reducing indoor air pollution", "Avoiding second-hand smoke"]
+    },
+    homoeopathicApproach: "Used as adjuvant therapy to manage cough and speed recovery. Antibiotics are essential for bacterial pneumonia in children.",
+    relatedRemedies: [
+      { name: "Antimonium Tartaricum", keyIndications: "Great rattling of mucus but little expectoration; baby is drowsy and sweaty; cyanotic appearance." },
+      { name: "Phosphorus", keyIndications: "Tightness of chest; dry cough; thirst for cold water; worse lying on left side." },
+      { name: "Bryonia", keyIndications: "Stitching pain; dry cough; baby wants to lie perfectly still; thirsty for large amounts." },
+      { name: "Ipecacuanha", keyIndications: "Cough with constant nausea; rattling in chest; no expectoration." },
+      { name: "Hepar Sulphur", keyIndications: "Later stages; rattling cough; extremely chilly; sensitive to least draft." }
+    ],
+    relatedDiseases: ["childhood-asthma", "malnutrition"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Fast breathing is key sign", "Chest indrawing = Severe", "Antibiotics save lives"],
+      miasmaticDominance: "Psora (Irritation) / Sycotic (Consolidation) / Syphilitic (Destruction)",
+      thermalState: "Hot (Fever)",
+      organAffinity: "Lungs, Heart",
+      memoryMnemonic: "BREATH: Breathing fast, Ribs in (indrawing), Eating poorly, Alertness down, Temperature high, Help (oxygen) needed"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Pneumonia is the leading infectious cause of death in children worldwide.",
+        severityAssessment: "Based on IMCI criteria (Pneumonia vs Severe Pneumonia).",
+        referralCriteria: ["Any sign of severe pneumonia (Chest indrawing, Cyanosis, Grunting)"]
+      },
+      individualization: {
+        mentalGenerals: ["Drowsy (Ant-t)", "Restless (Phos)", "Irritable"],
+        physicalGenerals: {
+          thermalState: "Hot (Fever)",
+          thirst: "Great for cold (Phos) or large amounts (Bry)",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["Food"],
+          sleep: "Drowsy or fitful",
+          perspiration: "Cold/Warm"
+        },
+        modalities: ["Agg: Cold air, motion (Bry), lying down."],
+        concomitants: ["Vomiting", "Nasal flaring"],
+        characteristicParticulars: [
+          "Chest: Loud rattling sounds with every breath (Ant-t).",
+          "Cough: Loose, rattling, or dry and hacking."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The cough is so violent that the child's whole body becomes stiff (Ipecac)."],
+        individualExpression: "A psoric-sycotic congestion of the lung parenchyma, threatening the vital process of respiration."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Chest, inflammation, lungs", chapter: "Chest" },
+          { rubric: "Chest, rattling", chapter: "Chest" }
+        ],
+        symptomAnalysis: "Focus on the character of the rattle and the child's general alertness."
+      }
+    }
+  },
+  {
+    id: "malnutrition-pediatric",
+    name: "Malnutrition (Pediatric)",
+    slug: "pediatric-malnutrition",
+    system: "pediatrics",
+    category: "Nutritional",
+    definition: "A condition resulting from inadequate intake of nutrients, leading to growth failure (Stunting, Wasting) or micronutrient deficiencies.",
+    simpleExplanation: "When a child doesn't get enough of the right food to grow and stay healthy. It can make them too thin (Wasting) or too short for their age (Stunting). It also makes them much more likely to get serious infections.",
+    examKeywords: ["SAM (Severe Acute Malnutrition)", "Marasmus", "Kwashiorkor", "MUAC", "Wasting vs Stunting"],
+    epidemiology: {
+      ageDistribution: "Commonest in children < 5 years.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Poverty-stricken families", "Displaced populations", "Orphans"],
+    },
+    etiology: {
+      predisposingFactors: ["Poverty", "Lack of breastfeeding", "Early weaning"],
+      precipitatingFactors: ["Recurrent infections (Diorrhea/Pneumonia)", "Poor food quality"],
+      riskFactors: ["Large family size", "Lack of maternal education"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Negative Balance", description: "Calorie/Protein intake is less than the body's needs." },
+        { title: "Tissue Breakdown", description: "The body starts burning its own fat and muscle for energy (Marasmus)." },
+        { title: "Protein Depletion", description: "Low blood protein causes fluid to leak into tissues (Kwashiorkor edema)." },
+        { title: "Immune Failure", description: "The immune system weakens, leading to infections and death." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Failure to gain weight", "Weakness", "Irritability"],
+      localSymptoms: ["Swelling of feet (Edema - Kwashiorkor)", "Thin 'old man' face (Marasmus)", "Baggy pants appearance (loose skin)"],
+      constitutionalFeatures: ["Sparse, thin, reddish hair", "Dry, flaky skin", "Large belly (in Kwashiorkor)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: MUAC < 11.5 cm (Severe Acute Malnutrition)",
+      "URGENT REFERRAL: Visible severe wasting",
+      "URGENT REFERRAL: Edema of both feet",
+      "URGENT REFERRAL: Child is too weak to feed or has hypothermia"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Anthropometry", findings: "Weight-for-height < -3SD; MUAC < 11.5cm", importance: "Primary diagnosis" },
+        { name: "Clinical Exam", findings: "Pitting edema; muscle wasting", importance: "Distinguish types" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood Glucose", findings: "Hypoglycemia", importance: "Check for emergency" },
+        { name: "Serum Albumin", findings: "Very low in Kwashiorkor", importance: "Assess severity" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "SAM Criteria",
+      criteria: [
+        "1. MUAC < 11.5 cm (for 6-59 months).",
+        "2. Weight-for-height Z-score < -3SD.",
+        "3. Bilateral pitting edema.",
+        "4. Visible severe wasting."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Chronic Infection (TB/HIV)", distinguishingFeatures: "History of contact; persistent fever; cough." },
+      { condition: "Celiac Disease", distinguishingFeatures: "Diorrhea; gluten sensitivity." },
+      { condition: "Cystic Fibrosis", distinguishingFeatures: "Respiratory issues; salty sweat." }
+    ],
+    complications: {
+      common: ["Recurrent infections", "Anemia"],
+      serious: ["Hypoglycemia", "Hypothermia", "Heart failure (during refeeding)"],
+      lifeThreatening: ["Septic shock", "Severe dehydration"]
+    },
+    conventionalManagement: {
+      general: ["F-75 and F-100 therapeutic milks", "RUTF (Ready-to-Use Therapeutic Food)", "Treat infections"],
+      medical: ["Vitamin A supplementation", "Iron and Folic acid", "De-worming"],
+      surgical: ["None"],
+      prevention: ["Promotion of breastfeeding", "Nutritious complementary feeding", "Growth monitoring", "Immunization"]
+    },
+    homoeopathicApproach: "Used as constitutional support to improve assimilation and appetite. Must be used alongside intensive nutritional rehabilitation.",
+    relatedRemedies: [
+      { name: "Abrotanum", keyIndications: "Marasmus of lower extremities; emaciation starts from below; great appetite but losing weight; wrinkled skin." },
+      { name: "Calcarea Phosphorica", keyIndications: "Thin, emaciated children; slow to walk; sunken abdomen; craving for salty/smoked meats." },
+      { name: "Sulphur", keyIndications: "Dirty, wrinkled skin; 'standing' marasmus; child looks like a little old man; hungry at 11 AM." },
+      { name: "Baryta Carbonica", keyIndications: "Dwarfishness (stunting); mentally and physically slow; swollen tonsils." },
+      { name: "Sanicula", keyIndications: "Child looks like an old man; emaciation despite good appetite; stool looks like 'scrambled eggs'." }
+    ],
+    relatedDiseases: ["failure-to-thrive", "rickets"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["MUAC < 11.5cm = SAM", "Marasmus is calorie deficiency", "Kwashiorkor is protein deficiency"],
+      miasmaticDominance: "Psora (Assimilation failure) / Syphilitic (Wasting/Destruction)",
+      thermalState: "Chilly (Hypothermia risk)",
+      organAffinity: "Muscle, Fat, Liver, Immune system",
+      memoryMnemonic: "GROW: Growth failure, Red hair/Edema (Kwashiorkor), Old man face (Marasmus), Wasting"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Malnutrition underlies nearly half of all child deaths globally.",
+        severityAssessment: "Based on anthropometric Z-scores.",
+        referralCriteria: ["Any case of SAM (MUAC < 11.5)", "Presence of edema"]
+      },
+      individualization: {
+        mentalGenerals: ["Apathetic", "Irritable", "Slow development (Baryta-c)"],
+        physicalGenerals: {
+          thermalState: "Chilly",
+          thirst: "Increased (if dehydrated)",
+          appetite: "Increased (Abrot) or Nil (Anorexia)",
+          desires: ["Salt (Calc-p)", "Sweets"],
+          aversions: ["Milk"],
+          sleep: "Restless",
+          perspiration: "None or sour"
+        },
+        modalities: ["Agg: Cold, evening."],
+        concomitants: ["Diorrhea", "Skin rashes", "Anemia"],
+        characteristicParticulars: [
+          "Limbs: Extremely thin (Abrotanum).",
+          "Face: Looks aged and wrinkled like an old man (Sulph/Sanic)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The child is losing flesh, especially about the neck (Nat-m) or legs (Abrot)."],
+        individualExpression: "A deep psoric failure of the vital force to assimilate nutrition, often leading to a syphilitic breakdown of tissues."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, emaciation", chapter: "Generalities" },
+          { rubric: "Generalities, development, arrested", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on where the emaciation starts and the child's appetite/assimilation."
+      }
+    }
+  },
+  {
+    id: "failure-to-thrive",
+    name: "Failure to Thrive (FTT)",
+    slug: "failure-to-thrive",
+    system: "pediatrics",
+    category: "Nutritional",
+    definition: "A sign rather than a disease, describing a child whose weight or rate of weight gain is significantly below that of their peers.",
+    simpleExplanation: "When a child isn't growing as fast as they should for their age. It's often spotted during regular check-ups. It can be due to medical issues, but often it's about the child not getting enough calories or having trouble with feeding.",
+    examKeywords: ["Growth charts", "Percentiles", "Organic vs Non-organic", "Psychosocial deprivation"],
+    epidemiology: {
+      ageDistribution: "Commonest in infants and toddlers < 2 years.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Low income families", "Children with chronic illness (Heart/Kidney)", "Premature babies"],
+    },
+    etiology: {
+      predisposingFactors: ["Poverty", "Poor feeding technique", "Chronic illness"],
+      precipitatingFactors: ["Inadequate calorie intake (Commonest)", "Malabsorption", "Increased metabolic demand"],
+      riskFactors: ["Postpartum depression in mother", "Reflux (GERD)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Energy Imbalance", description: "Energy intake is consistently lower than energy expenditure." },
+        { title: "Growth Deceleration", description: "The body prioritizes vital organ function over growth." },
+        { title: "Stalling", description: "Weight gain stops, followed by height and eventually head circumference slowing." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Weight crossing percentiles downwards", "Lack of interest in feeding", "Irritability"],
+      localSymptoms: ["Delayed milestones (sitting/walking)", "Decreased muscle mass"],
+      constitutionalFeatures: ["Sparse hair", "Dry skin", "Apathetic appearance"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden drop in growth across two major percentiles",
+      "URGENT REFERRAL: Developmental regression (losing skills already learned)",
+      "URGENT REFERRAL: Suspicion of neglect or abuse",
+      "URGENT REFERRAL: Persistent vomiting or diarrhea"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Serial Growth Charts", findings: "Downward trend", importance: "Primary diagnostic tool" },
+        { name: "Dietary Diary", findings: "Calorie deficit", importance: "Identify non-organic causes" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC/Electrolytes", findings: "Anemia; normal/abnormal", importance: "Screening" },
+        { name: "Celiac Screen/Thyroid", findings: "Identify organic causes", importance: "Secondary screen" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Growth Criteria",
+      criteria: [
+        "1. Weight < 3rd or 5th percentile.",
+        "2. Weight-for-length < 5th percentile.",
+        "3. Downward change in growth across two major percentiles."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Celiac Disease", distinguishingFeatures: "Diorrhea; abdominal bloating; gluten link." },
+      { condition: "Cystic Fibrosis", distinguishingFeatures: "Recurrent chest infections; greasy stools; salty sweat." },
+      { condition: "Congenital Heart Disease", distinguishingFeatures: "Murmur; blue spells; sweating during feeds." }
+    ],
+    complications: {
+      common: ["Developmental delay", "Behavioral issues"],
+      serious: ["Permanent short stature", "Cognitive impairment"],
+      lifeThreatening: ["Severe malnutrition/Infection"]
+    },
+    conventionalManagement: {
+      general: ["High-calorie diet", "Feeding education for parents", "Consistent meal routine"],
+      medical: ["Treat underlying organic cause", "Vitamins"],
+      surgical: ["None (unless for G-tube)"],
+      prevention: ["Regular weight monitoring", "Responsive feeding practices", "Early intervention for feeding difficulties"]
+    },
+    homoeopathicApproach: "Addresses the constitutional block to growth and improves digestive assimilation. Very effective for 'non-organic' FTT.",
+    relatedRemedies: [
+      { name: "Calcarea Phosphorica", keyIndications: "Thin, bony children; delayed walking; sunken abdomen; always complaining of stomach ache." },
+      { name: "Silicea", keyIndications: "Small, delicate child; large head; sweaty feet; lack of 'grit' (timid); weak assimilation." },
+      { name: "Baryta Carbonica", keyIndications: "Slow mentally and physically; late in everything; swollen glands; dwarfism." },
+      { name: "Natrum Muriaticum", keyIndications: "Emaciation despite eating well; emaciation starts at neck; reserved child; craves salt." },
+      { name: "Lycopodium", keyIndications: "Little children with big bellies; flatulence; intellectually bright but physically weak." }
+    ],
+    relatedDiseases: ["malnutrition", "rickets"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Growth charts are vital", "Inadequate calories is #1", "Multidisciplinary care"],
+      miasmaticDominance: "Psora (Functional delay) / Tubercular (Wasting tendency)",
+      thermalState: "Variable",
+      organAffinity: "Whole organism, Digestive tract",
+      memoryMnemonic: "SLOW: Stalled growth, Low calorie intake, Organic cause check, Weight drop"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure the child reaches their full developmental and physical potential.",
+        severityAssessment: "Based on growth chart trends and developmental milestones.",
+        referralCriteria: ["Suspicion of underlying disease (Heart/Lung)", "Significant developmental delay"]
+      },
+      individualization: {
+        mentalGenerals: ["Slow (Baryta)", "Timid (Silicea)", "Reserved (Nat-m)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Silicea/Calc-p)",
+          thirst: "Great for salt (Nat-m)",
+          appetite: "Poor or fickle",
+          desires: ["Salt", "Eggs"],
+          aversions: ["Milk"],
+          sleep: "Drowsy",
+          perspiration: "Head sweat (Silicea/Calc)"
+        },
+        modalities: ["Agg: Cold air (Silicea)."],
+        concomitants: ["Constipation", "Flatulence"],
+        characteristicParticulars: [
+          "Assimilation: Eating enough but not gaining weight.",
+          "Development: Late in closing fontanelles and walking (Sil/Calc)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The emaciation is most noticeable in the neck, while the rest of the body is relatively normal (Nat-m)."],
+        individualExpression: "A tubercular-psoric block where the vital force is unable to build tissue despite adequate material."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, emaciation", chapter: "Generalities" },
+          { rubric: "Generalities, development, late", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the child's temperament and the specific area of growth delay."
+      }
+    }
+  },
+  {
+    id: "rickets-pediatric",
+    name: "Rickets",
+    slug: "pediatric-rickets",
+    system: "pediatrics",
+    category: "Nutritional",
+    definition: "A disease of the growing child characterized by failure of mineralization of bone and cartilage, usually due to Vitamin D deficiency.",
+    simpleExplanation: "A condition that makes a child's bones soft and weak. It's usually caused by not getting enough Vitamin D (from sunlight or food). It can cause bowed legs, delayed walking, and weak muscles, but can be treated with Vitamin D and calcium.",
+    examKeywords: ["Vitamin D deficiency", "Bow legs", "Rachitic rosary", "Harrison's groove", "Widening of wrists"],
+    epidemiology: {
+      ageDistribution: "Commonest in infants and toddlers (6-24 months).",
+      sexDistribution: "Equal.",
+      riskGroups: ["Exclusively breastfed without Vitamin D drops", "Dark-skinned children in northern climates", "Children with limited sun exposure"],
+    },
+    etiology: {
+      predisposingFactors: ["Lack of sunlight", "Poor dietary intake of Calcium/Vitamin D"],
+      precipitatingFactors: ["Vitamin D deficiency (Commonest)", "Calcium/Phosphate deficiency"],
+      riskFactors: ["Malabsorption (Celiac)", "Anti-seizure medications", "Chronic kidney disease"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Vitamin D Deficiency", description: "Body cannot absorb calcium from the gut." },
+        { title: "Hypocalcemia", description: "Blood calcium levels drop, triggering Parathyroid Hormone (PTH)." },
+        { title: "Bone Demineralization", description: "PTH pulls calcium out of bones to keep blood levels normal." },
+        { title: "Skeletal Deformity", description: "Soft bones bend under weight, leading to typical rickets signs." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Delayed walking", "Muscle weakness", "Bone pain"],
+      localSymptoms: ["Bow legs (Genu varum) or Knock-knees", "Widened wrists and ankles", "Rachitic rosary (beads on ribs)"],
+      constitutionalFeatures: ["Large head (frontal bossing)", "Delayed closing of fontanelles", "Delayed teething"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden seizures or muscle spasms (Hypocalcemic tetany)",
+      "URGENT REFERRAL: Severe bone pain preventing walking",
+      "URGENT REFERRAL: Respiratory distress (due to soft chest wall)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "X-ray Wrist/Knee", findings: "Cupping, fraying, and widening of the metaphysis", importance: "Gold standard diagnosis" },
+        { name: "Serum 25-OH Vitamin D", findings: "Low (< 20ng/mL)", importance: "Confirm cause" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Calcium/Phosphate", findings: "Low or Normal", importance: "Assess metabolic state" },
+        { name: "Alkaline Phosphatase (ALP)", findings: "Very High", importance: "Marker of disease activity" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Rachitic Stigmata",
+      criteria: [
+        "1. Craniotabes (Soft skull bones).",
+        "2. Rachitic Rosary (Rib beads).",
+        "3. Harrison's Groove (Horizontal rib indentation).",
+        "4. Widened Epiphyses (Wrists/Ankles)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Osteogenesis Imperfecta", distinguishingFeatures: "Blue sclera; frequent fractures; normal Vitamin D." },
+      { condition: "Hypophosphatasia", distinguishingFeatures: "Low Alkaline Phosphatase." },
+      { condition: "Blount's Disease", distinguishingFeatures: "Severe bowing of one leg; not nutritional." }
+    ],
+    complications: {
+      common: ["Delayed milestones", "Short stature"],
+      serious: ["Skeletal deformities", "Fractures", "Seizures (Hypocalcemic)"],
+      lifeThreatening: ["Respiratory failure (in severe cases)"]
+    },
+    conventionalManagement: {
+      general: ["Sunlight exposure (Safe levels)", "Calcium-rich diet (Dairy)"],
+      medical: ["Vitamin D supplementation (2000-6000 IU/day for 3 months)", "Calcium supplements"],
+      surgical: ["Correction of severe deformities (rarely needed if treated early)"],
+      prevention: ["Adequate sunlight exposure", "Vitamin D rich diet", "Maternal nutrition during pregnancy"]
+    },
+    homoeopathicApproach: "Addresses the 'Calcareous' constitution and improves the absorption of minerals. Excellent for managing delayed development and teething.",
+    relatedRemedies: [
+      { name: "Calcarea Carbonica", keyIndications: "The #1 remedy; fair, fat, flabby; large head; sweaty head at night; delayed fontanelle closure; cold damp feet." },
+      { name: "Calcarea Phosphorica", keyIndications: "Tall, thin, emaciated; bony issues; delayed walking; craving for salt/smoked meat; peevish child." },
+      { name: "Silicea", keyIndications: "Small, delicate child; large head with open fontanelles; sweaty feet (offensive); slow development." },
+      { name: "Sulphur", keyIndications: "Dirty skin; 'standing' marasmus; hot patient; stoop-shouldered." },
+      { name: "Phosphorus", keyIndications: "Tall, slender child; grows too fast; weak spine; sensitive to light/noise." }
+    ],
+    relatedDiseases: ["malnutrition", "failure-to-thrive"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Vit D deficiency", "Cupping/Fraying on X-ray", "Calcarea group remedies"],
+      miasmaticDominance: "Psora (Assimilation failure) / Tubercular (Bone weakness)",
+      thermalState: "Chilly (Calc)",
+      organAffinity: "Bones, Teeth, Cartilage",
+      memoryMnemonic: "BONE: Bowed legs, Open fontanelles, Nodes on ribs (Rosary), Epiphyseal widening"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Early treatment prevents permanent skeletal deformity and allows normal growth.",
+        severityAssessment: "Based on severity of X-ray changes and serum ALP levels.",
+        referralCriteria: ["Signs of tetany (seizures)", "Severe deformities"]
+      },
+      individualization: {
+        mentalGenerals: ["Slow (Calc-c)", "Irritable (Calc-p)", "Timid (Silicea)"],
+        physicalGenerals: {
+          thermalState: "Chilly",
+          thirst: "Great for cold (Phos)",
+          appetite: "Craves eggs (Calc-c), salt (Calc-p)",
+          desires: ["Eggs", "Salt", "Smoked meat"],
+          aversions: ["Milk"],
+          sleep: "Head sweat wets the pillow (Calc-c)",
+          perspiration: "Offensive foot sweat (Silicea)"
+        },
+        modalities: ["Agg: Cold, damp air."],
+        concomitants: ["Delayed teething", "Pot-belly"],
+        characteristicParticulars: [
+          "Bones: Soft and easily bent.",
+          "Fontanelles: Remain open much longer than 18 months."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Child is 'fair, fat, and flabby' and develops a large head with cold damp feet (Calcarea Carbonica)."],
+        individualExpression: "A tubercular-psoric failure to mineralize the physical structure, reflecting a weak vital blueprint for bone formation."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, rickets", chapter: "Generalities" },
+          { rubric: "Bones, softening", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the child's physical build (thin vs fat) and the delayed development."
+      }
+    }
+  },
+  {
+    id: "measles",
+    name: "Measles (Rubeola)",
+    slug: "measles",
+    system: "pediatrics",
+    category: "Infectious",
+    definition: "A highly contagious viral infection characterized by fever, cough, coryza, conjunctivitis, and a typical maculopapular rash.",
+    simpleExplanation: "A very contagious viral illness that causes a high fever, cough, runny nose, and red eyes, followed by a blotchy red rash that starts on the face and spreads down. It can be serious, leading to pneumonia or ear infections, especially in unvaccinated children.",
+    examKeywords: ["Koplik spots", "Vitamin A", "Paramyxovirus", "Coryza", "Maculopapular rash"],
+    epidemiology: {
+      ageDistribution: "Primarily children, but can affect unvaccinated adults.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Unvaccinated children", "Malnourished children", "Pregnant women"],
+    },
+    etiology: {
+      predisposingFactors: ["Lack of vaccination (MMR)", "Vitamin A deficiency"],
+      precipitatingFactors: ["Measles virus (Paramyxovirus)"],
+      riskFactors: ["Overcrowding", "Travel to endemic areas"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Infection", description: "Virus enters via respiratory droplets." },
+        { title: "Primary Viremia", description: "Virus replicates in local lymph nodes." },
+        { title: "Secondary Viremia", description: "Virus spreads through the blood to the skin and respiratory tract." },
+        { title: "Immune Response", description: "The rash appears as the body's immune system attacks the virus-infected cells." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["High fever (up to 40°C)", "Cough", "Coryza (Runny nose)", "Conjunctivitis (Red eyes)"],
+      localSymptoms: ["Koplik spots (Small white spots on inner cheek - Pathognomonic)", "Maculopapular rash starting behind ears"],
+      constitutionalFeatures: ["Malaise", "Photophobia", "Anorexia"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Rapidly rising fever or seizures",
+      "URGENT REFERRAL: Difficulty breathing or fast breathing (Pneumonia)",
+      "URGENT REFERRAL: Altered consciousness (Encephalitis)",
+      "URGENT REFERRAL: Severe ear pain or bloody diarrhea"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "3Cs (Cough, Coryza, Conjunctivitis) + Rash + Koplik spots", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Measles IgM Antibody", findings: "Positive", importance: "Confirmatory" },
+        { name: "Viral PCR (Swab)", findings: "Measles RNA detected", importance: "Definitive" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Stages",
+      criteria: [
+        "1. Incubation (10-14 days).",
+        "2. Prodromal (2-4 days): Fever, 3Cs, Koplik spots.",
+        "3. Eruptive (5-6 days): Rash starting behind ears, moving down.",
+        "4. Recovery: Desquamation (peeling) and fading of rash."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Rubella", distinguishingFeatures: "Mild fever; suboccipital lymphadenopathy; rash disappears in 3 days." },
+      { condition: "Roseola Infantum", distinguishingFeatures: "High fever for 3 days; rash appears AFTER fever drops." },
+      { condition: "Scarlet Fever", distinguishingFeatures: "Sore throat; 'sandpaper' rash; strawberry tongue." }
+    ],
+    complications: {
+      common: ["Otitis media", "Diorrhea"],
+      serious: ["Pneumonia (Commonest cause of death)", "Encephalitis", "SSPE (late brain complication)"],
+      lifeThreatening: ["Pneumonia", "Encephalitis"]
+    },
+    conventionalManagement: {
+      general: ["Hydration", "Vitamin A supplementation (Crucial for preventing blindness/death)", "Fever control"],
+      medical: ["Antibiotics ONLY if secondary infection exists", "No specific antiviral for routine cases"],
+      prevention: ["MMR vaccination", "Vitamin A supplementation", "Isolation of infected individuals"]
+    },
+    homoeopathicApproach: "Used to manage fever, cough, and to support the eruptive process. Never delay Vitamin A or ignore red flags.",
+    relatedRemedies: [
+      { name: "Aconite", keyIndications: "First stage; high fever; dry skin; fear and restlessness; cough; red eyes." },
+      { name: "Belladonna", keyIndications: "High fever with hot, red face; throbbing headache; drowsy but cannot sleep; photophobia." },
+      { name: "Pulsatilla", keyIndications: "Mild, tearful child; no thirst; thick yellowish discharges; rash is blotchy." },
+      { name: "Gelsemium", keyIndications: "Drowsiness; dullness; dizziness; thirstless; heavy eyelids." },
+      { name: "Bryonia", keyIndications: "If eruption is delayed or suppressed; dry cough; wants to lie still; thirsty for large amounts." },
+      { name: "Euphrasia", keyIndications: "Prominent conjunctivitis with acrid lacrimation and bland coryza." }
+    ],
+    relatedDiseases: ["rubella", "mumps"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Koplik spots", "3Cs", "Vitamin A", "Rash behind ears"],
+      miasmaticDominance: "Psora (Irritation) / Syphilitic (Suppression danger)",
+      thermalState: "Hot (Fever)",
+      organAffinity: "Skin, Mucous membranes, Lungs",
+      memoryMnemonic: "MEASLES: Maculopapular rash, Eyes red, Airway (cough/coryza), Spots (Koplik), Low Vitamin A danger, Ear infection complication"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To monitor for severe complications like pneumonia and to ensure isolation.",
+        severityAssessment: "Based on respiratory effort and neurological state.",
+        referralCriteria: ["Pneumonia signs", "Encephalitis signs", "Severe malnutrition"]
+      },
+      individualization: {
+        mentalGenerals: ["Restless (Acon)", "Mild/Tearful (Puls)", "Dull (Gels)"],
+        physicalGenerals: {
+          thermalState: "Hot (Fever)",
+          thirst: "Thirstless (Puls/Gels)",
+          appetite: "Poor",
+          desires: ["Cold water (Acon)"],
+          aversions: ["Food"],
+          sleep: "Drowsy (Gels/Bell)",
+          perspiration: "Dry skin (Acon)"
+        },
+        modalities: ["Agg: Warm room (Puls), motion (Bry).", "Amel: Fresh air (Puls)."],
+        concomitants: ["Photophobia", "Dry barking cough"],
+        characteristicParticulars: [
+          "Eyes: Burning, red, and sensitive to light.",
+          "Rash: Coalescent, blotchy, and dark red."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The eyes are extremely sensitive to light and water with acrid, burning tears (Euphrasia)."],
+        individualExpression: "A violent psoric-syphilitic eruption aiming to discharge viral toxicity through the skin and mucous membranes."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, measles", chapter: "Skin" },
+          { rubric: "Eye, inflammation, conjunctiva", chapter: "Eye" }
+        ],
+        symptomAnalysis: "Focus on the prodromal symptoms (cough/eyes) and the child's thirst/temperament."
+      }
+    }
+  },
+  {
+    id: "mumps",
+    name: "Mumps",
+    slug: "mumps",
+    system: "pediatrics",
+    category: "Infectious",
+    definition: "An acute viral infection primarily affecting the parotid salivary glands, causing painful swelling.",
+    simpleExplanation: "A viral illness that makes the cheeks and jaw swell up because of swollen salivary glands. It can also cause fever and headache. It's usually mild in children but can cause complications like ear or testicular inflammation in older boys.",
+    examKeywords: ["Parotitis", "Orchitis", "Amylase", "Paramyxovirus", "Ear lobe displacement"],
+    epidemiology: {
+      ageDistribution: "Primarily school-aged children.",
+      sexDistribution: "Equal (but orchitis only in males).",
+      riskGroups: ["Unvaccinated children", "Young adults in close quarters"],
+    },
+    etiology: {
+      predisposingFactors: ["Lack of vaccination (MMR)"],
+      precipitatingFactors: ["Mumps virus (Paramyxovirus)"],
+      riskFactors: ["Exposure to infected respiratory droplets"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Inhalation", description: "Virus enters via the respiratory tract." },
+        { title: "Local Replication", description: "Virus replicates in the throat and lymph nodes." },
+        { title: "Viremia", description: "Virus spreads through the blood to glandular tissue." },
+        { title: "Glandular Inflammation", description: "Inflammation of parotid glands, pancreas, or testes." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Fever", "Headache", "Malaise"],
+      localSymptoms: ["Parotid swelling (Unilateral or Bilateral)", "Pain on chewing or swallowing", "Ear lobe pushed upward and outward"],
+      constitutionalFeatures: ["Earache (referred)", "Dry mouth"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Severe abdominal pain (Pancreatitis)",
+      "URGENT REFERRAL: Severe headache and neck stiffness (Meningitis)",
+      "URGENT REFERRAL: Swelling and pain in the testicles (Orchitis)",
+      "URGENT REFERRAL: Hearing loss"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Parotid swelling + displacement of ear lobe", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum Amylase", findings: "Elevated", importance: "Confirms salivary gland involvement" },
+        { name: "Mumps IgM", findings: "Positive", importance: "Confirmatory" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Parotitis Assessment",
+      criteria: [
+        "1. Sudden painful swelling of parotid gland.",
+        "2. Obscuration of the angle of the jaw.",
+        "3. Displacement of the ear lobe upward."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Cervical Lymphadenitis", distinguishingFeatures: "Swelling is below the jaw; angle of jaw is visible." },
+      { condition: "Parotid Duct Stone", distinguishingFeatures: "Sudden pain when eating; no fever." },
+      { condition: "Recurrent Parotitis", distinguishingFeatures: "History of multiple episodes; no exposure history." }
+    ],
+    complications: {
+      common: ["Orchitis (in post-pubertal males)", "Oophoritis (in females)"],
+      serious: ["Aseptic meningitis", "Pancreatitis", "Deafness (usually unilateral)"],
+      lifeThreatening: ["Encephalitis (Rare)"]
+    },
+    conventionalManagement: {
+      general: ["Rest", "Soft diet", "Warm/Cold compresses for comfort"],
+      medical: ["Fever/pain control (Paracetamol)", "No specific antiviral"],
+      prevention: ["MMR vaccination", "Isolation of patients for 5 days after onset of swelling"]
+    },
+    homoeopathicApproach: "Used to reduce pain, swelling, and prevent complications like orchitis. Very effective in managing the acute glandular stage.",
+    relatedRemedies: [
+      { name: "Mercurius Solubilis", keyIndications: "Profuse offensive saliva; sweaty but not relieved; tongue flabby with indentations; worse at night." },
+      { name: "Belladonna", keyIndications: "Sudden onset; red, hot, throbbing swelling; sensitive to touch; high fever." },
+      { name: "Pulsatilla", keyIndications: "If complication of orchitis or oophoritis occurs; shifting pains; no thirst." },
+      { name: "Rhus Tox", keyIndications: "Swelling mostly on the left side; restless; better for warmth; aching in limbs." },
+      { name: "Phytolacca", keyIndications: "Hard, stony swelling; pain shoots to ears on swallowing; dark red throat." }
+    ],
+    relatedDiseases: ["measles", "rubella"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Ear lobe displaced", "Amylase high", "Watch for orchitis"],
+      miasmaticDominance: "Sycotic (Glandular swelling)",
+      thermalState: "Hot (Fever)",
+      organAffinity: "Parotid glands, Testes, Pancreas",
+      memoryMnemonic: "MUMPS: Mandible angle hidden, Upward ear lobe, Meningitis check, Pancreatitis/Pain, Swelling"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage pain and watch for neurological or reproductive complications.",
+        severityAssessment: "Based on gland size and presence of systemic symptoms.",
+        referralCriteria: ["Severe vomiting (Pancreatitis)", "Neck stiffness", "Testicular pain"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Drowsy"],
+        physicalGenerals: {
+          thermalState: "Hot (Fever)",
+          thirst: "Great thirst (Merc) or Thirstless (Puls)",
+          appetite: "Poor due to pain",
+          desires: ["Cold drinks"],
+          aversions: ["Chewing"],
+          sleep: "Restless at night (Merc)",
+          perspiration: "Profuse, offensive (Merc)"
+        },
+        modalities: ["Agg: Swallowing, chewing, night, touch.", "Amel: Warmth (Rhus-t)."],
+        concomitants: ["Salivation", "Earache"],
+        characteristicParticulars: [
+          "Gland: Hard, stony (Phyto) or Soft and hot (Bell).",
+          "Mouth: Metallic taste; flabby tongue (Merc)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Pain on swallowing that shoots directly into the ear of the affected side (Phytolacca)."],
+        individualExpression: "A sycotic-psoric inflammatory process localizing in the glandular system."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Face, swelling, parotid gland", chapter: "Face" },
+          { rubric: "Face, parotitis", chapter: "Face" }
+        ],
+        symptomAnalysis: "Focus on the side affected, the mouth symptoms (saliva/tongue), and the modalities."
+      }
+    }
+  },
+  {
+    id: "rubella",
+    name: "Rubella (German Measles)",
+    slug: "rubella",
+    system: "pediatrics",
+    category: "Infectious",
+    definition: "A mild viral infection characterized by a 3-day rash and prominent lymphadenopathy, but with serious risk to a developing fetus (Congenital Rubella Syndrome).",
+    simpleExplanation: "A mild illness often called '3-day measles'. It causes a light pink rash and swollen glands behind the ears. In children, it's usually harmless, but it is extremely dangerous for pregnant women because it can cause serious birth defects in the baby.",
+    examKeywords: ["3-day rash", "Forchheimer spots", "Suboccipital lymphadenopathy", "Congenital Rubella Syndrome", "Togavirus"],
+    epidemiology: {
+      ageDistribution: "Children and young adults.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Unvaccinated pregnant women (High risk for fetus)", "Unvaccinated children"],
+    },
+    etiology: {
+      predisposingFactors: ["Lack of vaccination (MMR)"],
+      precipitatingFactors: ["Rubella virus (Togavirus)"],
+      riskFactors: ["Exposure to infected individuals"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Entry", description: "Virus enters the respiratory tract." },
+        { title: "Viremia", description: "Virus replicates and spreads through the blood." },
+        { title: "Lymphadenopathy", description: "Characteristic swelling of lymph nodes behind the ears and neck." },
+        { title: "Rash", description: "Pinkish rash appears, likely due to immune complex deposition." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Low-grade fever", "Malaise", "Joint pain (common in adults)"],
+      localSymptoms: ["Pinkish maculopapular rash (starts on face, lasts 3 days)", "Swollen lymph nodes (Suboccipital, Post-auricular)", "Forchheimer spots (Petechiae on soft palate)"],
+      constitutionalFeatures: ["Mild conjunctivitis"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Exposure of a pregnant woman to Rubella",
+      "URGENT REFERRAL: Signs of encephalitis (headache, confusion)",
+      "URGENT REFERRAL: Bleeding gums or easy bruising (Thrombocytopenia)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Glands + 3-day rash", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Rubella IgM", findings: "Positive", importance: "Confirmatory" },
+        { name: "Viral RNA (PCR)", findings: "Detected", importance: "Definitive" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Rubella Classic Triad",
+      criteria: [
+        "1. 3-day pinkish rash.",
+        "2. Suboccipital and post-auricular lymphadenopathy.",
+        "3. Low-grade fever."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Measles (Rubeola)", distinguishingFeatures: "Higher fever; 3Cs (Cough/Coryza/Conjunctivitis); rash lasts 7 days." },
+      { condition: "Roseola Infantum", distinguishingFeatures: "High fever that drops before rash appears." },
+      { condition: "Drug Eruption", distinguishingFeatures: "History of medication; usually no fever or glands." }
+    ],
+    complications: {
+      common: ["Arthritis/Arthralgia (in adult females)"],
+      serious: ["Congenital Rubella Syndrome (Deafness, Cataracts, Heart defects)", "Thrombocytopenia", "Encephalitis"],
+      lifeThreatening: ["Congenital Rubella Syndrome (for the fetus)"]
+    },
+    conventionalManagement: {
+      general: ["Rest", "Fever control", "Isolation (to protect pregnant women)"],
+      medical: ["No specific antiviral"],
+      prevention: ["MMR vaccination", "Strict avoidance of contact with pregnant women"]
+    },
+    homoeopathicApproach: "Used for mild symptom relief. Most important is protecting pregnant contacts.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Mild rash; thirstless; emotional; amel by fresh air." },
+      { name: "Gelsemium", keyIndications: "Drowsiness; dullness; heavy eyelids; aching joints." },
+      { name: "Belladonna", keyIndications: "If fever is high; red face; hot skin." },
+      { name: "Mercurius", keyIndications: "Prominent glandular swelling; offensive breath; sweaty." }
+    ],
+    relatedDiseases: ["measles", "mumps"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["3-day rash", "Glands behind ears", "Protect pregnant women"],
+      miasmaticDominance: "Psora (Irritation)",
+      thermalState: "Warm/Hot",
+      organAffinity: "Skin, Lymph nodes, Joint (adults)",
+      memoryMnemonic: "RUBELLA: Rash lasts 3 days, Upper lymph nodes swollen, Baby risk (pregnancy), Every case needs isolation"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure isolation and protect pregnant women in the community.",
+        severityAssessment: "Usually very mild in children.",
+        referralCriteria: ["Pregnancy exposure", "Signs of Encephalitis"]
+      },
+      individualization: {
+        mentalGenerals: ["Mild", "Drowsy"],
+        physicalGenerals: {
+          thermalState: "Warm",
+          thirst: "Thirstless",
+          appetite: "Poor",
+          desires: ["Open air"],
+          aversions: ["Stuffiness"],
+          sleep: "Drowsy",
+          perspiration: "None or mild"
+        },
+        modalities: ["Amel: Fresh air."],
+        concomitants: ["Joint pain", "Swollen glands"],
+        characteristicParticulars: [
+          "Rash: Pinkish-red, fine macules.",
+          "Glands: Small, tender beads behind the ears."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Prominent swelling of the glands behind the ears despite a very mild fever (Psora)."],
+        individualExpression: "A mild psoric-sycotic viral clearance process."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, rubeola", chapter: "Skin" },
+          { rubric: "Generalities, lymph, glands, swelling", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the glandular involvement and the mildness of the disease."
+      }
+    }
+  },
+  {
+    id: "chickenpox",
+    name: "Chickenpox (Varicella)",
+    slug: "chickenpox",
+    system: "pediatrics",
+    category: "Infectious",
+    definition: "A highly contagious viral infection caused by the Varicella-Zoster Virus (VZV), characterized by itchy blisters and fever.",
+    simpleExplanation: "A very contagious illness that causes a fever and lots of itchy, fluid-filled blisters all over the body. It's usually mild in healthy children, but the main goal is to stop the child from scratching and causing scars or skin infections.",
+    examKeywords: ["Dew-drop on a rose petal", "Pleomorphism", "VZV", "Centripetal distribution", "Tzanck smear"],
+    epidemiology: {
+      ageDistribution: "Primarily children < 10 years.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Immunocompromised children", "Newborns", "Adults (more severe)"],
+    },
+    etiology: {
+      predisposingFactors: ["Lack of vaccination"],
+      precipitatingFactors: ["Varicella-Zoster Virus (VZV)"],
+      riskFactors: ["Exposure to infected respiratory droplets or blister fluid"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Entry", description: "Virus enters through the respiratory tract or eyes." },
+        { title: "Viremia", description: "Virus replicates in the liver and spleen and spreads to the blood." },
+        { title: "Skin Invasion", description: "Virus reaches the skin, causing characteristic fluid-filled vesicles." },
+        { title: "Latency", description: "After recovery, the virus stays dormant in nerve cells (can cause Shingles later)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Fever", "Headache", "Malaise"],
+      localSymptoms: ["Itchy rash (starts on trunk, spreads to face/limbs)", "Vesicles ('Dew-drops on a rose petal')", "Pleomorphism (all stages - papule, vesicle, crust - seen at once)"],
+      constitutionalFeatures: ["Loss of appetite", "Irritability from itching"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Blisters becoming very red, hot, and painful (Secondary infection)",
+      "URGENT REFERRAL: Difficulty breathing or coughing (Varicella pneumonia)",
+      "URGENT REFERRAL: Unsteady gait or confusion (Cerebellar ataxia/Encephalitis)",
+      "URGENT REFERRAL: Bleeding into the blisters (Hemorrhagic chickenpox)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Pleomorphic rash + Itching", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Tzanck Smear", findings: "Multinucleated giant cells", importance: "Suggests herpes virus" },
+        { name: "VZV PCR", findings: "Detected", importance: "Definitive" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Rash Characteristics",
+      criteria: [
+        "1. Centripetal: More on trunk, less on limbs.",
+        "2. Pleomorphic: Different stages seen together in one area.",
+        "3. Itchy: High intensity of pruritus."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Smallpox (now eradicated)", distinguishingFeatures: "Centrifugal (more on limbs); all spots at same stage; deep-seated." },
+      { condition: "Insect Bites", distinguishingFeatures: "Usually on exposed areas; no fever; central punctum." },
+      { condition: "Impetigo", distinguishingFeatures: "Honey-colored crusts; larger blisters; usually localized." }
+    ],
+    complications: {
+      common: ["Secondary bacterial skin infection (Staph/Strep)", "Scarring"],
+      serious: ["Varicella pneumonia", "Encephalitis", "Cerebellar Ataxia", "Reye Syndrome (if aspirin used)"],
+      lifeThreatening: ["Hemorrhagic chickenpox", "Sepsis"]
+    },
+    conventionalManagement: {
+      general: ["Calamine lotion", "Cool baths", "Keep fingernails short", "Hydration"],
+      medical: ["Antihistamines for itching", "Acyclovir (for severe cases/immunocompromised)", "NO ASPIRIN (Risk of Reye Syndrome)"],
+      prevention: ["Varicella vaccination", "Isolation of infected individuals", "Avoidance of aspirin in children"]
+    },
+    homoeopathicApproach: "Very effective in shortening the course and reducing itching. Focuses on the stage of the eruption and the child's temperament.",
+    relatedRemedies: [
+      { name: "Rhus Tox", keyIndications: "The #1 remedy; intense itching; restlessness; amel by warmth; vesiculation is prominent." },
+      { name: "Antimonium Tartaricum", keyIndications: "If eruption is slow to appear; rattling in chest; drowsy; irritable child." },
+      { name: "Pulsatilla", keyIndications: "Mild, tearful child; no thirst; itching worse in a warm room." },
+      { name: "Sulphur", keyIndications: "Intense itching, worse for heat and washing; scratching leads to burning." },
+      { name: "Apis Mellifica", keyIndications: "Stinging pains; red, puffy skin around blisters; thirstless; worse for heat." }
+    ],
+    relatedDiseases: ["herpes-zoster", "impetigo"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Pleomorphism", "Dew-drop on rose petal", "No Aspirin", "Centripetal"],
+      miasmaticDominance: "Psora (Itching/Irritation) / Sycotic (Vesiculation)",
+      thermalState: "Variable",
+      organAffinity: "Skin, Nerve endings",
+      memoryMnemonic: "CHICKEN: Centripetal, High itching, Intense fever, Crusts/Vesicles together, Keep nails short, Encephalitis risk, No Aspirin"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage symptoms and prevent dangerous complications or secondary infections.",
+        severityAssessment: "Based on the number of lesions and presence of respiratory or neurological signs.",
+        referralCriteria: ["Pneumonia signs", "Ataxia (unsteady walk)", "Severe skin infection"]
+      },
+      individualization: {
+        mentalGenerals: ["Restless (Rhus-t)", "Tearful (Puls)", "Irritable"],
+        physicalGenerals: {
+          thermalState: "Chilly (Rhus-t) or Hot (Sulph/Apis)",
+          thirst: "Thirstless (Puls/Apis)",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["Food"],
+          sleep: "Restless due to itching",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Heat, night, scratching, washing (Sulph).", "Amel: Warmth (Rhus-t), cool air (Apis)."],
+        concomitants: ["Cough", "Earache"],
+        characteristicParticulars: [
+          "Itching: Voluptuous itching leading to raw burning.",
+          "Vesicles: Small, clear, with a red base."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The itching is so intense that the child cannot stay still for a moment, and is better only for a hot bath (Rhus Tox)."],
+        individualExpression: "A psoric-sycotic viral eruption seeking to discharge through the skin surface."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, varicella", chapter: "Skin" },
+          { rubric: "Skin, eruptions, vesicular", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the modalities of the itching and the child's reaction to heat."
+      }
+    }
+  },
+  {
+    id: "febrile-seizures",
+    name: "Febrile Seizures",
+    slug: "febrile-seizures",
+    system: "pediatrics",
+    category: "Emergency",
+    definition: "Convulsions that occur in a child between 6 months and 5 years of age, triggered by a rapid rise in body temperature.",
+    simpleExplanation: "A fit or seizure that happens to some young children when they have a high fever. It's very frightening for parents to watch, but most febrile seizures are brief and harmless, and the child recovers completely. The most important thing is to manage the fever and keep the child safe during the fit.",
+    examKeywords: ["6 months to 5 years", "Simple vs Complex", "Tonic-clonic", "Post-ictal period", "Lumbar puncture"],
+    epidemiology: {
+      ageDistribution: "6 months to 5 years (Peak at 18 months).",
+      sexDistribution: "Slightly more common in males.",
+      riskGroups: ["Children with family history", "High fever (>38.5°C)"],
+    },
+    etiology: {
+      predisposingFactors: ["Immature developing brain", "Genetic predisposition"],
+      precipitatingFactors: ["Rapid rise in temperature (Fever)", "Common infections (Viral URTI, Roseola, Ear infection)"],
+      riskFactors: ["History of neonatal discharge", "Developmental delay"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fever Trigger", description: "Infection causes release of cytokines and high temperature." },
+        { title: "Lowered Threshold", description: "The developing brain has a lower threshold for electrical discharges." },
+        { title: "Electrical Storm", description: "Sudden abnormal electrical activity in the brain causing convulsions." },
+        { title: "Recovery", description: "The brain 'restarts', leading to a short period of sleepiness (post-ictal)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sudden loss of consciousness", "Stiffening of limbs (Tonic)", "Jerking of limbs (Clonic)"],
+      localSymptoms: ["Eye rolling", "Frothing at mouth", "Breath-holding (Cyanosis)"],
+      constitutionalFeatures: ["High fever", "Post-ictal drowsiness"]
+    },
+    redFlags: [
+      "EMERGENCY: Seizure lasting more than 5 minutes (Status Epilepticus)",
+      "EMERGENCY: Difficulty breathing after the seizure",
+      "EMERGENCY: Child does not wake up or is extremely sleepy for a long time",
+      "EMERGENCY: Neck stiffness or bulging fontanelle (Meningitis suspicion)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Age-appropriate seizure + Fever", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Lumbar Puncture", findings: "To rule out meningitis", importance: "Crucial if < 12-18 months or neck signs" },
+        { name: "Blood Glucose/Electrolytes", findings: "To rule out other metabolic causes", importance: "If seizure is prolonged" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Simple vs Complex",
+      criteria: [
+        "Simple (90%): Generalized; < 15 mins; does not repeat in 24h.",
+        "Complex: Focal; > 15 mins; repeats within 24h; neurological abnormality."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Meningitis", distinguishingFeatures: "Bulging fontanelle; neck stiffness; petechial rash; child looks very ill." },
+      { condition: "Epilepsy", distinguishingFeatures: "Seizures without fever; recurrent." },
+      { condition: "Breath-holding spells", distinguishingFeatures: "Triggered by anger/pain; no fever." }
+    ],
+    complications: {
+      common: ["Injury during fall", "Parental anxiety"],
+      serious: ["Status Epilepticus", "Aspiration pneumonia"],
+      lifeThreatening: ["Meningitis (if missed)"]
+    },
+    conventionalManagement: {
+      general: ["Recovery position", "Do NOT put anything in the mouth", "Time the seizure", "Tepid sponging"],
+      medical: ["Antipyretics (Paracetamol/Ibuprofen)", "Diazepam (rectal/nasal) IF seizure > 5 mins"],
+      prevention: ["Aggressive fever management during common childhood infections"]
+    },
+    homoeopathicApproach: "Used for management of the underlying fever and to reduce the tendency to convulsions. Emergency management of the fit is primary.",
+    relatedRemedies: [
+      { name: "Belladonna", keyIndications: "Sudden onset; high fever; red face; hot head with cold feet; pupils dilated; twitching during sleep." },
+      { name: "Stramonium", keyIndications: "Violent convulsions; child is terrified; wants light and company; eyes staring." },
+      { name: "Cuprum Metallicum", keyIndications: "Violent jerking; thumbs clenched in fists; cyanosis; cold extremities." },
+      { name: "Cicuta Virosa", keyIndications: "Convulsions with head bent backward (opisthotonos); eyes fixed; violent jerking." },
+      { name: "Hyoscyamus", keyIndications: "Twitching of small muscles; picking at bedclothes; silly behavior during fever." }
+    ],
+    relatedDiseases: ["meningitis", "epilepsy"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["6 mo - 5 yrs", "Rule out meningitis", "Manage fever", "Don't panic"],
+      miasmaticDominance: "Psora (Irritation) / Syphilitic (Convulsive discharge)",
+      thermalState: "Hot (Fever)",
+      organAffinity: "Brain, Muscles",
+      memoryMnemonic: "FEBRILE: Fever trigger, Eyes rolling, Brief (usually), Rule out meningitis, In 6mo-5yr age group, Lateral (recovery) position, Educate parents"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish a benign febrile seizure from life-threatening meningitis or encephalitis.",
+        severityAssessment: "Based on duration (Simple vs Complex).",
+        referralCriteria: ["Seizure > 5 mins", "Suspected meningitis", "First ever seizure"]
+      },
+      individualization: {
+        mentalGenerals: ["Terrified (Stram)", "Excited/Wild (Bell)"],
+        physicalGenerals: {
+          thermalState: "Hot (Fever)",
+          thirst: "Great for cold (Bell)",
+          appetite: "Nil",
+          desires: ["None"],
+          aversions: ["Light (Bell)"],
+          sleep: "Drowsy or Comatose (post-ictal)",
+          perspiration: "Hot sweat (Bell)"
+        },
+        modalities: ["Agg: Sudden motion, light, noise (Bell)."],
+        concomitants: ["Twitching", "Headache"],
+        characteristicParticulars: [
+          "Convulsions: Starting in face and spreading (Hyos).",
+          "Face: Red and hot while extremities are cold (Bell)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Convulsions with the thumbs clenched tightly into the palms (Cuprum)."],
+        individualExpression: "A violent syphilitic-psoric explosion of electrical energy in response to a thermal stressor."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Generalities, convulsions, children, fever during", chapter: "Generalities" },
+          { rubric: "Generalities, convulsions, tonic", chapter: "Generalities" }
+        ],
+        symptomAnalysis: "Focus on the character of the jerking and the child's appearance during the fever."
+      }
+    }
+  },
+  {
+    id: "childhood-asthma",
+    name: "Childhood Asthma",
+    slug: "childhood-asthma",
+    system: "pediatrics",
+    category: "Respiratory",
+    definition: "A chronic inflammatory airway disease characterized by recurrent episodes of wheezing, breathlessness, chest tightness, and coughing.",
+    simpleExplanation: "A condition where a child's breathing tubes get swollen and narrow, making it hard to breathe. It often causes a wheezing sound (whistling) and a tight chest. It's often triggered by things like dust, exercise, or a cold, but it can be managed well with inhalers.",
+    examKeywords: ["Wheezing", "Reversibility", "Atopy", "Peak Flow", "Spacer"],
+    epidemiology: {
+      ageDistribution: "Can start at any age; many start < 5 years.",
+      sexDistribution: "More common in boys before puberty.",
+      riskGroups: ["Children with eczema/hay fever (Atopy)", "Family history", "Exposure to second-hand smoke"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetics", "Atopic constitution"],
+      precipitatingFactors: ["Viral infections (Commonest trigger)", "Allergens (Dust, Pet dander)", "Exercise", "Cold air"],
+      riskFactors: ["Obesity", "Pollution"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Trigger Exposure", description: "Sensitive airways react to a trigger." },
+        { title: "Inflammation", description: "Airway walls become red and swollen." },
+        { title: "Bronchoconstriction", description: "Muscles around the airway tighten." },
+        { title: "Mucus Production", description: "Thick mucus clogs the narrowed tubes." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Recurrent wheezing", "Shortness of breath", "Chest tightness"],
+      localSymptoms: ["Dry cough (often worse at night/early morning)", "Prolonged expiration"],
+      constitutionalFeatures: ["Difficulty talking or feeding (during attack)", "Signs of atopy (eczema)"]
+    },
+    redFlags: [
+      "EMERGENCY: Silent chest (No wheezing heard because no air is moving)",
+      "EMERGENCY: Cyanosis (Blue lips/tongue)",
+      "EMERGENCY: Difficulty talking in full sentences",
+      "EMERGENCY: Using neck muscles to breathe (Tracheal tug/Suprasternal recession)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Spirometry", findings: "Obstructive pattern; reversible with salbutamol", importance: "Gold standard (if child > 5y)" },
+        { name: "Peak Expiratory Flow Rate (PEFR)", findings: "Variable readings", importance: "Home monitoring" }
+      ],
+      laboratoryFindings: [
+        { name: "Allergy Testing (Skin Prick)", findings: "Positive for triggers", importance: "Identify triggers" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Diagnosis in Young Children",
+      criteria: [
+        "1. History of recurrent episodes (>3) of wheezing/cough.",
+        "2. Clinical response to bronchodilators.",
+        "3. Exclusion of other causes."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Bronchiolitis", distinguishingFeatures: "First episode in < 2 year old; viral cause; wheeze doesn't respond well to inhalers." },
+      { condition: "Foreign Body Aspiration", distinguishingFeatures: "Sudden onset; unilateral wheeze; history of choking." },
+      { condition: "Cystic Fibrosis", distinguishingFeatures: "Greasy stools; failure to thrive; recurrent pneumonia." }
+    ],
+    complications: {
+      common: ["School absenteeism", "Sleep disturbance"],
+      serious: ["Pneumothorax", "Status Asthmaticus (Severe attack not responding to treatment)"],
+      lifeThreatening: ["Respiratory failure", "Death"]
+    },
+    conventionalManagement: {
+      general: ["Avoid triggers", "Correct inhaler technique (Use a SPACER)", "Asthma Action Plan"],
+      medical: ["Relievers (Salbutamol inhaler - blue)", "Preventers (Inhaled Corticosteroids - brown/orange)", "Oral steroids (for severe attacks)"],
+      prevention: ["Avoidance of known allergens (dust, pet dander)", "Annual flu vaccination", "Smoke-free environment"]
+    },
+    homoeopathicApproach: "Addresses the underlying atopic constitution (miasmatic block) to reduce frequency and severity of attacks. Excellent for long-term management.",
+    relatedRemedies: [
+      { name: "Arsenicum Album", keyIndications: "Worse after midnight (1-2 AM); great anxiety and restlessness; child wants to sit up and lean forward; thirsty for sips." },
+      { name: "Ipecacuanha", keyIndications: "Wheezing with constant nausea; chest seems full of mucus but nothing comes up; suffocative cough." },
+      { name: "Spongia Tosta", keyIndications: "Dry, barking, 'sawing' cough; worse before midnight; better for warm drinks." },
+      { name: "Natrum Sulphuricum", keyIndications: "Worse in damp weather; child is sensitive to cold/wet; rattling in chest; early morning attacks." },
+      { name: "Antimonium Tartaricum", keyIndications: "Great rattling in chest; child is drowsy and sweaty; cannot expectorate." },
+      { name: "Psorinum", keyIndications: "Deep constitutional remedy; very chilly; offensive discharges; history of skin suppressed." }
+    ],
+    relatedDiseases: ["atopic-dermatitis", "pediatric-pneumonia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Use a spacer", "Inhalers are key", "Night cough is a sign", "Check atopy"],
+      miasmaticDominance: "Psora (Allergy) / Sycotic (Constriction/Mucus)",
+      thermalState: "Variable",
+      organAffinity: "Bronchi, Lungs",
+      memoryMnemonic: "WHEEZE: Whistling sound, History of atopy, Exercise trigger, Early morning cough, Z-spacer used, Emergency signs check"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To achieve long-term control and prevent life-threatening attacks.",
+        severityAssessment: "Based on frequency of symptoms and need for relievers.",
+        referralCriteria: ["Severe attack (Silent chest, Cyanosis)", "Inability to talk"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxious (Ars)", "Irritable", "Frightened"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars/Psor)",
+          thirst: "Small sips (Ars)",
+          appetite: "Poor during attack",
+          desires: ["Warm drinks (Spongia)"],
+          aversions: ["Cold food (Ars)"],
+          sleep: "Worse after midnight (Ars)",
+          perspiration: "Cold sweat (Ant-t)"
+        },
+        modalities: ["Agg: Midnight (Ars), damp weather (Nat-s), exercise.", "Amel: Sitting up, warm drinks."],
+        concomitants: ["Vomiting", "Eczema"],
+        characteristicParticulars: [
+          "Cough: Dry, wheezing, or rattling.",
+          "Chest: Feeling of constriction as if a band were around it."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Asthma that is significantly worse in damp weather or after every change to wet weather (Natrum Sulph)."],
+        individualExpression: "A psoric-sycotic hypersensitivity of the respiratory tract, often linked to a suppressed skin eruption."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Respiration, asthmatic", chapter: "Respiration" },
+          { rubric: "Cough, asthmatic", chapter: "Cough" }
+        ],
+        symptomAnalysis: "Focus on the time of aggravation, the triggers, and the presence of other atopic signs."
+      }
+    }
+  },
+  {
+    id: "common-cold-pediatric",
+    name: "Common Cold",
+    slug: "pediatric-cold",
+    system: "pediatrics",
+    category: "Respiratory",
+    definition: "A mild viral infection of the upper respiratory tract involving the nose and throat.",
+    simpleExplanation: "A very common viral infection that causes a runny nose, sneezing, and a mild sore throat. Children get them often because their immune systems are still learning. It's usually harmless and gets better on its own without antibiotics.",
+    examKeywords: ["Rhinovirus", "Coryza", "Supportive care", "Self-limiting", "Nasal congestion"],
+    epidemiology: {
+      ageDistribution: "All ages; infants/toddlers get 6-10 per year.",
+      sexDistribution: "Equal.",
+      riskGroups: ["Daycare attendees", "Smokers in the home"],
+    },
+    etiology: {
+      predisposingFactors: ["Exposure to other children", "Cold weather (indoor clustering)"],
+      precipitatingFactors: ["Rhinovirus (Commonest)", "Coronavirus", "Adenovirus"],
+      riskFactors: ["Lack of handwashing", "Stress"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Contact", description: "Virus enters via nose or eyes from hands or droplets." },
+        { title: "Invasion", description: "Virus replicates in the lining of the nose." },
+        { title: "Inflammation", description: "Blood vessels dilate, causing swelling and mucus production." },
+        { title: "Resolution", description: "Immune system clears the virus in 7-10 days." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Low-grade fever", "Sneezing", "Malaise"],
+      localSymptoms: ["Runny nose (Coryza)", "Nasal congestion", "Mild sore throat"],
+      constitutionalFeatures: ["Cough (due to post-nasal drip)", "Irritability"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: High fever or fever lasting > 3 days",
+      "URGENT REFERRAL: Difficulty breathing (Pneumonia/Bronchiolitis)",
+      "URGENT REFERRAL: Severe ear pain (Ear infection)",
+      "URGENT REFERRAL: Symptoms not improving after 10-14 days (Sinusitis)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Runny nose + Mild symptoms", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "None usually needed", findings: "-", importance: "-" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Exclusion of Others",
+      criteria: [
+        "1. Absence of high fever or toxic appearance.",
+        "2. Absence of respiratory distress.",
+        "3. Clear or yellowish/greenish nasal discharge."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Allergic Rhinitis", distinguishingFeatures: "Itchy eyes/nose; no fever; history of allergies; clear discharge only." },
+      { condition: "Influenza (Flu)", distinguishingFeatures: "High fever; severe body ache; sudden onset; child looks more ill." },
+      { condition: "Pertussis", distinguishingFeatures: "Cough becomes paroxysmal with a 'whoop'." }
+    ],
+    complications: {
+      common: ["Otitis media (Ear infection)", "Sinusitis"],
+      serious: ["Pneumonia", "Exacerbation of Asthma"],
+      lifeThreatening: ["None in healthy children"]
+    },
+    conventionalManagement: {
+      general: ["Hydration", "Saline nose drops", "Rest", "Honey (if > 1 year for cough)"],
+      medical: ["Paracetamol (for fever/pain)", "NO antibiotics", "Decongestants NOT recommended for < 6 years"],
+      prevention: ["Frequent handwashing", "Avoiding contact with sick individuals"]
+    },
+    homoeopathicApproach: "Very effective in shortening the duration and preventing complications. Selected based on the character of the discharge and the modalities.",
+    relatedRemedies: [
+      { name: "Aconite", keyIndications: "Sudden onset after exposure to cold dry wind; first stage; fever; restless; dry skin." },
+      { name: "Allium Cepa", keyIndications: "Profuse acrid nasal discharge (burns nose); bland lacrimation (tears don't burn); sneezing; amel in open air." },
+      { name: "Arsenicum Album", keyIndications: "Thin, watery, excoriating discharge; nose feels blocked despite discharge; chilly; thirsty for sips." },
+      { name: "Dulcamara", keyIndications: "Cold from damp weather or change from warm to cold; thick yellow discharge." },
+      { name: "Euphrasia", keyIndications: "Acrid lacrimation (burns eyes); bland nasal discharge; worse for light." },
+      { name: "Ferrum Phos", keyIndications: "Gradual onset; first stage; rosy cheeks; mild fever." }
+    ],
+    relatedDiseases: ["allergic-rhinitis", "pediatric-pneumonia"],
+    examPriority: "Low",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Viral cause", "No antibiotics", "Saline drops", "Honey for cough"],
+      miasmaticDominance: "Psora (Irritation)",
+      thermalState: "Variable",
+      organAffinity: "Nose, Throat",
+      memoryMnemonic: "COLD: Coryza (runny nose), Only supportive care, Low-grade fever, Duration 7-10 days"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To avoid unnecessary antibiotics and monitor for common complications like ear infections.",
+        severityAssessment: "Usually mild.",
+        referralCriteria: ["Signs of breathing difficulty", "High fever"]
+      },
+      individualization: {
+        mentalGenerals: ["Restless (Acon)", "Irritable"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars/Acon)",
+          thirst: "Sips of water (Ars)",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["Food"],
+          sleep: "Restless",
+          perspiration: "None (Acon)"
+        },
+        modalities: ["Agg: Cold dry wind (Acon), night, warm room (Allium-c).", "Amel: Open air (Allium-c)."],
+        concomitants: ["Headache", "Sneezing"],
+        characteristicParticulars: [
+          "Discharge: Acrid (burns) vs Bland (doesn't burn).",
+          "Nose: Sneezing that is very frequent and violent."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Profuse watery discharge from the nose which burns the skin, while the eyes water profusely but do not burn (Allium Cepa)."],
+        individualExpression: "A simple psoric reaction to viral irritation of the nasal mucosa."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Nose, coryza, discharge", chapter: "Nose" },
+          { rubric: "Nose, sneezing", chapter: "Nose" }
+        ],
+        symptomAnalysis: "Focus on the character of the nasal and eye discharge (Acrid vs Bland) and the triggers."
+      }
+    }
+  },
+  {
+    id: "bph",
+    name: "Benign Prostatic Hyperplasia (BPH)",
+    slug: "benign-prostatic-hyperplasia",
+    system: "male-reproductive",
+    category: "Prostate",
+    definition: "A non-cancerous enlargement of the prostate gland, common in older men, leading to urinary symptoms.",
+    simpleExplanation: "A common condition in men as they get older, where the prostate gland (which surrounds the tube you pee through) gets bigger. This squeezes the tube, making it harder to start peeing, causing a weak flow, and making you feel like you need to go more often, especially at night.",
+    examKeywords: ["IPSS score", "Alpha-blockers", "TURP", "PSA", "DRE (Digital Rectal Exam)"],
+    epidemiology: {
+      ageDistribution: "Increases with age; very common > 50 years.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Aging men", "Family history", "Obesity"],
+    },
+    etiology: {
+      predisposingFactors: ["Age-related hormonal changes (increased Dihydrotestosterone)", "Genetics"],
+      precipitatingFactors: ["Androgen exposure over time"],
+      riskFactors: ["Metabolic syndrome", "Sedentary lifestyle"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Hormonal Shift", description: "Testosterone levels drop but DHT remains active, stimulating cell growth." },
+        { title: "Hyperplasia", description: "Increase in number of cells in the transition zone of the prostate." },
+        { title: "Urethral Compression", description: "The growing gland squeezes the prostatic urethra." },
+        { title: "Bladder Compensation", description: "The bladder muscle thickens to push urine past the block, leading to instability." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Frequency", "Urgency", "Nocturia (waking up to pee)"],
+      localSymptoms: ["Weak stream", "Hesitancy (hard to start)", "Dribbling at the end", "Feeling of incomplete emptying"],
+      constitutionalFeatures: ["Sleep deprivation (due to nocturia)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Acute Urinary Retention (Unable to pass any urine - Painful)",
+      "URGENT REFERRAL: Hematuria (Blood in urine)",
+      "URGENT REFERRAL: Signs of kidney failure (Uremic symptoms, swelling)",
+      "URGENT REFERRAL: Recurrent UTIs"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Digital Rectal Exam (DRE)", findings: "Smooth, firm, elastic, enlarged prostate; midline groove preserved", importance: "Primary clinical check" },
+        { name: "PSA (Prostate Specific Antigen)", findings: "Mildly elevated (< 10 ng/mL)", importance: "Screen for cancer" },
+        { name: "USG KUB/Prostate", findings: "Volume > 20-30cc; Post-void residual urine", importance: "Measure size and obstruction" }
+      ],
+      laboratoryFindings: [
+        { name: "Urine Routine", findings: "Normal (unless UTI)", importance: "Rule out infection" },
+        { name: "S. Creatinine", findings: "Elevated if chronic obstruction", importance: "Check kidney function" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "BPH vs Prostate Cancer",
+      criteria: [
+        "BPH: DRE shows smooth/elastic gland; midline groove present; PSA usually low/moderate; slow onset.",
+        "Prostate Cancer: DRE shows hard/nodular gland; midline groove lost; PSA often high; rapid change."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Prostate Cancer", distinguishingFeatures: "Hard nodules on DRE; high PSA; weight loss; bone pain." },
+      { condition: "Urethral Stricture", distinguishingFeatures: "History of trauma or STI; younger age; constant thin stream." },
+      { condition: "Prostatitis", distinguishingFeatures: "Pain is prominent; fever (if acute); younger age." }
+    ],
+    complications: {
+      common: ["UTI", "Bladder stones"],
+      serious: ["Acute Urinary Retention", "Hydronephrosis", "Chronic Kidney Disease"],
+      lifeThreatening: ["Urosepsis", "Renal Failure"]
+    },
+    conventionalManagement: {
+      general: ["Fluid restriction before bed", "Avoid caffeine/alcohol", "Bladder training"],
+      medical: ["Alpha-blockers (Tamsulosin) - relax muscle", "5-alpha-reductase inhibitors (Finasteride) - shrink gland"],
+      surgical: ["TURP (Transurethral Resection of the Prostate) - Gold standard for surgery", "Laser prostatectomy"],
+      prevention: ["Maintaining a healthy weight", "Diet rich in fruits and vegetables", "Regular physical activity"]
+    },
+    homoeopathicApproach: "Extremely effective in early to moderate stages to reduce symptoms and potentially slow growth. Focuses on urinary modalities and constitutional state.",
+    relatedRemedies: [
+      { name: "Sabal Serrulata", keyIndications: "The 'homeopathic catheter'; constant desire to pass urine; small stream; coldness in genitals." },
+      { name: "Conium Maculatum", keyIndications: "Interrupted stream (stops and starts); hard, stony prostate; history of suppressed sexual desire." },
+      { name: "Ferrum Picricum", keyIndications: "Senile hypertrophy; frequent desire at night; feeling of a plug in the rectum." },
+      { name: "Chimaphila Umbellata", keyIndications: "Sensation of a ball in the perineum; must strain and lean forward to pass urine; ropy mucus in urine." },
+      { name: "Lycopodium", keyIndications: "Nocturia; red sandy sediment in urine; flatulence; worse 4-8 PM." },
+      { name: "Baryta Carbonica", keyIndications: "Senile hypertrophy in elderly men who are physically and mentally slow." }
+    ],
+    relatedDiseases: ["prostatitis", "prostate-cancer"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Smooth gland on DRE", "Nocturia is common", "Sabal is key remedy", "Watch for retention"],
+      miasmaticDominance: "Sycotic (Hypertrophy/Overgrowth)",
+      thermalState: "Variable",
+      organAffinity: "Prostate, Bladder, Urethra",
+      memoryMnemonic: "BPH: Bigger prostate, Poor stream, Hesitancy, Sabal/Sycotic"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To ensure it is truly benign and not a malignant growth (Prostate Cancer).",
+        severityAssessment: "Based on IPSS symptom score and post-void residual urine volume.",
+        referralCriteria: ["PSA > 10", "Hard nodules on DRE", "Complete urinary retention"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety about health", "Slow mentally (Baryta-c)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Sabal/Sulph)",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Interrupted by nocturia",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Night, cold, sitting.", "Amel: Leaning forward (Chimaphila), walking."],
+        concomitants: ["Constipation", "Flatulence"],
+        characteristicParticulars: [
+          "Urine: Interrupted flow (Conium).",
+          "Rectum: Sensation of a ball or plug (Chim/Ferr-p)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Must strain so hard that he has to lean forward with legs apart to pass even a small amount (Chimaphila)."],
+        individualExpression: "A sycotic overgrowth of the glandular tissue leading to mechanical obstruction of the life-stream (urine)."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Prostate, enlargement", chapter: "Prostate" },
+          { rubric: "Bladder, urination, interrupted", chapter: "Bladder" }
+        ],
+        symptomAnalysis: "Focus on the urinary stream character and the sensations in the perineum/rectum."
+      }
+    }
+  },
+  {
+    id: "prostatitis",
+    name: "Prostatitis",
+    slug: "prostatitis",
+    system: "male-reproductive",
+    category: "Prostate",
+    definition: "Inflammation or infection of the prostate gland, which can be acute or chronic.",
+    simpleExplanation: "An infection or swelling of the prostate gland. Unlike BPH, this usually causes a lot of pain in the groin, back, or during peeing. It can happen to men of any age. Acute cases feel like a bad flu with high fever and severe pain.",
+    examKeywords: ["Prostatic massage (avoid in acute)", "Bacteriuria", "Pelvic pain", "NIH classification", "Quinolones"],
+    epidemiology: {
+      ageDistribution: "Any age; common in young and middle-aged men.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Men with recent UTIs", "Recent catheterization", "Men with multiple sexual partners (STI risk)"],
+    },
+    etiology: {
+      predisposingFactors: ["Urine reflux into prostate ducts", "Pelvic floor muscle dysfunction"],
+      precipitatingFactors: ["Bacteria (E. coli, Proteus)", "STIs (Chlamydia, Gonorrhea)"],
+      riskFactors: ["Diabetes", "Dehydration"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Invasion", description: "Pathogens enter the prostate via the urethra." },
+        { title: "Inflammation", description: "Swelling and congestion of the glandular tissue." },
+        { title: "Abscess Potential", description: "In acute cases, pockets of pus can form." },
+        { title: "Chronic Changes", description: "Long-term inflammation leads to nerve sensitivity and chronic pelvic pain." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Fever and chills (in acute)", "Malaise", "Pelvic pain"],
+      localSymptoms: ["Pain on urination (Dysuria)", "Pain in perineum, rectum, or low back", "Pain on ejaculation"],
+      constitutionalFeatures: ["Frequency and urgency"]
+    },
+    redFlags: [
+      "EMERGENCY: High fever with inability to pee (Acute retention with sepsis risk)",
+      "EMERGENCY: Extreme tenderness on DRE",
+      "EMERGENCY: Signs of shock (Low BP, confusion)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Urine Culture (Mid-stream)", findings: "Bacterial growth", importance: "Identify pathogen" },
+        { name: "Meares-Stamey 4-glass test", findings: "Localized infection in prostate", importance: "Gold standard for chronic" }
+      ],
+      laboratoryFindings: [
+        { name: "CBC", findings: "Leukocytosis (in acute)", importance: "Confirms infection" },
+        { name: "PSA", findings: "Transitory elevation", importance: "Marker of inflammation (don't test during acute phase)" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "NIH Classification",
+      criteria: [
+        "Type I: Acute Bacterial (Fever/Pain).",
+        "Type II: Chronic Bacterial (Recurrent UTIs).",
+        "Type III: CPPS (Chronic Pelvic Pain Syndrome - Non-bacterial).",
+        "Type IV: Asymptomatic inflammatory."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "BPH", distinguishingFeatures: "No fever; pain is not prominent; older age." },
+      { condition: "Cystitis", distinguishingFeatures: "Pain is suprapubic; prostate not tender." },
+      { condition: "Prostate Cancer", distinguishingFeatures: "Hard gland; usually painless; high PSA." }
+    ],
+    complications: {
+      common: ["Chronic pelvic pain", "Recurrent UTIs"],
+      serious: ["Prostatic abscess", "Epididymitis", "Sepsis"],
+      lifeThreatening: ["Septic shock"]
+    },
+    conventionalManagement: {
+      general: ["Sitz baths", "Avoid spicy foods/caffeine", "Hydration"],
+      medical: ["Antibiotics (Ciprofloxacin) for 4-6 weeks", "Alpha-blockers", "Anti-inflammatories"],
+      surgical: ["Drainage of abscess (if present)"],
+      prevention: ["Safe sexual practices", "Prompt treatment of urinary tract infections", "Adequate daily hydration"]
+    },
+    homoeopathicApproach: "Addresses the acute inflammation and the chronic underlying susceptibility. Very effective for Chronic Pelvic Pain Syndrome (Type III).",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Chronic prostatitis; thick yellow discharge; pain at end of urination; mild temperament; no thirst." },
+      { name: "Thuja Occidentalis", keyIndications: "The great sycotic remedy; history of suppressed gonorrhea; forked stream; stitching pains." },
+      { name: "Cantharis", keyIndications: "Acute stage; intolerable constant urging; burning 'drop by drop'; blood in urine." },
+      { name: "Chimaphila Umbellata", keyIndications: "Chronic cases with much mucus; sensation of a ball in perineum." },
+      { name: "Lycopodium", keyIndications: "Pain in back before urination; sandy sediment; worse 4-8 PM." },
+      { name: "Merc Sol", keyIndications: "Persistent urging; worse at night; sweating without relief." }
+    ],
+    relatedDiseases: ["bph", "urological-stones"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Pain is key feature", "Avoid DRE in acute", "Long antibiotic course", "NIH Types"],
+      miasmaticDominance: "Psora (Irritation) / Sycotic (Chronic inflammation)",
+      thermalState: "Hot (in acute)",
+      organAffinity: "Prostate, Perineum, Bladder",
+      memoryMnemonic: "PROST: Pelvic pain, Rectal discomfort, Outflow issues, Sepsis risk, Tender gland"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish acute bacterial (emergency) from chronic non-bacterial types.",
+        severityAssessment: "Based on temperature and ability to void.",
+        referralCriteria: ["High fever/sepsis signs", "Abscess suspicion"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Mild (Puls)"],
+        physicalGenerals: {
+          thermalState: "Hot (in acute)",
+          thirst: "Great (Canth) or None (Puls)",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Restless",
+          perspiration: "Offensive (Merc)"
+        },
+        modalities: ["Agg: Cold, sitting, walking.", "Amel: Sitz bath, urination."],
+        concomitants: ["Backache", "Discharge"],
+        characteristicParticulars: [
+          "Urination: Scalding, burning like fire (Canth).",
+          "Pain: Shooting into the testicles or thighs."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intolerable urging and burning, as if every drop of urine were a drop of liquid fire (Cantharis)."],
+        individualExpression: "A sycotic-psoric inflammatory explosion in the male pelvic floor."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Prostate, inflammation", chapter: "Prostate" },
+          { rubric: "Bladder, urination, painful", chapter: "Bladder" }
+        ],
+        symptomAnalysis: "Focus on the character of the pain and any history of STIs or suppression."
+      }
+    }
+  },
+  {
+    id: "prostate-cancer",
+    name: "Prostate Cancer",
+    slug: "prostate-cancer",
+    system: "male-reproductive",
+    category: "Prostate",
+    definition: "Malignant growth of cells in the prostate gland, often adenocarcinoma.",
+    simpleExplanation: "A cancer that starts in the prostate gland. It often grows very slowly and may not cause any symptoms at first. As it grows, it can cause trouble peeing or spread to the bones, causing back pain. Regular check-ups with a blood test (PSA) are important for early detection.",
+    examKeywords: ["Adenocarcinoma", "Gleason score", "PSA", "Osteoblastic metastases", "Radical prostatectomy"],
+    epidemiology: {
+      ageDistribution: "Commonest in men > 65 years.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Aging men", "African American men (higher risk)", "Family history"],
+    },
+    etiology: {
+      predisposingFactors: ["Aging", "Androgen levels", "Genetics"],
+      precipitatingFactors: ["Unknown mutations"],
+      riskFactors: ["Diet high in animal fats", "Obesity"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Malignant Transformation", description: "Cells in the peripheral zone of the prostate become cancerous." },
+        { title: "Local Spread", description: "The tumor invades the capsule and nearby structures (seminal vesicles)." },
+        { title: "Lymphatic Spread", description: "Cells move to pelvic lymph nodes." },
+        { title: "Metastasis", description: "Cancer spreads via blood to bones (spine/pelvis), causing typical bone pain." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Weight loss", "Fatigue", "Bone pain (Back/Hips)"],
+      localSymptoms: ["Similar to BPH but more rapid onset", "Weak stream", "Hematuria (Blood in urine)", "Hematospermia (Blood in semen)"],
+      constitutionalFeatures: ["Anemia"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Hard, irregular, nodular gland on DRE",
+      "URGENT REFERRAL: Persistent low back pain in an older man (Meta risk)",
+      "URGENT REFERRAL: Rapid rise in PSA (>0.75 ng/mL/year)",
+      "URGENT REFERRAL: Hematuria"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Digital Rectal Exam (DRE)", findings: "Hard, nodular, irregular, asymmetric gland; midline groove lost", importance: "Primary clinical screen" },
+        { name: "PSA (Prostate Specific Antigen)", findings: "Elevated (> 10 ng/mL or rapid velocity)", importance: "Diagnostic marker" },
+        { name: "TRUS-guided Biopsy", findings: "Malignant cells present", importance: "Definitive diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "Alkaline Phosphatase", findings: "Elevated", importance: "Suggests bone metastasis" },
+        { name: "Multiparametric MRI", findings: "Localizes tumor", importance: "Staging" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Gleason Scoring",
+      criteria: [
+        "Based on the microscopic appearance of cancer cells.",
+        "Sum of primary and secondary patterns (range 2-10).",
+        "Higher score = More aggressive cancer."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "BPH", distinguishingFeatures: "Smooth elastic gland; preserved midline groove; slower onset." },
+      { condition: "Chronic Prostatitis", distinguishingFeatures: "Pain is prominent; younger age; history of infection." }
+    ],
+    complications: {
+      common: ["Urinary obstruction", "Erectile dysfunction (post-treatment)"],
+      serious: ["Bone metastases", "Spinal cord compression", "Lymphedema"],
+      lifeThreatening: ["Metastatic disease", "Renal failure"]
+    },
+    conventionalManagement: {
+      general: ["Active surveillance (for low-risk/elderly)", "Nutrition"],
+      medical: ["Hormone therapy (Androgen Deprivation)", "Chemotherapy"],
+      surgical: ["Radical Prostatectomy", "Radiation therapy (Brachytherapy/EBRT)"],
+      prevention: ["Regular screening (PSA/DRE) in men over 50", "Diet low in processed animal fats", "Maintaining healthy BMI"]
+    },
+    homoeopathicApproach: "Used for palliation of symptoms, management of side effects of conventional therapy, and as supportive care. Never used as primary treatment to the exclusion of conventional monitoring/care.",
+    relatedRemedies: [
+      { name: "Conium Maculatum", keyIndications: "Hard, stony prostate; stitching pains; debility; urinary interruption." },
+      { name: "Thuja Occidentalis", keyIndications: "Glandular overgrowth; forked stream; stitching pains; history of sycosis." },
+      { name: "Baryta Iodata", keyIndications: "Hardened glands; senility; mentally slow; emaciation." },
+      { name: "Carbo Animalis", keyIndications: "Stony hardness of glands; low vitality; offensive discharges; cachexia." },
+      { name: "Hydrastis", keyIndications: "Cancerous diathesis; emaciation; thick yellowish discharges." }
+    ],
+    relatedDiseases: ["bph", "prostatitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Nodular on DRE", "High PSA", "Back pain = Mets?", "Peripheral zone"],
+      miasmaticDominance: "Syphilitic (Malignant destruction)",
+      thermalState: "Variable",
+      organAffinity: "Prostate, Bones (Spine), Pelvic nodes",
+      memoryMnemonic: "CANCER: Capsule breached, Age > 65, Nodular on DRE, Cells atypical (Gleason), Elevated PSA, Radiating bone pain"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Critical to distinguish from BPH to prevent spread and death.",
+        severityAssessment: "Based on PSA, Gleason score, and MRI staging.",
+        referralCriteria: ["ANY suspicion of malignancy on DRE or PSA"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety about death", "Depression"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Small quantities often (Ars)",
+          appetite: "Loss of appetite",
+          desires: ["None"],
+          aversions: ["Food"],
+          sleep: "Restless",
+          perspiration: "Offensive"
+        },
+        modalities: ["Agg: Night, cold.", "Amel: Warmth."],
+        concomitants: ["Weight loss", "Backache"],
+        characteristicParticulars: [
+          "Gland: Stony hardness (Conium/Carbo-an).",
+          "Pain: Stitching or burning."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The prostate feels like a hard stone and the urinary stream is constantly interrupted (Conium)."],
+        individualExpression: "A purely syphilitic destructive process hijacking the glandular machinery."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Prostate, cancer", chapter: "Prostate" },
+          { rubric: "Prostate, induration", chapter: "Prostate" }
+        ],
+        symptomAnalysis: "Focus on the hardness of the gland and the constitutional emaciation."
+      }
+    }
+  },
+  {
+    id: "male-infertility",
+    name: "Male Infertility",
+    slug: "male-infertility",
+    system: "male-reproductive",
+    category: "Reproductive",
+    definition: "The inability of a male to achieve pregnancy in a fertile female partner after one year of unprotected intercourse.",
+    simpleExplanation: "When a man has trouble helping his partner get pregnant. It's very common and can be due to many things like low sperm count, poor sperm health, or blockages. Lifestyle factors like smoking, stress, and heat also play a big role. It's important to test both partners.",
+    examKeywords: ["Semen analysis", "Azoospermia", "Oligospermia", "Varicocele", "Klinefelter syndrome"],
+    epidemiology: {
+      ageDistribution: "Any reproductive age.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Men with history of undescended testes", "History of Mumps (orchitis)", "Smokers"],
+    },
+    etiology: {
+      predisposingFactors: ["Varicocele (Commonest reversible cause)", "Hormonal imbalance", "Genetics"],
+      precipitatingFactors: ["Heat exposure", "STIs (Scarring)", "Chemicals/Radiation"],
+      riskFactors: ["Obesity", "Smoking", "Alcohol", "Anabolic steroids"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Production Issues", description: "Testes fail to produce enough or healthy sperm (Oligospermia/Asthenospermia)." },
+        { title: "Transport Issues", description: "Sperm are produced but cannot move out due to a blockage (Obstructive Azoospermia)." },
+        { title: "Ejaculation Issues", description: "Problems with getting the sperm into the partner (ED/Retrograde ejaculation)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Inability to conceive"],
+      localSymptoms: ["Small testes", "Varicocele ('Bag of worms')", "History of STIs"],
+      constitutionalFeatures: ["Signs of low testosterone (Reduced beard, muscle mass)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: History of undescended testes (Cancer risk)",
+      "URGENT REFERRAL: Severe pain in testes",
+      "URGENT REFERRAL: Anosmia (No smell) + Small testes (Kallmann syndrome)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Semen Analysis", findings: "Low count (< 15M/mL), poor motility, abnormal shape", importance: "Primary diagnostic tool" },
+        { name: "Scrotal USG", findings: "Varicocele or testicular atrophy", importance: "Identify anatomical cause" }
+      ],
+      laboratoryFindings: [
+        { name: "FSH/LH/Testosterone", findings: "Hormonal imbalance", importance: "Identify endocrine cause" },
+        { name: "Genetic Testing", findings: "Klinefelter (XXY)", importance: "If azoospermia found" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Semen Analysis (WHO 2021)",
+      criteria: [
+        "Volume: > 1.4 mL.",
+        "Concentration: > 15 million/mL.",
+        "Total Motility: > 42%.",
+        "Normal Morphology: > 4%."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Azoospermia (Obstructive)", distinguishingFeatures: "Normal FSH/LH; normal testes size; history of STI." },
+      { condition: "Azoospermia (Non-obstructive)", distinguishingFeatures: "High FSH; small testes; production failure." }
+    ],
+    complications: {
+      common: ["Psychological stress", "Relationship strain"],
+      serious: ["Underlying testicular cancer (rare but linked)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Avoid smoking/alcohol", "Avoid tight underwear/hot tubs", "Zinc/Vitamin E"],
+      medical: ["Hormone therapy", "Treatment of STIs"],
+      surgical: ["Varicocelectomy", "Sperm retrieval for IVF"],
+      prevention: ["Avoidance of smoking and anabolic steroids", "MMR vaccination (to prevent mumps orchitis)", "Wearing loose-fitting clothing"]
+    },
+    homoeopathicApproach: "Aims to improve sperm quality and count by addressing the constitutional and miasmatic blocks. Very effective for oligospermia due to lifestyle or mild hormonal issues.",
+    relatedRemedies: [
+      { name: "Selenium", keyIndications: "Great debility; involuntary dribbling of semen; weak sperm; loss of hair; hot weather aggravates." },
+      { name: "Agnus Castus", keyIndications: "Complete impotence; cold and relaxed genitals; history of excessive sexual indulgence; depression." },
+      { name: "Aurum Metallicum", keyIndications: "Small, undescended testes; deep depression; history of mumps; high blood pressure." },
+      { name: "Lycopodium", keyIndications: "Premature ejaculation; weak count; digestive issues; lacks confidence." },
+      { name: "Phosphoric Acid", keyIndications: "Mental and physical exhaustion from grief or loss of vital fluids; pale urine." },
+      { name: "X-Ray", keyIndications: "Reported to improve sperm count and motility (use with caution constitutional approach)." }
+    ],
+    relatedDiseases: ["erectile-dysfunction", "varicocele"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Varicocele is common cause", "Check mumps history", "Semen analysis is key", "Selenium is key remedy"],
+      miasmaticDominance: "Psora (Functional weakness) / Syphilitic (Production failure/Atrophy)",
+      thermalState: "Variable",
+      organAffinity: "Testes, Sperm, Hypothalamus",
+      memoryMnemonic: "SPERM: Semen analysis, Production issue, Endocrine check, Reproductive tract block, Mumps history"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify reversible causes and provide realistic prognosis.",
+        severityAssessment: "Based on semen parameters.",
+        referralCriteria: ["Azoospermia", "Hormonal abnormality", "Genetic suspicion"]
+      },
+      individualization: {
+        mentalGenerals: ["Depression (Aurum)", "Lack of confidence (Lyco)", "Apathetic (Agnus)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Normal",
+          appetite: "Variable",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Interrupted",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Sexual excess, grief, hot weather (Selenium)."],
+        concomitants: ["Impotence", "Hair loss"],
+        characteristicParticulars: [
+          "Genitals: Cold, relaxed, and flabby (Agnus).",
+          "Semen: Thin, watery, and lacking vitality."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The genitals are so cold and relaxed that the person feels no sexual desire at all (Agnus Castus)."],
+        individualExpression: "A syphilitic-psoric failure of the generative power of the vital force."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, sterility", chapter: "Male" },
+          { rubric: "Genitalia, Male, sperm, thin", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the constitutional state and the specific history of the patient."
+      }
+    }
+  },
+  {
+    id: "erectile-dysfunction",
+    name: "Erectile Dysfunction (ED)",
+    slug: "erectile-dysfunction",
+    system: "male-reproductive",
+    category: "Reproductive",
+    definition: "The persistent inability to achieve or maintain an erection sufficient for satisfactory sexual performance.",
+    simpleExplanation: "When a man has trouble getting or keeping an erection. It's very common and can be caused by physical issues (like blood flow or nerves) or psychological issues (like stress or anxiety). It's often a sign of other health problems like diabetes or heart disease, so it's important to check overall health.",
+    examKeywords: ["PDE5 inhibitors", "Nocturnal tumescence", "Psychogenic vs Organic", "Testosterone", "Diabetes"],
+    epidemiology: {
+      ageDistribution: "Commonest > 40 years; increases with age.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Men with diabetes", "Heart disease", "Smokers", "Stressful jobs"],
+    },
+    etiology: {
+      predisposingFactors: ["Vascular disease (Commonest)", "Diabetes", "Neurological issues"],
+      precipitatingFactors: ["Anxiety (Performance anxiety)", "Stress", "Medications (Antidepressants, Beta-blockers)"],
+      riskFactors: ["Smoking", "Obesity", "Sedentary lifestyle"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Arousal Failure", description: "Brain fails to send signals due to stress or low hormones." },
+        { title: "Vascular Failure", description: "Blood vessels cannot dilate enough to fill the penis (Vascular insufficiency)." },
+        { title: "Venous Leak", description: "Blood enters but cannot be trapped, so the erection is lost quickly." },
+        { title: "Nerve Damage", description: "Signals don't reach the vessels (e.g., in Diabetes)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Difficulty getting an erection", "Inability to maintain an erection", "Reduced sexual desire"],
+      localSymptoms: ["Soft or weak erection"],
+      constitutionalFeatures: ["Performance anxiety", "Fatigue", "Signs of low testosterone"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden onset ED with saddle anesthesia (Cauda equina)",
+      "URGENT REFERRAL: ED as a new symptom in a young man (Check heart disease risk)",
+      "URGENT REFERRAL: Persistent painful erection > 4 hours (Priapism - EMERGENCY)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "History (IIEF-5 score)", findings: "Subjective assessment", importance: "Primary diagnostic tool" },
+        { name: "Nocturnal Penile Tumescence (NPT)", findings: "Present in psychogenic, absent in organic", importance: "Distinguish cause" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood Glucose/Lipids", findings: "Diabetes/High cholesterol", importance: "Identify vascular risk" },
+        { name: "Total Testosterone", findings: "Low", importance: "Identify hormonal cause" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Psychogenic vs Organic",
+      criteria: [
+        "Psychogenic: Sudden onset; morning erections present; situation-specific.",
+        "Organic: Gradual onset; morning erections absent; consistent across all situations."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Premature Ejaculation", distinguishingFeatures: "Erection is possible but climax occurs too fast." },
+      { condition: "Peyronie's Disease", distinguishingFeatures: "Curvature of penis; painful erections; plaque felt." },
+      { condition: "Low Libido", distinguishingFeatures: "Desire is missing, rather than the mechanical ability." }
+    ],
+    complications: {
+      common: ["Anxiety", "Relationship strain"],
+      serious: ["Early sign of cardiovascular disease"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Lifestyle changes (Exercise, Stop smoking)", "Psychological counseling"],
+      medical: ["PDE5 inhibitors (Sildenafil/Viagra)", "Testosterone replacement (if low)"],
+      surgical: ["Penile implants (for severe refractory cases)"],
+      prevention: ["Maintaining cardiovascular health", "Diabetes management", "Regular physical exercise", "Smoking cessation"]
+    },
+    homoeopathicApproach: "Addresses the psychological and constitutional components of ED. Very effective for 'psychogenic' ED and early vascular issues.",
+    relatedRemedies: [
+      { name: "Lycopodium", keyIndications: "The 'Old Man's' remedy; lacks confidence; premature ejaculation; weak power; flatulence; worse 4-8 PM." },
+      { name: "Agnus Castus", keyIndications: "Complete impotence; genitals cold and relaxed; history of sexual excess; depression; 'sexual melancholy'." },
+      { name: "Selenium", keyIndications: "Dribbling of semen; erections slow and weak; loss of hair; hot weather aggravates." },
+      { name: "Caladium", keyIndications: "Impotence with mental depression; genitals relaxed despite desire; erection lost on attempting intercourse." },
+      { name: "Argentum Nitricum", keyIndications: "Erection fails on thinking about it or when attempt is made (anxiety); impulsive person; craves sweets." },
+      { name: "Phosphoric Acid", keyIndications: "Following grief, stress, or loss of vital fluids; apathetic; physically weak." }
+    ],
+    relatedDiseases: ["male-infertility", "diabetes-mellitus"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Psychogenic vs Organic", "Vascular health is key", "Check for morning erections", "Lycopodium is key remedy"],
+      miasmaticDominance: "Psora (Anxiety/Function) / Syphilitic (Structural/Nerve damage)",
+      thermalState: "Variable",
+      organAffinity: "Penis, Nerves, Blood vessels, Mind",
+      memoryMnemonic: "ERECT: Endocrine, Restricted blood flow, Emotions (Anxiety), Chronic illness, Testosterone low"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "ED is often the 'canary in the coal mine' for heart disease.",
+        severityAssessment: "Based on IIEF score.",
+        referralCriteria: ["Sudden onset neurologic symptoms", "Priapism"]
+      },
+      individualization: {
+        mentalGenerals: ["Performance anxiety (Arg-n)", "Lack of confidence (Lyco)", "Melancholy (Agnus)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Sweets (Arg-n/Lyco)"],
+          aversions: ["None"],
+          sleep: "Anxious dreams",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Anxiety, thinking about the act (Arg-n)."],
+        concomitants: ["Premature ejaculation", "Digestive issues"],
+        characteristicParticulars: [
+          "Genitals: Cold and relaxed (Agnus/Selenium).",
+          "Erection: Lost at the moment of penetration (Caladium)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Erection is lost the moment the attempt at coitus is made, despite strong desire (Caladium)."],
+        individualExpression: "A psoric-syphilitic failure of the vital coordination between mind and body."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, erections, wanting", chapter: "Male" },
+          { rubric: "Genitalia, Male, erections, lost during coition", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the emotional triggers and the mechanical nature of the failure."
+      }
+    }
+  },
+  {
+    id: "hydrocele",
+    name: "Hydrocele",
+    slug: "hydrocele",
+    system: "male-reproductive",
+    category: "Scrotum",
+    definition: "A collection of fluid within the tunica vaginalis of the scrotum, causing swelling.",
+    simpleExplanation: "A painless swelling in the scrotum caused by fluid collecting around the testicle. It's like a small water balloon inside. It's usually harmless and common in newborns (often goes away) and older men. It doesn't affect peeing or sperm.",
+    examKeywords: ["Transillumination", "Tunica vaginalis", "Painless swelling", "Communicating vs Non-communicating", "Lord's procedure"],
+    epidemiology: {
+      ageDistribution: "Common in newborns and men > 40 years.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Infants", "Men with history of scrotal injury/infection"],
+    },
+    etiology: {
+      predisposingFactors: ["Patent processus vaginalis (in infants)", "Inflammation"],
+      precipitatingFactors: ["Injury", "Infection (Epididymitis)", "Idiopathic (unknown)"],
+      riskFactors: ["Scrotal surgery history"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Fluid Imbalance", description: "Excessive production or decreased absorption of fluid in the tunica vaginalis." },
+        { title: "Collection", description: "Fluid builds up around the testicle." },
+        { title: "Sac Formation", description: "The sac expands, causing visible swelling." },
+        { title: "Persistence", description: "If the connection to the belly remains (Communicating), size may vary during the day." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Painless swelling in the scrotum"],
+      localSymptoms: ["Soft, fluctuant mass", "Transilluminates (Glows when a light is shone through it)", "You can 'get above' the swelling (distinguishes from hernia)"],
+      constitutionalFeatures: ["Feeling of heaviness if large"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden painful swelling (Rule out torsion/hernia)",
+      "URGENT REFERRAL: Swelling that does NOT transilluminate (Possible tumor or blood)",
+      "URGENT REFERRAL: Inability to 'get above' the swelling (Likely Inguinal Hernia)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Transillumination Test", findings: "Positive (Glows)", importance: "Primary clinical check" },
+        { name: "Scrotal USG", findings: "Clear fluid around testis; testis appears normal", importance: "Confirm and rule out tumor" }
+      ],
+      laboratoryFindings: [
+        { name: "None usually needed", findings: "-", importance: "-" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Hydrocele vs Hernia",
+      criteria: [
+        "Hydrocele: Can get above it; transilluminates; not reducible; no cough impulse.",
+        "Hernia: Cannot get above it; opaque; often reducible; cough impulse present."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Inguinal Hernia", distinguishingFeatures: "Cannot get above swelling; cough impulse; often reducible." },
+      { condition: "Testicular Tumor", distinguishingFeatures: "Painless HARD mass; does NOT transilluminate; heavy feeling." },
+      { condition: "Spermatocele", distinguishingFeatures: "Swelling is separate from and above the testis (cystic)." }
+    ],
+    complications: {
+      common: ["Discomfort", "Embarrassment"],
+      serious: ["Secondary infection", "Calcification of sac", "Atrophy of testis (if massive/chronic)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Observation (especially in infants < 1 year)", "Scrotal support"],
+      medical: ["Aspiration (Temporary; fluid usually returns)"],
+      surgical: ["Hydrocelectomy (Jaboulay or Lord's procedure) - for large/symptomatic cases"],
+      prevention: ["Protection against scrotal trauma during sports", "Prompt medical attention for scrotal infections"]
+    },
+    homoeopathicApproach: "Addresses the fluid balance and chronic inflammation. Very effective in children and for small-moderate hydroceles in adults.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "Commonest remedy for children; soft swelling; history of mumps; mild temperament." },
+      { name: "Rhododendron", keyIndications: "Swelling with drawing pain in the groin; worse before a storm or cold weather; testes feel crushed." },
+      { name: "Arnica", keyIndications: "If caused by trauma or injury; sore, bruised feeling." },
+      { name: "Graphites", keyIndications: "Chronic hydrocele; skin of scrotum is thick or has eczema; chilly patient; constipation." },
+      { name: "Silicea", keyIndications: "Persistent cases; delicate child; sweaty feet; tendency to glandular swellings." },
+      { name: "Apis Mellifica", keyIndications: "Swelling is sudden, red, and puffy; stinging pains; amel by cold." }
+    ],
+    relatedDiseases: ["varicocele", "testicular-torsion"],
+    examPriority: "Medium",
+    clinicalPriority: "Medium",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Transilluminates", "Can get above it", "Painless", "Rule out hernia"],
+      miasmaticDominance: "Sycotic (Fluid accumulation)",
+      thermalState: "Variable",
+      organAffinity: "Scrotum, Tunica vaginalis",
+      memoryMnemonic: "GLOW: Get above it, Light passes through (Transillumination), Often painless, Water collection"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out malignant testicular tumors and inguinal hernias.",
+        severityAssessment: "Based on size and tension.",
+        referralCriteria: ["Large tense hydrocele", "Opaque mass on transillumination", "Suspected hernia"]
+      },
+      individualization: {
+        mentalGenerals: ["Normal"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Normal",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Normal",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Cold (Rhod), touch.", "Amel: Warmth (Rhod), cold (Apis)."],
+        concomitants: ["Eczema", "Pain in groin"],
+        characteristicParticulars: [
+          "Scrotum: Large as a child's head.",
+          "Pain: Drawing or crushing sensation."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Pain in the testes and scrotum that is significantly worse before a thunderstorm (Rhododendron)."],
+        individualExpression: "A sycotic collection of fluid in a closed serous sac."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, hydrocele", chapter: "Male" },
+          { rubric: "Genitalia, Male, swelling, scrotum", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the cause (trauma/infection) and the modalities of any associated pain."
+      }
+    }
+  },
+  {
+    id: "varicocele",
+    name: "Varicocele",
+    slug: "varicocele",
+    system: "male-reproductive",
+    category: "Scrotum",
+    definition: "An enlargement of the veins within the scrotum, similar to a varicose vein in the leg.",
+    simpleExplanation: "Swollen veins in the scrotum, usually on the left side. It's often described as feeling like a 'bag of worms'. It can cause a dull ache, especially when standing for a long time, and is a common reason for low sperm count or infertility.",
+    examKeywords: ["Bag of worms", "Pampiniform plexus", "Left-sided (Commonest)", "Infertility", "Valsalva maneuver"],
+    epidemiology: {
+      ageDistribution: "Commonest in young men (15-25 years).",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Young men", "Tall, thin men"],
+    },
+    etiology: {
+      predisposingFactors: ["Anatomical (Left renal vein compression)", "Absent valves in spermatic veins"],
+      precipitatingFactors: ["Gravity (Prolonged standing)"],
+      riskFactors: ["None specifically known"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Venous Reflux", description: "Blood flows backward in the spermatic veins due to faulty valves." },
+        { title: "Dilation", description: "The pampiniform plexus of veins becomes dilated and tortuous." },
+        { title: "Heat Accumulation", description: "Stagnant blood increases the temperature of the testes." },
+        { title: "Sperm Damage", description: "Increased heat and oxidative stress damage sperm production and motility." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Often asymptomatic"],
+      localSymptoms: ["'Bag of worms' feeling", "Dull, dragging ache in the scrotum", "Swelling that increases on standing and disappears when lying down"],
+      constitutionalFeatures: ["Infertility"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Right-sided varicocele (May indicate a kidney tumor blocking the vein)",
+      "URGENT REFERRAL: Sudden onset varicocele in an older man",
+      "URGENT REFERRAL: Varicocele that does NOT disappear when lying down"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Physical Exam", findings: "Palpable 'bag of worms' above the testis; increases with Valsalva (straining)", importance: "Primary clinical diagnosis" },
+        { name: "Scrotal Doppler USG", findings: "Retrograde blood flow; dilated veins > 2-3 mm", importance: "Confirm and grade" }
+      ],
+      laboratoryFindings: [
+        { name: "Semen Analysis", findings: "Oligospermia (low count), Asthenospermia (low motility)", importance: "Check fertility impact" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Hydrocele vs Varicocele",
+      criteria: [
+        "Hydrocele: Fluid collection; transilluminates; soft/fluctuant; anterior to testis.",
+        "Varicocele: Venous dilation; does NOT transilluminate; 'bag of worms' feel; superior/posterior to testis."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Hydrocele", distinguishingFeatures: "Transilluminates; fluid collection; painless." },
+      { condition: "Spermatocele", distinguishingFeatures: "Cystic mass separate from testis; glows." },
+      { condition: "Epididymitis", distinguishingFeatures: "Severe pain; fever; tender epididymis." }
+    ],
+    complications: {
+      common: ["Infertility", "Testicular atrophy (shrinking)"],
+      serious: ["Reduced testosterone (rare)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Scrotal support (Tight underwear)", "Avoid prolonged standing"],
+      medical: ["Painkillers (NSAIDs)"],
+      surgical: ["Varicocelectomy (Ligation of veins)", "Embolization"],
+      prevention: ["Avoiding activities involving prolonged heavy lifting or standing", "Maintaining healthy body weight"]
+    },
+    homoeopathicApproach: "Aims to improve venous tone and address the dragging pains. Very useful for Grade 1-2 varicoceles and for managing associated infertility.",
+    relatedRemedies: [
+      { name: "Hamamelis", keyIndications: "The 'Aconite of the veins'; dull, dragging pain; soreness; worse from touch; history of hemorrhoids." },
+      { name: "Pulsatilla", keyIndications: "Common in young men; worse in warm room; better in open air; thick yellow discharge if history of STI." },
+      { name: "Ferrum Phosphoricum", keyIndications: "Early stage; inflammation; feeling of heat in the scrotum." },
+      { name: "Lachesis", keyIndications: "Left-sided (typical); worse from tight clothing or pressure; purplish appearance." },
+      { name: "Nux Vomica", keyIndications: "Sedentary lifestyle; constipation; irritable; dragging pain in groin." },
+      { name: "Silicea", keyIndications: "With testicular atrophy; sweaty feet; chilly patient." }
+    ],
+    relatedDiseases: ["male-infertility", "hydrocele"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Left-sided commonest", "Bag of worms", "Causes infertility", "Hamamelis is key"],
+      miasmaticDominance: "Sycotic (Venous dilation/Stasis)",
+      thermalState: "Variable",
+      organAffinity: "Scrotum, Spermatic veins, Testes",
+      memoryMnemonic: "BAGS: Bag of worms, Aching (dragging), Gravity dependent, Sperm issues"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To address a treatable cause of male infertility.",
+        severityAssessment: "Grade 1 (Valsalva only) to Grade 3 (Visible).",
+        referralCriteria: ["Right-sided varicocele", "Severe pain", "Significant infertility"]
+      },
+      individualization: {
+        mentalGenerals: ["Mild (Puls)", "Irritable (Nux-v)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Normal",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Normal",
+          perspiration: "Sweaty feet (Sil)"
+        },
+        modalities: ["Agg: Standing, heat, touch.", "Amel: Lying down, scrotal support, cold."],
+        concomitants: ["Hemorrhoids", "Constipation"],
+        characteristicParticulars: [
+          "Pain: Drawing or dragging down the spermatic cord.",
+          "Scrotum: Relaxes and hangs low."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense soreness and dragging in the scrotum, as if the veins would burst (Hamamelis)."],
+        individualExpression: "A sycotic-psoric failure of venous structural integrity in the spermatic circuit."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, varicocele", chapter: "Male" },
+          { rubric: "Genitalia, Male, pain, spermatic cords, dragging", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the side affected and the specific nature of the aching pain."
+      }
+    }
+  },
+  {
+    id: "epididymitis",
+    name: "Epididymitis",
+    slug: "epididymitis",
+    system: "male-reproductive",
+    category: "Scrotum",
+    definition: "Inflammation or infection of the epididymis (the coiled tube at the back of the testicle).",
+    simpleExplanation: "An infection or swelling of the small tube behind the testicle where sperm is stored. It's usually caused by a bacteria or an STI. It causes a lot of pain and swelling on one side of the scrotum. It's often mistaken for testicular torsion, but the pain usually comes on more slowly.",
+    examKeywords: ["Prehn sign", "Phren's sign positive", "Cremasteric reflex present", "STI risk", "Unilateral pain"],
+    epidemiology: {
+      ageDistribution: "Most common in men 19-35 years.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Sexually active men", "Men with UTIs", "Recent urological surgery"],
+    },
+    etiology: {
+      predisposingFactors: ["Unprotected sex", "Strenuous activity with full bladder"],
+      precipitatingFactors: ["STIs (Chlamydia, Gonorrhea) in young men", "E. coli in older men"],
+      riskFactors: ["Indwelling catheters", "Anatomical abnormalities"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Retrograde Spread", description: "Bacteria move from the urethra or bladder back through the vas deferens." },
+        { title: "Colonization", description: "Bacteria infect the tail of the epididymis." },
+        { title: "Inflammation", description: "Severe swelling, redness, and pain in the scrotum." },
+        { title: "Orchitis", description: "Infection may spread to the testis (Epididymo-orchitis)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Fever and chills", "Malaise"],
+      localSymptoms: ["Gradual onset of pain (hours to days)", "One-sided scrotal swelling", "Pain relieved by lifting the scrotum (Positive Prehn sign)"],
+      constitutionalFeatures: ["Urethral discharge (if STI)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden, excruciating pain (Must rule out Testicular Torsion - EMERGENCY)",
+      "URGENT REFERRAL: High fever with spreading redness to the groin",
+      "URGENT REFERRAL: Inability to touch the scrotum due to pain"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Physical Exam", findings: "Tender epididymis; Prehn sign positive; Cremasteric reflex present", importance: "Primary clinical check" },
+        { name: "Scrotal Doppler USG", findings: "Increased blood flow (Hyperemia) to the epididymis", importance: "Differentiate from torsion (decreased flow)" }
+      ],
+      laboratoryFindings: [
+        { name: "Urine Routine/Culture", findings: "Leukocytes; bacteria", importance: "Identify pathogen" },
+        { name: "NAAT (STI screen)", findings: "Positive for Chlamydia/Gonorrhea", importance: "Check for STIs" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Epididymitis vs Testicular Torsion",
+      criteria: [
+        "Epididymitis: Gradual onset; fever common; Prehn sign positive (relief with lift); reflex present; Doppler shows high flow.",
+        "Testicular Torsion: Sudden onset; fever rare; Prehn sign negative (no relief); reflex absent; Doppler shows NO flow."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Testicular Torsion", distinguishingFeatures: "SURGICAL EMERGENCY; sudden onset; negative Prehn sign; absent reflex." },
+      { condition: "Orchitis", distinguishingFeatures: "Testis itself is involved; often follows Mumps; systemic symptoms." },
+      { condition: "Scrotal Trauma", distinguishingFeatures: "Clear history of injury; bruising." }
+    ],
+    complications: {
+      common: ["Chronic epididymitis", "Scrotal abscess"],
+      serious: ["Infertility (due to duct blockage)", "Testicular atrophy"],
+      lifeThreatening: ["Fournier's gangrene (if infection spreads rapidly)"]
+    },
+    conventionalManagement: {
+      general: ["Bed rest", "Scrotal support", "Ice packs"],
+      medical: ["Antibiotics (Ceftriaxone + Doxycycline for STIs)", "NSAIDs for pain"],
+      surgical: ["Drainage of abscess (if present)"],
+      prevention: ["Safe sexual practices (barrier methods)", "Prompt treatment of urethritis/prostatitis", "MMR vaccination"]
+    },
+    homoeopathicApproach: "Effective for managing pain, reducing inflammation, and addressing chronic recurrent cases. Always use alongside antibiotics if bacterial infection is confirmed.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "The 'Mumps' remedy; thick yellow discharge; pain shifts around; better in open air; mild patient." },
+      { name: "Rhododendron", keyIndications: "Intense pain; testes feel crushed; worse before a storm; better from motion." },
+      { name: "Clematis Erecta", keyIndications: "Epididymis feels hard as a stone; pain worse at night and from warmth of bed; urine flows drop by drop." },
+      { name: "Spongia Tosta", keyIndications: "Hardness and swelling of epididymis; squeezing pain; worse from touch." },
+      { name: "Apis Mellifica", keyIndications: "Sudden swelling; red, hot, and puffy; stinging pains; better from cold applications." },
+      { name: "Aurum Metallicum", keyIndications: "Testes swollen and hard; deep-seated aching pain; history of suppressed STIs." }
+    ],
+    relatedDiseases: ["orchitis", "testicular-torsion"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Gradual onset", "Prehn sign positive", "Check STIs", "Doppler flow increased"],
+      miasmaticDominance: "Psora (Acute inflammation) / Sycotic (Suppressed STI/Chronic hardening)",
+      thermalState: "Hot",
+      organAffinity: "Epididymis, Scrotum",
+      memoryMnemonic: "EPID: Elevated flow (Doppler), Phren's sign positive, Infection (STI/E.coli), Delayed onset"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from testicular torsion, which requires immediate surgery.",
+        severityAssessment: "Based on fever and systemic signs.",
+        referralCriteria: ["Suspicion of torsion", "Abscess formation", "No response to antibiotics"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritable", "Mild (Puls)"],
+        physicalGenerals: {
+          thermalState: "Hot",
+          thirst: "Great or None (Puls)",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Restless",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Warmth (Clematis/Puls), touch.", "Amel: Cold (Apis), scrotal support, motion (Rhod)."],
+        concomitants: ["Fever", "Urethral discharge"],
+        characteristicParticulars: [
+          "Epididymis: Hard, stony feeling (Clematis/Spongia).",
+          "Pain: Squeezing or stinging."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Pain so intense that the patient feels like the testicle is being crushed in a vice (Rhododendron)."],
+        individualExpression: "A psoric-sycotic inflammatory surge in the reproductive plumbing."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, inflammation, epididymis", chapter: "Male" },
+          { rubric: "Genitalia, Male, swelling, epididymis", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the modalities of heat/cold and the hardness of the tissue."
+      }
+    }
+  },
+  {
+    id: "orchitis",
+    name: "Orchitis",
+    slug: "orchitis",
+    system: "male-reproductive",
+    category: "Scrotum",
+    definition: "Inflammation or infection of one or both testicles.",
+    simpleExplanation: "An infection or swelling of the testicle itself. It's often caused by the Mumps virus or as a complication of a prostate or urinary infection. It causes significant pain, swelling, and redness in the scrotum. It's important because it can sometimes lead to the testicle shrinking (atrophy).",
+    examKeywords: ["Mumps virus", "Epididymo-orchitis", "Testicular atrophy", "Viral vs Bacterial", "Sudden swelling"],
+    epidemiology: {
+      ageDistribution: "Viral common in children; bacterial in adults.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Unvaccinated children (Mumps)", "Men with recent UTIs", "Sexually active men"],
+    },
+    etiology: {
+      predisposingFactors: ["Lack of MMR vaccine", "Recent instrumentation (catheter)"],
+      precipitatingFactors: ["Mumps virus (Most common viral)", "Bacteria (E. coli, STIs)"],
+      riskFactors: ["History of recurrent UTIs"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Viral Entry", description: "Mumps virus travels through the blood to the testes." },
+        { title: "Tissue Reaction", description: "The seminiferous tubules become inflamed and congested." },
+        { title: "Pressure Effect", description: "Swelling within the tough testicular capsule (tunica albuginea) leads to pressure necrosis." },
+        { title: "Atrophy", description: "Healing often involves fibrosis and shrinking of the gland." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["High fever and chills", "Nausea and vomiting", "Malaise"],
+      localSymptoms: ["Severe pain in one or both testicles", "Swollen, hard, and red scrotum", "Heavy feeling"],
+      constitutionalFeatures: ["Parotid swelling (if Mumps)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Sudden severe pain (Always rule out Torsion)",
+      "URGENT REFERRAL: Bilateral orchitis in an adult (High risk of infertility)",
+      "URGENT REFERRAL: Signs of abscess (Fluctuant mass)"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Physical Exam", findings: "Very tender, swollen testis; scrotal skin red and hot", importance: "Primary clinical check" },
+        { name: "Scrotal Doppler USG", findings: "Hyperemia (Increased flow); rules out torsion", importance: "Confirm diagnosis" }
+      ],
+      laboratoryFindings: [
+        { name: "Viral Serology", findings: "Mumps IgM positive", importance: "Confirm viral cause" },
+        { name: "Urine Culture", findings: "Positive (if bacterial)", importance: "Guide antibiotics" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Viral vs Bacterial",
+      criteria: [
+        "Viral (Mumps): Often follows parotitis; high fever; usually no urinary symptoms.",
+        "Bacterial: Often associated with UTI or STI; urethral discharge common."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Testicular Torsion", distinguishingFeatures: "SURGICAL EMERGENCY; sudden onset; no fever; absent reflex." },
+      { condition: "Epididymitis", distinguishingFeatures: "Pain is localized to the back of the testis; Prehn sign positive." },
+      { condition: "Testicular Tumor", distinguishingFeatures: "Painless HARD mass; no fever." }
+    ],
+    complications: {
+      common: ["Testicular atrophy", "Painful swelling"],
+      serious: ["Infertility (especially if bilateral)", "Abscess formation"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Bed rest", "Scrotal support", "Cold compresses", "Hydration"],
+      medical: ["Antibiotics (if bacterial)", "Analgesics (Paracetamol/Ibuprofen)"],
+      surgical: ["None usually, unless abscess needs drainage"],
+      prevention: ["MMR vaccination in childhood", "Safe sex practices", "Early treatment of urinary infections"]
+    },
+    homoeopathicApproach: "Well-known for managing Mumps-related orchitis and reducing the risk of atrophy. Focuses on the acute inflammatory state.",
+    relatedRemedies: [
+      { name: "Pulsatilla", keyIndications: "The #1 remedy for Mumps-related orchitis; thick discharge; shifting pains; mild patient; better in open air." },
+      { name: "Belladonna", keyIndications: "Sudden onset; red, hot, throbbing pain; sensitive to the least jar; high fever." },
+      { name: "Spongia Tosta", keyIndications: "Hardness and swelling; squeezing pain; epididymis also involved; history of suppressed gonorrhea." },
+      { name: "Clematis Erecta", keyIndications: "Right-sided; epididymis stony hard; pain worse from bed warmth." },
+      { name: "Rhododendron", keyIndications: "Violent drawing pain; worse before a storm; testicle feels crushed." },
+      { name: "Hamamelis", keyIndications: "Great soreness; dull aching; purplish appearance of scrotum." }
+    ],
+    relatedDiseases: ["epididymitis", "testicular-torsion"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Mumps is common cause", "Risk of atrophy", "Rule out torsion", "Pulsatilla is key"],
+      miasmaticDominance: "Psora (Acute inflammation) / Syphilitic (Destruction/Atrophy)",
+      thermalState: "Hot",
+      organAffinity: "Testes",
+      memoryMnemonic: "MUMPS: Male involvement (Orchitis), Under-vaccinated risk, Max swelling, Parotid swelling before, Shrinking risk (Atrophy)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent the serious complication of permanent infertility.",
+        severityAssessment: "Based on fever and bilateral involvement.",
+        referralCriteria: ["Suspicion of torsion", "Bilateral involvement in adult"]
+      },
+      individualization: {
+        mentalGenerals: ["Delirious with high fever (Bell)", "Mild and weeping (Puls)"],
+        physicalGenerals: {
+          thermalState: "Hot",
+          thirst: "Great or None (Puls)",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Restless",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Jarring (Bell), touch, warmth.", "Amel: Open air (Puls), cold applications."],
+        concomitants: ["Parotitis", "Fever"],
+        characteristicParticulars: [
+          "Scrotum: Red, shiny, and hot (Bell).",
+          "Pain: Throbbing or squeezing."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Inflammation of the testicles which 'metastasized' from a previous parotid (mumps) infection (Pulsatilla)."],
+        individualExpression: "A psoric-syphilitic inflammatory explosion within the primary male generative organs."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, inflammation, testes", chapter: "Male" },
+          { rubric: "Genitalia, Male, swelling, testes", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the side affected, the cause (Mumps/STI), and the specific type of pain."
+      }
+    }
+  },
+  {
+    id: "testicular-torsion",
+    name: "Testicular Torsion",
+    slug: "testicular-torsion",
+    system: "male-reproductive",
+    category: "Scrotum",
+    definition: "A surgical emergency where the spermatic cord twists, cutting off the blood supply to the testicle.",
+    simpleExplanation: "A true medical emergency. The cord that brings blood to the testicle gets twisted, like a kinked garden hose. This stops blood from reaching the testicle. It causes sudden, severe pain. If not untwisted by a surgeon within 6 hours, the testicle may die and need to be removed. NEVER DELAY CARE FOR THIS.",
+    examKeywords: ["SURGICAL EMERGENCY", "Bell-clapper deformity", "Negative Prehn sign", "Absent cremasteric reflex", "6-hour window"],
+    epidemiology: {
+      ageDistribution: "Bimodal peak: Neonates and Puberty (12-18 years).",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Adolescents", "History of 'intermittent' scrotal pain"],
+    },
+    etiology: {
+      predisposingFactors: ["Bell-clapper deformity (Abnormal high attachment of tunica vaginalis)", "Large testes at puberty"],
+      precipitatingFactors: ["Trauma", "Strenuous activity", "Cold weather (Cremasteric contraction)", "Spontaneous during sleep"],
+      riskFactors: ["None specifically known"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Rotation", description: "The testicle rotates around the spermatic cord." },
+        { title: "Venous Obstruction", description: "Veins are compressed first, causing severe congestion and swelling." },
+        { title: "Arterial Obstruction", description: "As twisting continues, the artery is blocked, causing ischemia (lack of oxygen)." },
+        { title: "Infarction", description: "Tissue death (necrosis) occurs within 6-12 hours of total blockage." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Sudden, severe, localized scrotal pain", "Nausea and vomiting"],
+      localSymptoms: ["Swollen, tender, elevated testis (High-riding)", "Horizontal lie of the testis", "Absent cremasteric reflex (Stroke inner thigh - testis does not move)"],
+      constitutionalFeatures: ["No relief with lifting the scrotum (Negative Prehn sign)"]
+    },
+    redFlags: [
+      "EMERGENCY: SUDDEN ONSET SCROTAL PAIN - MUST BE TREATED AS TORSION UNTIL PROVEN OTHERWISE",
+      "EMERGENCY: Nausea/Vomiting with scrotal pain",
+      "EMERGENCY: Absent cremasteric reflex",
+      "EMERGENCY: High-riding or horizontal testicle"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Sudden pain + Absent reflex + High-riding testis", importance: "Sufficient for immediate surgery (don't wait for USG if clear)" },
+        { name: "Scrotal Doppler USG", findings: "Absent or severely decreased blood flow to the testis", importance: "Confirmatory (only if it doesn't delay surgery)" }
+      ],
+      laboratoryFindings: [
+        { name: "None needed for diagnosis", findings: "-", importance: "-" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Surgical Emergency Window",
+      criteria: [
+        "< 6 hours: 90-100% salvage rate.",
+        "6-12 hours: 50% salvage rate.",
+        "> 12 hours: < 10% salvage rate (testis usually dies)."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Epididymitis", distinguishingFeatures: "Gradual onset; fever; Prehn sign positive; reflex present; high flow on Doppler." },
+      { condition: "Torsion of Appendix Testis", distinguishingFeatures: "Less severe pain; 'Blue dot sign' on scrotal skin." },
+      { condition: "Inguinal Hernia (Strangulated)", distinguishingFeatures: "Cannot get above the mass; bowel signs." }
+    ],
+    complications: {
+      common: ["None if treated early"],
+      serious: ["Testicular death (Infarction)", "Removal of testis (Orchidectomy)", "Infertility"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["FASTING (Keep NPO for surgery)"],
+      medical: ["Analgesics", "Manual detorsion (temporary attempt by ER doctor)"],
+      surgical: ["URGENT Orchidopexy (Untwisting and stitching BOTH testes to prevent recurrence)"],
+      prevention: ["Surgical fixation (orchidopexy) of the other side to prevent future torsion"]
+    },
+    homoeopathicApproach: "THERE IS NO HOMOEOPATHIC TREATMENT FOR ACUTE TESTICULAR TORSION. THIS IS A MECHANICAL SURGICAL EMERGENCY. HOMOEOPATHY MAY BE USED ONLY FOR POST-OPERATIVE RECOVERY.",
+    relatedRemedies: [
+      { name: "Arnica", keyIndications: "Post-operative; bruised feeling; promotes healing." },
+      { name: "Staphysagria", keyIndications: "Post-operative; for clean-cut surgical wounds; promotes tissue union." }
+    ],
+    relatedDiseases: ["epididymitis", "orchitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Critical",
+    quickRevisionBox: {
+      keyNotes: ["SURGICAL EMERGENCY", "Sudden pain", "Absent reflex", "6-hour window"],
+      miasmaticDominance: "Syphilitic (Acute destruction/Necrosis risk)",
+      thermalState: "N/A",
+      organAffinity: "Testes, Spermatic cord",
+      memoryMnemonic: "TWIST: Time is tissue, Wake up in pain, Inward rotation, Sudden onset, Torsion must be ruled out"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Critical to save the testicle from permanent death and removal.",
+        severityAssessment: "Extreme - surgical priority.",
+        referralCriteria: ["IMMEDIATE EMERGENCY REFERRAL FOR ALL SUSPECTED CASES"]
+      },
+      individualization: {
+        mentalGenerals: ["Extreme agony and anxiety"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "None (Nausea)",
+          appetite: "None",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Interrupted by pain",
+          perspiration: "Cold sweat from pain"
+        },
+        modalities: ["Agg: Touch, movement."],
+        concomitants: ["Vomiting", "Cold sweat"],
+        characteristicParticulars: [
+          "Testis: High-riding and horizontal.",
+          "Pain: Sudden, excruciating, radiating to groin."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Sudden excruciating pain in a healthy adolescent, often occurring during sleep (Typical presentation)."],
+        individualExpression: "A mechanical syphilitic catastrophe requiring immediate surgical intervention."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, pain, testes, sudden", chapter: "Male" },
+          { rubric: "Genitalia, Male, twisting, sensation of", chapter: "Male" }
+        ],
+        symptomAnalysis: "N/A - Surgery is the only analysis."
+      }
+    }
+  },
+  {
+    id: "testicular-cancer",
+    name: "Testicular Cancer",
+    slug: "testicular-cancer",
+    system: "male-reproductive",
+    category: "Scrotum",
+    definition: "A malignant growth of cells in the testicle, most commonly Germ Cell Tumors (Seminoma or Non-seminoma).",
+    simpleExplanation: "A cancer that starts in the testicle. It's the most common cancer in young men (ages 15-35). It usually shows up as a painless, hard lump on the testicle. It's highly curable if caught early, so every man should know how to do a self-exam. If you feel a hard lump, see a doctor immediately.",
+    examKeywords: ["Germ cell tumor", "Seminoma", "Alpha-fetoprotein (AFP)", "beta-hCG", "Painless hard lump"],
+    epidemiology: {
+      ageDistribution: "Commonest in young men (15-35 years).",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["History of cryptorchidism (undescended testes)", "Family history", "Caucasian men"],
+    },
+    etiology: {
+      predisposingFactors: ["Cryptorchidism (Greatest risk)", "Klinefelter syndrome"],
+      precipitatingFactors: ["Unknown mutations"],
+      riskFactors: ["Previous testicular cancer in other side"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Malignant Transformation", description: "Germ cells in the seminiferous tubules become cancerous." },
+        { title: "Expansion", description: "A hard, solid mass grows within the testis." },
+        { title: "Lymphatic Spread", description: "Cells move to retroperitoneal lymph nodes (Para-aortic)." },
+        { title: "Hematogenous Spread", description: "Cancer spreads to lungs, liver, or brain." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Painless, hard, solid mass on the testis"],
+      localSymptoms: ["Feeling of heaviness in the scrotum", "Dull ache in the lower abdomen or groin", "Sudden collection of fluid (Secondary hydrocele)"],
+      constitutionalFeatures: ["Back pain (if spreads to nodes)", "Gynecomastia (breast enlargement)"]
+    },
+    redFlags: [
+      "URGENT REFERRAL: Painless, HARD, solid lump on the testis",
+      "URGENT REFERRAL: A swelling that does NOT transilluminate",
+      "URGENT REFERRAL: Dragging heaviness in a young man",
+      "URGENT REFERRAL: New-onset secondary hydrocele in a young man"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Physical Exam", findings: "Hard, irregular, non-tender mass; does not transilluminate", importance: "Primary clinical screen" },
+        { name: "Scrotal USG", findings: "Hypoechoic solid mass within the testis", importance: "Confirm solid nature" }
+      ],
+      laboratoryFindings: [
+        { name: "Tumor Markers", findings: "Elevated AFP, beta-hCG, and LDH", importance: "Diagnosis and monitoring" },
+        { name: "CT Abdomen/Pelvis", findings: "Retroperitoneal lymphadenopathy", importance: "Staging" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Seminoma vs Non-seminoma",
+      criteria: [
+        "Seminoma: Older age; slow growing; radiation sensitive; AFP always normal.",
+        "Non-seminoma: Younger age; aggressive; AFP often high; chemotherapy focus."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Epididymitis", distinguishingFeatures: "Very painful; fever; Prehn sign positive." },
+      { condition: "Hydrocele", distinguishingFeatures: "Soft; transilluminates; painless." },
+      { condition: "Spermatocele", distinguishingFeatures: "Cystic mass separate from testis." }
+    ],
+    complications: {
+      common: ["Psychological stress", "Erectile dysfunction (post-treatment)"],
+      serious: ["Metastatic spread", "Infertility"],
+      lifeThreatening: ["Advanced metastatic disease"]
+    },
+    conventionalManagement: {
+      general: ["Sperm banking (before treatment)"],
+      medical: ["Chemotherapy (BEP regimen)", "Radiotherapy (for seminomas)"],
+      surgical: ["Radical Inguinal Orchidectomy (Removal of the testis through the groin)"],
+      prevention: ["Monthly testicular self-examination (TSE)", "Early surgical correction of undescended testes"]
+    },
+    homoeopathicApproach: "Used for supportive care and palliation of side effects from chemotherapy/radiation. Never used as a primary treatment to the exclusion of conventional surgery/oncology.",
+    relatedRemedies: [
+      { name: "Conium Maculatum", keyIndications: "Stony hardness of glands; history of injury; debility; stitching pains." },
+      { name: "Aurum Metallicum", keyIndications: "Undescended testes history; hard swelling; deep depression; syphilitic miasm." },
+      { name: "Spongia Tosta", keyIndications: "Hardness and squeezing pain; history of chronic inflammation." },
+      { name: "Hydrastis", keyIndications: "Cancerous cachexia; yellow discharge; emaciation." }
+    ],
+    relatedDiseases: ["hydrocele", "epididymitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Commonest in 15-35yr", "Painless hard lump", "AFP/hCG markers", "Highly curable"],
+      miasmaticDominance: "Syphilitic (Malignant growth)",
+      thermalState: "Variable",
+      organAffinity: "Testes, Retroperitoneal nodes",
+      memoryMnemonic: "LUMP: Low age (15-35), Unique markers (AFP/hCG), Malignant hard mass, Painless presentation"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "Critical as this is a highly curable cancer in young men if caught early.",
+        severityAssessment: "Based on tumor markers and CT staging.",
+        referralCriteria: ["ANY hard, solid testicular mass"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety about fertility", "Deep depression (Aurum)"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Normal",
+          appetite: "Poor",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Restless",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Touch, cold.", "Amel: Support."],
+        concomitants: ["Heaviness", "Backache"],
+        characteristicParticulars: [
+          "Testis: Stony hard, irregular surface.",
+          "Pain: Sensation of a heavy weight."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["A hard, solid lump on the testicle that feels as heavy as lead (Typical clinical feature)."],
+        individualExpression: "A syphilitic-sycotic hijacking of the germ cell line."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, tumor, testes", chapter: "Male" },
+          { rubric: "Genitalia, Male, induration, testes", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the hardness of the mass and the constitutional state."
+      }
+    }
+  },
+  {
+    id: "phimosis",
+    name: "Phimosis",
+    slug: "phimosis",
+    system: "male-reproductive",
+    category: "Penis",
+    definition: "A condition where the foreskin cannot be retracted over the glans penis.",
+    simpleExplanation: "When the foreskin (the skin covering the tip of the penis) is too tight and cannot be pulled back. It's normal in babies and young children (physiologic). In adults, it can be caused by scarring or infection. If it causes pain or trouble peeing, it needs treatment. A related emergency is 'Paraphimosis' (skin stuck behind the tip).",
+    examKeywords: ["Balanitis", "Circumcision", "Preputial hygiene", "Paraphimosis (Emergency)", "Ballooning of foreskin"],
+    epidemiology: {
+      ageDistribution: "Normal in infants; pathological in adults.",
+      sexDistribution: "Exclusively males.",
+      riskGroups: ["Uncircumcised males", "Diabetics (prone to infections)"],
+    },
+    etiology: {
+      predisposingFactors: ["Poor hygiene", "Diabetes"],
+      precipitatingFactors: ["Recurrent Balanoposthitis (Infection of glans and foreskin)", "Trauma (Forceful retraction)"],
+      riskFactors: ["Lichens Sclerosus (BXO)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Inflammation", description: "Repeated infections cause the foreskin opening to become inflamed." },
+        { title: "Scarring", description: "Healing leads to the formation of a fibrous, inelastic ring." },
+        { title: "Stenosis", description: "The opening becomes too small for the glans to pass through." },
+        { title: "Obstruction", description: "In severe cases, urine flow is impeded, causing 'ballooning'." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Inability to pull back the foreskin"],
+      localSymptoms: ["Pain on erection", "Redness/swelling of the tip", "Ballooning of the foreskin during peeing", "White scarring ring"],
+      constitutionalFeatures: ["History of recurrent infections"]
+    },
+    redFlags: [
+      "EMERGENCY: Paraphimosis (Foreskin stuck behind glans - swelling and pain - RISK OF LOSS OF TIP)",
+      "URGENT REFERRAL: Ballooning of foreskin while peeing",
+      "URGENT REFERRAL: Signs of UTI in an uncircumcised male"
+    ],
+    investigations: {
+      diagnostic: [
+        { name: "Physical Exam", findings: "Tight preputial ring; inability to retract", importance: "Primary clinical diagnosis" },
+        { name: "Glucose test", findings: "Elevated", importance: "Check for underlying Diabetes" }
+      ],
+      laboratoryFindings: [
+        { name: "Swab for culture", findings: "Bacterial or fungal growth", importance: "If balanitis present" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Physiologic vs Pathologic",
+      criteria: [
+        "Physiologic: Normal in children; foreskin is healthy and elastic; separates over time.",
+        "Pathologic: Adult or persistent child; scarred white ring; inelastic; painful."
+      ]
+    },
+    differentialDiagnosis: [
+      { condition: "Balanitis", distinguishingFeatures: "Redness and pain of the glans; skin may still be retractable." },
+      { condition: "Paraphimosis", distinguishingFeatures: "EMERGENCY; skin retracted and stuck; severe swelling." },
+      { condition: "Penile Cancer", distinguishingFeatures: "Hard lump or ulcer under the foreskin; offensive discharge." }
+    ],
+    complications: {
+      common: ["Recurrent infections", "Pain during sex"],
+      serious: ["Paraphimosis (Emergency)", "Urinary retention", "Increased risk of penile cancer"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Proper hygiene", "Avoid forceful retraction"],
+      medical: ["Steroid creams (to soften the skin)", "Antifungals (if yeast infection)"],
+      surgical: ["Circumcision (Removal of foreskin)", "Preputioplasty (Widening the opening)"],
+      prevention: ["Maintaining good local hygiene", "Diabetes control", "Avoiding forceful retraction of the foreskin"]
+    },
+    homoeopathicApproach: "Effective for managing recurrent balanitis and potentially softening the preputial ring in early pathological cases. Focuses on the sycotic/syphilitic scarring tendency.",
+    relatedRemedies: [
+      { name: "Merc Sol", keyIndications: "Recurrent balanitis; offensive greenish discharge; worse at night; sweating; syphilitic miasm." },
+      { name: "Thuja Occidentalis", keyIndications: "Warty growths; history of STIs; sycotic remedy; stitching pains." },
+      { name: "Graphites", keyIndications: "Foreskin is thick, cracked, and inelastic; sticky honey-like discharge if infection present; chilly patient." },
+      { name: "Cannabis Sativa", keyIndications: "Acute inflammation; burning while peeing; yellow discharge; foreskin very swollen." },
+      { name: "Silicea", keyIndications: "Scarring tendency; thick, hard preputial ring; chilly; sweaty feet." },
+      { name: "Jacaranda Gualandai", keyIndications: "A specific for phimosis and preputial inflammation; soreness." }
+    ],
+    relatedDiseases: ["diabetes-mellitus", "urological-stones"],
+    examPriority: "Medium",
+    clinicalPriority: "Medium",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Normal in infants", "Check for Diabetes", "Watch for Paraphimosis", "Merc is key for infection"],
+      miasmaticDominance: "Sycotic (Thickening) / Syphilitic (Scarring/Tightening)",
+      thermalState: "Variable",
+      organAffinity: "Foreskin, Penis",
+      memoryMnemonic: "SKIN: Stuck (cannot retract), Kept clean (hygiene), Infection risk, Narrow opening"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish normal childhood development from pathological scarring that needs surgery.",
+        severityAssessment: "Based on ability to void and degree of inflammation.",
+        referralCriteria: ["Paraphimosis (Emergency)", "Ballooning while peeing", "Suspected cancer"]
+      },
+      individualization: {
+        mentalGenerals: ["Normal"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Normal",
+          appetite: "Normal",
+          desires: ["None"],
+          aversions: ["None"],
+          sleep: "Normal",
+          perspiration: "None"
+        },
+        modalities: ["Agg: Night (Merc), touch.", "Amel: Warm wash."],
+        concomitants: ["Itching", "Balanitis"],
+        characteristicParticulars: [
+          "Foreskin: Hard, white, and inelastic (Sil/Graph).",
+          "Discharge: Offensive or sticky."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["The foreskin is so tight and thick that it cracks and bleeds if an attempt is made to retract it (Graphites)."],
+        individualExpression: "A syphilitic-sycotic contracture of the preputial orifice."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Genitalia, Male, phimosis", chapter: "Male" },
+          { rubric: "Genitalia, Male, inflammation, glans", chapter: "Male" }
+        ],
+        symptomAnalysis: "Focus on the character of the skin (scarred/white) and any history of recurrent infections."
+      }
+    }
   }
 ];
+
+
+
