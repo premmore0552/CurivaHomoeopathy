@@ -23,9 +23,10 @@ type FirebaseUser = any;
 interface AuthButtonProps {
   isMobile?: boolean;
   onCloseMenu?: () => void;
+  style?: React.CSSProperties;
 }
 
-export default function AuthButton({ isMobile, onCloseMenu }: AuthButtonProps) {
+export default function AuthButton({ isMobile, onCloseMenu, style }: AuthButtonProps) {
   const [user, setUser] = useState<FirebaseUser | null>(null);
   const [showDropdown, setShowDropdown] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -87,6 +88,7 @@ export default function AuthButton({ isMobile, onCloseMenu }: AuthButtonProps) {
         onClick={() => {
           if (onCloseMenu) onCloseMenu();
         }}
+        style={style}
         className={`group relative flex items-center gap-3 px-8 py-4 bg-zinc-900 dark:bg-white text-white dark:text-zinc-900 rounded-[2rem] font-black text-[11px] uppercase tracking-[0.2em] hover:scale-105 active:scale-95 transition-all shadow-[0_20px_50px_rgba(0,0,0,0.2)] overflow-hidden border border-zinc-800 dark:border-zinc-200 ${isMobile ? 'w-full justify-center' : ''}`}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 dark:via-black/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
@@ -154,7 +156,7 @@ export default function AuthButton({ isMobile, onCloseMenu }: AuthButtonProps) {
   }
 
   return (
-    <div className="relative" ref={dropdownRef}>
+    <div className="relative" ref={dropdownRef} style={style}>
       <button 
         onClick={() => setShowDropdown(!showDropdown)}
         className={`flex items-center gap-3 pl-1.5 pr-5 py-1.5 rounded-[2rem] transition-all duration-500 border group shrink-0 ${

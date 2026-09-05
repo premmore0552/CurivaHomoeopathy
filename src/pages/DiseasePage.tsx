@@ -1,5 +1,5 @@
-import React, { useMemo } from 'react';
-import { useParams, Navigate, Link } from 'react-router-dom';
+import React, { useMemo, useEffect } from 'react';
+import { useParams, Navigate, Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
@@ -19,13 +19,22 @@ import {
 } from '../components/disease-page/DiseaseSections';
 import { SectionHomoeopathy, RelatedContent } from '../components/disease-page/DiseaseHomoeopathy';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { AccordionSection } from '../components/ui/Accordion';
+import { trackView } from '../lib/history';
 
 const DiseasePage: React.FC = () => {
   const { systemSlug, diseaseSlug } = useParams();
+  const location = useLocation();
   
   const disease = useMemo(() => {
     return diseaseHubData.find(d => d.slug === diseaseSlug);
   }, [diseaseSlug]);
+
+  useEffect(() => {
+    if (disease) {
+      trackView(disease.id || disease.slug, disease.name, 'Therapeutics', location.pathname);
+    }
+  }, [disease, location.pathname]);
 
   const system = useMemo(() => {
     return DISEASE_SYSTEMS.find(s => s.id === systemSlug);
@@ -62,144 +71,162 @@ const DiseasePage: React.FC = () => {
 
         <div className="flex flex-col lg:flex-row gap-16">
           {/* Main Content */}
-          <div className="flex-1 space-y-24">
+          <div className="flex-1 space-y-8">
             <DiseaseHero disease={disease} />
             
             <AtAGlance disease={disease} />
 
-            <SectionDefinition disease={disease} />
+            <div className="mt-16 space-y-0">
+              <AccordionSection title="Definition" number="02" defaultOpen={true}>
+                <SectionDefinition disease={disease} />
+              </AccordionSection>
 
-            <section id="epidemiology" className="scroll-mt-32 space-y-12">
-              <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-border"></div>
-                <h2 className="text-2xl font-display font-black uppercase italic tracking-tight text-text-primary">03. Epidemiology</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-                <EpidemiologyItem label="Age Distribution" value={disease.epidemiology.ageDistribution} />
-                <EpidemiologyItem label="Sex Distribution" value={disease.epidemiology.sexDistribution} />
-                <EpidemiologyItem label="Risk Groups" value={(disease.epidemiology.riskGroups || []).join(', ')} />
-                <EpidemiologyItem label="Public Health" value={disease.epidemiology.publicHealthRelevance || 'Significant global impact'} />
-              </div>
-            </section>
-
-            <SectionEtiology disease={disease} />
-
-            <section id="risk-factors" className="scroll-mt-32 space-y-12">
-              <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-border"></div>
-                <h2 className="text-2xl font-display font-black uppercase italic tracking-tight text-text-primary">05. Risk Factors</h2>
-              </div>
-              <div className="p-8 bg-zinc-50 dark:bg-zinc-900 border border-border rounded-3xl">
-                <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {(disease.etiology.riskFactors || []).map((rf, i) => (
-                    <li key={i} className="flex gap-3 text-sm font-bold text-text-primary uppercase tracking-tight">
-                      <span className="text-primary">•</span>
-                      {rf}
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            </section>
-
-            <SectionPathophysiology disease={disease} />
-
-            {disease.classification && (
-              <section id="classification" className="scroll-mt-32 space-y-12">
-                <div className="flex items-center gap-4">
-                  <div className="h-px flex-1 bg-border"></div>
-                  <h2 className="text-2xl font-display font-black uppercase italic tracking-tight text-text-primary">07. Classification</h2>
+              <AccordionSection title="Epidemiology" number="03" id="epidemiology">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                  <EpidemiologyItem label="Age Distribution" value={disease.epidemiology.ageDistribution} />
+                  <EpidemiologyItem label="Sex Distribution" value={disease.epidemiology.sexDistribution} />
+                  <EpidemiologyItem label="Risk Groups" value={(disease.epidemiology.riskGroups || []).join(', ')} />
+                  <EpidemiologyItem label="Public Health" value={disease.epidemiology.publicHealthRelevance || 'Significant global impact'} />
                 </div>
-                <div className="p-8 bg-white dark:bg-zinc-900 border border-border rounded-3xl">
-                  <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{disease.classification.type}</h4>
-                  {Array.isArray(disease.classification.details) ? (
-                    <ul className="space-y-4">
-                      {(disease.classification?.details || []).map((d, i) => (
-                        <li key={i} className="text-base font-bold text-text-secondary border-b border-border/50 pb-4 last:border-0">{d}</li>
-                      ))}
-                    </ul>
-                  ) : (
-                    <p className="text-base font-bold text-text-secondary leading-relaxed">{disease.classification.details}</p>
+              </AccordionSection>
+
+              <AccordionSection title="Etiology" number="04" id="etiology">
+                <SectionEtiology disease={disease} />
+              </AccordionSection>
+
+              <AccordionSection title="Risk Factors" number="05" id="risk-factors">
+                <div className="p-8 bg-zinc-50 dark:bg-zinc-900 border border-border rounded-3xl">
+                  <ul className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    {(disease.etiology.riskFactors || []).map((rf, i) => (
+                      <li key={i} className="flex gap-3 text-sm font-bold text-text-primary uppercase tracking-tight">
+                        <span className="text-primary">•</span>
+                        {rf}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </AccordionSection>
+
+              <AccordionSection title="Pathophysiology" number="06" id="pathophysiology">
+                <SectionPathophysiology disease={disease} />
+              </AccordionSection>
+
+              {disease.classification && (
+                <AccordionSection title="Classification" number="07" id="classification">
+                  <div className="p-8 bg-white dark:bg-zinc-900 border border-border rounded-3xl">
+                    <h4 className="text-[10px] font-black uppercase tracking-widest text-primary mb-4">{disease.classification.type}</h4>
+                    
+                    {disease.classification.table ? (
+                      <div className="mt-6 overflow-x-auto">
+                        <table className="w-full text-left border-collapse border border-border rounded-xl overflow-hidden">
+                          <thead>
+                            <tr className="bg-zinc-50 dark:bg-zinc-800/50">
+                              {disease.classification.table.headers.map((header, i) => (
+                                <th key={i} className="p-4 text-[10px] font-black uppercase tracking-widest text-text-secondary border border-border">{header}</th>
+                              ))}
+                            </tr>
+                          </thead>
+                          <tbody className="divide-y divide-border">
+                            {disease.classification.table.rows.map((row, i) => (
+                              <tr key={i} className="hover:bg-zinc-50 dark:hover:bg-zinc-800/30 transition-colors">
+                                {row.map((cell, j) => (
+                                  <td key={j} className="p-4 text-sm font-bold text-text-primary border border-border">{cell}</td>
+                                ))}
+                              </tr>
+                            ))}
+                          </tbody>
+                        </table>
+                      </div>
+                    ) : Array.isArray(disease.classification.details) ? (
+                      <ul className="space-y-4">
+                        {(disease.classification?.details || []).map((d, i) => (
+                          <li key={i} className="text-base font-bold text-text-secondary border-b border-border/50 pb-4 last:border-0">{d}</li>
+                        ))}
+                      </ul>
+                    ) : (
+                      <p className="text-base font-bold text-text-secondary leading-relaxed">{disease.classification.details}</p>
+                    )}
+                  </div>
+                </AccordionSection>
+              )}
+
+              <AccordionSection title="Clinical Features" number="08" id="clinical-features">
+                <SectionClinicalFeatures disease={disease} />
+              </AccordionSection>
+
+              <AccordionSection title="Red Flags" number="09" id="red-flags">
+                <SectionRedFlags disease={disease} />
+              </AccordionSection>
+
+              <AccordionSection title="Investigations" number="10" id="investigations">
+                <SectionInvestigations disease={disease} />
+              </AccordionSection>
+
+              <AccordionSection title="Diagnosis" number="11" id="diagnosis">
+                <div className="p-8 bg-zinc-50 dark:bg-zinc-900 border border-border rounded-3xl">
+                  <h3 className="text-xl font-display font-black uppercase tracking-tight text-text-primary mb-6">{disease.diagnosticCriteria.title}</h3>
+                  <ul className="space-y-4 mb-8">
+                    {(disease.diagnosticCriteria.criteria || []).map((c, i) => (
+                      <li key={i} className="flex gap-4 p-4 bg-white dark:bg-zinc-800 rounded-xl border border-border text-sm font-bold text-text-secondary">
+                        <span className="w-6 h-6 bg-primary/10 text-primary rounded-lg flex items-center justify-center font-black text-[10px] shrink-0">{i + 1}</span>
+                        {c}
+                      </li>
+                    ))}
+                  </ul>
+                  {disease.diagnosticCriteria.pitfalls && (
+                    <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
+                      <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Common Diagnostic Pitfalls</h4>
+                      <p className="text-xs font-bold text-amber-700 leading-relaxed">{disease.diagnosticCriteria.pitfalls.join(', ')}</p>
+                    </div>
                   )}
                 </div>
-              </section>
-            )}
+              </AccordionSection>
 
-            <SectionClinicalFeatures disease={disease} />
+              <AccordionSection title="Differential Diagnosis" number="12" id="differential-diagnosis">
+                <SectionDifferentialDiagnosis disease={disease} />
+              </AccordionSection>
 
-            <SectionRedFlags disease={disease} />
-
-            <SectionInvestigations disease={disease} />
-
-            <section id="diagnosis" className="scroll-mt-32 space-y-12">
-              <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-border"></div>
-                <h2 className="text-2xl font-display font-black uppercase italic tracking-tight text-text-primary">11. Diagnosis</h2>
-              </div>
-              <div className="p-8 bg-zinc-50 dark:bg-zinc-900 border border-border rounded-3xl">
-                <h3 className="text-xl font-display font-black uppercase tracking-tight text-text-primary mb-6">{disease.diagnosticCriteria.title}</h3>
-                <ul className="space-y-4 mb-8">
-                  {(disease.diagnosticCriteria.criteria || []).map((c, i) => (
-                    <li key={i} className="flex gap-4 p-4 bg-white dark:bg-zinc-800 rounded-xl border border-border text-sm font-bold text-text-secondary">
-                      <span className="w-6 h-6 bg-primary/10 text-primary rounded-lg flex items-center justify-center font-black text-[10px] shrink-0">{i + 1}</span>
-                      {c}
-                    </li>
-                  ))}
-                </ul>
-                {disease.diagnosticCriteria.pitfalls && (
-                  <div className="p-6 bg-amber-500/10 border border-amber-500/20 rounded-2xl">
-                    <h4 className="text-[10px] font-black uppercase tracking-widest text-amber-600 mb-2">Common Diagnostic Pitfalls</h4>
-                    <p className="text-xs font-bold text-amber-700 leading-relaxed">{disease.diagnosticCriteria.pitfalls.join(', ')}</p>
-                  </div>
-                )}
-              </div>
-            </section>
-
-            <SectionDifferentialDiagnosis disease={disease} />
-
-            <section id="complications" className="scroll-mt-32 space-y-12">
-              <div className="flex items-center gap-4">
-                <div className="h-px flex-1 bg-border"></div>
-                <h2 className="text-2xl font-display font-black uppercase italic tracking-tight text-text-primary">13. Complications</h2>
-              </div>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                <ComplicationCard title="Common" items={disease.complications.common} color="blue" />
-                <ComplicationCard title="Serious" items={disease.complications.serious} color="amber" />
-                <ComplicationCard title="Life-Threatening" items={disease.complications.lifeThreatening} color="rose" />
-              </div>
-            </section>
-
-            <SectionManagement disease={disease} />
-
-            <SectionHomoeopathy disease={disease} />
-
-            {disease.clinicalCase && (
-              <section id="case" className="scroll-mt-32 space-y-12">
-                <div className="flex items-center gap-4">
-                  <div className="h-px flex-1 bg-border"></div>
-                  <h2 className="text-2xl font-display font-black uppercase italic tracking-tight text-text-primary">18. Clinical Case Study</h2>
+              <AccordionSection title="Complications" number="13" id="complications">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <ComplicationCard title="Common" items={disease.complications.common} color="blue" />
+                  <ComplicationCard title="Serious" items={disease.complications.serious} color="amber" />
+                  <ComplicationCard title="Life-Threatening" items={disease.complications.lifeThreatening} color="rose" />
                 </div>
-                <div className="p-10 bg-white dark:bg-zinc-900 border border-border rounded-[2.5rem]">
-                  <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-                    <div className="space-y-6">
-                      <h4 className="text-[10px] font-black uppercase tracking-widest text-primary italic">Presentation</h4>
-                      <p className="text-lg font-serif italic text-text-primary leading-relaxed">"{disease.clinicalCase.presentation}"</p>
-                    </div>
-                    <div className="space-y-8">
-                      <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-text-secondary mb-2">Analysis</h4>
-                        <p className="text-sm font-bold text-text-secondary leading-relaxed">{disease.clinicalCase.analysis}</p>
+              </AccordionSection>
+
+              <AccordionSection title="Management" number="14" id="management">
+                <SectionManagement disease={disease} />
+              </AccordionSection>
+
+              <AccordionSection title="Homoeopathic Therapeutics" number="15" id="homoeopathy">
+                <SectionHomoeopathy disease={disease} />
+              </AccordionSection>
+
+              {disease.clinicalCase && (
+                <AccordionSection title="Clinical Case Study" number="18" id="case">
+                  <div className="p-10 bg-white dark:bg-zinc-900 border border-border rounded-[2.5rem]">
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
+                      <div className="space-y-6">
+                        <h4 className="text-[10px] font-black uppercase tracking-widest text-primary italic">Presentation</h4>
+                        <p className="text-lg font-serif italic text-text-primary leading-relaxed">"{disease.clinicalCase.presentation}"</p>
                       </div>
-                      <div>
-                        <h4 className="text-[10px] font-black uppercase tracking-widest text-text-secondary mb-2">Management</h4>
-                        <p className="text-sm font-bold text-text-secondary leading-relaxed">{disease.clinicalCase.management}</p>
+                      <div className="space-y-8">
+                        <div>
+                          <h4 className="text-[10px] font-black uppercase tracking-widest text-text-secondary mb-2">Analysis</h4>
+                          <p className="text-sm font-bold text-text-secondary leading-relaxed">{disease.clinicalCase.analysis}</p>
+                        </div>
+                        <div>
+                          <h4 className="text-[10px] font-black uppercase tracking-widest text-text-secondary mb-2">Management</h4>
+                          <p className="text-sm font-bold text-text-secondary leading-relaxed">{disease.clinicalCase.management}</p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              </section>
-            )}
+                </AccordionSection>
+              )}
+            </div>
 
-            <section id="revision" className="scroll-mt-32">
+            <section id="revision" className="scroll-mt-32 pt-16">
                <div className="p-8 bg-primary rounded-3xl text-white text-center">
                  <h2 className="text-2xl font-display font-black uppercase tracking-tight mb-4 italic">20. One-Minute Revision</h2>
                  <p className="text-lg font-black tracking-tight leading-tight uppercase max-w-2xl mx-auto">

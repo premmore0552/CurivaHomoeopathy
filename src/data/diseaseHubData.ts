@@ -287,6 +287,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C to 1M."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Glonoinum", differentiation: "Indicated for sudden, violent surges of blood to the head with a pulsating headache; the patient cannot bear any covering on the head and feels worse from the sun." },
+      { remedy: "Baryta Muriatica", differentiation: "The leading remedy for hypertension in the elderly with advanced arteriosclerosis; specifically addresses a high systolic pressure with a relatively low diastolic pressure." },
+      { remedy: "Natrum Muriaticum", differentiation: "Matches cases related to excessive salt intake and chronic emotional suppression; the patient is characteristically reserved and sensitive." },
+      { remedy: "Aconitum Napellus", differentiation: "Used for sudden spikes in blood pressure accompanied by intense anxiety, restlessness, and a profound fear of death." }
+    ],
     relatedDiseases: ["ischemic-heart-disease", "chronic-kidney-disease"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -424,6 +430,12 @@ export const diseaseHubData: Disease[] = [
         modalities: "Agg: Sun, heat.",
         potencyTips: "3C or 30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Aconitum Napellus", differentiation: "Used for the state of intense panic and fear of death that often accompanies a sudden, dangerous rise in blood pressure." },
+      { remedy: "Glonoinum", differentiation: "Indicated for extreme cerebral congestion with visible carotid pulsations and a sensation that the head is about to burst or feels too large." },
+      { remedy: "Belladonna", differentiation: "Addresses the state of violent, throbbing congestion with a bright red, hot face and dilated pupils; the patient is often sensitive to light and noise." },
+      { remedy: "Veratrum Viride", differentiation: "Specific for cases with a very full, hard, and rapid pulse; addresses intense cerebral congestion and potential convulsions." }
     ],
     relatedDiseases: ["hypertension", "myocardial-infarction"],
     examPriority: "Medium",
@@ -569,6 +581,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Carbo Vegetabilis", differentiation: "The leading remedy for a state of collapse with cold, blue skin; the patient is extremely weak and has an intense desire to be fanned from a distance." },
+      { remedy: "Cinchona Officinalis (China)", differentiation: "Indicated for hypotension following the loss of vital fluids (blood, sweat, or diarrhea); the patient is exhausted and sensitive to light touch." },
+      { remedy: "Gelsemium Sempervirens", differentiation: "Addresses the '3 Ds' (Dullness, Dizziness, Drowsiness); the patient feels heavy and weak, with a slow, thready pulse." },
+      { remedy: "Viscum Album", differentiation: "Specifically used for cases of persistent low blood pressure where the patient feels a sense of oppression and weight around the heart." }
+    ],
     relatedDiseases: ["shock", "orthostatic-hypotension", "anemia"],
     examPriority: "Medium",
     clinicalPriority: "Medium",
@@ -708,6 +726,12 @@ export const diseaseHubData: Disease[] = [
         modalities: "Agg: 4-8 PM.",
         potencyTips: "200C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Conium Maculatum", differentiation: "Specific for vertigo and lightheadedness when turning in bed or rising; the patient feels as if the entire room is spinning around them." },
+      { remedy: "Pulsatilla", differentiation: "Indicated for the faintness on rising that is characteristically relieved by fresh, open air; the patient is often thirstless and emotionally gentle." },
+      { remedy: "Lycopodium Clavatum", differentiation: "Addresses faintness that occurs in the late afternoon (4-8 PM) or following a large meal, often associated with abdominal bloating." },
+      { remedy: "Bryonia Alba", differentiation: "Used when the lightheadedness is intensely aggravated by the slightest movement of the head or body; the patient wants to remain perfectly still." }
     ],
     relatedDiseases: ["hypotension", "diabetes"],
     examPriority: "Medium",
@@ -850,6 +874,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Ischemic heart disease with depression and high blood pressure; 'heart-heavy' sensation.",
         potencyTips: "200C or 1M."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Cactus Grandiflorus", differentiation: "The leading remedy for a sense of 'constriction'; the patient feels as if the heart is being squeezed by an iron hand." },
+      { remedy: "Arnica Montana", differentiation: "Indicated when the heart feels 'bruised and sore', especially after physical overexertion; the patient may feel that the bed is too hard." },
+      { remedy: "Aurum Metallicum", differentiation: "Matches cases where heart disease is accompanied by profound depression and a sense of 'heaviness' in the chest; often associated with high blood pressure." },
+      { remedy: "Lachesis Muta", differentiation: "Used when symptoms are worse after sleep or on the left side; the patient often cannot bear anything tight around the neck or waist." }
     ],
     relatedDiseases: ["stable-angina", "myocardial-infarction", "hypertension"],
     examPriority: "High",
@@ -994,6 +1024,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Bryonia Alba", differentiation: "Indicated when the chest pain is stitching in character and is intensely aggravated by any movement; the patient finds relief only through absolute rest." },
+      { remedy: "Latrodectus Mactans", differentiation: "Used for violent, 'crushing' precordial pain that radiates to the left arm and is accompanied by a sense of impending suffocation." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Matches sharp, neuralgic pains in the heart that are often synchronous with the pulse; palpitations may be visible through the clothing." },
+      { remedy: "Digitalis Purpurea", differentiation: "Used when the angina is accompanied by a very slow, weak pulse and a feeling that the heart will stop if the patient moves." }
+    ],
     relatedDiseases: ["ischemic-heart-disease", "unstable-angina"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -1132,6 +1168,12 @@ export const diseaseHubData: Disease[] = [
         modalities: "Agg: Lying on left side.",
         potencyTips: "200C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "Indicated for extreme restlessness and a profound fear of death during the attack; the patient feels cold and is relieved by warmth." },
+      { remedy: "Oxalicum Acidum", differentiation: "Matches cases where the sharp pain radiates down the left arm and is characteristically worse when the patient thinks about the symptoms." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Used when the pain is stabbing or stitching and the patient cannot lie on the left side due to the violence of the palpitations." },
+      { remedy: "Tabacum", differentiation: "Indicated for the 'deathly nausea' and cold sweat that often accompany unstable angina; the patient feels better in fresh, open air." }
     ],
     relatedDiseases: ["stable-angina", "myocardial-infarction"],
     examPriority: "High",
@@ -1276,6 +1318,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Digitalis Purpurea", differentiation: "The leading remedy for heart failure with a characteristically slow, weak, and irregular pulse; the patient often feels that their heart will stop if they move." },
+      { remedy: "Crataegus Oxyacantha", differentiation: "Acts as a 'heart tonic' for chronic weakness; used when the least physical exertion causes extreme breathlessness and fatigue." },
+      { remedy: "Arsenicum Album", differentiation: "Indicated for orthopnea and a state of intense anxiety; the patient cannot lie down and feels worse in the early morning hours (1-2 AM)." },
+      { remedy: "Carbo Vegetabilis", differentiation: "Used in the advanced stages of 'cardiac collapse' where the patient is cold, blue, and gasps for air, wanting to be fanned." }
+    ],
     relatedDiseases: ["hypertension", "valvular-heart-disease", "atrial-fibrillation"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -1419,6 +1467,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Abrotanum", differentiation: "Specific for cases where rheumatism 'metastasizes' to the heart following the suppression of a skin eruption or diarrhea." },
+      { remedy: "Rhus Toxicodendron", differentiation: "Indicated for the 'migratory' joint pains that are worse during rest and initial motion but improve with continued movement." },
+      { remedy: "Colchicum Autumnale", differentiation: "Used when rheumatic carditis is accompanied by an extreme sensitivity to the smell of cooking food and a sensation that the heart is being crushed." },
+      { remedy: "Kalmia Latifolia", differentiation: "Specific for rheumatic pains that shift rapidly and are often accompanied by a remarkably slow pulse and sharp pains in the heart." }
+    ],
     relatedDiseases: ["rheumatic-heart-disease", "valvular-heart-disease"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -1556,6 +1610,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Naja Tripudians", differentiation: "Specifically addresses valvular lesions with a chronic, teasing cough; the patient cannot lie on the left side and often feels a heavy weight over the heart." },
+      { remedy: "Iodium", differentiation: "Indicated for a hypertrophic heart with chronic valvular issues; the patient feels as if the heart is being squeezed by an iron hand and often loses weight despite a good appetite." },
+      { remedy: "Aurum Metallicum", differentiation: "Used when valvular damage is accompanied by high blood pressure and profound mental depression; the heart feels heavy and 'full of blood'." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Matches acute exacerbations with violent, visible palpitations and sharp, stitching pains that are synchronous with the heartbeat." }
+    ],
     relatedDiseases: ["rheumatic-fever", "valvular-heart-disease", "atrial-fibrillation"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -1692,6 +1752,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "The 'Homoeopathic Antiseptic'; pulse and temperature are out of proportion (e.g., high pulse, low fever).",
         potencyTips: "200C or 1M."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Arnica Montana", differentiation: "Indicated for the deep septic state where the patient feels extremely 'sore and bruised' all over; the bed feels too hard regardless of position." },
+      { remedy: "Lachesis Muta", differentiation: "Used when there is extreme sensitivity to touch, especially around the neck; the lesions may have a characteristic purple or dark discoloration." },
+      { remedy: "Pyrogenium", differentiation: "Specifically addresses the state where the pulse and temperature are completely out of proportion; the patient is often restless and the body feels sore." },
+      { remedy: "Arsenicum Album", differentiation: "Matches the intense prostration, restlessness, and anxiety seen in severe endocarditis; the patient often has a high fever with a desire for small sips of water." }
     ],
     relatedDiseases: ["rheumatic-heart-disease", "valvular-heart-disease"],
     examPriority: "High",
@@ -1832,6 +1898,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Extremely rapid and irregular heart; heart feels too full; dyspnea on least exertion.",
         potencyTips: "Q or 3X."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "Indicated for post-viral myocarditis with extreme prostration and anxiety; the patient is characteristically restless and feels worse between 1-2 AM." },
+      { remedy: "Phosphorus", differentiation: "Used when the heart is weak and dilated; the patient feels a sense of 'weight' on the chest and cannot lie on the left side." },
+      { remedy: "Convallaria Majalis", differentiation: "Specifically addresses an extremely rapid and irregular heartbeat; the heart feels as if it were 'too full' of blood." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Indicated when the palpitations are so violent they are visible through the clothing; the patient often has sharp, stitching pains in the heart." }
     ],
     relatedDiseases: ["pericarditis", "cardiomyopathy", "heart-failure"],
     examPriority: "Medium",
@@ -1975,6 +2047,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Bryonia Alba", differentiation: "The primary remedy for the sharp, 'stitching' pain of pericarditis; the pain is intensely aggravated by the slightest breath or movement, requiring absolute rest." },
+      { remedy: "Colchicum Autumnale", differentiation: "Indicated when pericarditis follows a rheumatic attack; the patient is extremely sensitive to the smell of food and feels as if the heart is squeezed by a band." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Matches cases with violent, stitching pains that are synchronous with the pulse; the patient often has a high degree of anxiety and visible palpitations." },
+      { remedy: "Aconitum Napellus", differentiation: "Used in the very early, acute stage with high fever, sharp pains, and intense restlessness accompanied by a fear of death." }
+    ],
     relatedDiseases: ["pericardial-effusion", "myocarditis", "rheumatic-fever"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -2114,6 +2192,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "3X or 30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Apis Mellifica", differentiation: "Indicated for the 'stinging' pains and swelling associated with serous effusion; the patient is characteristically thirstless and feels worse from any heat." },
+      { remedy: "Kali Carbonicum", differentiation: "Used for hydropericardium with sharp, stitching pains and a characteristic puffiness of the upper eyelids; the patient often feels worse at 3 AM." },
+      { remedy: "Digitalis Purpurea", differentiation: "Matches cases where the effusion is accompanied by an extremely slow, intermittent pulse and signs of a failing heart." },
+      { remedy: "Cantharis", differentiation: "Indicated when the effusion is accompanied by an intense, 'burning' sensation in the chest and a rapid, thready pulse." }
+    ],
     relatedDiseases: ["pericarditis", "cardiac-tamponade", "hypothyroidism"],
     examPriority: "Medium",
     clinicalPriority: "High",
@@ -2239,6 +2323,11 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Failing heart, pulse weak and intermittent.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Aconitum Napellus", differentiation: "Used to manage the extreme panic, gasping for air, and intense fear of death that accompanies the sudden compression of the heart." },
+      { remedy: "Digitalis Purpurea", differentiation: "Addresses the rapidly failing heart muscle; indicated when the pulse becomes remarkably weak, slow, or intermittent as the heart struggles against the fluid." },
+      { remedy: "Carbo Vegetabilis", differentiation: "Indicated for the state of near-collapse where the patient is cold, blue, and gasps for air, desperately wanting to be fanned." }
     ],
     relatedDiseases: ["pericardial-effusion", "pericarditis", "aortic-aneurysm"],
     examPriority: "High",
@@ -2379,6 +2468,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Dilated heart with digestive issues; worse 4-8 PM; desire for warm things.",
         potencyTips: "200C or 1M."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Baryta Carbonica", differentiation: "Indicated for hypertrophied hearts, especially in the elderly; the patient is mentally and physically sluggish and may have a history of developmental delays." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Matches violent palpitations accompanied by sharp, stitching pains in the heart; the patient is characteristically worse when lying on the left side." },
+      { remedy: "Lycopodium Clavatum", differentiation: "Used for dilated hearts in patients with chronic digestive issues and abdominal bloating; symptoms are typically worse in the late afternoon (4-8 PM)." },
+      { remedy: "Aurum Metallicum", differentiation: "Indicated for cases with severe hypertrophy and a sense of 'heaviness' in the heart; the patient often suffers from profound depression and high blood pressure." }
     ],
     relatedDiseases: ["heart-failure", "atrial-fibrillation", "hypertension"],
     examPriority: "Medium",
@@ -2522,6 +2617,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "Q or 3X."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Digitalis Purpurea", differentiation: "The leading remedy for an irregular pulse; the heart feels as if it will stop if the patient moves, accompanied by intense anxiety and a feeling of impending doom." },
+      { remedy: "Lachesis Muta", differentiation: "Indicated when the heart 'thumping' is worse after sleep and the patient cannot bear anything tight around the neck or waist; symptoms are predominantly left-sided." },
+      { remedy: "Lycopus Virginicus", differentiation: "Specifically used for atrial fibrillation associated with hyperthyroidism; the heart is rapid and irregular, often accompanied by a dry cough or hemoptysis." },
+      { remedy: "Iodium", differentiation: "Matches the rapid, irregular heartbeat in hyperthyroid patients who have a great appetite but continue to lose weight; the patient is intensely restless." }
+    ],
     relatedDiseases: ["rheumatic-heart-disease", "hypertension", "heart-failure"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -2659,6 +2760,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Aconitum Napellus", differentiation: "The primary remedy for the acute, sudden onset of racing heart accompanied by intense panic, restlessness, and a profound fear of death." },
+      { remedy: "Coffea Cruda", differentiation: "Indicated for tachycardia triggered by sudden joy, surprise, or intense nervous excitement; the patient is over-sensitive to all external impressions." },
+      { remedy: "Spigelia Anthelmia", differentiation: "Matches violent palpitations that are visible through the clothing; the heart feels as if it were being squeezed or contains sharp, stitching pains." },
+      { remedy: "Naja Tripudians", differentiation: "Used when the heart feels as if it were 'jumping into the throat'; the patient often has a dry, teasing cough and a sense of weight on the heart." }
+    ],
     relatedDiseases: ["atrial-fibrillation", "hyperthyroidism"],
     examPriority: "Medium",
     clinicalPriority: "High",
@@ -2786,6 +2893,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Extreme prostration; cold sweat; fear of death; restlessness.",
         potencyTips: "200C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Lachesis Muta", differentiation: "Indicated for the intense, thumping palpitations that are worse when lying on the left side or after sleep; the patient is extremely sensitive to any touch or constriction." },
+      { remedy: "Arsenicum Album", differentiation: "Matches the state of profound prostration, cold sweat, and intense fear of death; the patient is characteristically restless and wants to be moved frequently." },
+      { remedy: "Cactus Grandiflorus", differentiation: "Used when the patient feels an intense sensation of an 'iron band' constricting the heart, preventing it from beating normally." },
+      { remedy: "Digitalis Purpurea", differentiation: "Indicated when the ventricular rhythm is accompanied by a sense of impending cardiac arrest and a deathly sinking feeling in the pit of the stomach." }
     ],
     relatedDiseases: ["myocardial-infarction", "heart-failure", "cardiomyopathy"],
     examPriority: "High",
@@ -2920,6 +3033,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Remarkably slow pulse with sharp pains; wandering rheumatism.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Digitalis Purpurea", differentiation: "The leading remedy for heart block; the pulse is remarkably slow, weak, and intermittent, and the heart feels as if it would stop beating if the patient moved." },
+      { remedy: "Abrotanum", differentiation: "Indicated for a slow pulse in patients with a history of rheumatism and general wasting (marasmus), especially starting from the lower extremities." },
+      { remedy: "Kalmia Latifolia", differentiation: "Specific for cases with a remarkably slow pulse accompanied by sharp, 'shooting' pains in the heart; often associated with a history of wandering rheumatism." },
+      { remedy: "Gelsemium Sempervirens", differentiation: "Addresses the 'Dullness, Dizziness, and Drowsiness' associated with a slow pulse; the patient feels as if the heart might stop unless they keep moving." }
     ],
     relatedDiseases: ["myocardial-infarction", "rheumatic-fever"],
     examPriority: "High",
@@ -3190,6 +3309,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Hamamelis Virginiana", differentiation: "The leading remedy for venous congestion and soreness; the veins feel 'bruised' and are extremely tender to touch, often with a sense of internal bursting." },
+      { remedy: "Vipera Berus", differentiation: "Specifically indicated when the patient has an unbearable 'bursting' pain that is relieved only by elevating the limb; letting the leg hang down causes intense agony." },
+      { remedy: "Bothrops Lanciolatus", differentiation: "Used in septic states where there is a high risk of clot formation and propagation; often indicated when thrombosis is accompanied by nervous system symptoms like hemiplegia." },
+      { remedy: "Lachesis Muta", differentiation: "Indicated when the affected limb has a dark, bluish, or purplish discoloration and the patient cannot bear any clothing or bandage to touch the area." }
+    ],
     relatedDiseases: ["pulmonary-embolism", "varicose-veins"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -3326,6 +3451,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Intense cramps in calves; better by cold water (sometimes) or massage.",
         potencyTips: "200C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Secale Cornutum", differentiation: "Matches the 'Thermal Paradox' where the limbs are icy cold to the touch, yet the patient feels an internal burning heat and absolutely refuses to be covered." },
+      { remedy: "Arsenicum Album", differentiation: "Indicated for cold limbs with burning pains that are characteristically relieved by heat or warm applications; the patient is often very anxious and restless." },
+      { remedy: "Cuprum Metallicum", differentiation: "Specifically addresses the intense, spasmodic cramps in the calves associated with claudication; the muscles feel like hard knots." },
+      { remedy: "Carbo Vegetabilis", differentiation: "Used in advanced stages with coldness of the extremities and a bluish discoloration; the patient often feels a desperate need for fresh air or to be fanned." }
     ],
     relatedDiseases: ["diabetes-mellitus", "myocardial-infarction"],
     examPriority: "High",
@@ -3602,7 +3733,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C to 200C."
       }
     ],
-
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "The leading remedy for midnight attacks (1-2 AM) where the patient is intensely anxious, restless, and must sit up to breathe; burning pains are characteristically relieved by heat." },
+      { remedy: "Kali Carbonicum", differentiation: "Indicated for 2-4 AM attacks; the patient feels better leaning forward with elbows on knees and has characteristic 'stitching' pains in the chest." },
+      { remedy: "Ipecacuanha", differentiation: "Used when there is constant nausea and a sense of constriction in the chest; the cough is rattling but the chest feels tight, with little expectoration." },
+      { remedy: "Medorrhinum", differentiation: "A powerful sycotic remedy where the asthma is characteristically relieved by lying in the 'knee-chest' position or flat on the face." }
+    ],
     relatedDiseases: ["eczema", "allergic-rhinitis"],
 
     examPriority: "High",
@@ -3856,6 +3992,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Right-sided pneumonia with liver involvement (jaundice); pain under right scapula.",
         potencyTips: "6C or 30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Bryonia Alba", differentiation: "Indicated for the stage of hepatization with sharp, pleuritic pains; the patient wants to lie perfectly still on the painful side and has an intense thirst for large quantities of cold water." },
+      { remedy: "Phosphorus", differentiation: "Matches the state of lung congestion with a sense of 'tightness' across the chest; the sputum is characteristically rust-colored and the patient craves ice-cold drinks." },
+      { remedy: "Antimonium Tartaricum", differentiation: "Used in the late stage with excessive rattling of mucus in the chest but very little expectoration; the patient is often drowsy and may have a bluish tint to the skin." },
+      { remedy: "Chelidonium Majalis", differentiation: "Specific for right-sided pneumonia accompanied by bilious symptoms or jaundice; there is a characteristic pain under the lower angle of the right scapula." }
     ],
     relatedDiseases: ["bronchitis", "pleurisy"],
     examPriority: "High",
@@ -4119,6 +4261,12 @@ export const diseaseHubData: Disease[] = [
         modalities: "Used as a palliative for dyspnea.",
         potencyTips: "Mother Tincture (Q) 10-15 drops."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Antimonium Tartaricum", differentiation: "Indicated for the 'wet' COPD where the chest is full of rattling mucus that cannot be expelled; the patient is often weak, drowsy, and chilled." },
+      { remedy: "Ammonium Carbonicum", differentiation: "Used in elderly patients with a weak heart and constant cough; the patient is always tired and feels worse in a warm room or during cold, damp weather." },
+      { remedy: "Senega", differentiation: "Matches cases with a great accumulation of tough, albuminous mucus that is very difficult to cough up; the chest feels sore and 'bruised' after coughing." },
+      { remedy: "Aspidosperma", differentiation: "Acts as a primary palliative for the 'want of breath' (dyspnea) in COPD; it is often called the 'Digitalis of the lungs' for its ability to improve blood oxidation." }
     ],
     relatedDiseases: ["pneumonia", "bronchiectasis"],
     examPriority: "High",
@@ -4556,6 +4704,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Bryonia Alba", differentiation: "Indicated for a dry, hacking, and painful cough where the patient must hold their chest with both hands; the pain is intensely aggravated by the slightest movement or deep breath." },
+      { remedy: "Ipecacuanha", differentiation: "Matches a spasmodic, suffocative cough accompanied by constant nausea and vomiting of mucus; the chest feels full of rattling mucus but little is expectorated." },
+      { remedy: "Rumex Crispus", differentiation: "Specifically addresses an incessant, dry cough triggered by the slightest inhalation of cold air or by any change in temperature; the patient often covers their mouth." },
+      { remedy: "Ferrum Phosphoricum", differentiation: "Used in the early, inflammatory stage of bronchitis with a short, painful cough and a moderate fever; often prevents the progression to pneumonia." }
+    ],
     relatedDiseases: ["pneumonia", "chronic-bronchitis"],
     examPriority: "Medium",
     clinicalPriority: "Medium",
@@ -4661,6 +4815,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Large accumulation of mucus with inability to expectorate.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Antimonium Tartaricum", differentiation: "The leading remedy for the 'Blue Bloater' stage where the chest is loaded with rattling mucus that the patient is too weak to expel; accompanied by drowsiness and cyanosis." },
+      { remedy: "Senega", differentiation: "Indicated for the elderly with a great accumulation of tough, albuminous mucus; the chest feels extremely sore and the cough often ends in a sneeze." },
+      { remedy: "Ammonium Carbonicum", differentiation: "Used for chronic bronchitis in weak, chilly patients with a feeble heart; symptoms are worse in the early morning and during cold, damp weather." },
+      { remedy: "Baryta Carbonica", differentiation: "Indicated for chronic bronchial affections in the elderly who are physically and mentally sluggish; helps in reducing the tendency to recurrent infections." }
     ],
     relatedDiseases: ["copd", "emphysema"],
     examPriority: "High",
@@ -4774,6 +4934,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Phosphorus", differentiation: "Indicated for the 'red hepatization' stage with a sense of extreme tightness across the chest and rust-colored sputum; the patient is thirsty for ice-cold water." },
+      { remedy: "Bryonia Alba", differentiation: "Matches the pleuritic stage where the patient lies perfectly still on the affected side to minimize pain; the cough is dry and the thirst is for large quantities of water." },
+      { remedy: "Antimonium Tartaricum", differentiation: "Used when the chest is full of coarse rattling mucus with great difficulty in expectoration; the patient is often weak, cyanotic, and cold." },
+      { remedy: "Sulphur", differentiation: "Indicated for the 'resolution' stage when the recovery is slow and the chest remains full of mucus; used to 'clear up' the remains of the inflammatory process." }
+    ],
     examPriority: "High",
     clinicalPriority: "High",
     emergencyLevel: "Alert",
@@ -4846,6 +5012,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Aspiration; stitching pains in chest; worse 3-5 AM.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Kali Carbonicum", differentiation: "Specifically addresses the inflammatory response after aspiration; indicated by sharp, 'stitching' pains in the chest and an aggravation of symptoms between 3-5 AM." },
+      { remedy: "Silicea", differentiation: "Used to promote the drainage and resolution of inflammatory debris in the lungs; often indicated when the cough is persistent and the patient is intensely chilly." },
+      { remedy: "Lycopodium Clavatum", differentiation: "Indicated for right-sided aspiration pneumonia with 'nasal fanning' and a sense of fullness in the abdomen; symptoms are typically worse from 4-8 PM." },
+      { remedy: "Pyrogenium", differentiation: "Matches the septic state that may follow aspiration; the pulse is remarkably rapid and out of proportion to the fever, and the sputum is often foul-smelling." }
     ],
     relatedDiseases: ["stroke", "lung-abscess"],
     examPriority: "High",
@@ -5027,6 +5199,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Tuberculinum", differentiation: "A deep-acting nosode for the 'Tubercular' constitution; indicated when symptoms are constantly changing and there is rapid weight loss despite a good appetite." },
+      { remedy: "Stannum Metallicum", differentiation: "Matches the state of profound weakness where even talking is difficult; the patient has a 'hollow' feeling in the chest and sweetish, greenish expectoration." },
+      { remedy: "Phosphorus", differentiation: "Indicated for tall, thin patients with a persistent, tickling cough and a tendency toward hemoptysis; the patient is characteristically thirsty for cold drinks." },
+      { remedy: "Silicea Terra", differentiation: "Used to address the chronic, suppurative stage with profuse night sweats and a lack of 'vital heat'; helps in the resolution of old tubercles." }
+    ],
     relatedDiseases: ["pneumonia", "bronchiectasis", "lung-cancer"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -5139,6 +5317,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Stannum Metallicum", differentiation: "The leading remedy for bronchiectasis with copious, sweetish, or foul-smelling expectoration; the patient feels extremely weak, especially in the chest, making it hard to talk." },
+      { remedy: "Kali Bichromicum", differentiation: "Indicated when the expectoration is remarkably thick, ropy, and stringy; the patient often has a sense of a 'hair' in the throat and a dry, hacking cough." },
+      { remedy: "Silicea Terra", differentiation: "Used for chronic suppurative conditions of the lungs with profuse, offensive sputum; the patient is intensely chilly and suffers from recurrent infections." },
+      { remedy: "Hepar Sulphuris", differentiation: "Matches cases with a 'choking', 'croupy' cough and extremely offensive, purulent sputum; the patient is hypersensitive to the slightest draft of cold air." }
+    ],
     relatedDiseases: ["cystic-fibrosis", "copd"],
     quickRevisionBox: {
       keyNotes: ["Permanent dilation", "Copious foul sputum", "Clubbing", "HRCT is key"],
@@ -5248,6 +5432,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Fibrosis; chilly; promotes absorption of scar tissue.",
         potencyTips: "6X or 12X (Biochemic) or 30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Silicea Terra", differentiation: "Used to address the fibrotic changes in the lung tissue; it is believed to help in the resolution or stabilization of scar tissue in chilly, weak patients." },
+      { remedy: "Phosphorus", differentiation: "Indicated when the dry cough is accompanied by a sense of weight on the chest and a desire for cold drinks; helps in managing the chronic irritative state." },
+      { remedy: "Calcarea Carbonica", differentiation: "A deep-acting constitutional remedy for patients who are easily fatigued, chilly, and have a tendency to develop chronic lung issues with easy perspiration." },
+      { remedy: "Pneumococcinum", differentiation: "Sometimes used as an intercurrent remedy when there is a history of recurrent pneumonias leading to the development of interstitial changes." }
     ],
     relatedDiseases: ["sarcoidosis", "idiopathic-pulmonary-fibrosis"],
     quickRevisionBox: {
@@ -5363,6 +5553,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Bryonia Alba", differentiation: "The principal remedy for the initial stage of pleurisy and effusion; characterized by sharp, stitching pains that are intensely worse for the slightest motion and relieved by lying on the affected side." },
+      { remedy: "Apis Mellifica", differentiation: "Indicated in the later stage of effusion with marked edema; the patient is characteristically thirstless and experiences stinging or burning pains; often worse from heat." },
+      { remedy: "Sulphur", differentiation: "A vital remedy to promote the absorption of remaining fluid when the recovery is slow; the patient often feels a sense of heat in the chest and has a desire for open air." },
+      { remedy: "Kali Carbonicum", differentiation: "Used when there are sharp, stitching pains in the right side of the chest that are not relieved by pressure or lying on the affected side; typically worse between 2-4 AM." }
+    ],
     relatedDiseases: ["heart-failure", "tuberculosis"],
     quickRevisionBox: {
       keyNotes: ["Stony Dullness", "Meniscus on X-ray", "Light's Criteria"],
@@ -5432,6 +5628,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Sudden onset with intense fear and anxiety.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Aconitum Napellus", differentiation: "Essential for the sudden, traumatic onset of pneumothorax where there is intense anxiety, restlessness, and an overwhelming fear of death; the skin is typically hot and dry." },
+      { remedy: "Carbo Vegetabilis", differentiation: "Indicated in the state of collapse following a collapsed lung; the patient is cold, blue, and gasping for air, with an intense desire to be fanned." },
+      { remedy: "Arsenicum Album", differentiation: "Used when the breathlessness is accompanied by extreme restlessness and a midnight aggravation (1-2 AM); the patient is characteristically chilly and anxious." },
+      { remedy: "Digitalis", differentiation: "May be indicated if the pneumothorax leads to cardiac distress with a slow, weak, or irregular pulse and a sense that the heart will stop if the patient moves." }
     ],
     examPriority: "High",
     clinicalPriority: "High",
@@ -5544,6 +5746,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "200C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Lachesis Mutus", differentiation: "Indicated for septic embolism where the patient is extremely sensitive to touch and cannot tolerate anything around the neck or waist; the skin often appears bluish or purplish." },
+      { remedy: "Arnica Montana", differentiation: "Used to manage the traumatic effect on the pulmonary tissues after an embolism; helps in the resorption of clots and reduces the bruised, sore sensation in the chest." },
+      { remedy: "Hamamelis Virginiana", differentiation: "Indicated when there is passive venous congestion and a tendency to hemoptysis (coughing up dark blood); the chest feels full and heavy." },
+      { remedy: "Bothrops Lanciolatus", differentiation: "A powerful remedy for thrombotic and embolic conditions where there is a marked tendency to hemorrhage and a 'broken-down' state of the blood." }
+    ],
     examPriority: "High",
     clinicalPriority: "High",
     emergencyLevel: "Critical",
@@ -5653,6 +5861,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Great anxiety; must sit up; burning thirst for sips of water.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "The leading remedy for acute pulmonary edema with intense anxiety and restlessness; the patient must sit up to breathe and is characteristically thirsty for sips of cold water." },
+      { remedy: "Carbo Vegetabilis", differentiation: "Indicated in the late stage of 'air hunger' and collapse; the patient is cold, cyanotic, and gasping for breath, with a desire for constant fanning." },
+      { remedy: "Phosphorus", differentiation: "Matches the state of pulmonary congestion with a sense of weight on the chest and blood-streaked sputum; the patient desires ice-cold drinks." },
+      { remedy: "Antimonium Tartaricum", differentiation: "Used when the lungs are full of rattling mucus that cannot be expectorated; the patient is weak, drowsy, and may have a bluish tint to the skin." }
     ],
     examPriority: "High",
     clinicalPriority: "High",
@@ -5798,6 +6012,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Carbo Vegetabilis", differentiation: "The classic remedy for the state of collapse in ARDS; the patient is 'breathless' and 'cold', with a desperate need for oxygen and fanning." },
+      { remedy: "Antimonium Tartaricum", differentiation: "Indicated when the alveoli are filled with exudate, leading to intense rattling and cyanosis; the patient is too weak to clear the respiratory passages." },
+      { remedy: "Lachesis Mutus", differentiation: "Used in the septic phase of ARDS where there is a bluish discoloration of the skin and an extreme sensitivity to any pressure on the neck or chest." },
+      { remedy: "Crotalus Horridus", differentiation: "Matches the most severe septic states with a tendency to hemorrhage and a rapid breakdown of the system; indicated by profound exhaustion and dark, non-clotting blood." }
+    ],
     quickRevisionBox: {
       keyNotes: ["Non-cardiogenic pulmonary edema", "PaO2/FiO2 < 300", "Diffuse bilateral opacities"],
       miasmaticDominance: "Syphilitic",
@@ -5863,6 +6083,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "State of collapse; wants to be fanned; cold sweat.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Carbo Vegetabilis", differentiation: "Indicated in the 'near-death' state of respiratory failure with cold skin, blue face, and air hunger; the patient feels better with constant fanning." },
+      { remedy: "Opium", differentiation: "Matches the hypercapnic (Type 2) state with deep, stertorous breathing and extreme drowsiness or coma; the face is characteristically dusky and hot." },
+      { remedy: "Hydrocyanic Acid", differentiation: "A remedy for sudden, catastrophic respiratory failure with gasping breaths, dilated pupils, and a rapid, weak pulse; reflects a profound central collapse." },
+      { remedy: "Laurocerasus", differentiation: "Indicated for sudden heart and lung failure with cyanosis and a sense of 'suffocation' that is not relieved by any position; the patient is often very cold." }
     ],
     examPriority: "High",
     clinicalPriority: "High",
@@ -6022,6 +6248,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Silicea Terra", differentiation: "The leading remedy to promote the maturation and drainage of a lung abscess; indicated for chilly patients with offensive, purulent expectoration." },
+      { remedy: "Hepar Sulphuris", differentiation: "Indicated when the pain is sharp and 'splinter-like', and the patient is hypersensitive to the slightest cold draft; the sputum is often remarkably foul." },
+      { remedy: "Myristica Sebifera", differentiation: "Known as the 'homoeopathic knife', it acts rapidly to initiate the suppurative process and facilitate the evacuation of pus from the cavity." },
+      { remedy: "Merc Sol", differentiation: "Used when the fever is accompanied by profuse, oily, and offensive perspiration that does not bring relief; the breath is foul and the tongue is flabby with indentations." }
+    ],
     relatedDiseases: ["pneumonia", "bronchiectasis"],
     quickRevisionBox: {
       keyNotes: ["Cavity with fluid level", "Foul sputum", "Long-term antibiotics"],
@@ -6129,6 +6361,12 @@ export const diseaseHubData: Disease[] = [
         potencyTips: "30C."
       }
     ],
+    remedyDifferentials: [
+      { remedy: "Silicea Terra", differentiation: "Used palliatively in advanced lung cancer to manage chronic suppuration and pain; the patient is typically very weak, chilly, and easily fatigued." },
+      { remedy: "Arsenicum Album", differentiation: "Matches the intense anxiety and restlessness often seen in terminal stages; provides relief for the burning pains and the profound exhaustion." },
+      { remedy: "Conium Maculatum", differentiation: "A key remedy for glandular involvements and hard, stony tumors; indicated when there is a dry, hacking cough that is worse at night upon lying down." },
+      { remedy: "Hydrastis Canadensis", differentiation: "Used for the 'cancerous cachexia' with extreme weakness, loss of appetite, and a thick, yellow, stringy discharge from any mucous membrane." }
+    ],
     relatedDiseases: ["pulmonary-tuberculosis", "pneumonia"],
     quickRevisionBox: {
       keyNotes: ["Smoking is #1 risk", "Hemoptysis", "Weight loss"],
@@ -6198,6 +6436,12 @@ export const diseaseHubData: Disease[] = [
         keyIndications: "Deep sleep with stertorous breathing; hot skin; dusky face.",
         potencyTips: "30C."
       }
+    ],
+    remedyDifferentials: [
+      { remedy: "Opium", differentiation: "The primary remedy for the stertorous, deep breathing seen in sleep apnea; the patient has a dusky, bloated face and seems in a state of 'heavy' sleep from which they are hard to rouse." },
+      { remedy: "Lycopodium Clavatum", differentiation: "Indicated when the snoring is accompanied by a sense of 'nasal fanning' and abdominal flatulence; symptoms are typically worse from 4-8 PM." },
+      { remedy: "Lachesis Mutus", differentiation: "Matches the 'suffocation' upon falling asleep; the patient wakes up gasping for air and cannot tolerate anything tight around the neck." },
+      { remedy: "Ammonium Carbonicum", differentiation: "Used for patients who are often obese and have a weak heart; the breathing is difficult and stertorous, especially in the early morning (3-4 AM)." }
     ],
     relatedDiseases: ["hypertension", "obesity"],
     examPriority: "Medium",
@@ -6308,6 +6552,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Robinia", keyIndications: "Intense sour stomach; acid dyspepsia; acidity worse at night.", potencyTips: "3X/6X" },
       { name: "Nux Vomica", keyIndications: "Frequent heartburn; weight in stomach after eating; sedentary habits.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Iris Versicolor", differentiation: "Predominant burning in the entire GI tract from mouth to anus; greasy/bilious reflux." },
+      { remedy: "Robinia", differentiation: "Extreme acidity where everything turns to sour acid; teeth feel on edge; worse at night." },
+      { remedy: "Nux Vomica", differentiation: "Spasmodic reflux in sedentary, stressed individuals; worse from coffee/alcohol." }
+    ],
     relatedDiseases: ["peptic-ulcer-disease", "hiatus-hernia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -6415,6 +6664,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Vomiting as soon as water becomes warm in stomach; craving for cold drinks.", potencyTips: "200C" },
       { name: "Argentum Nitricum", keyIndications: "Great flatulence; loud belching; pain radiating from stomach; craving for sweets.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "Burning pain relieved by heat; intense thirst for small sips; great prostration." },
+      { remedy: "Phosphorus", differentiation: "Burning pain relieved by cold drinks, but vomited as soon as they become warm." },
+      { remedy: "Argentum Nitricum", differentiation: "Characterized by intense flatulence and loud, forceful belching; craving for sweets." }
+    ],
     relatedDiseases: ["peptic-ulcer-disease", "gerd"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -6487,16 +6741,15 @@ export const diseaseHubData: Disease[] = [
       ]
     },
     classification: {
-      type: "Site Based",
-      details: "Gastric Ulcer vs Duodenal Ulcer",
+      type: "Clinical Comparison",
+      details: "Differentiating Gastritis from Peptic Ulcer Disease",
       table: {
-        headers: ["Feature", "Gastric Ulcer", "Duodenal Ulcer"],
+        headers: ["Feature", "Gastritis", "Peptic Ulcer"],
         rows: [
-          ["Pain Timing", "1/2 to 1 hour after food", "2 to 3 hours after food (Hunger pain)"],
-          ["Food Effect", "Aggravates pain", "Relieves pain"],
-          ["Vomiting", "Common, relieves pain", "Uncommon"],
-          ["Night Pain", "Rare", "Common (Wakes patient)"],
-          ["Appetite", "Patient afraid to eat", "Good appetite"]
+          ["Nature", "Diffuse mucosal inflammation", "Localized circumscribed ulcer crater"],
+          ["Pain Character", "Diffuse burning/discomfort", "Point tenderness (Finger-tip pain)"],
+          ["Endoscopy", "Hyperemia/Erosions", "Well-defined ulcer crater"],
+          ["Relation to Food", "Varies, often worse with food", "Highly predictable (Hunger pain vs After-food pain)"]
         ]
       }
     },
@@ -6536,6 +6789,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Anacardium Orientale", keyIndications: "Hunger pain; relieved by eating; nervous dyspepsia.", potencyTips: "200C" },
       { name: "Kali Bichromicum", keyIndications: "Punch-out ulcers; pain in small spots; yellow coated tongue.", potencyTips: "30C" },
       { name: "Hydrastis", keyIndications: "Weak, gone feeling in stomach; chronic gastritis with ulceration.", potencyTips: "Q/3X" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Anacardium Orientale", differentiation: "Pain relieved by eating, but returns after 2-3 hours; nervous exhaustion." },
+      { remedy: "Kali Bichromicum", differentiation: "Point-like pain that can be covered by a fingertip; thick, ropy secretions." },
+      { remedy: "Hydrastis", differentiation: "Great debility with 'gone' feeling in stomach; thick yellow mucus; chronic states." }
     ],
     relatedDiseases: ["gastritis", "gerd", "gastrointestinal-bleeding"],
     examPriority: "High",
@@ -6644,6 +6902,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Podophyllum", keyIndications: "Painless, profuse, offensive stools; gushing diarrhea; prolapse of rectum.", potencyTips: "30C" },
       { name: "Aloe Socotrina", keyIndications: "Urgency after eating; jelly-like stools; sense of insecurity in rectum.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Veratrum Album", differentiation: "The leading remedy for cholera-like symptoms; profuse, simultaneous vomiting and purging; cold sweat on forehead; icy coldness of body." },
+      { remedy: "Podophyllum", differentiation: "Painless, profuse, gushing, yellowish diarrhea; very offensive; often associated with prolapse of the rectum." },
+      { remedy: "Aloe Socotrina", differentiation: "Great urgency for stool immediately after eating or drinking; jelly-like mucus in stool; sense of insecurity in the anal sphincter." }
+    ],
     relatedDiseases: ["chronic-diarrhea", "peritonitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -6716,14 +6979,16 @@ export const diseaseHubData: Disease[] = [
       ]
     },
     classification: {
-      type: "Bowel Habit Based",
-      details: "IBS-D (Diarrhea), IBS-C (Constipation), IBS-M (Mixed)",
+      type: "Clinical Distinction",
+      details: "Differentiating Functional (IBS) from Organic (IBD) Disease. IBS subtypes include IBS-D (Diarrhea), IBS-C (Constipation), and IBS-M (Mixed).",
       table: {
-        headers: ["Type", "Primary Symptom", "Remedy Example"],
+        headers: ["Feature", "IBS", "IBD (UC/Crohn)"],
         rows: [
-          ["IBS-D", "Frequent loose stools", "Podophyllum"],
-          ["IBS-C", "Hard stools, straining", "Alumina"],
-          ["IBS-M", "Alternating diarrhea/constipation", "Nux Vomica"]
+          ["Nature", "Functional (No visible damage)", "Organic (Inflammation/Ulceration)"],
+          ["Nocturnal Pain", "Extremely rare", "Common"],
+          ["Weight Loss", "None", "Common and significant"],
+          ["Bloody Stool", "Never (unless hemorrhoids)", "Frequent (especially in UC)"],
+          ["Inflammatory Markers", "Normal (CRP/ESR)", "Elevated"]
         ]
       }
     },
@@ -6763,6 +7028,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Argentum Nitricum", keyIndications: "Diarrhea from anticipation; great flatulence; craving for sweets.", potencyTips: "200C" },
       { name: "Lycopodium", keyIndications: "Bloating beginning in late afternoon; early satiety; loud rumbling.", potencyTips: "200C" },
       { name: "Nux Vomica", keyIndications: "Ineffectual urging for stool; alternating constipation and diarrhea; irritable temperament.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Argentum Nitricum", differentiation: "Predominantly psychogenic diarrhea; occurs from anticipation or anxiety; great craving for sweets." },
+      { remedy: "Lycopodium", differentiation: "Functional dyspepsia with flatulence; lower abdomen bloated; worse 4-8 PM; early satiety." },
+      { remedy: "Nux Vomica", differentiation: "Ineffectual urging for stool; 'fitful' action of the bowels; sedentary habits with high stress." }
     ],
     relatedDiseases: ["ulcerative-colitis", "crohn-disease", "celiac-disease"],
     examPriority: "High",
@@ -6887,6 +7157,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Nitric Acid", keyIndications: "Violent cutting pains in rectum; stool like horse-dung; fissures.", potencyTips: "200C" },
       { name: "Phosphorus", keyIndications: "Wide open anus; painless bloody stools; desire for cold things.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Merc Cor", differentiation: "The most intense tenesmus; never-get-done feeling; bloody, slimy stools with constant urging." },
+      { remedy: "Nitric Acid", differentiation: "Violent cutting pains in rectum during and after stool; as if full of splinters; offensive odor." },
+      { remedy: "Phosphorus", differentiation: "Painless bloody stools; anus feels wide open; craving for cold ice-cold drinks." }
+    ],
     relatedDiseases: ["crohn-disease", "irritable-bowel-syndrome", "gastrointestinal-bleeding"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -6992,10 +7267,30 @@ export const diseaseHubData: Disease[] = [
       prevention: ["Smoking cessation", "Avoidance of NSAID triggers"]
     },
     homoeopathicApproach: "Focuses on the chronic, miasmatic nature of the disease and addresses the perianal and nutritional complications.",
+    classification: {
+      type: "Differential Diagnosis Table",
+      details: "Detailed comparison between Ulcerative Colitis and Crohn's Disease.",
+      table: {
+        headers: ["Feature", "Ulcerative Colitis", "Crohn Disease"],
+        rows: [
+          ["Location", "Colon and Rectum only", "Any part of GI tract (Mouth to Anus)"],
+          ["Pattern", "Continuous lesions", "Skip lesions (Patchy)"],
+          ["Depth", "Mucosa and Submucosa only", "Transmural (Full thickness)"],
+          ["Bleeding", "Common, severe", "Less common"],
+          ["Smoking", "Protective factor", "Risk factor"],
+          ["Granulomas", "Absent", "Present in 50% cases"]
+        ]
+      }
+    },
     relatedRemedies: [
       { name: "Silicea", keyIndications: "Tendency to fistulae and abscesses; chilly; weak assimilation.", potencyTips: "200C" },
       { name: "Graphites", keyIndications: "Constipation with mucus-coated stools; skin tags; eczema.", potencyTips: "200C" },
       { name: "Arsenicum Album", keyIndications: "Severe pain; weight loss; burning sensations; restlessness.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Silicea", differentiation: "Suppurative processes; fistula formation; chilly patient; better by warm applications." },
+      { remedy: "Lachesis", differentiation: "Pain starts on the left side; sensitive to touch/pressure; better by discharges; worse after sleep." },
+      { remedy: "Arsenicum Album", differentiation: "Severe ulceration with burning pain; restless, anxious patient; small frequent stools." }
     ],
     relatedDiseases: ["ulcerative-colitis", "irritable-bowel-syndrome", "fistula-in-ano"],
     examPriority: "High",
@@ -7214,6 +7509,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Bryonia", keyIndications: "Pain worse from least motion; better by lying on painful side.", potencyTips: "200C" },
       { name: "Lachesis", keyIndications: "Septic state; sensitive to touch; pain worse from pressure of clothes.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Belladonna", differentiation: "Right-sided pain; sudden onset; high fever with hot, red skin; extremely sensitive to any jar or motion." },
+      { remedy: "Bryonia", differentiation: "Stitching pain in RLQ; absolute relief from complete rest and pressure; worse from least movement." },
+      { remedy: "Lachesis", differentiation: "Septic states with dark, offensive discharges; extreme sensitivity to touch; pain may start on left and move to right." }
+    ],
     relatedDiseases: ["peritonitis", "intestinal-obstruction"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -7334,6 +7634,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Plumbum Metallicum", keyIndications: "Violent colic; abdomen feels drawn to spine by a string.", potencyTips: "200C" },
       { name: "Raphanus", keyIndications: "Post-operative gas; no flatus passed up or down.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Opium", differentiation: "Paralytic state with absolute lack of intestinal movement; stupor; face dark red; abdomen hard and bloated." },
+      { remedy: "Plumbum Metallicum", differentiation: "Spasmodic obstruction; severe colicky pain radiating in all directions; abdomen retracted towards the spine." },
+      { remedy: "Raphanus", differentiation: "Post-operative ileus with excessive accumulation of gas that cannot be passed either way." }
+    ],
     relatedDiseases: ["peritonitis", "appendicitis", "constipation"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -7441,6 +7746,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Pyrogenium", keyIndications: "Septic state; disparity between pulse and temperature; offensive discharges.", potencyTips: "200C" },
       { name: "Silicea", keyIndications: "After-effects of surgery; tendency to abscess formation.", potencyTips: "200C" },
       { name: "Aconite", keyIndications: "Very early stage; high fever; intense fear of death.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Pyrogenium", differentiation: "The great septic remedy; pulse rapid and temperature low (or vice versa); bed feels hard; offensive odors." },
+      { remedy: "Aconite", differentiation: "First stage only; high fever with dry skin; extreme anxiety and prediction of time of death." },
+      { remedy: "Belladonna", differentiation: "Localized peritonitis with great heat and redness; throbbing pain; worse from least jar." }
     ],
     relatedDiseases: ["appendicitis", "peptic-ulcer-disease", "intestinal-obstruction"],
     examPriority: "High",
@@ -7550,6 +7860,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Lachesis", keyIndications: "Left-sided symptoms; sensitive to touch; cannot bear anything tight.", potencyTips: "200C" },
       { name: "Merc Cor", keyIndications: "Severe inflammation; burning; tenesmus.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Colocynthis", differentiation: "Agonizing cutting pain causing the patient to bend double; relieved by hard pressure." },
+      { remedy: "Lachesis", differentiation: "Left-sided inflammation; extreme sensitivity to even the weight of clothes; worse after sleep." },
+      { remedy: "Merc Cor", differentiation: "Intense burning and tenesmus; constant urging for stool; offensive discharges." }
+    ],
     relatedDiseases: ["ulcerative-colitis", "peritonitis", "fistula-in-ano"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -7622,15 +7937,15 @@ export const diseaseHubData: Disease[] = [
       ]
     },
     classification: {
-      type: "Internal Hemorrhoids Grading",
-      details: "Grade I to IV based on prolapse",
+      type: "Anorectal Comparison",
+      details: "Comparison between Hemorrhoids, Anal Fissure, and Fistula-in-ano.",
       table: {
-        headers: ["Grade", "Description", "Clinical Feature"],
+        headers: ["Feature", "Hemorrhoids", "Anal Fissure", "Fistula-in-ano"],
         rows: [
-          ["Grade I", "No prolapse", "Bleeding only"],
-          ["Grade II", "Prolapse on straining", "Reduces spontaneously"],
-          ["Grade III", "Prolapse on straining", "Requires manual reduction"],
-          ["Grade IV", "Permanent prolapse", "Cannot be reduced; risk of strangulation"]
+          ["Main Symptom", "Painless bleeding", "Excruciating pain with stool", "Chronic discharge (pus/blood)"],
+          ["Bleeding", "Bright red, splash in pan", "Fresh blood on toilet paper", "Intermittent, mixed with pus"],
+          ["Pain Timing", "Minimal (unless thrombosed)", "During and after stool (Lasts hours)", "Constant dull ache or throbbing"],
+          ["Physical Exam", "Soft prolapsing cushions", "Visible crack in anal mucosa", "External opening with discharge"]
         ]
       }
     },
@@ -7671,6 +7986,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Aesculus Hippocastanum", keyIndications: "Sensation of sharp sticks in rectum; dry, aching pain; little bleeding.", potencyTips: "30C" },
       { name: "Hamamelis", keyIndications: "Profuse, dark bleeding; soreness; bruised feeling.", potencyTips: "30C" },
       { name: "Aloe Socotrina", keyIndications: "Hemorrhoids like a bunch of grapes; blue; hot; better by cold water.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Aesculus Hippocastanum", differentiation: "Rectum feels full of small sticks; dry, aching pain; very little bleeding; associated with backache." },
+      { remedy: "Aloe Socotrina", differentiation: "Hemorrhoids like a bunch of grapes; very sensitive and sore; relieved by cold water; associated with insecurity of rectum." },
+      { remedy: "Hamamelis", differentiation: "Profuse dark, passive venous hemorrhage; great soreness and rawness; bruised feeling." }
     ],
     relatedDiseases: ["anal-fissure", "constipation", "gastrointestinal-bleeding"],
     examPriority: "High",
@@ -7780,6 +8100,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Nitric Acid", keyIndications: "Pain as from splinters or broken glass; lasts for hours after stool; irritable.", potencyTips: "200C" },
       { name: "Ratanhia", keyIndications: "Burning in anus like fire; better by cold water; rectum feels full of broken glass.", potencyTips: "30C" },
       { name: "Graphites", keyIndications: "Fissures associated with constipation; stool large, knotty, with mucus.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Nitric Acid", differentiation: "Violent cutting, sticking pains as if from splinters; lasts long after stool; extremely irritable patient." },
+      { remedy: "Ratanhia", differentiation: "Anal burning like fire, temporarily relieved by cold water; feels as if full of broken glass." },
+      { remedy: "Paeonia", differentiation: "Fissures with great oozing and moisture; anus feels purple and swollen; pain lasts a long time after stool." }
     ],
     relatedDiseases: ["hemorrhoids", "constipation"],
     examPriority: "High",
@@ -7903,6 +8228,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Myristica Sebifera", keyIndications: "The 'homoeopathic knife'; promotes suppuration and opening of abscesses.", potencyTips: "Q/3X" },
       { name: "Calcarea Sulphurica", keyIndications: "Thick, yellow, lumpy discharge; slow healing.", potencyTips: "6X/30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Silicea", differentiation: "The leading remedy for fistula; offensive, thin or thick pus; chilly patient with sweaty feet; prevents recurrence." },
+      { remedy: "Myristica Sebifera", differentiation: "Powerful antiseptic; acts more rapidly than Silicea in promoting drainage and resolving the track." },
+      { remedy: "Berberis Vulgaris", differentiation: "Fistula-in-ano with great soreness; associated with urinary or gallbladder complaints; pain radiating in various directions." }
+    ],
     relatedDiseases: ["crohn-disease", "hemorrhoids"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -8021,6 +8351,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Alumina", keyIndications: "No urging for many days; even soft stool passed with difficulty; inactive rectum.", potencyTips: "200C" },
       { name: "Bryonia", keyIndications: "Stools large, hard, dry, as if burnt; very thirsty; worse from motion.", potencyTips: "200C" },
       { name: "Nux Vomica", keyIndications: "Frequent ineffectual urging; 'unsatisfactory' stool; sedentary life.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Alumina", differentiation: "Total inactivity of the rectum; even soft stool requires great straining; dry mucous membranes; pica (desires indigestible things)." },
+      { remedy: "Bryonia", differentiation: "Stools are large, hard, dry, and look as if burnt; great thirst for large quantities of cold water; absolute relief from rest." },
+      { remedy: "Nux Vomica", differentiation: "Frequent, ineffectual urging for stool; 'fitful' action of the bowels; sensation as if more remained behind." }
     ],
     relatedDiseases: ["hemorrhoids", "anal-fissure", "intestinal-obstruction"],
     examPriority: "High",
@@ -8144,6 +8479,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphoric Acid", keyIndications: "Watery, painless diarrhea; not exhausting; white stools; apathetic state.", potencyTips: "200C" },
       { name: "Sulphur", keyIndications: "Driving out of bed in the morning; offensive stools; perianal redness.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "China (Cinchona)", differentiation: "Painless but highly exhausting diarrhea; stools with undigested food; great flatulence; associated with loss of vital fluids." },
+      { remedy: "Phosphoric Acid", differentiation: "Painless, watery, white stools; NOT exhausting despite being profuse; associated with mental indifference and debility." },
+      { remedy: "Sulphur", differentiation: "Painless diarrhea that drives the patient out of bed in the early morning (5 AM); offensive odor; perianal excoriation." }
+    ],
     relatedDiseases: ["celiac-disease", "ulcerative-colitis", "crohn-disease", "irritable-bowel-syndrome"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -8264,6 +8604,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Ipecacuanha", keyIndications: "Bright red blood; constant nausea; clean tongue.", potencyTips: "200C" },
       { name: "Hamamelis", keyIndications: "Dark, venous blood; soreness; bleeding from any orifice.", potencyTips: "30C" },
       { name: "Phosphorus", keyIndications: "Bright red blood; vomiting as soon as water becomes warm; thirsty for cold.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Ipecacuanha", differentiation: "Bright red, profuse bleeding; constant nausea that is not relieved by vomiting; clean tongue." },
+      { remedy: "Hamamelis", differentiation: "Dark, venous, passive hemorrhage; great soreness and bruised feeling in the abdomen; little or no nausea." },
+      { remedy: "Phosphorus", differentiation: "Bright red blood; vomiting as soon as water becomes warm in the stomach; thirsty for icy cold drinks." }
     ],
     relatedDiseases: ["peptic-ulcer-disease", "gerd", "hemorrhoids", "ulcerative-colitis"],
     examPriority: "High",
@@ -8393,6 +8738,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Carduus Marianus", keyIndications: "Gallstone colic with jaundice; liver feels swollen; golden-yellow stool.", potencyTips: "Q/3X" },
       { name: "Phosphorus", keyIndications: "Acute hepatitis with burning pain; thirsty for cold water; tendency to hemorrhage.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Chelidonium Majus", differentiation: "The great liver remedy; constant pain under the lower inner angle of the right shoulder blade; stool clay-colored; desires hot drinks." },
+      { remedy: "Carduus Marianus", differentiation: "Jaundice associated with gallstones; liver feels swollen and painful; stool golden-yellow; associated with asthma or dropsy." },
+      { remedy: "Phosphorus", differentiation: "Acute hepatitis with jaundice; intense burning pain; tendency to hemorrhages; thirsty for cold water; worse from lying on left side." }
+    ],
     relatedDiseases: ["viral-hepatitis", "cholelithiasis", "cirrhosis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -8514,6 +8864,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Bryonia", keyIndications: "Pain worse from least motion; better by lying on the right side.", potencyTips: "200C" },
       { name: "Mercurius Solubilis", keyIndications: "Swollen liver; tongue large, flabby with tooth marks; offensive breath.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Lycopodium", differentiation: "Chronic hepatitis; distension of abdomen after eating even a little; constant sense of fullness; 4-8 PM aggravation." },
+      { remedy: "Chelidonium", differentiation: "Acute phase with marked jaundice; yellow-coated tongue; pain in right side of abdomen." },
+      { remedy: "Sepia", differentiation: "Chronic sluggish liver; sallow complexion; bearing down sensation; indifference to family." }
+    ],
     relatedDiseases: ["jaundice", "cirrhosis", "acute-liver-failure"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -8634,6 +8989,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Quercus E Glandibus", keyIndications: "Specific for alcohol cravings; diminishes the desire for liquor.", potencyTips: "Q/3X" },
       { name: "Lachesis", keyIndications: "Chronic ALD; sensitive liver; red, purple face; better after discharges.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Nux Vomica", differentiation: "The leading remedy for alcohol-related liver injury; irritable; sedentary; frequent ineffectual urging for stool." },
+      { remedy: "Quercus E Glan", differentiation: "Specific for alcohol cravings and spleen/liver enlargement in alcoholics; helps in detoxifying effects of spirits." },
+      { remedy: "Ranunculus Bulbosus", differentiation: "Alcoholic liver disease with sharp, stitching pains in the chest and liver; skin symptoms may be present." }
+    ],
     relatedDiseases: ["fatty-liver-disease", "cirrhosis", "portal-hypertension"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -8753,6 +9113,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phytolacca", keyIndications: "Specific for fat metabolism; helps in weight reduction.", potencyTips: "Q/30C" },
       { name: "Chelidonium", keyIndications: "Sluggish liver; pain under right scapula.", potencyTips: "Q/3X" },
       { name: "Calcarea Carbonica", keyIndications: "Obese, fair, flabby patients; chilly; slow metabolism.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Chelidonium", differentiation: "Fatty liver with pain under the right shoulder blade; yellowish tongue; preference for hot drinks." },
+      { remedy: "Phytolacca", differentiation: "Fatty liver in obese individuals; associated with overall glandular enlargement; hard, stony liver." },
+      { remedy: "Calcarea Carbonica", differentiation: "Fatty liver in 'fat, flabby, fair' individuals; sweaty head; chilly; craves eggs." }
     ],
     relatedDiseases: ["alcoholic-liver-disease", "cirrhosis", "diabetes-mellitus"],
     examPriority: "Medium",
@@ -8877,6 +9242,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Lycopodium", keyIndications: "Ascites with bloating; worse 4-8 PM; chilly; sour eructations.", potencyTips: "200C" },
       { name: "Aurum Metallicum", keyIndications: "Hard, nodular liver; depressive state; history of syphilis or mercury abuse.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Lycopodium", differentiation: "Ascites with great bloating; feeling of fullness after a few bites; red sand in urine; 4-8 PM aggravation." },
+      { remedy: "Phosphorus", differentiation: "Cirrhosis with hemorrhagic tendency; burning pain; jaundice; thirsty for cold water." },
+      { remedy: "Aurum Metallicum", differentiation: "Hard, nodular, shrunken liver; depressive state with suicidal thoughts; history of syphilis or mercury abuse." }
+    ],
     relatedDiseases: ["portal-hypertension", "ascites", "hepatic-encephalopathy", "viral-hepatitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -8997,6 +9367,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Carduus Marianus", keyIndications: "Specific for portal congestion; liver feels swollen; golden stools.", potencyTips: "Q/30C" },
       { name: "Lycopodium", keyIndications: "Ascites and portal hypertension in chilly, bloated patients.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Hamamelis", differentiation: "Passive venous congestion; dark, passive hemorrhage from varices; great soreness and bruised feeling." },
+      { remedy: "Carduus Marianus", differentiation: "Portal congestion with liver and spleen enlargement; golden-yellow stools; associated with dropsical conditions." },
+      { remedy: "Lycopodium", differentiation: "Portal hypertension with marked ascites and flatulence; 4-8 PM aggravation; chilly patient." }
+    ],
     relatedDiseases: ["cirrhosis", "ascites", "gastrointestinal-bleeding"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -9116,6 +9491,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Apis Mellifica", keyIndications: "Edema with stinging pain; thirstless; better from cold; waxy skin.", potencyTips: "30C/200C" },
       { name: "Apocynum Cannabinum", keyIndications: "Specific for ascites; great thirst but stomach rejects water; sinking feeling.", potencyTips: "Q/3X" },
       { name: "Lycopodium", keyIndications: "Ascites from liver disease; bloating; worse 4-8 PM.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Apis Mellifica", differentiation: "Dropsy without thirst; stinging and burning pains; better from cold applications; waxy, transparent skin." },
+      { remedy: "Apocynum Cannabinum", differentiation: "Great thirst but water causes pain or is vomited; sinking feeling at the pit of the stomach; specific for renal and cardiac dropsy too." },
+      { remedy: "Lycopodium", differentiation: "Ascites due to liver cirrhosis; great bloating; red sand in urine; 4-8 PM aggravation; chilly patient." }
     ],
     relatedDiseases: ["cirrhosis", "portal-hypertension", "heart-failure"],
     examPriority: "High",
@@ -9238,6 +9618,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Apathy; slow answering; history of jaundice/bleeding.", potencyTips: "200C" },
       { name: "Ammonium Carbonicum", keyIndications: "Deeply toxic state; somnolence; great debility.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Opium", differentiation: "Heavy, comatose sleep with stertorous breathing; face dark red and bloated; pupils contracted; total lack of awareness." },
+      { remedy: "Phosphorus", differentiation: "Apathy and slow responses; history of liver cirrhosis and jaundice; burning pains; desires cold drinks." },
+      { remedy: "Ammonium Carbonicum", differentiation: "Drowsiness and stupor in patients with poor urea/ammonia clearance; associated with debility and heart/lung weakness." }
+    ],
     relatedDiseases: ["cirrhosis", "acute-liver-failure", "portal-hypertension"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -9357,6 +9742,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Acute yellow atrophy; hemorrhagic diathesis; thirsty for cold water.", potencyTips: "200C/1M" },
       { name: "Crotalus Horridus", keyIndications: "Malignant jaundice; blood oozing from every orifice; profound prostration.", potencyTips: "200C" },
       { name: "Arsenicum Album", keyIndications: "Restlessness; prostration; burning pain; better by warmth.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Phosphorus", differentiation: "Rapid destruction of liver parenchyma; hemorrhagic tendency; burning pains; jaundice; thirsty for cold water; worse from lying on left side." },
+      { remedy: "Crotalus Horridus", differentiation: "Low, septic states; malignant jaundice; dark, fluid blood from every orifice; yellow skin with ecchymoses." },
+      { remedy: "Arsenicum Album", differentiation: "Profound prostration with great irritability and restlessness; burning pains relieved by heat; thirsty for small quantities at short intervals." }
     ],
     relatedDiseases: ["jaundice", "viral-hepatitis", "hepatic-encephalopathy"],
     examPriority: "High",
@@ -9479,6 +9869,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Chelidonium", keyIndications: "Pain under right shoulder blade; jaundice; preference for hot drinks.", potencyTips: "Q/6C" },
       { name: "Carduus Marianus", keyIndications: "Liver swollen and tender; jaundice; specific for GB stones.", potencyTips: "Q/3X" }
     ],
+    remedyDifferentials: [
+      { remedy: "Berberis Vulgaris", differentiation: "Stitching, radiating pains from the gallbladder to the stomach and back; better from pressure; often associated with kidney stones or lumbar pain." },
+      { remedy: "Chelidonium", differentiation: "The leading remedy for biliary colic; pain specifically under the lower inner angle of the right shoulder blade; stool clay-colored; desires hot drinks." },
+      { remedy: "Carduus Marianus", differentiation: "Jaundice associated with gallstones; liver feels swollen and tender; golden-yellow stools; associated with dropsical conditions." }
+    ],
     relatedDiseases: ["cholecystitis", "cholangitis", "acute-pancreatitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -9600,6 +9995,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Bryonia", keyIndications: "Stitching pain; worse from least motion; better by lying on right side.", potencyTips: "200C" },
       { name: "Mercurius Sol", keyIndications: "Shivers/chills; offensive breath; liver feels heavy; worse at night.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Belladonna", differentiation: "Sudden onset of intense inflammation; high fever with throbbing; RUQ extremely sensitive to the least touch; hot, red face." },
+      { remedy: "Bryonia", differentiation: "Stitching pains in the gallbladder region; worse from the slightest movement or deep breath; better from lying on the painful side and hard pressure." },
+      { remedy: "Mercurius Solubilis", differentiation: "Suppurative stage of cholecystitis; shivers and chills; tongue large and flabby with tooth marks; profuse, offensive perspiration." }
+    ],
     relatedDiseases: ["cholelithiasis", "cholangitis", "acute-pancreatitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -9719,6 +10119,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Pyrogenium", keyIndications: "Sepsis; high fever with slow pulse (or vice versa); offensive discharges.", potencyTips: "200C" },
       { name: "Baptisia", keyIndications: "Profound toxemia; besotted look; patient feels 'scattered'.", potencyTips: "200C" },
       { name: "Arsenicum Album", keyIndications: "Septic state; restlessness; burning thirst; chilly.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Pyrogenium", differentiation: "The great septic remedy; high fever with a slow pulse or vice versa (pulse-temperature dissociation); great aching in the bones; offensive discharges." },
+      { remedy: "Baptisia", differentiation: "Deeply septic state with low typhoid-like fever; offensive breath and stools; face has a dark red, 'besotted' appearance; patient feels as if their body is scattered in pieces." },
+      { remedy: "Arsenicum Album", differentiation: "Profound prostration with great irritability and restlessness; burning pains relieved by heat; thirsty for small quantities at short intervals." }
     ],
     relatedDiseases: ["cholelithiasis", "cholecystitis", "jaundice"],
     examPriority: "High",
@@ -9840,6 +10245,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Iris Versicolor", keyIndications: "Specific for pancreas; burning throughout GI tract; vomiting of sour/bitter material.", potencyTips: "30C" },
       { name: "Iodum", keyIndications: "Chronic pancreatic issues; hungry but losing weight; hot patient.", potencyTips: "200C" },
       { name: "Conium Maculatum", keyIndications: "Hardness and induration of glands; knife-like pains.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Iris Versicolor", differentiation: "The primary remedy for acute pancreatic inflammation; intense burning throughout the digestive tract; vomiting of sour, stringy, or bitter material; profuse saliva." },
+      { remedy: "Iodum", differentiation: "Pancreatitis in patients who are hungry but losing weight; hypertrophy or induration of the gland; hot, restless patient." },
+      { remedy: "Conium Maculatum", differentiation: "Hardness and induration of the pancreas with sharp, knife-like pains; worse from lying down; historical use in glandular tumors." }
     ],
     relatedDiseases: ["chronic-pancreatitis", "cholelithiasis", "pancreatic-cancer"],
     examPriority: "High",
@@ -9964,6 +10374,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Fatty degeneration; steatorrhea; thirsty for cold water.", potencyTips: "200C" },
       { name: "Lycopodium", keyIndications: "Bloating; flatulence; emaciation; worse 4-8 PM.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Iodum", differentiation: "Chronic pancreatic atrophy/induration; ravenous hunger yet constant weight loss; hot, anxious patient; relief from eating." },
+      { remedy: "Phosphorus", differentiation: "Fatty degeneration of the pancreas; large, fatty stools (steatorrhea); burning pains; desire for cold drinks." },
+      { remedy: "Lycopodium", differentiation: "Chronic pancreatitis with great flatulence and bloating; emaciation starting from above; red sand in urine; 4-8 PM aggravation." }
+    ],
     relatedDiseases: ["acute-pancreatitis", "pancreatic-cancer", "diabetes-mellitus"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -10084,6 +10499,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Conium Maculatum", keyIndications: "Hardness of glands; knife-like pains; specific for glandular cancers.", potencyTips: "200C/1M" },
       { name: "Hydrastis Canadensis", keyIndications: "Cancer cachexia; weak; yellow skin; sinking feeling in stomach.", potencyTips: "Q/30C" },
       { name: "Cadmium Sulphuricum", keyIndications: "Persistent vomiting; great weakness; stomach cancer/liver cancer symptoms.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Conium Maculatum", differentiation: "Primary remedy for hardness and induration of glands; knife-like, stitching pains; historical reputation in glandular malignancies." },
+      { remedy: "Hydrastis Canadensis", differentiation: "Cancerous cachexia; yellow skin and mucous membranes; great debility; sinking feeling at the pit of the stomach; thick, yellow secretions." },
+      { remedy: "Cadmium Sulphuricum", differentiation: "Severe vomiting in advanced cases; black vomit (similar to Arsenicum but more intense); profound prostration; coldness even near fire." }
     ],
     relatedDiseases: ["chronic-pancreatitis", "jaundice", "diabetes-mellitus"],
     examPriority: "High",
@@ -10206,6 +10626,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Apis Mellifica", keyIndications: "Sudden edema; stinging pains; thirstless; scanty urine.", potencyTips: "30C/200C" },
       { name: "Cantharis", keyIndications: "Constant desire to urinate; burning, cutting pains; urine comes drop by drop.", potencyTips: "200C" },
       { name: "Serum Anguillae", keyIndications: "Specific for acute renal failure; albuminuria; helps restart urine flow.", potencyTips: "6C/30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Apis Mellifica", differentiation: "Sudden edema especially of the face and lower limbs; stinging and burning pains; thirstless; urine is dark and scanty; better from cold applications." },
+      { remedy: "Cantharis", differentiation: "Acute renal injury with intense inflammation of the urinary tract; constant desire to urinate with unbearable cutting pains; blood in urine." },
+      { remedy: "Serum Anguillae (Eel Serum)", differentiation: "The leading remedy for acute uremia and impending renal failure; albuminuria; helps to restore kidney function and increase urine output in toxic states." }
     ],
     relatedDiseases: ["chronic-kidney-disease", "pyelonephritis", "nephrotic-syndrome"],
     examPriority: "High",
@@ -10334,6 +10759,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Plumbum Metallicum", keyIndications: "Small, contracted kidneys; hypertension; constipation; emaciation.", potencyTips: "200C" },
       { name: "Terebinthina", keyIndications: "Bloody urine; smoky color; albuminuria; burning in kidneys.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Serum Anguillae", differentiation: "Highly effective in cases with high urea and creatinine; helps when the heart and kidneys are both failing; supports urinary excretion." },
+      { remedy: "Plumbum Metallicum", differentiation: "Small, granular kidneys; high blood pressure; emaciation and constipation; patient is often pale and cachectic." },
+      { remedy: "Terebinthina", differentiation: "Smoky, bloody urine; albuminuria; great burning and soreness in the kidney region; associated with abdominal bloating." }
+    ],
     relatedDiseases: ["acute-kidney-injury", "diabetes-mellitus", "polycystic-kidney-disease"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -10406,18 +10836,6 @@ export const diseaseHubData: Disease[] = [
         { title: "Filtration Failure", description: "RBCs leak out (Hematuria) and GFR drops, leading to salt/water retention." }
       ]
     },
-    classification: {
-      type: "Etiological",
-      details: "Primary vs Secondary Glomerulonephritis",
-      table: {
-        headers: ["Type", "Example", "Feature"],
-        rows: [
-          ["Post-Infectious", "PSGN", "Follows Pharyngitis/Impetigo"],
-          ["Immune-complex", "IgA Nephropathy", "Recurrent hematuria with URI"],
-          ["Systemic", "Lupus Nephritis", "Associated with SLE symptoms"]
-        ]
-      }
-    },
     clinicalFeatures: {
       generalSymptoms: ["Smoky or cola-colored urine (Hematuria)", "Puffy face (Periorbital edema)"],
       localSymptoms: ["Dull ache in loins"],
@@ -10455,6 +10873,26 @@ export const diseaseHubData: Disease[] = [
       { name: "Terebinthina", keyIndications: "Smoky, bloody urine; coffee-ground sediment; burning in kidney region.", potencyTips: "30C" },
       { name: "Cantharis", keyIndications: "Intense burning; urine comes drop by drop; bloody urine.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Apis Mellifica", differentiation: "Edema starting from the eyelids; puffiness under the eyes; stinging and burning pains; thirstless; urine is dark and scanty." },
+      { remedy: "Terebinthina", differentiation: "The specific for hematuria with smoky or 'coffee-ground' urine; intense burning in the kidneys; associated with abdominal distension." },
+      { remedy: "Cantharis", differentiation: "Sudden onset of bloody urine with extreme burning and constant desire to urinate; urine passes drop by drop." }
+    ],
+    classification: {
+      type: "Etiological",
+      details: "Primary vs Secondary Glomerulonephritis",
+      table: {
+        headers: ["Feature", "Nephritic Syndrome", "Nephrotic Syndrome"],
+        rows: [
+          ["Main Feature", "Hematuria (Inflammation)", "Proteinuria (Leakage)"],
+          ["Edema", "Mild (Periorbital)", "Massive (Anasarca)"],
+          ["Blood Pressure", "High (Hypertension)", "Normal (usually)"],
+          ["Protein in Urine", "Mild to Moderate (< 3.5g)", "Massive (> 3.5g)"],
+          ["RBC Casts", "Present", "Absent"],
+          ["Lipids in Blood", "Normal", "High (Hyperlipidemia)"]
+        ]
+      }
+    },
     relatedDiseases: ["nephrotic-syndrome", "acute-kidney-injury", "urinary-tract-infection"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -10580,6 +11018,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Arsenicum Album", keyIndications: "Generalized edema; chilly; restless; thirsty for sips of water.", potencyTips: "200C" },
       { name: "Lycopodium", keyIndications: "Lower limb edema; flatulence; worse 4-8 PM; urine with red sand.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Apis Mellifica", differentiation: "Waxy, transparent skin; puffy face and eyelids; thirstless; better from cold applications; stinging pains." },
+      { remedy: "Arsenicum Album", differentiation: "Generalized dropsy (anasarca) with great weakness and restlessness; burning pains relieved by heat; thirsty for small amounts frequently." },
+      { remedy: "Lycopodium", differentiation: "Edema especially of the lower limbs; associated with liver sluggishness and abdominal flatulence; worse from 4 PM to 8 PM." }
+    ],
     relatedDiseases: ["acute-glomerulonephritis", "cirrhosis", "diabetes-mellitus"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -10702,6 +11145,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Sarsaparilla", keyIndications: "Severe pain at the end of urination; urine passes better while standing.", potencyTips: "30C" },
       { name: "Staphysagria", keyIndications: "UTI after first sexual intercourse ('Honeymoon cystitis'); burning when not urinating.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Cantharis", differentiation: "The most violent remedy for UTI; unbearable burning and cutting pain before, during, and after urination; constant urge to urinate; urine passes drop by drop." },
+      { remedy: "Sarsaparilla", differentiation: "Characterized by unbearable pain at the conclusion of urinating; urine passes only while standing; thin stream or dribbling." },
+      { remedy: "Staphysagria", differentiation: "Specifically for UTI occurring after first sexual intercourse ('Honeymoon cystitis'); burning in the urethra when NOT urinating; often following surgical instrumentation." }
+    ],
     relatedDiseases: ["cystitis", "pyelonephritis", "renal-calculi"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -10819,6 +11267,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Cantharis", keyIndications: "Tenesmus of bladder; unbearable burning; bloody urine.", potencyTips: "200C" },
       { name: "Staphysagria", keyIndications: "Cystitis in newly married women; burning in urethra even when not urinating.", potencyTips: "200C" },
       { name: "Equisetum", keyIndications: "Dull pain as from fullness; not relieved by urinating; urge when bladder is empty.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Cantharis", differentiation: "Violent burning and cutting in the bladder; constant tenesmus; urine contains blood and shreds of mucus." },
+      { remedy: "Staphysagria", differentiation: "Cystitis following sexual activity or catheterization; pressure on the bladder as if it were not empty; irritability of the bladder in newly married women." },
+      { remedy: "Equisetum", differentiation: "Dull heavy pain in the bladder as from fullness, NOT relieved by urinating; constant desire to urinate; urine is clear but the pain persists." }
     ],
     relatedDiseases: ["urinary-tract-infection", "pyelonephritis"],
     examPriority: "Medium",
@@ -10940,6 +11393,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Berberis Vulgaris", keyIndications: "Stitching pain in kidneys radiating to ureters; better from pressure.", potencyTips: "Q/30C" },
       { name: "Lycopodium", keyIndications: "Pain in right kidney; red sand in urine; flatulence; worse 4-8 PM.", potencyTips: "200C" },
       { name: "Pyrogenium", keyIndications: "Septic states; high fever with rigors; offensive discharges.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Berberis Vulgaris", differentiation: "Sharp, stitching pains radiating from the kidneys to the bladder and along the ureter; soreness in the renal region; urine contains thick mucus and bright red sediment." },
+      { remedy: "Lycopodium", differentiation: "Right-sided kidney pain; urine is scanty and contains 'red sand' (lithic acid) sediment; patient feels bloated and is worse in the late afternoon (4-8 PM)." },
+      { remedy: "Pyrogenium", differentiation: "Used in septic stages of pyelonephritis; pulse and temperature do not match (e.g., slow pulse with high fever); patient feels sore and bruised all over." }
     ],
     relatedDiseases: ["urinary-tract-infection", "cystitis", "renal-calculi"],
     examPriority: "High",
@@ -11066,6 +11524,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Ocimum Canum", keyIndications: "High acidity; red sand; severe vomiting with renal colic; right-sided.", potencyTips: "Q/30C" },
       { name: "Pareira Brava", keyIndications: "Violent pain; patient has to go on knees to urinate; constant urge.", potencyTips: "Q/30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Berberis Vulgaris", differentiation: "Radiation of pain is the key: from kidneys down the ureters to the bladder or into the testicles; stitching pains; better by pressure." },
+      { remedy: "Lycopodium", differentiation: "Right-sided renal colic; pain relieved by passing urine; urine contains 'red sand' sediment; associated with flatulence and distension." },
+      { remedy: "Ocimum Canum", differentiation: "A great remedy for uric acid stones; urine is highly acidic with thick, purulent sediment and red sand; intense vomiting during the paroxysm of pain." },
+      { remedy: "Pareira Brava", differentiation: "Constant urging to urinate with violent pains; patient can only urinate when on all fours (knees and head on floor); pain radiates down the thighs." }
+    ],
     relatedDiseases: ["hydronephrosis", "pyelonephritis", "urinary-tract-infection"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -11187,6 +11651,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Sabal Serrulata", keyIndications: "Hydronephrosis due to BPH; constant desire to urinate; difficulty passing urine.", potencyTips: "Q/30C" },
       { name: "Berberis Vulgaris", keyIndications: "Numbness in the kidney region; stitching pain radiating to ureters.", potencyTips: "Q/30C" },
       { name: "Lycopodium", keyIndications: "Urine suppressed; pain in back better after urinating; flatulence.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Sabal Serrulata", differentiation: "Specifically for cases where hydronephrosis is caused by prostate enlargement (BPH); difficulty in starting urination; constant desire to void." },
+      { remedy: "Berberis Vulgaris", differentiation: "Dull, heavy ache in the kidneys with numbness; stitching pains that radiate into the ureters and bladder; urine has a thick mucus-like sediment." },
+      { remedy: "Lycopodium", differentiation: "Right-sided kidney pain; urine is suppressed or contains red sand; abdominal flatulence and bloating; symptoms are typically worse in the evening." }
     ],
     relatedDiseases: ["renal-calculi", "prostate-enlargement", "pyelonephritis"],
     examPriority: "Medium",
@@ -11311,6 +11780,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Millifolium", keyIndications: "Bright red blood; painless; after trauma or exertion.", potencyTips: "30C" },
       { name: "Cantharis", keyIndications: "Bloody urine with intense burning and cutting pain.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Hamamelis", differentiation: "Passive, venous hemorrhage of dark, clotted blood; no pain; associated with a general tendency to varicose veins or hemorrhoids." },
+      { remedy: "Terebinthina", differentiation: "Smoky, dark, 'coffee-ground' urine; indicates bleeding from the kidney parenchyma itself; often associated with albuminuria and edema." },
+      { remedy: "Millifolium", differentiation: "Active, bright red arterial hemorrhage; usually painless; often occurs after mechanical injury or severe physical exertion." },
+      { remedy: "Cantharis", differentiation: "Bloody urine accompanied by the characteristic intolerable burning and constant urge to urinate; bleeding is due to severe inflammation of the bladder lining." }
+    ],
     relatedDiseases: ["acute-glomerulonephritis", "renal-calculi", "cystitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -11430,6 +11905,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Serum Anguillae", keyIndications: "Specific for albuminuria; high urea/creatinine; helps in kidney repair.", potencyTips: "6C/30C" },
       { name: "Apis Mellifica", keyIndications: "Proteinuria with edema; waxy skin; thirstless.", potencyTips: "200C" },
       { name: "Phosphorus", keyIndications: "Fatty degeneration of kidneys; albuminuria; red sand; emaciation.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Serum Anguillae", differentiation: "The 'Eel Serum' is almost specific for albuminuria without edema; helps when the kidneys are starting to fail structurally." },
+      { remedy: "Apis Mellifica", differentiation: "Proteinuria associated with clear, waxy edema especially of the face; thirstless; urine is scanty and dark." },
+      { remedy: "Phosphorus", differentiation: "Large amounts of albumin in the urine; fatty degeneration of the kidneys; urine contains red sand or casts; patient is weak and emaciated." }
     ],
     relatedDiseases: ["nephrotic-syndrome", "chronic-kidney-disease", "diabetes-mellitus"],
     examPriority: "High",
@@ -11553,6 +12033,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Lycopodium", keyIndications: "Right-sided pain; red sand; bloating; emaciation.", potencyTips: "200C" },
       { name: "Plumbum Metallicum", keyIndications: "Hypertension; contracted kidneys (in late stage); constipation.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Thuja Occidentalis", differentiation: "The main anti-sycotic remedy; indicated for the 'cystic' tendency; left-sided renal pain; associated with skin warts or oily skin." },
+      { remedy: "Lycopodium", differentiation: "Right-sided renal involvement; pain relieved by urinating; chronic digestive issues and flatulence; worse from 4-8 PM." },
+      { remedy: "Plumbum Metallicum", differentiation: "Indicated when PKD leads to chronic renal failure and hypertension; emaciation; obstinate constipation with a feeling of the navel being pulled back to the spine." }
+    ],
     relatedDiseases: ["chronic-kidney-disease", "renal-calculi", "jaundice"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -11675,6 +12160,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Ferrum Metallicum", keyIndications: "Extreme paleness with frequent flushing; weak pulse; worse from least exertion.", potencyTips: "30C" },
       { name: "China (Cinchona)", keyIndications: "Anemia after loss of vital fluids (blood, lactation, diarrhea); great debility.", potencyTips: "200C" },
       { name: "Calcarea Phosphorica", keyIndications: "Anemia in growing children; peevishness; digestive issues.", potencyTips: "6X/30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Ferrum Metallicum", differentiation: "Best suited for cases where there is pseudo-plethora—paleness of mucous membranes but face flushes easily on emotion; better by slow walking." },
+      { remedy: "China (Cinchona)", differentiation: "The specific remedy for anemia following loss of vital fluids (blood, semen, diarrhea, or excessive lactation); great debility and sensitivity to touch." },
+      { remedy: "Calcarea Phosphorica", differentiation: "Indicated in growing children and teenagers ('chlorosis') who look pale, are peevish, and have associated bone or digestive complaints." }
     ],
     relatedDiseases: ["iron-deficiency-anemia", "megaloblastic-anemia", "thalassemia"],
     examPriority: "High",
@@ -11800,6 +12290,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Alumina", keyIndications: "Extreme dry mucous membranes; Pica (craving for charcoal/chalk); constipation.", potencyTips: "30C" },
       { name: "Calcarea Carbonica", keyIndications: "Pica (craving for eggs/chalk); fat, flabby, fair; cold damp feet.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Ferrum Metallicum", differentiation: "The 'Iron' remedy itself; for when the body cannot assimilate iron; better by walking slowly; worse by fast motion; irritability is marked." },
+      { remedy: "Alumina", differentiation: "Indicated for the perverted appetite (Pica) for dry things like chalk, charcoal, or coffee grounds; severe dryness of the intestinal tract leading to inactive constipation." },
+      { remedy: "Calcarea Carbonica", differentiation: "Best for the 'leucophlegmatic' constitution; craving for eggs and indigestible things (Pica); tends to be easily fatigued with cold, damp extremities." }
+    ],
     relatedDiseases: ["anemia-overview", "thalassemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -11924,6 +12419,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Paresthesia; yellow tint of skin; bleeding tendency; degenerative changes.", potencyTips: "200C" },
       { name: "Nitric Acid", keyIndications: "Splinter-like pains; ulcerations in mouth (Glossitis); dark urine.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Picric Acid", differentiation: "Excellent for the extreme physical and mental prostration; indicates incipient spinal cord changes; the slightest effort leads to exhaustion." },
+      { remedy: "Phosphorus", differentiation: "Indicated for the 'Lemon Yellow' skin and hemorrhagic tendency; patients are tall, slender, and sensitive to light and noise; craving for cold water." },
+      { remedy: "Nitric Acid", differentiation: "Specific for the painful, beefy red tongue with splinter-like pains; associated with urine that smells strongly like a horse's urine." }
+    ],
     relatedDiseases: ["anemia-overview", "leukemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -12047,6 +12547,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Crotalus Horridus", keyIndications: "Septicemia; hemolysis; jaundice; bleeding from all orifices.", potencyTips: "30C" },
       { name: "Lachesis", keyIndications: "Dark, decomposed blood; left-sided; jaundice; hot patient.", potencyTips: "200C" },
       { name: "Ceanothus", keyIndications: "Specific action on spleen; spleen enlarged and painful.", potencyTips: "Q/6C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Crotalus Horridus", differentiation: "A great remedy for rapid red cell destruction and sepsis; yellow color of skin (jaundice) is intense; blood is dark, thin, and does not clot." },
+      { remedy: "Lachesis", differentiation: "Indicated in autoimmune types; patient is worse after sleep and cannot tolerate tight clothing around the neck; discharges are dark and offensive." },
+      { remedy: "Ceanothus", differentiation: "Specific for the splenomegaly associated with hemolysis; dull aching in the left side; patient feels better when lying on the right side." }
     ],
     relatedDiseases: ["jaundice", "sickle-cell-disease", "thalassemia"],
     examPriority: "High",
@@ -12174,6 +12679,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Magnesium Phosphoricum", keyIndications: "Cramping bone pains; better by heat and pressure.", potencyTips: "6X/200C" },
       { name: "Virola Sebifera", keyIndications: "Specific for bone pains and infections in sickle cell context.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arnica Montana", differentiation: "The main remedy for the 'sore, bruised' pain of a vaso-occlusive crisis; patient says they are fine but fears anyone coming near them due to pain." },
+      { remedy: "Magnesium Phosphoricum", differentiation: "Indicated for the neuralgic and cramping pains of bone crises; the pain is relieved by warmth and hard pressure." },
+      { remedy: "Virola Sebifera", differentiation: "Used specifically for the deep-seated bone pains and tendencies to infections like osteomyelitis which are common in SCD." }
+    ],
     relatedDiseases: ["hemolytic-anemia", "thalassemia", "osteomyelitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -12300,6 +12810,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Baryta Carbonica", keyIndications: "Dwarfishness; delayed milestones; mentally and physically backward.", potencyTips: "200C" },
       { name: "Ceanothus", keyIndications: "Painful splenomegaly; feeling of weight in left side.", potencyTips: "Q/6C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Phosphorica", differentiation: "Targeted at the bone changes and the expansion of the marrow space; suitable for children who are thin, pale, and grow too fast or have delayed closure of fontanelles." },
+      { remedy: "Baryta Carbonica", differentiation: "Useful for the general developmental delay (mental and physical) seen in thalassemia major; patient is shy, has swollen glands, and is slow to learn." },
+      { remedy: "Ceanothus", differentiation: "Indicated for the massive splenomegaly that often develops; helps reduce the weight and pressure in the left side." }
+    ],
     relatedDiseases: ["iron-deficiency-anemia", "hemolytic-anemia", "jaundice"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -12421,6 +12936,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Hemorrhagic tendency; petechiae; tall, slender, fair; sensitive to all impressions.", potencyTips: "200C" },
       { name: "Crotalus Horridus", keyIndications: "Low septic states; dark, non-coagulating blood; extreme prostration.", potencyTips: "30C" },
       { name: "Lycopodium", keyIndications: "Used in chronic wasting diseases with digestive and hepatic involvement.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Phosphorus", differentiation: "Indicated for the profound marrow failure with hemorrhagic tendencies; petechiae and ecchymoses; patient is anxious and fears being alone." },
+      { remedy: "Crotalus Horridus", differentiation: "Excellent for the advanced stages where the blood becomes thin and non-coagulable; profound septic state; extreme weakness and yellow tint of skin." },
+      { remedy: "Lycopodium", differentiation: "Helpful in cases where there is a slow, chronic decline in health; associated with digestive weakness and abdominal bloating; worse from 4-8 PM." }
     ],
     relatedDiseases: ["pancytopenia", "leukemia-acute"],
     examPriority: "High",
@@ -12545,6 +13065,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Bleeding tendency; degeneration of organs; weakness.", potencyTips: "200C" },
       { name: "Arsenicum Album", keyIndications: "Profound weakness; fear of death; restless; burning pains.", potencyTips: "30C" },
       { name: "Silicea", keyIndications: "Weakness; tendency to suppuration and recurrent infections.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Phosphorus", differentiation: "The main remedy for when multiple cell lines are affected; addresses both the anemia (weakness) and thrombocytopenia (bleeding)." },
+      { remedy: "Arsenicum Album", differentiation: "Addresses the profound state of prostration and the risk of opportunistic infections; patient is extremely anxious and chilly." },
+      { remedy: "Silicea", differentiation: "Indicated when the primary concern is the recurrent infections due to low WBC counts (leukopenia); patient is physically fragile and lacks 'stamina'." }
     ],
     relatedDiseases: ["aplastic-anemia", "megaloblastic-anemia", "leukemia-acute"],
     examPriority: "High",
@@ -12671,6 +13196,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Benzolum", keyIndications: "Specific for marrow suppression and abnormal blood cell production.", potencyTips: "30C" },
       { name: "Phosphorus", keyIndications: "Hemorrhagic tendency; degenerative changes; weak vitality.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Natrum Arsenicosum", differentiation: "A deep-acting remedy for the general state of emaciation and glandular enlargement seen in leukemic states; great chilliness." },
+      { remedy: "Benzolum", differentiation: "A specific for when the bone marrow is the primary site of disease; helps in balancing the production of cells." },
+      { remedy: "Phosphorus", differentiation: "Indicated for the hemorrhagic diathesis (easy bleeding) and the fear of death; patient is very sensitive to surroundings." }
+    ],
     relatedDiseases: ["leukemia-acute", "aplastic-anemia", "pancytopenia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -12794,6 +13324,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Bleeding tendency; fear of death; sensitive.", potencyTips: "200C" },
       { name: "Arsenicum Album", keyIndications: "Restlessness; weakness; fear of death; sepsis.", potencyTips: "30C" },
       { name: "Pyrogenium", keyIndications: "High sepsis; pulse out of proportion to temperature; offensive discharges.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Phosphorus", differentiation: "The first choice for the rapid onset of hemorrhagic signs and the deep-seated anxiety of acute leukemia; worse from heat." },
+      { remedy: "Arsenicum Album", differentiation: "Indicated for the severe prostration, thirst for sips of water, and the intense fear that accompanies the rapid progression of the disease." },
+      { remedy: "Pyrogenium", differentiation: "A key remedy when sepsis develops rapidly; the offensive odor of all discharges and the 'discrepancy between pulse and temperature' are key." }
     ],
     relatedDiseases: ["leukemia", "pancytopenia", "aplastic-anemia"],
     examPriority: "High",
@@ -12919,6 +13454,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Ceanothus", keyIndications: "Massive splenomegaly; deep-seated pain in left side; better by lying on right side.", potencyTips: "Q/6C" },
       { name: "Natrum Arsenicosum", keyIndications: "Wasting; high WBC counts; weakness; chilliness.", potencyTips: "30C" },
       { name: "Arsenicum Album", keyIndications: "Profound weakness; restlessness; fear; nighttime aggravation.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Ceanothus", differentiation: "The primary organ-specific remedy for the massive splenomegaly characteristic of CML; reduces the 'heavy stone' sensation in the left side." },
+      { remedy: "Natrum Arsenicosum", differentiation: "Indicated for the chronic, wasting nature of the disease with persistent weakness and sensitivity to cold." },
+      { remedy: "Arsenicum Album", differentiation: "Best for the late stages where there is profound debility and the characteristic 'midnight' aggravation of symptoms." }
     ],
     relatedDiseases: ["leukemia-acute", "lymphoma", "pancytopenia"],
     examPriority: "High",
@@ -13047,6 +13587,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Scrophularia Nodosa", keyIndications: "Specific for 'scrophulous' swellings and knotty glandular enlargements.", potencyTips: "Q/30C" },
       { name: "Conium Maculatum", keyIndications: "Hard, painless nodes; history of injury; stony hardness.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Fluorica", differentiation: "Indicated when the lymph nodes are stony hard and irregular; often associated with a history of long-standing glandular issues." },
+      { remedy: "Baryta Iodata", differentiation: "Best for the generalized enlargement of lymph nodes in scrofulous constitutions; patient is often slow, both physically and mentally." },
+      { remedy: "Scrophularia Nodosa", differentiation: "Specific affinity for the lymphatic system; used for 'knotty' glandular swellings, particularly in the neck." },
+      { remedy: "Conium Maculatum", differentiation: "Indicated for painless, stony hard nodes that appear after an injury or as part of a malignant process; great weakness and vertigo are common." }
+    ],
     relatedDiseases: ["leukemia-chronic", "tuberculosis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -13174,6 +13720,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Bleeding; bone necrosis; sensitive to touch.", potencyTips: "200C" },
       { name: "Aurum Metallicum", keyIndications: "Severe bone pains worse at night; suicidal depression.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Hekla Lava", differentiation: "Specific action on the bones of the spine and jaw where myeloma often strikes; addresses the lytic lesions and severe bone pain." },
+      { remedy: "Symphytum", differentiation: "The 'Arnica of the bones'; helps in managing the pain of pathological fractures and promotes bone integrity." },
+      { remedy: "Phosphorus", differentiation: "Indicated for the associated anemia and hemorrhagic tendency; also addresses the fatty degeneration often seen in multi-organ involvement." },
+      { remedy: "Aurum Metallicum", differentiation: "For the 'boring' bone pains that are unbearable at night; matches the deep syphilitic nature of bone destruction." }
+    ],
     relatedDiseases: ["anemia-overview", "renal-failure"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -13299,6 +13851,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Crotalus Horridus", keyIndications: "Low platelet counts; dark non-coagulating blood; septic states.", potencyTips: "30C" },
       { name: "Lachesis", keyIndications: "Purpura; dark blood; left-sided symptoms; worse after sleep.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Phosphorus", differentiation: "The first choice for bright red bleeding and petechiae; patient is thirsty for cold water and is generally anxious." },
+      { remedy: "Hamamelis", differentiation: "Specifically for passive, dark, venous bleeding that occurs easily; bruising is the main feature." },
+      { remedy: "Crotalus Horridus", differentiation: "Matches the low platelet state where the blood is dark and thin, and wounds bleed persistently; profound sepsis." },
+      { remedy: "Lachesis", differentiation: "Indicated for purpuric spots that are dark or bluish; the patient is sensitive to touch and has a characteristic 'left-to-right' progression." }
+    ],
     relatedDiseases: ["leukemia", "aplastic-anemia", "pancytopenia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -13421,6 +13979,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Arnica Montana", keyIndications: "Spontaneous bleeding after slightest trauma; sore, bruised feeling in joints.", potencyTips: "200C" },
       { name: "Phosphorus", keyIndications: "Hemorrhagic diathesis; wounds bleed profusely; fear of death.", potencyTips: "200C" },
       { name: "Lachesis", keyIndications: "Dark, decomposed blood; hot joints; hemorrhagic tendency.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Arnica Montana", differentiation: "The first remedy to think of for the acute hemarthrosis; patient fears being touched because of the intense 'bruised' pain." },
+      { remedy: "Phosphorus", differentiation: "A fundamental remedy for the 'hemorrhagic diathesis' where the slightest wound leads to persistent, bright red bleeding." },
+      { remedy: "Lachesis", differentiation: "Indicated when the bleeding is dark and the joint is very hot and bluish; the symptoms are often worse after sleep." }
     ],
     relatedDiseases: ["immune-thrombocytopenia", "jaundice"],
     examPriority: "High",
@@ -13546,6 +14109,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Crotalus Horridus", keyIndications: "Blood does not coagulate; bleeding from all orifices; low septic state; yellowish skin.", potencyTips: "30C" },
       { name: "Vipera", keyIndications: "Specific action on blood vessels; phlebitis; sensation of bursting in limbs.", potencyTips: "30C" },
       { name: "Bothrops", keyIndications: "Nervous symptoms; septic states; tendency to thrombosis and then hemorrhage.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Crotalus Horridus", differentiation: "Matches the core pathology of DIC: blood becomes thin and non-coagulable; bleeding from every orifice with profound jaundice and sepsis." },
+      { remedy: "Vipera", differentiation: "Used for the microvascular clotting and phlebitis; the patient feels as if the limbs would burst from the accumulation of blood." },
+      { remedy: "Bothrops", differentiation: "Excellent for the combination of thrombosis followed by hemorrhage; particularly relevant if there are nervous system symptoms (like a stroke) involved." }
     ],
     relatedDiseases: ["jaundice", "leukemia-acute"],
     examPriority: "High",
@@ -13676,6 +14244,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Uranium Nitricum", keyIndications: "Diabetes with gastric symptoms; excessive thirst and appetite; polyuria.", potencyTips: "3X" },
       { name: "Lactic Acid", keyIndications: "Diabetes with dry skin and gastro-intestinal disturbances.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Syzygium Jambolanum", differentiation: "The most famous 'organ-specific' remedy for diabetes; often used to lower blood sugar levels when there is intense thirst and polyuria." },
+      { remedy: "Phosphoric Acid", differentiation: "Best for 'Diabetes Insipidus-like' presentations or DM with profound mental and physical debility; urine is often milky or pale." },
+      { remedy: "Uranium Nitricum", differentiation: "Indicated when diabetes is accompanied by significant gastric symptoms (ulcers, flatulence) and extreme emaciation despite a huge appetite." },
+      { remedy: "Lactic Acid", differentiation: "Helpful for the 'dryness' of diabetes—dry skin, dry mouth, and chronic constipation; also for gastrointestinal upset." }
+    ],
     relatedDiseases: ["diabetes-type-1", "diabetes-type-2", "diabetic-ketoacidosis", "hypoglycemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -13803,6 +14377,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Arsenicum Album", keyIndications: "Anxiety; restlessness; thirst for small sips; weakness.", potencyTips: "200C" },
       { name: "Iodium", keyIndications: "Ravenous hunger yet losing weight; anxious; heat intolerance.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Phosphoric Acid", differentiation: "Indicated for the rapid weight loss and profound apathy often seen at the onset of Type 1 DM in young patients." },
+      { remedy: "Arsenicum Album", differentiation: "Matches the state of ketoacidosis (anxiety, restlessness, thirst for sips) and the general autoimmune destructive nature." },
+      { remedy: "Iodium", differentiation: "Indicated for the 'metabolic fire'—ravenous hunger with rapid emaciation; the patient is intensely hot and anxious." }
+    ],
     relatedDiseases: ["diabetes-mellitus", "diabetic-ketoacidosis", "hypoglycemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -13928,6 +14507,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Natrum Sulphuricum", keyIndications: "Hydrogenoid constitution; diabetes in damp climates; liver disturbances.", potencyTips: "6X/200C" },
       { name: "Abroma Augusta", keyIndications: "Diabetes with excessive thirst; dryness of mouth; weakness.", potencyTips: "Q/30C" },
       { name: "Cephalandra Indica", keyIndications: "Diabetes with intense thirst; redness of face; burning in eyes.", potencyTips: "Q/30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Lycopodium", differentiation: "The classic 'Sycotic' remedy for metabolic syndrome; addresses the carving for sweets, abdominal obesity, and digestive-linked glucose fluctuations." },
+      { remedy: "Natrum Sulphuricum", differentiation: "Useful in diabetics with liver sluggishness and 'hydrogenoid' (water-retaining) tendencies; worse in damp weather." },
+      { remedy: "Abroma Augusta", differentiation: "A powerful Indian remedy for diabetes with marked dryness of mouth and intense thirst; patient feels very weak and depressed." },
+      { remedy: "Cephalandra Indica", differentiation: "Known as a specific for Type 2 DM with excessive thirst and burning sensations throughout the body; often used in mother tincture." }
     ],
     relatedDiseases: ["diabetes-mellitus", "obesity", "metabolic-syndrome", "hypoglycemia"],
     examPriority: "High",
@@ -14059,6 +14644,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphoric Acid", keyIndications: "Apathy and weakness following a metabolic crisis.", potencyTips: "200C" },
       { name: "Carbo Vegetabilis", keyIndications: "State of collapse; air hunger; cold extremities; 'corpse-reviver'.", potencyTips: "1M" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "Matches the 'Acidotic' state of DKA: extreme restlessness, fear of death, and thirst for small sips despite nausea." },
+      { remedy: "Phosphoric Acid", differentiation: "Used during the recovery phase to address the profound mental and physical exhaustion following the metabolic storm." },
+      { remedy: "Carbo Vegetabilis", differentiation: "Indicated in the state of collapse with coldness and air-hunger; helps in 'reviving' the vital force in critical states." }
+    ],
     relatedDiseases: ["diabetes-type-1", "hhs", "hypoglycemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -14187,6 +14777,10 @@ export const diseaseHubData: Disease[] = [
       { name: "Opium", keyIndications: "Deep stupor; stertorous breathing; red face; hot sweat.", potencyTips: "200C" },
       { name: "Helleborus", keyIndications: "State of brain-fog or stupor; slow response; picking at bedclothes.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Opium", differentiation: "Indicated for the deep, comatose state of HHS with heavy, snorting breathing and a dusky, red face." },
+      { remedy: "Helleborus", differentiation: "For the 'brain-fag' or stupor following the severe intracellular dehydration; the patient is conscious but slow to answer." }
+    ],
     relatedDiseases: ["diabetes-type-2", "diabetic-ketoacidosis", "hypoglycemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -14310,6 +14904,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Argentum Nitricum", keyIndications: "Intense craving for sweets; impulsive; trembling; anxiety.", potencyTips: "200C" },
       { name: "Lycopodium", keyIndications: "Hunger with early satiety; headache if meals are delayed; 4-8 PM aggravation.", potencyTips: "200C" },
       { name: "Sulfur", keyIndications: "Faint, hungry feeling at 11 AM; weak empty feeling in stomach.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Argentum Nitricum", differentiation: "The classic remedy for 'reactive' hypoglycemia with intense sugar cravings, trembling, and anticipatory anxiety." },
+      { remedy: "Lycopodium", differentiation: "For the '3 PM - 4 PM' blood sugar drop often associated with digestive weakness and a headache that is relieved by eating." },
+      { remedy: "Sulfur", differentiation: "The '11 AM' empty sensation in the stomach is a key hallmark; the patient is hot, untidy, and feels weak if they skip a meal." }
     ],
     relatedDiseases: ["diabetes-mellitus", "diabetes-type-1", "diabetes-type-2"],
     examPriority: "High",
@@ -14436,6 +15035,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Sepia", keyIndications: "Indifference; weary of life; chilly; yellow saddle across nose; bearing down sensation.", potencyTips: "200C" },
       { name: "Graphites", keyIndications: "Obesity; constipation; thick skin; chilly; indecisive.", potencyTips: "30C" },
       { name: "Thyroidinum", keyIndications: "Organotherapy; helps regulate thyroid function; weakness; obesity.", potencyTips: "3X/30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Carbonica", differentiation: "Matches the 'sluggish' metabolism of primary hypothyroidism: obesity, chilliness, and a generally 'soft' and flabby constitution." },
+      { remedy: "Sepia", differentiation: "Indicated for the 'hormonal' hypothyroidism, especially post-partum or during menopause; characterized by indifference and a dragging-down sensation." },
+      { remedy: "Graphites", differentiation: "Best for the 'Sycotic' slowing: thick skin, severe constipation, and obesity; the patient is chilly and lacks decisiveness." },
+      { remedy: "Thyroidinum", differentiation: "Used as a 'sarcode' to stimulate or balance thyroid function; addresses the general state of weakness and metabolic slowing." }
     ],
     relatedDiseases: ["hyperthyroidism", "goiter", "thyroiditis"],
     examPriority: "High",
@@ -14564,6 +15169,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Lycopus Virginicus", keyIndications: "Cardiac focus; palpitations with rapid, weak pulse; exophthalmos.", potencyTips: "Q/30C" },
       { name: "Spongia Tosta", keyIndications: "Goiter; palpitations; sensation of suffocation at night.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Iodium", differentiation: "The most important remedy for hyperthyroidism with rapid emaciation despite a huge appetite; the patient is intensely hot and restless." },
+      { remedy: "Natrum Muriaticum", differentiation: "Indicated for the 'emaciation from above downwards' (neck/chest) and the palpitations that are worse while lying down." },
+      { remedy: "Lycopus Virginicus", differentiation: "An excellent organ-specific remedy for the cardiac symptoms—tachycardia and palpitations; also helpful for the bulging eyes (exophthalmos)." },
+      { remedy: "Spongia Tosta", differentiation: "Best suited for cases where goiter is prominent and accompanied by a sensation of suffocation or a dry, barking cough." }
+    ],
     relatedDiseases: ["hypothyroidism", "goiter", "thyroiditis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -14688,6 +15299,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Spongia Tosta", keyIndications: "Goiter with suffocative spells; dry, barking cough; heart symptoms.", potencyTips: "30C" },
       { name: "Iodium", keyIndications: "Hard goiter; ravenous appetite with weight loss; hot patient.", potencyTips: "200C" },
       { name: "Fucus Vesiculosus", keyIndications: "Specific for non-toxic goiter and obesity; contains iodine.", potencyTips: "Q (Mother Tincture)" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Iodata", differentiation: "Indicated for the enlargement of the thyroid gland in young, 'flabby' patients with a tendency to glandular swellings elsewhere (tonsils)." },
+      { remedy: "Spongia Tosta", differentiation: "Useful when the goiter causes pressure on the windpipe, leading to a sensation of choking or a characteristic dry cough." },
+      { remedy: "Iodium", differentiation: "Best for goiters that are very hard to the touch; often associated with a high metabolic rate and intense heat." },
+      { remedy: "Fucus Vesiculosus", differentiation: "Traditionally used for non-toxic goiter associated with obesity; helps in stimulating a sluggish metabolism." }
     ],
     relatedDiseases: ["hypothyroidism", "hyperthyroidism", "thyroiditis"],
     examPriority: "Medium",
@@ -14817,6 +15434,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Conium Maculatum", keyIndications: "Indurated, painless glands; stony hardness; history of injury.", potencyTips: "200C" },
       { name: "Lachesis", keyIndications: "Left-sided inflammation; sensitive to touch on the neck; worse after sleep.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Phytolacca Decandra", differentiation: "The leading remedy for the 'stony hard' and painful inflammation of the thyroid; pain typically shoots to the ears when swallowing." },
+      { remedy: "Belladonna", differentiation: "Indicated for the sudden, 'red-hot' acute phase of thyroiditis with throbbing pain and a visible flush in the neck." },
+      { remedy: "Conium Maculatum", differentiation: "Helpful in the chronic stage when the gland remains indurated (hard) but is no longer acutely painful." },
+      { remedy: "Lachesis", differentiation: "Indicated when the left side of the gland is more affected and the patient cannot tolerate anything touching the neck." }
+    ],
     relatedDiseases: ["hypothyroidism", "hyperthyroidism", "goiter"],
     examPriority: "Medium",
     clinicalPriority: "Medium",
@@ -14941,6 +15564,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Sulphur", keyIndications: "Skin issues; heat; abdominal plethora; weak legs.", potencyTips: "200C" },
       { name: "Adrenalinum", keyIndications: "Symptomatic support for adrenal dysfunction; hypertension; rapid pulse.", potencyTips: "6C/30C" },
       { name: "Thuja Occidentalis", keyIndications: "Sycosis; fleshy neck; greasy skin; bad effects of medications.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Carbonica", differentiation: "Matches the 'obese and flabby' presentation of Cushing's with the characteristic cold, clammy sweat on the forehead." },
+      { remedy: "Sulphur", differentiation: "For the 'plethoric' state with hypertension and skin changes; patient is hot and has a 'sinking' feeling in the morning." },
+      { remedy: "Adrenalinum", differentiation: "Used to address the adrenal overactivity and its effects on blood pressure and heart rate." },
+      { remedy: "Thuja Occidentalis", differentiation: "A fundamental Sycotic remedy for the abnormal distribution of fat and the skin manifestations (striae, skin tags)." }
     ],
     relatedDiseases: ["addison-disease", "obesity", "metabolic-syndrome"],
     examPriority: "High",
@@ -15068,6 +15697,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Natrum Muriaticum", keyIndications: "Salt craving; emaciation (especially neck); sensitivity to sun.", potencyTips: "200C" },
       { name: "Adrenalinum", keyIndications: "Specific organotherapy; weakness; low blood pressure.", potencyTips: "3X/30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "Addresses the profound state of collapse and emaciation; the patient is extremely weak, chilly, and restless." },
+      { remedy: "Argentum Nitricum", differentiation: "Indicated for the 'salt craving' and the impulsive, anxious mental state; the patient often has a 'withered' and aged appearance." },
+      { remedy: "Natrum Muriaticum", differentiation: "A key remedy for the intense salt craving and the hyperpigmentation; also addresses the emaciation that is most visible in the neck." },
+      { remedy: "Adrenalinum", differentiation: "Used in low potency to support the deficient adrenal glands and manage the symptomatic low blood pressure." }
+    ],
     relatedDiseases: ["cushing-syndrome", "hypoglycemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -15194,6 +15829,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Pituitarum", keyIndications: "Sarcodes; helps regulate pituitary function; metabolic imbalance.", potencyTips: "30C" },
       { name: "Silicea", keyIndications: "Bone growth abnormalities; nutrition failure; hard glands.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Baryta Carbonica", differentiation: "Used when the growth is associated with a slow, sluggish mental and physical development; constitutionally addresses glandular hypertrophy." },
+      { remedy: "Phosphorus", differentiation: "Helpful for the 'Gigantism' phase or the bone pains associated with the rapid expansion of skeletal structures in tall, slender individuals." },
+      { remedy: "Pituitarum", differentiation: "An organotherapeutic remedy (sarcode) used to help regulate pituitary function and address the metabolic consequences of its overactivity." },
+      { remedy: "Silicea", differentiation: "Indicated for the late stages where bone thickening and enlargement are prominent, especially in those with a history of poor nutrition and hard glands." }
+    ],
     relatedDiseases: ["diabetes-mellitus", "obesity"],
     examPriority: "Medium",
     clinicalPriority: "Medium",
@@ -15318,6 +15959,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Conium Maculatum", keyIndications: "Indurated glands; breast symptoms; dizziness; history of suppressed desire.", potencyTips: "200C" },
       { name: "Sepia", keyIndications: "Irregular periods; indifference; bearing down feeling; yellow spots on face.", potencyTips: "200C" },
       { name: "Agnus Castus", keyIndications: "Suppression of libido; impotence; galactorrhea in men.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Pulsatilla", differentiation: "The first choice for prolactin-linked menstrual issues in patients with a 'changeable' and mild temperament; addresses the milky breast discharge." },
+      { remedy: "Conium Maculatum", differentiation: "Indicated when the glandular enlargement (pituitary adenoma) is the primary focus; addresses associated weakness and indurated glands." },
+      { remedy: "Sepia", differentiation: "Indicated for the 'worn-out' state with hormone-driven indifference and specific pelvic symptoms; addresses irregular menses." },
+      { remedy: "Agnus Castus", differentiation: "A primary remedy for the suppression of libido and impotence in men when linked to hormonal imbalances like hyperprolactinemia." }
     ],
     relatedDiseases: ["hypothyroidism"],
     examPriority: "Medium",
@@ -15449,6 +16096,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Phytolacca", keyIndications: "Glandular affinity; obesity; hard glands; bone pains.", potencyTips: "Q/30C" },
       { name: "Graphites", keyIndications: "Obesity with skin issues and constipation; chilly; indecisive.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Carbonica", differentiation: "The leading 'Sycotic' remedy for the 'flabby' obese patient who is chilly, sweats on the head, and tires easily from exertion." },
+      { remedy: "Capsicum", differentiation: "Indicated for the 'lax fiber' obesity in chilly, indolent patients who have a red face and are often homesick." },
+      { remedy: "Phytolacca", differentiation: "Useful in obesity that is linked to a history of glandular dysfunction or where the fatty tissue feels particularly firm or hard." },
+      { remedy: "Graphites", differentiation: "Best for obesity accompanied by severe, stubborn constipation and thick, unhealthy skin; the patient is usually very chilly." }
+    ],
     relatedDiseases: ["metabolic-syndrome", "diabetes-mellitus", "dyslipidemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -15577,6 +16230,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Nux Vomica", keyIndications: "Sedentary lifestyle; 'high livers'; irritable; constipation.", potencyTips: "200C" },
       { name: "Thuja Occidentalis", keyIndications: "Sycotic constitution; fleshy neck; skin tags; history of vaccinations or medications.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Lycopodium", differentiation: "The premier remedy for the abdominal obesity and digestive-metabolic sluggishness of this syndrome; addresses the craving for sweets." },
+      { remedy: "Sulphur", differentiation: "Indicated for the 'plethoric' metabolic state in hot patients; addresses the irregular distribution of blood and systemic toxic load." },
+      { remedy: "Nux Vomica", differentiation: "Best for the 'high liver' who leads a sedentary life, consumes stimulants, and is chronically irritable and constipated." },
+      { remedy: "Thuja Occidentalis", differentiation: "A fundamental Sycotic remedy addressing the skin tags, abnormal fat distribution (fleshy neck), and general metabolic 'clogging'." }
+    ],
     relatedDiseases: ["obesity", "diabetes-mellitus", "dyslipidemia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -15702,6 +16361,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Lycopodium", keyIndications: "Right-sided; flatulence; craves sweets; liver spots; high cholesterol.", potencyTips: "200C" },
       { name: "Crataegus Oxyacantha", keyIndications: "Heart tonic; dissolves calcareous deposits; arteriosclerosis.", potencyTips: "Q (Mother Tincture)" },
       { name: "Sulphur", keyIndications: "Heat; congestion; abdominal plethora; systemic metabolism regulator.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Cholesterinum", differentiation: "Used specifically as a physiological aid to help balance cholesterol production and prevent gallstone formation." },
+      { remedy: "Lycopodium", differentiation: "Indicated when dyslipidemia is part of a broader metabolic and digestive weakness; patient is generally 'gas-prone' and has liver spots." },
+      { remedy: "Crataegus Oxyacantha", differentiation: "Acts as a heart tonic; indicated for the early stages of arteriosclerosis linked to chronic high lipid levels." },
+      { remedy: "Sulphur", differentiation: "A systemic regulator used to clear the 'congestion' of the metabolic pathways that leads to lipid accumulation." }
     ],
     relatedDiseases: ["obesity", "metabolic-syndrome", "diabetes-mellitus"],
     examPriority: "High",
@@ -15829,6 +16494,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Urtica Urens", keyIndications: "Facilitates elimination of uric acid; gout with itchy skin rashes.", potencyTips: "Q/30C" },
       { name: "Ledum Palustre", keyIndications: "Gouty pains travel upwards; affected parts feel cold but are better by cold applications.", potencyTips: "200C" },
       { name: "Benzoicum Acidum", keyIndications: "Gout with offensive, dark urine (smells like horse urine); joint cracking.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Colchicum Autumnale", differentiation: "The leading 'acute' remedy for gout; the joint is extremely sensitive, and the smell of cooking makes the patient nauseous." },
+      { remedy: "Urtica Urens", differentiation: "Helpful in clearing high levels of uric acid from the blood; often associated with skin rashes and stinging pains." },
+      { remedy: "Ledum Palustre", differentiation: "Unique for the 'cold' gouty joint that feels better only with ice-cold applications; the pain typically moves from the feet upwards." },
+      { remedy: "Benzoicum Acidum", differentiation: "Indicated when the gout is accompanied by very strong, 'horse-like' smelling urine; this is a key diagnostic hallmark for this remedy." }
     ],
     relatedDiseases: ["metabolic-syndrome", "obesity"],
     examPriority: "High",
@@ -15958,6 +16629,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Spigelia", keyIndications: "Left-sided; searing pain over left eye; worse motion/noise.", potencyTips: "200C" },
       { name: "Natrum Muriaticum", keyIndications: "Headache 'like thousand little hammers'; worse 10am-3pm; with visual aura.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Belladonna", differentiation: "Indicated for sudden, throbbing, right-sided migraines with a red face and dilated pupils; extremely sensitive to light and noise." },
+      { remedy: "Sanguinaria", differentiation: "A classic right-sided remedy; pain starts in the back and settles over the right eye; uniquely relieved by sleep or vomiting." },
+      { remedy: "Spigelia", differentiation: "The leading left-sided migraine remedy; pain settles over the left eye and feels like a hot needle or stabbing; worse from motion." },
+      { remedy: "Natrum Muriaticum", differentiation: "For chronic, recurrent migraines that follow the sun (10 AM to 3 PM) and are preceded by visual disturbances like zigzag lines." }
+    ],
     relatedDiseases: ["tension-headache", "cluster-headache"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -16082,6 +16759,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Bryonia", keyIndications: "Pain worse from any motion; burst-like; patient wants to stay perfectly still.", potencyTips: "200C" },
       { name: "Natrum Muriaticum", keyIndications: "Chronic tension; 'hammering' pain; worse sun; reserved personality.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Gelsemium", differentiation: "The primary remedy for 'heaviness' and 'dullness'; pain feels like a tight band around the head, often preceded by a heavy, drooping eyelid." },
+      { remedy: "Ignatia", differentiation: "Indicated when tension is clearly linked to emotional stress or grief; the pain is often localized and feels like a nail being driven into the skull." },
+      { remedy: "Bryonia", differentiation: "For tension headaches where the slightest movement (even of the eyes) is intolerable; the patient wants to remain perfectly still in a dark room." },
+      { remedy: "Natrum Muriaticum", differentiation: "Used for chronic, recurring tension in reserved individuals; the headache often feels like many little hammers hitting the brain." }
+    ],
     relatedDiseases: ["migraine", "cluster-headache"],
     examPriority: "Medium",
     clinicalPriority: "High",
@@ -16205,6 +16888,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Cedron", keyIndications: "Strict periodicity; pain returns at the exact same hour every day; orbital pain.", potencyTips: "30C" },
       { name: "Cactus Grandiflorus", keyIndications: "Constriction; periodic; right-sided; heart concomitants.", potencyTips: "30C" },
       { name: "Arsenicum Album", keyIndications: "Restlessness; burning pain; better by warmth; worse after midnight.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Spigelia", differentiation: "The leading remedy for the excruciating, stabbing orbital pain of cluster headaches; the eye feels too large for the socket." },
+      { remedy: "Cedron", differentiation: "Indicated for the 'clock-like' periodicity; the pain returns at the exact same hour every day, often waking the patient from sleep." },
+      { remedy: "Cactus Grandiflorus", differentiation: "Used when the pain is accompanied by a sensation of iron-band constriction and potentially heart-related palpitations." },
+      { remedy: "Arsenicum Album", differentiation: "Addresses the intense restlessness and agitation during the attack; the pain is burning but paradoxically better for warmth." }
     ],
     relatedDiseases: ["migraine", "trigeminal-neuralgia"],
     examPriority: "High",
@@ -16333,6 +17022,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Silicea", keyIndications: "Nocturnal seizures; linked to phases of moon; chilly.", potencyTips: "200C" },
       { name: "Hyoscyamus Niger", keyIndications: "Twitching; jerking; laughing seizures; picking at bedclothes.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Cicuta Virosa", differentiation: "Indicated for the most violent form of convulsions with 'Opisthotonos' (extreme arching of the back) and a blue, distorted face." },
+      { remedy: "Cuprum Metallicum", differentiation: "Matches the 'spasmodic' nature of epilepsy; seizures often begin in the fingers or toes and are uniquely relieved by a sip of cold water." },
+      { remedy: "Silicea", differentiation: "Helpful for nocturnal seizures, especially those that appear to follow the phases of the moon in chilly, delicate patients." },
+      { remedy: "Hyoscyamus Niger", differentiation: "Characterized by high nervous excitation; the seizures involve significant twitching, jerking, and sometimes inappropriate laughter." }
+    ],
     relatedDiseases: ["status-epilepticus", "meningitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -16455,6 +17150,11 @@ export const diseaseHubData: Disease[] = [
       { name: "Cicuta Virosa", keyIndications: "Continuous violent spasms; blue face; fixed look.", potencyTips: "200C" },
       { name: "Hydrocyanic Acid", keyIndications: "Cyanosis; gasping; collapse; sudden seizure.", potencyTips: "30C" },
       { name: "Oenanthe Crocata", keyIndications: "Status-like presentation; congestion; foaming at mouth.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Cicuta Virosa", differentiation: "Used in the emergency context for continuous, violent spasms where the patient is totally unresponsive and the body is rigid." },
+      { remedy: "Hydrocyanic Acid", differentiation: "Indicated for the 'cyanotic' state of status where the patient is gasping for air and appears to be in a state of sudden collapse." },
+      { remedy: "Oenanthe Crocata", differentiation: "A powerful remedy for continuous, serial seizures with marked congestion to the head and frothing at the mouth." }
     ],
     relatedDiseases: ["epilepsy", "meningitis"],
     examPriority: "High",
@@ -16584,6 +17284,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Causticum", keyIndications: "Paralysis of single parts; right-sided; gradual onset; worse from cold dry winds.", potencyTips: "200C" },
       { name: "Bothrops Lanciolatus", keyIndications: "Hemiplegia; inability to speak; specific for thrombotic/embolic states.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arnica Montana", differentiation: "Used immediately to support tissue recovery and address the 'shock' to the nervous system; helps in the resorption of fluid." },
+      { remedy: "Gelsemium", differentiation: "A primary remedy for the 'post-stroke' motor paralysis; addresses the heaviness, lack of muscular coordination, and dullness." },
+      { remedy: "Causticum", differentiation: "Indicated for chronic, right-sided paralysis of single parts or limbs; the muscles feel shortened and the condition is worse in cold weather." },
+      { remedy: "Bothrops Lanciolatus", differentiation: "An important remedy for the thrombotic state specifically; addresses the loss of speech (aphasia) and right-sided hemiplegia." }
+    ],
     relatedDiseases: ["hemorrhagic-stroke", "tia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -16710,6 +17416,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Belladonna", keyIndications: "Sudden onset; throbbing carotids; hot head; pupils dilated.", potencyTips: "200C" },
       { name: "Phosphorus", keyIndications: "Small pinpoint hemorrhages; helps prevent further bleeding; chilly; thirsty for cold water.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arnica Montana", differentiation: "Crucial for its role in 'absorbing' extravasated blood and addressing the inflammatory trauma of the hemorrhage." },
+      { remedy: "Opium", differentiation: "Indicated for the deep, comatose state of hemorrhagic stroke with heavy, 'snorting' breathing and a dusky red face." },
+      { remedy: "Belladonna", differentiation: "Used in the acute phase for sudden, violent congestion to the head with throbbing arteries and a visible flush." },
+      { remedy: "Phosphorus", differentiation: "Indicated for the 'hemorrhagic diathesis'; helps in stabilizing the blood vessels and preventing further small-scale bleeding." }
+    ],
     relatedDiseases: ["ischemic-stroke", "meningitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -16834,6 +17546,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Gelsemium", keyIndications: "Weakness; trembling; dizziness; heavy head.", potencyTips: "30C/200C" },
       { name: "Baryta Carbonica", keyIndications: "Early degenerative changes in brain vessels; hypertension in elderly.", potencyTips: "200C" },
       { name: "Aurum Metallicum", keyIndications: "High blood pressure; vascular congestion; heavy feeling in head.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Arnica Montana", differentiation: "Used to address the vascular fragility and the 'shock' of the transient episode; helps in maintaining vessel integrity." },
+      { remedy: "Gelsemium", differentiation: "Indicated for the transient weakness and 'trembling' that follows a TIA; addresses the temporary motor dysfunction." },
+      { remedy: "Baryta Carbonica", differentiation: "A key remedy for the elderly with degenerative vascular changes (arteriosclerosis) who suffer from recurrent transient episodes." },
+      { remedy: "Aurum Metallicum", differentiation: "Addresses the 'vascular congestion' and high blood pressure that often underlies the risk of TIA." }
     ],
     relatedDiseases: ["ischemic-stroke"],
     examPriority: "High",
@@ -16963,6 +17681,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Helleborus Niger", keyIndications: "State of stupor; rolling head from side to side; automatic movements of one arm/leg.", potencyTips: "30C/200C" },
       { name: "Bryonia", keyIndications: "Splitting headache; worse from any movement; great thirst for cold water.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Belladonna", differentiation: "The first-stage remedy for sudden, high-grade fever with a hot, red face and a throbbing headache that is intensely sensitive to light." },
+      { remedy: "Apis Mellifica", differentiation: "Indicated when there is fluid collection (effusion); the patient is thirstless, restless, and may give a sudden 'shrill cry' in sleep." },
+      { remedy: "Helleborus Niger", differentiation: "Used for the state of stupor and brain-fag where the patient is nearly unresponsive and may move the head from side to side." },
+      { remedy: "Bryonia", differentiation: "Addresses the intense pain and inflammation where the slightest movement (even breathing deeply) causes an agonizing headache." }
+    ],
     relatedDiseases: ["encephalitis", "epilepsy"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -17088,6 +17812,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Zincum Metallicum", keyIndications: "Fidgety feet; exhaustion of brain power; following suppressed eruptions.", potencyTips: "200C" },
       { name: "Cicuta Virosa", keyIndications: "Violent convulsions; fixed gaze; distortions of the face.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Stramonium", differentiation: "Indicated for the 'violent' delirium and hallucinations where the patient is terrified of the dark and seeks light and company." },
+      { remedy: "Hyoscyamus Niger", differentiation: "Matches cases with nervous twitching and picking at bedclothes; the delirium is often accompanied by inappropriate behavior." },
+      { remedy: "Zincum Metallicum", differentiation: "Specifically for the state of 'brain exhaustion' following the acute phase; characterized by the classic 'fidgety feet'." },
+      { remedy: "Cicuta Virosa", differentiation: "Used for the most intense spasmodic cases with violent convulsions and a distorted, blue face." }
+    ],
     relatedDiseases: ["meningitis", "epilepsy"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -17212,6 +17942,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Gelsemium", keyIndications: "Weakness and trembling; heavy limbs; dullness; emotional triggers for tremor.", potencyTips: "200C" },
       { name: "Agaricus Muscarius", keyIndications: "Twitching and jerking; tremors with spinal irritation; worse from cold.", potencyTips: "30C" },
       { name: "Plumbum Metallicum", keyIndications: "Progressive muscle wasting; intense constipation; paralysis of extensors.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Mercurius Solubilis", differentiation: "Indicated for the 'shaking' tremor that is worse at night; addresses the associated oily skin and profuse, offensive perspiration." },
+      { remedy: "Gelsemium", differentiation: "Focuses on the muscle weakness and the 'trembling' of the limbs; often indicated when the tremor is aggravated by emotions." },
+      { remedy: "Agaricus Muscarius", differentiation: "Best for the 'twitching' and 'jerking' movements; addresses the tremors specifically when associated with spinal irritation." },
+      { remedy: "Plumbum Metallicum", differentiation: "Indicated for the advanced stage with significant muscle wasting and the characteristic 'lead-pipe' rigidity." }
     ],
     relatedDiseases: ["alzheimer-disease", "dementia"],
     examPriority: "High",
@@ -17339,6 +18075,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Lycopodium", keyIndications: "Confusion of words; lacks self-confidence; worse 4-8pm; digestive issues.", potencyTips: "200C" },
       { name: "Hyoscyamus Niger", keyIndications: "Dementia with agitation; inappropriate behavior (undressing); suspicion.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Baryta Carbonica", differentiation: "The leading remedy for 'senile' dementia characterized by childish behavior and a profound loss of memory for recent events." },
+      { remedy: "Anacardium Orientale", differentiation: "Indicated for the 'sudden' loss of memory and the characteristic irritability; the patient often feels as if they have two conflicting wills." },
+      { remedy: "Lycopodium", differentiation: "Addresses dementia with a marked 'confusion of words' and a lack of self-confidence; the patient often feels worse in the late afternoon." },
+      { remedy: "Hyoscyamus Niger", differentiation: "Best suited for cases with significant behavioral agitation, suspicion, and inappropriate or shameless behavior." }
+    ],
     relatedDiseases: ["alzheimer-disease", "parkinson-disease"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -17464,6 +18206,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Baryta Carbonica", keyIndications: "Mental weakness; childishness; memory loss for recent events; forgets familiar words.", potencyTips: "200C" },
       { name: "Conium Maculatum", keyIndications: "Mental dullness and weakness in the elderly; following grief or lack of mental exercise.", potencyTips: "200C" },
       { name: "Helleborus Niger", keyIndications: "Sensory dullness; answers slowly; looks blank; 'brain-fag'.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Alumina", differentiation: "Indicated for the deep confusion of identity where the patient 'forgets who they are'; addresses the general mental and physical sluggishness." },
+      { remedy: "Baryta Carbonica", differentiation: "Matches the 'childish' regression seen in Alzheimer's; the patient forgets common words and familiar names." },
+      { remedy: "Conium Maculatum", differentiation: "Helpful for the 'mental dullness' and weakness in the elderly; addresses the progressive loss of intellectual interest." },
+      { remedy: "Helleborus Niger", differentiation: "Indicated for the state of 'sensory dullness' or 'brain-fag' where the patient is conscious but extremely slow to perceive or answer." }
     ],
     relatedDiseases: ["dementia"],
     examPriority: "High",
@@ -17592,6 +18340,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Phosphorus", keyIndications: "Burning along the spine; optic neuritis; sensitive to light/noise.", potencyTips: "200C" },
       { name: "Plumbum Metallicum", keyIndications: "Progressive muscle wasting; sclerosis of the spinal cord; intense constipation.", potencyTips: "1M" }
     ],
+    remedyDifferentials: [
+      { remedy: "Causticum", differentiation: "Indicated for the progressive muscle weakness and paralysis, especially of single parts; the patient feels worse in cold, dry weather." },
+      { remedy: "Gelsemium", differentiation: "Addresses the profound motor weakness and heavy feeling in the limbs; often helpful for the vision disturbances and drooping eyelids." },
+      { remedy: "Argentum Nitricum", differentiation: "Specifically for the ataxia and lack of coordination; the patient is hurried, anxious, and has a characteristic craving for sweets." },
+      { remedy: "Phosphorus", differentiation: "The leading remedy for the 'optic neuritis' phase with blurred vision and a sensation of a 'cloud' or 'mist' before the eyes." }
+    ],
     relatedDiseases: ["myasthenia-gravis", "guillain-barre-syndrome"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -17719,6 +18473,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Hypericum", keyIndications: "Nerve injury; shooting pains; specifically if there is lingering pain or tingling.", potencyTips: "30C" },
       { name: "Dulcamara", keyIndications: "Paralysis following exposure to cold and damp; 'cold-draft' triggers.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Aconitum Napellus", differentiation: "The first choice for cases of 'sudden' onset immediately after exposure to cold, dry winds; addresses the initial numbness and anxiety." },
+      { remedy: "Causticum", differentiation: "The leading remedy for facial paralysis, especially of the right side; the condition is often triggered by cold and the muscles feel 'shortened'." },
+      { remedy: "Hypericum", differentiation: "Specific for nerve trauma; indicated if there is significant lingering pain, tingling, or 'shooting' sensations along the nerve path." },
+      { remedy: "Dulcamara", differentiation: "Matches cases triggered by exposure to cold and 'damp' environments; often indicated when the weather changes suddenly." }
+    ],
     relatedDiseases: ["ischemic-stroke"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -17843,6 +18603,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Magnesia Phosphorica", keyIndications: "Right-sided; 'electric' stabs; better by warmth and hard pressure.", potencyTips: "200C" },
       { name: "Plantago Major", keyIndications: "Neuralgia with toothache; sensitivity to touch; better by pressure.", potencyTips: "30C" },
       { name: "Mezereum", keyIndications: "Burning pain; after-pains of shingles (PHN); worse from touch.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Spigelia", differentiation: "The primary left-sided remedy for the agonizing, 'hot needle' stabs of pain; the pain is intensely periodic and worse from any motion." },
+      { remedy: "Magnesia Phosphorica", differentiation: "The leading right-sided remedy for 'electric shock' pains; uniquely relieved by local warmth and hard, steady pressure." },
+      { remedy: "Plantago Major", differentiation: "Indicated when the facial pain is intimately linked with toothache and extreme sensitivity of the gums/teeth to touch." },
+      { remedy: "Mezereum", differentiation: "Best for the 'burning' and 'numbing' character of pain; often indicated if the neuralgia follows a viral infection like shingles." }
     ],
     relatedDiseases: ["cluster-headache", "multiple-sclerosis"],
     examPriority: "High",
@@ -17970,6 +18736,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Plumbum Metallicum", keyIndications: "Numbness with muscle wasting; 'wrist-drop'; severe constipation.", potencyTips: "200C" },
       { name: "Causticum", keyIndications: "Weakness and numbness; worse from cold; right-sided; burning sensations.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Hypericum", differentiation: "The primary remedy for nerve damage where there is intense, shooting pain or tingling along the course of the affected nerves." },
+      { remedy: "Causticum", differentiation: "Indicated for the 'numbness' and motor weakness, especially in patients with a history of long-standing neurological issues." },
+      { remedy: "Arsenicum Album", differentiation: "Addresses the 'burning' character of neuropathy pain and the associated restlessness; often indicated in diabetic patients." },
+      { remedy: "Plumbum Metallicum", differentiation: "Used for advanced cases with significant muscle atrophy and a sensation of 'palsy' or coldness in the affected limbs." }
+    ],
     relatedDiseases: ["diabetes-type-2", "guillain-barre-syndrome"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -18094,6 +18866,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Conium Maculatum", keyIndications: "Ascending paralysis (starts in feet); weakness; sensory loss.", potencyTips: "200C" },
       { name: "Causticum", keyIndications: "Paralysis of single parts; contractures; weakness from grief/viral stress.", potencyTips: "200C" },
       { name: "Cadmium Sulphuricum", keyIndications: "Severe facial paralysis; weakness after high-grade fever.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Gelsemium", differentiation: "The leading remedy for the 'ascending' paralysis; addresses the profound motor weakness, heaviness, and lack of coordination." },
+      { remedy: "Causticum", differentiation: "Used for the 'palsy' that remains after the acute phase; the muscles feel shortened and there is significant weakness of the limbs." },
+      { remedy: "Conium Maculatum", differentiation: "Indicated for the progressive, ascending paralysis that starts in the feet and moves upward, often associated with a sense of mental dullness." },
+      { remedy: "Cadmium Sulphuricum", differentiation: "Used in severe cases of facial paralysis and weakness following acute infectious fevers." }
     ],
     relatedDiseases: ["multiple-sclerosis", "myasthenia-gravis"],
     examPriority: "High",
@@ -18221,6 +18999,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Sepia", keyIndications: "Ptosis with uterine symptoms; feels better from vigorous exercise; indifferent mood.", potencyTips: "200C" },
       { name: "Phosphorus", keyIndications: "Muscle fatigue; double vision; sensitive to all impressions.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Gelsemium", differentiation: "Indicated for the drooping of eyelids (ptosis) and the profound muscle weakness that characteristically worsens in the evening." },
+      { remedy: "Causticum", differentiation: "Addresses the paralysis of single parts or muscles, particularly the eyelids and the muscles of swallowing." },
+      { remedy: "Phosphorus", differentiation: "Used when the weakness is accompanied by significant visual disturbances and a general 'over-sensitive' nervous system." },
+      { remedy: "Sepia", differentiation: "Indicated for ptosis associated with uterine symptoms; the patient feels better after vigorous exercise." }
+    ],
     relatedDiseases: ["multiple-sclerosis", "guillain-barre-syndrome"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -18347,6 +19131,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Cocculus Indicus", keyIndications: "Motion sickness; vertigo with nausea; worse from riding in a carriage; better by lying down.", potencyTips: "200C" },
       { name: "Theridion", keyIndications: "Vertigo with extreme sensitivity to noise; every sound penetrates the body; worse closing eyes.", potencyTips: "200C" },
       { name: "Bryonia", keyIndications: "Vertigo worse from any movement, even moving eyes; accompanied by nausea.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Conium Maculatum", differentiation: "The leading remedy for vertigo triggered by turning the head or even turning in bed; especially effective for the elderly." },
+      { remedy: "Cocculus Indicus", differentiation: "Indicated for vertigo accompanied by intense nausea and a sense of 'hollowness'; specifically worse from riding in a carriage or ship." },
+      { remedy: "Theridion", differentiation: "Specific for vertigo with extreme sensitivity to noise; every sound is felt as a physical impact that worsens the spinning." },
+      { remedy: "Bryonia", differentiation: "Addresses the vertigo where the slightest motion (even moving the eyeballs) is intolerable and causes immediate nausea." }
     ],
     relatedDiseases: ["ischemic-stroke", "meningitis"],
     examPriority: "High",
@@ -18476,6 +19266,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Bryonia", keyIndications: "Gradual onset; high fever; intense thirst for large quantities of cold water; worse from any movement.", potencyTips: "200C" },
       { name: "Gelsemium", keyIndications: "Slow onset; dullness, dizziness, drowsiness; thirstless; heavy eyelids.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Aconitum Napellus", differentiation: "Indicated for the 'sudden' onset of high fever following exposure to cold; addresses the state of intense anxiety and dry, hot skin." },
+      { remedy: "Belladonna", differentiation: "The first choice for sudden, violent fevers with a hot, red face and a thumping headache; the patient is often thirstless despite the heat." },
+      { remedy: "Bryonia", differentiation: "Matches cases with a gradual onset and intense thirst for large quantities of cold water; every symptom is aggravated by the slightest movement." },
+      { remedy: "Gelsemium", differentiation: "Indicated for the slow-developing fever characterized by the '3 Ds': Dullness, Dizziness, and Drowsiness, with a complete lack of thirst." }
+    ],
     relatedDiseases: ["malaria", "dengue", "typhoid-fever"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -18603,6 +19399,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Eupatorium Perfoliatum", keyIndications: "Intense bone-breaking pain; thirst before the chill; vomiting of bile.", potencyTips: "200C" },
       { name: "Arsenicum Album", keyIndications: "Irregular fever; high anxiety; thirst for sips of cold water; burning heat.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Cinchona Officinalis (China)", differentiation: "The classic remedy for periodic fevers with clearly defined stages (chill, heat, sweat) and extreme exhaustion from the loss of fluids." },
+      { remedy: "Natrum Muriaticum", differentiation: "Indicated for the tertian fever that predictably starts between 10 AM and 11 AM, accompanied by a violent headache and thirst." },
+      { remedy: "Eupatorium Perfoliatum", differentiation: "Specific for the 'bone-breaking' pains; the patient has intense thirst before the chill and often vomits bile as the fever peaks." },
+      { remedy: "Arsenicum Album", differentiation: "Addresses fevers with marked periodicity, intense anxiety, and a burning heat where the patient desires small sips of water frequently." }
+    ],
     relatedDiseases: ["dengue", "typhoid-fever"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -18728,6 +19530,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Gelsemium", keyIndications: "Profound weakness; dullness; thirstless; heavy eyes; slow pulse.", potencyTips: "200C" },
       { name: "Ipecacuanha", keyIndications: "Persistent nausea and vomiting; clean tongue; hemorrhagic tendencies.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Eupatorium Perfoliatum", differentiation: "The most important remedy for 'breakbone' pain; addresses the intense aching in the bones and the characteristic retro-orbital pain." },
+      { remedy: "Phosphorus", differentiation: "Crucial for the hemorrhagic stage where platelets are dropping; addresses the petechiae, nosebleeds, and burning sensations." },
+      { remedy: "Gelsemium", differentiation: "Indicated for the post-fever state of profound weakness and dullness; helps in managing the lingering dizziness and heavy feeling." },
+      { remedy: "Ipecacuanha", differentiation: "Used when persistent nausea and vomiting are the dominant features, especially if accompanied by signs of early mucosal bleeding." }
+    ],
     relatedDiseases: ["malaria", "chikungunya"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -18852,6 +19660,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Rhus Toxicodendron", keyIndications: "Joint pain better by motion and worse by initial movement; restless; better by warmth.", potencyTips: "200C" },
       { name: "Bryonia Alba", keyIndications: "Joint pain worse by any movement; better by absolute rest and pressure; intense thirst.", potencyTips: "200C" },
       { name: "Eupatorium Perfoliatum", keyIndications: "Deep bone pain; eyeball soreness; vomiting of bile.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Polyporus Pinicola", differentiation: "Considered a specific for the joint pains of Chikungunya; addresses the severe aching in all joints that accompanies the fever." },
+      { remedy: "Rhus Toxicodendron", differentiation: "The leading remedy for the joint stiffness; the pain is worse for rest and better for slow, continued movement and warmth." },
+      { remedy: "Bryonia Alba", differentiation: "Indicated when the joint pain is so severe that even the slightest movement is impossible; the joints may be swollen and feel better for firm pressure." },
+      { remedy: "Eupatorium Perfoliatum", differentiation: "Addresses the 'bone-breaking' character of pain that often accompanies the initial high-fever phase." }
     ],
     relatedDiseases: ["dengue", "rheumatoid-arthritis"],
     examPriority: "High",
@@ -18980,6 +19794,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Arnica Montana", keyIndications: "Typhoid with stupor; 'sore all over' feeling; involuntary stools.", potencyTips: "30C" },
       { name: "Muriaticum Acidum", keyIndications: "Extreme prostration; patient slides down in bed; involuntary stools when passing urine.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Baptisia Tinctoria", differentiation: "The primary remedy for the 'toxic' state; the patient feels 'scattered' or broken in pieces, and all discharges are profoundly offensive." },
+      { remedy: "Pyrogenium", differentiation: "Indicated when there is a marked 'mismatch' between pulse and temperature; addresses the septic state with an offensive odor and soreness." },
+      { remedy: "Gelsemium", differentiation: "Used in the early, slow-onset stage characterized by extreme dullness, a heavy feeling, and a complete lack of thirst." },
+      { remedy: "Muriaticum Acidum", differentiation: "Addresses the state of extreme physical prostration where the patient literally slides down in bed due to weakness." }
+    ],
     relatedDiseases: ["malaria", "appendicitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -19105,6 +19925,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Veratrum Album", keyIndications: "Profuse vomiting and purging; cold sweat on the forehead; coldness of the body.", potencyTips: "200C" },
       { name: "Cuprum Metallicum", keyIndications: "Severe muscle cramps (calves/abdomen); coldness; blue skin.", potencyTips: "30C" },
       { name: "Arsenicum Album", keyIndications: "Restlessness; fear of death; thirst for sips of cold water; burning in abdomen.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Camphora", differentiation: "Specific for the first stage of 'algid' collapse; the skin is icy cold, yet the patient cannot bear to be covered." },
+      { remedy: "Veratrum Album", differentiation: "The leading remedy for the stage of profuse vomiting and purging; characterized by 'rice-water' stools and a cold sweat on the forehead." },
+      { remedy: "Cuprum Metallicum", differentiation: "Indicated when severe muscle cramps (calves and abdomen) are the most dominant and distressing feature of the illness." },
+      { remedy: "Arsenicum Album", differentiation: "Addresses the state of profound exhaustion with intense restlessness, fear of death, and a burning thirst for small sips of water." }
     ],
     relatedDiseases: ["acute-gastroenteritis", "amoebiasis"],
     examPriority: "High",
@@ -19235,6 +20061,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Bacillinum", keyIndications: "Similar to Tuberculinum; chronic cough with much expectoration.", potencyTips: "200C" },
       { name: "Calcarea Carbonica", keyIndications: "Puffy, chilly, sweaty; swollen glands; specifically in the early stages or for predisposition.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Tuberculinum", differentiation: "A deep-acting nosode for those with a strong family history; matches the 'consumptive' build (lean, narrow-chested) and the desire to travel." },
+      { remedy: "Phosphorus", differentiation: "The leading remedy for pulmonary involvement with a persistent dry cough and hemoptysis (blood in sputum); the patient is sensitive and tall." },
+      { remedy: "Bacillinum", differentiation: "Specifically used when there is excessive mucoid expectoration and a tendency to catch cold easily that 'settles' in the chest." },
+      { remedy: "Calcarea Carbonica", differentiation: "Indicated for the 'scrofulous' or glandular stage, especially in children who are chilly, sweaty, and have swollen lymph nodes." }
+    ],
     relatedDiseases: ["pneumonia", "lung-cancer"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -19360,6 +20192,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Bryonia", keyIndications: "Intense thirst for cold water; worse from any motion; dry cough; wants to lie perfectly still.", potencyTips: "200C" },
       { name: "Eupatorium Perfoliatum", keyIndications: "Intense bone-breaking pain; eyeball soreness; thirsty.", potencyTips: "200C" },
       { name: "Influenzinum", keyIndications: "Nosode used for prevention or as a chronic after-effect of flu.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Gelsemium", differentiation: "The most common 'genus loci' for the flu; characterized by the '3 Ds' (Dullness, Dizziness, Drowsiness) and a complete lack of thirst." },
+      { remedy: "Bryonia Alba", differentiation: "Indicated when every symptom (especially the cough and headache) is intensely aggravated by the slightest movement; the patient is very thirsty." },
+      { remedy: "Eupatorium Perfoliatum", differentiation: "Specific for the 'bone-breaking' aches and soreness of the eyeballs; the patient often vomits bile during the fever." },
+      { remedy: "Arsenicum Album", differentiation: "Matches cases with high anxiety, intense restlessness, and a burning heat where the patient seeks small sips of water." }
     ],
     relatedDiseases: ["pneumonia", "covid-19"],
     examPriority: "High",
@@ -19489,6 +20327,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Gelsemium", keyIndications: "Profound weakness and dullness; heavy eyelids; no thirst.", potencyTips: "200C" },
       { name: "Antimonium Tartaricum", keyIndications: "Rattling cough with inability to expectorate; chest full of mucus; weak.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Album", differentiation: "Used for the 'anxiety' and respiratory distress phase; the patient is restless, chilly, and has a burning thirst for small sips." },
+      { remedy: "Bryonia Alba", differentiation: "Indicated for the dry, painful cough that is worse from movement; the patient often holds their chest when coughing to prevent pain." },
+      { remedy: "Gelsemium", differentiation: "Addresses the profound weakness and 'heaviness' of the limbs; the patient is dull, drowsy, and has no thirst." },
+      { remedy: "Antimonium Tartaricum", differentiation: "Crucial for the late stage with 'rattling' in the chest; the lungs are full of mucus but the patient is too weak to expectorate." }
+    ],
     relatedDiseases: ["influenza", "pneumonia"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -19616,6 +20460,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Mercurius Solubilis", keyIndications: "Profuse sweating without relief; jaundice; foul breath; sensitivity to temperature.", potencyTips: "30C" },
       { name: "Baptisia", keyIndications: "Typhoid state; dullness; septic appearance; putrid odors.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Crotalus Horridus", differentiation: "The leading remedy for the 'septic' and hemorrhagic state (Weil's disease); addresses the lemon-yellow jaundice and bleeding from orifices." },
+      { remedy: "Arsenicum Album", differentiation: "Indicated for the high-fever stage with intense restlessness, anxiety, and a burning thirst for small quantities of water." },
+      { remedy: "Mercurius Solubilis", differentiation: "Matches cases with a profuse, foul-smelling sweat that gives no relief to the fever; the tongue is large and flabby." },
+      { remedy: "Phosphorus", differentiation: "Used for the hemorrhagic phase and kidney involvement; addresses the burning sensations and the tendency to bleed." }
+    ],
     relatedDiseases: ["dengue", "viral-hepatitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -19742,6 +20592,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Rhus Toxicodendron", keyIndications: "High fever with extreme restlessness; tongue with red triangular tip; body aches better by motion.", potencyTips: "200C" },
       { name: "Pyrogenium", keyIndications: "Septic fever; pulse and temperature out of sync; restless.", potencyTips: "200C" },
       { name: "Arnica Montana", keyIndications: "Typhus state with stupor; 'sore and bruised' feeling.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Baptisia Tinctoria", differentiation: "The primary remedy for the 'besotted' and dull appearance; the patient feels 'scattered' in bed and all discharges are offensive." },
+      { remedy: "Rhus Toxicodendron", differentiation: "Indicated for the intense restlessness and joint/muscle pains; the patient feels better by constant motion and warmth." },
+      { remedy: "Arsenicum Album", differentiation: "Addresses the state of profound exhaustion with burning heat, intense anxiety, and a thirst for small sips of water." },
+      { remedy: "Pyrogenium", differentiation: "Crucial for the septic stage where the pulse and temperature are disproportionate; the whole body feels sore and offensive." }
     ],
     relatedDiseases: ["malaria", "dengue", "typhoid-fever"],
     examPriority: "High",
@@ -19872,6 +20728,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Colocynthis", keyIndications: "Severe cramping pain better by doubling up and hard pressure.", potencyTips: "200C" },
       { name: "Mercurius Solubilis", keyIndications: "Bloody stools with much straining; offensive breath; sweaty but not relieved.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Mercurius Corrosivus", differentiation: "The leading remedy for intense, painful tenesmus where the stool is almost pure blood; the straining continues even after stool." },
+      { remedy: "Aloe Socotrina", differentiation: "Indicated for the 'jelly-like' mucus in stools and the intense flatulence; the patient feels a great sense of insecurity in the rectum." },
+      { remedy: "Colocynthis", differentiation: "Addresses the severe, agonizing abdominal cramps that cause the patient to double up; the pain is relieved by hard pressure." },
+      { remedy: "Mercurius Solubilis", differentiation: "Used for dysentery with a 'never-get-done' feeling; the patient is sweaty, thirsty, and has a very foul breath." }
+    ],
     relatedDiseases: ["ulcerative-colitis", "cholecystitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -19997,6 +20859,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Carbo Vegetabilis", keyIndications: "Extreme flatulence and bloating; belching gives relief; 'rotten egg' taste.", potencyTips: "30C" },
       { name: "Podophyllum", keyIndications: "Profuse, painless, offensive stools; explosive diarrhea; worse in the morning.", potencyTips: "30C" },
       { name: "Lycopodium", keyIndications: "Bloating in the lower abdomen; flatulence; worse 4-8 PM; better by warm drinks.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Pulsatilla", differentiation: "Indicated for the fatty, greasy diarrhea that floats; the patient is thirstless, feels worse in a warm room, and is emotionally gentle." },
+      { remedy: "Carbo Vegetabilis", differentiation: "The leading remedy for extreme bloating in the upper abdomen; the patient belches frequently (which gives relief) and craves fresh air." },
+      { remedy: "Lycopodium", differentiation: "Addresses the bloating that is most prominent in the lower abdomen and is characteristically worse between 4 PM and 8 PM." },
+      { remedy: "Podophyllum", differentiation: "Used for profuse, offensive, and 'painless' diarrhea that squirts out of the rectum, especially in the early morning." }
     ],
     relatedDiseases: ["amoebiasis", "celiac-disease"],
     examPriority: "Medium",
@@ -20127,6 +20995,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Silicea", keyIndications: "Weak immunity; takes cold easily; swollen glands; slow recovery.", potencyTips: "30C" },
       { name: "Sulphur", keyIndications: "To clear the 'psoric' block and improve the reactive power of the system.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Arsenicum Iodatum", differentiation: "The primary remedy for the 'wasting' stage; addresses the profound weight loss, chronic diarrhea, and persistent evening fever." },
+      { remedy: "Syphilinum", differentiation: "A constitutional nosode for the deep-seated immune destruction; indicated for chronic, non-healing infections and severe nightly pains." },
+      { remedy: "Silicea", differentiation: "Addresses the state of 'lowered resistance' where the patient takes cold easily and has slow-healing wounds or persistent glandular swellings." },
+      { remedy: "Sulphur", differentiation: "Used as a reaction-promoter to clear the psoric miasmatic block and improve the body's response to other remedies and ART." }
+    ],
     relatedDiseases: ["tuberculosis", "lymphoma"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -20252,6 +21126,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Belladonna", keyIndications: "Extreme agitation; red face; dilated pupils; throat spasms.", potencyTips: "200C" },
       { name: "Stramonium", keyIndications: "Terror; hydrophobia; fear of darkness and being alone.", potencyTips: "200C" },
       { name: "Hyoscyamus", keyIndications: "Delirium; twitching; fear of being poisoned.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Lyssinum", differentiation: "The leading remedy for the 'rabid' state; specifically indicated when the mere sight or sound of running water triggers violent, painful spasms." },
+      { remedy: "Belladonna", differentiation: "Addresses the state of extreme cerebral congestion and agitation; the patient has a bright red face, dilated pupils, and violent throat spasms." },
+      { remedy: "Stramonium", differentiation: "Indicated for the state of intense terror and hydrophobia; the patient is afraid of the dark and cannot bear to be alone." },
+      { remedy: "Hyoscyamus Niger", differentiation: "Used for the 'twitching' and delirious stage; the patient is suspicious and exhibits involuntary movements or attempts to escape." }
     ],
     relatedDiseases: ["tetanus", "encephalitis"],
     examPriority: "High",
@@ -20381,6 +21261,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Cicuta Virosa", keyIndications: "Violent spasms; opisthotonus; fixed, staring eyes.", potencyTips: "200C" },
       { name: "Cuprum Metallicum", keyIndications: "Spasms starting in fingers/toes and spreading; blue face.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Hypericum Perforatum", differentiation: "The primary remedy for prevention and treatment of nerve-related injury; indicated for the shooting, 'upward' pains following a puncture wound." },
+      { remedy: "Magnesium Phosphoricum", differentiation: "Addresses the intense muscle cramps and spasms that are characteristically relieved by heat and firm pressure." },
+      { remedy: "Cicuta Virosa", differentiation: "The leading remedy for violent, generalized spasms and opisthotonus; the patient has a fixed, staring expression during the attack." },
+      { remedy: "Cuprum Metallicum", differentiation: "Used when the spasms are intense and involve the extremities first; the face may turn blue during the paroxysm of contraction." }
+    ],
     relatedDiseases: ["rabies", "epilepsy"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -20508,6 +21394,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Lachesis", keyIndications: "Left-sided membrane; purple appearance; worse by swallowing liquids and sleep.", potencyTips: "200C" },
       { name: "Lycopodium", keyIndications: "Right-sided membrane; spreading to left; worse 4-8 PM.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Mercurius Cyanatus", differentiation: "The leading remedy for the malignant 'pseudomembrane' phase; addresses the profound prostration, foul odor, and necrotic appearance of the throat." },
+      { remedy: "Bromium", differentiation: "Specifically indicated for laryngeal involvement with 'rattling' mucus and a sensation as if the airway is being physically constricted." },
+      { remedy: "Lachesis Muta", differentiation: "Used for the left-sided involvement where the throat is dark purple; the symptoms are intensely worse after sleep and from light touch." },
+      { remedy: "Lycopodium", differentiation: "Indicated for right-sided membranes or those that spread from right to left; the patient feels worse between 4 PM and 8 PM." }
+    ],
     relatedDiseases: ["mumps", "measles"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -20632,6 +21524,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Mephitis Putorius", keyIndications: "Violent whoop; suffocative feeling; worse at night.", potencyTips: "30C" },
       { name: "Ipecacuanha", keyIndications: "Cough with nausea and vomiting; chest sounds full of mucus but nothing comes up.", potencyTips: "30C" },
       { name: "Coccus Cacti", keyIndications: "Cough with large quantities of stringy mucus; worse in the morning.", potencyTips: "30C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Drosera Rotundifolia", differentiation: "The leading remedy for the 'paroxysmal' stage; characterized by rapid, barking coughing fits that follow each other so quickly the patient can't breathe." },
+      { remedy: "Mephitis Putorius", differentiation: "Indicated when the 'whoop' is especially violent and leads to a sense of suffocation; the patient often feels worse at night." },
+      { remedy: "Ipecacuanha", differentiation: "Addresses the cough where nausea and vomiting are prominent; the chest sounds full of mucus but the child is unable to expectorate." },
+      { remedy: "Coccus Cacti", differentiation: "Used for the 'stringy' mucus stage; the coughing fits are often worse in the morning and better after drinking cold water." }
     ],
     relatedDiseases: ["asthma", "pneumonia"],
     examPriority: "High",
@@ -20759,6 +21657,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Euphrasia", keyIndications: "Intense conjunctivitis; burning tears; bland nasal discharge.", potencyTips: "30C" },
       { name: "Gelsemium", keyIndications: "Dullness, drowsiness; no thirst; heavy eyes.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Pulsatilla", differentiation: "The most common remedy for measles; indicated by a mild fever, thick yellow discharges, and a gentle, 'weepy' disposition with no thirst." },
+      { remedy: "Bryonia Alba", differentiation: "Used when the rash is slow to appear and the patient has a high fever with intense thirst; every movement aggravates the cough and headache." },
+      { remedy: "Euphrasia Officinalis", differentiation: "Specific for the eye symptoms; addresses the intense conjunctivitis with burning, acrid tears and a bland nasal discharge." },
+      { remedy: "Gelsemium", differentiation: "Matches cases with profound dullness, drowsiness, and a complete lack of thirst; the patient feels heavy and 'aching' all over." }
+    ],
     relatedDiseases: ["rubella", "mumps"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -20885,6 +21789,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Belladonna", keyIndications: "Sudden onset; bright red, hot swelling; throbbing pain.", potencyTips: "200C" },
       { name: "Rhus Toxicodendron", keyIndications: "Hard, red swelling; worse on left side; restless.", potencyTips: "30C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Mercurius Solubilis", differentiation: "The primary remedy for parotid swelling; indicated by profuse salivation, foul breath, and a 'flabby' tongue with teeth imprints." },
+      { remedy: "Pulsatilla", differentiation: "Crucial for cases where the infection 'metastasizes' to the testicles (orchitis); the patient is mild, thirstless, and feels better in cool air." },
+      { remedy: "Belladonna", differentiation: "Indicated for the sudden, violent onset with bright red, hot, and throbbing glandular swelling; the patient often has a high fever." },
+      { remedy: "Rhus Toxicodendron", differentiation: "Addresses the hard, red swelling that is characteristically worse on the left side and accompanied by physical restlessness." }
+    ],
     relatedDiseases: ["measles", "rubella"],
     examPriority: "Medium",
     clinicalPriority: "Medium",
@@ -21007,6 +21917,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Phytolacca Decandra", keyIndications: "Prominent swelling of glands; hard and painful nodes.", potencyTips: "30C" },
       { name: "Rhus Toxicodendron", keyIndications: "Rash with intense itching; restless; joint pains.", potencyTips: "200C" },
       { name: "Belladonna", keyIndications: "Sudden onset; bright red rash; hot skin.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Pulsatilla", differentiation: "Indicated for the mild, 'weepy' patient with a light pink rash and no thirst; the symptoms are typically worse in a warm room." },
+      { remedy: "Phytolacca Decandra", differentiation: "Specifically addresses the prominent and hard swelling of the post-auricular and cervical lymph nodes." },
+      { remedy: "Rhus Toxicodendron", differentiation: "Used when the rash is accompanied by intense itching and physical restlessness; often indicated if joint pains are present." },
+      { remedy: "Belladonna", differentiation: "Matches the sudden onset of a bright red, hot rash with a high fever and throbbing headache." }
     ],
     relatedDiseases: ["measles", "mumps"],
     examPriority: "Medium",
@@ -21134,6 +22050,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Pulsatilla", keyIndications: "Itching worse in a warm bed; mild, weepy child; no thirst.", potencyTips: "30C" },
       { name: "Sulphur", keyIndications: "Intense itching worse by washing; red spots; 'the great itchy remedy'.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Rhus Toxicodendron", differentiation: "The leading remedy for chickenpox; addresses the intense itching and the 'dew-drop' vesicles that are better by warmth and worse by cold air." },
+      { remedy: "Antimonium Tartaricum", differentiation: "Indicated for large, slow-maturing pustules; the child is often drowsy and may have a rattling cough." },
+      { remedy: "Pulsatilla", differentiation: "Used when the itching is significantly worse in the warmth of the bed and the child is particularly weepy and thirstless." },
+      { remedy: "Sulphur", differentiation: "Addresses the intense, burning itching that is characteristically aggravated by washing or bathing." }
+    ],
     relatedDiseases: ["measles", "herpes-zoster"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -21260,6 +22182,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Arsenicum Album", keyIndications: "Skin patches with burning; restlessness; chilly.", potencyTips: "200C" },
       { name: "Secale Cornutum", keyIndications: "Numbness and coldness of limbs; gangrenous tendency.", potencyTips: "30C" },
       { name: "Hydrocotyle Asiatica", keyIndications: "Great thickening of the skin; scaly eruptions.", potencyTips: "Q (Mother Tincture)" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Graphites", differentiation: "Addresses the state of 'thickened' and cracked skin; specifically indicated for patients who are chilly and have a tendency towards sticky, honey-like discharges." },
+      { remedy: "Arsenicum Album", differentiation: "Used for the 'burning' patches of skin that are accompanied by profound restlessness and a deep fear of the disease's progression." },
+      { remedy: "Secale Cornutum", differentiation: "Indicated for the state of numbness and 'icy coldness' of the extremities, reflecting a loss of vital circulation and nerve function." },
+      { remedy: "Hydrocotyle Asiatica", differentiation: "A traditional remedy for the massive thickening and scaling of the skin (elephantoid skin) characteristic of certain leprotic states." }
     ],
     relatedDiseases: ["psoriasis", "peripheral-neuropathy"],
     examPriority: "High",
@@ -21519,6 +22447,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Rhododendron", keyIndications: "Pain worse before a thunderstorm; better after the storm starts; worse at rest.", potencyTips: "30C" },
       { name: "Colchicum", keyIndications: "Extreme sensitivity to touch; worse from the smell of cooking food.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Causticum", differentiation: "Indicated for advanced cases with joint deformities and 'shortening' of the tendons; characteristically better in damp, rainy weather." },
+      { remedy: "Actaea Spicata", differentiation: "A specific remedy for the small joints of the hands and wrists; the pain is characteristically worse from the slightest touch or motion." },
+      { remedy: "Rhododendron", differentiation: "Used when the pains are characteristically worse before a thunderstorm and significantly improve once the storm breaks." },
+      { remedy: "Colchicum Autumnale", differentiation: "Addresses the state of extreme sensitivity to touch and vibration; specifically indicated when the smell of cooking food triggers nausea or distress." }
+    ],
     relatedDiseases: ["osteoarthritis", "systemic-lupus-erythematosus", "sjogren-syndrome"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -21649,6 +22583,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Benzoic Acid", keyIndications: "Gout with highly offensive, strong-smelling urine (like horse urine).", potencyTips: "30C" },
       { name: "Ledum Palustre", keyIndications: "Gouty pains travel upwards; affected joint is cold but better by cold applications.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Colchicum Autumnale", differentiation: "The leading remedy for acute gouty attacks, especially in the big toe; the joint is exquisitely sensitive to touch and the smell of food is unbearable." },
+      { remedy: "Urtica Urens", differentiation: "Indicated to promote the elimination of uric acid; the patient often experiences burning, itchy sensations similar to nettle rash." },
+      { remedy: "Benzoic Acid", differentiation: "Specifically addresses gouty conditions where the urine is characteristically strong-smelling and offensive (like horse urine)." },
+      { remedy: "Ledum Palustre", differentiation: "Used when the affected joint is cold to the touch but feels better by cold applications; the pains often follow an upward direction." }
+    ],
     relatedDiseases: ["chronic-kidney-disease", "metabolic-syndrome", "septic-arthritis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -21778,6 +22718,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Gunpowder", keyIndications: "Traditional 'blood purifier' for septic conditions and infections.", potencyTips: "3X or 6C" },
       { name: "Silicea", keyIndications: "Chronic suppuration; promotes expulsion of foreign matter/pus.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Hepar Sulphur", differentiation: "Indicated for the state of intense, 'splinter-like' pain where the joint is exquisitely sensitive to the slightest touch or cold air." },
+      { remedy: "Pyrogenium", differentiation: "Used as a supportive remedy in septic states; the patient is restless, and there is a marked disproportion between the pulse rate and temperature." },
+      { remedy: "Gunpowder", differentiation: "A traditional 'blood purifier' used in homoeopathy to support the body's response to septic infections and localized suppuration." },
+      { remedy: "Silicea", differentiation: "Specifically addresses the later stages of infection to promote the healthy expulsion of pus and the resolution of chronic suppurative processes." }
+    ],
     relatedDiseases: ["osteomyelitis", "gout", "rheumatoid-arthritis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -21905,6 +22851,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Kalium Carbonicum", keyIndications: "Back feels weak and 'gives out'; pain drives him out of bed at 3 AM.", potencyTips: "200C" },
       { name: "Tellurium", keyIndications: "Pain in sacrum and spine; extremely sensitive to touch; worse after sleep.", potencyTips: "30C" },
       { name: "Rhus Toxicodendron", keyIndications: "Stiffness better by motion and heat; worse in cold damp weather.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Aesculus Hippocastanum", differentiation: "Specifically indicated for constant, dull backache localized in the sacrum and hips; the pain is characteristically worse from walking or stooping." },
+      { remedy: "Kalium Carbonicum", differentiation: "Used when the back feels weak and 'gives way'; the patient is characteristically driven out of bed by pain around 3 AM." },
+      { remedy: "Tellurium Metallicum", differentiation: "Addresses intense pain in the sacrum and spine that is characteristically sensitive to the slightest touch and worse after sleep." },
+      { remedy: "Rhus Toxicodendron", differentiation: "The leading remedy for the 'rusty hinge' stiffness; the pain is worse for initial movement and rest, but better for continued motion and heat." }
     ],
     relatedDiseases: ["uveitis", "inflammatory-bowel-disease", "low-back-pain"],
     examPriority: "High",
@@ -22037,6 +22989,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Natrum Muriaticum", keyIndications: "Worse from sun; malar rash; desire for salt; grief and reserved nature.", potencyTips: "200C" },
       { name: "Phosphorus", keyIndications: "Hemorrhagic tendency; desire for cold drinks; sensitive and expressive.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Apis Mellifica", differentiation: "Addresses the 'puffy' edema and stinging inflammatory pains; the patient is characteristically thirstless and worse from heat." },
+      { remedy: "Arsenicum Album", differentiation: "Indicated for the deep-seated anxiety and weakness; the 'burning' pains are characteristically better by heat and worse after midnight." },
+      { remedy: "Natrum Muriaticum", differentiation: "A primary remedy for the malar rash; indicated by a deep sensitivity to the sun, a desire for salt, and a reserved, grieving disposition." },
+      { remedy: "Phosphorus", differentiation: "Used when there is a marked tendency towards bleeding (hemorrhage) and a deep sensitivity to the surroundings; the patient characteristically craves cold drinks." }
+    ],
     relatedDiseases: ["rheumatoid-arthritis", "sjogren-syndrome", "antiphospholipid-syndrome"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -22166,6 +23124,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Calcarea Carbonica", keyIndications: "Sluggish metabolism; chilly; sweaty; overweight; tendency to bone issues.", potencyTips: "200C" },
       { name: "Silicea", keyIndications: "Poor assimilation; weak bones; cold; nails brittle with white spots.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Phosphorica", differentiation: "Specifically indicated to support bone mineral density and the healthy formation of new bone tissue, especially in those with a history of slow-healing fractures." },
+      { remedy: "Symphytum Officinale", differentiation: "Known as 'Knit-bone'; used to accelerate callous formation and reduce pain at the site of a fracture or bone injury." },
+      { remedy: "Calcarea Carbonica", differentiation: "Addresses the constitutional state of sluggish mineral metabolism; indicated for patients who are chilly, overweight, and have easy perspiration." },
+      { remedy: "Silicea", differentiation: "Used when there is a clear state of 'defective assimilation' of minerals; the patient is characteristically weak, chilly, and has brittle nails." }
+    ],
     relatedDiseases: ["osteomalacia", "hyperparathyroidism", "menopause"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -22293,6 +23257,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Silicea", keyIndications: "Defective nutrition; weak spine; bones feel soft; chilly; improved by warmth.", potencyTips: "200C" },
       { name: "Calcarea Phosphorica", keyIndications: "Sunken abdomen; tall, thin children; desire for salty/smoked meat; helps bone hardening.", potencyTips: "6X" },
       { name: "Phosphorus", keyIndications: "Tall, slender, weak; sensitive to surroundings; bone pain in spine and legs.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Calcarea Carbonica", differentiation: "The leading remedy for metabolic-related bone weakness; indicated by a puffy, chilly constitution and profuse head sweats, especially during sleep." },
+      { remedy: "Silicea", differentiation: "Specifically addresses 'defective nutrition' and weak spinal support; the patient is extremely chilly and feels better from external warmth." },
+      { remedy: "Calcarea Phosphorica", differentiation: "Indicated to support the hardening of bone tissue; often needed in tall, thin patients with a history of rapid growth and mineral deficiency." },
+      { remedy: "Phosphorus", differentiation: "Used when there is deep-seated bone pain in the spine and long bones; the patient is characteristically tall, slender, and sensitive to environmental changes." }
     ],
     relatedDiseases: ["osteoporosis", "chronic-kidney-disease", "malabsorption"],
     examPriority: "High",
@@ -22422,6 +23392,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Conium Maculatum", keyIndications: "Dizziness on turning the head or moving eyes; calcification tendency.", potencyTips: "200C" },
       { name: "Kalmia Latifolia", keyIndications: "Neuralgic pains starting in neck and going down the arm; numbness.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Gelsemium Sempervirens", differentiation: "Indicated for the 'heaviness' and dullness associated with cervical strain; the pain characteristically radiates from the neck to the forehead." },
+      { remedy: "Lachnanthes Tinctoria", differentiation: "A specific remedy for extreme neck stiffness (wry neck) where the head is pulled to one side and any movement causes sharp pain." },
+      { remedy: "Conium Maculatum", differentiation: "Addresses the vertigo (dizziness) triggered by turning the head or moving the eyes; specifically indicated for degenerative changes in the elderly." },
+      { remedy: "Kalmia Latifolia", differentiation: "Used for intense neuralgic pains that start in the neck and shoot down the arm, often accompanied by a sense of numbness." }
+    ],
     relatedDiseases: ["lumbar-spondylosis", "fibromyalgia", "migraine"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -22549,6 +23525,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Kalium Carbonicum", keyIndications: "Back feels as if it would break; pain starts at 3 AM; weak feeling in small of back.", potencyTips: "200C" },
       { name: "Sepia", keyIndications: "Weak back in women; 'dragging' sensation; better by hard pressure and vigorous motion.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Rhus Toxicodendron", differentiation: "The leading remedy for lumbar stiffness; the pain is characteristically worse for rest and first movement, but better for continued motion and heat." },
+      { remedy: "Calcarea Fluorica", differentiation: "Specifically addresses the formation of bony osteophytes (spurs) and the loss of spinal elasticity; the back feels chronically weak and stiff." },
+      { remedy: "Kalium Carbonicum", differentiation: "Used when the back feels as if it would 'break'; the pain is typically worse around 3 AM and the patient is unable to find a comfortable position." },
+      { remedy: "Sepia Officinalis", differentiation: "Indicated for the 'dragging' or heavy sensation in the lower back, especially in women; the pain is characteristically relieved by hard pressure." }
+    ],
     relatedDiseases: ["cervical-spondylosis", "sciatica", "low-back-pain"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -22674,6 +23656,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Magnesia Phosphorica", keyIndications: "Right-sided; pain better by heat and pressure; cramp-like.", potencyTips: "200C" },
       { name: "Gnaphalium", keyIndications: "Intense sciatic pain alternating with numbness; better sitting.", potencyTips: "30C" },
       { name: "Hypericum", keyIndications: "Nerve injury; shooting pain upwards; tingling and burning.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Colocynthis", differentiation: "The leading remedy for left-sided sciatica; the pain is characteristically better for hard pressure and 'doubling up' or bending the leg." },
+      { remedy: "Magnesia Phosphorica", differentiation: "Used for right-sided sciatic pain that is characteristically cramp-like and relieved by the application of heat and firm pressure." },
+      { remedy: "Gnaphalium Polycephalum", differentiation: "Addresses intense sciatic pain that characteristically alternates with a sense of numbness; the patient often finds relief while sitting." },
+      { remedy: "Hypericum Perforatum", differentiation: "Indicated for sciatica related to nerve injury or trauma; the pain characteristically shoots upwards and is accompanied by tingling or burning sensations." }
     ],
     relatedDiseases: ["lumbar-spondylosis", "low-back-pain", "spinal-stenosis"],
     examPriority: "High",
@@ -22804,6 +23792,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Bellis Perennis", keyIndications: "The 'Arnica of deep tissues'; for pain after heavy lifting or sudden strain.", potencyTips: "30C" },
       { name: "Nux Vomica", keyIndications: "Backache in sedentary people; must sit up to turn over in bed.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Bryonia Alba", differentiation: "Indicated for acute back pain that is characteristically worse from the slightest motion and significantly relieved by absolute rest and lying on the painful side." },
+      { remedy: "Rhus Toxicodendron", differentiation: "Used when the backache is worse at rest and on first movement, but improves with continued motion and heat." },
+      { remedy: "Bellis Perennis", differentiation: "Addresses deep-seated muscle pain following mechanical strain or heavy lifting; often called the 'Arnica of the deeper tissues'." },
+      { remedy: "Nux Vomica", differentiation: "Specifically indicated for backache in sedentary or stressed individuals; the patient characteristically has to sit up in order to turn over in bed at night." }
+    ],
     relatedDiseases: ["sciatica", "lumbar-spondylosis", "ankylosing-spondylitis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -22931,6 +23925,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Arnica Montana", keyIndications: "Sensation as if bruised or beaten; bed feels too hard; wants to be left alone.", potencyTips: "1M (intermittent)" },
       { name: "Ignatia Amara", keyIndications: "Fibromyalgia triggered by grief or emotional shock; paradoxical symptoms; sighing.", potencyTips: "200C" },
       { name: "Phosphoric Acid", keyIndications: "Profound mental and physical fatigue; indifference; following long-term grief.", potencyTips: "200C" }
+    ],
+    remedyDifferentials: [
+      { remedy: "Rhus Toxicodendron", differentiation: "The leading remedy for the widespread stiffness and aching; the pain is characteristically worse for rest and better for gentle, continued motion and warmth." },
+      { remedy: "Arnica Montana", differentiation: "Indicated for the 'bruised' sensation all over the body; the patient feels as if the bed is too hard and is extremely sensitive to touch." },
+      { remedy: "Ignatia Amara", differentiation: "Matches cases where the physical pain is secondary to intense emotional shock or grief; the symptoms are often paradoxical and changeable." },
+      { remedy: "Phosphoric Acid", differentiation: "Used for the state of profound 'fibro-fog' and physical exhaustion following a period of intense mental or emotional strain." }
     ],
     relatedDiseases: ["irritable-bowel-syndrome", "rheumatoid-arthritis", "polymyalgia-rheumatica"],
     examPriority: "High",
@@ -23060,6 +24060,12 @@ export const diseaseHubData: Disease[] = [
       { name: "Ferrum Metallicum", keyIndications: "Shoulder pain better by slow movement; worse in bed; pale, weak patients.", potencyTips: "30C" },
       { name: "Rhus Toxicodendron", keyIndications: "Stiffness better by motion; worse on first moving; worse in cold.", potencyTips: "200C" }
     ],
+    remedyDifferentials: [
+      { remedy: "Causticum", differentiation: "Indicated for the intense stiffness and pain that is paradoxically better in damp, rainy weather; addresses the 'shortened' feeling in the tendons." },
+      { remedy: "Sanguinaria Canadensis", differentiation: "The leading remedy for right-sided shoulder involvement; the pain is often worse at night and from lifting the arm." },
+      { remedy: "Ferrum Metallicum", differentiation: "Addresses the shoulder pain that is better by slow, gentle motion but worse by absolute rest in bed; often indicated in pale, weak patients." },
+      { remedy: "Rhus Toxicodendron", differentiation: "Specific for the 'rustiness' of the joints; the pain is most severe upon first moving but improves after the joint 'warms up' with motion." }
+    ],
     relatedDiseases: ["rheumatoid-arthritis", "fibromyalgia", "giant-cell-arteritis"],
     examPriority: "High",
     clinicalPriority: "High",
@@ -23102,6 +24108,1914 @@ export const diseaseHubData: Disease[] = [
           { rubric: "Extremities, pain, hip, morning", chapter: "Extremities" }
         ],
         symptomAnalysis: "Focus on the girdle distribution and the specific time of morning aggravation."
+      }
+    }
+  },
+  {
+    id: "acne-vulgaris",
+    name: "Acne Vulgaris",
+    slug: "acne-vulgaris",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A chronic inflammatory disease of the pilosebaceous unit characterized by comedones, papules, pustules, and sometimes nodules or cysts.",
+    simpleExplanation: "A common skin condition that occurs when hair follicles become clogged with oil and dead skin cells, often causing pimples and blackheads.",
+    examKeywords: ["Comedones", "Propionibacterium acnes", "Pilosebaceous unit", "Androgens"],
+    epidemiology: {
+      ageDistribution: "Mainly adolescents (12-25 years), but can persist into adulthood.",
+      sexDistribution: "Equal, though more severe in males during puberty.",
+      riskGroups: ["Teenagers", "Women with hormonal imbalances (PCOS)"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic predisposition", "Androgen activity"],
+      precipitatingFactors: ["Cosmetics", "Stress", "Certain medications (steroids)", "High glycemic diet"],
+      riskFactors: ["Puberty", "Oily skin types", "Hormonal shifts"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Follicular Hyperkeratinization", description: "Dead skin cells clog the pore opening." },
+        { title: "Increased Sebum Production", description: "Androgens stimulate sebaceous glands." },
+        { title: "Bacterial Colonization", description: "Cutibacterium acnes proliferates in the oily environment." },
+        { title: "Inflammation", description: "The immune system responds to the bacteria and clogged pore, leading to redness and pus." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Oily skin", "Emotional distress regarding appearance"],
+      localSymptoms: [
+        "Morphology: Comedones (blackheads/whiteheads), papules, pustules, nodules, cysts.",
+        "Distribution: Primarily face, chest, upper back, and shoulders."
+      ],
+      constitutionalFeatures: ["Often associated with puberty-related hormonal changes"],
+      importantSigns: ["Open and closed comedones (pathognomonic)"]
+    },
+    redFlags: ["Sudden onset of severe acne with systemic symptoms (Acne fulminans)", "Signs of virilization in women"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Examination", findings: "Characteristic lesions in typical distribution", importance: "Primary method of diagnosis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: ["Presence of comedones", "Typical distribution", "Age of onset"]
+    },
+    differentialDiagnosis: [
+      { condition: "Rosacea", distinguishingFeatures: "Flushing, telangiectasia, no comedones." },
+      { condition: "Folliculitis", distinguishingFeatures: "Pustules centered around hair follicles; often sudden onset." }
+    ],
+    complications: {
+      common: ["Hyperpigmentation", "Psychological impact"],
+      serious: ["Atrophic (pitted) scarring", "Hypertrophic scarring"],
+      lifeThreatening: ["Acne Fulminans (systemic toxicity)"]
+    },
+    conventionalManagement: {
+      general: ["Daily cleansing", "Avoid picking"],
+      medical: ["Topical retinoids", "Benzoyl peroxide", "Oral antibiotics", "Isotretinoin"],
+      prevention: ["Oil-free cosmetics"]
+    },
+    homoeopathicApproach: "Focuses on correcting hormonal imbalances, improving skin health, and addressing constitutional and miasmatic background (Psora/Sycosis).",
+    relatedRemedies: [
+      { name: "Sulphur", keyIndications: "Red, itchy, burning acne; worse from washing and heat." },
+      { name: "Pulsatilla", keyIndications: "Acne in girls at puberty; associated with menstrual issues; rich food aggravates." },
+      { name: "Kali Bromatum", keyIndications: "Indurated, bluish acne; especially on shoulders and chest." },
+      { name: "Antimonium Crudum", keyIndications: "Acne with gastric derangement; thick white coating on tongue." }
+    ],
+    relatedDiseases: ["pcos", "seborrheic-dermatitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Comedones are essential for diagnosis", "P. acnes role", "Sebaceous gland focus"],
+      miasmaticDominance: "Psoro-Sycotic",
+      thermalState: "Variable",
+      organAffinity: "Skin (Pilosebaceous unit)",
+      memoryMnemonic: "ACNE: Androgens, Comedones, Nodules, Erythema"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To differentiate from other papulopustular rashes.",
+        severityAssessment: "Based on number and type of lesions.",
+        referralCriteria: ["Acne fulminans"]
+      },
+      individualization: {
+        mentalGenerals: ["Sensitivity to appearance", "Irritability", "Shyness"],
+        physicalGenerals: {
+          thermalState: "Often Hot",
+          thirst: "Variable",
+          appetite: "Craves sweets or fatty foods",
+          desires: ["Sweets", "Spicy food"],
+          aversions: ["Milk"],
+          sleep: "Restless if stressed",
+          perspiration: "Oily"
+        },
+        modalities: ["Agg: Puberty, menses, cosmetics, rich food, heat.", "Amel: Open air, washing"],
+        concomitants: ["Dyspepsia", "Menstrual irregularities"],
+        characteristicParticulars: [
+          "Location: Forehead, cheeks, chin, back.",
+          "Appearance: Papules, pustules, blackheads, pitted scars.",
+          "Sensation: Soreness, itching, stinging.",
+          "Discharges: Oily, cheesy material, sometimes blood-tinged pus."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Acne associated with extreme anxiety and restlessness (Kali Brom)."],
+        individualExpression: "The skin's attempt to eliminate internal toxins or hormonal excess through the sebaceous route."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, acne", chapter: "Skin" },
+          { rubric: "Face, eruptions, acne", chapter: "Face" }
+        ],
+        symptomAnalysis: "Focus on the type of lesion, the patient's thermal reaction, and hormonal triggers."
+      }
+    }
+  },
+  {
+    id: "atopic-dermatitis",
+    name: "Atopic Dermatitis (Eczema)",
+    slug: "atopic-dermatitis",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A chronic, pruritic, inflammatory skin disease that typically follows a relapsing course and is often associated with other atopic conditions.",
+    simpleExplanation: "A chronic skin condition that makes skin red and itchy, common in children but can occur at any age.",
+    examKeywords: ["Filaggrin mutation", "Flexural distribution", "Pruritus", "Atopic triad"],
+    epidemiology: {
+      ageDistribution: "Primarily infants and children; 80% of cases occur before age 5.",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Family history of atopy", "Children in urban environments"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic (Filaggrin gene mutation)", "Family history of asthma/hay fever"],
+      precipitatingFactors: ["Soaps", "Detergents", "Woolens", "Stress", "Food allergens"],
+      riskFactors: ["Hygiene hypothesis", "Climate (worse in dry/cold)"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Skin Barrier Dysfunction", description: "Deficiency in filaggrin leads to increased transepidermal water loss and entry of allergens." },
+        { title: "Immune Dysregulation", description: "Th2-mediated immune response with elevated IgE levels." },
+        { title: "Chronic Inflammation", description: "Persistent itching leads to scratching (itch-scratch cycle), further damaging the barrier and releasing inflammatory cytokines." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Intense pruritus (itching)", "Sleep disturbance"],
+      localSymptoms: [
+        "Morphology: Erythema, edematous papules, vesicles (acute); scaling, excoriations (subacute); lichenification (chronic).",
+        "Distribution: Flexures (antecubital and popliteal fossae), face, neck, and dorsal hands."
+      ],
+      constitutionalFeatures: ["Associated with asthma and allergic rhinitis"],
+      importantSigns: ["Dennie-Morgan lines", "Hertoghe sign (thinning of lateral eyebrows)"]
+    },
+    redFlags: ["Sudden worsening with punched-out erosions (Eczema herpeticum)", "Signs of systemic infection"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Based on Hanifin and Rajka criteria", importance: "Standard method" }
+      ],
+      laboratoryFindings: [
+        { name: "Serum IgE", findings: "Elevated in 80% of patients", importance: "Supports atopic diagnosis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Hanifin and Rajka Criteria",
+      criteria: ["Pruritus", "Typical morphology and distribution", "Chronic or relapsing dermatitis", "Personal or family history of atopy"]
+    },
+    differentialDiagnosis: [
+      { condition: "Seborrheic Dermatitis", distinguishingFeatures: "Greasy scales; involves scalp, nasolabial folds; less itchy." },
+      { condition: "Scabies", distinguishingFeatures: "Burrows present; involves finger webs; family history of similar itch." },
+      { condition: "Psoriasis", distinguishingFeatures: "Well-demarcated silvery plaques; involves extensor surfaces." }
+    ],
+    complications: {
+      common: ["Secondary bacterial infection (Staph aureus)", "Sleep loss"],
+      serious: ["Eczema herpeticum", "Erythroderma"],
+      lifeThreatening: ["Severe secondary sepsis (rare)"]
+    },
+    conventionalManagement: {
+      general: ["Emollients (moisturizers)", "Avoid triggers"],
+      medical: ["Topical corticosteroids", "Topical calcineurin inhibitors", "Antihistamines", "Phototherapy"],
+      prevention: ["Lukewarm baths", "Fragrance-free products"]
+    },
+    homoeopathicApproach: "Focuses on the 'Atopic Diathesis', treating the skin through constitutional remedies that address the hypersensitive immune system and miasmatic block (often Psora).",
+    relatedRemedies: [
+      { name: "Graphites", keyIndications: "Weeping eczema; thick, honey-like discharge; worse at night and from warmth." },
+      { name: "Arsenicum Album", keyIndications: "Dry, scaly, itchy skin; burning sensation relieved by heat; restless and anxious." },
+      { name: "Sulphur", keyIndications: "Red, burning, itchy eruptions; worse from warmth of bed and washing; dirty-looking skin." },
+      { name: "Natrum Mur", keyIndications: "Eczema in the bends of joints; dry, crusty; worse from sun; craves salt." }
+    ],
+    relatedDiseases: ["asthma", "allergic-rhinitis", "contact-dermatitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Itch that rashes", "Flexural distribution", "Filaggrin defect"],
+      miasmaticDominance: "Psora",
+      thermalState: "Variable (Sulphur-Hot, Arsenic-Chilly)",
+      organAffinity: "Skin, Mucous membranes",
+      memoryMnemonic: "ATOPIC: Allergy, Th2, Oozing, Pruritus, IgE, Chronic"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage the long-term atopic march.",
+        severityAssessment: "SCORAD (Scoring Atopic Dermatitis) index.",
+        referralCriteria: ["Eczema herpeticum", "Infection unresponsive to local care"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Restlessness", "Fastidiousness"],
+        physicalGenerals: {
+          thermalState: "Chilly (Ars) or Hot (Sulph)",
+          thirst: "Great thirst for small sips (Ars) or large quantities (Sulph)",
+          appetite: "Cravings for sweets, salt, or spicy food",
+          desires: ["Salt", "Sweets", "Cold drinks"],
+          aversions: ["Milk", "Meat"],
+          sleep: "Disturbed by itching",
+          perspiration: "Acrid or sticky"
+        },
+        modalities: ["Agg: Night, warmth of bed, washing, winter, woolens.", "Amel: Cold applications (sometimes), dry weather"],
+        concomitants: ["Wheezing", "Sneezing", "Eosinophilia"],
+        characteristicParticulars: [
+          "Location: Elbow bends, knee bends, face, eyelids.",
+          "Appearance: Red, raw, weeping or dry, leathery (lichenified).",
+          "Sensation: Voluptuous itching, burning, smarting.",
+          "Discharges: Sticky, honey-like, or watery."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Itching so intense the patient scratches until it bleeds, which then burns (Arsenicum/Sulphur)."],
+        individualExpression: "A hypersensitive constitution reacting to environmental stressors through the largest eliminative organ."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, eczema", chapter: "Skin" },
+          { rubric: "Skin, itching, night", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Emphasize the character of discharge and the specific modalities of the itch."
+      }
+    }
+  },
+  {
+    id: "contact-dermatitis",
+    name: "Contact Dermatitis",
+    slug: "contact-dermatitis",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "An inflammatory skin reaction caused by direct contact with an exogenous substance, which may be an irritant or an allergen.",
+    simpleExplanation: "A red, itchy rash caused by direct contact with a substance or an allergic reaction to it. The rash isn't contagious, but it can be very uncomfortable.",
+    examKeywords: ["Patch test", "Type IV Hypersensitivity", "Irritant vs. Allergic", "Localized distribution"],
+    epidemiology: {
+      ageDistribution: "Any age, but common in working adults (occupational).",
+      sexDistribution: "More common in females (due to nickel jewelry contact).",
+      riskGroups: ["Hairdressers", "Nurses", "Construction workers", "Cleaners"],
+    },
+    etiology: {
+      predisposingFactors: ["Compromised skin barrier", "Atopy"],
+      precipitatingFactors: ["Irritants: Soaps, detergents, solvents.", "Allergens: Nickel, fragrances, poison ivy, latex."],
+      riskFactors: ["Occupational exposure", "Frequent hand washing"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Exposure", description: "Direct contact with irritant or allergen." },
+        { title: "Sensitization (Allergic)", description: "Type IV delayed-type hypersensitivity reaction involving T-cells." },
+        { title: "Inflammation", description: "Release of inflammatory mediators leading to erythema, edema, and vesicle formation." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Itching (Pruritus)", "Burning sensation", "Stinging"],
+      localSymptoms: [
+        "Morphology: Erythema, vesicles, bullae (acute); scaling, fissuring (chronic).",
+        "Distribution: Confined to the site of contact with the offending substance."
+      ],
+      constitutionalFeatures: ["Usually local; systemic symptoms rare unless severe allergic reaction"],
+      importantSigns: ["Linear arrangement (common in poison ivy)", "Sharp demarcation at the site of contact"]
+    },
+    redFlags: ["Signs of secondary infection", "Involvement of face or genitals", "Generalized rash"],
+    investigations: {
+      diagnostic: [
+        { name: "Patch Testing", findings: "Positive reaction to specific allergens", importance: "Gold standard for allergic contact dermatitis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Correlation",
+      criteria: ["History of exposure", "Distribution matching exposure pattern", "Positive patch test (if allergic)"]
+    },
+    differentialDiagnosis: [
+      { condition: "Atopic Dermatitis", distinguishingFeatures: "Flexural involvement; personal/family history of atopy." },
+      { condition: "Seborrheic Dermatitis", distinguishingFeatures: "Involves scalp, nasolabial folds; greasy scales." }
+    ],
+    complications: {
+      common: ["Secondary bacterial infection", "Chronic dermatitis"],
+      serious: ["Post-inflammatory hyperpigmentation", "Occupational disability"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Avoidance of trigger", "Protective clothing"],
+      medical: ["Topical corticosteroids", "Oral antihistamines", "Barrier creams"],
+      prevention: ["Gloves", "Fragrance-free products"]
+    },
+    homoeopathicApproach: "Addresses the acute inflammatory response while treating the underlying 'psoric' hypersensitivity to prevent future allergic reactions.",
+    relatedRemedies: [
+      { name: "Rhus Toxicodendron", keyIndications: "Vesicular eruptions; intense itching; better by heat; restless." },
+      { name: "Anacardium", keyIndications: "Intense itching better by eating; vesicular eruptions like Rhus Tox." },
+      { name: "Croton Tiglium", keyIndications: "Violent itching; vesicular eruptions on genitals; better by gentle rubbing." },
+      { name: "Apis Mellifica", keyIndications: "Puffy, red, stinging edema; better by cold applications." }
+    ],
+    relatedDiseases: ["atopic-dermatitis", "urticaria"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Exogenous trigger", "Localized rash", "Patch test"],
+      miasmaticDominance: "Psora",
+      thermalState: "Variable",
+      organAffinity: "Epidermis",
+      memoryMnemonic: "CONTACT: Contact, Occupational, Nickel, Type IV, Avoidance, Clinical"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To identify and eliminate the environmental trigger.",
+        severityAssessment: "Based on body surface area and impact on function.",
+        referralCriteria: ["Facial/Genital involvement", "Severe secondary infection"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Restlessness", "Annoyance"],
+        physicalGenerals: {
+          thermalState: "Hot (Apis) or Chilly (Rhus Tox)",
+          thirst: "Variable",
+          appetite: "Normal",
+          desires: ["Cold drinks (Apis)", "Warm drinks (Rhus Tox)"],
+          aversions: ["Variable"],
+          sleep: "Disturbed by burning/itching",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Contact with allergen, heat, sweating, night.", "Amel: Cold (Apis), Warmth (Rhus Tox), Eating (Anacardium)"],
+        concomitants: ["None usually"],
+        characteristicParticulars: [
+          "Location: Hands, face, neck, area of jewelry/clothing contact.",
+          "Appearance: Red, swollen, with tiny water-filled blisters.",
+          "Sensation: Burning, stinging, maddening itch.",
+          "Discharges: Clear serous fluid if vesicles rupture."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Intense itching of the rash is relieved by eating a full meal (Anacardium)."],
+        individualExpression: "An external reactive state of the skin to exogenous irritants, highlighting a specific psoric sensitivity."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, vesicular", chapter: "Skin" },
+          { rubric: "Skin, eruptions, erythema", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the modalities (Heat vs. Cold) and the character of the eruption (Vesicles vs. Edema)."
+      }
+    }
+  },
+  {
+    id: "urticaria",
+    name: "Urticaria (Hives)",
+    slug: "urticaria",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A vascular reaction of the skin characterized by the sudden appearance of transient wheals (hives) accompanied by intense itching.",
+    simpleExplanation: "Red, itchy welts that result from a skin reaction. They can vary in size and appear and fade repeatedly as the reaction runs its course.",
+    examKeywords: ["Wheals", "Mast cell degranulation", "Histamine", "Transient"],
+    epidemiology: {
+      ageDistribution: "Any age, but acute urticaria is more common in children.",
+      sexDistribution: "More common in females (especially chronic cases).",
+      riskGroups: ["Individuals with allergies", "Patients with autoimmune diseases"],
+    },
+    etiology: {
+      predisposingFactors: ["Atopic history", "Autoimmune disorders"],
+      precipitatingFactors: ["Foods (nuts, shellfish)", "Drugs (NSAIDs, ACE inhibitors)", "Infections", "Physical stimuli (cold, heat, pressure)"],
+      riskFactors: ["Stress", "Exercise", "Allergen exposure"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Mast Cell Activation", description: "Trigger leads to IgE-mediated or non-IgE activation of mast cells." },
+        { title: "Mediator Release", description: "Release of histamine, bradykinin, and leukotrienes." },
+        { title: "Vascular Dilation", description: "Increased capillary permeability causes fluid to leak into the dermis, forming the wheal." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Pruritus", "Burning or stinging sensation"],
+      localSymptoms: [
+        "Morphology: Wheals—elevated, erythematous or white, circumscribed, edematous plaques with surrounding erythema (flare).",
+        "Distribution: Can occur anywhere on the body; lesions are transient (usually lasting <24 hours)."
+      ],
+      constitutionalFeatures: ["May be associated with angioedema (swelling of deeper tissues)"],
+      importantSigns: ["Dermatographism (whealing after stroking the skin)"]
+    },
+    redFlags: ["Signs of anaphylaxis (dyspnea, hypotension, tongue swelling)", "Wheals lasting >24 hours with bruising (Urticarial vasculitis)"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Transient wheals", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Allergy Testing", findings: "Identification of specific triggers", importance: "Useful for prevention" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Features",
+      criteria: ["Transient nature of lesions", "Intense itching", "Characteristic wheal appearance"]
+    },
+    differentialDiagnosis: [
+      { condition: "Urticarial Vasculitis", distinguishingFeatures: "Lesions last >24 hours; leave pigmentation/bruising; painful." },
+      { condition: "Erythema Multiforme", distinguishingFeatures: "Target-like lesions; involves palms and soles." },
+      { condition: "Insect Bites", distinguishingFeatures: "Central punctum; usually not as transient." }
+    ],
+    complications: {
+      common: ["Discomfort", "Secondary infection from scratching"],
+      serious: ["Angioedema", "Anaphylaxis"],
+      lifeThreatening: ["Laryngeal edema (airway obstruction)"]
+    },
+    conventionalManagement: {
+      general: ["Identify and avoid triggers", "Cool compresses"],
+      medical: ["Antihistamines (H1 blockers)", "Corticosteroids (short-term for severe cases)", "Epinephrine for anaphylaxis"],
+      prevention: ["Avoid known allergens"]
+    },
+    homoeopathicApproach: "Addresses the acute allergic state while also targeting the 'psoric' or 'allergic' susceptibility to prevent recurrence.",
+    relatedRemedies: [
+      { name: "Apis Mellifica", keyIndications: "Stinging, burning pains; red, edematous wheals; better for cold applications; thirstless." },
+      { name: "Urtica Urens", keyIndications: "Burning heat with violent itching; associated with eating shellfish; better for rubbing." },
+      { name: "Astacus Fluviatilis", keyIndications: "Urticaria over the whole body; associated with liver complaints." },
+      { name: "Natrum Mur", keyIndications: "Urticaria after exercise or sun exposure; worse from heat." }
+    ],
+    relatedDiseases: ["anaphylaxis", "angioedema"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Transient wheals", "Mast cell release", "Histamine mediated"],
+      miasmaticDominance: "Psora",
+      thermalState: "Variable (Apis-Hot, Urtica-Variable)",
+      organAffinity: "Dermal vasculature",
+      memoryMnemonic: "HIVES: Histamine, Itching, Vascular, Edema, Sudden"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To rule out systemic anaphylaxis.",
+        severityAssessment: "Urticaria Activity Score (UAS7).",
+        referralCriteria: ["Laryngeal swelling", "Hypotension"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Fear", "Restlessness"],
+        physicalGenerals: {
+          thermalState: "Hot (Apis)",
+          thirst: "Thirstless (Apis)",
+          appetite: "Variable",
+          desires: ["Cold drinks (Apis)"],
+          aversions: ["Warmth (Apis)"],
+          sleep: "Disturbed by stinging/itching",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Warmth, exercise, night, shellfish.", "Amel: Cold bathing, open air, pressure"],
+        concomitants: ["Abdominal pain", "Joint pains"],
+        characteristicParticulars: [
+          "Location: Trunk, limbs, face.",
+          "Appearance: Wheals, pink or white, map-like.",
+          "Sensation: Stinging like a bee, burning, prickling.",
+          "Discharges: None (dry reaction)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Urticaria alternating with asthma or rheumatism (Urtica urens)."],
+        individualExpression: "An explosive vascular reaction reflecting an over-sensitized vital force."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, urticaria", chapter: "Skin" },
+          { rubric: "Skin, eruptions, urticaria, stinging", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the sensation (stinging vs. burning) and the thermal modalities."
+      }
+    }
+  },
+  {
+    id: "psoriasis",
+    name: "Psoriasis",
+    slug: "psoriasis",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A chronic, systemic, immune-mediated inflammatory disease primarily affecting the skin and joints, characterized by well-demarcated erythematous plaques with silvery scaling.",
+    simpleExplanation: "A chronic skin condition that speeds up the life cycle of skin cells, causing them to build up rapidly on the surface and form scales and itchy, dry, red patches.",
+    examKeywords: ["Auspitz sign", "Koebner phenomenon", "Hyperkeratosis", "Silvery scales"],
+    epidemiology: {
+      ageDistribution: "Bimodal peaks: 15-35 years and 55-60 years.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Family history of psoriasis", "Patients with metabolic syndrome"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic (HLA-Cw6)", "Environmental triggers"],
+      precipitatingFactors: ["Infection (Streptococcal)", "Stress", "Skin trauma (Koebner)", "Medications (Beta-blockers, Lithium)"],
+      riskFactors: ["Smoking", "Obesity", "Alcohol"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "T-Cell Activation", description: "Dendritic cells activate T-cells (Th1/Th17) in the skin." },
+        { title: "Cytokine Cascade", description: "Release of TNF-alpha, IL-17, and IL-23." },
+        { title: "Keratinocyte Hyperproliferation", description: "Epidermal cell cycle reduces from 28 days to 3-5 days, leading to incomplete maturation and scale buildup." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Itching (mild to severe)", "Joint pain (in 30% of cases)"],
+      localSymptoms: [
+        "Morphology: Salmon-pink plaques with well-defined borders and silvery-white (micaceous) scales.",
+        "Distribution: Extensor surfaces (elbows, knees), scalp, sacrum, and nails."
+      ],
+      constitutionalFeatures: ["Associated with psoriatic arthritis and metabolic syndrome"],
+      importantSigns: ["Auspitz sign (pinpoint bleeding after scale removal)", "Koebner phenomenon"]
+    },
+    redFlags: ["Generalized redness and scaling (Erythrodermic psoriasis)", "Sudden appearance of numerous small pustules (Pustular psoriasis)"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Examination", findings: "Characteristic plaques and Auspitz sign", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Skin Biopsy", findings: "Munro's microabscesses, parakeratosis", importance: "Confirm diagnosis in atypical cases" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Assessment",
+      criteria: ["Typical plaque morphology", "Classical distribution", "Nail changes (pitting, oil drop sign)"]
+    },
+    differentialDiagnosis: [
+      { condition: "Seborrheic Dermatitis", distinguishingFeatures: "Greasy scales; involves scalp/nasolabial folds; less well-demarcated." },
+      { condition: "Nummular Eczema", distinguishingFeatures: "Coin-shaped; more itchy; often weeping; no silvery scales." },
+      { condition: "Lichen Planus", distinguishingFeatures: "Purple, polygonal, flat-topped papules; involves wrists/ankles." }
+    ],
+    complications: {
+      common: ["Psoriatic arthritis", "Secondary infection"],
+      serious: ["Erythroderma", "Metabolic syndrome/Cardiovascular disease"],
+      lifeThreatening: ["Acute pustular psoriasis (Zumbusch)"]
+    },
+    conventionalManagement: {
+      general: ["Sunlight exposure", "Moisturizers"],
+      medical: ["Topical corticosteroids", "Vitamin D analogues", "Phototherapy (UVB/PUVA)", "Systemic agents (Methotrexate, Biologics)"],
+      prevention: ["Stress management", "Avoiding skin trauma"]
+    },
+    homoeopathicApproach: "Treats psoriasis as an external expression of a deep-seated miasmatic state (primarily Psora and Syphilis), using constitutional remedies to slow cell proliferation and address systemic inflammation.",
+    relatedRemedies: [
+      { name: "Arsenicum Iodatum", keyIndications: "Dry, scaly eruptions; large scales like parchment; heat aggravates." },
+      { name: "Graphites", keyIndications: "Psoriasis of the palms and nails; skin cracks and bleeds; associated with obesity." },
+      { name: "Sepia", keyIndications: "Isolated patches; worse from cold and during menopause; indifferent temperament." },
+      { name: "Thyroidinum", keyIndications: "Psoriasis in patients with thyroid dysfunction; dry, cold skin." }
+    ],
+    relatedDiseases: ["psoriatic-arthritis", "metabolic-syndrome"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Silvery scales", "Auspitz sign", "Extensor surfaces"],
+      miasmaticDominance: "Psoro-Syphilitic",
+      thermalState: "Variable",
+      organAffinity: "Epidermis, Joints",
+      memoryMnemonic: "SCALES: Silvery, Chronic, Auspitz, Large, Extensors, Systemic"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To monitor for psoriatic arthritis.",
+        severityAssessment: "PASI (Psoriasis Area and Severity Index) score.",
+        referralCriteria: ["Erythroderma", "Generalized pustular psoriasis"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety about health", "Indifference", "Depression due to skin state"],
+        physicalGenerals: {
+          thermalState: "Chilly or Hot depending on the remedy",
+          thirst: "Variable",
+          appetite: "Craves sweets or pickles",
+          desires: ["Cold food", "Warm food"],
+          aversions: ["Milk"],
+          sleep: "Normal unless joint pain disturbs",
+          perspiration: "Often scanty"
+        },
+        modalities: ["Agg: Winter, stress, cold weather, friction.", "Amel: Sunlight, summer, warmth"],
+        concomitants: ["Joint stiffness", "Nail pitting"],
+        characteristicParticulars: [
+          "Location: Knees, elbows, scalp, lower back.",
+          "Appearance: Thick, silvery, dry scales on red base.",
+          "Sensation: Burning, itching, stiffness.",
+          "Discharges: Dry (no discharge unless infected)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Psoriasis where the scales are so thick they look like shells (Ars Iod/Graphites)."],
+        individualExpression: "A proliferative Sycotic energy acting on a Psoric skin foundation, leading to rapid, maturate destruction."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, psoriasis", chapter: "Skin" },
+          { rubric: "Skin, eruptions, scaly", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the location, the appearance of the scale, and the patient's thermal reactions."
+      }
+    }
+  },
+  {
+    id: "vitiligo",
+    name: "Vitiligo",
+    slug: "vitiligo",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "An acquired, progressive skin disorder characterized by the loss of functional melanocytes, resulting in depigmented milky-white macules and patches.",
+    simpleExplanation: "A condition that causes loss of skin color in patches. The discolored areas usually get bigger with time.",
+    examKeywords: ["Melanocyte destruction", "Depigmentation", "Autoimmune", "Leukoderma"],
+    epidemiology: {
+      ageDistribution: "50% of cases begin before age 20.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Family history of vitiligo", "Individuals with other autoimmune diseases"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic susceptibility", "Autoimmune associations (Thyroid, Pernicious anemia)"],
+      precipitatingFactors: ["Stress", "Skin trauma (Koebner)", "Sunburn", "Chemical exposure"],
+      riskFactors: ["Autoimmune diathesis"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Melanocyte Loss", description: "Melanocytes are destroyed in the affected areas." },
+        { title: "Autoimmune Attack", description: "T-cells (CD8+) specifically target and kill melanocytes." },
+        { title: "Lack of Pigment", description: "Absence of melanin leads to the characteristic white patches." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Asymptomatic patches", "Psychological distress/social stigma"],
+      localSymptoms: [
+        "Morphology: Well-demarcated, depigmented (chalky-white) macules and patches.",
+        "Distribution: Often symmetrical; predilection for periorificial areas (mouth, eyes), extensor surfaces (knuckles, elbows), and genitals."
+      ],
+      constitutionalFeatures: ["Poliosis (premature graying of hair)"],
+      importantSigns: ["Koebner phenomenon", "Trichrome vitiligo (white, tan, and brown zones)"]
+    },
+    redFlags: ["Rapidly progressive vitiligo", "Associated systemic symptoms suggesting multiple autoimmune syndrome"],
+    investigations: {
+      diagnostic: [
+        { name: "Wood's Lamp Examination", findings: "Accentuated white patches (bright blue-white)", importance: "Helpful for light skin types" }
+      ],
+      laboratoryFindings: [
+        { name: "Thyroid Function Tests", findings: "Abnormalities in 10-20% of cases", importance: "Rule out associated autoimmune disease" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: ["Typically distributed white patches", "Complete loss of pigment", "Asymptomatic nature"]
+    },
+    differentialDiagnosis: [
+      { condition: "Pityriasis Alba", distinguishingFeatures: "Hypopigmented (not depigmented); ill-defined borders; slight scaling." },
+      { condition: "Tinea Versicolor", distinguishingFeatures: "Fine scaling; positive fungal scrapings." },
+      { condition: "Leprosy", distinguishingFeatures: "Hypopigmented patches with loss of sensation." }
+    ],
+    complications: {
+      common: ["Sunburn in white areas", "Social stigmatization"],
+      serious: ["Ocular inflammation (rare)", "Hearing abnormalities (rare)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Sun protection (SPF)", "Cosmetic camouflage"],
+      medical: ["Topical corticosteroids", "Topical calcineurin inhibitors", "Phototherapy (Narrowband UVB)", "Depigmentation therapy for universal vitiligo"],
+      prevention: ["Avoiding skin injury"]
+    },
+    homoeopathicApproach: "Focuses on stopping the progression of pigment loss and stimulating re-pigmentation by addressing the patient's miasmatic (often Syphilitic/destructive) and constitutional background.",
+    relatedRemedies: [
+      { name: "Arsenicum Sulphuratum Flavum", keyIndications: "Specific for vitiligo; patches on various parts of the body; itchy." },
+      { name: "Hydrocotyle Asiatica", keyIndications: "Great thickening of epidermic layer; used for white patches with scaling." },
+      { name: "Nitric Acid", keyIndications: "White patches at the junction of skin and mucous membranes (mouth, anus)." },
+      { name: "Silicea", keyIndications: "Constitutional remedy for sensitive, chilly patients with skin vulnerabilities." }
+    ],
+    relatedDiseases: ["hashimoto-thyroiditis", "pernicious-anemia"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Chalky white patches", "Symmetrical distribution", "Autoimmune link"],
+      miasmaticDominance: "Syphilitic (Destructive)",
+      thermalState: "Variable",
+      organAffinity: "Melanocytes",
+      memoryMnemonic: "WHITE: White, Hormonal, Immune, Trauma, Extensors"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage the psychological impact and screen for other autoimmune disorders.",
+        severityAssessment: "VASI (Vitiligo Area Scoring Index).",
+        referralCriteria: ["Suspicion of systemic autoimmune disease"]
+      },
+      individualization: {
+        mentalGenerals: ["Shyness", "Social withdrawal", "Depression", "Grief"],
+        physicalGenerals: {
+          thermalState: "Chilly (Silicea/Ars)",
+          thirst: "Variable",
+          appetite: "Variable",
+          desires: ["Warm food", "Salt"],
+          aversions: ["Fat"],
+          sleep: "Often normal",
+          perspiration: "Offensive (Silicea)"
+        },
+        modalities: ["Agg: Stress, skin trauma, sun exposure.", "Amel: Calm environment, consistent treatment"],
+        concomitants: ["Thyroid disorders", "Alopecia areata"],
+        characteristicParticulars: [
+          "Location: Lips, eyelids, knuckles, genitals.",
+          "Appearance: Pure white, well-demarcated patches.",
+          "Sensation: Usually no sensation; sometimes itching before a new patch.",
+          "Discharges: None."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Vitiligo appearing after severe grief or mental shock (Ignatia/Nat Mur)."],
+        individualExpression: "The vital force's inability to maintain the 'identity' of skin pigment, reflecting an internal destructive miasm."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, discoloration, vitiligo", chapter: "Skin" },
+          { rubric: "Skin, discoloration, white", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Emphasis on the location of patches (mucocutaneous junctions) and the patient's emotional history."
+      }
+    }
+  },
+  {
+    id: "lichen-planus",
+    name: "Lichen Planus",
+    slug: "lichen-planus",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A chronic inflammatory and immune-mediated disease that affects the skin, mucous membranes, hair, and nails, characterized by '6 Ps'.",
+    simpleExplanation: "A condition that can cause inflammation and irritation on your skin, hair, nails, and mucous membranes. On the skin, it usually appears as purplish, itchy, flat-topped bumps.",
+    examKeywords: ["Wickham striae", "Polygonal papules", "6 Ps", "Civatte bodies"],
+    epidemiology: {
+      ageDistribution: "Adults, most commonly aged 30-60 years.",
+      sexDistribution: "Slightly more common in females.",
+      riskGroups: ["Patients with Hepatitis C", "Individuals with dental amalgams (for oral cases)"],
+    },
+    etiology: {
+      predisposingFactors: ["Autoimmune dysfunction"],
+      precipitatingFactors: ["Hepatitis C infection", "Drugs (Gold, Antimalarials)", "Stress", "Dental materials"],
+      riskFactors: ["Chronic inflammatory states"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "T-Cell Infiltration", description: "Band-like infiltration of T-lymphocytes at the dermo-epidermal junction." },
+        { title: "Basal Cell Damage", description: "T-cells attack and cause apoptosis of basal keratinocytes (Civatte bodies)." },
+        { title: "Epidermal Response", description: "Hyperkeratosis and thickening of the granular layer lead to the clinical papule." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Intense pruritus (itching)", "Painful oral lesions"],
+      localSymptoms: [
+        "Morphology: 6 Ps—Planar (flat-topped), Purple, Polygonal, Pruritic, Papules, and Plaques.",
+        "Distribution: Flexor surfaces of wrists, ankles, lumbar region, shins, and oral mucosa."
+      ],
+      constitutionalFeatures: ["Oral involvement in 50% of skin cases"],
+      importantSigns: ["Wickham striae (fine white lines on papule surface)", "Koebner phenomenon"]
+    },
+    redFlags: ["Chronic erosive oral lichen planus (small risk of squamous cell carcinoma)", "Scalp involvement causing scarring alopecia (Lichen planopilaris)"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Examination", findings: "Purple polygonal papules with Wickham striae", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Skin Biopsy", findings: "Saw-tooth appearance of rete ridges", importance: "Confirm diagnosis" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["The 6 Ps", "Presence of Wickham striae", "Flexural distribution"]
+    },
+    differentialDiagnosis: [
+      { condition: "Psoriasis", distinguishingFeatures: "Silvery scales; extensor surfaces; Auspitz sign." },
+      { condition: "Guttate Lichen Planus", distinguishingFeatures: "Differentiated from Pityriasis Rosea by absence of herald patch." },
+      { condition: "Lichenoid Drug Eruption", distinguishingFeatures: "More generalized; history of drug intake." }
+    ],
+    complications: {
+      common: ["Post-inflammatory hyperpigmentation", "Nail dystrophy"],
+      serious: ["Scarring alopecia", "Squamous cell carcinoma (in chronic erosive cases)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Stress reduction", "Avoiding skin trauma"],
+      medical: ["Topical corticosteroids", "Intralesional steroids", "Oral retinoids", "PUVA therapy"],
+      prevention: ["Screening for Hepatitis C"]
+    },
+    homoeopathicApproach: "Addresses the intense pruritus and the autoimmune nature of the disease by targeting the Syco-Syphilitic miasmatic roots through deep-acting constitutional remedies.",
+    relatedRemedies: [
+      { name: "Anacardium Orientale", keyIndications: "Intense itching; lichen planus in nervous, irritable patients; better while eating." },
+      { name: "Antimonium Crudum", keyIndications: "Lichen planus with thick, horny skin; associated with gastric symptoms." },
+      { name: "Juglans Regia", keyIndications: "Itching eruptions, especially in axilla and bends of elbows; lichen planus." },
+      { name: "Arsenicum Album", keyIndications: "Burning itching; better by heat; restless and anxious patient." }
+    ],
+    relatedDiseases: ["hepatitis-c", "scarring-alopecia"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["6 Ps", "Wickham striae", "Hepatitis C link"],
+      miasmaticDominance: "Syco-Syphilitic",
+      thermalState: "Variable",
+      organAffinity: "Dermal-epidermal junction, Mucous membranes",
+      memoryMnemonic: "PLANUS: Purple, Lichenoid, Ankle/wrists, Nails, Ulcers (Oral), Striae"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To monitor for oral malignancy and scalp scarring.",
+        severityAssessment: "Clinical assessment of body surface area involved.",
+        referralCriteria: ["Erosive oral lesions", "Nail loss"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Anxiety", "Mental exhaustion"],
+        physicalGenerals: {
+          thermalState: "Variable",
+          thirst: "Variable",
+          appetite: "Variable",
+          desires: ["Spicy food", "Warm food"],
+          aversions: ["Milk"],
+          sleep: "Disturbed by itch",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Night, stress, scratching, heat.", "Amel: Cool air (sometimes), eating (Anacardium)"],
+        concomitants: ["Oral ulcers", "Nail pitting/ridging"],
+        characteristicParticulars: [
+          "Location: Wrists, ankles, mouth, genitals.",
+          "Appearance: Purple, flat-topped, polygonal papules with white lines.",
+          "Sensation: Intense, maddening itching.",
+          "Discharges: Dry."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Lichen planus itching better by eating (Anacardium)."],
+        individualExpression: "A band-like cellular conflict at the skin's foundation, representing a deep internal struggle of the vital force."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, lichen planus", chapter: "Skin" },
+          { rubric: "Skin, itching, scratching, agg", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the polygonal shape of papules and the mental-emotional state of the patient."
+      }
+    }
+  },
+  {
+    id: "impetigo",
+    name: "Impetigo",
+    slug: "impetigo",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A highly contagious bacterial skin infection, primarily affecting children, characterized by honey-colored crusts or large bullae.",
+    simpleExplanation: "A common and highly contagious skin infection that mainly affects infants and young children. It usually appears as red sores on the face, especially around a child's nose and mouth, and on hands and feet.",
+    examKeywords: ["Honey-colored crusts", "Staphylococcus aureus", "Streptococcus pyogenes", "Contagious"],
+    epidemiology: {
+      ageDistribution: "Primarily children aged 2-5 years.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Children in daycares/schools", "Athletes in contact sports"],
+    },
+    etiology: {
+      predisposingFactors: ["Minor skin trauma (cuts, insect bites)", "Pre-existing eczema"],
+      precipitatingFactors: ["Infection with S. aureus or S. pyogenes"],
+      riskFactors: ["Warm/humid climate", "Poor hygiene", "Crowding"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Bacterial Entry", description: "Bacteria enter through a break in the skin barrier." },
+        { title: "Toxin Production", description: "Staphylococcal exfoliative toxins cause loss of cell adhesion in the upper epidermis." },
+        { title: "Lesion Formation", description: "Vesicles or bullae form, rupture, and leave characteristic crusts." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Itching", "Soreness"],
+      localSymptoms: [
+        "Morphology: Non-bullous (small vesicles/pustules rupturing to form honey-colored crusts); Bullous (large, thin-walled blisters).",
+        "Distribution: Face (perioral and perinasal), extremities."
+      ],
+      constitutionalFeatures: ["Regional lymphadenopathy common"],
+      importantSigns: ["Golden-yellow 'stuck-on' crusts"]
+    },
+    redFlags: ["Widespread bullae (Staphylococcal Scalded Skin Syndrome)", "Signs of systemic toxicity (fever, lethargy)"],
+    investigations: {
+      diagnostic: [
+        { name: "Gram Stain and Culture", findings: "Identification of S. aureus or S. pyogenes", importance: "Confirm bacterial cause" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["Characteristic crusting", "Typical distribution", "History of contagion"]
+    },
+    differentialDiagnosis: [
+      { condition: "Herpes Simplex", distinguishingFeatures: "Grouped vesicles; history of recurrence; clear fluid." },
+      { condition: "Contact Dermatitis", distinguishingFeatures: "History of allergen exposure; intense itching; linear pattern." }
+    ],
+    complications: {
+      common: ["Ecthyma (deeper ulceration)", "Cellulitis"],
+      serious: ["Post-streptococcal glomerulonephritis (PSGN)", "Staphylococcal Scalded Skin Syndrome"],
+      lifeThreatening: ["Sepsis (rare)"]
+    },
+    conventionalManagement: {
+      general: ["Hygiene measures", "Soaking crusts for removal"],
+      medical: ["Topical antibiotics (Mupirocin)", "Oral antibiotics (Dicloxacillin, Cephalexin)"],
+      prevention: ["Hand washing", "Keeping nails short"]
+    },
+    homoeopathicApproach: "Aims to clear the infection and address the child's susceptibility to skin infections, often focusing on the 'Psora-Sycotic' miasmatic background.",
+    relatedRemedies: [
+      { name: "Antimonium Crudum", keyIndications: "Honey-colored crusts; cracks in corners of mouth; child is cross and doesn't want to be touched." },
+      { name: "Mezereum", keyIndications: "Thick, leathery crusts with pus underneath; intense itching worse from warmth." },
+      { name: "Cicuta Virosa", keyIndications: "Large, lemon-colored crusts; especially on face and chin; associated with twitching." },
+      { name: "Hepar Sulph", keyIndications: "Suppurating sores; extremely sensitive to touch and cold air; smells like old cheese." }
+    ],
+    relatedDiseases: ["cellulitis", "atopic-dermatitis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Honey-colored crusts", "Highly contagious", "Staph/Strep origin"],
+      miasmaticDominance: "Psora-Sycotic",
+      thermalState: "Variable",
+      organAffinity: "Upper epidermis",
+      memoryMnemonic: "HONEY: Honey-crusts, Oral/nasal focus, Non-bullous/Bullous, Exfoliative toxin, Young children"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent spread and screen for PSGN.",
+        severityAssessment: "Based on number and extent of lesions.",
+        referralCriteria: ["Suspicion of PSGN (dark urine, edema)", "Systemic symptoms"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Fear of touch", "Restlessness"],
+        physicalGenerals: {
+          thermalState: "Chilly (Hepar)",
+          thirst: "Variable",
+          appetite: "Variable",
+          desires: ["Pickles/Acids (Antim Crud)"],
+          aversions: ["Milk"],
+          sleep: "Disturbed by itching/soreness",
+          perspiration: "Offensive"
+        },
+        modalities: ["Agg: Touch, washing, heat of bed, night.", "Amel: Coolness (sometimes), open air"],
+        concomitants: ["Swollen glands", "Gastric derangement"],
+        characteristicParticulars: [
+          "Location: Nose, mouth, chin, scalp.",
+          "Appearance: Yellow, gummy, honey-like crusts on red base.",
+          "Sensation: Itching, burning, soreness.",
+          "Discharges: Thick, yellow, sticky pus."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Eruptions forming thick crusts which, when removed, leave a raw, bleeding surface covered with pus (Mezereum)."],
+        individualExpression: "A rapid, proliferative bacterial expression on a psoric skin terrain, often reflecting internal digestive or glandular sluggishness."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, impetigo", chapter: "Skin" },
+          { rubric: "Face, eruptions, crusts, honey-like", chapter: "Face" }
+        ],
+        symptomAnalysis: "Focus on the character of the crusts and the child's behavioral response (irritability vs. sensitivity)."
+      }
+    }
+  },
+  {
+    id: "cellulitis",
+    name: "Cellulitis",
+    slug: "cellulitis",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A deep bacterial infection of the skin and subcutaneous tissues, characterized by spreading erythema, edema, warmth, and tenderness.",
+    simpleExplanation: "A common, potentially serious bacterial skin infection. The affected skin appears swollen and red and is typically painful and warm to the touch.",
+    examKeywords: ["Dermal inflammation", "Staphylococcus aureus", "Streptococcus pyogenes", "Ill-defined borders"],
+    epidemiology: {
+      ageDistribution: "More common in adults and the elderly.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Diabetics", "Patients with lymphedema", "IV drug users"],
+    },
+    etiology: {
+      predisposingFactors: ["Skin breaks (tinea pedis, ulcers)", "Venous insufficiency", "Obesity"],
+      precipitatingFactors: ["Entry of bacteria (S. pyogenes, S. aureus) into deep skin layers"],
+      riskFactors: ["Lymphedema", "Diabetes mellitus", "Peripheral vascular disease"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Bacterial Inoculation", description: "Pathogens bypass the skin barrier." },
+        { title: "Tissue Invasion", description: "Bacteria proliferate in the dermis and subcutaneous fat." },
+        { title: "Inflammatory Surge", description: "Host immune response leads to rapid swelling, redness, and systemic symptoms." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Fever", "Chills", "Malaise"],
+      localSymptoms: [
+        "Morphology: Spreading, ill-defined erythema, warmth, edema, and tenderness.",
+        "Distribution: Most common on the lower legs, but can occur anywhere."
+      ],
+      constitutionalFeatures: ["Leukocytosis", "Lymphangitis (red streaks leading from the area)"],
+      importantSigns: ["Pitting edema", "Regional lymphadenopathy"]
+    },
+    redFlags: ["Crepitus (gas in tissues)", "Rapidly progressive pain disproportionate to findings (Necrotizing fasciitis)", "Bullae or necrosis"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Classic 4 signs: Calor, Rubor, Tumor, Dolor", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Blood Cultures", findings: "Positive in <10% of cases", importance: "Useful for systemic toxicity" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["Spreading redness", "Warmth and tenderness", "Ill-defined margins"]
+    },
+    differentialDiagnosis: [
+      { condition: "Erysipelas", distinguishingFeatures: "Well-demarcated; superficial; involves lymphatics." },
+      { condition: "DVT", distinguishingFeatures: "Palpable cord; no warmth/redness; ultrasound findings." },
+      { condition: "Stasis Dermatitis", distinguishingFeatures: "Chronic; bilateral; associated with venous ulcers; no fever." }
+    ],
+    complications: {
+      common: ["Abscess formation", "Recurrent cellulitis"],
+      serious: ["Necrotizing fasciitis", "Sepsis", "Endocarditis"],
+      lifeThreatening: ["Septic shock"]
+    },
+    conventionalManagement: {
+      general: ["Leg elevation", "Cool compresses"],
+      medical: ["Oral or IV antibiotics (Flucloxacillin, Cefazolin)", "Pain management"],
+      prevention: ["Treating tinea pedis", "Skin hydration"]
+    },
+    homoeopathicApproach: "Targets the intense inflammatory state while preventing the spread of infection and addressing the systemic toxicity (often Psora-Syphilitic).",
+    relatedRemedies: [
+      { name: "Belladonna", keyIndications: "Sudden onset; bright red, hot, throbbing skin; sensitive to jarring; fever with cold hands/feet." },
+      { name: "Apis Mellifica", keyIndications: "Puffy, rosy-red swelling; stinging/burning pains; better for cold; thirstless." },
+      { name: "Rhus Toxicodendron", keyIndications: "Vesicular cellulitis; dark red skin; better for heat; intense restlessness." },
+      { name: "Lachesis", keyIndications: "Purplish or bluish discoloration; extremely sensitive to touch; worse on left side; septic states." }
+    ],
+    relatedDiseases: ["erysipelas", "abscess"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Deep infection", "Ill-defined borders", "Lower leg focus"],
+      miasmaticDominance: "Psora-Syphilitic",
+      thermalState: "Hot (Bell/Apis)",
+      organAffinity: "Dermis, Subcutaneous tissue",
+      memoryMnemonic: "CELL: Calor, Erythema, Lower limb, Lymphangitis"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from life-threatening necrotizing infections.",
+        severityAssessment: "Eron classification.",
+        referralCriteria: ["Rapid spread", "Systemic toxicity", "Crepitus"]
+      },
+      individualization: {
+        mentalGenerals: ["Delirium (Bell)", "Anxiety", "Restlessness (Rhus Tox)"],
+        physicalGenerals: {
+          thermalState: "High fever; Chills",
+          thirst: "Great thirst (Bell) or Thirstless (Apis)",
+          appetite: "Lost",
+          desires: ["Lemons/Acids (Bell)"],
+          aversions: ["Food"],
+          sleep: "Disturbed by throbbing pain",
+          perspiration: "Hot sweat (Bell)"
+        },
+        modalities: ["Agg: Touch, jarring, heat, lying on affected side.", "Amel: Cold applications (Apis), Warmth (Rhus Tox), Elevation"],
+        concomitants: ["Red streaks (Lymphangitis)", "Tachycardia"],
+        characteristicParticulars: [
+          "Location: Lower legs, face, arms.",
+          "Appearance: Angry red, swollen, tense skin.",
+          "Sensation: Throbbing, stinging, burning, weight.",
+          "Discharges: Serous fluid if bullae present."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Skin so hot that it imparts a burning sensation to the hand of the examiner (Belladonna)."],
+        individualExpression: "A deep, invasive inflammatory surge reflecting a breakdown of local and systemic vital resistance."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, inflammation, erysipelatous", chapter: "Skin" },
+          { rubric: "Skin, swelling, edematous", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the color of the skin (Bright red vs. Purple) and the character of the pain (Stinging vs. Throbbing)."
+      }
+    }
+  },
+  {
+    id: "dermatophytosis",
+    name: "Dermatophytosis (Tinea / Ringworm)",
+    slug: "dermatophytosis",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A fungal infection of keratinized tissues (skin, hair, nails) caused by dermatophytes, typically presenting as annular, scaly lesions.",
+    simpleExplanation: "A common fungal skin infection that often looks like a circular, red, itchy rash. It can affect different parts of the body and is contagious.",
+    examKeywords: ["Annular lesions", "Central clearing", "Dermatophytes (Trichophyton)", "KOH mount"],
+    epidemiology: {
+      ageDistribution: "Tinea capitis common in children; Tinea pedis/cruris common in adults.",
+      sexDistribution: "Tinea cruris more common in males.",
+      riskGroups: ["Athletes", "Pet owners", "Individuals in humid climates"],
+    },
+    etiology: {
+      predisposingFactors: ["Hyperhidrosis (excessive sweating)", "Occlusive clothing"],
+      precipitatingFactors: ["Contact with infected humans, animals, or soil (Trichophyton, Microsporum, Epidermophyton)"],
+      riskFactors: ["Immunosuppression", "Shared towels/showers"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Adherence", description: "Fungal spores attach to keratinocytes." },
+        { title: "Invasion", description: "Enzymes (keratinases) allow fungi to invade and digest keratin." },
+        { title: "Proliferation", description: "Fungi spread centrifugally, creating the ring-like appearance while the center clears as the host immune response kicks in." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Pruritus (itching)", "Scaling"],
+      localSymptoms: [
+        "Morphology: Annular (ring-shaped) erythematous patches with active scaly borders and central clearing.",
+        "Distribution: Body (Tinea corporis), Groin (Tinea cruris), Feet (Tinea pedis), Scalp (Tinea capitis), Nails (Onychomycosis)."
+      ],
+      constitutionalFeatures: ["Kerion (inflammatory mass) in severe tinea capitis"],
+      importantSigns: ["Active scaly border"]
+    },
+    redFlags: ["Secondary bacterial infection", "Inflammatory kerion (risk of permanent scarring)"],
+    investigations: {
+      diagnostic: [
+        { name: "KOH Mount", findings: "Branching hyphae", importance: "Fast and reliable confirmatory test" }
+      ],
+      laboratoryFindings: [
+        { name: "Fungal Culture", findings: "Identification of species", importance: "Useful for resistant cases" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical & Microscopic",
+      criteria: ["Annular lesion with central clearing", "Presence of hyphae on KOH mount"]
+    },
+    differentialDiagnosis: [
+      { condition: "Nummular Eczema", distinguishingFeatures: "No central clearing; more vesicular; very itchy." },
+      { condition: "Psoriasis", distinguishingFeatures: "Thick silvery scales; involves extensors; no hyphae." },
+      { condition: "Pityriasis Rosea", distinguishingFeatures: "Herald patch; Christmas tree distribution." }
+    ],
+    complications: {
+      common: ["Secondary bacterial infection", "Spread to other body parts"],
+      serious: ["Permanent hair loss (Tinea capitis)", "Nail destruction"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Keep area dry", "Cotton clothing"],
+      medical: ["Topical antifungals (Clotrimazole, Terbinafine)", "Oral antifungals (Griseofulvin for scalp)"],
+      prevention: ["Don't share personal items", "Treat infected pets"]
+    },
+    homoeopathicApproach: "Focuses on the 'Psora' miasm, treating the fungal infection as a sign of lowered local vital resistance and addressing the chronic tendency for recurrences.",
+    relatedRemedies: [
+      { name: "Sepia", keyIndications: "Ringworm in isolated spots; itching worse in spring; chilly patient." },
+      { name: "Tellurium", keyIndications: "Ringworm all over the body; offensive odor like fish brine; intense itching." },
+      { name: "Sulphur", keyIndications: "Intense itching worse from heat/washing; red active borders." },
+      { name: "Bacillinum", keyIndications: "Chronic ringworm in patients with a tubercular history; indicated for recurrences." }
+    ],
+    relatedDiseases: ["candidiasis"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Annular shape", "KOH branching hyphae", "Central clearing"],
+      miasmaticDominance: "Psora",
+      thermalState: "Variable",
+      organAffinity: "Keratinized tissues (Skin, Hair, Nails)",
+      memoryMnemonic: "RING: Round, Itchy, No center (clearing), Gummy scales"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from inflammatory eczema.",
+        severityAssessment: "Based on number of sites involved.",
+        referralCriteria: ["Inflammatory kerion", "Severe nail involvement"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Indifference (Sepia)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Sepia) or Hot (Sulph)",
+          thirst: "Variable",
+          appetite: "Cravings for sour food (Sepia)",
+          desires: ["Sour food", "Sweets"],
+          aversions: ["Milk"],
+          sleep: "Itching worse in bed",
+          perspiration: "Offensive odor (Tellurium)"
+        },
+        modalities: ["Agg: Warmth of bed, washing, spring (Sepia).", "Amel: Cool air, dry weather"],
+        concomitants: ["Offensive body odor", "Glandular swellings"],
+        characteristicParticulars: [
+          "Location: Trunk, groin, between toes, scalp.",
+          "Appearance: Ring-like red patches with scaly edges.",
+          "Sensation: Itching, stinging, burning.",
+          "Discharges: Dry or fine white scales."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Ringworm appearing in circular patches with an offensive odor of fish brine (Tellurium)."],
+        individualExpression: "A localized fungal colonization reflecting a systemic psoric weakness in the skin's defense mechanisms."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, ringworm", chapter: "Skin" },
+          { rubric: "Skin, eruptions, scaly, circinate", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the circularity of the lesion and the associated odor or thermal state."
+      }
+    }
+  },
+  {
+    id: "scabies",
+    name: "Scabies",
+    slug: "scabies",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A highly contagious skin infestation caused by the mite Sarcoptes scabiei, characterized by intense nocturnal pruritus and characteristic burrows.",
+    simpleExplanation: "An itchy skin condition caused by a tiny burrowing mite. The itch is often intense and usually gets worse at night.",
+    examKeywords: ["Sarcoptes scabiei", "Nocturnal pruritus", "Burrows", "Contagious"],
+    epidemiology: {
+      ageDistribution: "Any age, but common in children and the elderly.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Nursing home residents", "Children in daycare", "Prisoners"],
+    },
+    etiology: {
+      predisposingFactors: ["Overcrowding", "Institutional living"],
+      precipitatingFactors: ["Infestation by the female mite Sarcoptes scabiei var. hominis"],
+      riskFactors: ["Close physical contact", "Shared bedding"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Transmission", description: "Direct skin-to-skin contact with an infested person." },
+        { title: "Burrowing", description: "The female mite burrows into the stratum corneum and lays eggs." },
+        { title: "Hypersensitivity", description: "Symptoms develop 3-6 weeks after infestation as a Type IV hypersensitivity reaction to the mite, eggs, and feces (scybala)." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Intense itching, characteristically worse at night", "Rash on multiple family members"],
+      localSymptoms: [
+        "Morphology: Small, erythematous papules, excoriations, and linear or S-shaped burrows.",
+        "Distribution: Finger webs, flexor wrists, axillae, periumbilical area, nipples (females), and genitalia (males)."
+      ],
+      constitutionalFeatures: ["Eczematous changes from scratching"],
+      importantSigns: ["Burrows (pathognomonic but often hard to find)"]
+    },
+    redFlags: ["Crusted (Norwegian) scabies in immunocompromised patients (thousands of mites, highly contagious, minimal itch)"],
+    investigations: {
+      diagnostic: [
+        { name: "Skin Scraping", findings: "Identification of mites, eggs, or scybala under microscopy", importance: "Confirmatory" }
+      ],
+      laboratoryFindings: [
+        { name: "Dermoscopy", findings: "Delta-wing sign (mite head and legs)", importance: "Non-invasive visualization" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Diagnosis",
+      criteria: ["Nocturnal itch", "Typical distribution", "Positive family/contact history", "Presence of burrows"]
+    },
+    differentialDiagnosis: [
+      { condition: "Atopic Dermatitis", distinguishingFeatures: "Personal/family history; involves flexures; no burrows." },
+      { condition: "Insect Bites", distinguishingFeatures: "Grouped; no burrows; usually not nocturnal focus." },
+      { condition: "Dermatitis Herpetiformis", distinguishingFeatures: "Extremely itchy vesicles on extensors; linked to celiac disease." }
+    ],
+    complications: {
+      common: ["Secondary bacterial infection (Impetigo)", "Post-scabietic itch"],
+      serious: ["Post-streptococcal glomerulonephritis (if impetiginized)", "Sepsis"],
+      lifeThreatening: ["None directly"]
+    },
+    conventionalManagement: {
+      general: ["Wash all bedding/clothes in hot water", "Treat all household contacts"],
+      medical: ["Topical Permethrin (5%)", "Oral Ivermectin", "Crotamiton"],
+      prevention: ["Avoid contact with infested persons"]
+    },
+    homoeopathicApproach: "Focuses on the 'Psora' miasm, aiming to relieve the intense nocturnal itch and clear the infestation by improving the skin's local resistance to the parasite.",
+    relatedRemedies: [
+      { name: "Psorinum", keyIndications: "Intense itching, worse from warmth of bed; skin looks dirty; offensive odor; very chilly." },
+      { name: "Sulphur", keyIndications: "Voluptuous itching; worse from warmth and washing; scratching until it bleeds feels good." },
+      { name: "Causticum", keyIndications: "Scabies in the folds of the skin; associated with paralytic weakness." },
+      { name: "Sepia", keyIndications: "Scabies in the bends of elbows and knees; worse in spring." }
+    ],
+    relatedDiseases: ["impetigo"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Nocturnal itch", "Finger web involvement", "Sarcoptes mite"],
+      miasmaticDominance: "Psora",
+      thermalState: "Very Chilly (Psorinum)",
+      organAffinity: "Stratum corneum",
+      memoryMnemonic: "MITES: Midnight itch, Interdigital, Treated family, Eggs, Scabies"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To stop community spread.",
+        severityAssessment: "Based on lesion count and type (classical vs. crusted).",
+        referralCriteria: ["Crusted scabies"]
+      },
+      individualization: {
+        mentalGenerals: ["Despair", "Anxiety", "Suicidal thoughts from itch (Psorinum)"],
+        physicalGenerals: {
+          thermalState: "Extremely Chilly (Psorinum)",
+          thirst: "Variable",
+          appetite: "Craves sweets",
+          desires: ["Warmth"],
+          aversions: ["Variable"],
+          sleep: "Impossible due to itching",
+          perspiration: "Offensive (Psorinum)"
+        },
+        modalities: ["Agg: Night, warmth of bed, washing, woolens.", "Amel: Cold air (Sulph), scratching until it bleeds (Psorinum)"],
+        concomitants: ["Boils", "Offensive body odor"],
+        characteristicParticulars: [
+          "Location: Between fingers, wrists, groin, nipples.",
+          "Appearance: Small red bumps, lines (burrows), scabs.",
+          "Sensation: Intense itching, crawling, burning after scratching.",
+          "Discharges: Bloody crusts from scratching."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Itching so intolerable the patient has a desire to commit suicide (Psorinum)."],
+        individualExpression: "An external infestation that thrives on a psoric, poorly-nourished skin terrain, reflecting internal vulnerability."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, scabies", chapter: "Skin" },
+          { rubric: "Skin, itching, night, warmth of bed", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the time of aggravation (night) and the patient's thermal sensitivity (extreme chilliness)."
+      }
+    }
+  },
+  {
+    id: "herpes-zoster",
+    name: "Herpes Zoster (Shingles)",
+    slug: "herpes-zoster",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A painful, blistering viral skin eruption caused by the reactivation of the varicella-zoster virus (VZV) in a specific dermatomal distribution.",
+    simpleExplanation: "A viral infection that causes a painful rash. Shingles can occur anywhere on your body, but it most often appears as a single stripe of blisters that wraps around either the left or the right side of your torso.",
+    examKeywords: ["Varicella-zoster reactivation", "Dermatomal distribution", "Unilateral", "Post-herpetic neuralgia"],
+    epidemiology: {
+      ageDistribution: "More common in adults >50 years.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Elderly", "Immunocompromised patients", "Those who had chickenpox in childhood"],
+    },
+    etiology: {
+      predisposingFactors: ["Prior chickenpox infection", "Declining cell-mediated immunity"],
+      precipitatingFactors: ["Stress", "Fatigue", "Illness", "Immunosuppressive drugs"],
+      riskFactors: ["Ageing", "HIV", "Malignancy"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Latency", description: "VZV remains latent in the dorsal root ganglia after primary chickenpox." },
+        { title: "Reactivation", description: "Virus travels down the sensory nerve to the skin." },
+        { title: "Eruption", description: "Viral replication in the skin causes inflammation, pain, and characteristic vesicles within a dermatome." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Prodromal pain (burning/tingling)", "Fever", "Headache"],
+      localSymptoms: [
+        "Morphology: Grouped vesicles on an erythematous base, evolving into pustules and crusts.",
+        "Distribution: Unilateral, dermatomal (thoracic and trigeminal are most common)."
+      ],
+      constitutionalFeatures: ["Neuropathic pain (stabbing, burning)"],
+      importantSigns: ["Hutchinson sign (vesicle on tip of nose—indicates ophthalmic involvement)"]
+    },
+    redFlags: ["Hutchinson sign (ophthalmic shingles)", "Ramsay Hunt Syndrome (ear involvement/facial palsy)", "Sacral shingles (bowel/bladder dysfunction)"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Dermatomal vesicles", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Tzanck Smear", findings: "Multinucleated giant cells", importance: "Supports herpes virus infection" },
+        { name: "PCR", findings: "Detection of VZV DNA", importance: "Gold standard for confirmation" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["Unilateral dermatomal distribution", "Grouped vesicles", "History of prodromal pain"]
+    },
+    differentialDiagnosis: [
+      { condition: "Herpes Simplex", distinguishingFeatures: "Less painful; not dermatomal; history of recurrence." },
+      { condition: "Contact Dermatitis", distinguishingFeatures: "Itchy rather than painful; history of contact; not dermatomal." },
+      { condition: "Cellulitis", distinguishingFeatures: "No vesicles; ill-defined; not dermatomal." }
+    ],
+    complications: {
+      common: ["Post-herpetic neuralgia (PHN)", "Secondary infection"],
+      serious: ["Herpes Zoster Ophthalmicus (vision loss)", "Ramsay Hunt Syndrome"],
+      lifeThreatening: ["Encephalitis (rare)"]
+    },
+    conventionalManagement: {
+      general: ["Keep rash clean/dry", "Pain management"],
+      medical: ["Antivirals (Acyclovir, Valacyclovir)", "Gabapentin for neuralgia", "Shingles vaccine"],
+      prevention: ["Zoster vaccine for adults >50"]
+    },
+    homoeopathicApproach: "Focuses on relieving the intense neuralgic pain and preventing post-herpetic neuralgia by addressing the viral reactivation in a 'Psora-Syphilitic' miasmatic framework.",
+    relatedRemedies: [
+      { name: "Ranunculus Bulbosus", keyIndications: "Intense neuralgic pain; vesicles are bluish/dark; worse for touch and motion; chest wall focus." },
+      { name: "Rhus Toxicodendron", keyIndications: "Intense itching/burning; red, vesicular rash; better for heat and motion; restless." },
+      { name: "Mezereum", keyIndications: "Vesicles with white/yellow contents; intense neuralgic pain after the rash disappears (PHN)." },
+      { name: "Variolinum", keyIndications: "Nosode used for severe pain and to prevent scarring." }
+    ],
+    relatedDiseases: ["chickenpox", "herpes-simplex"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "Alert",
+    quickRevisionBox: {
+      keyNotes: ["Unilateral dermatome", "VZV reactivation", "Neuralgic pain"],
+      miasmaticDominance: "Psora-Syphilitic (Destructive nerve pain)",
+      thermalState: "Variable (Rhus Tox-Chilly)",
+      organAffinity: "Sensory nerves, Skin",
+      memoryMnemonic: "ZOSTER: Zoster virus, One-sided, Sensory pain, Trigeminal/Thoracic, Elderly, Rash"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent vision loss and long-term neuralgia.",
+        severityAssessment: "Based on pain intensity and dermatome involved.",
+        referralCriteria: ["Ophthalmic involvement", "Ear involvement"]
+      },
+      individualization: {
+        mentalGenerals: ["Anxiety", "Restlessness", "Despair from pain"],
+        physicalGenerals: {
+          thermalState: "Chilly (Rhus Tox)",
+          thirst: "Variable",
+          appetite: "Poor",
+          desires: ["Warm drinks (Rhus Tox)"],
+          aversions: ["Cold food"],
+          sleep: "Impossible due to pain",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Touch, cold air, rest (Rhus Tox), midnight.", "Amel: Heat, continuous motion (Rhus Tox)"],
+        concomitants: ["Burning neuralgic pain", "Malaise"],
+        characteristicParticulars: [
+          "Location: Chest, forehead, waist (unilateral).",
+          "Appearance: Grouped blisters on red base; can be dark/bluish.",
+          "Sensation: Burning, stabbing, 'as if a hot wire is under skin'.",
+          "Discharges: Clear fluid, becoming cloudy/pus-like."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Neuralgic pain so severe that the patient cannot bear the least touch of clothing (Ranunculus/Mezereum)."],
+        individualExpression: "The sudden 'awakening' of a dormant viral force, causing neuro-destructive inflammation along a psoric path."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, herpes zoster", chapter: "Skin" },
+          { rubric: "Skin, eruptions, vesicles, burning", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the type of pain (stabbing vs. burning) and the effect of heat/cold on that pain."
+      }
+    }
+  },
+  {
+    id: "herpes-simplex",
+    name: "Herpes Simplex",
+    slug: "herpes-simplex",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A chronic viral infection caused by Herpes Simplex Virus (HSV-1 or HSV-2), characterized by recurrent grouped vesicles on a red base.",
+    simpleExplanation: "A common viral infection that causes sores on your lips (cold sores) or genitals. Once you have the virus, it stays in your body and can cause outbreaks from time to time.",
+    examKeywords: ["HSV-1 and HSV-2", "Cold sores", "Genital herpes", "Tzanck smear"],
+    epidemiology: {
+      ageDistribution: "HSV-1 common in children; HSV-2 common in sexually active adults.",
+      sexDistribution: "Slightly more common in females (genital).",
+      riskGroups: ["Sexually active individuals", "Immunocompromised patients"],
+    },
+    etiology: {
+      predisposingFactors: ["Stress", "Fatigue"],
+      precipitatingFactors: ["UV exposure (sunlight)", "Fever", "Menstruation", "Trauma"],
+      riskFactors: ["Close physical contact", "Unprotected sex"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Primary Infection", description: "Virus enters through skin or mucous membranes." },
+        { title: "Latency", description: "Virus travels to and remains latent in sensory ganglia (trigeminal or sacral)." },
+        { title: "Reactivation", description: "Trigger causes virus to travel back to the skin, creating recurrent sores." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Prodromal tingling/itching", "Malaise during primary infection"],
+      localSymptoms: [
+        "Morphology: Grouped, small, clear vesicles on an erythematous base; quickly rupture to form erosions.",
+        "Distribution: Lips/Perioral (HSV-1), Genitals/Anorectal (HSV-2)."
+      ],
+      constitutionalFeatures: ["Lymphadenopathy common during outbreaks"],
+      importantSigns: ["'Dew drops on a rose petal' appearance"]
+    },
+    redFlags: ["Herpetic whitlow (fingertip)", "Ocular herpes (keratitis)", "Eczema herpeticum"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Grouped vesicles", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Viral Culture / PCR", findings: "Detection of HSV DNA", importance: "Gold standard" },
+        { name: "Tzanck Smear", findings: "Multinucleated giant cells", importance: "Quick bedside test" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical & Laboratory",
+      criteria: ["Recurrent vesicular eruption", "Typical location", "PCR confirmation (if needed)"]
+    },
+    differentialDiagnosis: [
+      { condition: "Impetigo", distinguishingFeatures: "Honey-colored crusts; not usually recurrent in same spot." },
+      { condition: "Syphilis (Chancre)", distinguishingFeatures: "Painless; single ulcer; indurated base." },
+      { condition: "Aphthous Ulcer", distinguishingFeatures: "Only on mucous membranes; no vesicles; white/yellow base." }
+    ],
+    complications: {
+      common: ["Recurrence", "Psychological distress"],
+      serious: ["Herpetic keratitis", "Neonatal herpes", "Aseptic meningitis"],
+      lifeThreatening: ["Herpes encephalitis"]
+    },
+    conventionalManagement: {
+      general: ["Avoid triggers", "Keep area clean"],
+      medical: ["Antivirals (Acyclovir, Valacyclovir, Famciclovir)"],
+      prevention: ["Condom use", "Avoiding contact during active sores"]
+    },
+    homoeopathicApproach: "Targets the 'Sycotic' or 'Psora-Syphilitic' miasm, aiming to reduce the frequency and severity of recurrences by addressing the patient's susceptibility.",
+    relatedRemedies: [
+      { name: "Natrum Mur", keyIndications: "Cold sores appearing like a 'string of pearls'; worse from sun; associated with emotional grief; mapped tongue." },
+      { name: "Rhus Toxicodendron", keyIndications: "Small, clear vesicles with intense itching/burning; red base; restless." },
+      { name: "Sepia", keyIndications: "Herpes during pregnancy or menses; genital herpes with indifference; chilly." },
+      { name: "Hepar Sulph", keyIndications: "Painful, suppurating herpes; extremely sensitive to touch/cold." }
+    ],
+    relatedDiseases: ["herpes-zoster", "syphilis"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Grouped vesicles", "Recurrent in same spot", "HSV-1 (Oral) / HSV-2 (Genital)"],
+      miasmaticDominance: "Sycotic (Recurrence)",
+      thermalState: "Variable",
+      organAffinity: "Mucocutaneous junctions",
+      memoryMnemonic: "HERPES: Hot-red base, Eruptions, Recurrent, Prodromal tingling, Emotional/Physical stress, Sores"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To manage transmission and prevent neonatal complications.",
+        severityAssessment: "Based on recurrence frequency.",
+        referralCriteria: ["Ocular involvement", "Neonatal exposure"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Grief (Nat Mur)", "Indifference (Sepia)"],
+        physicalGenerals: {
+          thermalState: "Chilly (Nat Mur/Sepia)",
+          thirst: "Great thirst (Nat Mur) or Thirstless (Sepia)",
+          appetite: "Craves salt (Nat Mur)",
+          desires: ["Salt", "Sour food"],
+          aversions: ["Fat"],
+          sleep: "Normal unless active outbreak",
+          perspiration: "Variable"
+        },
+        modalities: ["Agg: Sun, stress, menses, cold wind.", "Amel: Seaside (Nat Mur - sometimes agg), rest"],
+        concomitants: ["Mapped tongue", "Constipation"],
+        characteristicParticulars: [
+          "Location: Lips, genitals, nose.",
+          "Appearance: Grouped clear blisters; look like pearls.",
+          "Sensation: Tingling, burning, itching before eruption.",
+          "Discharges: Clear serous fluid."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Herpes appearing regularly after every cold or emotional upset (Natrum Mur)."],
+        individualExpression: "A localized viral manifestation of a deep-seated sycotic miasm, often triggered by emotional suppression."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, eruptions, herpes, circinate", chapter: "Skin" },
+          { rubric: "Face, eruptions, herpes, lips", chapter: "Face" }
+        ],
+        symptomAnalysis: "Focus on the triggers (Sun vs. Grief) and the location (Lips vs. Genitals)."
+      }
+    }
+  },
+  {
+    id: "viral-warts",
+    name: "Viral Warts",
+    slug: "viral-warts",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "Benign epidermal proliferations caused by Human Papillomavirus (HPV) infection, resulting in various morphological types of warts.",
+    simpleExplanation: "Small, fleshy bumps on the skin caused by a virus. They are contagious and can appear on any part of the body.",
+    examKeywords: ["Human Papillomavirus (HPV)", "Koilocytes", "Hyperkeratosis", "Verruca"],
+    epidemiology: {
+      ageDistribution: "Very common in children and young adults.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Meat handlers", "Individuals using communal showers", "Immunocompromised patients"],
+    },
+    etiology: {
+      predisposingFactors: ["Skin breaks", "Maceration"],
+      precipitatingFactors: ["Infection with HPV (various types, e.g., HPV-1, 2, 4)"],
+      riskFactors: ["Shared footwear", "Hyperhidrosis"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Viral Entry", description: "HPV enters basal keratinocytes through minor abrasions." },
+        { title: "Epidermal Proliferation", description: "Virus induces hyperproliferation of the epidermis." },
+        { title: "Wart Formation", description: "Characteristic thickening and surface changes result in a visible wart." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Asymptomatic in most cases", "Pain if on pressure points (soles)"],
+      localSymptoms: [
+        "Morphology: Common warts (rough, hyperkeratotic papules); Plantar warts (flat, painful, with black dots); Plane warts (smooth, skin-colored); Filiform warts (finger-like).",
+        "Distribution: Hands, soles of feet, face, genitals (Condylomata)."
+      ],
+      constitutionalFeatures: ["None usually"],
+      importantSigns: ["Black dots (thrombosed capillaries) on paring"]
+    },
+    redFlags: ["Warts in an elderly patient that bleed or ulcerate (consider SCC)", "Giant condyloma acuminatum"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Characteristic rough papules", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Skin Biopsy", findings: "Koilocytes (vacuolated cells), papillomatosis", importance: "Only in uncertain cases" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["Morphology", "Location", "Black dots on paring (for plantar)"]
+    },
+    differentialDiagnosis: [
+      { condition: "Corn / Callus", distinguishingFeatures: "No black dots; skin lines pass through the lesion (unlike warts)." },
+      { condition: "Molluscum Contagiosum", distinguishingFeatures: "Umblicated papules; pearly appearance." },
+      { condition: "Seborrheic Keratosis", distinguishingFeatures: "Waxy, 'stuck-on' appearance; older patients." }
+    ],
+    complications: {
+      common: ["Cosmetic distress", "Pain (plantar)", "Spread (autoinoculation)"],
+      serious: ["Malignant transformation (rare, mostly HPV-16, 18)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Avoid sharing items", "Don't pick at warts"],
+      medical: ["Salicylic acid", "Cryotherapy", "Electrocautery", "Laser therapy"],
+      prevention: ["HPV vaccination"]
+    },
+    homoeopathicApproach: "Classic example of a 'Sycotic' miasm. Aims to eliminate the warts by addressing the underlying proliferative tendency of the vital force.",
+    relatedRemedies: [
+      { name: "Thuja Occidentalis", keyIndications: "Specific for warts; large, cauliflower-like, bleeding warts; associated with sycotic miasm; greasy skin." },
+      { name: "Causticum", keyIndications: "Warts on the tips of fingers or nose; large, jagged warts; bleeding easily." },
+      { name: "Dulcamara", keyIndications: "Flat, smooth warts; appearing on back of hands or face; worse in damp weather." },
+      { name: "Nitric Acid", keyIndications: "Jagged warts; stinging pains like a splinter; at mucocutaneous junctions." }
+    ],
+    relatedDiseases: ["molluscum-contagiosum"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["HPV virus", "Hyperkeratotic", "Cauliflower-like (Thuja)"],
+      miasmaticDominance: "Sycotic (Proliferative)",
+      thermalState: "Variable (Thuja-Chilly)",
+      organAffinity: "Epidermis",
+      memoryMnemonic: "WARTS: Warty, Autoinoculation, Rough, Thuja, Sycosis"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To prevent unnecessary surgical trauma and manage spread.",
+        severityAssessment: "Based on number and location.",
+        referralCriteria: ["Suspicion of malignancy"]
+      },
+      individualization: {
+        mentalGenerals: ["Secretive (Thuja)", "Fixed ideas", "Hurry"],
+        physicalGenerals: {
+          thermalState: "Chilly (Thuja/Caust)",
+          thirst: "Variable",
+          appetite: "Aversion to onions (Thuja)",
+          desires: ["Salt (Caust)"],
+          aversions: ["Meat (Caust)"],
+          sleep: "Dreams of falling",
+          perspiration: "Offensive or sweet-smelling (Thuja)"
+        },
+        modalities: ["Agg: Damp weather (Dulcamara), touch, morning.", "Amel: Warmth, dry weather"],
+        concomitants: ["Greasy face", "Brittle nails"],
+        characteristicParticulars: [
+          "Location: Hands, face, soles, genitals.",
+          "Appearance: Rough, cauliflower-like, flat, or finger-like.",
+          "Sensation: Usually painless; stinging if jagged.",
+          "Discharges: Bleed easily if touched."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Warts appearing in crops after exposure to cold, damp weather (Dulcamara)."],
+        individualExpression: "A localized epidermal proliferation reflecting an internal sycotic excess and loss of cellular control."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Skin, warts", chapter: "Skin" },
+          { rubric: "Skin, warts, cauliflower-like", chapter: "Skin" }
+        ],
+        symptomAnalysis: "Focus on the shape of the wart (Flat vs. Jagged) and the miasmatic history."
+      }
+    }
+  },
+  {
+    id: "alopecia-areata",
+    name: "Alopecia Areata",
+    slug: "alopecia-areata",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "An autoimmune condition causing non-scarring hair loss, characteristically presenting as well-defined circular patches of hair loss on the scalp or body.",
+    simpleExplanation: "A condition that causes hair to fall out in small patches, which can be unnoticeable. These patches may connect and then become noticeable. The condition develops when the immune system attacks the hair follicles.",
+    examKeywords: ["Exclamation mark hairs", "Non-scarring", "Autoimmune", "Patchy hair loss"],
+    epidemiology: {
+      ageDistribution: "Most common in children and young adults.",
+      sexDistribution: "Equal distribution.",
+      riskGroups: ["Individuals with Down syndrome", "Family history of alopecia", "Patients with other autoimmune diseases"],
+    },
+    etiology: {
+      predisposingFactors: ["Genetic susceptibility", "Atopy"],
+      precipitatingFactors: ["Stress", "Viral infection", "Emotional trauma"],
+      riskFactors: ["Thyroid disease", "Vitiligo"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Immune Privilege Loss", description: "The hair follicle loses its normal 'immune privilege' status." },
+        { title: "T-Cell Attack", description: "CD8+ T-cells attack the bulb of the hair follicle." },
+        { title: "Hair Growth Arrest", description: "Hair follicles enter the telogen (resting) phase prematurely, leading to hair shedding." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Asymptomatic hair loss", "Psychological distress"],
+      localSymptoms: [
+        "Morphology: Smooth, skin-colored, non-scarring circular patches of hair loss.",
+        "Distribution: Primarily scalp, but can involve beard, eyebrows, or entire body (Alopecia universalis)."
+      ],
+      constitutionalFeatures: ["Associated with nail pitting in 20% of cases"],
+      importantSigns: ["Exclamation mark hairs (short broken hairs at the edge of patches)"]
+    },
+    redFlags: ["Scarring alopecia (loss of follicles, scalp looks shiny/smooth—not Alopecia Areata)"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Examination", findings: "Smooth patches with exclamation mark hairs", importance: "Primary method" }
+      ],
+      laboratoryFindings: [
+        { name: "Thyroid Profile", findings: "Screening for associated disease", importance: "Useful in recurrent cases" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["Circular patches of non-scarring hair loss", "Exclamation mark hairs", "Absence of inflammation/scaling"]
+    },
+    differentialDiagnosis: [
+      { condition: "Tinea Capitis", distinguishingFeatures: "Scaling present; broken hair 'black dots'; positive fungal culture." },
+      { condition: "Trichotillomania", distinguishingFeatures: "Irregular patches; hairs of different lengths; psychological history." },
+      { condition: "Scarring Alopecia", distinguishingFeatures: "Loss of follicular openings; scalp looks smooth/shiny." }
+    ],
+    complications: {
+      common: ["Psychological impact", "Sunburn on exposed scalp"],
+      serious: ["Alopecia Totalis (total scalp loss)", "Alopecia Universalis (total body loss)"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Counseling", "Sun protection"],
+      medical: ["Intralesional corticosteroids", "Topical Minoxidil", "Topical immunotherapy", "JAK inhibitors for severe cases"],
+      prevention: ["Stress management"]
+    },
+    homoeopathicApproach: "Addresses the 'Psora-Syphilitic' miasm and the autoimmune dysfunction by using constitutional remedies that consider the patient's emotional history (often grief/stress).",
+    relatedRemedies: [
+      { name: "Fluoricum Acidum", keyIndications: "Hair falls out in patches; new hair is dry and brittle; associated with hyper-energetic state." },
+      { name: "Phosphorus", keyIndications: "Hair falls out in large bunches; scalp is itchy; associated with sensitive, artistic patients." },
+      { name: "Vinca Minor", keyIndications: "Hair falls out and is replaced by gray hair; spots like lichen on scalp." },
+      { name: "Lycopodium", keyIndications: "Hair loss after childbirth or abdominal illness; premature graying." }
+    ],
+    relatedDiseases: ["vitiligo", "hashimoto-thyroiditis"],
+    examPriority: "Medium",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Smooth circular patches", "Exclamation mark hairs", "Autoimmune etiology"],
+      miasmaticDominance: "Psora-Syphilitic (Destruction of follicle function)",
+      thermalState: "Variable (Phos-Chilly/Hot mix)",
+      organAffinity: "Hair follicles",
+      memoryMnemonic: "PATCH: Patchy, Autoimmune, T-cells, Circular, Hairs (Exclamation)"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from scarring alopecia (permanent).",
+        severityAssessment: "SALT (Severity of Alopecia Tool) score.",
+        referralCriteria: ["Rapidly progressive universal hair loss"]
+      },
+      individualization: {
+        mentalGenerals: ["History of grief/shock", "Anxiety", "Indifference"],
+        physicalGenerals: {
+          thermalState: "Chilly (Phos/Fluoric Acid - but wants cold)",
+          thirst: "Great thirst for cold water (Phos)",
+          appetite: "Cravings for cold things (Phos) or Spicy (Fluor Acid)",
+          desires: ["Cold drinks", "Spicy food", "Ice cream"],
+          aversions: ["Warm food"],
+          sleep: "Sleeps on right side (Phos)",
+          perspiration: "Acrid (Fluor Acid)"
+        },
+        modalities: ["Agg: Grief, stress, washing scalp.", "Amel: Cool air (Fluor Acid)"],
+        concomitants: ["Brittle nails", "Thyroid symptoms"],
+        characteristicParticulars: [
+          "Location: Scalp, beard, eyebrows.",
+          "Appearance: Smooth, white, circular patches.",
+          "Sensation: Tingling or itching before hair falls.",
+          "Discharges: None."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Hair falls out in patches and is replaced by white or gray hair (Vinca Minor)."],
+        individualExpression: "An autoimmune 'rebellion' of the vital force against the self, often following an emotional or physical shock."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Head, hair, falling, patches", chapter: "Head" },
+          { rubric: "Head, hair, gray, premature", chapter: "Head" }
+        ],
+        symptomAnalysis: "Focus on the emotional etiology (Grief/Shock) and the physical generals (Thirst/Thermal)."
+      }
+    }
+  },
+  {
+    id: "seborrheic-dermatitis",
+    name: "Seborrheic Dermatitis",
+    slug: "seborrheic-dermatitis",
+    system: "dermatology",
+    category: "Dermatological",
+    definition: "A common, chronic-relapsing inflammatory skin disease characterized by greasy scales on an erythematous base, primarily affecting sebum-rich areas.",
+    simpleExplanation: "A common skin condition that mainly affects your scalp. It causes scaly patches, red skin and stubborn dandruff. It can also affect oily areas of the body, such as the face, upper chest and back.",
+    examKeywords: ["Greasy scales", "Malassezia furfur", "Cradle cap", "Seborrheic distribution"],
+    epidemiology: {
+      ageDistribution: "Infants (Cradle cap) and adults (30-60 years).",
+      sexDistribution: "More common in males.",
+      riskGroups: ["Patients with Parkinson's disease", "HIV/AIDS patients", "Individuals with oily skin"],
+    },
+    etiology: {
+      predisposingFactors: ["Oily skin (Seborrhea)", "Genetics"],
+      precipitatingFactors: ["Overgrowth of Malassezia yeast", "Stress", "Cold/dry weather"],
+      riskFactors: ["Neurological disorders (Parkinson's)", "Immunodeficiency"],
+    },
+    pathophysiology: {
+      steps: [
+        { title: "Sebum Production", description: "Sebaceous glands produce excess oil." },
+        { title: "Yeast Proliferation", description: "Malassezia yeast thrives on the sebum, breaking it down into irritating fatty acids." },
+        { title: "Inflammation", description: "Individual immune response to the yeast/fatty acids leads to redness and scaling." }
+      ]
+    },
+    clinicalFeatures: {
+      generalSymptoms: ["Itching (mild)", "Burning sensation"],
+      localSymptoms: [
+        "Morphology: Erythematous plaques with greasy, yellow scales.",
+        "Distribution: Scalp (dandruff), eyebrows, glabella, nasolabial folds, retroauricular area, and presternal region."
+      ],
+      constitutionalFeatures: ["Cradle cap in infants (thick, yellow, crusty scales)"],
+      importantSigns: ["Greasy yellow scaling"]
+    },
+    redFlags: ["Sudden severe seborrheic dermatitis (screen for HIV)", "Extensive involvement (Erythroderma)"],
+    investigations: {
+      diagnostic: [
+        { name: "Clinical Diagnosis", findings: "Greasy scales in seborrheic distribution", importance: "Primary method" }
+      ]
+    },
+    diagnosticCriteria: {
+      title: "Clinical Identification",
+      criteria: ["Characteristic morphology", "Sebum-rich area distribution", "Chronic-relapsing nature"]
+    },
+    differentialDiagnosis: [
+      { condition: "Psoriasis", distinguishingFeatures: "Silvery scales; well-demarcated; Auspitz sign; extensors." },
+      { condition: "Atopic Dermatitis", distinguishingFeatures: "Very itchy; flexural distribution; personally/family history of atopy." },
+      { condition: "Rosacea", distinguishingFeatures: "Flushing/telangiectasia; no scaling; involves cheeks/nose." }
+    ],
+    complications: {
+      common: ["Secondary infection", "Thinning of hair (rarely)"],
+      serious: ["Seborrheic erythroderma"],
+      lifeThreatening: ["None"]
+    },
+    conventionalManagement: {
+      general: ["Frequent shampooing", "Stress management"],
+      medical: ["Antifungal shampoos (Ketoconazole)", "Topical corticosteroids (low potency)", "Topical calcineurin inhibitors"],
+      prevention: ["Skin hygiene"]
+    },
+    homoeopathicApproach: "Aims to normalize sebum production and address the chronic sycotic/psoric miasm that allows for Malassezia overgrowth.",
+    relatedRemedies: [
+      { name: "Thuja Occidentalis", keyIndications: "Greasy skin; white, scaly dandruff; hair is dry and falling out; sycotic miasm." },
+      { name: "Graphites", keyIndications: "Scaling on scalp with sticky oozing behind ears; thick yellow crusts; worse for heat." },
+      { name: "Natrum Mur", keyIndications: "Oily skin and hair; dandruff like white powder; crusty eruptions at the hairline." },
+      { name: "Kali Sulph", keyIndications: "Yellow, slimy, greasy scales; skin is hot and itchy; worse in warm room." }
+    ],
+    relatedDiseases: ["acne-vulgaris", "parkinsons-disease"],
+    examPriority: "High",
+    clinicalPriority: "High",
+    emergencyLevel: "None",
+    quickRevisionBox: {
+      keyNotes: ["Greasy yellow scales", "Malassezia yeast", "Seborrheic areas"],
+      miasmaticDominance: "Sycotic (Excess sebum)",
+      thermalState: "Variable (Kali Sulph-Hot)",
+      organAffinity: "Sebaceous glands, Scalp",
+      memoryMnemonic: "GREASY: Greasy scales, Redness, Eyebrows/ears, Adults/infants, Seborrhea, Yeast"
+    },
+    homoeopathicModule: {
+      medicalAssessment: {
+        importanceOfDiagnosis: "To distinguish from psoriasis and manage associated conditions.",
+        severityAssessment: "Based on extent of erythema and scaling.",
+        referralCriteria: ["Suspicion of HIV", "Erythroderma"]
+      },
+      individualization: {
+        mentalGenerals: ["Irritability", "Hurry (Thuja)", "Depression"],
+        physicalGenerals: {
+          thermalState: "Hot (Kali Sulph) or Chilly (Graph/Thuja)",
+          thirst: "Variable",
+          appetite: "Aversion to meat (Graphites)",
+          desires: ["Salt (Nat Mur)", "Cold drinks"],
+          aversions: ["Fat", "Meat"],
+          sleep: "Normal",
+          perspiration: "Oily (Thuja)"
+        },
+        modalities: ["Agg: Cold/dry weather, stress, warm room (Kali Sulph).", "Amel: Cool air, washing (sometimes)"],
+        concomitants: ["Oily hair", "Blepharitis"],
+        characteristicParticulars: [
+          "Location: Scalp, nasolabial folds, chest.",
+          "Appearance: Yellow, greasy scales on red base.",
+          "Sensation: Mild itching, burning.",
+          "Discharges: Oily, sometimes sticky fluid behind ears (Graphites)."
+        ]
+      },
+      characteristicFeatures: {
+        peculiarSymptoms: ["Seborrheic dermatitis with sticky, honey-like oozing behind the ears (Graphites)."],
+        individualExpression: "A chronic sycotic state where the skin's oil production is in excess, fostering a parasitic (fungal) imbalance."
+      },
+      repertorialStudy: {
+        importantRubrics: [
+          { rubric: "Head, eruptions, dandruff", chapter: "Head" },
+          { rubric: "Face, eruptions, nasolabial folds", chapter: "Face" }
+        ],
+        symptomAnalysis: "Focus on the character of the scales (Greasy vs. Dry) and the thermal modalities."
       }
     }
   }

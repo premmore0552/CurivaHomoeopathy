@@ -4,9 +4,10 @@ interface LogoProps {
   className?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg';
   showText?: boolean;
+  style?: React.CSSProperties;
 }
 
-const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showText = true }) => {
+const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showText = true, style }) => {
   const [imgError, setImgError] = useState(false);
 
   const containerHeights = {
@@ -24,7 +25,10 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showText = tru
   };
 
   return (
-    <div className={`flex items-center gap-2.5 text-primary dark:text-white ${containerHeights[size]} ${className}`}>
+    <div 
+      className={`flex items-center gap-2.5 text-primary dark:text-white ${containerHeights[size]} ${className}`}
+      style={style}
+    >
       {/* Permanent Emblem Badge (SVG / Image with fallback) */}
       <div className={`relative flex items-center justify-center rounded-xl bg-gradient-to-br from-primary via-primary/95 to-primary-dark text-white p-1.5 shadow-md shadow-primary/20 shrink-0 ${badgeSizes[size]}`}>
         {!imgError ? (

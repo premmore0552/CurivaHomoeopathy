@@ -421,12 +421,17 @@ const Header: React.FC = () => {
         </div>
       )}
 
-      <header className={`sticky top-0 z-50 transition-all duration-500 ${
-        isScrolled 
-        ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-14' 
-        : 'bg-bg-primary border-b border-transparent h-16'
-      }`}>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+      <header 
+        className={`sticky top-0 z-50 transition-all duration-500 ${
+          isScrolled 
+          ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-14' 
+          : 'bg-bg-primary border-b border-transparent h-16'
+        }`}
+      >
+      <div 
+        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full"
+        style={{ marginLeft: '0px', marginRight: '0px', paddingRight: '0px', paddingLeft: '100px', marginTop: '0px', width: '1200px', height: '90px' }}
+      >
         <div 
           className="flex items-center justify-between h-full relative gap-4"
           style={{
@@ -468,7 +473,8 @@ const Header: React.FC = () => {
                       trackEvent('nav_click', { link_name: link.name, link_to: link.to });
                       handleLinkClick(link.to);
                     }}
-                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${
+                    style={idx === 0 ? { width: '300px', paddingLeft: '101px', marginLeft: '20px', marginTop: '0px' } : undefined}
+                    className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border relative overflow-hidden group/nav ${
                       isActive || isDropdownActive
                       ? 'text-primary bg-primary/5 border-primary/10' 
                       : isHovered 
@@ -479,6 +485,9 @@ const Header: React.FC = () => {
                     {LinkIcon && <LinkIcon className="w-4 h-4 text-accent shrink-0" />}
                     <span>{link.name}</span>
                     {hasDropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />}
+                    
+                    {/* Active/Hover Indicator Line */}
+                    <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-primary transition-all duration-300 ${isActive || isDropdownActive || isHovered ? 'w-1/2 opacity-100' : 'w-0 opacity-0'}`} />
                   </Link>
 
                   <AnimatePresence>
@@ -559,17 +568,27 @@ const Header: React.FC = () => {
               className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <Logo size="md" />
+              <div style={{ width: '159.703px', height: '58.75px', paddingLeft: '30px', paddingTop: '0px', marginLeft: '15px' }}>
+                <Logo size="md" style={{ marginLeft: '50px', width: '180px' }} />
+              </div>
             </Link>
           </div>
 
           {/* Desktop Navigation Right */}
-          <div className="hidden xl:flex items-center justify-end gap-1.5 flex-1">
+          <div 
+            className="hidden xl:flex items-center justify-end gap-1.5 flex-1"
+            style={{ width: '1000px', height: '68px', paddingLeft: '0px', marginRight: '0px', marginLeft: '30px' }}
+          >
             <nav className="flex items-center gap-1.5" aria-label="Main Navigation Right">
               {rightLinks.map((link: any, idx: number) => {
                 const actualIdx = idx + half;
                 const isActive = location.pathname === link.to;
                 const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
+                const isDropdownActive = hasDropdown && (
+                  (link.dropdown && link.dropdown.some((d: any) => location.pathname === d.to)) ||
+                  (link.popular && link.popular.some((d: any) => location.pathname === d.to)) ||
+                  (link.pinned && link.pinned.some((d: any) => location.pathname === d.to))
+                );
                 const isHovered = hoveredIndex === actualIdx;
                 const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
 
@@ -584,8 +603,8 @@ const Header: React.FC = () => {
                       to={link.to}
                       onClick={() => handleLinkClick(link.to)}
                       style={idx === 0 ? { height: '39px', width: '133.719px' } : undefined}
-                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border ${
-                        isActive 
+                      className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border relative overflow-hidden group/nav ${
+                        isActive || isDropdownActive
                         ? 'text-primary bg-primary/5 border-primary/10' 
                         : isHovered 
                           ? 'text-primary bg-bg-secondary border-transparent' 
@@ -595,6 +614,9 @@ const Header: React.FC = () => {
                       {LinkIcon && <LinkIcon className="w-4 h-4 text-accent shrink-0" />}
                       <span>{link.name}</span>
                       {hasDropdown && <ChevronDown className={`w-3 h-3 transition-transform duration-300 ${isHovered ? 'rotate-180' : ''}`} />}
+                      
+                      {/* Active/Hover Indicator Line */}
+                      <div className={`absolute bottom-0 left-1/2 -translate-x-1/2 h-[2px] bg-primary transition-all duration-300 ${isActive || isDropdownActive || isHovered ? 'w-1/2 opacity-100' : 'w-0 opacity-0'}`} />
                     </Link>
 
                     <AnimatePresence>
@@ -670,9 +692,9 @@ const Header: React.FC = () => {
                 <span>Find Remedy</span>
                 <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </Link>
-              <ThemeToggle style={{ width: '300px' }} />
+              <ThemeToggle style={{ width: '30px', height: '30px' }} />
               <ProfileSwitch />
-              <AuthButton />
+              <AuthButton style={{ width: '200px' }} />
             </div>
           </div>
 

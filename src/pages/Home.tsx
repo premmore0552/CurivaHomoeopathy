@@ -32,6 +32,14 @@ import StudyQuickReferenceModal, { StudyTopic } from '../components/StudyQuickRe
 import ProfileDashboard from '../components/ProfileDashboard';
 import { conditionsData } from '../data/conditionsData';
 
+// New Components
+import HighImpactHero from '../components/home/HighImpactHero';
+import QuickNavigation from '../components/home/QuickNavigation';
+import ClinicalTipOfTheDay from '../components/home/ClinicalTipOfTheDay';
+import RecommendedForYou from '../components/home/RecommendedForYou';
+import AccordionSection from '../components/home/AccordionSection';
+import IconDivider from '../components/home/IconDivider';
+
 const activeFAQ = [
   {
     q: "What is Curiva Homoeopathy?",
@@ -396,243 +404,161 @@ export default function Home() {
         description="Learn classical Homoeopathy with our Materia Medica suite and prepare for exams. Practice with advanced AI symptom-checkers and repertory tools."
       />
 
-      {/* Hero Section */}
-      <section className="relative pt-12 pb-16 md:pt-16 md:pb-24 bg-bg-primary overflow-hidden">
-        {/* Subtle background glow */}
-        <div className="absolute top-0 right-0 w-1/2 h-full bg-[radial-gradient(circle_at_top_right,rgba(19,70,52,0.05)_0%,transparent_70%)] pointer-events-none" />
+      {/* High Impact Hero Banner */}
+      <HighImpactHero />
 
-        <div className="max-w-6xl mx-auto px-4 relative z-10 text-center space-y-6 animate-fadeIn">
-          {/* Meta label */}
-          <span className="font-mono text-[0.75rem] tracking-[0.2em] uppercase text-[#BF8F02] dark:text-amber-400 font-bold block">
-            ELEVATE YOUR PRACTICE
-          </span>
+      {/* Quick Navigation Below Hero */}
+      <QuickNavigation />
 
-          <h1 className="font-serif text-5xl sm:text-7xl lg:text-8xl leading-[0.95] tracking-tight font-normal text-text-primary">
-            {heroTitleFirst} <br />
-            <em className="italic text-[#134634] dark:text-emerald-400 font-serif font-normal">{heroTitleItalic}</em>.
-          </h1>
+      {/* High-Contrast Divider with Icon */}
+      <IconDivider icon="sparkles" />
 
-          <p className="text-base sm:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
-            {heroDescription}
-          </p>
+      {/* Clinical Tip of the Day */}
+      <div className="mb-12">
+        <ClinicalTipOfTheDay />
+      </div>
 
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              to="/auth"
-              className="px-8 py-4 bg-primary hover:bg-[#BF8F02] text-white rounded-full font-bold text-sm tracking-wide transition-all shadow-lg hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+      {/* Recommended for You Section */}
+      <RecommendedForYou />
+
+      <IconDivider icon="library" />
+
+      {/* Main Content Sections wrapped in Accordion for cleaner layout */}
+      <div className="space-y-4">
+        <AccordionSection title="Academic Board Grid" icon={GraduationCap} defaultOpen={true}>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            <Link 
+              to="/cbdc-syllabus"
+              className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
             >
-              Portal Access <Icons.ShieldCheck className="w-4 h-4 text-accent animate-pulse" />
+              <div>
+                <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Academic Hub</span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
+                  NCH CBDC <br />Syllabus Mapping
+                </h3>
+              </div>
+              <div className="space-y-4 pt-6">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+                  Official year-wise competency syllabus, allocation hours, and curriculum mapping.
+                </p>
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
+                  View Syllabus <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
             </Link>
 
-            <Link
-              to="/find-your-remedy"
-              className="px-8 py-4 bg-[#134634] hover:bg-[#BF8F02] text-white rounded-full font-bold text-sm tracking-wide transition-all shadow-md hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
+            <Link 
+              to="/anatomy"
+              className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
             >
-              Find Your Remedy <BookOpen className="w-4 h-4 text-amber-300" />
+              <div>
+                <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Anatomy Lab</span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
+                  Anatomy Core <br />Studies
+                </h3>
+              </div>
+              <div className="space-y-4 pt-6">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+                  Regional dissection references and structural diagrams for the first year BHMS student.
+                </p>
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
+                  Explore Dissections <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
+              </div>
             </Link>
 
-            {heroSecondaryLink.startsWith('#') ? (
-              <a
-                href={heroSecondaryLink}
-                className="px-8 py-4 border border-border bg-white dark:bg-zinc-900 text-text-primary hover:border-[#134634] hover:text-[#134634] rounded-full font-bold text-sm tracking-wide transition-all shadow-sm hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
-              >
-                {heroSecondaryCTA} <Cpu className="w-4 h-4 text-[#134634]" />
-              </a>
-            ) : (
-              <Link
-                to={heroSecondaryLink}
-                className="px-8 py-4 border border-border bg-white dark:bg-zinc-900 text-text-primary hover:border-[#134634] hover:text-[#134634] rounded-full font-bold text-sm tracking-wide transition-all shadow-sm hover:-translate-y-0.5 cursor-pointer flex items-center gap-2"
-              >
-                {heroSecondaryCTA} <Cpu className="w-4 h-4 text-[#134634]" />
-              </Link>
-            )}
-          </div>
-
-          {/* Hero Circle Stats */}
-          <div className="pt-10 flex flex-wrap justify-center gap-4 sm:gap-8 max-w-4xl mx-auto">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
-              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">100+</span>
-              <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">Remedies</label>
-            </div>
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
-              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">290+</span>
-              <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">Aphorisms</label>
-            </div>
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
-              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">10k+</span>
-              <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">MCQs</label>
-            </div>
-            <div className="w-28 h-28 sm:w-36 sm:h-36 border border-border/80 rounded-full bg-white/80 dark:bg-zinc-900/80 shadow-soft flex flex-col items-center justify-center text-center p-2 hover:border-primary/40 transition-colors">
-              <span className="text-2xl sm:text-3xl font-extrabold text-primary dark:text-emerald-400">4+</span>
-              <label className="text-[0.6rem] font-mono uppercase tracking-widest text-text-tertiary mt-0.5">AI Systems</label>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Board Grid Cards */}
-      <section className="py-12 bg-bg-primary">
-        <div className="max-w-7xl mx-auto px-4 grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Link 
-            to="/cbdc-syllabus"
-            className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
-          >
-            <div>
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Academic Hub</span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
-                NCH CBDC <br />Syllabus Mapping
-              </h3>
-            </div>
-            <div className="space-y-4 pt-6">
-              <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                Official year-wise competency syllabus, allocation hours, and curriculum mapping.
-              </p>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
-                View Syllabus <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+            <Link 
+              to="/student-resources"
+              className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
+            >
+              <div>
+                <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Clinical Intelligence</span>
+                <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
+                  Revisions <br />Exam Board
+                </h3>
               </div>
-            </div>
-          </Link>
-
-          <Link 
-            to="/anatomy"
-            className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
-          >
-            <div>
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Anatomy Lab</span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
-                Anatomy Core <br />Studies
-              </h3>
-            </div>
-            <div className="space-y-4 pt-6">
-              <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                Regional dissection references and structural diagrams for the first year BHMS student.
-              </p>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
-                Explore Dissections <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+              <div className="space-y-4 pt-6">
+                <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
+                  Solved previous year papers, university plans, and targeted clinical revision guides.
+                </p>
+                <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
+                  Access Exam Board <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </div>
+        </AccordionSection>
 
-          <Link 
-            to="/student-resources"
-            className="group bg-white dark:bg-zinc-900 border border-border/85 hover:border-primary/40 rounded-2xl p-8 sm:p-10 shadow-soft hover:shadow-hover-card transition-all duration-300 flex flex-col justify-between min-h-[300px]"
-          >
-            <div>
-              <span className="font-mono text-[0.7rem] uppercase tracking-widest text-primary font-bold block mb-2">Clinical Intelligence</span>
-              <h3 className="font-serif text-2xl sm:text-3xl font-semibold leading-tight text-text-primary group-hover:text-primary transition-colors">
-                Revisions <br />Exam Board
-              </h3>
-            </div>
-            <div className="space-y-4 pt-6">
-              <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-                Solved previous year papers, university plans, and targeted clinical revision guides.
-              </p>
-              <div className="inline-flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-primary dark:text-emerald-400">
-                Access Exam Board <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-1 transition-transform" />
+        <AccordionSection title="Quick-Access Study Desk" icon={Sparkles}>
+          <div className="py-8 bg-gradient-to-b from-bg-secondary/20 to-bg-primary border-y border-border/30 relative overflow-hidden rounded-[2.5rem]">
+            <div className="max-w-7xl mx-auto px-4 relative z-10 space-y-12">
+              <div className="text-center max-w-2xl mx-auto space-y-3">
+                <h2 className="text-3xl md:text-4xl font-display font-semibold text-primary tracking-tight">
+                  What do you need to accomplish?
+                </h2>
+                <p className="text-xs md:text-sm text-text-secondary leading-normal">
+                  Select your direct educational goal or intent below:
+                </p>
               </div>
-            </div>
-          </Link>
-        </div>
-      </section>
 
-      {/* SECTION: Quick-Access Study Desk / Main Navigation Terminal */}
-      <section id="study-desk" className="py-12 bg-gradient-to-b from-bg-secondary/20 to-bg-primary border-y border-border/30 relative overflow-hidden">
-        <div className="absolute top-0 right-1/4 w-80 h-80 bg-primary/5 rounded-full blur-[100px] pointer-events-none" />
-        <div className="absolute bottom-0 left-1/4 w-80 h-80 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
+              <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
+                {intentTabs.map((tab) => {
+                  const isActive = activeIntentTab === tab.id;
+                  return (
+                    <button
+                      key={tab.id}
+                      onClick={() => setActiveIntentTab(tab.id)}
+                      className={`px-5 py-3 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-300 border ${
+                        isActive
+                          ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25 scale-[1.03]'
+                          : 'bg-white dark:bg-gray-900 text-text-secondary border-border hover:border-primary/40 hover:text-primary'
+                      }`}
+                    >
+                      {tab.label}
+                    </button>
+                  );
+                })}
+              </div>
 
-        <div className="max-w-7xl mx-auto px-4 relative z-10 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="mednix-section-subtitle mx-auto">
-              <Sparkles className="w-3.5 h-3.5 text-accent animate-pulse" /> Student &amp; Practitioner Dashboard
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-semibold text-primary tracking-tight">
-              What do you need to accomplish?
-            </h2>
-            <p className="text-xs md:text-sm text-text-secondary leading-normal">
-              Instead of navigating separate features, select your direct educational goal or intent below:
-            </p>
-          </div>
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto pt-4">
+                {intentCards[activeIntentTab].map((card, idx) => {
+                  const CardIcon = card.icon;
+                  return (
+                    <Link
+                      key={idx}
+                      to={card.link}
+                      className="group relative p-6 bg-white dark:bg-gray-900 border border-border/80 rounded-2xl shadow-soft hover:shadow-lg transition-all duration-300 hover:border-primary/40 flex flex-col justify-between"
+                    >
+                      <div className="space-y-4">
+                        <div className="flex items-center justify-between">
+                          <div className={`p-3 rounded-2xl border ${card.color}`}>
+                            <CardIcon className="w-5 h-5" />
+                          </div>
+                          <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary px-3 py-1 rounded-full bg-bg-secondary dark:bg-gray-800">
+                            {card.badge}
+                          </span>
+                        </div>
 
-          {/* Interactive Intent-Based Selector Tabs */}
-          <div className="flex flex-wrap items-center justify-center gap-2 max-w-4xl mx-auto">
-            {intentTabs.map((tab) => {
-              const isActive = activeIntentTab === tab.id;
-              return (
-                <button
-                  key={tab.id}
-                  onClick={() => setActiveIntentTab(tab.id)}
-                  className={`px-5 py-3 rounded-full text-[11px] font-black uppercase tracking-widest transition-all duration-300 border ${
-                    isActive
-                      ? 'bg-primary text-white border-primary shadow-lg shadow-primary/25 scale-[1.03]'
-                      : 'bg-white dark:bg-gray-900 text-text-secondary border-border hover:border-primary/40 hover:text-primary'
-                  }`}
-                >
-                  {tab.label.split(" ")[0]} {tab.label.split(" ").slice(1).join(" ")}
-                </button>
-              );
-            })}
-          </div>
-
-          {/* Dynamic Grid of Cards matching user intent */}
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 max-w-7xl mx-auto pt-4">
-            {intentCards[activeIntentTab].map((card, idx) => {
-              const CardIcon = card.icon;
-              return (
-                <Link
-                  key={idx}
-                  to={card.link}
-                  className="group relative p-6 bg-white dark:bg-gray-900 border border-border/80 rounded-2xl shadow-soft hover:shadow-lg transition-all duration-300 hover:border-primary/40 flex flex-col justify-between"
-                >
-                  <div className="space-y-4">
-                    <div className="flex items-center justify-between">
-                      <div className={`p-3 rounded-2xl border ${card.color}`}>
-                        <CardIcon className="w-5 h-5" />
+                        <div className="space-y-1.5">
+                          <h3 className="text-base font-display font-bold text-text-primary group-hover:text-primary transition-colors flex items-center gap-1.5">
+                            {card.title}
+                            <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
+                          </h3>
+                          <p className="text-[11px] text-text-secondary leading-relaxed font-sans">
+                            {card.description}
+                          </p>
+                        </div>
                       </div>
-                      <span className="text-[9px] font-black uppercase tracking-widest text-text-tertiary px-3 py-1 rounded-full bg-bg-secondary dark:bg-gray-800">
-                        {card.badge}
-                      </span>
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <h3 className="text-base font-display font-bold text-text-primary group-hover:text-primary transition-colors flex items-center gap-1.5">
-                        {card.title}
-                        <ArrowRight className="w-3.5 h-3.5 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-primary" />
-                      </h3>
-                      <p className="text-[11px] text-text-secondary leading-relaxed font-sans">
-                        {card.description}
-                      </p>
-                    </div>
-                  </div>
-                </Link>
-              );
-            })}
+                    </Link>
+                  );
+                })}
+              </div>
+            </div>
           </div>
-        </div>
-      </section>
+        </AccordionSection>
 
-      {/* SECTION: Featured Interactive eBook Publication */}
-      <section className="py-12 bg-bg-secondary/40 border-b border-border relative overflow-hidden">
-        {/* Subtle background decorative shapes */}
-        <div className="absolute top-1/2 left-0 -translate-y-1/2 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
-        <div className="absolute top-10 right-10 w-72 h-72 bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
-
-        <div className="max-w-7xl mx-auto px-4 relative z-10 space-y-12 animate-fadeIn">
-          
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="mednix-section-subtitle mx-auto">
-              <BookOpen className="w-3.5 h-3.5" /> Featured Publication
-            </span>
-            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
-              The Interactive eBook Series
-            </h2>
-            <p className="text-xs md:text-sm text-text-secondary leading-normal">
-              Read our complete, professionally curated publications directly in your browser. Fully integrated with comfort controls, progress tracking, and supportive AI systems.
-            </p>
-          </div>
-
+        <AccordionSection title="Interactive eBook Library" icon={BookOpen}>
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-            
-            {/* Left: 3D-styled physical Book Cover Mockup built purely with Tailwind CSS */}
             <div className="lg:col-span-5 flex justify-center">
               <Link 
                 to="/read/hair-loss-Homoeopathy" 
@@ -642,371 +568,85 @@ export default function Home() {
                   boxShadow: '0 25px 50px -12px rgba(0,0,0,0.4), -6px 0 0px #0c1814'
                 }}
               >
-                {/* Book spine lighting overlay */}
                 <div className="absolute top-0 left-0 w-3.5 h-full bg-gradient-to-r from-black/40 via-white/10 to-transparent rounded-l-md" />
                 <div className="absolute top-0 left-3.5 w-1 h-full bg-black/25" />
-
-                {/* Cover Frame Border */}
-                <div className="absolute inset-4 sm:inset-5 border border-white/10 rounded-r-2xl pointer-events-none" />
-
-                {/* Cover Content */}
                 <div className="h-full p-8 sm:p-10 flex flex-col justify-between items-center text-center text-white select-none">
-                  <div className="space-y-1">
-                    <span className="text-[9px] uppercase tracking-[0.3em] font-bold text-emerald-350 block">CURIVA ACADEMIC PRESS</span>
-                    <div className="h-0.5 w-10 bg-emerald-400 mx-auto opacity-60" />
-                  </div>
-
                   <div className="space-y-3">
                     <h3 className="text-2xl sm:text-3xl font-serif font-black leading-tight tracking-tight text-white/95">
                       HAIR FALL<br />
                       <span className="text-emerald-450 font-normal italic font-serif">RECOVERY GUIDE</span>
                     </h3>
-                    <p className="text-[10px] sm:text-xs text-emerald-100/70 font-serif italic max-w-[200px] mx-auto leading-relaxed">
-                      Understanding Hair Loss, Building Better Habits &amp; Supporting Healthier Hair Naturally
-                    </p>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-white/10 backdrop-blur-md rounded-full text-[9px] font-bold uppercase tracking-wider border border-white/15">
-                      <Sparkles className="w-3 h-3 text-emerald-300 animate-pulse" /> Interactive Edition
-                    </div>
-                    <span className="text-[9px] uppercase tracking-[0.2em] font-medium text-emerald-250 block">By Curiva Homoeopathy</span>
                   </div>
                 </div>
-
-                {/* Animated hover highlight layer */}
-                <div className="absolute inset-0 rounded-r-3xl rounded-l-md bg-gradient-to-tr from-white/0 via-white/5 to-white/0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none" />
               </Link>
             </div>
 
-            {/* Right: eBook Highlights, Quick links, & Direct button */}
             <div className="lg:col-span-7 space-y-6">
-              <div className="space-y-2">
-                <span className="text-xs font-bold text-accent uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-ping" />
-                  Best-selling Guide &bull; Complete Reference
-                </span>
-                <h3 className="text-2xl md:text-3xl font-display font-semibold text-primary">
-                  Hair Fall Recovery Guide
-                </h3>
-                <p className="text-xs md:text-sm text-text-secondary leading-relaxed">
-                  A high-yield, step-by-step practical publication written in an approachable, warm, and professional tone. Get past commercial miracle oil myths and understand the exact biological triggers of hair thinning, nutrition guidelines, and authentic Homoeopathic constitutional analysis.
-                </p>
-              </div>
-
-              {/* Grid of highlights */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="flex items-start gap-2.5">
-                  <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <div>
-                    <span className="text-xs font-bold text-primary block">25 Structured Chapters</span>
-                    <span className="text-[11px] text-text-secondary block">Full comfort controls (Light, Cream, and Dark eye-safe reading themes).</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <Sparkles className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <div>
-                    <span className="text-xs font-bold text-primary block">Built-in AI Scalp Coach</span>
-                    <span className="text-[11px] text-text-secondary block">Ask custom questions about stress, sleep, or individualization side-by-side.</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <Activity className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <div>
-                    <span className="text-xs font-bold text-primary block">Risk Quiz &amp; Habit Trackers</span>
-                    <span className="text-[11px] text-text-secondary block">Interactive scorecard tools to calculate risks and build weekly check-off schedules.</span>
-                  </div>
-                </div>
-                <div className="flex items-start gap-2.5">
-                  <ShieldCheck className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
-                  <div>
-                    <span className="text-xs font-bold text-primary block">Copy Protection Enabled</span>
-                    <span className="text-[11px] text-text-secondary block">Secure DRM platform ensures copyright safety and clean academic standards.</span>
-                  </div>
-                </div>
-              </div>
-
-              {/* Jump Straight to Chapters section */}
-              <div className="p-5 bg-white border border-border rounded-2xl space-y-3">
-                <span className="text-[10px] font-black uppercase tracking-wider text-text-tertiary block">
-                  Jump Straight to High-Yield Chapters:
-                </span>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-xs">
-                  <Link 
-                    to="/read/hair-loss-Homoeopathy?chapter=0"
-                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
-                  >
-                    <span>📖 Cover &amp; Core Overview</span>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
-                  </Link>
-                  <Link 
-                    to="/read/hair-loss-Homoeopathy?chapter=4"
-                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
-                  >
-                    <span>🔬 Ch 5: The Hair Growth Cycle</span>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
-                  </Link>
-                  <Link 
-                    to="/read/hair-loss-Homoeopathy?chapter=19"
-                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
-                  >
-                    <span>📅 Ch 20: 90-Day Blueprint Plan</span>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
-                  </Link>
-                  <Link 
-                    to="/read/hair-loss-Homoeopathy?chapter=20"
-                    className="flex items-center justify-between p-2 rounded-lg bg-bg-primary/55 border border-border hover:border-primary text-text-primary hover:text-primary transition"
-                  >
-                    <span>🌿 Ch 21: Homoeopathy Expectations</span>
-                    <ChevronRight className="w-3.5 h-3.5 opacity-60" />
-                  </Link>
-                </div>
-              </div>
-
-              <div className="pt-2 flex flex-col sm:flex-row items-center gap-4">
-                <Link 
-                  to="/read/hair-loss-Homoeopathy" 
-                  className="btn-premium btn-premium-primary text-xs font-bold uppercase tracking-wider px-6 py-3 w-full sm:w-auto text-center flex items-center justify-center gap-2"
-                >
-                  Launch Interactive eBook Reader <ArrowRight className="w-4 h-4 text-accent" />
-                </Link>
-                <Link 
-                  to="/read/hair-loss-Homoeopathy?chapter=23"
-                  className="w-full sm:w-auto text-center px-5 py-3 border border-border hover:border-primary text-text-secondary hover:text-primary rounded-2xl text-xs font-bold uppercase tracking-wider bg-white hover:bg-bg-primary/10 transition cursor-pointer"
-                >
-                  Take Interactive Hair Quiz
+              <h3 className="text-2xl md:text-3xl font-display font-semibold text-primary">Hair Fall Recovery Guide</h3>
+              <p className="text-xs md:text-sm text-text-secondary">High-yield, step-by-step practical publication written in an approachable, warm, and professional tone.</p>
+              <div className="pt-2">
+                <Link to="/read/hair-loss-Homoeopathy" className="btn-premium btn-premium-primary text-xs font-bold uppercase tracking-wider px-6 py-3 inline-flex items-center gap-2">
+                  Launch eBook Reader <ArrowRight className="w-4 h-4 text-accent" />
                 </Link>
               </div>
-
             </div>
-
           </div>
+        </AccordionSection>
 
-        </div>
-      </section>
+        <AccordionSection title="Interactive Therapeutics Hub" icon={Activity}>
+          <div className="bg-emerald-950 text-white rounded-2xl p-8 sm:p-12 shadow-xl border border-emerald-900/40">
+            <h2 className="font-serif text-3xl sm:text-4xl font-normal leading-tight text-white mb-6">Interactive Disease Hub</h2>
+            <Link 
+              to="/disease-hub" 
+              className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all inline-flex items-center gap-2"
+            >
+              Explore All Patterns <ArrowRight className="w-4 h-4" />
+            </Link>
+          </div>
+        </AccordionSection>
 
-      {/* SECTION: Interactive Therapeutics Hub */}
-      <section id="disease-hub" className="py-12 bg-bg-primary">
-        <div className="max-w-7xl mx-auto px-4">
-          <div className="bg-emerald-950 text-white rounded-2xl p-8 sm:p-12 lg:p-16 mb-12 shadow-xl border border-emerald-900/40">
-            <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
-              <div className="max-w-lg">
-                <span className="font-mono text-xs uppercase tracking-[0.2em] text-emerald-400 font-bold block mb-2">
-                  The Therapeutics Hub
-                </span>
-                <h2 className="font-serif text-3xl sm:text-5xl font-normal leading-tight text-white">
-                  Interactive Disease Hub
-                </h2>
-                <p className="text-xs sm:text-sm text-white/70 mt-3 leading-relaxed">
-                  Explore dynamic therapeutics and clinical patterns of major chronic and acute ailments mapped with proven Homoeopathic remedies.
+        <AccordionSection title="Clinical Workspace & Tools" icon={Layers}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 py-4">
+            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
+              <div className="space-y-4">
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Public Education Hub</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">
+                  Explore how classical homoeopathy works and find authoritative answers to common questions.
                 </p>
               </div>
-              <Link 
-                to="/disease-hub" 
-                className="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs uppercase tracking-wider rounded-full transition-all inline-flex items-center gap-2 self-start md:self-auto cursor-pointer"
-              >
-                Explore All Patterns <ArrowRight className="w-4 h-4" />
+              <Link to="/public-education" className="w-full text-center px-6 py-3 bg-primary text-white rounded-2xl text-xs font-bold uppercase tracking-wider block">
+                Explore Hub
               </Link>
             </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/migraine-headaches" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
-                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Migraine</h4>
-                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Nervous System</p>
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/acidity-gerd" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
-                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">GERD</h4>
-                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Digestive Hub</p>
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/stress-anxiety" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
-                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Anxiety</h4>
-                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Mental Health</p>
-                </Link>
-              </motion.div>
-              <motion.div whileHover={{ y: -4 }} transition={{ duration: 0.2 }}>
-                <Link to="/conditions/respiratory-asthma-allergies" className="bg-white/5 hover:bg-emerald-900/40 border border-white/10 hover:border-emerald-500/40 p-6 rounded-xl transition-all duration-300 group block h-full">
-                  <h4 className="font-serif text-xl font-semibold text-white group-hover:translate-x-1 transition-transform">Asthma</h4>
-                  <p className="font-mono text-[0.7rem] text-white/50 group-hover:text-white/80 mt-2 uppercase tracking-wider">Respiratory Lab</p>
-                </Link>
-              </motion.div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* SECTION: Clinical Tools (Easy clinical tool shortcuts for practitioners and advanced students) */}
-      <section id="clinical-workspace" className="py-12 bg-white">
-        <div className="max-w-7xl mx-auto px-4 space-y-12">
-          <div className="text-center max-w-2xl mx-auto space-y-3">
-            <span className="mednix-section-subtitle mx-auto">Practitioner workspace</span>
-            <h2 className="text-3xl md:text-4xl font-display font-light text-primary">
-              Advanced Clinical Study Tools
-            </h2>
-            <p className="text-xs md:text-sm text-text-secondary leading-normal">
-              Apply scientific Homoeopathic repertorization. Translate case symptoms, compare complex remedies, and gain decision support in real-time.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {/* 1. Public Education Center */}
             <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
               <div className="space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-1 bg-primary/10 text-primary text-[10px] font-black uppercase tracking-wider rounded-md">Public Resource</span>
-                  <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 text-[10px] font-black uppercase tracking-wider rounded-md">General Wellness</span>
-                </div>
-                <h4 className="text-xl font-display text-primary leading-tight font-bold">Public Education Hub &amp; FAQ</h4>
+                <h4 className="text-xl font-display text-primary leading-tight font-bold">Symptom Checker</h4>
                 <p className="text-xs text-text-secondary leading-relaxed">
-                  Explore how classical homoeopathy works, read comprehensive disease education guides, and find authoritative answers to common questions about holistic natural health.
+                  Safely cross-check mental and physical symptoms against recorded natural modalities.
                 </p>
               </div>
-              <div>
-                <Link 
-                  to="/public-education"
-                  className="w-full text-center px-6 py-3 bg-primary hover:bg-primary/90 text-white rounded-2xl text-xs font-bold uppercase tracking-wider block transition-all"
-                >
-                  Explore Education Hub
-                </Link>
-              </div>
-            </div>
-
-            {/* 2. Interactive symptom checker */}
-            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2.5">
-                  <span className="px-2.5 py-1 bg-accent/10 text-accent text-[10px] font-black uppercase tracking-wider rounded-md">Safe assessment</span>
-                  <span className="px-2.5 py-1 bg-[#0F3D75]/10 text-[#0F3D75] text-[10px] font-black uppercase tracking-wider rounded-md">Self check</span>
-                </div>
-                <h4 className="text-xl font-display text-primary leading-tight font-bold">Symptom Checker &amp; Map</h4>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  Safely cross-check mental and physical symptoms against recorded natural modalities. Gain structured educational insights for case synthesis.
-                </p>
-              </div>
-              <div>
-                <Link 
-                  to="/symptom-checker"
-                  className="w-full text-center px-6 py-3 border border-primary text-primary hover:bg-primary/5 rounded-2xl text-xs font-bold uppercase tracking-wider block transition-all"
-                >
-                  Start Symptom Checker
-                </Link>
-              </div>
-            </div>
-
-            {/* 3. Repertory Search */}
-            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <span className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">Rubric Synthesis</span>
-                <h4 className="text-base font-bold text-primary">Kent's Repertory &amp; Rubric Finder</h4>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  Select and synthesize symptoms numerically. Search Kent's rubrics easily to build patient profiles with exact remedy rankings.
-                </p>
-              </div>
-              <div className="pt-2">
-                <Link 
-                  to="/repertory"
-                  className="text-xs font-bold text-primary hover:text-accent flex items-center gap-1.5 transition-colors"
-                >
-                  Search Kent Rubrics <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-
-            {/* 4. Comparative Analyzer */}
-            <div className="border border-border rounded-3xl p-8 bg-bg-primary/30 flex flex-col justify-between space-y-6">
-              <div className="space-y-4">
-                <span className="text-[10px] font-black uppercase tracking-widest text-[#06B6D4]">Remedy Differentiator</span>
-                <h4 className="text-base font-bold text-primary">Comparative Remedy Matrix</h4>
-                <p className="text-xs text-text-secondary leading-relaxed">
-                  Differentiate sister remedies side by side. Highlight complementary interactions, food cravings, aggregate modalities, and lock-and-key points.
-                </p>
-              </div>
-              <div className="pt-2">
-                <Link  
-                  to="/analysis"
-                  className="text-xs font-bold text-accent hover:text-primary flex items-center gap-1.5 transition-colors"
-                >
-                  Compare Remedies Now <ArrowRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
+              <Link to="/symptom-checker" className="w-full text-center px-6 py-3 border border-primary text-primary rounded-2xl text-xs font-bold uppercase tracking-wider block">
+                Start Checker
+              </Link>
             </div>
           </div>
-        </div>
-      </section>
+        </AccordionSection>
 
-      {/* Comparisons Matrix Table */}
-      <section className="py-12 bg-bg-primary">
-        <div className="max-w-6xl mx-auto px-4 space-y-8">
-          <div className="text-center max-w-2xl mx-auto space-y-2">
-            <span className="font-mono text-xs uppercase tracking-[0.2em] text-primary font-bold block">Philosophy Comparison</span>
-            <h2 className="font-serif text-3xl sm:text-4xl text-text-primary">Restoration vs. Suppression</h2>
-            <p className="text-xs sm:text-sm text-text-secondary leading-relaxed">
-              Compare conventional suppression-based drug interactions against the restorative, holistic focus of Homoeopathy.
-            </p>
-          </div>
-
-          <div className="overflow-x-auto rounded-2xl border border-border bg-white dark:bg-zinc-900 shadow-soft">
-            <table className="w-full border-collapse text-left">
-              <thead>
-                <tr className="bg-bg-tertiary/60 border-b border-border">
-                  <th className="p-5 text-[0.7rem] uppercase tracking-widest font-mono text-text-tertiary">Pathway Model</th>
-                  <th className="p-5 text-[0.7rem] uppercase tracking-widest font-mono text-text-tertiary">Approach Focus</th>
-                  <th className="p-5 text-[0.7rem] uppercase tracking-widest font-mono text-text-tertiary">Long-term Impact</th>
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-border">
-                <tr className="hover:bg-bg-primary/40 transition-colors">
-                  <td className="p-6">
-                    <h4 className="font-serif text-xl font-semibold text-text-primary">Allopathy</h4>
-                    <p className="text-xs text-text-tertiary">Conventional Model</p>
-                  </td>
-                  <td className="p-6 text-sm text-text-secondary">Temporary Symptom Relief (Suppression)</td>
-                  <td className="p-6 text-sm font-semibold text-rose-600 dark:text-rose-400">Recurring Chronic Risk</td>
-                </tr>
-                <tr className="hover:bg-bg-primary/40 transition-colors">
-                  <td className="p-6">
-                    <h4 className="font-serif text-xl font-semibold text-primary dark:text-emerald-400">Homoeopathy</h4>
-                    <p className="text-xs text-text-tertiary">Vitalistic Model</p>
-                  </td>
-                  <td className="p-6 text-sm text-text-secondary">Whole-Vitality Restorative Recovery</td>
-                  <td className="p-6 text-sm font-semibold text-primary dark:text-emerald-400">Constitutional Root Cause</td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-      </section>
-
-      {/* FAQ Accordion Section */}
-      <section className="py-12 bg-bg-secondary/40">
-        <div className="max-w-3xl mx-auto px-4 space-y-12">
-          <div className="text-center space-y-2">
-            <span className="mednix-section-subtitle mx-auto">SUPPORT RESOURCES</span>
-            <h2 className="text-3xl font-display font-light text-primary">Frequently Asked Questions</h2>
-          </div>
-
-          <div className="space-y-4">
+        <AccordionSection title="Support & FAQ" icon={HelpCircle}>
+          <div className="space-y-4 py-4">
             {activeFAQ.map((faq, idx) => {
               const isOpen = openFaqIdx === idx;
               return (
-                <div 
-                  key={idx} 
-                  className="bg-white border border-border rounded-2xl overflow-hidden transition-all duration-300"
-                >
+                <div key={idx} className="bg-white border border-border rounded-2xl overflow-hidden">
                   <button
                     onClick={() => toggleFaq(idx)}
-                    className="w-full px-5 py-4 text-left font-bold text-xs md:text-sm text-text-primary flex items-center justify-between gap-4 cursor-pointer hover:bg-bg-primary/20"
+                    className="w-full px-5 py-4 text-left font-bold text-xs md:text-sm text-text-primary flex items-center justify-between gap-4"
                   >
                     <span>{faq.q}</span>
                     <ChevronDown className={`w-4 h-4 text-text-tertiary transition-transform duration-305 ${isOpen ? 'rotate-180' : ''}`} />
                   </button>
-                  
                   {isOpen && (
-                    <div className="px-5 pb-5 pt-1 text-xs text-text-secondary leading-relaxed border-t border-border/40 animate-slideDown">
+                    <div className="px-5 pb-5 pt-1 text-xs text-text-secondary leading-relaxed border-t border-border/40">
                       {faq.a}
                     </div>
                   )}
@@ -1014,8 +654,8 @@ export default function Home() {
               );
             })}
           </div>
-        </div>
-      </section>
+        </AccordionSection>
+      </div>
 
       {/* Study Quick-Reference Modal */}
       <StudyQuickReferenceModal 
