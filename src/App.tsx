@@ -345,6 +345,15 @@ function AppRoutes() {
                 <Route path="/disease-library/:category/:slug" element={<Navigate to="/disease-hub" replace />} />
                 <Route path="/clinical-guides" element={<Navigate to="/disease-hub" replace />} />
 
+                {/* SEO Redirects for broken/legacy links */}
+                <Route path="/topics" element={<Navigate to="/categories" replace />} />
+                <Route path="/guidance" element={<Navigate to="/student-resources" replace />} />
+                <Route path="/health-guides" element={<Navigate to="/public-education" replace />} />
+                <Route path="/relationships" element={<Navigate to="/lexicon" replace />} />
+                <Route path="/disease-library/respiratory/sleep-apnea" element={<Navigate to="/disease-hub/respiratory/sleep-apnea" replace />} />
+                <Route path="/ailment/:id" element={<Navigate to="/conditions/:id" replace />} />
+                <Route path="/medical-disclaimer" element={<Navigate to="/disclaimer" replace />} />
+
                 {/* Student Academy Hierarchical Routes */}
                 <Route path="/student-academy" element={<PageWrapper><StudentResources /></PageWrapper>} />
                 <Route path="/student-academy/mcq-practice" element={<PageWrapper><AiapgetMcqSimulator /></PageWrapper>} />
@@ -437,6 +446,7 @@ function AppRoutes() {
                 <Route path="/public-education" element={<PageWrapper><PublicEducation /></PageWrapper>} />
                 <Route path="/public-education/ebooks" element={<PageWrapper><PublicHealthEBook /></PageWrapper>} />
                 <Route path="/ebooks" element={<PageWrapper><PublicHealthEBook /></PageWrapper>} />
+                <Route path="/ebooks/:bookId" element={<PageWrapper><PublicHealthEBook /></PageWrapper>} />
                 <Route path="/cbc-handbook" element={<PageWrapper><CbcHandbook /></PageWrapper>} />
                 <Route path="/clinical-handbook" element={<PageWrapper><ClinicalHandbook /></PageWrapper>} />
                 <Route path="/cbdc-syllabus" element={<PageWrapper><CbdcSyllabus /></PageWrapper>} />

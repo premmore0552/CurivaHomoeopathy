@@ -118,7 +118,7 @@ const ResourceStore = () => {
 
       {/* Hero */}
       <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white text-center">
-        <div className="absolute inset-0 bg-[url('https://ais-dev-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/assets/cheat_sheet_cover.png')] bg-cover bg-center opacity-20 pointer-events-none" />
+        <div className="absolute inset-0 bg-[url('https://curivahomoeopathy.netlify.app/assets/cheat_sheet_cover.png')] bg-cover bg-center opacity-20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-text-primary/90 via-text-primary to-bg-primary pointer-events-none" />
         
         <div className="max-w-7xl mx-auto space-y-12 relative z-10">
@@ -173,7 +173,7 @@ const ResourceStore = () => {
           >
             <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-primary/5">
               <img 
-                src="https://ais-dev-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/assets/cheat_sheet_cover.png" 
+                src="https://curivahomoeopathy.netlify.app/assets/cheat_sheet_cover.png" 
                 alt="Cheat Sheet Cover"
                 className="w-full h-full object-cover shadow-2xl"
               />

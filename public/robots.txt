@@ -1,4 +1,8 @@
 User-agent: *
 Allow: /
+Disallow: /data/
+Disallow: /admin/
+Disallow: /profile/
+Disallow: /library/
 
-Sitemap: https://ais-pre-46ug6iwx2xitoihxp5k4ma-349546359089.asia-southeast1.run.app/sitemap.xml
+Sitemap: https://curivahomoeopathy.netlify.app/sitemap.xml

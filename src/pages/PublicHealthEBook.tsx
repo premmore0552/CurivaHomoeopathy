@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import Markdown from 'react-markdown';
+import { useParams, useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
   Sun, 
@@ -41,9 +42,30 @@ const CATEGORY_TABS = [
 ];
 
 export default function PublicHealthEBook() {
+  const { bookId } = useParams<{ bookId: string }>();
+  const navigate = useNavigate();
+
   // Selected eBook from Database
-  const [selectedBook, setSelectedBook] = useState<EBookBook>(EBOOKS_DATABASE[0]);
+  const [selectedBook, setSelectedBook] = useState<EBookBook>(() => {
+    if (bookId) {
+      const book = EBOOKS_DATABASE.find(b => b.id === bookId);
+      if (book) return book;
+    }
+    return EBOOKS_DATABASE[0];
+  });
+
   const [activeSectionIndex, setActiveSectionIndex] = useState<number>(0);
+
+  // Sync state with URL params
+  useEffect(() => {
+    if (bookId) {
+      const book = EBOOKS_DATABASE.find(b => b.id === bookId);
+      if (book && book.id !== selectedBook.id) {
+        setSelectedBook(book);
+        setActiveSectionIndex(0);
+      }
+    }
+  }, [bookId]);
 
   // Category & Search State
   const [activeCategory, setActiveCategory] = useState<string>("All");
@@ -89,9 +111,7 @@ export default function PublicHealthEBook() {
 
   // Handle Book Switching
   const handleSelectBook = (book: EBookBook) => {
-    setSelectedBook(book);
-    setActiveSectionIndex(0);
-    setShowTocMobile(false);
+    navigate(`/ebooks/${book.id}`);
     if (readerContentRef.current) {
       readerContentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
     }
