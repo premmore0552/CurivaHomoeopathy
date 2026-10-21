@@ -10,48 +10,78 @@
   --font-display-book: "Newsreader", "Cormorant Garamond", serif;
   --font-sans-book: "Plus Jakarta Sans", sans-serif;
 
-  --color-emerald: #10b981;
-  --color-cream: #FDFDFC;
-  --color-gold: #10b981;
-  --color-ink: #111111;
+  /* Curiva brand palette: evergreen, jade, warm paper, and restrained brass. */
+  --color-emerald: #159A72;
+  --color-cream: #F7F7F2;
+  --color-gold: #B58A4A;
+  --color-ink: #17231F;
 
-  --color-primary: #10b981;
-  --color-primary-light: #e6fcf5;
-  --color-primary-dark: #047857;
-  
-  --color-secondary: #111111;
-  --color-secondary-light: #f9f9f8;
-  --color-secondary-dark: #000000;
+  --color-emerald-50: #E9F5EF;
+  --color-emerald-100: #D4EADE;
+  --color-emerald-200: #ADD9C2;
+  --color-emerald-300: #7DC5A1;
+  --color-emerald-400: #4CAF81;
+  --color-emerald-500: #159A72;
+  --color-emerald-600: #128562;
+  --color-emerald-700: #106D52;
+  --color-emerald-800: #125944;
+  --color-emerald-900: #123B32;
+  --color-emerald-950: #0B2C25;
 
-  --color-accent: #10b981;
-  --color-accent-light: #e6fcf5;
-  --color-accent-dark: #047857;
+  --color-teal-50: #E8F4F0;
+  --color-teal-100: #D0E9E0;
+  --color-teal-200: #A7D5C3;
+  --color-teal-300: #77BDA1;
+  --color-teal-400: #48A985;
+  --color-teal-500: #208D6A;
+  --color-teal-600: #19785B;
+  --color-teal-700: #175F4A;
+  --color-teal-800: #154D3D;
+  --color-teal-900: #123B32;
+  --color-teal-950: #0B2C25;
+
+  --color-primary: #159A72;
+  --color-primary-light: #E8F4ED;
+  --color-primary-dark: #123B32;
   
-  --color-bg-primary: #FDFDFC;
+  --color-secondary: #17231F;
+  --color-secondary-light: #E8F0EB;
+  --color-secondary-dark: #0B2C25;
+
+  --color-accent: #B58A4A;
+  --color-accent-light: #F4EEDF;
+  --color-accent-dark: #80612F;
+  
+  --color-bg-primary: #F7F7F2;
   --color-bg-secondary: #FFFFFF;
-  --color-bg-tertiary: #f9f9f8;
-  --color-bg-dark: #121010;
-  --color-text-primary: #111111;
-  --color-text-secondary: #444444;
-  --color-text-tertiary: #6b7280;
-  --color-border: rgba(17, 17, 17, 0.08);
+  --color-bg-tertiary: #E8F0EB;
+  --color-bg-dark: #123B32;
+  --color-text-primary: #17231F;
+  --color-text-secondary: #4B5B53;
+  --color-text-tertiary: #718078;
+  --color-border: rgba(23, 55, 43, 0.12);
 
-  --shadow-soft: 0 12px 32px rgba(17, 17, 17, 0.03);
-  --shadow-header: 0 10px 40px -15px rgba(17, 17, 17, 0.02);
-  --shadow-hover-card: 0 20px 40px rgba(16, 185, 129, 0.08);
+  --shadow-soft: 0 12px 32px rgba(18, 59, 50, 0.06);
+  --shadow-header: 0 10px 40px -15px rgba(18, 59, 50, 0.10);
+  --shadow-hover-card: 0 20px 40px rgba(21, 154, 114, 0.12);
 }
 
 .dark {
-  --color-bg-primary: #121010;
-  --color-bg-secondary: #1C1919;
-  --color-bg-tertiary: #272323;
-  --color-text-primary: #F9F9FD;
-  --color-text-secondary: #D8D2D2;
-  --color-text-tertiary: #10b981;
-  --color-border: rgba(249, 249, 253, 0.12);
-  --color-primary-light: #112c22;
-  --color-secondary-light: #2A2525;
-  --color-accent-light: #112c22;
+  --color-primary: #4EC99A;
+  --color-primary-light: #1D3C30;
+  --color-primary-dark: #A7E6C9;
+  --color-accent: #D7B56D;
+  --color-accent-light: #3A3324;
+  --color-accent-dark: #F0D89D;
+  --color-bg-primary: #101A17;
+  --color-bg-secondary: #17231F;
+  --color-bg-tertiary: #20332C;
+  --color-bg-dark: #0B2C25;
+  --color-text-primary: #F3F6F1;
+  --color-text-secondary: #C5D3CC;
+  --color-text-tertiary: #9AB3A6;
+  --color-border: rgba(215, 234, 223, 0.13);
+  --color-secondary-light: #20332C;
 }
 
 /* Global Dark Mode Helper & Overrides for legacy hardcoded colors */
@@ -121,7 +151,7 @@
 }
 
 /* Smooth Theme Transitions across components */
-body, header, aside, .card, button, input, select, textarea, div {
+body, header, aside, .card, button, input, select, textarea {
   transition-property: color, background-color, border-color, text-decoration-color, box-shadow;
   transition-duration: 350ms;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -255,8 +285,8 @@ body, header, aside, .card, button, input, select, textarea, div {
 }
 [class*="bg-[#c5a059]"],
 [class*="bg-[#C5A059]"] {
-  background-color: rgba(6, 182, 212, 0.1) !important;
-  border-color: rgba(6, 182, 212, 0.2) !important;
+  background-color: var(--color-accent-light) !important;
+  border-color: color-mix(in srgb, var(--color-accent) 24%, transparent) !important;
 }
 
 

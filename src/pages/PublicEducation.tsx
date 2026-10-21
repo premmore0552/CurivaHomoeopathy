@@ -146,7 +146,7 @@ export default function PublicEducation() {
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.05)_0%,transparent_70%)] opacity-40 pointer-events-none" />
         
         <div className="max-w-4xl mx-auto px-4 relative z-10 space-y-4 flex flex-col items-center">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#10B981]/10 border border-[#10B981]/20 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-[#10B981] mx-auto">
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-[#159A72]/10 border border-[#159A72]/20 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-[#159A72] mx-auto">
             <ShieldCheck className="w-3.5 h-3.5" /> General Public Resource
           </div>
           <h1 className="text-4xl md:text-6xl font-display font-medium text-text-primary tracking-tighter uppercase">
@@ -330,7 +330,7 @@ export default function PublicEducation() {
 
                 <div className="space-y-4">
                   <h4 className="text-xs font-black text-primary uppercase tracking-wider flex items-center gap-1.5">
-                    <Compass className="w-4 h-4 text-[#10B981]" /> Common Homoeopathic Remedies
+                    <Compass className="w-4 h-4 text-[#159A72]" /> Common Homoeopathic Remedies
                   </h4>
                   <div className="flex flex-wrap gap-2 pt-1">
                     {selectedDisease.remedies.map((r, i) => (
