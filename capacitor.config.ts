@@ -1,20 +1,31 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
-// The website is the shared UI source for web and native Capacitor clients.
-// Set CAPACITOR_LOCAL_BUNDLE=true only when intentionally building an offline-first
-// native bundle for development/testing. The shared-web mode requires internet.
-const useSharedWebRuntime = process.env.CAPACITOR_LOCAL_BUNDLE !== 'true';
+// Live Updates keep the installed app's web assets local while allowing web-layer
+// releases to be delivered over the air. The app ID is created once in Capawesome Cloud.
+const liveUpdateAppId = process.env.CAPAWESOME_LIVE_UPDATE_APP_ID;
+const liveUpdatePublicKey = process.env.CAPAWESOME_LIVE_UPDATE_PUBLIC_KEY;
 
 const config: CapacitorConfig = {
   appId: 'com.curiva.homoeopathy',
   appName: 'Curiva Homoeopathy',
   webDir: 'dist',
   server: {
-    androidScheme: 'https',
-    ...(useSharedWebRuntime
-      ? { url: 'https://curivahomoeopathy.netlify.app' }
-      : {}),
+    androidScheme: 'https'
   },
+  ...(liveUpdateAppId
+    ? {
+        plugins: {
+          LiveUpdate: {
+            appId: liveUpdateAppId,
+            defaultChannel: 'default',
+            autoUpdateStrategy: 'background',
+            autoBlockRolledBackBundles: true,
+            readyTimeout: 10000,
+            ...(liveUpdatePublicKey ? { publicKey: liveUpdatePublicKey } : {})
+          }
+        }
+      }
+    : {})
 };
 
 export default config;
