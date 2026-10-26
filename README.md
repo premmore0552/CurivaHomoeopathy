@@ -102,3 +102,11 @@ npm run build
 ```
 
 This repo's Netlify site builds and deploys from `main`. Keep the Netlify Git connection's build command at `npm run build` and publish directory at `dist`. The site uses a free Netlify subdomain, so a separately purchased domain isn't needed.
+
+## Separate native medical-learning experience
+
+The Android Capacitor entry point is intentionally separate from the browser website. At startup, `src/main.tsx` detects the native platform and dynamically loads `src/native-app/NativeLearningApp.tsx`; only browser visits load the website routes and website providers. The Android app does not navigate to or render `curivahomoeopathy.netlify.app` as its interface.
+
+The native interface contains a mobile-first animated home dashboard, BHMS subject/chapter catalogue imported from `src/pages/AllSubjectsHub.tsx`, in-app reading from the bundled `src/data/blogPosts.ts` content, subject filters, MCQs with explanations, bookmarks, lesson completion, quiz history, and a local study streak. Learning progress is stored on the device. Core screens and learning material are bundled with the build and remain available without a network connection; the optional self-hosted live-update check only retrieves update metadata and does not display the website. Future lesson and question content can be expanded in the native app without changing the public website experience.
+
+The first pass intentionally reuses the website's existing curriculum and article data instead of scraping or remotely loading pages. Imported health material should be reviewed for accuracy and sourcing before being treated as a clinical reference. This product is for education, not diagnosis or patient-specific treatment.
