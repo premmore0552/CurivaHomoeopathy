@@ -478,11 +478,69 @@ export default function App() {
   const [initiallyLoading, setInitiallyLoading] = useState(true);
 
   useEffect(() => {
-    // Mark the current web bundle healthy so Live Update can roll back a broken release.
     if (Capacitor.isNativePlatform()) {
-      void LiveUpdate.ready().catch((error) => {
-        console.warn('Curiva live-update readiness check failed.', error);
-      });
+      // Mark the current bundle healthy before invoking any update APIs.
+      void (async () => {
+        try {
+          await LiveUpdate.ready();
+        } catch (error) {
+          console.warn('Curiva live-update readiness check failed.', error);
+          return;
+        }
+
+        try {
+          const manifestUrl = 'https://curivahomoeopathy.netlify.app/live-updates/latest.json';
+          const manifestResponse = await fetch(manifestUrl, { cache: 'no-store' });
+          if (!manifestResponse.ok) return;
+
+          const manifest = (await manifestResponse.json()) as {
+            bundleId?: string;
+            url?: string;
+            checksum?: string;
+            signature?: string;
+          };
+
+          if (
+            typeof manifest.bundleId !== 'string' ||
+            !/^[a-zA-Z0-9._-]{1,64}$/.test(manifest.bundleId) ||
+            typeof manifest.url !== 'string' ||
+            typeof manifest.checksum !== 'string' ||
+            !/^[a-f0-9]{64}$/i.test(manifest.checksum)
+          ) {
+            return;
+          }
+
+          const manifestOrigin = new URL(manifestUrl).origin;
+          const bundleUrl = new URL(manifest.url, manifestUrl);
+          // Only accept versioned bundles hosted by Curiva's own deployment.
+          if (
+            bundleUrl.origin !== manifestOrigin ||
+            !bundleUrl.pathname.startsWith('/live-updates/bundles/')
+          ) {
+            return;
+          }
+
+          const current = await LiveUpdate.getCurrentBundle();
+          if (current.bundleId === manifest.bundleId) return;
+
+          const bundles = await LiveUpdate.getBundles();
+          if (!bundles.bundleIds.includes(manifest.bundleId)) {
+            await LiveUpdate.downloadBundle({
+              artifactType: 'zip',
+              bundleId: manifest.bundleId,
+              url: bundleUrl.toString(),
+              checksum: manifest.checksum,
+              ...(manifest.signature ? { signature: manifest.signature } : {})
+            });
+          }
+
+          // Apply on the next cold start, avoiding interruption or lost form state.
+          await LiveUpdate.setNextBundle({ bundleId: manifest.bundleId });
+        } catch (error) {
+          // The app remains usable offline; failed checks simply retry on a later launch.
+          console.info('Curiva self-hosted update check skipped.', error);
+        }
+      })();
     }
 
     const timer = setTimeout(() => {
