@@ -334,6 +334,63 @@ export default function NativeLearningApp() {
         <div className="native-reading-meta"><span className="native-eyebrow">{selectedSubject.title}</span><span>{completedLessons.includes(selectedSubject.id + ':' + selectedChapterTitle) ? 'COMPLETED' : 'STUDY NOTE'}</span></div>
         <h1>{selectedChapterTitle}</h1><p className="native-reading-lead">{selectedSubject.summary}</p>
         <div className="native-study-callout"><Sparkles size={19} /><div><strong>Learning objective</strong><p>Explain the central concepts in your own words, connect them to foundational science, and identify what you need to revise.</p></div></div>
+
+        {anatomyContent && <section className="native-reading-section">
+          <span className="native-eyebrow">IMPORTED COURSE NOTES · ANATOMY</span>
+          <h2>{anatomyContent.title}</h2>
+          <p>{anatomyContent.introduction}</p>
+          <div className="native-fact-grid">
+            <div className="native-fact-card"><span>DEFINITION</span><p>{anatomyContent.quickFacts.definition}</p></div>
+            <div className="native-fact-card"><span>LOCATION & FUNCTION</span><p>{anatomyContent.quickFacts.location} {anatomyContent.quickFacts.function}</p></div>
+            <div className="native-fact-card native-fact-highlight"><span>CLINICAL IMPORTANCE</span><p>{anatomyContent.quickFacts.clinicalImportance}</p></div>
+            <div className="native-fact-card"><span>ONE-LINE REVISION</span><p>{anatomyContent.quickFacts.oneLineRevision}</p></div>
+          </div>
+          <h2>Learning objectives</h2>
+          <div className="native-keypoint-list">{anatomyContent.learningObjectives.slice(0, 6).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div>
+          <h2>Gross anatomy</h2>
+          <div className="native-keypoint-list">{[...anatomyContent.grossAnatomy.parts, ...anatomyContent.grossAnatomy.relations].slice(0, 8).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div>
+          {anatomyContent.grossAnatomy.anatomicalFeatures.length > 0 && <><h2>Anatomical features</h2><div className="native-keypoint-list">{anatomyContent.grossAnatomy.anatomicalFeatures.slice(0, 6).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div></>}
+          <h2>Applied anatomy & clinical correlation</h2>
+          <p>{anatomyContent.appliedAnatomy}</p><p>{anatomyContent.clinicalCorrelation}</p>
+          <div className="native-study-callout"><BookOpen size={18} /><div><strong>Blood & nerve supply</strong><p><b>Blood supply:</b> {anatomyContent.bloodSupply}<br /><b>Nerve supply:</b> {anatomyContent.nerveSupply}</p></div></div>
+          {anatomyContent.vivaQuestions.length > 0 && <><h2>Viva quick check</h2><div className="native-viva-list">{anatomyContent.vivaQuestions.slice(0, 5).map((item, index) => <details className="native-viva-row" key={item.q + index}><summary>{item.q}</summary><p>{item.a}</p>{item.tip && <small>Exam tip: {item.tip}</small>}</details>)}</div></>}
+          {anatomyContent.references.length > 0 && <p className="native-content-citation">Course references: {anatomyContent.references.slice(0, 4).join(' · ')}</p>}
+        </section>}
+
+        {physiologyContent && <section className="native-reading-section">
+          <span className="native-eyebrow">IMPORTED COURSE NOTES · PHYSIOLOGY</span>
+          <h2>{physiologyContent.title}</h2>
+          <p>{physiologyContent.introduction}</p>
+          <div className="native-fact-grid">
+            <div className="native-fact-card"><span>DEFINITION</span><p>{physiologyContent.quickFacts.definition}</p></div>
+            <div className="native-fact-card"><span>REFERENCE RANGE</span><p>{physiologyContent.quickFacts.normalRange}</p></div>
+            <div className="native-fact-card native-fact-highlight"><span>CLINICAL IMPORTANCE</span><p>{physiologyContent.quickFacts.clinicalImportance}</p></div>
+            <div className="native-fact-card"><span>ONE-LINE REVISION</span><p>{physiologyContent.quickFacts.oneLineRevision}</p></div>
+          </div>
+          <h2>Learning objectives</h2>
+          <div className="native-keypoint-list">{physiologyContent.learningObjectives.slice(0, 6).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div>
+          <h2>Core concept</h2><p>{physiologyContent.definition}</p><p>{physiologyContent.basicConcepts}</p><p>{physiologyContent.detailedExplanation}</p>
+          {physiologyContent.physiologicalMechanism.length > 0 && <><h2>Mechanism, step by step</h2><div className="native-mechanism-list">{physiologyContent.physiologicalMechanism.slice(0, 8).map((step) => <div className="native-mechanism-step" key={step.step}><span>{String(step.step).padStart(2, '0')}</span><div><strong>{step.title}</strong><p>{step.detail}</p></div></div>)}</div></>}
+          {physiologyContent.flowchart.steps.length > 0 && <><h2>{physiologyContent.flowchart.title}</h2><div className="native-mechanism-list">{physiologyContent.flowchart.steps.slice(0, 6).map((step, index) => <div className="native-mechanism-step" key={step.label}><span>{String(index + 1).padStart(2, '0')}</span><div><strong>{step.label}</strong><p>{step.desc}</p></div></div>)}</div></>}
+          <h2>Clinical correlation</h2><p>{physiologyContent.clinicalCorrelation}</p><p>{physiologyContent.appliedPhysiology}</p>
+          <h2>High-yield review</h2><div className="native-keypoint-list">{physiologyContent.highYieldPoints.slice(0, 8).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div>
+          {physiologyContent.vivaQuestions.length > 0 && <><h2>Viva quick check</h2><div className="native-viva-list">{physiologyContent.vivaQuestions.slice(0, 5).map((item, index) => <details className="native-viva-row" key={item.q + index}><summary>{item.q}</summary><p>{item.a}</p></details>)}</div></>}
+          {physiologyContent.references.length > 0 && <p className="native-content-citation">Course references: {physiologyContent.references.slice(0, 4).join(' · ')}</p>}
+        </section>}
+
+        {fmtContent && <section className="native-reading-section">
+          <span className="native-eyebrow">IMPORTED COURSE NOTES · FORENSIC MEDICINE</span>
+          <h2>{fmtContent.title}</h2><p>{fmtContent.introduction}</p><div className="native-study-callout"><ShieldCheck size={18} /><div><strong>Why this matters</strong><p>{fmtContent.whyThisMatters}</p></div></div>
+          <h2>Learning objectives</h2><div className="native-keypoint-list">{fmtContent.learningObjectives.slice(0, 7).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div>
+          <h2>Concept explained</h2><p>{fmtContent.simpleExplanation}</p>{fmtContent.detailedNotes && <p>{fmtContent.detailedNotes}</p>}
+          {fmtContent.stepByStep.length > 0 && <><h2>Step-by-step</h2><div className="native-mechanism-list">{fmtContent.stepByStep.slice(0, 7).map((step) => <div className="native-mechanism-step" key={step.stepNumber}><span>{String(step.stepNumber).padStart(2, '0')}</span><div><strong>{step.title}</strong><p>{step.description}</p><small>{step.keyTakeaway}</small></div></div>)}</div></>}
+          {fmtContent.keyTerms.length > 0 && <><h2>Key terms</h2><div className="native-viva-list">{fmtContent.keyTerms.slice(0, 8).map((term) => <details className="native-viva-row" key={term.term}><summary>{term.term}</summary><p>{term.definition}</p>{term.simpleExplanation && <small>{term.simpleExplanation}</small>}</details>)}</div></>}
+          <h2>High-yield points</h2><div className="native-keypoint-list">{fmtContent.highYieldPoints.slice(0, 8).map((item, index) => <div className="native-keypoint" key={item}><span>{String(index + 1).padStart(2, '0')}</span><p>{item}</p></div>)}</div>
+          <h2>Summary</h2><p>{fmtContent.summary}</p>
+          {fmtContent.vivaQuestions.length > 0 && <><h2>Viva quick check</h2><div className="native-viva-list">{fmtContent.vivaQuestions.slice(0, 5).map((item, index) => <details className="native-viva-row" key={(item.question || '') + index}><summary>{item.question}</summary><p>{item.answer}</p>{item.clinicalPearl && <small>Clinical pearl: {item.clinicalPearl}</small>}</details>)}</div></>}
+          <p className="native-content-citation">Refer to current legal and institutional guidance for forensic and medico-legal matters.</p>
+        </section>}
+
         <section className="native-reading-section"><span className="native-eyebrow">WHAT TO FOCUS ON</span><h2>High-yield objectives</h2><div className="native-keypoint-list">{selectedSubject.highYieldTopics.map((topic, index) => <div className="native-keypoint" key={topic}><span>{String(index + 1).padStart(2, '0')}</span><p>{topic}</p></div>)}</div></section>
         <section className="native-reading-section"><span className="native-eyebrow">ACTIVE RECALL</span><h2>Close your notes and explain</h2><p>Can you define the key terms, describe the mechanism or anatomy, and identify one clinical or practical correlation? Explain it aloud or write it in your own words before checking your course material.</p><div className="native-reflection-card"><NotebookPen size={19} /><div><strong>One-minute reflection</strong><span>What is the single most important concept here, and what part still feels unclear?</span></div></div></section>
         <div className="native-reading-source"><ShieldCheck size={16} /><p>This topic roadmap is generated from Curiva's bundled subject catalogue. It is not a replacement for full lecture notes, textbooks, practical training, or clinical protocols.</p></div>
