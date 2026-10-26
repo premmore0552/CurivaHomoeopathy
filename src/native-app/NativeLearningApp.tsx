@@ -263,8 +263,8 @@ export default function NativeLearningApp() {
     setScreen('lesson');
   };
   const openArticle = (slug: string) => { setSelectedArticleSlug(slug); setScreen('article'); };
-  const openRemedy = (id: string) => { setSelectedRemedyId(id); setSearch(''); setScreen('remedy'); };
-  const openRepertory = (id: string) => { setSelectedRepertoryId(id); setSearch(''); setScreen('repertory'); };
+  const openRemedy = (id: string) => { setLibraryView('remedies'); setSelectedRemedyId(id); setSearch(''); setScreen('remedy'); };
+  const openRepertory = (id: string) => { setLibraryView('repertory'); setSelectedRepertoryId(id); setSearch(''); setScreen('repertory'); };
   const toggleBookmark = (id: string) => setBookmarks((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]);
   const completeLesson = () => {
     const lessonId = selectedSubjectId + ':' + selectedChapterTitle;
