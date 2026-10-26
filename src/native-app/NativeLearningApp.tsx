@@ -14,7 +14,8 @@ import { allBlogPosts } from '../data/blogPosts';
 import { anatomyModules, getAnatomyModule } from '../data/anatomyModulesData';
 import { getAllPhysiologyModules } from '../data/physiologyModulesData';
 import { FMT_DETAILED_CHAPTERS } from '../data/fmtDetailedChapters';
-import { nativeQuestionBank, nativeQuestionSubjects } from './quizBank';
+import { nativeQuestionBank, type NativeQuestion } from './quizBank';
+import { importedMedicalMCQs } from '../data/medicalMcqBank';
 import './native-learning.css';
 
 type Tab = 'home' | 'learn' | 'practice' | 'library' | 'profile';
@@ -67,6 +68,20 @@ const tabItems: { id: Tab; label: string; icon: React.ComponentType<{ size?: num
   { id: 'library', label: 'Library', icon: Library },
   { id: 'profile', label: 'Progress', icon: TrendingUp }
 ];
+const allQuestionBank: NativeQuestion[] = [
+  ...nativeQuestionBank,
+  ...importedMedicalMCQs.map((question) => ({
+    id: 'curiva-' + question.id,
+    subject: question.subject,
+    prompt: question.question,
+    options: question.options,
+    answer: question.correctAnswer,
+    explanation: question.explanation,
+    difficulty: question.category.toLowerCase().includes('clinical') ? 'Intermediate' as const : 'Foundational' as const
+  }))
+];
+const allQuestionSubjects = ['All subjects', ...Array.from(new Set(allQuestionBank.map((question) => question.subject)))];
+
 const subjectIconMap: Record<string, React.ComponentType<{ size?: number }>> = {
   anatomy: Activity, physiology: HeartPulse, pharmacy: FlaskConical, 'organon-1': BookMarked,
   pathology: Microscope, 'materia-medica': Library, repertory: Compass,
@@ -149,8 +164,8 @@ export default function NativeLearningApp() {
   const selectedSubject = allBhmsSubjects.find((subject) => subject.id === selectedSubjectId);
   const selectedArticle = allBlogPosts.find((post) => post.slug === selectedArticleSlug || post.id === selectedArticleSlug);
   const questionPool = useMemo(() => {
-    const result = quizSubject === 'All subjects' ? nativeQuestionBank : nativeQuestionBank.filter((q) => q.subject === quizSubject);
-    return result.length ? result : nativeQuestionBank;
+    const result = quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject);
+    return result.length ? result : allQuestionBank;
   }, [quizSubject]);
   const currentQuestion = questionPool[questionIndex % questionPool.length];
 
@@ -295,7 +310,7 @@ export default function NativeLearningApp() {
         {activeTab === 'practice' && <>
           <div className="native-page-intro"><span className="native-eyebrow">ACTIVE RECALL</span><h1>Practice makes <em>progress.</em></h1><p>Answer, get an explanation, and learn from every choice.</p></div>
           <div className="native-quiz-hero"><div className="native-quiz-hero-orb"><Brain size={32} /></div><div><span className="native-eyebrow native-eyebrow-light">QUICK MIX</span><h2>Question bank</h2><p>Anatomy, physiology, pathology, pharmacology and more.</p></div><div className="native-quiz-hero-footer"><span><Clock3 size={15} /> 5–8 minutes</span><span><ListChecks size={15} /> Explanations included</span></div></div>
-          <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">CHOOSE A FOCUS</span><h2>Question set</h2></div></div><label className="native-field-label" htmlFor="native-quiz-subject">Subject</label><select id="native-quiz-subject" className="native-select" value={quizSubject} onChange={(event) => setQuizSubject(event.target.value)}>{nativeQuestionSubjects.map((subject) => <option key={subject} value={subject}>{subject}</option>)}</select><div className="native-quiz-summary"><div><strong>{(quizSubject === 'All subjects' ? nativeQuestionBank : nativeQuestionBank.filter((q) => q.subject === quizSubject)).length || nativeQuestionBank.length}</strong><span>questions</span></div><div><strong>Instant</strong><span>feedback</span></div><div><strong>Offline</strong><span>available</span></div></div><button className="native-primary-button" onClick={startQuiz}>Start practice <ArrowRight size={18} /></button></section>
+          <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">CHOOSE A FOCUS</span><h2>Question set</h2></div></div><label className="native-field-label" htmlFor="native-quiz-subject">Subject</label><select id="native-quiz-subject" className="native-select" value={quizSubject} onChange={(event) => setQuizSubject(event.target.value)}>{allQuestionSubjects.map((subject) => <option key={subject} value={subject}>{subject}</option>)}</select><div className="native-quiz-summary"><div><strong>{(quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject)).length || allQuestionBank.length}</strong><span>questions</span></div><div><strong>Instant</strong><span>feedback</span></div><div><strong>Offline</strong><span>available</span></div></div><button className="native-primary-button" onClick={startQuiz}>Start practice <ArrowRight size={18} /></button></section>
           {quizHistory.length > 0 && <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">RECENT SESSIONS</span><h2>Your attempts</h2></div></div><div className="native-history-list">{quizHistory.slice(0, 3).map((result, index) => <div className="native-history-row" key={result.date + '-' + index}><span className="native-history-badge"><Award size={17} /></span><div><strong>{result.subject}</strong><small>{result.date} · {result.score}/{result.total} correct</small></div><b>{result.percent}%</b></div>)}</div></section>}
           <div className="native-disclaimer"><ShieldCheck size={16} /><span>Questions support revision and do not replace your prescribed curriculum or supervised clinical training.</span></div>
         </>}
