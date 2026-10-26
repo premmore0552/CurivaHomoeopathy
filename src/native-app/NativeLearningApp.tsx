@@ -337,6 +337,25 @@ export default function NativeLearningApp() {
           <div className="native-disclaimer"><ShieldCheck size={16} /><span>Questions support revision and do not replace your prescribed curriculum or supervised clinical training.</span></div>
         </>}
 
+        {activeTab === 'flashcards' && <>
+          <div className="native-page-intro"><span className="native-eyebrow">SPACED RECALL</span><h1>Make it <em>stick.</em></h1><p>Review Curiva's bundled flashcards, flip to reveal the answer, then rate how well you recalled it.</p></div>
+          <div className="native-search-wrap"><Search size={18} /><input aria-label="Search flashcards" placeholder="Search terms and definitions…" value={search} onChange={(event) => { setSearch(event.target.value); setFlashcardIndex(0); setIsFlashcardFlipped(false); }} /><button onClick={() => { setSearch(''); setFlashcardIndex(0); }} aria-label="Clear search"><X size={16} /></button></div>
+          <div className="native-filter-row">{flashcardCategories.map((category) => <button key={category} className={'native-filter-chip ' + (flashcardCategory === category ? 'is-selected' : '')} onClick={() => { setFlashcardCategory(category); setFlashcardIndex(0); setIsFlashcardFlipped(false); }}>{category}</button>)}</div>
+          <div className="native-flashcard-count"><span>{filteredFlashcards.length ? flashcardIndex % filteredFlashcards.length + 1 : 0} of {filteredFlashcards.length} cards</span><span>{knownFlashcards.length} mastered on this device</span></div>
+          {currentFlashcard ? <>
+            <div className="native-flashcard-instruction"><Sparkles size={14} /> Try to recall the definition before revealing the back</div>
+            <AnimatePresence mode="wait">
+              <motion.button key={currentFlashcard.term + '-' + String(isFlashcardFlipped)} type="button" className={'native-flashcard ' + (isFlashcardFlipped ? 'is-flipped' : '')} onClick={() => setIsFlashcardFlipped((value) => !value)} initial={{ opacity: 0, y: 10, rotateY: -7, scale: 0.985 }} animate={{ opacity: 1, y: 0, rotateY: 0, scale: 1 }} exit={{ opacity: 0, y: -8, rotateY: 7, scale: 0.985 }} transition={{ duration: 0.22 }}>
+                <span className="native-flashcard-label">{isFlashcardFlipped ? 'REVEALED · TAP TO FLIP BACK' : 'TERM · TAP TO REVEAL'}</span>
+                {!isFlashcardFlipped ? <><span className="native-flashcard-decoration"><Layers size={22} /></span><strong>{currentFlashcard.term}</strong><span className="native-flashcard-category">{currentFlashcard.subType}</span><span className="native-flashcard-tap">Tap card to reveal <ArrowRight size={15} /></span></> : <><strong className="native-flashcard-definition">{currentFlashcard.definition}</strong><span className="native-flashcard-category">STUDY SIGNIFICANCE</span><p>{currentFlashcard.clinicalSignificance}</p></>}
+              </motion.button>
+            </AnimatePresence>
+            <div className="native-flashcard-actions"><button className="native-flashcard-again" onClick={() => rateFlashcard(false)}><RotateCcw size={17} /><span>Review again</span></button><button className="native-flashcard-known" onClick={() => rateFlashcard(true)}><CheckCircle2 size={17} /><span>Got it</span></button></div>
+            <div className="native-flashcard-footer"><button onClick={() => { setFlashcardIndex((index) => (index - 1 + filteredFlashcards.length) % filteredFlashcards.length); setIsFlashcardFlipped(false); }} disabled={filteredFlashcards.length < 2}><ArrowLeft size={15} /> Previous</button><button onClick={() => { setFlashcardIndex((index) => (index + 1) % filteredFlashcards.length); setIsFlashcardFlipped(false); }} disabled={filteredFlashcards.length < 2}>Next card <ArrowRight size={15} /></button></div>
+          </> : <div className="native-empty-state"><Layers size={24} /><strong>No matching flashcards</strong><span>Try another search or card category.</span></div>}
+          <div className="native-disclaimer"><ShieldCheck size={16} /><span>These cards include traditional homoeopathic terminology. Educational summaries are not evidence of treatment effectiveness; use reliable medical references for clinical decisions.</span></div>
+        </>}
+
         {activeTab === 'library' && <>
           <div className="native-page-intro"><span className="native-eyebrow">YOUR READING ROOM</span><h1>Read. Reflect. <em>Remember.</em></h1><p>Existing Curiva articles, bundled for in-app reading.</p></div>
           <div className="native-search-wrap"><Search size={18} /><input aria-label="Search library" placeholder="Search articles and concepts…" value={search} onChange={(event) => setSearch(event.target.value)} /><button onClick={() => setSearch('')} aria-label="Clear search"><X size={16} /></button></div>
