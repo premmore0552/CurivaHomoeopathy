@@ -1,3 +1,4 @@
+import './index.css';
 import React, { Suspense, lazy, useState, useEffect } from 'react';
 import { Capacitor } from '@capacitor/core';
 import { LiveUpdate } from '@capawesome/capacitor-live-update';
