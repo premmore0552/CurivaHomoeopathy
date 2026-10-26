@@ -137,7 +137,9 @@ export default function NativeLearningApp() {
         const manifestUrl = 'https://curivahomoeopathy.netlify.app/live-updates/latest.json';
         const response = await fetch(manifestUrl, { cache: 'no-store' });
         if (!response.ok) return;
-        const manifest = await response.json() as { bundleId?: string; url?: string; checksum?: string; signature?: string };
+        const manifest = await response.json() as { appShell?: string; bundleId?: string; url?: string; checksum?: string; signature?: string };
+        // Old website-only OTA manifests must never replace the native learning app UI.
+        if (manifest.appShell !== 'curiva-native-learning-v1') return;
         if (typeof manifest.bundleId !== 'string' || !/^[a-zA-Z0-9._-]{1,64}$/.test(manifest.bundleId) ||
           typeof manifest.url !== 'string' || typeof manifest.checksum !== 'string' || !/^[a-f0-9]{64}$/i.test(manifest.checksum)) return;
         const origin = new URL(manifestUrl).origin;

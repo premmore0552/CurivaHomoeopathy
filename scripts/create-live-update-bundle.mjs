@@ -118,6 +118,8 @@ await fs.mkdir(BUNDLE_DIR, { recursive: true });
 await fs.writeFile(bundlePath, zip);
 
 const manifest = {
+  // Native builds accept only OTA bundles known to contain this app shell.
+  appShell: 'curiva-native-learning-v1',
   bundleId,
   artifactType: 'zip',
   url: `${UPDATE_BASE_URL}/live-updates/bundles/${bundleId}.zip`,
