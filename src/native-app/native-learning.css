@@ -319,3 +319,25 @@
 .native-mechanism-step p { color: #57736a; font-size: 10px; line-height: 1.7; margin: 4px 0 0; }
 .native-mechanism-step small { display: block; font-size: 9px; color: var(--na-green); line-height: 1.6; margin-top: 5px; }
 .native-content-citation { color: #92a49e; font-size: 9px; line-height: 1.65; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--na-line); }
+
+.native-flashcard-count { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin: 15px 1px 10px; font-size: 9px; color: #899e97; font-weight: 700; }
+.native-flashcard-instruction { display: flex; align-items: center; gap: 7px; color: var(--na-green); font-size: 10px; line-height: 1.5; margin: 12px 0; }
+.native-flashcard { position: relative; overflow: hidden; display: flex; flex-direction: column; align-items: flex-start; text-align: left; width: 100%; min-height: 330px; padding: 23px; border: 1px solid #d4e9de; border-radius: 27px; color: var(--na-ink); background: radial-gradient(circle at 100% 0%, rgba(255,255,255,.75), transparent 44%), linear-gradient(145deg, #effaf3, #ffffff 62%, #e4f5ec); box-shadow: 0 15px 35px rgba(18,89,66,.07); transform-style: preserve-3d; }
+.native-flashcard.is-flipped { background: radial-gradient(circle at 100% 0%, rgba(255,255,255,.8), transparent 40%), linear-gradient(145deg, #e8f8ef, #ffffff 65%, #eef8f3); }
+.native-flashcard-label { color: #77938a; font-size: 8px; font-weight: 800; letter-spacing: .13em; }
+.native-flashcard-decoration { display: grid; place-items: center; width: 48px; height: 48px; margin-top: 45px; border-radius: 16px; background: var(--na-green); color: white; box-shadow: 0 10px 18px rgba(8,127,112,.16); }
+.native-flashcard > strong { font-family: 'Manrope', system-ui, sans-serif; font-size: clamp(23px, 7vw, 33px); line-height: 1.18; letter-spacing: -.045em; font-weight: 800; margin-top: 18px; overflow-wrap: anywhere; }
+.native-flashcard-category { font-size: 8px; font-weight: 800; color: var(--na-green); letter-spacing: .1em; margin-top: 14px; }
+.native-flashcard-tap { margin-top: auto; padding-top: 27px; font-size: 10px; color: #6f8980; display: inline-flex; align-items: center; gap: 7px; }
+.native-flashcard-definition { font-size: 17px !important; line-height: 1.55 !important; font-weight: 700 !important; margin-top: 24px !important; }
+.native-flashcard > p { color: #58766b; font-size: 11px; line-height: 1.75; margin: 8px 0 0; }
+.native-flashcard-actions { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 13px; }
+.native-flashcard-actions button { min-height: 48px; display: flex; justify-content: center; align-items: center; gap: 8px; border: 1px solid var(--na-line); border-radius: 15px; background: white; font-size: 10px; font-weight: 800; }
+.native-flashcard-again { color: #9a6759; }
+.native-flashcard-known { color: white; background: var(--na-green) !important; border-color: var(--na-green) !important; }
+.native-flashcard-footer { display: flex; justify-content: space-between; gap: 12px; margin-top: 11px; }
+.native-flashcard-footer button { display: flex; align-items: center; gap: 5px; border: 0; background: transparent; color: #7b9389; font-size: 9px; font-weight: 800; padding: 8px 2px; }
+.native-flashcard-footer button:disabled { opacity: .35; }
+.native-bottom-nav { grid-template-columns: repeat(6, 1fr); }
+.native-bottom-nav button small { font-size: 7px; }
+@media (min-width: 420px) { .native-bottom-nav button small { font-size: 8px; } }
