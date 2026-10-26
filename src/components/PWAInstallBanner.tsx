@@ -111,8 +111,8 @@ export default function PWAInstallBanner() {
           </div>
           <div className="flex-1 pr-6">
             <div className="flex items-center gap-1.5 mb-1">
-              <span className="text-[10px] font-black uppercase tracking-widest text-[#10b981]">Native Web App</span>
-              <Sparkles className="w-3 h-3 text-[#10b981] animate-bounce-slow" />
+              <span className="text-[10px] font-black uppercase tracking-widest text-[#159A72]">Native Web App</span>
+              <Sparkles className="w-3 h-3 text-[#159A72] animate-bounce-slow" />
             </div>
             <h4 className="font-display font-medium text-text-primary text-lg italic tracking-tight leading-none mb-1.5">
               Install <span className="text-emerald-500 font-bold">Curiva</span> on Phone
@@ -146,7 +146,7 @@ export default function PWAInstallBanner() {
               initial={{ opacity: 0, height: 0 }}
               animate={{ opacity: 1, height: 'auto' }}
               exit={{ opacity: 0, height: 0 }}
-              className="mt-4 pt-4 border-t border-[#10b981]/10 bg-emerald-500/5 dark:bg-emerald-950/20 p-4 rounded-2xl text-xs overflow-hidden"
+              className="mt-4 pt-4 border-t border-[#159A72]/10 bg-emerald-500/5 dark:bg-emerald-950/20 p-4 rounded-2xl text-xs overflow-hidden"
             >
               <div className="flex items-center gap-2 mb-2 text-emerald-700 dark:text-emerald-400 font-bold">
                 <HelpCircle className="w-4 h-4" />

@@ -4,5 +4,5 @@ export const SEO_CONFIG = {
   defaultDescription: 'Premium educational platform and clinical AI assistant for BHMS students and homoeopathic practitioners.',
   twitterHandle: '@curiva',
   facebookAppId: '',
-  themeColor: '#10b981',
+  themeColor: '#159A72',
 };

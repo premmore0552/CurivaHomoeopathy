@@ -127,7 +127,7 @@ export default function InteractiveMindMap({ data, height = 600 }: InteractiveMi
 
     const colors = {
       0: theme === 'dark' ? '#c5a059' : '#2c4c3b', // Selected
-      1: '#10b981', // Complementary
+      1: '#159A72', // Complementary
       2: '#ef4444', // Inimical
       3: theme === 'dark' ? '#60a5fa' : '#3b82f6', // Follows Well
     };

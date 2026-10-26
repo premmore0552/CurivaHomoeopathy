@@ -32,7 +32,7 @@ const data: MindMapNode = {
       name: "Materia Medica A-Z",
       type: "category",
       iconName: "BookOpen",
-      color: "#10b981",
+      color: "#159A72",
       children: [
         {
           id: "mineral-remedies",

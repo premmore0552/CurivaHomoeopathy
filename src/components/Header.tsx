@@ -394,9 +394,9 @@ const Header: React.FC = () => {
     <>
       {showEduBanner && (
         <div className="bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex flex-col md:flex-row items-center justify-center gap-3 shadow-md">
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(21,154,114,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="flex items-center gap-2 relative z-10 text-[11px] md:text-xs font-semibold">
-            <GraduationCap className="w-4 h-4 text-[#10B981] animate-pulse shrink-0" />
+            <GraduationCap className="w-4 h-4 text-[#159A72] animate-pulse shrink-0" />
             <span className="text-[#a7f3d0] font-black uppercase tracking-widest text-[9px] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20 shrink-0">Academic Portal</span>
             <p className="text-zinc-200 font-sans tracking-tight text-center md:text-left">
               All BHMS study notes, preparations, and Materia Medica references are unified in our local <strong>Student Resources</strong> guides!
@@ -566,7 +566,7 @@ const Header: React.FC = () => {
               to="/" 
               onClick={() => handleLinkClick('/')} 
               className="flex flex-col items-center hover:scale-105 transition-transform group"
-              aria-label="Home"
+              aria-label="Curiva Homoeopathy home"
             >
               <div style={{ width: '159.703px', height: '58.75px', paddingLeft: '30px', paddingTop: '0px', marginLeft: '15px' }}>
                 <Logo size="md" style={{ marginLeft: '50px', width: '180px' }} />

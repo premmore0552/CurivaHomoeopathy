@@ -1140,7 +1140,7 @@ export default function AdminLinkAudit() {
                           y1={node.y}
                           x2={target.x}
                           y2={target.y}
-                          stroke={isHighlighted ? '#10b981' : '#2b4c3b'}
+                          stroke={isHighlighted ? '#159A72' : '#2b4c3b'}
                           strokeWidth={isHighlighted ? 2.5 : 1}
                           strokeOpacity={isHighlighted ? 0.8 : 0.15}
                         />
@@ -1157,7 +1157,7 @@ export default function AdminLinkAudit() {
                     const matchesCategory = activeCategory === 'all' || node.category === activeCategory;
                     const isMuted = !matchesCategory || (searchQuery && !matchesSearch);
                     
-                    let fill = '#10b981'; // student (emerald)
+                    let fill = '#159A72'; // student (emerald)
                     if (node.category === 'core') fill = '#2b4c3b'; // core
                     if (node.category === 'clinical') fill = '#6366f1'; // indigo
                     if (node.category === 'tools') fill = '#f59e0b'; // tools
@@ -1207,7 +1207,7 @@ export default function AdminLinkAudit() {
               <div className="absolute bottom-3 left-3 p-3 bg-white/95 dark:bg-bg-primary/95 border border-border rounded-xl text-[9px] font-mono space-y-1 shadow-sm">
                 <div className="font-bold text-primary mb-1 border-b border-border pb-1">Ontology Categories</div>
                 <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#2b4c3b]" /> Core Pages</div>
-                <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#10b981]" /> Student Hub</div>
+                <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#159A72]" /> Student Hub</div>
                 <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#6366f1]" /> Clinical Portals</div>
                 <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#f59e0b]" /> Interactive Tools</div>
                 <div className="flex items-center gap-1.5"><span className="w-2 h-2 rounded-full bg-[#3b82f6]" /> Public Support</div>
