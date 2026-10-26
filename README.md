@@ -46,26 +46,65 @@ npm run dev
 
 
 
-## Shared website and app release pipeline
+## Free website + app workflow
 
-Curiva's React/Vite project is the shared web UI. The website is deployed to Netlify; the Android package ID is `com.curiva.homoeopathy`. The app should keep a local copy of its web assets and use Capacitor Live Updates for web-layer changes, rather than loading the entire production app from `server.url`.
+Curiva uses one React/Vite frontend for the website and Capacitor app.
 
-### What updates automatically
+- **Website hosting:** Netlify's Free plan, using the existing `curivahomoeopathy.netlify.app` address.
+- **Source control and build checks:** public GitHub repository + GitHub Actions.
+- **App live updates:** the open-source MIT-licensed `@capawesome/capacitor-live-update` plugin in **self-hosted** mode. The bundle ZIP and `latest.json` manifest are published as ordinary static files by the same Netlify deployment. **No Capawesome Cloud account, API token, or paid OTA plan is required.**
+- **Mobile package:** `com.curiva.homoeopathy`.
 
-- **Website:** a push/merge to `main` deploys to Netlify when the Netlify site is connected to this repository with build command `npm run build` and publish directory `dist`.
-- **Android app:** the workflow builds the same `dist` bundle and publishes it to Capawesome Cloud Live Updates after the required repository variables/secrets are configured. Compatible HTML, CSS, JavaScript, and asset changes can then be downloaded by installed apps in the background and applied on a later launch.
-- **Native changes:** new Capacitor plugins, Android permissions, native code, or incompatible plugin configuration still require a new signed Android/iOS build and store/release process.
+Free plans have usage limits; this setup is designed to incur no service subscription charges while usage stays within the providers' free quotas. Netlify's free plan has a monthly credit limit, so deployments/traffic may pause when the quota is reached instead of requiring automatic paid overages.
 
-### One-time OTA setup
+### How updates work
 
-1. Create a Curiva app in [Capawesome Cloud](https://capawesome.io/docs/cloud/live-updates/setup/) and copy its app ID.
-2. In the GitHub repository settings, add repository variable `CAPAWESOME_LIVE_UPDATE_APP_ID` with that ID, and repository secret `CAPAWESOME_TOKEN` with a Capawesome Cloud API token.
-3. For production, enable bundle signing. Generate an RSA signing-key pair using the [Capawesome signing guide](https://capawesome.io/docs/cloud/live-updates/code-signing/). Add the **base64-encoded private key** as GitHub secret `CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64`. Configure its matching one-line public key as `CAPAWESOME_LIVE_UPDATE_PUBLIC_KEY` when syncing/building the native app. Never commit the private key.
-4. Add the Live Update plugin to the native platform, using the same ID/public key, and release one new signed native app build. This repository currently does not contain the generated `android/` or `ios/` platform folders, so that first native build must be made in the original native-build environment.
-5. After those GitHub settings are in place, pushes to `main` run typecheck + production build and upload the signed `dist` bundle to the `default` Live Update channel. The first installation/release must include the plugin; existing installed binaries won't gain OTA support just from a website deployment.
+1. A push to `main` triggers the Netlify production deploy (provided the existing Netlify Git integration remains enabled).
+2. `npm run build` builds the website, creates a ZIP of the web assets for the app, computes a SHA-256 checksum, and writes `dist/live-updates/latest.json`.
+3. Netlify serves the website, manifest, and versioned ZIP from the same free static deployment.
+4. After the installed native app has the live-update plugin, it checks the manifest on launch, verifies the ZIP checksum, downloads a newer web bundle and stages it for the next app restart. It does not interrupt an active session.
+5. GitHub Actions runs `npm ci`, `npm run lint`, `npm run build`, and ZIP/manifest validation for pull requests and pushes.
 
-For local Android setup, install/sync the plugin with `npm install` and `npx cap sync android`. If the native platform folder is missing, generate it once with `npm run cap:add` (from the environment that owns the Android signing/build setup) before syncing. Set `CAPAWESOME_LIVE_UPDATE_APP_ID` and, for signed updates, `CAPAWESOME_LIVE_UPDATE_PUBLIC_KEY` in the shell environment when running Capacitor sync/build.
+Only compatible web-layer changes (HTML, CSS, JavaScript and static assets) can use OTA. Native code, Android permissions, or adding/changing native plugins still require a rebuilt native app. Existing installed apps do not gain live-update support until they receive that first native build.
 
-### Release safety
+### One-time native setup
 
-The plugin uses background updates and automatic blocking/rollback for bundles that fail to become ready. Publish only web-layer changes compatible with the installed native app. Keep native-version compatibility in mind before changing plugin usage; version-specific channels are recommended as native releases evolve. See the [Capawesome Live Updates docs](https://capawesome.io/docs/cloud/live-updates/).
+The repository currently does not contain generated `android/` or `ios/` platform folders. In the environment where you build the app:
+
+```bash
+npm install
+npm run cap:add
+npx cap sync android
+npx cap open android
+```
+
+Build and install/release a new APK/AAB with the Live Update plugin included. Do not change the existing package ID `com.curiva.homoeopathy`. You must sign native Android releases with your own keystore; keep a backup of that keystore. OTA updates cannot add a native plugin to an already-installed app.
+
+### Optional: free code-signing setup (recommended for production)
+
+The update ZIP is always checked against its SHA-256 checksum. For publisher authenticity as well, sign the update with a free RSA key pair so the app only trusts bundles signed by you.
+
+1. Generate the key pair locally (OpenSSL is free):
+   ```bash
+   openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out curiva-live-update-private.pem
+   openssl pkey -in curiva-live-update-private.pem -pubout -out curiva-live-update-public.pem
+   ```
+2. In the Netlify site environment variables, add **`CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64`** with the base64-encoded private key. Generate the value without exposing the PEM file:
+   ```bash
+   node -e "process.stdout.write(require('node:fs').readFileSync('curiva-live-update-private.pem').toString('base64'))"
+   ```
+   Do not commit or share the private key. Because Netlify builds the published website, the build script can sign OTA ZIPs during that deployment.
+3. Before running `npx cap sync android` / creating the next native build, set **`CURIVA_LIVE_UPDATE_PUBLIC_KEY`** in that build environment to the contents of `curiva-live-update-public.pem`. The app embeds only the public key; never put the private key in app source.
+4. Keep the matching private-key secret in Netlify. If you later rotate the key, the new public key requires another native app release.
+
+If the signing variables aren't set yet, the free self-hosted update pipeline still generates checksummed bundles, but production deployment should prefer code signing. Do not ship an OTA bundle that changes native-plugin assumptions.
+
+### Local development
+
+```bash
+npm install
+npm run dev
+npm run build
+```
+
+This repo's Netlify site builds and deploys from `main`. Keep the Netlify Git connection's build command at `npm run build` and publish directory at `dist`. The site uses a free Netlify subdomain, so a separately purchased domain isn't needed.
