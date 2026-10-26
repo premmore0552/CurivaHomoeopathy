@@ -341,3 +341,25 @@
 .native-bottom-nav { grid-template-columns: repeat(6, 1fr); }
 .native-bottom-nav button small { font-size: 7px; }
 @media (min-width: 420px) { .native-bottom-nav button small { font-size: 8px; } }
+
+.native-library-switcher { padding-top: 0; margin: -3px 0 16px; }
+.native-remedy-list, .native-repertory-list { display: flex; flex-direction: column; gap: 9px; }
+.native-remedy-card, .native-repertory-card { display: flex; align-items: center; gap: 11px; width: 100%; text-align: left; padding: 13px; border-radius: 17px; border: 1px solid var(--na-line); background: white; color: var(--na-ink); }
+.native-remedy-avatar, .native-repertory-icon { display: grid; place-items: center; width: 41px; height: 41px; flex: 0 0 auto; border-radius: 14px; color: var(--na-green); background: #e7f7ef; }
+.native-remedy-card > div, .native-repertory-card > div { flex: 1; min-width: 0; }
+.native-remedy-card h3, .native-repertory-card h3 { margin: 4px 0; font-size: 12px; line-height: 1.4; font-weight: 800; }
+.native-remedy-card p, .native-repertory-card p { margin: 0 0 5px; color: var(--na-muted); font-size: 10px; line-height: 1.5; }
+.native-remedy-card small, .native-repertory-card small { display: block; color: #82978f; font-size: 9px; line-height: 1.55; }
+.native-remedy-card > svg, .native-repertory-card > svg { flex: 0 0 auto; color: #9eafa9; }
+.native-repertory-card { align-items: flex-start; }
+.native-rubric-search { margin-top: 18px; }
+.native-rubric-list { display: flex; flex-direction: column; gap: 8px; }
+.native-rubric-row { border: 1px solid var(--na-line); border-radius: 15px; background: white; padding: 12px 13px; }
+.native-rubric-row summary { cursor: pointer; list-style-position: outside; color: var(--na-ink); font-size: 11px; line-height: 1.55; font-weight: 800; }
+.native-rubric-row summary small { display: block; color: var(--na-green); font-size: 8px; font-weight: 800; letter-spacing: .08em; text-transform: uppercase; margin-top: 5px; }
+.native-rubric-content { padding-top: 12px; margin-top: 12px; border-top: 1px solid #edf2ef; }
+.native-rubric-content p { color: var(--na-muted); font-size: 10px; line-height: 1.65; margin: 7px 0 10px; }
+.native-rubric-remedies { display: flex; flex-wrap: wrap; gap: 6px; }
+.native-rubric-remedies span, .native-mini-chip { display: inline-flex; padding: 6px 8px; border-radius: 8px; background: #e9f7ef; color: var(--na-green-deep); font-size: 9px; font-weight: 800; }
+.native-mini-chip-list { display: flex; flex-wrap: wrap; gap: 5px; }
+.native-mini-chip.is-warm { background: #fff0e9; color: #9b5b45; }
