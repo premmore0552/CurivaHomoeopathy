@@ -83,16 +83,11 @@ npx cap open android
 
 Keep the package ID `com.curiva.homoeopathy`. The CI APK is a **debug/test build**, not a Play Store release; it uses Android's debug signing key. Installing it over an existing app signed by another key will fail. Do not uninstall any existing production app unless its data is backed up. To update an already-published app in place, its original Android release keystore is required. Store releases require a separately configured, backed-up signing keystore.
 
-### Free OTA signing setup
+### Free OTA verification (no secrets required)
 
-The RSA public key is now embedded in `capacitor.config.ts`. The matching private key must stay out of GitHub source control and be available to the Netlify build that creates signed update ZIPs.
+This free self-hosted setup verifies each downloaded ZIP using its SHA-256 checksum over HTTPS. It does **not** use a separate publisher signature, so no private signing key or Netlify environment variable is required. HTTPS protects the download in transit; because the manifest and bundle are published on the same website, anyone who gains control of your Netlify/GitHub publishing account could replace both. Protect those accounts with strong passwords and two-factor authentication.
 
-1. Download the matching private-key files from the current ChatGPT response. Keep a secure offline backup of `curiva-live-update-private.pem`.
-2. Open Netlify **Project configuration → Environment variables** for the `curivahomoeopathy` site. Add `CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64` with the complete one-line contents of `curiva-live-update-private-base64.txt`. Mark it secret, scope it to builds, and enable it for production deployments. Never paste the private key into the GitHub repo, issues, logs, or chats.
-3. Trigger a new production deploy from `main`. The build will sign the self-hosted OTA ZIP. The app downloads the manifest and bundle, checks the SHA-256 checksum and verifies the signature against its embedded public key before applying the update.
-4. If the private key is lost or rotated, don't replace it silently: the corresponding public key is in native app builds. Key rotation needs a new native app build with the matching public key.
-
-The private key shown to you was generated specifically for this repository's now-pinned public key. If you prefer to create/own a key pair locally instead, generate a new RSA pair and intentionally update the pinned public key in `capacitor.config.ts` before producing the next native build.
+The previously described `CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64` variable is not used in this no-secret mode. Do not upload that key or add a private key to the GitHub repository. If later you want cryptographic publisher signatures, that requires a matching private key stored securely in the build environment and a public key embedded in a new native app build.
 
 ### Website and app deployment
 
