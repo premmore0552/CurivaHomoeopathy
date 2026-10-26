@@ -18,6 +18,10 @@ jobs:
   verify-web-build:
     name: Typecheck, build, and optionally publish OTA bundle
     runs-on: ubuntu-latest
+    env:
+      CAPAWESOME_TOKEN: ${{ secrets.CAPAWESOME_TOKEN }}
+      CAPAWESOME_LIVE_UPDATE_APP_ID: ${{ vars.CAPAWESOME_LIVE_UPDATE_APP_ID }}
+      CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64: ${{ secrets.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 }}
     steps:
       - name: Check out source
         uses: actions/checkout@v4
@@ -38,11 +42,7 @@ jobs:
         run: npm run build
 
       - name: Publish signed Capacitor Live Update
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && vars.CAPAWESOME_LIVE_UPDATE_APP_ID != '' && secrets.CAPAWESOME_TOKEN != '' && secrets.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 != '' }}
-        env:
-          CAPAWESOME_TOKEN: ${{ secrets.CAPAWESOME_TOKEN }}
-          CAPAWESOME_LIVE_UPDATE_APP_ID: ${{ vars.CAPAWESOME_LIVE_UPDATE_APP_ID }}
-          CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64: ${{ secrets.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && env.CAPAWESOME_LIVE_UPDATE_APP_ID != '' && env.CAPAWESOME_TOKEN != '' && env.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 != '' }}
         run: |
           set -euo pipefail
           printf '%s' "$CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64" | base64 --decode > "$RUNNER_TEMP/curiva-live-update-private.pem"
@@ -55,6 +55,6 @@ jobs:
           rm -f "$RUNNER_TEMP/curiva-live-update-private.pem"
 
       - name: Explain skipped OTA publishing
-        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && (vars.CAPAWESOME_LIVE_UPDATE_APP_ID == '' || secrets.CAPAWESOME_TOKEN == '' || secrets.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 == '') }}
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && (env.CAPAWESOME_LIVE_UPDATE_APP_ID == '' || env.CAPAWESOME_TOKEN == '' || env.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 == '') }}
         run: |
           echo "::notice title=Live Update not published::Configure CAPAWESOME_LIVE_UPDATE_APP_ID, CAPAWESOME_TOKEN, and CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 to enable signed OTA releases."
