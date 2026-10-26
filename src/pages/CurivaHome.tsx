@@ -12,8 +12,6 @@ import {
   ChevronRight,
   CircleHelp,
   Clock,
-  Compass,
-  FileText,
   GraduationCap,
   Heart,
   HeartPulse,
@@ -288,7 +286,7 @@ export default function CurivaHome() {
   const DashboardIcon = dashboard.icon;
 
   return (
-    <main className="min-h-screen bg-[#f5f8f5] pb-16 text-[#193b35]">
+    <div className="min-h-screen bg-[#f5f8f5] pb-16 text-[#193b35]">
       <div className="mx-auto max-w-7xl px-4 pb-10 pt-5 sm:px-6 sm:pt-8 lg:px-8">
         <section className="relative overflow-hidden rounded-[2rem] bg-[#112f35] text-white shadow-[0_25px_70px_rgba(17,47,53,0.16)]">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#8dcfb0]/15 blur-3xl" />
@@ -558,6 +556,6 @@ export default function CurivaHome() {
           </div>
         </footer>
       </div>
-    </main>
+    </div>
   );
 }
