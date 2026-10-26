@@ -1,4 +1,4 @@
-import { createHash, createPrivateKey, sign as signBytes } from 'node:crypto';
+import { createHash } from 'node:crypto';
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { deflateRawSync } from 'node:zlib';
@@ -124,12 +124,6 @@ const manifest = {
   checksum,
   builtAt: new Date().toISOString(),
 };
-
-const encodedPrivateKey = process.env.CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64;
-if (encodedPrivateKey) {
-  const privateKey = createPrivateKey(Buffer.from(encodedPrivateKey, 'base64'));
-  manifest.signature = signBytes('sha256', zip, privateKey).toString('base64');
-}
 
 await fs.mkdir(UPDATE_DIR, { recursive: true });
 await fs.writeFile(path.join(UPDATE_DIR, 'latest.json'), JSON.stringify(manifest, null, 2) + '\n');
