@@ -6,11 +6,12 @@ import { AnimatePresence, motion } from 'motion/react';
 import {
   Activity, ArrowLeft, ArrowRight, Award, Bookmark, BookmarkCheck, BookOpen,
   Brain, Check, CheckCircle2, ChevronRight, Clock3, Compass, Flame, GraduationCap,
-  HeartPulse, Home, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope,
+  HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope,
   Target, TrendingUp, Trophy, X, Zap, Play, RotateCcw, NotebookPen, Microscope, FlaskConical, BookMarked
 } from 'lucide-react';
 import { allBhmsSubjects } from '../pages/AllSubjectsHub';
 import { allBlogPosts } from '../data/blogPosts';
+import { HomoeopathicFlashcards } from '../data/flashcards_data';
 import { anatomyModules, getAnatomyModule } from '../data/anatomyModulesData';
 import { getAllPhysiologyModules } from '../data/physiologyModulesData';
 import { FMT_DETAILED_CHAPTERS } from '../data/fmtDetailedChapters';
@@ -18,7 +19,7 @@ import { nativeQuestionBank, type NativeQuestion } from './quizBank';
 import { importedMedicalMCQs } from '../data/medicalMcqBank';
 import './native-learning.css';
 
-type Tab = 'home' | 'learn' | 'practice' | 'library' | 'profile';
+type Tab = 'home' | 'learn' | 'practice' | 'flashcards' | 'library' | 'profile';
 type Screen = 'main' | 'subject' | 'lesson' | 'article' | 'quiz' | 'quiz-result';
 type StoredLesson = { subjectId: string; chapterTitle: string; subjectTitle: string };
 type StoredQuizResult = { date: string; subject: string; score: number; total: number; percent: number };
@@ -65,6 +66,7 @@ const tabItems: { id: Tab; label: string; icon: React.ComponentType<{ size?: num
   { id: 'home', label: 'Home', icon: Home },
   { id: 'learn', label: 'Learn', icon: BookOpen },
   { id: 'practice', label: 'Practice', icon: Brain },
+  { id: 'flashcards', label: 'Cards', icon: Layers },
   { id: 'library', label: 'Library', icon: Library },
   { id: 'profile', label: 'Progress', icon: TrendingUp }
 ];
@@ -106,6 +108,10 @@ export default function NativeLearningApp() {
   const [completedLessons, setCompletedLessons] = useStoredState<string[]>('curiva-native-completed-lessons', []);
   const [bookmarks, setBookmarks] = useStoredState<string[]>('curiva-native-bookmarks', []);
   const [quizHistory, setQuizHistory] = useStoredState<StoredQuizResult[]>('curiva-native-quiz-history', []);
+  const [knownFlashcards, setKnownFlashcards] = useStoredState<string[]>('curiva-native-known-flashcards', []);
+  const [flashcardIndex, setFlashcardIndex] = useState(0);
+  const [isFlashcardFlipped, setIsFlashcardFlipped] = useState(false);
+  const [flashcardCategory, setFlashcardCategory] = useState('All types');
   const [studyDays, setStudyDays] = useStoredState<string[]>('curiva-native-study-days', []);
   const [lastLesson, setLastLesson] = useStoredState<StoredLesson | null>('curiva-native-last-lesson', null);
 
@@ -162,6 +168,13 @@ export default function NativeLearningApp() {
     return showAllArticles ? matched : matched.slice(0, 12);
   }, [articleCategory, search, showAllArticles]);
   const selectedSubject = allBhmsSubjects.find((subject) => subject.id === selectedSubjectId);
+  const flashcardCategories = useMemo(() => ['All types', ...Array.from(new Set(HomoeopathicFlashcards.map((card) => card.subType)))], []);
+  const filteredFlashcards = useMemo(() => HomoeopathicFlashcards.filter((card) => {
+    const categoryMatches = flashcardCategory === 'All types' || card.subType === flashcardCategory;
+    const query = search.toLowerCase().trim();
+    return categoryMatches && (card.term + ' ' + card.definition + ' ' + card.clinicalSignificance + ' ' + card.subType).toLowerCase().includes(query);
+  }), [flashcardCategory, search]);
+  const currentFlashcard = filteredFlashcards.length ? filteredFlashcards[flashcardIndex % filteredFlashcards.length] : undefined;
   const selectedArticle = allBlogPosts.find((post) => post.slug === selectedArticleSlug || post.id === selectedArticleSlug);
   const questionPool = useMemo(() => {
     const result = quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject);
@@ -238,6 +251,15 @@ export default function NativeLearningApp() {
     setStudyDays((items) => Array.from(new Set([...items, today])));
   };
   const startQuiz = () => { setQuestionIndex(0); setSelectedAnswer(null); setQuizScore(0); setScreen('quiz'); };
+  const rateFlashcard = (known: boolean) => {
+    if (!currentFlashcard) return;
+    setKnownFlashcards((items) => known ? Array.from(new Set([...items, currentFlashcard.term])) : items.filter((term) => term !== currentFlashcard.term));
+    const today = new Date().toISOString().slice(0, 10);
+    recordStudyDay();
+    setStudyDays((items) => Array.from(new Set([...items, today])));
+    setIsFlashcardFlipped(false);
+    setFlashcardIndex((index) => (index + 1) % Math.max(1, filteredFlashcards.length));
+  };
   const chooseAnswer = (optionIndex: number) => {
     if (selectedAnswer !== null) return;
     setSelectedAnswer(optionIndex);
