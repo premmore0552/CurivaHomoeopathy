@@ -46,9 +46,9 @@ function recordStudyDay() {
 function getStudyStreak(days: string[]) {
   const values = new Set(days);
   const date = new Date();
-  date.setHours(0, 0, 0, 0);
+  date.setUTCHours(0, 0, 0, 0);
   let streak = 0;
-  if (!values.has(date.toISOString().slice(0, 10))) date.setDate(date.getDate() - 1);
+  if (!values.has(date.toISOString().slice(0, 10))) date.setUTCDate(date.getUTCDate() - 1);
   while (values.has(date.toISOString().slice(0, 10))) {
     streak += 1;
     date.setDate(date.getDate() - 1);
