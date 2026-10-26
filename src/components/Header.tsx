@@ -333,8 +333,46 @@ const Header: React.FC = () => {
     }
   ];
 
-  // Dynamically filter links based on current selected role
-  const roleFilteredLinks = navLinks.filter(link => link.allowedRoles.includes(currentRole));
+  // Keep the patient navigation deliberately separate from academic and practitioner workspaces.
+  // This is presentation-level navigation only; protected data must still be authorized by the backend.
+  const patientNavigation = [
+    {
+      name: 'Health Education',
+      to: '/public-education',
+      icon: 'Heart',
+      columns: 1,
+      dropdownWidth: 'w-72',
+      align: 'left',
+      tooltip: 'Plain-language health education and patient information.',
+      allowedRoles: ['Guest', 'Public', 'General Public'],
+      dropdown: [
+        { name: 'Patient Education', to: '/public-education', desc: 'Accessible health information', icon: 'Heart' },
+        { name: 'Condition Guides', to: '/conditions', desc: 'Learn about common health topics', icon: 'BookOpen' },
+        { name: 'Health eBooks', to: '/ebooks', desc: 'Browse patient education reading', icon: 'BookMarked' },
+        { name: 'Frequently Asked Questions', to: '/faq', desc: 'Answers about Curiva', icon: 'HelpCircle' }
+      ]
+    },
+    {
+      name: 'Ask a Question',
+      to: '/ask-Homoeopath',
+      icon: 'HelpCircle',
+      tooltip: 'Learn how to submit an education or support question.',
+      allowedRoles: ['Guest', 'Public', 'General Public']
+    },
+    {
+      name: 'Support',
+      to: '/support',
+      icon: 'Info',
+      tooltip: 'Get assistance with Curiva.',
+      allowedRoles: ['Guest', 'Public', 'General Public']
+    }
+  ];
+
+  // Public/Patient roles use a dedicated navigation; student and practitioner roles retain their specialist menus.
+  const isPatientWorkspace = ['Guest', 'Public', 'General Public'].includes(currentRole);
+  const roleFilteredLinks = isPatientWorkspace
+    ? patientNavigation
+    : navLinks.filter(link => link.allowedRoles.includes(currentRole));
 
   const userNavLinks = [...roleFilteredLinks] as any[];
   const half = Math.ceil(userNavLinks.length / 2);
