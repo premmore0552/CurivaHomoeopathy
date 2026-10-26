@@ -41,6 +41,7 @@ function lazyLoad<T extends React.ComponentType<any>>(
 }
 
 const Home = lazyLoad(() => import('./pages/Home'));
+const CurivaHome = lazyLoad(() => import('./pages/CurivaHome'));
 const Articles = lazyLoad(() => import('./pages/Articles'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
 const About = lazyLoad(() => import('./pages/About'));
@@ -247,7 +248,8 @@ function AppRoutes() {
           <AnimatePresence mode="wait">
             <Suspense fallback={<LoadingScreen />}>
               <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+                <Route path="/" element={<PageWrapper><CurivaHome /></PageWrapper>} />
+                <Route path="/classic-home" element={<PageWrapper><Home /></PageWrapper>} />
                 
                 {/* Subject-Wise Study Center Routes */}
                 <Route path="/subjects" element={<PageWrapper><AllSubjectsHub /></PageWrapper>} />
