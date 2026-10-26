@@ -63,6 +63,7 @@ const OrganonMedicine = lazyLoad(() => import('./pages/OrganonMedicine'));
 const ResourceStore = lazyLoad(() => import('./pages/ResourceStore'));
 const MyLibrary = lazyLoad(() => import('./pages/MyLibrary'));
 const StudentResources = lazyLoad(() => import('./pages/StudentResources'));
+const FreeBookLibrary = lazyLoad(() => import('./pages/FreeBookLibrary'));
 const StudyTool = lazyLoad(() => import('./pages/StudyTool'));
 const Stalwarts = lazyLoad(() => import('./pages/Stalwarts'));
 const Profile = lazyLoad(() => import('./pages/Profile'));
@@ -250,6 +251,7 @@ function AppRoutes() {
                 
                 {/* Subject-Wise Study Center Routes */}
                 <Route path="/subjects" element={<PageWrapper><AllSubjectsHub /></PageWrapper>} />
+                <Route path="/free-books" element={<PageWrapper><FreeBookLibrary /></PageWrapper>} />
                 <Route path="/all-subjects" element={<Navigate to="/subjects" replace />} />
                 <Route path="/subject/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
