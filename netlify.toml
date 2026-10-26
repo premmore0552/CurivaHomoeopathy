@@ -23,3 +23,19 @@
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
     # Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://picsum.photos https://images.unsplash.com https://curivahomoeopathy.netlify.app; connect-src 'self' https://lumberjack-cx.razorpay.com; frame-src https://api.razorpay.com;"
+
+
+# Allow the native Capacitor WebView to fetch self-hosted live-update metadata and bundles.
+[[headers]]
+  for = "/live-updates/latest.json"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "no-cache, no-store, must-revalidate"
+    Content-Type = "application/json; charset=utf-8"
+
+[[headers]]
+  for = "/live-updates/bundles/*"
+  [headers.values]
+    Access-Control-Allow-Origin = "*"
+    Cache-Control = "public, max-age=31536000, immutable"
+    Content-Type = "application/zip"
