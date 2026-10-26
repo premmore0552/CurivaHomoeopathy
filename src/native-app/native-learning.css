@@ -298,3 +298,24 @@
 @media (prefers-reduced-motion: reduce) {
   .native-app-shell *, .native-app-shell *::before, .native-app-shell *::after { animation-duration: .01ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; transition-duration: .01ms !important; }
 }
+
+.native-fact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; margin: 13px 0 22px; }
+.native-fact-card { min-width: 0; padding: 13px; background: white; border: 1px solid var(--na-line); border-radius: 15px; }
+.native-fact-card > span { display: block; color: #7a938b; font-size: 8px; font-weight: 800; letter-spacing: .1em; margin-bottom: 7px; }
+.native-fact-card p { margin: 0; color: #536e65; font-size: 10px; line-height: 1.65; overflow-wrap: anywhere; }
+.native-fact-card.native-fact-highlight { background: #e8f7ef; border-color: #d2ecdd; }
+.native-fact-card.native-fact-highlight > span { color: var(--na-green); }
+.native-viva-list { display: flex; flex-direction: column; gap: 8px; }
+.native-viva-row { border: 1px solid var(--na-line); border-radius: 14px; background: white; padding: 13px 14px; }
+.native-viva-row summary { color: var(--na-ink); font-size: 11px; line-height: 1.55; font-weight: 800; cursor: pointer; list-style-position: outside; }
+.native-viva-row p { font-size: 10px; line-height: 1.7; color: #557068; margin: 10px 0 0; }
+.native-viva-row small { display: block; margin-top: 8px; color: var(--na-green); font-size: 9px; line-height: 1.6; }
+.native-mechanism-list { border-left: 2px solid #d4ecdf; margin: 12px 0 20px 14px; padding: 0 0 0 15px; display: flex; flex-direction: column; gap: 12px; }
+.native-mechanism-step { display: flex; align-items: flex-start; gap: 10px; position: relative; }
+.native-mechanism-step::before { content: ''; width: 8px; height: 8px; border: 2px solid white; border-radius: 50%; background: var(--na-green); position: absolute; left: -21px; top: 6px; box-shadow: 0 0 0 2px #cce9da; }
+.native-mechanism-step > span { min-width: 26px; height: 26px; border-radius: 9px; background: #e6f7ef; color: var(--na-green); display: grid; place-items: center; font-size: 8px; font-weight: 800; }
+.native-mechanism-step > div { flex: 1; min-width: 0; }
+.native-mechanism-step strong { display: block; color: var(--na-ink); font-size: 11px; line-height: 1.5; }
+.native-mechanism-step p { color: #57736a; font-size: 10px; line-height: 1.7; margin: 4px 0 0; }
+.native-mechanism-step small { display: block; font-size: 9px; color: var(--na-green); line-height: 1.6; margin-top: 5px; }
+.native-content-citation { color: #92a49e; font-size: 9px; line-height: 1.65; margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--na-line); }
