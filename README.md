@@ -41,5 +41,6 @@ To make the blog fully functional on Netlify:
 
 ```bash
 npm install
+Deployment connection test
 npm run dev
 ```
