@@ -1,4 +1,6 @@
 import React, { Suspense, lazy, useState, useEffect } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { LiveUpdate } from '@capawesome/capacitor-live-update';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HelmetProvider } from 'react-helmet-async';
@@ -476,6 +478,13 @@ export default function App() {
   const [initiallyLoading, setInitiallyLoading] = useState(true);
 
   useEffect(() => {
+    // Mark the current web bundle healthy so Live Update can roll back a broken release.
+    if (Capacitor.isNativePlatform()) {
+      void LiveUpdate.ready().catch((error) => {
+        console.warn('Curiva live-update readiness check failed.', error);
+      });
+    }
+
     const timer = setTimeout(() => {
       setInitiallyLoading(false);
     }, 1200);

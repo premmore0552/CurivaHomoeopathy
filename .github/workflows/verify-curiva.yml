@@ -1,0 +1,66 @@
+name: Verify Curiva web and app runtime
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-curiva-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify-web-build:
+    name: Typecheck, build, and optionally publish OTA bundle
+    runs-on: ubuntu-latest
+    env:
+      CAPAWESOME_TOKEN: ${{ secrets.CAPAWESOME_TOKEN }}
+      CAPAWESOME_LIVE_UPDATE_APP_ID: ${{ vars.CAPAWESOME_LIVE_UPDATE_APP_ID }}
+      CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64: ${{ secrets.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run lint
+
+      - name: Build production website and app assets
+        run: npm run build
+
+      - name: Publish signed Capacitor Live Update
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && env.CAPAWESOME_LIVE_UPDATE_APP_ID != '' && env.CAPAWESOME_TOKEN != '' && env.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 != '' }}
+        run: |
+          set -euo pipefail
+          OTA_DIR="$RUNNER_TEMP/curiva-ota"
+          KEY_FILE="$RUNNER_TEMP/curiva-live-update-private.pem"
+          trap 'rm -f "$KEY_FILE"' EXIT
+          mkdir -p "$OTA_DIR"
+          cp -a dist/. "$OTA_DIR/"
+          # The server bundle is only for hosting the Express server, not the client app.
+          rm -f "$OTA_DIR/server.cjs" "$OTA_DIR/server.cjs.map"
+          printf '%s' "$CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64" | base64 --decode > "$KEY_FILE"
+          npx --yes @capawesome/cli apps:liveupdates:upload \
+            --app-id "$CAPAWESOME_LIVE_UPDATE_APP_ID" \
+            --path "$OTA_DIR" \
+            --channel default \
+            --private-key "$KEY_FILE" \
+            --yes
+
+      - name: Explain skipped OTA publishing
+        if: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' && (env.CAPAWESOME_LIVE_UPDATE_APP_ID == '' || env.CAPAWESOME_TOKEN == '' || env.CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 == '') }}
+        run: |
+          echo "::notice title=Live Update not published::Configure CAPAWESOME_LIVE_UPDATE_APP_ID, CAPAWESOME_TOKEN, and CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64 to enable signed OTA releases."
