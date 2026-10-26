@@ -105,6 +105,8 @@ export default function NativeLearningApp() {
   const [yearFilter, setYearFilter] = useState('All years');
   const [articleCategory, setArticleCategory] = useState('All topics');
   const [quizSubject, setQuizSubject] = useState('All subjects');
+  const [quizLength, setQuizLength] = useState('10');
+  const [activeQuestions, setActiveQuestions] = useState<NativeQuestion[]>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [quizScore, setQuizScore] = useState(0);
@@ -201,7 +203,7 @@ export default function NativeLearningApp() {
     const result = quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject);
     return result.length ? result : allQuestionBank;
   }, [quizSubject]);
-  const currentQuestion = questionPool[questionIndex % questionPool.length];
+  const currentQuestion = activeQuestions[questionIndex] || questionPool[0];
 
   const normalizeContentKey = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
   const chapterKey = normalizeContentKey(selectedChapterTitle);
@@ -273,7 +275,7 @@ export default function NativeLearningApp() {
     recordStudyDay();
     setStudyDays((items) => Array.from(new Set([...items, today])));
   };
-  const startQuiz = () => { setQuestionIndex(0); setSelectedAnswer(null); setQuizScore(0); setScreen('quiz'); };
+  const startQuiz = () => { const shuffled = [...questionPool].sort(() => Math.random() - 0.5); const session = quizLength === 'all' ? shuffled : shuffled.slice(0, Math.min(Number(quizLength), shuffled.length)); setActiveQuestions(session); setQuestionIndex(0); setSelectedAnswer(null); setQuizScore(0); setScreen('quiz'); };
   const rateFlashcard = (known: boolean) => {
     if (!currentFlashcard) return;
     setKnownFlashcards((items) => known ? Array.from(new Set([...items, currentFlashcard.term])) : items.filter((term) => term !== currentFlashcard.term));
@@ -290,7 +292,7 @@ export default function NativeLearningApp() {
   };
   const nextQuestion = () => {
     if (selectedAnswer === null) return;
-    if (questionIndex + 1 >= questionPool.length) {
+    if (questionIndex + 1 >= activeQuestions.length) {
       const percent = Math.round(quizScore / questionPool.length * 100);
       setQuizHistory((items) => [{ date: new Date().toISOString().slice(0, 10), subject: quizSubject, score: quizScore, total: questionPool.length, percent }, ...items].slice(0, 30));
       const today = new Date().toISOString().slice(0, 10);
@@ -355,7 +357,7 @@ export default function NativeLearningApp() {
         {activeTab === 'practice' && <>
           <div className="native-page-intro"><span className="native-eyebrow">ACTIVE RECALL</span><h1>Practice makes <em>progress.</em></h1><p>Answer, get an explanation, and learn from every choice.</p></div>
           <div className="native-quiz-hero"><div className="native-quiz-hero-orb"><Brain size={32} /></div><div><span className="native-eyebrow native-eyebrow-light">QUICK MIX</span><h2>Question bank</h2><p>Anatomy, physiology, pathology, pharmacology and more.</p></div><div className="native-quiz-hero-footer"><span><Clock3 size={15} /> 5–8 minutes</span><span><ListChecks size={15} /> Explanations included</span></div></div>
-          <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">CHOOSE A FOCUS</span><h2>Question set</h2></div></div><label className="native-field-label" htmlFor="native-quiz-subject">Subject</label><select id="native-quiz-subject" className="native-select" value={quizSubject} onChange={(event) => setQuizSubject(event.target.value)}>{allQuestionSubjects.map((subject) => <option key={subject} value={subject}>{subject}</option>)}</select><div className="native-quiz-summary"><div><strong>{(quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject)).length || allQuestionBank.length}</strong><span>questions</span></div><div><strong>Instant</strong><span>feedback</span></div><div><strong>Offline</strong><span>available</span></div></div><button className="native-primary-button" onClick={startQuiz}>Start practice <ArrowRight size={18} /></button></section>
+          <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">CHOOSE A FOCUS</span><h2>Question set</h2></div></div><label className="native-field-label" htmlFor="native-quiz-subject">Subject</label><select id="native-quiz-subject" className="native-select" value={quizSubject} onChange={(event) => setQuizSubject(event.target.value)}>{allQuestionSubjects.map((subject) => <option key={subject} value={subject}>{subject}</option>)}</select><label className="native-field-label native-quiz-length-label" htmlFor="native-quiz-length">Session length</label><select id="native-quiz-length" className="native-select" value={quizLength} onChange={(event) => setQuizLength(event.target.value)}><option value="10">10 questions · quick review</option><option value="20">20 questions · focused session</option><option value="all">Full selected question bank</option></select><div className="native-quiz-summary"><div><strong>{(quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject)).length || allQuestionBank.length}</strong><span>questions</span></div><div><strong>Instant</strong><span>feedback</span></div><div><strong>Offline</strong><span>available</span></div></div><button className="native-primary-button" onClick={startQuiz}>Start practice <ArrowRight size={18} /></button></section>
           {quizHistory.length > 0 && <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">RECENT SESSIONS</span><h2>Your attempts</h2></div></div><div className="native-history-list">{quizHistory.slice(0, 3).map((result, index) => <div className="native-history-row" key={result.date + '-' + index}><span className="native-history-badge"><Award size={17} /></span><div><strong>{result.subject}</strong><small>{result.date} · {result.score}/{result.total} correct</small></div><b>{result.percent}%</b></div>)}</div></section>}
           <div className="native-disclaimer"><ShieldCheck size={16} /><span>Questions support revision and do not replace your prescribed curriculum or supervised clinical training.</span></div>
         </>}
