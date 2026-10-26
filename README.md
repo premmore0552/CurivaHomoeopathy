@@ -41,34 +41,31 @@ To make the blog fully functional on Netlify:
 
 ```bash
 npm install
-Deployment connection test
 npm run dev
 ```
 
 
-## Keeping the website and Android app in sync
 
-Curiva uses one React/Vite frontend for the website and its Capacitor wrapper. The canonical hosted interface is:
+## Shared website and app release pipeline
 
-- Website/runtime: https://curivahomoeopathy.netlify.app
-- Android package ID: `com.curiva.homoeopathy`
+Curiva's React/Vite project is the shared web UI. The website is deployed to Netlify; the Android package ID is `com.curiva.homoeopathy`. The app should keep a local copy of its web assets and use Capacitor Live Updates for web-layer changes, rather than loading the entire production app from `server.url`.
 
-By default, `capacitor.config.ts` points native Capacitor builds at the hosted website. After installing a native build that includes this configuration, changes published to the website become visible in the app on its next load; UI/content-only updates do not require a new APK. Native-code changes (for example, adding a new native plugin or changing Android permissions) still require a new app build and release.
+### What updates automatically
 
-### Important trade-off
+- **Website:** a push/merge to `main` deploys to Netlify when the Netlify site is connected to this repository with build command `npm run build` and publish directory `dist`.
+- **Android app:** the workflow builds the same `dist` bundle and publishes it to Capawesome Cloud Live Updates after the required repository variables/secrets are configured. Compatible HTML, CSS, JavaScript, and asset changes can then be downloaded by installed apps in the background and applied on a later launch.
+- **Native changes:** new Capacitor plugins, Android permissions, native code, or incompatible plugin configuration still require a new signed Android/iOS build and store/release process.
 
-The shared live-web mode requires an internet connection to load the interface. This repository does not currently include a checked-in Android project or release-signing credentials, so it cannot itself publish a signed Android update to an app store. An existing installed app must first be rebuilt and installed with the shared-web configuration. For store-distributed releases where offline reliability and managed over-the-air bundles are required, configure a supported Capacitor live-update service instead of relying on `server.url` in production.
+### One-time OTA setup
 
-### Build with local bundled web assets
+1. Create a Curiva app in [Capawesome Cloud](https://capawesome.io/docs/cloud/live-updates/setup/) and copy its app ID.
+2. In the GitHub repository settings, add repository variable `CAPAWESOME_LIVE_UPDATE_APP_ID` with that ID, and repository secret `CAPAWESOME_TOKEN` with a Capawesome Cloud API token.
+3. For production, enable bundle signing. Generate an RSA signing-key pair using the [Capawesome signing guide](https://capawesome.io/docs/cloud/live-updates/code-signing/). Add the **base64-encoded private key** as GitHub secret `CAPAWESOME_LIVE_UPDATE_PRIVATE_KEY_BASE64`. Configure its matching one-line public key as `CAPAWESOME_LIVE_UPDATE_PUBLIC_KEY` when syncing/building the native app. Never commit the private key.
+4. Add the Live Update plugin to the native platform, using the same ID/public key, and release one new signed native app build. This repository currently does not contain the generated `android/` or `ios/` platform folders, so that first native build must be made in the original native-build environment.
+5. After those GitHub settings are in place, pushes to `main` run typecheck + production build and upload the signed `dist` bundle to the `default` Live Update channel. The first installation/release must include the plugin; existing installed binaries won't gain OTA support just from a website deployment.
 
-For a development/test build that intentionally uses the locally bundled `dist` files instead of the hosted website:
+For local Android setup, install/sync the plugin with `npm install` and `npx cap sync android`. If the native platform folder is missing, generate it once with `npm run cap:add` (from the environment that owns the Android signing/build setup) before syncing. Set `CAPAWESOME_LIVE_UPDATE_APP_ID` and, for signed updates, `CAPAWESOME_LIVE_UPDATE_PUBLIC_KEY` in the shell environment when running Capacitor sync/build.
 
-```bash
-CAPACITOR_LOCAL_BUNDLE=true npx cap sync android
-```
+### Release safety
 
-Leave `CAPACITOR_LOCAL_BUNDLE` unset for the shared hosted website mode.
-
-### Automatic website deployment
-
-Connect this repository to the Netlify site and configure deployments from `main` using `npm run build` and `dist`. Once that connection is enabled, merging changes into `main` publishes the website, and the shared-web Capacitor app reads the same deployed interface. The GitHub Actions workflow checks the typecheck and production web build on pushes and pull requests.
+The plugin uses background updates and automatic blocking/rollback for bundles that fail to become ready. Publish only web-layer changes compatible with the installed native app. Keep native-version compatibility in mind before changing plugin usage; version-specific channels are recommended as native releases evolve. See the [Capawesome Live Updates docs](https://capawesome.io/docs/cloud/live-updates/).
