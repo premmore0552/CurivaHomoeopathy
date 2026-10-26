@@ -67,37 +67,36 @@ Free plans have usage limits; this setup is designed to incur no service subscri
 
 Only compatible web-layer changes (HTML, CSS, JavaScript and static assets) can use OTA. Native code, Android permissions, or adding/changing native plugins still require a rebuilt native app. Existing installed apps do not gain live-update support until they receive that first native build.
 
-### One-time native setup
+### Native setup and test APK
 
-The repository currently does not contain generated `android/` or `ios/` platform folders. In the environment where you build the app:
+The repository does not need to check in generated Android/Gradle files. The workflow `.github/workflows/build-android-debug.yml` creates the Android platform from the Capacitor config, syncs the native plugin, builds a debug APK, and uploads it as the `curiva-android-debug-apk` artifact. Run it from the GitHub Actions tab or open a pull request affecting the app files.
+
+For local development:
 
 ```bash
-npm install
+npm ci
+npm run build
 npm run cap:add
 npx cap sync android
 npx cap open android
 ```
 
-Build and install/release a new APK/AAB with the Live Update plugin included. Do not change the existing package ID `com.curiva.homoeopathy`. You must sign native Android releases with your own keystore; keep a backup of that keystore. OTA updates cannot add a native plugin to an already-installed app.
+Keep the package ID `com.curiva.homoeopathy`. The CI APK is a **debug/test build**, not a Play Store release; it uses Android's debug signing key. Installing it over an existing app signed by another key will fail. Do not uninstall any existing production app unless its data is backed up. To update an already-published app in place, its original Android release keystore is required. Store releases require a separately configured, backed-up signing keystore.
 
-### Optional: free code-signing setup (recommended for production)
+### Free OTA signing setup
 
-The update ZIP is always checked against its SHA-256 checksum. For publisher authenticity as well, sign the update with a free RSA key pair so the app only trusts bundles signed by you.
+The RSA public key is now embedded in `capacitor.config.ts`. The matching private key must stay out of GitHub source control and be available to the Netlify build that creates signed update ZIPs.
 
-1. Generate the key pair locally (OpenSSL is free):
-   ```bash
-   openssl genpkey -algorithm RSA -pkeyopt rsa_keygen_bits:2048 -out curiva-live-update-private.pem
-   openssl pkey -in curiva-live-update-private.pem -pubout -out curiva-live-update-public.pem
-   ```
-2. In the Netlify site environment variables, add **`CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64`** with the base64-encoded private key. Generate the value without exposing the PEM file:
-   ```bash
-   node -e "process.stdout.write(require('node:fs').readFileSync('curiva-live-update-private.pem').toString('base64'))"
-   ```
-   Do not commit or share the private key. Because Netlify builds the published website, the build script can sign OTA ZIPs during that deployment.
-3. Before running `npx cap sync android` / creating the next native build, set **`CURIVA_LIVE_UPDATE_PUBLIC_KEY`** in that build environment to the contents of `curiva-live-update-public.pem`. The app embeds only the public key; never put the private key in app source.
-4. Keep the matching private-key secret in Netlify. If you later rotate the key, the new public key requires another native app release.
+1. Download the matching private-key files from the current ChatGPT response. Keep a secure offline backup of `curiva-live-update-private.pem`.
+2. Open Netlify **Project configuration → Environment variables** for the `curivahomoeopathy` site. Add `CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64` with the complete one-line contents of `curiva-live-update-private-base64.txt`. Mark it secret, scope it to builds, and enable it for production deployments. Never paste the private key into the GitHub repo, issues, logs, or chats.
+3. Trigger a new production deploy from `main`. The build will sign the self-hosted OTA ZIP. The app downloads the manifest and bundle, checks the SHA-256 checksum and verifies the signature against its embedded public key before applying the update.
+4. If the private key is lost or rotated, don't replace it silently: the corresponding public key is in native app builds. Key rotation needs a new native app build with the matching public key.
 
-If the signing variables aren't set yet, the free self-hosted update pipeline still generates checksummed bundles, but production deployment should prefer code signing. Do not ship an OTA bundle that changes native-plugin assumptions.
+The private key shown to you was generated specifically for this repository's now-pinned public key. If you prefer to create/own a key pair locally instead, generate a new RSA pair and intentionally update the pinned public key in `capacitor.config.ts` before producing the next native build.
+
+### Website and app deployment
+
+The live Netlify site should remain connected to this repository's `main` branch with build command `npm run build` and publish directory `dist`. Each production build creates the website plus a versioned `/live-updates/latest.json` manifest and ZIP archive. After the first native install containing the Live Update plugin, future compatible web-layer updates can be delivered from that static hosting deployment. Native changes (permissions, plugins, platform code) still need a new native build.
 
 ### Local development
 
