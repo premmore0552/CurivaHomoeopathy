@@ -11,6 +11,9 @@ import {
 } from 'lucide-react';
 import { allBhmsSubjects } from '../pages/AllSubjectsHub';
 import { allBlogPosts } from '../data/blogPosts';
+import { anatomyModules, getAnatomyModule } from '../data/anatomyModulesData';
+import { getAllPhysiologyModules } from '../data/physiologyModulesData';
+import { FMT_DETAILED_CHAPTERS } from '../data/fmtDetailedChapters';
 import { nativeQuestionBank, nativeQuestionSubjects } from './quizBank';
 import './native-learning.css';
 
@@ -150,6 +153,52 @@ export default function NativeLearningApp() {
     return result.length ? result : nativeQuestionBank;
   }, [quizSubject]);
   const currentQuestion = questionPool[questionIndex % questionPool.length];
+
+  const normalizeContentKey = (value: string) => value.toLowerCase().replace(/[^a-z0-9]+/g, ' ').trim();
+  const chapterKey = normalizeContentKey(selectedChapterTitle);
+  const anatomyContent = useMemo(() => {
+    if (!selectedSubject || selectedSubject.id !== 'anatomy') return undefined;
+    const candidates = Object.entries(anatomyModules).map(([id, module]) => {
+      const moduleTitle = normalizeContentKey(module.title || id);
+      const key = normalizeContentKey(id);
+      let score = 0;
+      if (chapterKey && moduleTitle && chapterKey.includes(moduleTitle)) score += 100 + moduleTitle.length;
+      if (chapterKey && key.length > 3 && chapterKey.includes(key)) score += 80 + key.length;
+      const titleTokens = moduleTitle.split(' ').filter((word) => word.length > 3);
+      score += titleTokens.filter((word) => chapterKey.split(' ').includes(word)).length * 4;
+      return { id, module, score };
+    }).sort((a, b) => b.score - a.score);
+    if (!selectedChapterTitle) return getAnatomyModule(candidates[0]?.id || 'clavicle');
+    return candidates[0]?.score ? getAnatomyModule(candidates[0].id) : undefined;
+  }, [selectedSubject, selectedChapterTitle, chapterKey]);
+
+  const physiologyContent = useMemo(() => {
+    if (!selectedSubject || selectedSubject.id !== 'physiology') return undefined;
+    const modules = getAllPhysiologyModules();
+    const candidates = modules.map((module) => {
+      const moduleTitle = normalizeContentKey(module.title);
+      let score = 0;
+      if (chapterKey && moduleTitle && chapterKey.includes(moduleTitle)) score += 100 + moduleTitle.length;
+      const tokens = moduleTitle.split(' ').filter((word) => word.length > 3);
+      score += tokens.filter((word) => chapterKey.split(' ').includes(word)).length * 4;
+      return { module, score };
+    }).sort((a, b) => b.score - a.score);
+    if (!selectedChapterTitle) return modules[0];
+    return candidates[0]?.score ? candidates[0].module : undefined;
+  }, [selectedSubject, selectedChapterTitle, chapterKey]);
+
+  const fmtContent = useMemo(() => {
+    if (!selectedSubject || !(selectedSubject.id.toLowerCase().includes('forensic') || selectedSubject.title.toLowerCase().includes('forensic medicine'))) return undefined;
+    const candidates = FMT_DETAILED_CHAPTERS.map((chapter) => {
+      const title = normalizeContentKey(chapter.title || chapter.id);
+      let score = 0;
+      if (chapterKey && title && chapterKey.includes(title)) score += 100 + title.length;
+      const tokens = title.split(' ').filter((word) => word.length > 3);
+      score += tokens.filter((word) => chapterKey.split(' ').includes(word)).length * 4;
+      return { chapter, score };
+    }).sort((a, b) => b.score - a.score);
+    return candidates[0]?.score ? candidates[0].chapter : undefined;
+  }, [selectedSubject, selectedChapterTitle, chapterKey]);
   const streak = getStudyStreak(studyDays);
   const chapterCount = allBhmsSubjects.reduce((count, subject) => count + subject.chapters.length, 0);
   const completedPercent = Math.round(completedLessons.length / Math.max(1, chapterCount) * 100);
