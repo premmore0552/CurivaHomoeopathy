@@ -1,9 +1,9 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
-// Live Updates keep the installed app's web assets local while allowing web-layer
-// releases to be delivered over the air. The app ID is created once in Capawesome Cloud.
-const liveUpdateAppId = process.env.CAPAWESOME_LIVE_UPDATE_APP_ID;
-const liveUpdatePublicKey = process.env.CAPAWESOME_LIVE_UPDATE_PUBLIC_KEY;
+// Self-hosted OTA updates use free static hosting (Netlify), not Capawesome Cloud.
+// To verify signed updates, set CURIVA_LIVE_UPDATE_PUBLIC_KEY when building/syncing
+// the native app and CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64 in the Netlify build environment.
+const liveUpdatePublicKey = process.env.CURIVA_LIVE_UPDATE_PUBLIC_KEY?.replace(/\r?\n/g, '');
 
 const config: CapacitorConfig = {
   appId: 'com.curiva.homoeopathy',
@@ -12,20 +12,13 @@ const config: CapacitorConfig = {
   server: {
     androidScheme: 'https'
   },
-  ...(liveUpdateAppId
-    ? {
-        plugins: {
-          LiveUpdate: {
-            appId: liveUpdateAppId,
-            defaultChannel: 'default',
-            autoUpdateStrategy: 'background',
-            autoBlockRolledBackBundles: true,
-            readyTimeout: 10000,
-            ...(liveUpdatePublicKey ? { publicKey: liveUpdatePublicKey } : {})
-          }
-        }
-      }
-    : {})
+  plugins: {
+    LiveUpdate: {
+      autoBlockRolledBackBundles: true,
+      readyTimeout: 10000,
+      ...(liveUpdatePublicKey ? { publicKey: liveUpdatePublicKey } : {})
+    }
+  }
 };
 
 export default config;
