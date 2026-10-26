@@ -12,6 +12,8 @@ import {
 import { allBhmsSubjects } from '../pages/AllSubjectsHub';
 import { allBlogPosts } from '../data/blogPosts';
 import { HomoeopathicFlashcards } from '../data/flashcards_data';
+import { materiaMedicaData } from '../data/materiaMedica';
+import { repertoryDatabase } from '../data/repertoryDatabase';
 import { anatomyModules, getAnatomyModule } from '../data/anatomyModulesData';
 import { getAllPhysiologyModules } from '../data/physiologyModulesData';
 import { FMT_DETAILED_CHAPTERS } from '../data/fmtDetailedChapters';
@@ -20,7 +22,7 @@ import { importedMedicalMCQs } from '../data/medicalMcqBank';
 import './native-learning.css';
 
 type Tab = 'home' | 'learn' | 'practice' | 'flashcards' | 'library' | 'profile';
-type Screen = 'main' | 'subject' | 'lesson' | 'article' | 'quiz' | 'quiz-result';
+type Screen = 'main' | 'subject' | 'lesson' | 'article' | 'remedy' | 'repertory' | 'quiz' | 'quiz-result';
 type StoredLesson = { subjectId: string; chapterTitle: string; subjectTitle: string };
 type StoredQuizResult = { date: string; subject: string; score: number; total: number; percent: number };
 
@@ -96,6 +98,9 @@ export default function NativeLearningApp() {
   const [selectedSubjectId, setSelectedSubjectId] = useState('');
   const [selectedChapterTitle, setSelectedChapterTitle] = useState('');
   const [selectedArticleSlug, setSelectedArticleSlug] = useState('');
+  const [selectedRemedyId, setSelectedRemedyId] = useState('');
+  const [selectedRepertoryId, setSelectedRepertoryId] = useState('');
+  const [libraryView, setLibraryView] = useState<'articles' | 'remedies' | 'repertory'>('articles');
   const [search, setSearch] = useState('');
   const [yearFilter, setYearFilter] = useState('All years');
   const [articleCategory, setArticleCategory] = useState('All topics');
@@ -176,6 +181,22 @@ export default function NativeLearningApp() {
   }), [flashcardCategory, search]);
   const currentFlashcard = filteredFlashcards.length ? filteredFlashcards[flashcardIndex % filteredFlashcards.length] : undefined;
   const selectedArticle = allBlogPosts.find((post) => post.slug === selectedArticleSlug || post.id === selectedArticleSlug);
+  const selectedRemedy = materiaMedicaData.find((remedy) => remedy.id === selectedRemedyId);
+  const selectedRepertory = repertoryDatabase.find((chapter) => chapter.id === selectedRepertoryId);
+  const filteredRemedies = useMemo(() => materiaMedicaData.filter((remedy) => {
+    const query = search.toLowerCase().trim();
+    return (remedy.name + ' ' + remedy.commonName + ' ' + remedy.family + ' ' + remedy.keynotes.join(' ') + ' ' + remedy.mind.join(' ') + ' ' + remedy.physical.join(' ')).toLowerCase().includes(query);
+  }).slice(0, 80), [search]);
+  const filteredRepertoryChapters = useMemo(() => repertoryDatabase.filter((chapter) => {
+    const query = search.toLowerCase().trim();
+    if (!query) return true;
+    return (chapter.name + ' ' + chapter.description).toLowerCase().includes(query) ||
+      chapter.rubrics.some((rubric) => (rubric.symptom + ' ' + (rubric.subCategory || '') + ' ' + rubric.remedies.join(' ')).toLowerCase().includes(query));
+  }), [search]);
+  const selectedRepertoryRubrics = useMemo(() => selectedRepertory?.rubrics.filter((rubric) => {
+    const query = search.toLowerCase().trim();
+    return !query || (rubric.symptom + ' ' + (rubric.subCategory || '') + ' ' + (rubric.notes || '') + ' ' + rubric.remedies.join(' ')).toLowerCase().includes(query);
+  }) || [], [selectedRepertory, search]);
   const questionPool = useMemo(() => {
     const result = quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject);
     return result.length ? result : allQuestionBank;
@@ -242,6 +263,8 @@ export default function NativeLearningApp() {
     setScreen('lesson');
   };
   const openArticle = (slug: string) => { setSelectedArticleSlug(slug); setScreen('article'); };
+  const openRemedy = (id: string) => { setSelectedRemedyId(id); setSearch(''); setScreen('remedy'); };
+  const openRepertory = (id: string) => { setSelectedRepertoryId(id); setSearch(''); setScreen('repertory'); };
   const toggleBookmark = (id: string) => setBookmarks((items) => items.includes(id) ? items.filter((item) => item !== id) : [...items, id]);
   const completeLesson = () => {
     const lessonId = selectedSubjectId + ':' + selectedChapterTitle;
@@ -285,7 +308,7 @@ export default function NativeLearningApp() {
   };
   const goBack = () => {
     if (screen === 'quiz-result' || screen === 'quiz') { setScreen('main'); setActiveTab('practice'); }
-    else if (screen === 'article') { setScreen('main'); setActiveTab('library'); }
+    else if (screen === 'article' || screen === 'remedy' || screen === 'repertory') { setScreen('main'); setActiveTab('library'); setSearch(''); }
     else if (screen === 'lesson') setScreen('subject');
     else if (screen === 'subject') { setScreen('main'); setActiveTab('learn'); }
     else setScreen('main');
@@ -305,7 +328,7 @@ export default function NativeLearningApp() {
   return <div className="native-app-shell"><div className="native-app">
     <header className="native-topbar">
       {screen !== 'main' ? <button className="native-icon-button" onClick={goBack} aria-label="Go back"><ArrowLeft size={21} /></button> : <div className="native-brand-mark"><Activity size={20} /></div>}
-      <div className="native-brand-copy"><span>CURIVA</span><small>{screen === 'main' ? 'MEDICAL LEARNING' : screen === 'subject' ? 'SUBJECT OVERVIEW' : screen === 'lesson' ? 'STUDY SESSION' : screen === 'article' ? 'READING ROOM' : 'QUESTION PRACTICE'}</small></div>
+      <div className="native-brand-copy"><span>CURIVA</span><small>{screen === 'main' ? 'MEDICAL LEARNING' : screen === 'subject' ? 'SUBJECT OVERVIEW' : screen === 'lesson' ? 'STUDY SESSION' : screen === 'article' ? 'READING ROOM' : screen === 'remedy' ? 'MATERIA MEDICA' : screen === 'repertory' ? 'REPERTORY LOOKUP' : 'QUESTION PRACTICE'}</small></div>
       <button className="native-icon-button" onClick={() => goToTab('profile')} aria-label="Open learning progress"><Sparkles size={19} /></button>
     </header>
 
