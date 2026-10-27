@@ -203,7 +203,7 @@ export function createSignedDownloadUrl(
     throw new Error('Signed download URL issue time is expired');
   }
 
-  const date = issuedAt.toISOString().replace(/[-:]|\.\d{3}/g, '');
+  const date = issuedAt.toISOString().replace(/[-:]/g, '').slice(0, 15) + 'Z';
   const dateStamp = date.slice(0, 8);
   const scope = `${dateStamp}/auto/storage/goog4_request`;
   const encodedPath = safePath.split('/').map(rfc3986).join('/');
