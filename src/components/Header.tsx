@@ -606,8 +606,8 @@ const Header: React.FC = () => {
               className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <div style={{ width: '159.703px', height: '58.75px', paddingLeft: '30px', paddingTop: '0px', marginLeft: '15px' }}>
-                <Logo size="md" style={{ marginLeft: '50px', width: '180px' }} />
+              <div className="w-[clamp(7.5rem,13vw,10rem)] h-[3.7rem] flex items-center justify-center overflow-visible">
+                <Logo size="md" className="w-full max-w-[11rem] ml-0" />
               </div>
             </Link>
           </div>
@@ -615,7 +615,7 @@ const Header: React.FC = () => {
           {/* Desktop Navigation Right */}
           <div 
             className="hidden xl:flex items-center justify-end gap-1.5 flex-1"
-            style={{ width: '1000px', height: '68px', paddingLeft: '0px', marginRight: '0px', marginLeft: '30px' }}
+            className="hidden xl:flex min-w-0 items-center justify-end gap-1.5 flex-1"
           >
             <nav className="flex items-center gap-1.5" aria-label="Main Navigation Right">
               {rightLinks.map((link: any, idx: number) => {
@@ -737,12 +737,14 @@ const Header: React.FC = () => {
           </div>
 
           {/* Mobile/Tablet Menu Button */}
-          <div className="xl:hidden absolute right-0 flex items-center gap-3">
+          <div className="xl:hidden absolute right-2 sm:right-4 flex items-center gap-2 sm:gap-3">
              <ThemeToggle />
              <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-3 rounded-2xl bg-primary text-white shadow-xl active:scale-95 transition-all"
-              aria-label="Toggle menu"
+              className="min-w-12 min-h-12 p-3 rounded-2xl bg-primary text-white shadow-xl active:scale-95 transition-all"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="curiva-mobile-navigation"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -761,14 +763,16 @@ const Header: React.FC = () => {
             initial="closed"
             animate="open"
             exit="closed"
-            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
+            id="curiva-mobile-navigation"
+            aria-label="Mobile navigation"
+            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] max-h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
             style={{ perspective: 1200, transformStyle: "preserve-3d" }}
           >
             <div className="flex items-center justify-between p-6 border-b border-border">
               <Logo size="sm" />
               <button
                 onClick={() => setIsMenuOpen(false)}
-                className="p-2.5 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-sm duration-300"
+                className="min-w-12 min-h-12 p-2.5 rounded-xl bg-primary/10 text-primary hover:bg-primary hover:text-white transition-all shadow-sm duration-300"
                 aria-label="Close menu"
               >
                 <div className="w-6 h-6 flex flex-col justify-center items-center gap-1.5 pt-0.5">
@@ -788,7 +792,7 @@ const Header: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-10">
+            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain p-4 sm:p-6 space-y-7 sm:space-y-10">
               {/* Mobile Search */}
               <motion.div variants={itemVariants} className="space-y-4">
                 <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] px-2">
