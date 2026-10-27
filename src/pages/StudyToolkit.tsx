@@ -18,7 +18,23 @@ const read = <T,>(key: string, fallback: T): T => {
     return fallback;
   }
 };
-const todayKey = () => new Date().toISOString().slice(0, 10);
+const persist = (key: string, value: unknown) => {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    // Keep the study session usable even when storage is disabled or full.
+    console.warn(`Curiva Study Toolkit could not persist "${key}" in this browser.`, error);
+  }
+};
+const dateKeyOffset = (offsetDays = 0) => {
+  const date = new Date();
+  date.setDate(date.getDate() + offsetDays);
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+const todayKey = () => dateKeyOffset();
 const subjects = ['Anatomy', 'Physiology', 'Organon of Medicine', 'Materia Medica', 'Repertory', 'Homoeopathic Pharmacy', 'Pathology', 'Forensic Medicine', 'Surgery', 'Practice of Medicine', 'Gynaecology & Obstetrics'];
 const vivaPrompts = [
   'Explain the key principles of case taking and why a complete history matters.',
@@ -48,7 +64,10 @@ export default function StudyToolkit() {
   const [topic, setTopic] = useState(subjects[0]);
   const [examDate, setExamDate] = useState(() => read('curiva-toolkit-exam-date', ''));
   const [dailyGoal, setDailyGoal] = useState(() => read('curiva-toolkit-goal', 60));
-  const [minutesToday, setMinutesToday] = useState(() => read('curiva-toolkit-minutes', { date: todayKey(), minutes: 0 }).date === todayKey() ? read<{date:string;minutes:number}>('curiva-toolkit-minutes', {date:todayKey(),minutes:0}).minutes : 0);
+  const [minutesToday, setMinutesToday] = useState(() => {
+    const saved = read<{ date: string; minutes: number }>('curiva-toolkit-minutes', { date: todayKey(), minutes: 0 });
+    return saved.date === todayKey() && Number.isFinite(saved.minutes) ? Math.max(0, saved.minutes) : 0;
+  });
   const [sessions, setSessions] = useState<Session[]>(() => read<Session[]>('curiva-toolkit-sessions', []));
   const [timerLength, setTimerLength] = useState(25);
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
@@ -65,17 +84,17 @@ export default function StudyToolkit() {
   const [reflection, setReflection] = useState(() => read('curiva-toolkit-reflection', ''));
   const [streak, setStreak] = useState(() => read('curiva-toolkit-streak', { date: '', count: 0 }));
 
-  useEffect(() => { localStorage.setItem('curiva-toolkit-tasks', JSON.stringify(tasks)); }, [tasks]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-notes', JSON.stringify(notes)); }, [notes]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-cards', JSON.stringify(cards)); }, [cards]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-exam-date', JSON.stringify(examDate)); }, [examDate]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-goal', JSON.stringify(dailyGoal)); }, [dailyGoal]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-minutes', JSON.stringify({ date: todayKey(), minutes: minutesToday })); }, [minutesToday]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-sessions', JSON.stringify(sessions)); }, [sessions]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-weekly-target', JSON.stringify(weeklyTarget)); }, [weeklyTarget]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-reading-log', JSON.stringify(readingLog)); }, [readingLog]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-reflection', JSON.stringify(reflection)); }, [reflection]);
-  useEffect(() => { localStorage.setItem('curiva-toolkit-streak', JSON.stringify(streak)); }, [streak]);
+  useEffect(() => { persist('curiva-toolkit-tasks', tasks); }, [tasks]);
+  useEffect(() => { persist('curiva-toolkit-notes', notes); }, [notes]);
+  useEffect(() => { persist('curiva-toolkit-cards', cards); }, [cards]);
+  useEffect(() => { persist('curiva-toolkit-exam-date', examDate); }, [examDate]);
+  useEffect(() => { persist('curiva-toolkit-goal', dailyGoal); }, [dailyGoal]);
+  useEffect(() => { persist('curiva-toolkit-minutes', { date: todayKey(), minutes: minutesToday }); }, [minutesToday]);
+  useEffect(() => { persist('curiva-toolkit-sessions', sessions); }, [sessions]);
+  useEffect(() => { persist('curiva-toolkit-weekly-target', weeklyTarget); }, [weeklyTarget]);
+  useEffect(() => { persist('curiva-toolkit-reading-log', readingLog); }, [readingLog]);
+  useEffect(() => { persist('curiva-toolkit-reflection', reflection); }, [reflection]);
+  useEffect(() => { persist('curiva-toolkit-streak', streak); }, [streak]);
 
   useEffect(() => {
     if (!timerRunning) return;
@@ -86,7 +105,7 @@ export default function StudyToolkit() {
           setMinutesToday(m => m + timerLength);
           setSessions(old => [{ date: todayKey(), minutes: timerLength, topic }, ...old].slice(0, 50));
           setStreak(old => {
-            const yesterday = new Date(Date.now() - 86400000).toISOString().slice(0, 10);
+            const yesterday = dateKeyOffset(-1);
             return { date: todayKey(), count: old.date === todayKey() ? old.count : old.date === yesterday ? old.count + 1 : 1 };
           });
         }
@@ -100,7 +119,13 @@ export default function StudyToolkit() {
   const completed = tasks.filter(t => t.done).length;
   const visibleTasks = tasks.filter(t => filter === 'all' || (filter === 'done' ? t.done : !t.done));
   const examDays = examDate ? Math.ceil((new Date(examDate + 'T23:59:59').getTime() - Date.now()) / 86400000) : null;
-  const weeklyMinutes = sessions.filter(s => Date.now() - new Date(s.date + 'T00:00:00').getTime() < 7 * 86400000).reduce((sum, s) => sum + s.minutes, 0);
+  const todayStart = new Date();
+  todayStart.setHours(0, 0, 0, 0);
+  const weeklyMinutes = sessions.filter(s => {
+    const sessionDay = new Date(s.date + 'T00:00:00').getTime();
+    const age = todayStart.getTime() - sessionDay;
+    return Number.isFinite(sessionDay) && age >= 0 && age < 7 * 86400000;
+  }).reduce((sum, s) => sum + s.minutes, 0);
   const wordCount = notes.trim() ? notes.trim().split(/\s+/).length : 0;
   const formattedTime = `${String(Math.floor(secondsLeft / 60)).padStart(2, '0')}:${String(secondsLeft % 60).padStart(2, '0')}`;
 
@@ -204,7 +229,7 @@ export default function StudyToolkit() {
         <CardPanel title="Study checklist" icon={<ListTodo className="text-blue-600"/>}>
           <form onSubmit={e => {e.preventDefault(); addTask();}} className="flex gap-2"><input value={taskText} onChange={e => setTaskText(e.target.value)} placeholder="Add a revision task…" className="min-w-0 flex-1 rounded-xl border bg-transparent p-3 dark:border-white/20" maxLength={140}/><button aria-label="Add task" className="rounded-xl bg-blue-700 px-3 text-white"><Plus/></button></form>
           <div className="mt-3 flex gap-2 text-sm">{(['all','open','done'] as const).map(f => <button key={f} onClick={() => setFilter(f)} className={`rounded-lg px-3 py-1.5 capitalize ${filter===f?'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-100':'bg-slate-100 dark:bg-slate-800'}`}>{f}</button>)}</div>
-          <ul className="mt-3 space-y-2">{visibleTasks.length ? visibleTasks.map(t => <li key={t.id} className="flex items-center gap-2 rounded-xl bg-slate-50 p-3 dark:bg-slate-800"><input type="checkbox" checked={t.done} onChange={() => setTasks(old => old.map(item => item.id===t.id?{...item,done:!item.done}:item))}/><span className={`flex-1 text-sm ${t.done?'line-through text-slate-400':''}`}>{t.title}</span><button aria-label="Delete task" onClick={() => setTasks(old => old.filter(item => item.id!==t.id))}><Trash2 size={16}/></button></li>) : <li className="text-sm text-slate-500">No tasks in this filter yet.</li>}</ul>
+          <ul className="mt-3 space-y-2">{visibleTasks.length ? visibleTasks.map(t => <li key={t.id} className="flex items-center gap-2 rounded-xl bg-slate-50 p-3 dark:bg-slate-800"><input type="checkbox" aria-label={`Mark ${t.title} ${t.done ? 'open' : 'complete'}`} checked={t.done} onChange={() => setTasks(old => old.map(item => item.id===t.id?{...item,done:!item.done}:item))}/><span className={`flex-1 text-sm ${t.done?'line-through text-slate-400':''}`}>{t.title}</span><button aria-label="Delete task" onClick={() => setTasks(old => old.filter(item => item.id!==t.id))}><Trash2 size={16}/></button></li>) : <li className="text-sm text-slate-500">No tasks in this filter yet.</li>}</ul>
         </CardPanel>
 
         <CardPanel title="Exam countdown and topic picker" icon={<CalendarDays className="text-amber-600"/>}>
@@ -223,7 +248,7 @@ export default function StudyToolkit() {
 
         <CardPanel title="Build your own flashcards" icon={<Brain className="text-pink-600"/>}>
           <div className="grid gap-2"><input value={front} onChange={e=>setFront(e.target.value)} maxLength={240} placeholder="Question / front" className="rounded-xl border bg-transparent p-3 dark:border-white/20"/><textarea value={back} onChange={e=>setBack(e.target.value)} maxLength={1000} placeholder="Answer / back" rows={2} className="rounded-xl border bg-transparent p-3 dark:border-white/20"/><button onClick={addCard} className="rounded-xl bg-pink-700 px-4 py-2 font-bold text-white">Add flashcard</button></div>
-          {cards.length>0 && <div className="mt-4 rounded-2xl border p-4 dark:border-white/20"><div className="text-xs text-slate-500">Card {activeCard+1} of {cards.length}</div><button onClick={()=>setRevealed(v=>!v)} className="my-3 min-h-24 w-full rounded-xl bg-slate-50 p-4 text-left font-bold dark:bg-slate-800">{revealed?cards[activeCard%cards.length].back:cards[activeCard%cards.length].front}<span className="mt-2 block text-xs font-normal text-slate-500">{revealed?'Tap to see question':'Tap to reveal answer'}</span></button><div className="flex gap-2"><button onClick={()=>{setActiveCard(i=>(i+cards.length-1)%cards.length);setRevealed(false)}} className="rounded-lg border px-3 py-2 dark:border-white/20">Previous</button><button onClick={()=>{setActiveCard(i=>(i+1)%cards.length);setRevealed(false)}} className="rounded-lg border px-3 py-2 dark:border-white/20">Next</button><button onClick={()=>setCards(old=>old.filter(c=>c.id!==cards[activeCard%cards.length].id))} className="ml-auto rounded-lg border px-3 py-2 dark:border-white/20"><Trash2 size={16}/></button></div></div>}
+          {cards.length>0 && <div className="mt-4 rounded-2xl border p-4 dark:border-white/20"><div className="text-xs text-slate-500">Card {activeCard+1} of {cards.length}</div><button onClick={()=>setRevealed(v=>!v)} className="my-3 min-h-24 w-full rounded-xl bg-slate-50 p-4 text-left font-bold dark:bg-slate-800">{revealed?cards[activeCard%cards.length].back:cards[activeCard%cards.length].front}<span className="mt-2 block text-xs font-normal text-slate-500">{revealed?'Tap to see question':'Tap to reveal answer'}</span></button><div className="flex gap-2"><button onClick={()=>{setActiveCard(i=>(i+cards.length-1)%cards.length);setRevealed(false)}} className="rounded-lg border px-3 py-2 dark:border-white/20">Previous</button><button onClick={()=>{setActiveCard(i=>(i+1)%cards.length);setRevealed(false)}} className="rounded-lg border px-3 py-2 dark:border-white/20">Next</button><button aria-label="Delete current flashcard" onClick={()=>setCards(old=>old.filter(c=>c.id!==cards[activeCard%cards.length].id))} className="ml-auto rounded-lg border px-3 py-2 dark:border-white/20"><Trash2 size={16}/></button></div></div>}
         </CardPanel>
 
         <CardPanel title="Viva prompt generator" icon={<Lightbulb className="text-yellow-600"/>}>
