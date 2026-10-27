@@ -4,6 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
+import { resources } from "./src/data/resources";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
@@ -121,37 +122,35 @@ async function startServer() {
   });
 
   // Razorpay Order Creation
+  // Prices and currency are derived from the server-side catalogue; never trust client-supplied amounts.
   app.post("/api/create-razorpay-order", async (req, res) => {
-    const { amount, currency = "INR", receipt } = req.body;
-    
+    const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
+    const resource = resources.find((item) => item.id === resourceId);
+
+    if (!resource) {
+      return res.status(400).json({ error: "Choose a valid resource before creating an order." });
+    }
+    if (!Number.isFinite(resource.price) || resource.price < 1) {
+      return res.status(400).json({ error: "This resource is not configured for online payment." });
+    }
+
     const razorpay = getRazorpay();
     if (!razorpay) {
-      return res.status(500).json({ error: "Razorpay is not configured" });
+      return res.status(503).json({ error: "Online payment is temporarily unavailable." });
     }
 
     try {
-      const finalAmount = Math.round(Number(amount) * 100);
-      
-      if (isNaN(finalAmount) || finalAmount < 100) {
-        return res.status(400).json({ error: "Invalid amount. Minimum ₹1 is required." });
-      }
-
-      // Razorpay receipt has a limit of 40 characters
-      const rawReceipt = receipt || `receipt_${Date.now()}`;
-      const finalReceipt = rawReceipt.length > 40 ? rawReceipt.substring(0, 37) + "..." : rawReceipt;
-
-      const options = {
-        amount: finalAmount,
-        currency,
-        receipt: finalReceipt,
-      };
-
-      const order = await razorpay.orders.create(options);
+      const order = await razorpay.orders.create({
+        amount: Math.round(resource.price * 100),
+        currency: "INR",
+        receipt: `resource_${resource.id}`.slice(0, 40),
+        notes: { resource_id: resource.id },
+      });
       res.json(order);
     } catch (error: any) {
       console.error("Razorpay Order Error Details:", JSON.stringify(error, null, 2));
-      res.status(500).json({ 
-        error: "Failed to create payment order", 
+      res.status(500).json({
+        error: "Failed to create payment order",
         details: error.error?.description || error.message || "Unknown error"
       });
     }
@@ -159,21 +158,26 @@ async function startServer() {
 
   // Razorpay Payment Verification
   app.post("/api/verify-razorpay-payment", async (req, res) => {
-    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
+    const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body ?? {};
     const secret = process.env.RAZORPAY_KEY_SECRET;
 
     if (!secret) {
-      return res.status(500).json({ error: "Payment verification failed: missing configuration" });
+      return res.status(503).json({ success: false, error: "Payment verification is temporarily unavailable." });
+    }
+    if (
+      typeof razorpay_order_id !== "string" || !razorpay_order_id ||
+      typeof razorpay_payment_id !== "string" || !razorpay_payment_id ||
+      typeof razorpay_signature !== "string" || !/^[a-f0-9]{64}$/i.test(razorpay_signature)
+    ) {
+      return res.status(400).json({ success: false, message: "Invalid payment verification payload." });
     }
 
-    const body = razorpay_order_id + "|" + razorpay_payment_id;
-    const expectedSignature = crypto
-      .createHmac("sha256", secret)
-      .update(body.toString())
-      .digest("hex");
+    const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+    const expectedSignature = crypto.createHmac("sha256", secret).update(body).digest();
+    const providedSignature = Buffer.from(razorpay_signature, "hex");
 
-    if (expectedSignature === razorpay_signature) {
-      res.json({ success: true, message: "Payment verified successfully" });
+    if (providedSignature.length === expectedSignature.length && crypto.timingSafeEqual(expectedSignature, providedSignature)) {
+      res.json({ success: true, message: "Payment signature verified." });
     } else {
       res.status(400).json({ success: false, message: "Invalid signature" });
     }
