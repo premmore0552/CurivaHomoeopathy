@@ -58,7 +58,19 @@ jobs:
           if (manifest.bundleId !== files[0].replace(/\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
           console.log(`Verified OTA bundle ${manifest.bundleId}`);
           NODE
-          if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?$'; then
+          if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?; then
             echo "Server-only Express artifact must not be included in the mobile bundle."
             exit 1
           fi
+
+      - name: Set up Java for the Firestore emulator
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install temporary Firestore rules test tools
+        run: npm install --no-save --package-lock=false firebase-tools @firebase/rules-unit-testing
+
+      - name: Test Firestore security rules in the emulator
+        run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
