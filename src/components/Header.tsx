@@ -736,7 +736,23 @@ const Header: React.FC = () => {
       </div>
       </header>
 
-
+      {/* Mobile thumb navigation is intentionally different from desktop hover mega-menus. */}
+      <nav aria-label="Mobile quick navigation" className="xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 backdrop-blur-xl px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
+        <div className="mx-auto grid max-w-lg grid-cols-4 gap-1">
+          <Link to="/" onClick={() => handleLinkClick('/')} className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${location.pathname === '/' ? 'text-primary bg-primary/10' : 'text-text-secondary'}`}>
+            <Home className="h-5 w-5" /><span>Home</span>
+          </Link>
+          <Link to={isPatientWorkspace ? '/public-education' : '/student-resources'} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
+            <BookOpen className="h-5 w-5" /><span>Explore</span>
+          </Link>
+          <button type="button" onClick={() => setIsMenuOpen(true)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
+            <Search className="h-5 w-5" /><span>Search</span>
+          </button>
+          <button type="button" onClick={() => setIsMenuOpen(true)} aria-label="Open full navigation" className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
+            <Menu className="h-5 w-5" /><span>Menu</span>
+          </button>
+        </div>
+      </nav>
 
       {/* Mobile Navigation Drawer */}
       <AnimatePresence mode="wait">
