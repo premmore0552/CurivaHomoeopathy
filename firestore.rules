@@ -61,7 +61,7 @@ service cloud.firestore {
              data.resourceId is string && data.resourceId.size() <= 100 &&
              data.resourceTitle is string && data.resourceTitle.size() <= 500 &&
              data.paymentId is string && data.paymentId.size() <= 200 &&
-             data.status in ['paid', 'pending', 'failed'];
+             data.status in ['pending', 'failed']; // Client writes can never assert payment as paid.
     }
 
     function isValidKit(data) {
