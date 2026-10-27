@@ -846,3 +846,9 @@ table { display: block; max-width: 100%; overflow-x: auto; }
     transition-duration: .01ms !important;
   }
 }
+
+
+/* Reserve space for the dedicated fixed mobile navigation bar. */
+@media (max-width: 1279px) {
+  body { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)); }
+}
