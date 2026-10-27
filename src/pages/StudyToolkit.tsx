@@ -39,9 +39,9 @@ function CardPanel({ title, icon, children, className = '' }: { title: string; i
 }
 
 export default function StudyToolkit() {
-  const [tasks, setTasks] = useState<Task[]>(() => read('curiva-toolkit-tasks', []));
+  const [tasks, setTasks] = useState<Task[]>(() => read<Task[]>('curiva-toolkit-tasks', []));
   const [notes, setNotes] = useState(() => read('curiva-toolkit-notes', ''));
-  const [cards, setCards] = useState<Card[]>(() => read('curiva-toolkit-cards', []));
+  const [cards, setCards] = useState<Card[]>(() => read<Card[]>('curiva-toolkit-cards', []));
   const [front, setFront] = useState('');
   const [back, setBack] = useState('');
   const [taskText, setTaskText] = useState('');
@@ -49,7 +49,7 @@ export default function StudyToolkit() {
   const [examDate, setExamDate] = useState(() => read('curiva-toolkit-exam-date', ''));
   const [dailyGoal, setDailyGoal] = useState(() => read('curiva-toolkit-goal', 60));
   const [minutesToday, setMinutesToday] = useState(() => read('curiva-toolkit-minutes', { date: todayKey(), minutes: 0 }).date === todayKey() ? read<{date:string;minutes:number}>('curiva-toolkit-minutes', {date:todayKey(),minutes:0}).minutes : 0);
-  const [sessions, setSessions] = useState<Session[]>(() => read('curiva-toolkit-sessions', []));
+  const [sessions, setSessions] = useState<Session[]>(() => read<Session[]>('curiva-toolkit-sessions', []));
   const [timerLength, setTimerLength] = useState(25);
   const [secondsLeft, setSecondsLeft] = useState(25 * 60);
   const [timerRunning, setTimerRunning] = useState(false);
