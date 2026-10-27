@@ -39,7 +39,18 @@ export async function sendPaidResourceEmail(email: PaidResourceEmail): Promise<'
   if (target.protocol !== 'https:' || target.hostname !== 'storage.googleapis.com') {
     throw new Error('Refusing to email a non-private-storage download link');
   }
-  if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(email.to) || email.to.length > 200) {
+  const emailParts = email.to.trim().split('@');
+  const domain = emailParts[1] || '';
+  const hasWhitespace = [...email.to].some((character) => character.charCodeAt(0) <= 32);
+  if (
+    email.to.length > 200 ||
+    emailParts.length !== 2 ||
+    !emailParts[0] ||
+    !domain.includes('.') ||
+    domain.startsWith('.') ||
+    domain.endsWith('.') ||
+    hasWhitespace
+  ) {
     throw new Error('Paid resource email recipient is invalid');
   }
 

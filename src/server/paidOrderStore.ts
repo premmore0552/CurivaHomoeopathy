@@ -129,7 +129,7 @@ function fieldString(document: any, name: string): string | undefined {
 }
 function getPrivateBucket(): string {
   const bucket = process.env.CURIVA_PRIVATE_DOWNLOAD_BUCKET?.trim();
-  if (!bucket || bucket.length < 3 || bucket.length > 222 || /[\\/\\s]/.test(bucket)) {
+  if (!bucket || bucket.length < 3 || bucket.length > 222 || bucket.includes('/') || bucket.includes(String.fromCharCode(92)) || [...bucket].some((character) => character.charCodeAt(0) <= 32)) {
     throw new Error('CURIVA_PRIVATE_DOWNLOAD_BUCKET is not configured correctly');
   }
   return bucket;
@@ -141,7 +141,7 @@ function safeObjectPath(objectPath: string): string {
     objectPath.length < 1 ||
     objectPath.length > 1024 ||
     objectPath.startsWith('/') ||
-    objectPath.includes('\\\\') ||
+    objectPath.includes(String.fromCharCode(92)) ||
     objectPath.split('/').some((part) => !part || part === '.' || part === '..')
   ) {
     throw new Error('Private download object path is invalid');
@@ -203,7 +203,7 @@ export function createSignedDownloadUrl(
     throw new Error('Signed download URL issue time is expired');
   }
 
-  const date = issuedAt.toISOString().replace(/[-:]|\\.\\d{3}/g, '');
+  const date = issuedAt.toISOString().replace(/[-:]|\.\d{3}/g, '');
   const dateStamp = date.slice(0, 8);
   const scope = `${dateStamp}/auto/storage/goog4_request`;
   const encodedPath = safePath.split('/').map(rfc3986).join('/');
@@ -228,13 +228,13 @@ export function createSignedDownloadUrl(
     '',
     'host',
     'UNSIGNED-PAYLOAD',
-  ].join('\\n');
+  ].join('\n');
   const stringToSign = [
     'GOOG4-RSA-SHA256',
     date,
     scope,
     sha256Hex(canonicalRequest),
-  ].join('\\n');
+  ].join('\n');
   const signature = crypto.sign('RSA-SHA256', Buffer.from(stringToSign), serviceAccount.private_key).toString('hex');
   return `https://storage.googleapis.com${canonicalUri}?${canonicalQuery}&X-Goog-Signature=${signature}`;
 }
