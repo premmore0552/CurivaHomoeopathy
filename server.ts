@@ -123,8 +123,19 @@ async function startServer() {
   // Prices and currency are derived from the server-side catalogue; never trust client-supplied amounts.
   app.post("/api/create-razorpay-order", async (req, res) => {
     const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
-    const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim().slice(0, 200) : "";
-    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(customerEmail)) {
+    const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim() : "";
+    const emailParts = customerEmail.split("@");
+    const emailDomain = emailParts[1] || "";
+    const hasWhitespace = [...customerEmail].some((character) => character.charCodeAt(0) <= 32);
+    if (
+      customerEmail.length > 200 ||
+      emailParts.length !== 2 ||
+      !emailParts[0] ||
+      !emailDomain.includes(".") ||
+      emailDomain.startsWith(".") ||
+      emailDomain.endsWith(".") ||
+      hasWhitespace
+    ) {
       return res.status(400).json({ error: "Enter a valid email address before creating an order." });
     }
     const resource = resources.find((item) => item.id === resourceId);
@@ -200,6 +211,8 @@ async function startServer() {
       const resourceId = typeof order.notes?.resource_id === "string" ? order.notes.resource_id : "";
       const resource = resources.find((item) => item.id === resourceId);
       const expectedAmount = resource && Number.isFinite(resource.price) ? Math.round(resource.price * 100) : -1;
+      const paymentAmount = Number(payment.amount);
+      const orderAmount = Number(order.amount);
 
       if (
         !resource ||
@@ -207,8 +220,9 @@ async function startServer() {
         payment.order_id !== razorpay_order_id ||
         payment.id !== razorpay_payment_id ||
         payment.status !== "captured" ||
-        payment.amount !== order.amount ||
-        order.amount !== expectedAmount ||
+        !Number.isSafeInteger(paymentAmount) ||
+        paymentAmount !== orderAmount ||
+        orderAmount !== expectedAmount ||
         payment.currency !== "INR" ||
         order.currency !== "INR"
       ) {
@@ -250,7 +264,7 @@ async function startServer() {
           userEmail,
           resourceId: resource.id,
           resourceTitle: resource.title,
-          amount: payment.amount,
+          amount: paymentAmount,
           currency: payment.currency,
         });
       } catch (recordError: any) {
@@ -272,7 +286,7 @@ async function startServer() {
         resourceId: resource.id,
         downloadUrl: resource.fileUrl,
         orderId: order.id,
-        amount: payment.amount,
+        amount: paymentAmount,
         currency: payment.currency,
       });
     } catch (error: any) {

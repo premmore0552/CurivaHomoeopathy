@@ -19,4 +19,16 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   assert.equal(response.statusCode, 200);
   assert.match(response.headers['content-type'] || response.headers['Content-Type'] || '', /application\/json/i);
   assert.ok(Array.isArray(JSON.parse(response.body)));
+
+  const invalidEmailResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/create-razorpay-order',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ resourceId: 'Homoeopathy-modalities-cheat-sheet', email: 'not-an-email' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(invalidEmailResponse.statusCode, 400);
+  assert.match(JSON.parse(invalidEmailResponse.body).error, /valid email/i);
 });
