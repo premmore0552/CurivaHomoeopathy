@@ -17,10 +17,12 @@ import {
   auth,
   collection,
   db,
+  doc,
   onAuthStateChanged,
   onSnapshot,
   query,
   serverTimestamp,
+  updateDoc,
   where,
 } from '../lib/firebase';
 
@@ -316,7 +318,6 @@ export default function Appointments() {
                         {request.status === 'requested' && (
                           <button type="button" onClick={async () => {
                             try {
-                              const { updateDoc, doc } = await import('../lib/firebase');
                               await updateDoc(doc(db, 'appointmentRequests', request.id), { status: 'cancelled', updatedAt: serverTimestamp() });
                               setNotice('Your pending request was cancelled.');
                             } catch {
