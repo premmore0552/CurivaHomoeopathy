@@ -2,49 +2,26 @@
 
 An educational blog focused on Homoeopathy, holistic healing, and natural medicine awareness.
 
-## Deployment to Netlify
+## Existing project and deployment workflow
 
-This project is ready for deployment to Netlify.
+This repository is the existing Curiva Homoeopathy website and Capacitor app. Continue development in the repository's development branch `feat/full-platform-transformation`; do not create another repository or Netlify site for this work.
 
-### Steps to Deploy
+- Production hosting remains connected to `main` on the existing Netlify site.
+- Feature work should stay in the draft pull request until review and deploy-preview verification are complete.
+- Do not merge to `main`, deploy production, or publish Firebase rules without explicit approval.
+- The configured Netlify build uses `npm run build` and publishes `dist`; the existing `netlify.toml` owns the rewrite and security-header configuration.
 
-1. **Push to GitHub**:
-   - Create a new repository on GitHub.
-   - Initialize git in your local project folder:
-     ```bash
-     git init
-     git add .
-     git commit -m "Initial commit"
-     git branch -M main
-     git remote add origin <YOUR_GITHUB_REPO_URL>
-     git push -u origin main
-     ```
-
-2. **Connect to Netlify**:
-   - Log in to [Netlify](https://www.netlify.com/).
-   - Click **"Add new site"** > **"Import from an existing project"**.
-   - Select **GitHub** and choose this repository.
-   - Netlify will use the settings in `netlify.toml` automatically:
-     - **Build Command**: `npm run build`
-     - **Publish Directory**: `dist`
-
-### Note on Backend (Express/SQLite)
-
-This project currently uses an Express server with a SQLite database for the API. 
-**Netlify's standard deployment is for static sites.** 
-
-To make the blog fully functional on Netlify:
-- The current setup uses a local SQLite database which is not persistent on Netlify.
-- For a production deployment on Netlify, you should consider moving the blog data to a static JSON file or a headless CMS.
-
-## Local Development
+### Local development
 
 ```bash
-npm install
+npm ci
 npm run dev
+npm run build
 ```
 
+### Deploy-preview validation
 
+Use the current draft pull request's preview build to verify the frontend and API integration before production. Configure secrets only in Netlify's environment-variable settings; never commit real keys or use `VITE_*` for server credentials. Required external-service setup for payments, private downloads, email delivery, and clinic calendar is documented below. Firebase rule deployment should be a separate, reviewed operation because it replaces the database's deployed rules.
 
 ## Free website + app workflow
 
