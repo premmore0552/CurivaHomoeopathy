@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/curiva-design-system.css';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -233,12 +234,12 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       {feature.href && !feature.planned ? (
         <Link
           to={feature.href}
-          className="group block h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5 shadow-[0_8px_30px_rgba(25,59,53,0.035)] transition-all duration-200 hover:-translate-y-1 hover:border-[#b5d9c4] hover:shadow-[0_16px_38px_rgba(25,59,53,0.09)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2d7960]"
+          className="curiva-home__card group block h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[#b5d9c4] hover:shadow-[0_16px_38px_rgba(25,59,53,0.09)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2d7960]"
         >
           {content}
         </Link>
       ) : (
-        <div className="h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5 shadow-[0_8px_30px_rgba(25,59,53,0.035)]">
+        <div className="curiva-home__card h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5">
           {content}
         </div>
       )}
@@ -286,9 +287,9 @@ export default function CurivaHome() {
   const DashboardIcon = dashboard.icon;
 
   return (
-    <div className="min-h-screen bg-[#f5f8f5] pb-16 text-[#193b35]">
+    <div className="curiva-home min-h-screen bg-[#f5f8f5] pb-16 text-[#193b35]">
       <div className="mx-auto max-w-7xl px-4 pb-10 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-        <section className="relative overflow-hidden rounded-[2rem] bg-[#112f35] text-white shadow-[0_25px_70px_rgba(17,47,53,0.16)]">
+        <section className="curiva-home__hero relative overflow-hidden rounded-[2rem] bg-[#112f35] text-white shadow-[0_25px_70px_rgba(17,47,53,0.16)]">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#8dcfb0]/15 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-32 left-[28%] h-72 w-72 rounded-full bg-[#2d7960]/35 blur-3xl" />
           <div className="relative grid gap-8 p-6 sm:p-9 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:p-12">
@@ -339,7 +340,7 @@ export default function CurivaHome() {
               </div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/12 bg-white/7 p-5 backdrop-blur-sm sm:p-6">
+            <div className="curiva-home__workspace-panel rounded-[1.5rem] border border-white/12 bg-white/7 p-5 backdrop-blur-sm sm:p-6">
               <div className="flex items-center gap-3">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#d8f0e1] text-[#1c674e]">
                   <DashboardIcon className="h-6 w-6" />
