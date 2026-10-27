@@ -137,7 +137,7 @@ async function startServer() {
       const order = await razorpay.orders.create({
         amount: Math.round(resource.price * 100),
         currency: "INR",
-        receipt: `res_${resource.id}_${crypto.randomUUID()}`.slice(0, 40),
+        receipt: `res_${crypto.randomUUID().replace(/-/g, "").slice(0, 24)}`,
         notes: { resource_id: resource.id },
       });
       res.json(order);
@@ -208,6 +208,7 @@ async function startServer() {
         success: true,
         message: "Payment verified with Razorpay.",
         resourceId: resource.id,
+        downloadUrl: resource.fileUrl,
         amount: payment.amount,
         currency: payment.currency,
       });
