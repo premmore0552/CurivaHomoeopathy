@@ -170,10 +170,50 @@ async function startServer() {
     const expectedSignature = crypto.createHmac("sha256", secret).update(body).digest();
     const providedSignature = Buffer.from(razorpay_signature, "hex");
 
-    if (providedSignature.length === expectedSignature.length && crypto.timingSafeEqual(expectedSignature, providedSignature)) {
-      res.json({ success: true, message: "Payment signature verified." });
-    } else {
-      res.status(400).json({ success: false, message: "Invalid signature" });
+    if (!(providedSignature.length === expectedSignature.length && crypto.timingSafeEqual(expectedSignature, providedSignature))) {
+      return res.status(400).json({ success: false, message: "Invalid signature" });
+    }
+
+    // A valid signature alone does not prove that the payment was captured for the
+    // expected catalogue price. Cross-check both records with Razorpay's API.
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return res.status(503).json({ success: false, error: "Payment verification is temporarily unavailable." });
+    }
+
+    try {
+      const [order, payment] = await Promise.all([
+        razorpay.orders.fetch(razorpay_order_id),
+        razorpay.payments.fetch(razorpay_payment_id),
+      ]);
+      const resourceId = typeof order.notes?.resource_id === "string" ? order.notes.resource_id : "";
+      const resource = resources.find((item) => item.id === resourceId);
+      const expectedAmount = resource && Number.isFinite(resource.price) ? Math.round(resource.price * 100) : -1;
+
+      if (
+        !resource ||
+        order.id !== razorpay_order_id ||
+        payment.order_id !== razorpay_order_id ||
+        payment.id !== razorpay_payment_id ||
+        payment.status !== "captured" ||
+        payment.amount !== order.amount ||
+        order.amount !== expectedAmount ||
+        payment.currency !== "INR" ||
+        order.currency !== "INR"
+      ) {
+        return res.status(400).json({ success: false, message: "Payment does not match a captured catalogue order." });
+      }
+
+      return res.json({
+        success: true,
+        message: "Payment verified with Razorpay.",
+        resourceId: resource.id,
+        amount: payment.amount,
+        currency: payment.currency,
+      });
+    } catch (error: any) {
+      console.error("Razorpay verification lookup failed:", error?.message || "Unknown error");
+      return res.status(502).json({ success: false, error: "Could not confirm payment status with Razorpay. Please contact support before retrying." });
     }
   });
 
