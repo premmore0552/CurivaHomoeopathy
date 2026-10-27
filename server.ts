@@ -279,13 +279,13 @@ async function startServer() {
         clinicTimezone = event.timeZone;
         confirmedTime = confirmedDateTime;
         if (request.status === 'confirmed' && request.confirmedDateTime) {
-          rollbackCalendar = () => upsertClinicCalendarEvent(request, request.confirmedDateTime!, request.adminResponse || '');
+          rollbackCalendar = async () => { await upsertClinicCalendarEvent(request, request.confirmedDateTime!, request.adminResponse || ''); };
         } else {
           rollbackCalendar = () => deleteClinicCalendarEvent(request.id, event.id);
         }
       } else if (request.calendarEventId) {
         await deleteClinicCalendarEvent(request.id, request.calendarEventId);
-        rollbackCalendar = () => upsertClinicCalendarEvent(request, request.confirmedDateTime || confirmedDateTime, request.adminResponse || '');
+        rollbackCalendar = async () => { await upsertClinicCalendarEvent(request, request.confirmedDateTime || confirmedDateTime, request.adminResponse || ''); };
         eventId = '';
         clinicTimezone = '';
         confirmedTime = '';
