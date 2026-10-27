@@ -5,6 +5,7 @@ import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
 import { serverResources as resources } from "./src/data/serverResources";
+import { isPaidOrderStoreConfigured, persistPaidOrder, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
@@ -122,6 +123,10 @@ async function startServer() {
   // Prices and currency are derived from the server-side catalogue; never trust client-supplied amounts.
   app.post("/api/create-razorpay-order", async (req, res) => {
     const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
+    const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim().slice(0, 200) : "";
+    if (!/^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/.test(customerEmail)) {
+      return res.status(400).json({ error: "Enter a valid email address before creating an order." });
+    }
     const resource = resources.find((item) => item.id === resourceId);
 
     if (!resource) {
@@ -144,7 +149,7 @@ async function startServer() {
         amount: Math.round(resource.price * 100),
         currency: "INR",
         receipt: `res_${crypto.randomUUID().replace(/-/g, "").slice(0, 24)}`,
-        notes: { resource_id: resource.id },
+        notes: { resource_id: resource.id, customer_email: customerEmail },
       });
       res.json(order);
     } catch (error: any) {
@@ -210,11 +215,63 @@ async function startServer() {
         return res.status(400).json({ success: false, message: "Payment does not match a captured catalogue order." });
       }
 
+      // Record the captured payment in Firestore from the trusted server before releasing access.
+      // The browser is never allowed to mark an order as paid.
+      const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
+      let verifiedUser: { uid: string; email: string | null } | null = null;
+      if (authorization.startsWith("Bearer ")) {
+        try {
+          verifiedUser = await verifyFirebaseIdToken(authorization.slice(7).trim());
+        } catch {
+          return res.status(401).json({
+            success: false,
+            paymentVerified: true,
+            retryable: true,
+            error: "Razorpay verified the payment, but your account could not be re-verified. Sign in and retry verification; do not pay again.",
+          });
+        }
+      }
+
+      const userEmail = verifiedUser?.email || (typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "");
+      if (!userEmail) {
+        return res.status(503).json({
+          success: false,
+          paymentVerified: true,
+          retryable: false,
+          error: "Razorpay verified the payment, but the order has no verified contact email. Do not pay again; contact Curiva support with your payment ID.",
+        });
+      }
+
+      try {
+        await persistPaidOrder({
+          orderId: order.id,
+          paymentId: payment.id,
+          userId: verifiedUser?.uid || "guest",
+          userEmail,
+          resourceId: resource.id,
+          resourceTitle: resource.title,
+          amount: payment.amount,
+          currency: payment.currency,
+        });
+      } catch (recordError: any) {
+        const configured = isPaidOrderStoreConfigured();
+        console.error("Captured payment could not be persisted:", recordError?.message || "Unknown Firestore error");
+        return res.status(503).json({
+          success: false,
+          paymentVerified: true,
+          retryable: configured,
+          error: configured
+            ? "Razorpay verified your payment, but secure order recording is temporarily unavailable. Retry verification here; do not pay again."
+            : "Razorpay verified your payment, but secure order recording is not configured. Do not pay again; contact Curiva support with your payment ID.",
+        });
+      }
+
       return res.json({
         success: true,
-        message: "Payment verified with Razorpay.",
+        message: "Payment verified and securely recorded.",
         resourceId: resource.id,
         downloadUrl: resource.fileUrl,
+        orderId: order.id,
         amount: payment.amount,
         currency: payment.currency,
       });

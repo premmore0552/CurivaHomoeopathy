@@ -17,19 +17,63 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 import { resources, Resource } from '../data/resources';
-import { auth, db, handleFirestoreError, OperationType, collection, addDoc, serverTimestamp } from '../lib/firebase';
+import { auth } from '../lib/firebase';
 
 const ResourceStore = () => {
   const [selectedResource, setSelectedResource] = useState<Resource | null>(resources[0] || null);
   const [isProcessing, setIsProcessing] = useState(false);
-  const [paymentStep, setPaymentStep] = useState<'details' | 'payment' | 'success'>('details');
+  const [paymentStep, setPaymentStep] = useState<'details' | 'payment' | 'verification-error' | 'success'>('details');
   const [email, setEmail] = useState('');
   const [verifiedDownloadUrl, setVerifiedDownloadUrl] = useState('');
+  const [verificationPayload, setVerificationPayload] = useState<any | null>(null);
+  const [verificationMessage, setVerificationMessage] = useState('');
+  const [verificationCanRetry, setVerificationCanRetry] = useState(false);
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [profession, setProfession] = useState('Student');
   const [isSubmitted, setIsSubmitted] = useState(false);
+
+  const verifyPayment = async (response: any) => {
+    setVerificationPayload(response);
+    setPaymentStep('payment');
+    try {
+      const idToken = await auth.currentUser?.getIdToken();
+      const verifyRes = await fetch('/api/verify-razorpay-payment', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          ...(idToken ? { Authorization: `Bearer ${idToken}` } : {}),
+        },
+        body: JSON.stringify(response)
+      });
+      const result = await verifyRes.json();
+
+      if (!verifyRes.ok || !result.success) {
+        if (result.paymentVerified) {
+          setVerificationMessage(result.error || 'Payment was verified but its secure record is not ready.');
+          setVerificationCanRetry(Boolean(result.retryable));
+          setPaymentStep('verification-error');
+          return;
+        }
+        setVerificationPayload(null);
+        setPaymentStep('details');
+        alert(result.error || result.message || 'We could not verify this payment. If your bank shows a debit, contact support before trying again.');
+        return;
+      }
+
+      setVerifiedDownloadUrl(typeof result.downloadUrl === 'string' && result.downloadUrl.startsWith('https://') ? result.downloadUrl : '');
+      setVerificationPayload(null);
+      setVerificationMessage('');
+      setVerificationCanRetry(false);
+      setPaymentStep('success');
+    } catch (verifyError) {
+      console.error('Payment verification request failed:', verifyError);
+      setVerificationMessage('The verification response was interrupted. You can retry verification with this same payment; this will not charge you again.');
+      setVerificationCanRetry(true);
+      setPaymentStep('verification-error');
+    }
+  };
 
   const handlePayment = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -42,7 +86,8 @@ const ResourceStore = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          resourceId: selectedResource.id
+          resourceId: selectedResource.id,
+          email: email.trim()
         })
       });
 
@@ -58,44 +103,7 @@ const ResourceStore = () => {
         description: `Get ${selectedResource.title}`,
         order_id: order.id,
         handler: async (response: any) => {
-          setPaymentStep('payment');
-          try {
-            const verifyRes = await fetch('/api/verify-razorpay-payment', {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify(response)
-            });
-            const result = await verifyRes.json();
-
-            if (!verifyRes.ok || !result.success) {
-              setPaymentStep('details');
-              alert(result.error || result.message || 'We could not verify this payment. If your bank shows a debit, contact support before trying again.');
-              return;
-            }
-
-            // This browser write is a pending request only, never authoritative proof of payment.
-            // A verified payment remains verified if optional client-side logging fails.
-            try {
-              await addDoc(collection(db, 'orders'), {
-                userId: auth.currentUser?.uid || 'guest',
-                userEmail: email,
-                resourceId: result.resourceId || selectedResource.id,
-                resourceTitle: selectedResource.title,
-                paymentId: response.razorpay_payment_id,
-                status: 'pending',
-                createdAt: serverTimestamp()
-              });
-            } catch (recordError) {
-              console.warn('Payment was verified, but the optional browser order log could not be saved.', recordError);
-            }
-
-            setVerifiedDownloadUrl(typeof result.downloadUrl === 'string' && result.downloadUrl.startsWith('https://') ? result.downloadUrl : '');
-            setPaymentStep('success');
-          } catch (verifyError) {
-            console.error('Payment verification request failed:', verifyError);
-            setPaymentStep('details');
-            alert('We could not confirm the payment status. Do not pay again immediately. If you were charged, keep your Razorpay payment ID and contact support.');
-          }
+          await verifyPayment(response);
         },
         prefill: {
           email: email
@@ -256,6 +264,20 @@ const ResourceStore = () => {
                     <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
                     <h3 className="text-xl font-black text-text-primary">Verifying payment</h3>
                     <p className="mx-auto max-w-sm text-sm text-text-secondary">We are checking the payment directly with Razorpay. Please keep this page open and do not retry while verification is in progress.</p>
+                  </motion.div>
+                )}
+
+                {paymentStep === 'verification-error' && (
+                  <motion.div key="verification-error" className="py-10 text-center space-y-4" role="alert">
+                    <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-amber-500/10 text-amber-600"><X className="h-6 w-6" /></div>
+                    <h3 className="text-xl font-black text-text-primary">Payment received — access is not ready yet</h3>
+                    <p className="mx-auto max-w-md text-sm text-text-secondary">{verificationMessage || 'Your payment was verified. Do not pay again while we resolve order recording.'}</p>
+                    {verificationCanRetry && verificationPayload && (
+                      <button type="button" onClick={() => void verifyPayment(verificationPayload)} className="rounded-xl bg-primary px-5 py-3 text-sm font-black text-white hover:opacity-90">
+                        Retry verification (no new payment)
+                      </button>
+                    )}
+                    <p className="text-xs text-text-tertiary">Keep your Razorpay payment ID for support. This screen will never ask you to pay again to retry verification.</p>
                   </motion.div>
                 )}
 
