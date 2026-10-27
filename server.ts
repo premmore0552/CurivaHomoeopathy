@@ -106,18 +106,12 @@ async function startServer() {
 
   app.use(express.json());
   
-  // API endpoint for simulated email delivery of resources
-  app.post("/api/send-resource-email", async (req, res) => {
-    const { email, resourceId, resourceTitle } = req.body;
-    
-    console.log(`[Email Service] Sending resource ${resourceTitle} (${resourceId}) to ${email}`);
-    
-    // Simulate some delay for email processing
-    await new Promise(resolve => setTimeout(resolve, 1500));
-    
-    res.json({ 
-      success: true, 
-      message: `The ${resourceTitle} has been sent to ${email} successfully.` 
+  // Resource email delivery is intentionally unavailable until a real provider is configured.
+  // Never report a successful delivery when the server has not sent an email.
+  app.post("/api/send-resource-email", (_req, res) => {
+    res.status(503).json({
+      success: false,
+      error: "Resource email delivery is not configured yet. Please contact Curiva support for access."
     });
   });
 
