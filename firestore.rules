@@ -177,7 +177,7 @@ service cloud.firestore {
              data.keys().hasOnly([
                'userId', 'userEmail', 'displayName', 'phoneNumber',
                'serviceType', 'preferredDate', 'preferredTime',
-               'timezone', 'status', 'createdAt', 'updatedAt', 'adminResponse'
+               'timezone', 'status', 'createdAt', 'updatedAt'
              ]) &&
              data.userId == request.auth.uid &&
              data.userEmail == request.auth.token.get('email', null) &&
