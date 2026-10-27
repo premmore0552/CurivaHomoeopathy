@@ -165,6 +165,73 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // --- Collection: Appointment Requests ---
+    // This is a request workflow, not a live calendar or an automatic booking.
+    // Requests contain scheduling/contact preferences only; never store symptoms or records here.
+    function isValidAppointmentRequest(data) {
+      return data.keys().hasAll([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt', 'adminResponse'
+             ]) &&
+             data.userId == request.auth.uid &&
+             data.userEmail == request.auth.token.get('email', null) &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() <= 30 &&
+             data.serviceType in ['initial-consultation', 'follow-up', 'general-consultation'] &&
+             data.preferredDate is string &&
+             data.preferredDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // --- Collection: Admins ---
+    match /admins/{adminId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+  }
+}
+) &&
+             data.preferredTime in ['morning', 'afternoon', 'evening'] &&
+             data.timezone is string && data.timezone.size() <= 80 &&
+             data.status == 'requested' &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
+    }
+
+    match /appointmentRequests/{requestId} {
+      allow create: if isSignedIn() && isValidAppointmentRequest(incoming());
+
+      // Owners can only access their own requests. Admin access is separately authorized.
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+
+      // Only admins can record clinic review/confirmation. Confirmation must be explicit.
+      allow update: if isAdmin() &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminResponse', 'updatedAt']) &&
+                    incoming().status in ['requested', 'confirmed', 'declined', 'cancelled'] &&
+                    incoming().updatedAt == request.time &&
+                    (!incoming().keys().hasAny(['adminResponse']) ||
+                      (incoming().adminResponse is string && incoming().adminResponse.size() <= 500));
+
+      // Requesters may cancel a request that is still awaiting review, but cannot confirm it.
+      allow update: if isSignedIn() &&
+                    existing().userId == request.auth.uid &&
+                    existing().status == 'requested' &&
+                    incoming().userId == existing().userId &&
+                    incoming().status == 'cancelled' &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
     // --- Collection: Test for Connection ---
     match /test/connection {
       allow get: if true;
