@@ -40,6 +40,12 @@ No dedicated appointment/availability or patient medical-record API route was fo
 7. Patient records need private file storage, strict ownership/role access, audit events, retention/deletion policy, and a tested recovery process.
 8. Review payment integrity before expanding commerce: server-side order creation currently receives amount/currency/receipt from the request. Verify product pricing and allowed currencies server-side rather than trusting a client-supplied amount.
 
+## Appointment request implementation added on the development branch
+- `/appointments` now offers a signed-in, request-only workflow: a service category, preferred date, time window, time zone, account contact, and optional phone number. It explicitly says this is not a confirmed booking and does not collect symptoms or medical files.
+- `/admin/appointments` provides a status-review interface. Firestore rules, not route visibility, must enforce access: a requester can read only their own requests and cancel a pending request; designated admins can review and update status.
+- `firestore.rules` now contains an `appointmentRequests` rule set. Rules in a repository are not automatically deployed to Firebase. The baseline repository did not include a `firebase.json` deployment config, and the app uses a named Firestore database from `firebase-applet-config.json`. Deploy/test the rules against that exact database before exposing the feature to users.
+- No email/SMS integration or staff notification is wired. The requester must not rely on a saved request as a booking; an administrator must review it and confirm the real clinic calendar separately. Automatic notifications and a verified clinician directory remain future work.
+
 ## Next implementation candidates
 - First: shared visual primitives and responsive public homepage, keeping current routes and role switching.
 - Then: a booking flow only after the actual runtime/backend target is confirmed; if backend deployment is unavailable, deliver the UI as clearly labelled non-submitting prototype until a real persistence layer exists.
