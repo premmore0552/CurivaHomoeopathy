@@ -105,6 +105,7 @@ const FmtSearchPage = lazyLoad(() => import('./pages/FmtSearchPage'));
 const AskHomoeopath = lazyLoad(() => import('./pages/AskHomoeopath'));
 const FirstBhmsCrashCourse = lazyLoad(() => import('./pages/FirstBhmsCrashCourse'));
 const AdminLinkAudit = lazyLoad(() => import('./pages/AdminLinkAudit'));
+const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const ComingSoon = lazyLoad(() => import('./pages/ComingSoon'));
 const NotFound = lazyLoad(() => import('./pages/NotFound'));
 
@@ -462,6 +463,7 @@ function AppRoutes() {
                 <Route path="/syllabus" element={<Navigate to="/cbdc-syllabus" replace />} />
                 <Route path="/coming-soon" element={<PageWrapper><ComingSoon /></PageWrapper>} />
                 <Route path="/admin/link-audit" element={<PageWrapper><AdminLinkAudit /></PageWrapper>} />
+                <Route path="/admin/dashboard" element={<PageWrapper><AdminAnalyticsDashboard /></PageWrapper>} />
 
                 {/* Catch-all Wildcard Route */}
                 <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
