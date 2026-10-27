@@ -184,7 +184,7 @@ async function startServer() {
 
   app.get('/api/appointments/config', (_req, res) => {
     res.json({
-      calendarConfigured: isClinicCalendarConfigured(),
+      calendarConfigured: isClinicCalendarConfigured() && isPaidOrderStoreConfigured(),
       clinicTimezone: getClinicTimezone(),
       notificationsConfigured: Boolean(process.env.CURIVA_APPOINTMENT_NOTIFICATION_EMAIL?.trim() && isResourceEmailConfigured()),
     });
@@ -347,7 +347,10 @@ async function startServer() {
       });
     } catch (error: any) {
       console.error('Appointment review update failed:', error?.message || 'Unknown error');
-      const conflict = String(error?.message || '').includes('HTTP 409') || String(error?.message || '').includes('HTTP 412');
+      const errorMessage = String(error?.message || '');
+      const conflict = errorMessage.includes('HTTP 409') ||
+        errorMessage.includes('HTTP 412') ||
+        errorMessage.includes('overlaps an existing clinic calendar event');
       return res.status(conflict ? 409 : 503).json({
         success: false,
         error: conflict ? 'Another administrator changed this request; refresh before trying again.' : error?.message || 'The request could not be updated safely.',

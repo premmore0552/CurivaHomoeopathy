@@ -122,6 +122,71 @@ export function buildClinicAppointmentSlot(confirmedDateTime: string, timezone: 
   };
 }
 
+export function findCalendarEventConflict(
+  startEpoch: number,
+  endEpoch: number,
+  events: any[],
+  timezone: string,
+  ignoreEventId = '',
+): any | null {
+  for (const event of events) {
+    if (!event || event.status === 'cancelled' || (ignoreEventId && event.id === ignoreEventId)) continue;
+    const start = event.start?.dateTime
+      ? Date.parse(event.start.dateTime)
+      : typeof event.start?.date === 'string'
+        ? wallClockToEpoch(event.start.date + 'T00:00', timezone)
+        : Number.NaN;
+    const end = event.end?.dateTime
+      ? Date.parse(event.end.dateTime)
+      : typeof event.end?.date === 'string'
+        ? wallClockToEpoch(event.end.date + 'T00:00', timezone)
+        : Number.NaN;
+    if (!Number.isFinite(start) || !Number.isFinite(end)) {
+      throw new Error('An existing calendar event has an unreadable time; verify the clinic calendar before confirming.');
+    }
+    if (start < endEpoch && end > startEpoch) return event;
+  }
+  return null;
+}
+
+async function assertCalendarSlotAvailable(
+  calendarId: string,
+  token: string,
+  timezone: string,
+  startEpoch: number,
+  endEpoch: number,
+  ignoreEventId: string,
+): Promise<void> {
+  const requestUrl = new URL(`https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events`);
+  requestUrl.searchParams.set('timeMin', new Date(startEpoch).toISOString());
+  requestUrl.searchParams.set('timeMax', new Date(endEpoch).toISOString());
+  requestUrl.searchParams.set('timeZone', timezone);
+  requestUrl.searchParams.set('singleEvents', 'true');
+  requestUrl.searchParams.set('orderBy', 'startTime');
+  requestUrl.searchParams.set('showDeleted', 'false');
+  requestUrl.searchParams.set('maxResults', '2500');
+
+  let pageCount = 0;
+  while (pageCount < 10) {
+    pageCount += 1;
+    const response = await fetch(requestUrl.toString(), {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    if (!response.ok) {
+      throw new Error(`Google Calendar availability check failed (HTTP ${response.status})`);
+    }
+    const result = await response.json() as { items?: any[]; nextPageToken?: string };
+    const conflict = findCalendarEventConflict(startEpoch, endEpoch, result.items || [], timezone, ignoreEventId);
+    if (conflict) {
+      throw new Error('This time overlaps an existing clinic calendar event. Choose a different appointment time.');
+    }
+    if (!result.nextPageToken) return;
+    requestUrl.searchParams.set('pageToken', result.nextPageToken);
+  }
+  // Fail closed rather than booking when the query was too large to check fully.
+  throw new Error('The clinic calendar has too many events to verify this slot safely. Check it manually and try again.');
+}
+
 export function clinicCalendarEventId(requestId: string): string {
   // Google Calendar accepts lower-case base32hex-compatible characters for event IDs.
   return 'curiva' + crypto.createHash('sha256').update(requestId).digest('hex').slice(0, 40);
@@ -184,6 +249,9 @@ export async function upsertClinicCalendarEvent(
   if (existing && existing.extendedProperties?.private?.curivaRequestId !== request.id) {
     throw new Error('The calendar event ID is already associated with another request');
   }
+  const startEpoch = wallClockToEpoch(confirmedDateTime, timezone);
+  const endEpoch = wallClockToEpoch(slot.endDateTime.slice(0, 16), timezone);
+  await assertCalendarSlotAvailable(calendarId, token, timezone, startEpoch, endEpoch, eventId);
   const url = existing ? `${eventUrl}?sendUpdates=all` : `https://www.googleapis.com/calendar/v3/calendars/${encodeURIComponent(calendarId)}/events?sendUpdates=all`;
   const response = await fetch(url, {
     method: existing ? 'PATCH' : 'POST',
