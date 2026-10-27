@@ -307,6 +307,7 @@ const Header: React.FC = () => {
       popular: [
         { name: 'Study Hub Portal', to: '/student-resources', desc: 'Unified study plans & revision notes', icon: 'GraduationCap' },
         { name: 'Interactive Quizzes', to: '/quizzes', desc: 'Short, engaging knowledge checks', badge: 'New', icon: 'Brain' },
+        { name: '20-Feature Study Toolkit', to: '/study-toolkit', desc: 'Focus timer, planner, notes, flashcards and revision tracking', badge: 'New', icon: 'Target' },
         { name: 'Visual Node Maps', to: '/visualization', desc: 'Interactive remedy relationship maps', icon: 'Compass' }
       ],
       pinned: [
