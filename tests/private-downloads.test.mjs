@@ -45,13 +45,13 @@ test('private download URL is a time-limited GCS signed URL, never a public Driv
     '',
     'host',
     'UNSIGNED-PAYLOAD',
-  ].join('\\n');
+  ].join('\n');
   const stringToSign = [
     'GOOG4-RSA-SHA256',
     date,
     scope,
     createHash('sha256').update(canonicalRequest).digest('hex'),
-  ].join('\\n');
+  ].join('\n');
   assert.equal(verifySignature('RSA-SHA256', Buffer.from(stringToSign), publicKey, Buffer.from(signature, 'hex')), true);
 });
 
