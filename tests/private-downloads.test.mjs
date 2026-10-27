@@ -27,7 +27,7 @@ test('private download URL is a time-limited GCS signed URL, never a public Driv
   assert.equal(url.searchParams.get('X-Goog-Algorithm'), 'GOOG4-RSA-SHA256');
   assert.equal(url.searchParams.get('X-Goog-Expires'), '3600');
   const signature = url.searchParams.get('X-Goog-Signature') || '';
-  assert.match(signature, /^[a-f0-9]{128}$/);
+  assert.match(signature, /^[a-f0-9]{512}$/);
 
   const encodedQuery = [...url.searchParams.entries()]
     .filter(([key]) => key !== 'X-Goog-Signature')
