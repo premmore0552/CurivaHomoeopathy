@@ -57,6 +57,9 @@ function getRazorpay() {
 async function startServer() {
   const app = express();
   const PORT = process.env.PORT ? parseInt(process.env.PORT, 10) : 3000;
+  const isServerlessRuntime = Boolean(
+    process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.LAMBDA_TASK_ROOT
+  );
 
   // Database setup (Pure JS In-Memory representation)
   // Helper to generate slug
@@ -2555,7 +2558,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
   });
 
   // Vite middleware for development
-  if (process.env.NODE_ENV !== "production") {
+  if (!isServerlessRuntime && process.env.NODE_ENV !== "production") {
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
@@ -2569,9 +2572,14 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  if (!isServerlessRuntime) {
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
+
+  return app;
 }
 
-startServer();
+// Reuse the exact same API routes in the standalone server and Netlify Function adapter.
+export const appPromise = startServer();

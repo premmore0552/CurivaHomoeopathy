@@ -31,10 +31,10 @@ No dedicated appointment/availability or patient medical-record API route was fo
 - Payments: Razorpay endpoints exist; the server only initializes the SDK when required environment variables are present. Payment code is not evidence of appointment booking.
 
 ## Blocking verification before production clinical workflows
-1. Determine where the Express process actually runs. A static Netlify publish of `dist` does not by itself run `server.ts`.
+1. The development branch now exposes the existing Express app through `netlify/functions/api.ts` using `serverless-http`, with `/api/*` rewritten to that function before the SPA fallback. CI bundles and smoke-tests the function against `/api/posts`. This is validated on the branch, not yet deployed to the live Netlify site; configure the required server-side environment variables in a deploy preview before production approval.
 2. `server.ts` explicitly describes its post collection as a **pure JavaScript in-memory representation**. It does not initialize SQLite in the inspected source. That means server process restarts discard in-memory changes; SQLite mentioned in the README appears stale or inaccurate for the current implementation.
 3. The `POST /api/send-resource-email` endpoint is labelled as simulated delivery in source, waits briefly, and returns a success response without integrating with an email provider. The UI must not imply that a real email was sent until a provider is connected and delivery status is meaningful.
-4. Confirm whether API clients use same-origin endpoints, and whether the Express process is reachable in production. Standard static Netlify publishing does not itself run `server.ts`; a separate service or explicit functions/server deployment is required.
+4. The frontend uses same-origin `/api/*` endpoints. The development branch now routes these through a Netlify Function adapter; runtime reachability still needs a deploy-preview smoke test because CI cannot verify live Netlify environment variables or secrets.
 5. Test all authorization paths and Firestore rules with signed-out, owner, and non-owner users. The inspected REST-like Express endpoints include no dedicated booking or clinical-record routes.
 6. Build appointment persistence and scheduling against a verified backend; do not show made-up availability or accept real clinical details into demo storage.
 7. Patient records need private file storage, strict ownership/role access, audit events, retention/deletion policy, and a tested recovery process.

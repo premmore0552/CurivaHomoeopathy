@@ -63,6 +63,12 @@ jobs:
             exit 1
           fi
 
+      - name: Bundle the Netlify API function
+        run: npx esbuild netlify/functions/api.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/functions/api.mjs
+
+      - name: Verify navigation and smoke-test the Netlify API adapter
+        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs
+
       - name: Set up Java for the Firestore emulator
         uses: actions/setup-java@v4
         with:

@@ -103,6 +103,14 @@ npm run build
 
 This repo's Netlify site builds and deploys from `main`. Keep the Netlify Git connection's build command at `npm run build` and publish directory at `dist`. The site uses a free Netlify subdomain, so a separately purchased domain isn't needed.
 
+## Existing Express API on Netlify
+
+The development branch wraps the existing Express routes in `netlify/functions/api.ts` via `serverless-http`; `netlify.toml` rewrites `/api/*` to the function before the SPA fallback. This keeps the website and API in one project without starting a listening socket inside the function.
+
+Configure server-side environment variables in the Netlify deploy-preview environment before testing integrations: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `GEMINI_API_KEY`, and (when used) `GOOGLE_CUSTOM_SEARCH_API_KEY` / `GOOGLE_CUSTOM_SEARCH_CX`. `VITE_RAZORPAY_KEY_ID` is a public checkout key injected during the frontend build; never place server secrets in `VITE_*` variables.
+
+The function adapter does not by itself make data durable. Blog records are seeded in memory; paid-order entitlements are not yet written by a trusted server; email delivery explicitly remains disabled until a provider is configured; and the current resource delivery URL is a public Drive link rather than private signed storage. Test the deploy preview with provider credentials before treating any payment or content API as production-ready.
+
 ## Separate native medical-learning experience
 
 The Android Capacitor entry point is intentionally separate from the browser website. At startup, `src/main.tsx` detects the native platform and dynamically loads `src/native-app/NativeLearningApp.tsx`; only browser visits load the website routes and website providers. The Android app does not navigate to or render `curivahomoeopathy.netlify.app` as its interface.

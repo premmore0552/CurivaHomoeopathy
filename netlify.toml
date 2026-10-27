@@ -8,6 +8,17 @@
   CLOUDFLARE_EMAIL = "dummy_email_placeholder@example.com"
   CLOUDFLARE_API_TOKEN = "dummy_api_token_placeholder_to_bypass_build"
 
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"
+  external_node_modules = ["express", "serverless-http"]
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
+  force = true
+
 [[redirects]]
   from = "/*"
   to = "/index.html"
