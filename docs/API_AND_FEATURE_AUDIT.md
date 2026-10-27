@@ -32,11 +32,13 @@ No dedicated appointment/availability or patient medical-record API route was fo
 
 ## Blocking verification before production clinical workflows
 1. Determine where the Express process actually runs. A static Netlify publish of `dist` does not by itself run `server.ts`.
-2. Confirm durable database configuration and backup strategy. The README references SQLite; local SQLite should not be assumed persistent in a serverless/static deployment.
-3. Confirm whether API clients use same-origin endpoints, and whether those endpoints are reachable in production.
-4. Test all authorization paths and Firestore rules with signed-out, owner, and non-owner users.
-5. Build appointment persistence and scheduling against a verified backend; do not show made-up availability or accept real clinical details into demo storage.
-6. Patient records need private file storage, strict ownership/role access, audit events, retention/deletion policy, and a tested recovery process.
+2. `server.ts` explicitly describes its post collection as a **pure JavaScript in-memory representation**. It does not initialize SQLite in the inspected source. That means server process restarts discard in-memory changes; SQLite mentioned in the README appears stale or inaccurate for the current implementation.
+3. The `POST /api/send-resource-email` endpoint is labelled as simulated delivery in source, waits briefly, and returns a success response without integrating with an email provider. The UI must not imply that a real email was sent until a provider is connected and delivery status is meaningful.
+4. Confirm whether API clients use same-origin endpoints, and whether the Express process is reachable in production. Standard static Netlify publishing does not itself run `server.ts`; a separate service or explicit functions/server deployment is required.
+5. Test all authorization paths and Firestore rules with signed-out, owner, and non-owner users. The inspected REST-like Express endpoints include no dedicated booking or clinical-record routes.
+6. Build appointment persistence and scheduling against a verified backend; do not show made-up availability or accept real clinical details into demo storage.
+7. Patient records need private file storage, strict ownership/role access, audit events, retention/deletion policy, and a tested recovery process.
+8. Review payment integrity before expanding commerce: server-side order creation currently receives amount/currency/receipt from the request. Verify product pricing and allowed currencies server-side rather than trusting a client-supplied amount.
 
 ## Next implementation candidates
 - First: shared visual primitives and responsive public homepage, keeping current routes and role switching.
