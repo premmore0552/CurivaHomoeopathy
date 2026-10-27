@@ -82,9 +82,13 @@ const ResourceStore = () => {
     setIsProcessing(true);
     try {
       // 1. Create order on server
+      const createOrderToken = await auth.currentUser?.getIdToken();
       const orderRes = await fetch('/api/create-razorpay-order', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          ...(createOrderToken ? { Authorization: `Bearer ${createOrderToken}` } : {}),
+        },
         body: JSON.stringify({
           resourceId: selectedResource.id,
           email: email.trim()

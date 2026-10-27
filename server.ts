@@ -108,7 +108,11 @@ async function startServer() {
 
   console.log("Database seeded with", postsDb.length, "posts in-memory.");
 
-  app.use(express.json());
+  app.use(express.json({
+    verify: (req: any, _res, buffer: Buffer) => {
+      req.rawBody = Buffer.from(buffer);
+    },
+  }));
   
   // Resource email delivery is intentionally unavailable until a real provider is configured.
   // Never report a successful delivery when the server has not sent an email.
@@ -124,6 +128,15 @@ async function startServer() {
   app.post("/api/create-razorpay-order", async (req, res) => {
     const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
     const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim() : "";
+    const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
+    let verifiedOrderUser: { uid: string; email: string | null } | null = null;
+    if (authorization.startsWith("Bearer ")) {
+      try {
+        verifiedOrderUser = await verifyFirebaseIdToken(authorization.slice(7).trim());
+      } catch {
+        return res.status(401).json({ error: "Your account session could not be verified. Sign in again before checkout." });
+      }
+    }
     const emailParts = customerEmail.split("@");
     const emailDomain = emailParts[1] || "";
     const hasWhitespace = [...customerEmail].some((character) => character.charCodeAt(0) <= 32);
@@ -160,7 +173,7 @@ async function startServer() {
         amount: Math.round(resource.price * 100),
         currency: "INR",
         receipt: `res_${crypto.randomUUID().replace(/-/g, "").slice(0, 24)}`,
-        notes: { resource_id: resource.id, customer_email: customerEmail },
+        notes: { resource_id: resource.id, customer_email: verifiedOrderUser?.email || customerEmail, customer_uid: verifiedOrderUser?.uid || "guest" },
       });
       res.json(order);
     } catch (error: any) {
@@ -169,6 +182,91 @@ async function startServer() {
       res.status(502).json({
         error: "Unable to create a payment order right now. Please try again later."
       });
+    }
+  });
+
+  // Razorpay webhook recovery for captured payments if the browser callback is interrupted.
+  app.post("/api/razorpay-webhook", async (req, res) => {
+    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      return res.status(503).json({ received: false, error: "Payment webhook is not configured." });
+    }
+
+    const signatureHeader = req.headers["x-razorpay-signature"];
+    const signature = Array.isArray(signatureHeader) ? signatureHeader[0] : signatureHeader;
+    const rawBody = (req as any).rawBody as Buffer | undefined;
+    if (!rawBody || typeof signature !== "string" || !/^[a-f0-9]{64}$/i.test(signature)) {
+      return res.status(400).json({ received: false, error: "Invalid webhook signature." });
+    }
+
+    const expectedSignature = crypto.createHmac("sha256", webhookSecret).update(rawBody).digest();
+    const providedSignature = Buffer.from(signature, "hex");
+    if (!(providedSignature.length === expectedSignature.length && crypto.timingSafeEqual(expectedSignature, providedSignature))) {
+      return res.status(400).json({ received: false, error: "Invalid webhook signature." });
+    }
+
+    if (req.body?.event !== "payment.captured") {
+      return res.status(200).json({ received: true, ignored: true });
+    }
+
+    const paymentEntity = req.body?.payload?.payment?.entity;
+    const orderId = typeof paymentEntity?.order_id === "string" ? paymentEntity.order_id : "";
+    const paymentId = typeof paymentEntity?.id === "string" ? paymentEntity.id : "";
+    if (!orderId || !paymentId) {
+      return res.status(400).json({ received: false, error: "Captured payment webhook is missing its order/payment ID." });
+    }
+
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return res.status(503).json({ received: false, error: "Payment verification is temporarily unavailable." });
+    }
+
+    try {
+      const [order, payment] = await Promise.all([
+        razorpay.orders.fetch(orderId),
+        razorpay.payments.fetch(paymentId),
+      ]);
+      const resourceId = typeof order.notes?.resource_id === "string" ? order.notes.resource_id : "";
+      const resource = resources.find((item) => item.id === resourceId);
+      const expectedAmount = resource && Number.isFinite(resource.price) ? Math.round(resource.price * 100) : -1;
+      const paymentAmount = Number(payment.amount);
+      const orderAmount = Number(order.amount);
+
+      if (
+        !resource ||
+        order.id !== orderId ||
+        payment.order_id !== orderId ||
+        payment.id !== paymentId ||
+        payment.status !== "captured" ||
+        !Number.isSafeInteger(paymentAmount) ||
+        paymentAmount !== orderAmount ||
+        orderAmount !== expectedAmount ||
+        payment.currency !== "INR" ||
+        order.currency !== "INR"
+      ) {
+        return res.status(400).json({ received: false, error: "Payment does not match a captured catalogue order." });
+      }
+
+      const userEmail = typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "";
+      if (!userEmail) {
+        console.error("Captured payment webhook has no customer email:", orderId);
+        return res.status(503).json({ received: false, error: "Captured order is missing its contact email." });
+      }
+
+      await persistPaidOrder({
+        orderId: order.id,
+        paymentId: payment.id,
+        userId: typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest",
+        userEmail,
+        resourceId: resource.id,
+        resourceTitle: resource.title,
+        amount: paymentAmount,
+        currency: payment.currency,
+      });
+      return res.status(200).json({ received: true, recorded: true });
+    } catch (error: any) {
+      console.error("Razorpay webhook processing failed:", error?.message || "Unknown error");
+      return res.status(503).json({ received: false, error: "Webhook processing failed; Razorpay may retry." });
     }
   });
 
@@ -231,6 +329,7 @@ async function startServer() {
 
       // Record the captured payment in Firestore from the trusted server before releasing access.
       // The browser is never allowed to mark an order as paid.
+      const orderedUserId = typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest";
       const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
       let verifiedUser: { uid: string; email: string | null } | null = null;
       if (authorization.startsWith("Bearer ")) {
@@ -246,7 +345,17 @@ async function startServer() {
         }
       }
 
-      const userEmail = verifiedUser?.email || (typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "");
+      if (orderedUserId !== "guest" && (!verifiedUser || verifiedUser.uid !== orderedUserId)) {
+        return res.status(401).json({
+          success: false,
+          paymentVerified: true,
+          retryable: true,
+          error: "This payment belongs to a different Curiva account. Sign in to the account used at checkout and retry; do not pay again.",
+        });
+      }
+      const orderOwnerId = orderedUserId === "guest" ? "guest" : verifiedUser!.uid;
+      const userEmail = (orderOwnerId !== "guest" ? verifiedUser?.email : null) ||
+        (typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "");
       if (!userEmail) {
         return res.status(503).json({
           success: false,
@@ -260,7 +369,7 @@ async function startServer() {
         await persistPaidOrder({
           orderId: order.id,
           paymentId: payment.id,
-          userId: verifiedUser?.uid || "guest",
+          userId: orderOwnerId,
           userEmail,
           resourceId: resource.id,
           resourceTitle: resource.title,

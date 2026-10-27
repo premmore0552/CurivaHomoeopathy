@@ -3,6 +3,7 @@ import { test } from 'node:test';
 
 // Netlify Functions must reuse the existing Express routes, not return the SPA shell for /api/*.
 process.env.NETLIFY = 'true';
+process.env.RAZORPAY_WEBHOOK_SECRET = 'ci-only-webhook-secret';
 
 test('Netlify API adapter forwards /api/posts to the existing Express route', async () => {
   const { handler } = await import('../.netlify-build/functions/api.mjs');
@@ -31,4 +32,23 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   }, {});
   assert.equal(invalidEmailResponse.statusCode, 400);
   assert.match(JSON.parse(invalidEmailResponse.body).error, /valid email/i);
+
+  const webhookResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/razorpay-webhook',
+    headers: {
+      host: 'localhost',
+      'content-type': 'application/json',
+      'x-razorpay-signature': '0'.repeat(64),
+    },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({
+      event: 'payment.captured',
+      payload: { payment: { entity: { id: 'pay_test', order_id: 'order_test' } } },
+    }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(webhookResponse.statusCode, 400);
+  assert.match(JSON.parse(webhookResponse.body).error, /signature/i);
 });
