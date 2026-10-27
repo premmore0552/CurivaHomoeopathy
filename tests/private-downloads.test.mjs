@@ -35,7 +35,7 @@ test('private download URL is a time-limited GCS signed URL, never a public Driv
     .map(([key, value]) => `${encodeURIComponent(key)}=${encodeURIComponent(value).replace(/[!'()*]/g, (ch) => '%' + ch.charCodeAt(0).toString(16).toUpperCase())}`)
     .join('&');
   const date = url.searchParams.get('X-Goog-Date');
-  assert.match(date || '', /^\\d{8}T\\d{6}Z$/);
+  assert.match(date || '', /^\d{8}T\d{6}Z$/);
   const credential = url.searchParams.get('X-Goog-Credential') || '';
   const scope = credential.split('/').slice(1).join('/');
   const canonicalRequest = [
