@@ -74,7 +74,7 @@ const ResourceStore = () => {
                 resourceId: selectedResource.id,
                 resourceTitle: selectedResource.title,
                 paymentId: response.razorpay_payment_id,
-                status: 'paid',
+                status: 'pending', // Paid status must be recorded by a trusted server, never the browser.
                 createdAt: serverTimestamp()
               });
             } catch (fErr) {
