@@ -4,7 +4,7 @@ import { createServer as createViteServer } from "vite";
 import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
-import { resources } from "./src/data/resources";
+import { serverResources as resources } from "./src/data/serverResources";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
@@ -123,6 +123,9 @@ async function startServer() {
 
     if (!resource) {
       return res.status(400).json({ error: "Choose a valid resource before creating an order." });
+    }
+    if (typeof resource.fileUrl !== "string" || !resource.fileUrl.startsWith("https://")) {
+      return res.status(503).json({ error: "Downloads are not configured for this resource yet." });
     }
     if (!Number.isFinite(resource.price) || resource.price < 1) {
       return res.status(400).json({ error: "This resource is not configured for online payment." });

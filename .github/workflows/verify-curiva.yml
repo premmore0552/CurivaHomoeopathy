@@ -58,7 +58,7 @@ jobs:
           if (manifest.bundleId !== files[0].replace(/\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
           console.log(`Verified OTA bundle ${manifest.bundleId}`);
           NODE
-          if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?; then
+          if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?$'; then
             echo "Server-only Express artifact must not be included in the mobile bundle."
             exit 1
           fi

@@ -89,7 +89,7 @@ const ResourceStore = () => {
               console.warn('Payment was verified, but the optional browser order log could not be saved.', recordError);
             }
 
-            setVerifiedDownloadUrl(typeof result.downloadUrl === 'string' ? result.downloadUrl : selectedResource.fileUrl);
+            setVerifiedDownloadUrl(typeof result.downloadUrl === 'string' && result.downloadUrl.startsWith('https://') ? result.downloadUrl : '');
             setPaymentStep('success');
           } catch (verifyError) {
             console.error('Payment verification request failed:', verifyError);
@@ -276,10 +276,10 @@ const ResourceStore = () => {
                       <p className="inline-block px-4 py-2 bg-primary/5 rounded-xl text-primary font-black tracking-tight">{email}</p>
                     </div>
 
-                    {selectedResource?.fileUrl && (
+                    {verifiedDownloadUrl && (
                       <div className="pt-2">
                         <a 
-                          href={verifiedDownloadUrl || selectedResource.fileUrl} 
+                          href={verifiedDownloadUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl transition-all shadow-lg font-black uppercase tracking-widest text-[11px]"
@@ -287,6 +287,11 @@ const ResourceStore = () => {
                           <Download className="w-4 h-4" /> Download PDF Instantly
                         </a>
                       </div>
+                    )}
+                    {!verifiedDownloadUrl && (
+                      <p className="mx-auto max-w-md rounded-xl border border-amber-500/30 bg-amber-500/5 p-4 text-sm text-text-secondary">
+                        Payment was verified, but no download link was returned. Please contact Curiva support with your Razorpay payment ID. Do not purchase again.
+                      </p>
                     )}
 
                     <div className="pt-6 flex justify-center">

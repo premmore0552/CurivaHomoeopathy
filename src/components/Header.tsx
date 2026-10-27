@@ -192,6 +192,15 @@ const Header: React.FC = () => {
   }, [isMenuOpen]);
 
   useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
+
+  useEffect(() => {
     setIsMenuOpen(false);
     setIsCategoriesOpen(false);
   }, [location.pathname]);
@@ -722,7 +731,9 @@ const Header: React.FC = () => {
              <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="p-3 rounded-2xl bg-primary text-white shadow-xl active:scale-95 transition-all"
-              aria-label="Toggle menu"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="curiva-mobile-navigation"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -741,6 +752,10 @@ const Header: React.FC = () => {
             initial="closed"
             animate="open"
             exit="closed"
+            id="curiva-mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
             className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
             style={{ perspective: 1200, transformStyle: "preserve-3d" }}
           >
