@@ -137,15 +137,15 @@ async function startServer() {
       const order = await razorpay.orders.create({
         amount: Math.round(resource.price * 100),
         currency: "INR",
-        receipt: `resource_${resource.id}`.slice(0, 40),
+        receipt: `res_${resource.id}_${crypto.randomUUID()}`.slice(0, 40),
         notes: { resource_id: resource.id },
       });
       res.json(order);
     } catch (error: any) {
-      console.error("Razorpay Order Error Details:", JSON.stringify(error, null, 2));
-      res.status(500).json({
-        error: "Failed to create payment order",
-        details: error.error?.description || error.message || "Unknown error"
+      // Keep provider diagnostics in server logs; do not expose internal error details to clients.
+      console.error("Razorpay order creation failed:", error?.message || "Unknown provider error");
+      res.status(502).json({
+        error: "Unable to create a payment order right now. Please try again later."
       });
     }
   });
