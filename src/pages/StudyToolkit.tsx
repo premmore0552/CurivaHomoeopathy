@@ -1,10 +1,8 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Activity, AlarmClock, ArrowDownToLine, BookOpen, Brain, CalendarDays, Check,
-  CheckCircle2, ClipboardList, Clock3, Flame, GraduationCap, Lightbulb, ListTodo,
-  NotebookPen, Play, Plus, RotateCcw, Save, Shuffle, Sparkles, Target, TimerReset,
-  Trash2, Trophy, WandSparkles, X
+  Activity, ArrowDownToLine, Brain, CalendarDays, ClipboardList, Clock3,
+  Lightbulb, ListTodo, NotebookPen, Plus, Save, Shuffle, Sparkles, Target, Trash2
 } from 'lucide-react';
 import SEO from '../components/SEO';
 
