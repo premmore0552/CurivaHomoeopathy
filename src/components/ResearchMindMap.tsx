@@ -58,7 +58,6 @@ export default function ResearchMindMap() {
   const [typeFilter, setTypeFilter] = useState('all');
   const [selected, setSelected] = useState<ResearchNode | null>(null);
   const [expanded, setExpanded] = useState<string[]>(['materia-medica','clinical-topics','foundations']);
-  const [density, setDensity] = useState(1);
   const [copied, setCopied] = useState(false);
 
   const filtered = useMemo(() => researchNodes.filter(node => {
@@ -77,6 +76,8 @@ export default function ResearchMindMap() {
 
   const visibleRoots = researchNodes.filter(node => !node.parent && (query || typeFilter !== 'all' || filtered.some(item => item.id === node.id) || (childMap.get(node.id) || []).length));
   const matches = new Set(filtered.map(node => node.id));
+  const hasMatchingDescendant = (node: ResearchNode): boolean =>
+    (childMap.get(node.id) || []).some(child => matches.has(child.id) || hasMatchingDescendant(child));
   const visibleNodes = query || typeFilter !== 'all' ? filtered : researchNodes;
 
   const openEntry = (node: ResearchNode) => navigate('/research-entry/' + node.slug);
@@ -107,7 +108,7 @@ export default function ResearchMindMap() {
   const renderNode = (node: ResearchNode, depth = 0): React.ReactNode => {
     const children = childMap.get(node.id) || [];
     const isExpanded = expanded.includes(node.id) || Boolean(query) || typeFilter !== 'all';
-    const shouldShow = !query && typeFilter === 'all' ? true : matches.has(node.id) || children.some(child => matches.has(child.id));
+    const shouldShow = !query && typeFilter === 'all' ? true : matches.has(node.id) || hasMatchingDescendant(node);
     if (!shouldShow) return null;
     return (
       <React.Fragment key={node.id}>
