@@ -41,9 +41,7 @@ const ResourceStore = () => {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          amount: 49, // ₹49 for the cheat sheet
-          currency: 'INR',
-          receipt: `resource_${selectedResource.id}_${Date.now()}`
+          resourceId: selectedResource.id
         })
       });
 
