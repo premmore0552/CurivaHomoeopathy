@@ -806,3 +806,96 @@ table {
 
 
 
+
+
+/* Responsive safety net: prevent fixed-width legacy sections from widening the viewport. */
+@layer base {
+  *,
+  *::before,
+  *::after {
+    box-sizing: border-box;
+  }
+
+  html,
+  body,
+  #root {
+    width: 100%;
+    max-width: 100%;
+    min-width: 320px;
+  }
+
+  body {
+    overflow-x: clip;
+  }
+
+  main,
+  section,
+  article,
+  aside,
+  form,
+  fieldset {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  img,
+  video,
+  iframe,
+  canvas,
+  svg {
+    max-width: 100%;
+  }
+
+  input,
+  select,
+  textarea,
+  button {
+    min-width: 0;
+    max-width: 100%;
+  }
+}
+
+/* Narrow screens: keep content legible and interactive without iOS input zoom or table clipping. */
+@media (max-width: 639px) {
+  input,
+  select,
+  textarea {
+    font-size: 16px;
+  }
+
+  .markdown-body table {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .markdown-body th,
+  .markdown-body td {
+    padding: 0.65rem;
+    white-space: normal;
+    overflow-wrap: anywhere;
+  }
+
+  .markdown-body pre {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+
+  button,
+  a {
+    -webkit-tap-highlight-color: transparent;
+  }
+}
+
+/* Respect the device's reduced-motion setting across custom and utility-driven interactions. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
