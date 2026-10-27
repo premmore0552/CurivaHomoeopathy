@@ -47,6 +47,7 @@ const Home = lazyLoad(() => import('./pages/Home'));
 const CurivaHome = lazyLoad(() => import('./pages/CurivaHome'));
 const Articles = lazyLoad(() => import('./pages/Articles'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
+const ResearchEntryPage = lazyLoad(() => import('./pages/ResearchEntryPage'));
 const About = lazyLoad(() => import('./pages/About'));
 const PrivacyPolicy = lazyLoad(() => import('./pages/PrivacyPolicy'));
 const MedicalDisclaimer = lazyLoad(() => import('./pages/MedicalDisclaimer'));
@@ -368,6 +369,7 @@ function AppRoutes() {
                 <Route path="/student-academy/cheat-sheets" element={<PageWrapper><StudentResources /></PageWrapper>} />
 
                 {/* Knowledge Base & Research Routes */}
+                <Route path="/research-entry/:slug" element={<PageWrapper><ResearchEntryPage /></PageWrapper>} />
                 <Route path="/knowledge-base" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
                 <Route path="/research-updates" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/categories" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
