@@ -57,33 +57,42 @@ const ResourceStore = () => {
         description: `Get ${selectedResource.title}`,
         order_id: order.id,
         handler: async (response: any) => {
-          const verifyRes = await fetch('/api/verify-razorpay-payment', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(response)
-          });
-          
-          const result = await verifyRes.json();
-          if (result.success) {
-            // Also save a lead for fulfillment if needed, or just show success
-            const leadsPath = 'orders';
+          setPaymentStep('payment');
+          try {
+            const verifyRes = await fetch('/api/verify-razorpay-payment', {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(response)
+            });
+            const result = await verifyRes.json();
+
+            if (!verifyRes.ok || !result.success) {
+              setPaymentStep('details');
+              alert(result.error || result.message || 'We could not verify this payment. If your bank shows a debit, contact support before trying again.');
+              return;
+            }
+
+            // This browser write is a pending request only, never authoritative proof of payment.
+            // A verified payment remains verified if optional client-side logging fails.
             try {
-              await addDoc(collection(db, leadsPath), {
+              await addDoc(collection(db, 'orders'), {
                 userId: auth.currentUser?.uid || 'guest',
                 userEmail: email,
-                resourceId: selectedResource.id,
+                resourceId: result.resourceId || selectedResource.id,
                 resourceTitle: selectedResource.title,
                 paymentId: response.razorpay_payment_id,
-                status: 'pending', // Paid status must be recorded by a trusted server, never the browser.
+                status: 'pending',
                 createdAt: serverTimestamp()
               });
-            } catch (fErr) {
-              handleFirestoreError(fErr, OperationType.WRITE, leadsPath);
+            } catch (recordError) {
+              console.warn('Payment was verified, but the optional browser order log could not be saved.', recordError);
             }
 
             setPaymentStep('success');
-          } else {
-            alert('Payment verification failed.');
+          } catch (verifyError) {
+            console.error('Payment verification request failed:', verifyError);
+            setPaymentStep('details');
+            alert('We could not confirm the payment status. Do not pay again immediately. If you were charged, keep your Razorpay payment ID and contact support.');
           }
         },
         prefill: {
@@ -98,6 +107,11 @@ const ResourceStore = () => {
       };
 
       const rzp = new (window as any).Razorpay(options);
+      rzp.on('payment.failed', (response: any) => {
+        setPaymentStep('details');
+        const message = response?.error?.description || 'Payment did not complete.';
+        alert(`${message} If your bank shows a debit, confirm the status before retrying.`);
+      });
       rzp.open();
     } catch (error: any) {
       console.error('Payment error:', error);
@@ -115,7 +129,7 @@ const ResourceStore = () => {
       </Helmet>
 
       {/* Hero */}
-      <section className="relative pt-48 pb-32 px-4 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white text-center">
+      <section className="relative pt-28 sm:pt-36 lg:pt-44 pb-20 sm:pb-28 px-4 overflow-hidden bg-[#0F3D75] dark:bg-[#0B0F19] text-white text-center">
         <div className="absolute inset-0 bg-[url('https://curivahomoeopathy.netlify.app/assets/cheat_sheet_cover.png')] bg-cover bg-center opacity-20 pointer-events-none" />
         <div className="absolute inset-0 bg-gradient-to-b from-text-primary/90 via-text-primary to-bg-primary pointer-events-none" />
         
@@ -129,7 +143,7 @@ const ResourceStore = () => {
               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary-light">Educational Series</span>
            </motion.div>
            
-           <h1 className="text-6xl md:text-8xl font-display font-black text-white tracking-tighter leading-[0.85] uppercase italic">
+           <h1 className="text-4xl sm:text-5xl md:text-7xl xl:text-8xl font-display font-black text-white tracking-tighter leading-[0.95] uppercase italic">
              Homoeopathy <br /><span className="text-primary not-italic">Modalities</span> <br /> Cheat Sheet
            </h1>
            
@@ -139,16 +153,16 @@ const ResourceStore = () => {
               </p>
               
               <div className="flex items-center gap-4 py-2 px-6 bg-white/5 rounded-2xl border border-white/10">
-                <span className="text-3xl font-black text-white italic">₹49</span>
+                <span className="text-3xl font-black text-white italic">₹{(selectedResource?.price ?? 0).toLocaleString('en-IN')}</span>
                 <div className="w-px h-8 bg-white/10" />
-                <span className="text-[10px] font-black uppercase tracking-widest text-primary-light">One-time payment • Digital Access</span>
+                <span className="text-[10px] font-black uppercase tracking-widest text-primary-light">One-time payment • Download after verification</span>
               </div>
            </div>
 
            <div className="flex flex-wrap justify-center gap-12 pt-8">
               {[
                 { icon: Smartphone, label: 'Access Anywhere' },
-                { icon: Mail, label: 'Email Delivery' },
+                { icon: Mail, label: 'Direct Download' },
                 { icon: CheckCircle2, label: 'Expert Verified' }
               ].map((feature, i) => (
                 <div key={i} className="flex items-center gap-3 text-white/40">
@@ -161,13 +175,13 @@ const ResourceStore = () => {
       </section>
 
       {/* Main Content */}
-      <section className="max-w-7xl mx-auto px-4 -mt-10 relative z-20">
-        <div className="grid lg:grid-cols-2 gap-12">
+      <section className="max-w-7xl mx-auto min-w-0 px-4 -mt-8 sm:-mt-10 relative z-20">
+        <div className="grid min-w-0 grid-cols-1 lg:grid-cols-2 gap-6 sm:gap-8 lg:gap-12">
           {/* Visual Preview */}
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            className="group relative bg-bg-secondary border border-border p-4 rounded-[3rem] shadow-2xl overflow-hidden"
+            className="group relative min-w-0 bg-bg-secondary border border-border p-3 sm:p-4 rounded-3xl sm:rounded-[3rem] shadow-2xl overflow-hidden"
           >
             <div className="relative aspect-[3/4] rounded-[2rem] overflow-hidden bg-primary/5">
               <img 
@@ -175,7 +189,7 @@ const ResourceStore = () => {
                 alt="Cheat Sheet Cover"
                 className="w-full h-full object-cover shadow-2xl"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-12">
+              <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent flex flex-col justify-end p-4 sm:p-8 lg:p-12">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2">
                     <span className="px-3 py-1 bg-primary rounded-full text-white text-[10px] font-black uppercase tracking-widest">High Resolution PDF</span>
@@ -193,7 +207,7 @@ const ResourceStore = () => {
             <motion.div 
               initial={{ opacity: 0, x: 20 }}
               animate={{ opacity: 1, x: 0 }}
-              className="bg-bg-secondary border border-border rounded-[3rem] p-10 shadow-xl"
+              className="bg-bg-secondary border border-border rounded-3xl sm:rounded-[3rem] p-5 sm:p-8 lg:p-10 shadow-xl"
             >
               <AnimatePresence mode="wait">
                 {paymentStep === 'details' && (
@@ -206,7 +220,7 @@ const ResourceStore = () => {
                   >
                     <div className="space-y-2">
                       <h3 className="text-2xl font-black text-text-primary uppercase italic tracking-tight">Access Resource</h3>
-                      <p className="text-text-secondary font-medium">Enter your email to receive the PDF after payment.</p>
+                      <p className="text-text-secondary font-medium">After payment is verified, the download link appears here. Automated email delivery is not enabled yet.</p>
                     </div>
 
                     <form onSubmit={handlePayment} className="space-y-8">
@@ -229,9 +243,17 @@ const ResourceStore = () => {
                         disabled={isProcessing || !email}
                         className="w-full py-6 bg-primary text-white rounded-2.5xl font-black uppercase tracking-widest text-sm shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all disabled:opacity-50 flex items-center justify-center gap-3"
                       >
-                        {isProcessing ? 'Processing...' : 'Pay ₹49 & Get PDF'} <ArrowRight className="w-4 h-4" />
+                        {isProcessing ? 'Preparing Checkout...' : `Pay ₹${(selectedResource?.price ?? 0).toLocaleString('en-IN')} & Get PDF`} <ArrowRight className="w-4 h-4" />
                       </button>
                     </form>
+                  </motion.div>
+                )}
+
+                {paymentStep === 'payment' && (
+                  <motion.div key="verification" className="py-16 text-center space-y-4" role="status" aria-live="polite">
+                    <div className="mx-auto h-12 w-12 animate-spin rounded-full border-4 border-primary/20 border-t-primary" />
+                    <h3 className="text-xl font-black text-text-primary">Verifying payment</h3>
+                    <p className="mx-auto max-w-sm text-sm text-text-secondary">We are checking the payment directly with Razorpay. Please keep this page open and do not retry while verification is in progress.</p>
                   </motion.div>
                 )}
 
@@ -247,8 +269,8 @@ const ResourceStore = () => {
                     </div>
                     
                     <div className="space-y-3">
-                      <h3 className="text-3xl font-black text-text-primary italic leading-none">Request Received!</h3>
-                      <p className="text-text-secondary font-medium px-8">Thank you, <span className="text-text-primary font-bold">{name}</span>. We've received your request for the <span className="text-text-primary font-bold">{selectedResource?.title}</span>. Our team will process this and email you within 24 hours.</p>
+                      <h3 className="text-3xl font-black text-text-primary italic leading-none">Payment Verified</h3>
+                      <p className="text-text-secondary font-medium px-4">Razorpay has confirmed your payment for <span className="text-text-primary font-bold">{selectedResource?.title}</span>. Use the download link below. Automated email delivery is not currently available.</p>
                       <p className="inline-block px-4 py-2 bg-primary/5 rounded-xl text-primary font-black tracking-tight">{email}</p>
                     </div>
 
@@ -279,14 +301,14 @@ const ResourceStore = () => {
             </motion.div>
 
             {/* Testimonials/Info */}
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                <div className="p-6 bg-bg-secondary border border-border rounded-[2rem]">
                  <span className="text-primary font-black italic block mb-2">5,000+</span>
                  <p className="text-[9px] font-black uppercase tracking-widest text-text-secondary">Students Trust Our Resources</p>
                </div>
                <div className="p-6 bg-bg-secondary border border-border rounded-[2rem]">
-                 <span className="text-primary font-black italic block mb-2">Instant</span>
-                 <p className="text-[9px] font-black uppercase tracking-widest text-text-secondary">Email Delivery Guaranteed</p>
+                 <span className="text-primary font-black italic block mb-2">Direct</span>
+                 <p className="text-[9px] font-black uppercase tracking-widest text-text-secondary">Download after verification</p>
                </div>
             </div>
           </div>
