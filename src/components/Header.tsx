@@ -462,27 +462,15 @@ const Header: React.FC = () => {
       <header 
         className={`sticky top-0 z-50 transition-all duration-500 ${
           isScrolled 
-          ? 'bg-bg-primary/80 backdrop-blur-2xl border-b border-border shadow-[0_20px_50px_rgba(0,0,0,0.05)] h-14' 
-          : 'bg-bg-primary border-b border-transparent h-16'
+          ? 'bg-bg-primary/90 backdrop-blur-2xl border-b border-border shadow-sm h-14 sm:h-14' 
+          : 'bg-bg-primary border-b border-transparent h-14 sm:h-16'
         }`}
       >
       <div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full"
-        style={{ marginLeft: '0px', marginRight: '0px', paddingRight: '0px', paddingLeft: '100px', marginTop: '0px', width: '1200px', height: '90px' }}
+        className="mx-auto w-full max-w-7xl px-3 sm:px-6 lg:px-8 h-full"
       >
         <div 
-          className="flex items-center justify-between h-full relative gap-4"
-          style={{
-            height: '100px',
-            width: '0px',
-            marginLeft: '-40px',
-            marginRight: '3px',
-            marginTop: '12px',
-            paddingTop: '4px',
-            paddingLeft: '26px',
-            paddingRight: '60px',
-            paddingBottom: '9px'
-          }}
+          className="flex items-center justify-between h-full min-w-0 relative gap-2 sm:gap-4"
         >
           
           {/* Desktop Navigation Left */}
@@ -511,7 +499,6 @@ const Header: React.FC = () => {
                       trackEvent('nav_click', { link_name: link.name, link_to: link.to });
                       handleLinkClick(link.to);
                     }}
-                    style={idx === 0 ? { width: '300px', paddingLeft: '101px', marginLeft: '20px', marginTop: '0px' } : undefined}
                     className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border relative overflow-hidden group/nav ${
                       isActive || isDropdownActive
                       ? 'text-primary bg-primary/5 border-primary/10' 
@@ -599,24 +586,21 @@ const Header: React.FC = () => {
           </nav>
 
           {/* Logo Center */}
-          <div className="flex justify-center px-2 sm:px-4 lg:px-6 flex-shrink-0">
+          <div className="flex justify-center px-1 sm:px-4 lg:px-6 flex-shrink-0">
             <Link 
               to="/" 
               onClick={() => handleLinkClick('/')} 
               className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <div className="w-[clamp(7.5rem,13vw,10rem)] h-[3.7rem] flex items-center justify-center overflow-visible">
-                <Logo size="md" className="w-full max-w-[11rem] ml-0" />
+              <div className="w-[clamp(7rem,34vw,10rem)] sm:w-[clamp(7.5rem,13vw,10rem)] h-12 sm:h-[3.7rem] flex items-center justify-center overflow-hidden">
+                <Logo size="sm" className="w-full max-w-[11rem] ml-0" />
               </div>
             </Link>
           </div>
 
           {/* Desktop Navigation Right */}
-          <div 
-            className="hidden xl:flex items-center justify-end gap-1.5 flex-1"
-            className="hidden xl:flex min-w-0 items-center justify-end gap-1.5 flex-1"
-          >
+          <div className="hidden xl:flex min-w-0 items-center justify-end gap-1.5 flex-1">
             <nav className="flex items-center gap-1.5" aria-label="Main Navigation Right">
               {rightLinks.map((link: any, idx: number) => {
                 const actualIdx = idx + half;
@@ -640,7 +624,6 @@ const Header: React.FC = () => {
                     <Link
                       to={link.to}
                       onClick={() => handleLinkClick(link.to)}
-                      style={idx === 0 ? { height: '39px', width: '133.719px' } : undefined}
                       className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border relative overflow-hidden group/nav ${
                         isActive || isDropdownActive
                         ? 'text-primary bg-primary/5 border-primary/10' 
