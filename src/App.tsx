@@ -72,6 +72,8 @@ const StudyTool = lazyLoad(() => import('./pages/StudyTool'));
 const Stalwarts = lazyLoad(() => import('./pages/Stalwarts'));
 const Profile = lazyLoad(() => import('./pages/Profile'));
 const Auth = lazyLoad(() => import('./pages/Auth'));
+const Appointments = lazyLoad(() => import('./pages/Appointments'));
+const AdminAppointments = lazyLoad(() => import('./pages/AdminAppointments'));
 const FindRemedy = lazyLoad(() => import('./pages/FindRemedy'));
 const MCQPractice = lazyLoad(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazyLoad(() => import('./pages/ClinicalGuides'));
@@ -395,6 +397,8 @@ function AppRoutes() {
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+                <Route path="/appointments" element={<PageWrapper><Appointments /></PageWrapper>} />
+                <Route path="/admin/appointments" element={<PageWrapper><AdminAppointments /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/my-library" element={<Navigate to="/library" replace />} />
