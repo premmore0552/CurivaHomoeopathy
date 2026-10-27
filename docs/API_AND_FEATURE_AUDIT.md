@@ -21,7 +21,7 @@ Inspected on `feat/full-platform-transformation`; this is not a runtime or produ
 - `GET /api/posts/:id`
 - Catch-all `*` for app/static fallback
 
-No dedicated appointment/availability or patient medical-record API route was found in this top-level Express route inventory. Some workflows may use Firestore directly; confirm with end-to-end tests before declaring them available.
+Appointment request notifications and admin calendar-backed status changes are now routed through the Express API at `/api/appointments/notify-request` and `/api/appointments/admin-update`; `/api/appointments/config` reports configured integrations. These endpoints are implemented on the development branch and require provider configuration plus deploy-preview verification. No patient medical-record API is enabled.
 
 ## Feature surface found in source
 - Website: many existing educational and clinical-reference routes, plus separate `Home` and `CurivaHome` page modules.
@@ -36,7 +36,7 @@ No dedicated appointment/availability or patient medical-record API route was fo
 3. Resource delivery emails now use the Resend API when `RESEND_API_KEY` and a verified `RESOURCE_EMAIL_FROM` are configured. The server only emails after Razorpay capture and durable paid-order recording; failures are reflected in the checkout UI. No provider credentials are present in this branch, so actual delivery is not yet live-verified.
 4. The frontend uses same-origin `/api/*` endpoints. The development branch now routes these through a Netlify Function adapter; runtime reachability still needs a deploy-preview smoke test because CI cannot verify live Netlify environment variables or secrets.
 5. Test all authorization paths and Firestore rules with signed-out, owner, and non-owner users. The inspected REST-like Express endpoints include no dedicated booking or clinical-record routes.
-6. Build appointment persistence and scheduling against a verified backend; do not show made-up availability or accept real clinical details into demo storage.
+6. Configure service-account access to the target Google Calendar and Resend, then test appointments end-to-end. The calendar layer creates the explicitly chosen time slot; it does not invent availability or resolve competing requests automatically.
 7. Patient records need private file storage, strict ownership/role access, audit events, retention/deletion policy, and a tested recovery process.
 8. Payment uses server-side catalogue pricing, captured payment verification, idempotent Firestore paid-order recording, a signed capture webhook, and time-limited private Cloud Storage download URLs. Before release, upload the actual PDF to the configured private bucket, configure the service account and provider secrets, and test callback/webhook/email/signed-download flows in a deploy preview.
 
@@ -44,7 +44,7 @@ No dedicated appointment/availability or patient medical-record API route was fo
 - `/appointments` now offers a signed-in, request-only workflow: a service category, preferred date, time window, time zone, account contact, and optional phone number. It explicitly says this is not a confirmed booking and does not collect symptoms or medical files.
 - `/admin/appointments` provides a status-review interface. Firestore rules, not route visibility, must enforce access: a requester can read only their own requests and cancel a pending request; designated admins can review and update status.
 - `firestore.rules` now contains an `appointmentRequests` rule set. The development branch adds `firebase.json` and `firestore.indexes.json` pointing specifically at the named database configured in `firebase-applet-config.json`. Rules still are not deployed automatically: before running Firebase CLI deployment, compare the complete rules file with the currently deployed rules because Firebase deployment replaces the database's rules. Test with the emulator/authorized test accounts and get explicit approval before publishing.
-- No email/SMS integration or staff notification is wired. The requester must not rely on a saved request as a booking; an administrator must review it and confirm the real clinic calendar separately. Automatic notifications and a verified clinician directory remain future work.
+- Resend email notifications are wired but disabled until real credentials/sender are configured. Staff notifications are sent only after a saved appointment request is reloaded and ownership-checked by the server. Admin status changes use an allowlisted server endpoint; the configured Google Calendar event is created/updated before Firestore is marked confirmed. Until calendar/Resend setup and deploy-preview tests pass, requests remain requests, not confirmed bookings.
 
 ## Next implementation candidates
 - First: shared visual primitives and responsive public homepage, keeping current routes and role switching.

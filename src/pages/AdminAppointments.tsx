@@ -6,7 +6,6 @@ import {
   auth,
   collection,
   db,
-  doc,
   onAuthStateChanged,
   onSnapshot,
   orderBy,

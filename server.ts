@@ -5,9 +5,9 @@ import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
 import { serverResources as resources } from "./src/data/serverResources";
-import { assertPrivateDownloadAvailable, createSignedDownloadUrl, getFirestoreDocument, getPaidOrderEmailStatus, getServerAccessToken, isPaidOrderStoreConfigured, patchFirestoreDocument, persistPaidOrder, updatePaidOrderEmailStatus, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
+import { assertPrivateDownloadAvailable, createSignedDownloadUrl, getFirestoreDocument, getPaidOrderEmailStatus, isPaidOrderStoreConfigured, patchFirestoreDocument, persistPaidOrder, updatePaidOrderEmailStatus, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
 import { isResourceEmailConfigured, sendAppointmentRequestNotification, sendAppointmentStatusNotification, sendPaidResourceEmail } from "./src/server/resourceEmail";
-import { clinicCalendarEventId, deleteClinicCalendarEvent, getClinicTimezone, isClinicCalendarConfigured, upsertClinicCalendarEvent } from "./src/server/clinicCalendar";
+import { deleteClinicCalendarEvent, getClinicTimezone, isClinicCalendarConfigured, upsertClinicCalendarEvent } from "./src/server/clinicCalendar";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
@@ -186,7 +186,7 @@ async function startServer() {
     res.json({
       calendarConfigured: isClinicCalendarConfigured(),
       clinicTimezone: getClinicTimezone(),
-      notificationsConfigured: isResourceEmailConfigured(),
+      notificationsConfigured: Boolean(process.env.CURIVA_APPOINTMENT_NOTIFICATION_EMAIL?.trim() && isResourceEmailConfigured()),
     });
   });
 
@@ -266,9 +266,9 @@ async function startServer() {
       }
 
       let eventId = request.calendarEventId || '';
-      let eventTouched = false;
       let clinicTimezone = request.confirmedTimeZone || '';
       let confirmedTime = request.confirmedDateTime || '';
+      let rollbackCalendar: (() => Promise<void>) | null = null;
 
       if (status === 'confirmed') {
         if (!confirmedDateTime) {
@@ -278,10 +278,14 @@ async function startServer() {
         eventId = event.id;
         clinicTimezone = event.timeZone;
         confirmedTime = confirmedDateTime;
-        eventTouched = true;
+        if (request.status === 'confirmed' && request.confirmedDateTime) {
+          rollbackCalendar = () => upsertClinicCalendarEvent(request, request.confirmedDateTime!, request.adminResponse || '');
+        } else {
+          rollbackCalendar = () => deleteClinicCalendarEvent(request.id, event.id);
+        }
       } else if (request.calendarEventId) {
         await deleteClinicCalendarEvent(request.id, request.calendarEventId);
-        eventTouched = true;
+        rollbackCalendar = () => upsertClinicCalendarEvent(request, request.confirmedDateTime || confirmedDateTime, request.adminResponse || '');
         eventId = '';
         clinicTimezone = '';
         confirmedTime = '';
@@ -306,9 +310,12 @@ async function startServer() {
       try {
         await patchFirestoreDocument('appointmentRequests', requestId, fields, updateMask, deleteMask, request.updateTime);
       } catch (writeError) {
-        if (eventTouched) {
-          // A deterministic event ID makes a retry idempotent; explain possible reconciliation in the error.
-          console.error('Calendar event changed before Firestore review was saved; reconcile by retrying the same request.');
+        if (rollbackCalendar) {
+          try {
+            await rollbackCalendar();
+          } catch (rollbackError: any) {
+            console.error('Calendar rollback failed and requires manual reconciliation:', rollbackError?.message || 'Unknown rollback error');
+          }
         }
         throw writeError;
       }
