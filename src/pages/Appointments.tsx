@@ -41,6 +41,9 @@ type AppointmentRequest = {
   timezone: string;
   status: RequestStatus;
   adminResponse?: string;
+  confirmedDateTime?: string;
+  confirmedTimeZone?: string;
+  calendarEventId?: string;
   createdAt?: { toMillis?: () => number } | string | null;
 };
 
@@ -258,7 +261,7 @@ export default function Appointments() {
                 <div role="status" className="mt-5 rounded-2xl border border-[#cfe7d7] bg-[#eff8f1] p-4 text-sm leading-6 text-[#245b43]">
                   <div className="flex items-start gap-2 font-semibold"><CheckCircle2 className="mt-0.5 h-4 w-4 shrink-0" /> Request saved</div>
                   <p className="mt-1">{notice}</p>
-                  <p className="mt-2 text-xs leading-5">No automatic email or SMS notification is configured in this release. Until clinic staff confirm the request, do not rely on it for care.</p>
+                  <p className="mt-2 text-xs leading-5">Until clinic staff confirm the request and an actual calendar event is saved, do not rely on it as an appointment.</p>
                 </div>
               )}
               {error && <p role="alert" className="mt-5 rounded-xl border border-red-200 bg-red-50 p-3 text-sm leading-6 text-red-700">{error}</p>}
@@ -327,6 +330,11 @@ export default function Appointments() {
                           </span>
                         </div>
                         <p className="mt-2 text-sm text-[#536f61]">{request.preferredDate} · {timeOptions.find((option) => option.value === request.preferredTime)?.label || request.preferredTime}</p>
+                        {request.status === 'confirmed' && request.confirmedDateTime && (
+                          <p className="mt-2 rounded-xl border border-[#cfe7d7] bg-[#eff8f1] p-3 text-sm font-semibold leading-5 text-[#245b43]">
+                            Confirmed clinic time: {request.confirmedDateTime.replace('T', ' ')}{request.confirmedTimeZone ? ` (${request.confirmedTimeZone})` : ''}
+                          </p>
+                        )}
                         {request.adminResponse && <p className="mt-2 rounded-xl bg-[#f5f8f5] p-3 text-sm leading-5 text-[#536f61]">{request.adminResponse}</p>}
                         {request.status === 'requested' && (
                           <button type="button" onClick={async () => {
