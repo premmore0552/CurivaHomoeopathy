@@ -5,8 +5,9 @@ import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
 import { serverResources as resources } from "./src/data/serverResources";
-import { assertPrivateDownloadAvailable, createSignedDownloadUrl, getPaidOrderEmailStatus, isPaidOrderStoreConfigured, persistPaidOrder, updatePaidOrderEmailStatus, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
-import { isResourceEmailConfigured, sendPaidResourceEmail } from "./src/server/resourceEmail";
+import { assertPrivateDownloadAvailable, createSignedDownloadUrl, getFirestoreDocument, getPaidOrderEmailStatus, getServerAccessToken, isPaidOrderStoreConfigured, patchFirestoreDocument, persistPaidOrder, updatePaidOrderEmailStatus, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
+import { isResourceEmailConfigured, sendAppointmentRequestNotification, sendAppointmentStatusNotification, sendPaidResourceEmail } from "./src/server/resourceEmail";
+import { clinicCalendarEventId, deleteClinicCalendarEvent, getClinicTimezone, isClinicCalendarConfigured, upsertClinicCalendarEvent } from "./src/server/clinicCalendar";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
@@ -146,6 +147,206 @@ async function startServer() {
       return expired ? 'expired' : 'failed';
     }
   }
+
+  function firestoreField(document: any, fieldName: string): any {
+    const field = document?.fields?.[fieldName];
+    if (!field) return undefined;
+    if ('stringValue' in field) return field.stringValue;
+    if ('timestampValue' in field) return field.timestampValue;
+    if ('integerValue' in field) return Number(field.integerValue);
+    return undefined;
+  }
+
+  function appointmentRecord(document: any, requestId: string) {
+    if (!document) return null;
+    return {
+      id: requestId,
+      updateTime: document.updateTime,
+      userId: firestoreField(document, 'userId'),
+      userEmail: firestoreField(document, 'userEmail'),
+      displayName: firestoreField(document, 'displayName') || '',
+      phoneNumber: firestoreField(document, 'phoneNumber') || '',
+      serviceType: firestoreField(document, 'serviceType') || 'general-consultation',
+      preferredDate: firestoreField(document, 'preferredDate') || '',
+      preferredTime: firestoreField(document, 'preferredTime') || '',
+      timezone: firestoreField(document, 'timezone') || 'UTC',
+      status: firestoreField(document, 'status') || 'requested',
+      adminResponse: firestoreField(document, 'adminResponse') || '',
+      confirmedDateTime: firestoreField(document, 'confirmedDateTime') || '',
+      confirmedTimeZone: firestoreField(document, 'confirmedTimeZone') || '',
+      calendarEventId: firestoreField(document, 'calendarEventId') || '',
+    };
+  }
+
+  function appointmentAdminUids(): string[] {
+    return (process.env.CURIVA_APPOINTMENT_ADMIN_UIDS || '').split(',').map((value) => value.trim()).filter(Boolean);
+  }
+
+  app.get('/api/appointments/config', (_req, res) => {
+    res.json({
+      calendarConfigured: isClinicCalendarConfigured(),
+      clinicTimezone: getClinicTimezone(),
+      notificationsConfigured: isResourceEmailConfigured(),
+    });
+  });
+
+  app.post('/api/appointments/notify-request', async (req, res) => {
+    const authorization = typeof req.headers.authorization === 'string' ? req.headers.authorization : '';
+    if (!authorization.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, error: 'Sign in to notify the clinic about an appointment request.' });
+    }
+    let identity: { uid: string; email: string | null };
+    try {
+      identity = await verifyFirebaseIdToken(authorization.slice(7).trim());
+    } catch {
+      return res.status(401).json({ success: false, error: 'Your Curiva account session could not be verified.' });
+    }
+    const requestId = typeof req.body?.requestId === 'string' ? req.body.requestId : '';
+    if (!requestId || requestId.length > 128 || requestId.includes('/')) {
+      return res.status(400).json({ success: false, error: 'A valid appointment request ID is required.' });
+    }
+    const clinicEmail = process.env.CURIVA_APPOINTMENT_NOTIFICATION_EMAIL?.trim();
+    if (!clinicEmail || !isResourceEmailConfigured()) {
+      return res.status(503).json({ success: false, notification: 'not-configured', error: 'Clinic request email notifications are not configured.' });
+    }
+    try {
+      const document = await getFirestoreDocument('appointmentRequests', requestId);
+      const request = appointmentRecord(document, requestId);
+      if (!request) return res.status(404).json({ success: false, error: 'Appointment request was not found.' });
+      if (request.userId !== identity.uid) return res.status(403).json({ success: false, error: 'You can notify the clinic only about your own request.' });
+      if (request.status !== 'requested') return res.status(409).json({ success: false, error: 'Only a pending request can be notified.' });
+      await sendAppointmentRequestNotification({
+        requestId,
+        to: clinicEmail,
+        requesterName: request.displayName,
+        requesterEmail: request.userEmail || identity.email || '',
+        phoneNumber: request.phoneNumber,
+        serviceType: request.serviceType,
+        preferredDate: request.preferredDate,
+        preferredTime: request.preferredTime,
+        timezone: request.timezone,
+      });
+      return res.status(200).json({ success: true, notification: 'sent' });
+    } catch (error: any) {
+      console.error('Appointment request notification failed:', error?.message || 'Unknown error');
+      return res.status(502).json({ success: false, notification: 'failed', error: 'Your request is saved, but the clinic email notification failed.' });
+    }
+  });
+
+  app.post('/api/appointments/admin-update', async (req, res) => {
+    const authorization = typeof req.headers.authorization === 'string' ? req.headers.authorization : '';
+    if (!authorization.startsWith('Bearer ')) {
+      return res.status(401).json({ success: false, error: 'Sign in as a clinic administrator to update requests.' });
+    }
+    let identity: { uid: string; email: string | null };
+    try {
+      identity = await verifyFirebaseIdToken(authorization.slice(7).trim());
+    } catch {
+      return res.status(401).json({ success: false, error: 'Your Curiva account session could not be verified.' });
+    }
+    if (!appointmentAdminUids().includes(identity.uid)) {
+      return res.status(403).json({ success: false, error: 'This account is not configured as an appointment administrator.' });
+    }
+
+    const requestId = typeof req.body?.requestId === 'string' ? req.body.requestId : '';
+    const status = req.body?.status;
+    const adminResponse = typeof req.body?.adminResponse === 'string' ? req.body.adminResponse.trim().slice(0, 500) : '';
+    const confirmedDateTime = typeof req.body?.confirmedDateTime === 'string' ? req.body.confirmedDateTime : '';
+    if (!requestId || requestId.length > 128 || requestId.includes('/') || !['requested', 'confirmed', 'declined', 'cancelled'].includes(status)) {
+      return res.status(400).json({ success: false, error: 'Invalid appointment review request.' });
+    }
+
+    try {
+      const document = await getFirestoreDocument('appointmentRequests', requestId);
+      const request = appointmentRecord(document, requestId);
+      if (!request) return res.status(404).json({ success: false, error: 'Appointment request was not found.' });
+      if (!request.userEmail) return res.status(400).json({ success: false, error: 'The requester needs an account email before this request can be confirmed.' });
+      if (status === 'confirmed' && !isClinicCalendarConfigured()) {
+        return res.status(503).json({ success: false, error: 'Clinic confirmation is disabled until the Google Calendar, clinic time zone, and administrator UID list are configured.' });
+      }
+
+      let eventId = request.calendarEventId || '';
+      let eventTouched = false;
+      let clinicTimezone = request.confirmedTimeZone || '';
+      let confirmedTime = request.confirmedDateTime || '';
+
+      if (status === 'confirmed') {
+        if (!confirmedDateTime) {
+          return res.status(400).json({ success: false, error: 'Enter the actual clinic date and time before confirming.' });
+        }
+        const event = await upsertClinicCalendarEvent(request, confirmedDateTime, adminResponse);
+        eventId = event.id;
+        clinicTimezone = event.timeZone;
+        confirmedTime = confirmedDateTime;
+        eventTouched = true;
+      } else if (request.calendarEventId) {
+        await deleteClinicCalendarEvent(request.id, request.calendarEventId);
+        eventTouched = true;
+        eventId = '';
+        clinicTimezone = '';
+        confirmedTime = '';
+      }
+
+      const fields: Record<string, any> = {
+        status: { stringValue: status },
+        adminResponse: { stringValue: adminResponse },
+        updatedAt: { timestampValue: new Date().toISOString() },
+      };
+      const updateMask = ['status', 'adminResponse', 'updatedAt'];
+      const deleteMask: string[] = [];
+      if (status === 'confirmed') {
+        fields.calendarEventId = { stringValue: eventId };
+        fields.confirmedDateTime = { stringValue: confirmedTime };
+        fields.confirmedTimeZone = { stringValue: clinicTimezone };
+        updateMask.push('calendarEventId', 'confirmedDateTime', 'confirmedTimeZone');
+      } else {
+        deleteMask.push('calendarEventId', 'confirmedDateTime', 'confirmedTimeZone');
+      }
+
+      try {
+        await patchFirestoreDocument('appointmentRequests', requestId, fields, updateMask, deleteMask, request.updateTime);
+      } catch (writeError) {
+        if (eventTouched) {
+          // A deterministic event ID makes a retry idempotent; explain possible reconciliation in the error.
+          console.error('Calendar event changed before Firestore review was saved; reconcile by retrying the same request.');
+        }
+        throw writeError;
+      }
+
+      let emailDelivery: 'sent' | 'not-configured' | 'failed' = 'not-configured';
+      if (isResourceEmailConfigured()) {
+        try {
+          await sendAppointmentStatusNotification({
+            requestId,
+            to: request.userEmail,
+            requesterName: request.displayName,
+            status,
+            adminResponse,
+            confirmedDateTime: status === 'confirmed' ? confirmedTime : undefined,
+            confirmedTimeZone: status === 'confirmed' ? clinicTimezone : undefined,
+          });
+          emailDelivery = 'sent';
+        } catch (emailError: any) {
+          console.error('Appointment status email failed:', emailError?.message || 'Unknown error');
+          emailDelivery = 'failed';
+        }
+      }
+      return res.json({
+        success: true,
+        status,
+        calendarEventId: status === 'confirmed' ? eventId : null,
+        calendarTimezone: status === 'confirmed' ? clinicTimezone : null,
+        emailDelivery,
+      });
+    } catch (error: any) {
+      console.error('Appointment review update failed:', error?.message || 'Unknown error');
+      const conflict = String(error?.message || '').includes('HTTP 409') || String(error?.message || '').includes('HTTP 412');
+      return res.status(conflict ? 409 : 503).json({
+        success: false,
+        error: conflict ? 'Another administrator changed this request; refresh before trying again.' : error?.message || 'The request could not be updated safely.',
+      });
+    }
+  });
 
   // Resource email delivery is intentionally unavailable until a real provider is configured.
   // Never report a successful delivery when the server has not sent an email.

@@ -324,3 +324,54 @@ export async function persistPaidOrder(order: PaidOrder): Promise<'created' | 'a
 
   throw new Error(`Firestore could not persist the verified order (HTTP ${createResponse.status})`);
 }
+
+
+/** Server-only OAuth token for a specific Google API scope. */
+export async function getServerAccessToken(scope = 'https://www.googleapis.com/auth/datastore'): Promise<string> {
+  return getAccessToken(getServiceAccount(), scope);
+}
+
+function appointmentDocumentUrl(collectionName: string, documentId: string): string {
+  if (!/^[A-Za-z][A-Za-z0-9_-]{0,99}$/.test(collectionName)) {
+    throw new Error('Firestore collection name is invalid');
+  }
+  if (!documentId || documentId.length > 512 || documentId.includes('/')) {
+    throw new Error('Firestore document ID is invalid');
+  }
+  const serviceAccount = getServiceAccount();
+  const databaseId = process.env.FIRESTORE_DATABASE_ID || firebaseConfig.firestoreDatabaseId;
+  return `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(serviceAccount.project_id)}/databases/${encodeURIComponent(databaseId)}/documents/${encodeURIComponent(collectionName)}/${encodeURIComponent(documentId)}`;
+}
+
+export async function getFirestoreDocument(collectionName: string, documentId: string): Promise<any | null> {
+  const token = await getServerAccessToken('https://www.googleapis.com/auth/datastore');
+  const response = await fetch(appointmentDocumentUrl(collectionName, documentId), {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+  if (response.status === 404) return null;
+  if (!response.ok) throw new Error(`Firestore read failed (HTTP ${response.status})`);
+  return response.json();
+}
+
+export async function patchFirestoreDocument(
+  collectionName: string,
+  documentId: string,
+  fields: Record<string, any>,
+  updatePaths: string[],
+  deletePaths: string[] = [],
+  expectedUpdateTime?: string,
+): Promise<any> {
+  const token = await getServerAccessToken('https://www.googleapis.com/auth/datastore');
+  const url = new URL(appointmentDocumentUrl(collectionName, documentId));
+  for (const fieldPath of [...new Set([...updatePaths, ...deletePaths])]) {
+    url.searchParams.append('updateMask.fieldPaths', fieldPath);
+  }
+  if (expectedUpdateTime) url.searchParams.set('currentDocument.updateTime', expectedUpdateTime);
+  const response = await fetch(url.toString(), {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ fields }),
+  });
+  if (!response.ok) throw new Error(`Firestore update failed (HTTP ${response.status})`);
+  return response.json();
+}

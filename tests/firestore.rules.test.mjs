@@ -74,6 +74,12 @@ test('appointment request owners can read/cancel their request but cannot confir
   await assertSucceeds(setDoc(requestRef, appointmentRequest()));
   await assertSucceeds(getDoc(requestRef));
   await assertFails(getDoc(doc(bob, 'appointmentRequests', 'owner-request')));
+  const admin = testEnv.authenticatedContext('clinic-admin', { email: 'premmore0552@gmail.com' }).firestore();
+  await assertFails(updateDoc(doc(admin, 'appointmentRequests', 'owner-request'), {
+    status: 'confirmed',
+    adminResponse: 'Must use server API',
+    updatedAt: serverTimestamp(),
+  }));
 
   await assertFails(updateDoc(requestRef, {
     status: 'confirmed',

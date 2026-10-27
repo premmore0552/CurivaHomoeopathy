@@ -160,7 +160,7 @@ export default function Appointments() {
 
     setSubmitting(true);
     try {
-      await addDoc(collection(db, 'appointmentRequests'), {
+      const requestRef = await addDoc(collection(db, 'appointmentRequests'), {
         userId: user.uid,
         userEmail: user.email ?? null,
         displayName: displayName.trim().slice(0, 100),
@@ -174,12 +174,25 @@ export default function Appointments() {
         updatedAt: serverTimestamp(),
       });
 
+      let notificationWarning = '';
+      try {
+        const idToken = await user.getIdToken();
+        const notifyResponse = await fetch('/api/appointments/notify-request', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${idToken}` },
+          body: JSON.stringify({ requestId: requestRef.id }),
+        });
+        if (!notifyResponse.ok) notificationWarning = ' Email notification could not be confirmed; contact the clinic directly if you need a timely response.';
+      } catch {
+        notificationWarning = ' Email notification could not be confirmed; contact the clinic directly if you need a timely response.';
+      }
+
       setPreferredDate('');
       setPreferredTime('morning');
       setServiceType('initial-consultation');
       setPhoneNumber('');
       setUnderstandsRequest(false);
-      setNotice('Your request has been saved to your Curiva account. It has not reserved a slot and is not yet a confirmed appointment.');
+      setNotice(`Your request has been saved to your Curiva account. It has not reserved a slot and is not yet a confirmed appointment.${notificationWarning}`);
     } catch {
       setError('We could not save this request. Check your connection and sign-in, or ask the administrator to verify the appointment-request Firestore rules.');
     } finally {

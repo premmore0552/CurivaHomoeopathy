@@ -63,4 +63,29 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   }, {});
   assert.equal(webhookResponse.statusCode, 400);
   assert.match(JSON.parse(webhookResponse.body).error, /signature/i);
+
+  const configResponse = await handler({
+    httpMethod: 'GET',
+    path: '/api/appointments/config',
+    headers: { host: 'localhost' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: null,
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(configResponse.statusCode, 200);
+  assert.equal(JSON.parse(configResponse.body).calendarConfigured, false);
+
+  for (const path of ['/api/appointments/notify-request', '/api/appointments/admin-update']) {
+    const response = await handler({
+      httpMethod: 'POST',
+      path,
+      headers: { host: 'localhost', 'content-type': 'application/json' },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      body: JSON.stringify({ requestId: 'test-request', status: 'confirmed', confirmedDateTime: '2030-01-01T12:00' }),
+      isBase64Encoded: false,
+    }, {});
+    assert.equal(response.statusCode, 401, path + ' must reject unsigned calls');
+  }
 });

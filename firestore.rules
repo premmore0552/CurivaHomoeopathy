@@ -199,13 +199,8 @@ service cloud.firestore {
       allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
       allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
 
-      // Only admins can record clinic review/confirmation. Confirmation must be explicit.
-      allow update: if isAdmin() &&
-                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'adminResponse', 'updatedAt']) &&
-                    incoming().status in ['requested', 'confirmed', 'declined', 'cancelled'] &&
-                    incoming().updatedAt == request.time &&
-                    (!incoming().keys().hasAny(['adminResponse']) ||
-                      (incoming().adminResponse is string && incoming().adminResponse.size() <= 500));
+      // Staff review must go through the server-side calendar integration.
+      allow update: if false;
 
       // Requesters may cancel a request that is still awaiting review, but cannot confirm it.
       allow update: if isSignedIn() &&

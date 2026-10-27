@@ -69,9 +69,10 @@ jobs:
           mkdir -p .netlify-build/server
           npx esbuild src/server/paidOrderStore.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/paidOrderStore.mjs
           npx esbuild src/server/resourceEmail.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/resourceEmail.mjs
+          npx esbuild src/server/clinicCalendar.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/clinicCalendar.mjs
 
       - name: Verify navigation, private downloads, and Netlify API
-        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs
+        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs
 
       - name: Set up Java for the Firestore emulator
         uses: actions/setup-java@v4
