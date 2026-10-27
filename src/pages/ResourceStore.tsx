@@ -24,6 +24,7 @@ const ResourceStore = () => {
   const [isProcessing, setIsProcessing] = useState(false);
   const [paymentStep, setPaymentStep] = useState<'details' | 'payment' | 'success'>('details');
   const [email, setEmail] = useState('');
+  const [verifiedDownloadUrl, setVerifiedDownloadUrl] = useState('');
   const navigate = useNavigate();
 
   const [name, setName] = useState('');
@@ -88,6 +89,7 @@ const ResourceStore = () => {
               console.warn('Payment was verified, but the optional browser order log could not be saved.', recordError);
             }
 
+            setVerifiedDownloadUrl(typeof result.downloadUrl === 'string' ? result.downloadUrl : selectedResource.fileUrl);
             setPaymentStep('success');
           } catch (verifyError) {
             console.error('Payment verification request failed:', verifyError);
@@ -277,7 +279,7 @@ const ResourceStore = () => {
                     {selectedResource?.fileUrl && (
                       <div className="pt-2">
                         <a 
-                          href={selectedResource.fileUrl} 
+                          href={verifiedDownloadUrl || selectedResource.fileUrl} 
                           target="_blank" 
                           rel="noopener noreferrer"
                           className="inline-flex items-center gap-3 px-8 py-4 bg-emerald-600 hover:bg-emerald-700 text-white rounded-2xl transition-all shadow-lg font-black uppercase tracking-widest text-[11px]"
@@ -289,7 +291,7 @@ const ResourceStore = () => {
 
                     <div className="pt-6 flex justify-center">
                        <button 
-                         onClick={() => navigate('/community')}
+                         onClick={() => navigate('/student-resources')}
                          className="flex items-center gap-3 px-10 py-5 bg-primary text-white rounded-2xl hover:scale-105 hover:bg-primary-dark transition-all shadow-xl font-black uppercase tracking-widest text-[10px]"
                        >
                          Join Community Group <ArrowRight className="w-4 h-4" />
