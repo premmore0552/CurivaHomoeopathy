@@ -25,6 +25,7 @@ const ResourceStore = () => {
   const [paymentStep, setPaymentStep] = useState<'details' | 'payment' | 'verification-error' | 'success'>('details');
   const [email, setEmail] = useState('');
   const [verifiedDownloadUrl, setVerifiedDownloadUrl] = useState('');
+  const [emailDelivery, setEmailDelivery] = useState<'sent' | 'not-configured' | 'failed' | 'expired' | null>(null);
   const [verificationPayload, setVerificationPayload] = useState<any | null>(null);
   const [verificationMessage, setVerificationMessage] = useState('');
   const [verificationCanRetry, setVerificationCanRetry] = useState(false);
@@ -63,6 +64,7 @@ const ResourceStore = () => {
       }
 
       setVerifiedDownloadUrl(typeof result.downloadUrl === 'string' && result.downloadUrl.startsWith('https://') ? result.downloadUrl : '');
+      setEmailDelivery(['sent', 'not-configured', 'failed', 'expired'].includes(result.emailDelivery) ? result.emailDelivery : 'not-configured');
       setVerificationPayload(null);
       setVerificationMessage('');
       setVerificationCanRetry(false);
@@ -298,7 +300,11 @@ const ResourceStore = () => {
                     
                     <div className="space-y-3">
                       <h3 className="text-3xl font-black text-text-primary italic leading-none">Payment Verified</h3>
-                      <p className="text-text-secondary font-medium px-4">Razorpay has confirmed your payment for <span className="text-text-primary font-bold">{selectedResource?.title}</span>. Use the download link below. Automated email delivery is not currently available.</p>
+                      <p className="text-text-secondary font-medium px-4">Razorpay has confirmed your payment for <span className="text-text-primary font-bold">{selectedResource?.title}</span>. Use the private download link below.</p>
+                      {emailDelivery === 'sent' && <p className="mx-auto max-w-md rounded-xl border border-emerald-500/30 bg-emerald-500/5 p-3 text-sm text-text-secondary">A download email was accepted by the configured email provider. Check your inbox and spam folder.</p>}
+                      {emailDelivery === 'failed' && <p className="mx-auto max-w-md rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-sm text-text-secondary">The email provider could not send the download email. Download directly below; do not purchase again.</p>}
+                      {emailDelivery === 'expired' && <p className="mx-auto max-w-md rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-sm text-text-secondary">The email link could not be issued because the original order is too old. Your fresh download link is available below.</p>}
+                      {emailDelivery === 'not-configured' && <p className="mx-auto max-w-md rounded-xl border border-slate-500/20 p-3 text-sm text-text-secondary">Email delivery is not configured; your download is available below.</p>}
                       <p className="inline-block px-4 py-2 bg-primary/5 rounded-xl text-primary font-black tracking-tight">{email}</p>
                     </div>
 

@@ -5,7 +5,8 @@ import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
 import { serverResources as resources } from "./src/data/serverResources";
-import { isPaidOrderStoreConfigured, persistPaidOrder, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
+import { assertPrivateDownloadAvailable, createSignedDownloadUrl, getPaidOrderEmailStatus, isPaidOrderStoreConfigured, persistPaidOrder, updatePaidOrderEmailStatus, verifyFirebaseIdToken } from "./src/server/paidOrderStore";
+import { isResourceEmailConfigured, sendPaidResourceEmail } from "./src/server/resourceEmail";
 import path from "path";
 import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
@@ -114,6 +115,38 @@ async function startServer() {
     },
   }));
   
+  async function emailPaidResourceIfConfigured(order: any, payment: any, resource: any, orderOwnerId: string, userEmail: string): Promise<'sent' | 'not-configured' | 'failed' | 'expired'> {
+    if (!isResourceEmailConfigured()) return 'not-configured';
+
+    const existingStatus = await getPaidOrderEmailStatus(order.id).catch(() => undefined);
+    if (existingStatus === 'sent') return 'sent';
+
+    const createdAt = typeof order.created_at === 'number' ? new Date(order.created_at * 1000) : new Date();
+    const emailExpirySeconds = 24 * 60 * 60;
+    try {
+      // Anchor the email URL to the Razorpay order creation time so webhook retries
+      // generate the same payload and Resend can safely deduplicate them.
+      const emailDownloadUrl = createSignedDownloadUrl(resource.storageObject, emailExpirySeconds, createdAt);
+      await sendPaidResourceEmail({
+        orderId: order.id,
+        to: userEmail,
+        resourceTitle: resource.title,
+        downloadUrl: emailDownloadUrl,
+        amount: Number(payment.amount),
+        currency: payment.currency,
+      });
+      await updatePaidOrderEmailStatus(order.id, 'sent');
+      return 'sent';
+    } catch (emailError: any) {
+      const expired = String(emailError?.message || '').includes('expired');
+      console.error('Paid resource email attempt failed:', emailError?.message || 'Unknown delivery error');
+      await updatePaidOrderEmailStatus(order.id, expired ? 'expired' : 'failed').catch((statusError) => {
+        console.error('Unable to persist resource email status:', statusError);
+      });
+      return expired ? 'expired' : 'failed';
+    }
+  }
+
   // Resource email delivery is intentionally unavailable until a real provider is configured.
   // Never report a successful delivery when the server has not sent an email.
   app.post("/api/send-resource-email", (_req, res) => {
@@ -156,8 +189,16 @@ async function startServer() {
     if (!resource) {
       return res.status(400).json({ error: "Choose a valid resource before creating an order." });
     }
-    if (typeof resource.fileUrl !== "string" || !resource.fileUrl.startsWith("https://")) {
-      return res.status(503).json({ error: "Downloads are not configured for this resource yet." });
+    if (typeof resource.storageObject !== "string" || !resource.storageObject) {
+      return res.status(503).json({ error: "Secure downloads are not configured for this resource yet." });
+    }
+    try {
+      await assertPrivateDownloadAvailable(resource.storageObject);
+    } catch (storageError: any) {
+      console.error("Private resource availability check failed:", storageError?.message || "Unknown storage error");
+      return res.status(503).json({
+        error: "Secure resource storage is not configured or the PDF is not uploaded yet. No payment has been taken.",
+      });
     }
     if (!Number.isFinite(resource.price) || resource.price < 1) {
       return res.status(400).json({ error: "This resource is not configured for online payment." });
@@ -253,17 +294,23 @@ async function startServer() {
         return res.status(503).json({ received: false, error: "Captured order is missing its contact email." });
       }
 
+      const ownerId = typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest";
       await persistPaidOrder({
         orderId: order.id,
         paymentId: payment.id,
-        userId: typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest",
+        userId: ownerId,
         userEmail,
         resourceId: resource.id,
         resourceTitle: resource.title,
         amount: paymentAmount,
         currency: payment.currency,
       });
-      return res.status(200).json({ received: true, recorded: true });
+      const emailDelivery = await emailPaidResourceIfConfigured(order, payment, resource, ownerId, userEmail);
+      if (emailDelivery === 'failed') {
+        // Ask Razorpay to retry; Resend's idempotency key prevents duplicate delivery.
+        return res.status(503).json({ received: false, recorded: true, error: "Paid order was recorded; resource email delivery will be retried." });
+      }
+      return res.status(200).json({ received: true, recorded: true, emailDelivery });
     } catch (error: any) {
       console.error("Razorpay webhook processing failed:", error?.message || "Unknown error");
       return res.status(503).json({ received: false, error: "Webhook processing failed; Razorpay may retry." });
@@ -365,6 +412,20 @@ async function startServer() {
         });
       }
 
+      let downloadUrl: string;
+      try {
+        // The object was checked before checkout, but signed URLs are created only after capture.
+        downloadUrl = createSignedDownloadUrl(resource.storageObject, 3600);
+      } catch (downloadError: any) {
+        console.error("Private download signing failed:", downloadError?.message || "Unknown signing error");
+        return res.status(503).json({
+          success: false,
+          paymentVerified: true,
+          retryable: true,
+          error: "Razorpay verified your payment, but the secure download link could not be issued. Retry verification; do not pay again.",
+        });
+      }
+
       try {
         await persistPaidOrder({
           orderId: order.id,
@@ -389,11 +450,13 @@ async function startServer() {
         });
       }
 
+      const emailDelivery = await emailPaidResourceIfConfigured(order, payment, resource, orderOwnerId, userEmail);
       return res.json({
         success: true,
         message: "Payment verified and securely recorded.",
         resourceId: resource.id,
-        downloadUrl: resource.fileUrl,
+        downloadUrl,
+        emailDelivery,
         orderId: order.id,
         amount: paymentAmount,
         currency: payment.currency,

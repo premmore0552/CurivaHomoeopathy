@@ -33,6 +33,18 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   assert.equal(invalidEmailResponse.statusCode, 400);
   assert.match(JSON.parse(invalidEmailResponse.body).error, /valid email/i);
 
+  const storageUnavailableResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/create-razorpay-order',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ resourceId: 'Homoeopathy-modalities-cheat-sheet', email: 'student@example.test' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(storageUnavailableResponse.statusCode, 503);
+  assert.match(JSON.parse(storageUnavailableResponse.body).error, /Secure resource storage/i);
+
   const webhookResponse = await handler({
     httpMethod: 'POST',
     path: '/api/razorpay-webhook',

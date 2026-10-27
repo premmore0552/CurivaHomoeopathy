@@ -20,7 +20,7 @@ export type PaidOrder = {
 
 type FirebaseIdentity = { uid: string; email: string | null };
 
-let cachedToken: { serviceAccount: string; token: string; expiresAt: number } | null = null;
+let cachedToken: { serviceAccount: string; scope: string; token: string; expiresAt: number } | null = null;
 
 function getServiceAccount(): ServiceAccount {
   const encoded = process.env.FIREBASE_SERVICE_ACCOUNT_JSON;
@@ -56,8 +56,8 @@ export function isPaidOrderStoreConfigured(): boolean {
   }
 }
 
-async function getAccessToken(serviceAccount: ServiceAccount): Promise<string> {
-  if (cachedToken && cachedToken.serviceAccount === serviceAccount.client_email && cachedToken.expiresAt > Date.now() + 60_000) {
+async function getAccessToken(serviceAccount: ServiceAccount, scope = 'https://www.googleapis.com/auth/datastore'): Promise<string> {
+  if (cachedToken && cachedToken.serviceAccount === serviceAccount.client_email && cachedToken.scope === scope && cachedToken.expiresAt > Date.now() + 60_000) {
     return cachedToken.token;
   }
 
@@ -67,7 +67,7 @@ async function getAccessToken(serviceAccount: ServiceAccount): Promise<string> {
     base64url(JSON.stringify({ alg: 'RS256', typ: 'JWT' })),
     base64url(JSON.stringify({
       iss: serviceAccount.client_email,
-      scope: 'https://www.googleapis.com/auth/datastore',
+      scope,
       aud: 'https://oauth2.googleapis.com/token',
       iat: issuedAt,
       exp: issuedAt + 3600,
@@ -95,6 +95,7 @@ async function getAccessToken(serviceAccount: ServiceAccount): Promise<string> {
 
   cachedToken = {
     serviceAccount: serviceAccount.client_email,
+    scope,
     token: tokenJson.access_token,
     expiresAt: Date.now() + Math.max(60, tokenJson.expires_in ?? 3600) * 1000,
   };
@@ -126,6 +127,149 @@ function fieldString(document: any, name: string): string | undefined {
   const value = document?.fields?.[name]?.stringValue;
   return typeof value === 'string' ? value : undefined;
 }
+function getPrivateBucket(): string {
+  const bucket = process.env.CURIVA_PRIVATE_DOWNLOAD_BUCKET?.trim();
+  if (!bucket || bucket.length < 3 || bucket.length > 222 || /[\\/\\s]/.test(bucket)) {
+    throw new Error('CURIVA_PRIVATE_DOWNLOAD_BUCKET is not configured correctly');
+  }
+  return bucket;
+}
+
+function safeObjectPath(objectPath: string): string {
+  if (
+    typeof objectPath !== 'string' ||
+    objectPath.length < 1 ||
+    objectPath.length > 1024 ||
+    objectPath.startsWith('/') ||
+    objectPath.includes('\\\\') ||
+    objectPath.split('/').some((part) => !part || part === '.' || part === '..')
+  ) {
+    throw new Error('Private download object path is invalid');
+  }
+  return objectPath;
+}
+
+const rfc3986 = (value: string) => encodeURIComponent(value).replace(/[!'()*]/g, (character) =>
+  '%' + character.charCodeAt(0).toString(16).toUpperCase()
+);
+const sha256Hex = (value: string) => crypto.createHash('sha256').update(value).digest('hex');
+
+/**
+ * Confirms the PDF exists in a configured, private Cloud Storage bucket before accepting payment.
+ * The service account needs storage.objects.get access; the bucket must not grant public access.
+ */
+export async function assertPrivateDownloadAvailable(objectPath: string): Promise<void> {
+  const safePath = safeObjectPath(objectPath);
+  const bucket = getPrivateBucket();
+  const serviceAccount = getServiceAccount();
+  const accessToken = await getAccessToken(serviceAccount, 'https://www.googleapis.com/auth/devstorage.read_only');
+  const url = `https://storage.googleapis.com/storage/v1/b/${encodeURIComponent(bucket)}/o/${encodeURIComponent(safePath)}`;
+  const response = await fetch(url, {
+    headers: { Authorization: `Bearer ${accessToken}` },
+  });
+  if (!response.ok) {
+    throw new Error(`Private download object is not available (HTTP ${response.status})`);
+  }
+  const metadata = await response.json() as { size?: string; contentType?: string; name?: string };
+  if (metadata.name !== safePath || !metadata.size || Number(metadata.size) <= 0) {
+    throw new Error('Private download object is empty or did not match the configured path');
+  }
+  if (metadata.contentType && !['application/pdf', 'application/octet-stream'].includes(metadata.contentType)) {
+    throw new Error('Private download object is not a PDF-compatible file');
+  }
+}
+
+/**
+ * Creates a V4 signed URL for a private Cloud Storage object.
+ * URLs are time-limited (default one hour) and never stored in the public web bundle.
+ */
+export function createSignedDownloadUrl(
+  objectPath: string,
+  expiresSeconds = 3600,
+  issuedAt = new Date(),
+): string {
+  const safePath = safeObjectPath(objectPath);
+  const bucket = getPrivateBucket();
+  const serviceAccount = getServiceAccount();
+
+  if (!Number.isInteger(expiresSeconds) || expiresSeconds < 60 || expiresSeconds > 604800) {
+    throw new Error('Signed download URL expiry must be between 60 seconds and 7 days');
+  }
+  const issuedAtMs = issuedAt.getTime();
+  if (!Number.isFinite(issuedAtMs) || issuedAtMs > Date.now() + 60_000) {
+    throw new Error('Signed download URL issue time is invalid');
+  }
+  if (Date.now() >= issuedAtMs + expiresSeconds * 1000) {
+    throw new Error('Signed download URL issue time is expired');
+  }
+
+  const date = issuedAt.toISOString().replace(/[-:]|\\.\\d{3}/g, '');
+  const dateStamp = date.slice(0, 8);
+  const scope = `${dateStamp}/auto/storage/goog4_request`;
+  const encodedPath = safePath.split('/').map(rfc3986).join('/');
+  const canonicalUri = `/${rfc3986(bucket)}/${encodedPath}`;
+  const credential = `${serviceAccount.client_email}/${scope}`;
+  const parameters: Array<[string, string]> = [
+    ['X-Goog-Algorithm', 'GOOG4-RSA-SHA256'],
+    ['X-Goog-Credential', credential],
+    ['X-Goog-Date', date],
+    ['X-Goog-Expires', String(expiresSeconds)],
+    ['X-Goog-SignedHeaders', 'host'],
+  ];
+  const canonicalQuery = parameters
+    .sort(([left], [right]) => left.localeCompare(right))
+    .map(([key, value]) => `${rfc3986(key)}=${rfc3986(value)}`)
+    .join('&');
+  const canonicalRequest = [
+    'GET',
+    canonicalUri,
+    canonicalQuery,
+    'host:storage.googleapis.com',
+    '',
+    'host',
+    'UNSIGNED-PAYLOAD',
+  ].join('\\n');
+  const stringToSign = [
+    'GOOG4-RSA-SHA256',
+    date,
+    scope,
+    sha256Hex(canonicalRequest),
+  ].join('\\n');
+  const signature = crypto.sign('RSA-SHA256', Buffer.from(stringToSign), serviceAccount.private_key).toString('hex');
+  return `https://storage.googleapis.com${canonicalUri}?${canonicalQuery}&X-Goog-Signature=${signature}`;
+}
+
+export async function getPaidOrderEmailStatus(orderId: string): Promise<string | undefined> {
+  const serviceAccount = getServiceAccount();
+  const databaseId = process.env.FIRESTORE_DATABASE_ID || firebaseConfig.firestoreDatabaseId;
+  const token = await getAccessToken(serviceAccount);
+  const url = `https://firestore.googleapis.com/v1/projects/${encodeURIComponent(serviceAccount.project_id)}/databases/${encodeURIComponent(databaseId)}/documents/orders/${encodeURIComponent(orderId)}`;
+  const response = await fetch(url, { headers: { Authorization: `Bearer ${token}` } });
+  if (response.status === 404) return undefined;
+  if (!response.ok) throw new Error('Unable to read paid-order email status');
+  return fieldString(await response.json(), 'emailDeliveryStatus');
+}
+
+export async function updatePaidOrderEmailStatus(orderId: string, status: 'sent' | 'failed' | 'expired'): Promise<void> {
+  const serviceAccount = getServiceAccount();
+  const databaseId = process.env.FIRESTORE_DATABASE_ID || firebaseConfig.firestoreDatabaseId;
+  const token = await getAccessToken(serviceAccount);
+  const url = new URL(`https://firestore.googleapis.com/v1/projects/${encodeURIComponent(serviceAccount.project_id)}/databases/${encodeURIComponent(databaseId)}/documents/orders/${encodeURIComponent(orderId)}`);
+  url.searchParams.append('updateMask.fieldPaths', 'emailDeliveryStatus');
+  url.searchParams.append('updateMask.fieldPaths', 'emailUpdatedAt');
+  const response = await fetch(url.toString(), {
+    method: 'PATCH',
+    headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      fields: {
+        emailDeliveryStatus: { stringValue: status },
+        emailUpdatedAt: { timestampValue: new Date().toISOString() },
+      },
+    }),
+  });
+  if (!response.ok) throw new Error('Unable to update paid-order email status');
+}
+
 
 /**
  * Record captured payments by Razorpay order ID, using a server-only service account.
@@ -145,6 +289,7 @@ export async function persistPaidOrder(order: PaidOrder): Promise<'created' | 'a
     paymentId: { stringValue: order.paymentId },
     orderId: { stringValue: order.orderId },
     status: { stringValue: 'paid' },
+    emailDeliveryStatus: { stringValue: 'pending' },
     amount: { integerValue: String(order.amount) },
     currency: { stringValue: order.currency },
     createdAt: { timestampValue: now },

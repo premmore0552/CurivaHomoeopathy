@@ -1,16 +1,15 @@
 import { resources as publicResources, type Resource } from './resources';
 
-export type ServerResource = Resource & { fileUrl: string };
+export type ServerResource = Resource & { storageObject: string };
 
-// Delivery URLs belong in the server bundle, not the public website bundle.
-// For production-grade access control, replace public Drive sharing with private object
-// storage and short-lived signed download URLs.
-const deliveryUrls: Record<string, string> = {
+// Upload the PDF to a private Cloud Storage bucket at this object path.
+// A signed URL is generated only after Razorpay confirms a captured payment.
+const privateObjectPaths: Record<string, string> = {
   'Homoeopathy-modalities-cheat-sheet':
-    'https://drive.google.com/file/d/1o_hf7hoxzvbVb7sR4MOLCfodkZfglice/view?usp=drivesdk',
+    'resources/homoeopathy-modalities-cheat-sheet.pdf',
 };
 
 export const serverResources: ServerResource[] = publicResources.map((resource) => ({
   ...resource,
-  fileUrl: deliveryUrls[resource.id] || '',
+  storageObject: privateObjectPaths[resource.id] || '',
 }));
