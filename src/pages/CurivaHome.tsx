@@ -91,6 +91,14 @@ const patientFeatures: Feature[] = [
     tone: 'violet',
     eyebrow: 'Get help',
   },
+  {
+    title: 'Appointment requests',
+    description: 'Share a preferred date and time window, then track the request status in your account.',
+    href: '/appointments',
+    icon: Calendar,
+    tone: 'amber',
+    eyebrow: 'Request a visit',
+  },
 ];
 
 const studentFeatures: Feature[] = [
@@ -516,11 +524,14 @@ export default function CurivaHome() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#edf1f3] text-[#53636d]">
                 <Calendar className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-[#708079]">Planned module</p>
-              <h2 className="mt-2 text-xl font-bold text-[#193b35]">Doctor profiles & appointments</h2>
+              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-[#708079]">Request-based workflow</p>
+              <h2 className="mt-2 text-xl font-bold text-[#193b35]">Request a consultation</h2>
               <p className="mt-2 text-sm leading-6 text-[#63736e]">
-                A verified doctor directory and booking workflow should be connected to real practitioner verification, live availability, consent, and secure backend records before appointments are offered.
+                Submit a preferred date and time window and track its review status. Requests do not reserve a slot; the clinic must confirm after checking its real calendar.
               </p>
+              <Link to="/appointments" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#153d35] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#205747] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#26795a]">
+                Create appointment request <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </section>
         )}
