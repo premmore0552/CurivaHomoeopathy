@@ -121,6 +121,7 @@ const CellInjuryMasterPage = lazyLoad(() => import('./pages/CellInjuryMasterPage
 const UniversityBlueprints = lazyLoad(() => import('./pages/UniversityBlueprints'));
 const FlashcardsPage = lazyLoad(() => import('./pages/FlashcardsPage'));
 const Quizzes = lazyLoad(() => import('./pages/Quizzes'));
+const StudyToolkit = lazyLoad(() => import('./pages/StudyToolkit'));
 const AiapgetMcqSimulator = lazyLoad(() => import('./pages/AiapgetMcqSimulator'));
 const ClinicalTherapeuticsPage = lazyLoad(() => import('./pages/ClinicalTherapeuticsPage'));
 
@@ -281,6 +282,7 @@ function AppRoutes() {
                 <Route path="/university-blueprints" element={<PageWrapper><UniversityBlueprints /></PageWrapper>} />
                 <Route path="/flashcards" element={<PageWrapper><FlashcardsPage /></PageWrapper>} />
                 <Route path="/quizzes" element={<PageWrapper><Quizzes /></PageWrapper>} />
+                <Route path="/study-toolkit" element={<PageWrapper><StudyToolkit /></PageWrapper>} />
                 <Route path="/quiz" element={<Navigate to="/quizzes" replace />} />
                 <Route path="/aiapget-mcq-simulator" element={<PageWrapper><AiapgetMcqSimulator /></PageWrapper>} />
                 <Route path="/clinical-therapeutics" element={<PageWrapper><ClinicalTherapeuticsPage /></PageWrapper>} />
