@@ -198,7 +198,7 @@ const Header: React.FC = () => {
       }
       if (event.key !== 'Tab' || !drawer) return;
       const items = Array.from(drawer.querySelectorAll<HTMLElement>(focusableSelector))
-        .filter((item) => item.offsetParent !== null);
+        .filter((item) => item.getClientRects().length > 0);
       if (!items.length) return;
       const first = items[0];
       const last = items[items.length - 1];
@@ -780,7 +780,7 @@ const Header: React.FC = () => {
       {/* Small screens use thumb-first navigation; desktop retains full mega menus. */}
       <nav aria-label="Mobile quick navigation" className="xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 backdrop-blur-xl px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
         <div className="mx-auto grid max-w-lg grid-cols-4 gap-1">
-          <Link to="/" onClick={() => handleLinkClick('/')} aria-current={location.pathname === '/' ? 'page' : undefined} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl bg-primary/5 text-primary text-[10px] font-bold transition-colors">
+          <Link to="/" onClick={() => handleLinkClick('/')} aria-current={location.pathname === '/' ? 'page' : undefined} className={location.pathname === '/' ? "flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl bg-primary/10 text-primary text-[10px] font-bold transition-colors" : "flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-text-secondary hover:bg-bg-secondary text-[10px] font-bold transition-colors"}>
             <Home className="h-5 w-5" aria-hidden="true" /><span>Home</span>
           </Link>
           <Link to={isPatientWorkspace ? '/public-education' : (currentRole === 'Practitioner' || currentRole === 'Researcher' ? '/clinical-guides' : '/student-resources')} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
