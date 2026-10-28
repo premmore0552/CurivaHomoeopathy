@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { 
   GraduationCap, 
@@ -17,9 +17,12 @@ import {
   Clock,
   BookMarked,
   Library,
-  Zap
+  Zap,
+  Search,
+  X
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import '../styles/curiva-design-system.css';
 
 const resourceCenters = [
   {
@@ -109,8 +112,17 @@ const resourceCenters = [
 ];
 
 export default function StudentResources() {
+  const [resourceQuery, setResourceQuery] = useState('');
+  const filteredCenters = useMemo(() => {
+    const query = resourceQuery.trim().toLocaleLowerCase();
+    if (!query) return resourceCenters;
+    return resourceCenters.filter((center) =>
+      [center.title, center.description, center.badge, ...center.features].some((value) => value.toLocaleLowerCase().includes(query))
+    );
+  }, [resourceQuery]);
+
   return (
-    <div className="min-h-screen bg-bg-primary text-text-primary py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
+    <div className="curiva-page curiva-resource-hub min-h-screen bg-bg-primary text-text-primary py-6 sm:py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-8 sm:space-y-10 pb-28 lg:pb-10">
       <SEO 
         title="Student Resources & Academic Study Suite | Curiva Homoeopathy"
         description="Central academic study suite for BHMS & AIAPGET students. Access subject study centers, university exam blueprints, active recall flashcards, MCQ simulator, and clinical therapeutics."
