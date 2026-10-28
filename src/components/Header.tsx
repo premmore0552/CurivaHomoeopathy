@@ -37,7 +37,9 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
         className="space-y-2"
       >
         <button
+          type="button"
           onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
+          aria-expanded={isSubMenuOpen}
           className={`flex items-center justify-between w-full p-5 rounded-3xl font-black transition-all border group ${
             isActive || dropdownItems.some((d: any) => location.pathname === d.to)
             ? 'bg-primary/5 text-primary border-primary/20' 
@@ -181,13 +183,41 @@ const Header: React.FC = () => {
   };
 
   useEffect(() => {
-    if (isMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
+    if (!isMenuOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+
+    const drawer = document.getElementById('curiva-mobile-navigation');
+    const focusableSelector = 'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])';
+    const focusTimer = window.setTimeout(() => {
+      drawer?.querySelector<HTMLElement>('button[aria-label="Close menu"]')?.focus();
+    }, 0);
+
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsMenuOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab' || !drawer) return;
+      const items = Array.from(drawer.querySelectorAll<HTMLElement>(focusableSelector))
+        .filter((item) => item.getClientRects().length > 0);
+      if (!items.length) return;
+      const first = items[0];
+      const last = items[items.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener('keydown', handleEscape);
     return () => {
-      document.body.style.overflow = 'unset';
+      window.clearTimeout(focusTimer);
+      window.removeEventListener('keydown', handleEscape);
+      document.body.style.overflow = previousOverflow;
     };
   }, [isMenuOpen]);
 
@@ -307,6 +337,7 @@ const Header: React.FC = () => {
       popular: [
         { name: 'Study Hub Portal', to: '/student-resources', desc: 'Unified study plans & revision notes', icon: 'GraduationCap' },
         { name: 'Interactive Quizzes', to: '/quizzes', desc: 'Short, engaging knowledge checks', badge: 'New', icon: 'Brain' },
+        { name: '20-Feature Study Toolkit', to: '/study-toolkit', desc: 'Focus timer, planner, notes, flashcards and revision tracking', badge: 'New', icon: 'Target' },
         { name: 'Visual Node Maps', to: '/visualization', desc: 'Interactive remedy relationship maps', icon: 'Compass' }
       ],
       pinned: [
@@ -431,7 +462,7 @@ const Header: React.FC = () => {
   return (
     <>
       {showEduBanner && (
-        <div className="bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex flex-col md:flex-row items-center justify-center gap-3 shadow-md">
+        <div className="hidden sm:flex bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex-col md:flex-row items-center justify-center gap-3 shadow-md">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="flex items-center gap-2 relative z-10 text-[11px] md:text-xs font-semibold">
             <GraduationCap className="w-4 h-4 text-[#10B981] animate-pulse shrink-0" />
@@ -466,24 +497,8 @@ const Header: React.FC = () => {
           : 'bg-bg-primary border-b border-transparent h-16'
         }`}
       >
-      <div 
-        className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full"
-        style={{ marginLeft: '0px', marginRight: '0px', paddingRight: '0px', paddingLeft: '100px', marginTop: '0px', width: '1200px', height: '90px' }}
-      >
-        <div 
-          className="flex items-center justify-between h-full relative gap-4"
-          style={{
-            height: '100px',
-            width: '0px',
-            marginLeft: '-40px',
-            marginRight: '3px',
-            marginTop: '12px',
-            paddingTop: '4px',
-            paddingLeft: '26px',
-            paddingRight: '60px',
-            paddingBottom: '9px'
-          }}
-        >
+      <div className="max-w-7xl mx-auto h-full w-full px-4 sm:px-6 lg:px-8">
+        <div className="flex h-full w-full min-w-0 items-center justify-between gap-2 sm:gap-4">
           
           {/* Desktop Navigation Left */}
           <nav className="hidden xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
@@ -504,6 +519,10 @@ const Header: React.FC = () => {
                   className="relative"
                   onMouseEnter={() => setHoveredIndex(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  onFocus={() => setHoveredIndex(idx)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHoveredIndex(null);
+                  }}
                 >
                   <Link
                     to={link.to}
@@ -511,7 +530,6 @@ const Header: React.FC = () => {
                       trackEvent('nav_click', { link_name: link.name, link_to: link.to });
                       handleLinkClick(link.to);
                     }}
-                    style={idx === 0 ? { width: '300px', paddingLeft: '101px', marginLeft: '20px', marginTop: '0px' } : undefined}
                     className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border relative overflow-hidden group/nav ${
                       isActive || isDropdownActive
                       ? 'text-primary bg-primary/5 border-primary/10' 
@@ -598,25 +616,29 @@ const Header: React.FC = () => {
             })}
           </nav>
 
-          {/* Logo Center */}
-          <div className="flex justify-center px-2 sm:px-4 lg:px-6 flex-shrink-0">
+          {/* Mobile brand is independent of desktop navigation geometry. */}
+          <div className="flex min-w-0 flex-1 items-center xl:hidden">
+            <Link to="/" onClick={() => handleLinkClick('/')} aria-label="Curiva home" className="inline-flex min-w-0 items-center">
+              <Logo size="sm" className="max-w-full" />
+            </Link>
+          </div>
+
+          {/* Desktop Logo Center */}
+          <div className="hidden xl:flex justify-center px-2 sm:px-4 lg:px-6 flex-shrink-0">
             <Link 
               to="/" 
               onClick={() => handleLinkClick('/')} 
               className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <div style={{ width: '159.703px', height: '58.75px', paddingLeft: '30px', paddingTop: '0px', marginLeft: '15px' }}>
-                <Logo size="md" style={{ marginLeft: '50px', width: '180px' }} />
+              <div className="flex min-w-0 items-center justify-center">
+                <Logo size="md" />
               </div>
             </Link>
           </div>
 
           {/* Desktop Navigation Right */}
-          <div 
-            className="hidden xl:flex items-center justify-end gap-1.5 flex-1"
-            style={{ width: '1000px', height: '68px', paddingLeft: '0px', marginRight: '0px', marginLeft: '30px' }}
-          >
+          <div className="hidden min-w-0 flex-1 items-center justify-end gap-1.5 xl:flex">
             <nav className="flex items-center gap-1.5" aria-label="Main Navigation Right">
               {rightLinks.map((link: any, idx: number) => {
                 const actualIdx = idx + half;
@@ -636,11 +658,14 @@ const Header: React.FC = () => {
                     className="relative"
                     onMouseEnter={() => setHoveredIndex(actualIdx)}
                     onMouseLeave={() => setHoveredIndex(null)}
+                    onFocus={() => setHoveredIndex(actualIdx)}
+                    onBlur={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHoveredIndex(null);
+                    }}
                   >
                     <Link
                       to={link.to}
                       onClick={() => handleLinkClick(link.to)}
-                      style={idx === 0 ? { height: '39px', width: '133.719px' } : undefined}
                       className={`flex items-center gap-2 px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-widest transition-all border relative overflow-hidden group/nav ${
                         isActive || isDropdownActive
                         ? 'text-primary bg-primary/5 border-primary/10' 
@@ -730,19 +755,22 @@ const Header: React.FC = () => {
                 <span>Find Remedy</span>
                 <ArrowRight className="w-3 h-3 opacity-0 -translate-x-1 group-hover:opacity-100 group-hover:translate-x-0 transition-all" />
               </Link>
-              <ThemeToggle style={{ width: '30px', height: '30px' }} />
+              <ThemeToggle />
               <ProfileSwitch />
-              <AuthButton style={{ width: '200px' }} />
+              <AuthButton />
             </div>
           </div>
 
           {/* Mobile/Tablet Menu Button */}
-          <div className="xl:hidden absolute right-0 flex items-center gap-3">
+          <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 xl:hidden">
              <ThemeToggle />
              <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-3 rounded-2xl bg-primary text-white shadow-xl active:scale-95 transition-all"
-              aria-label="Toggle menu"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-lg active:scale-95 transition-transform"
+              aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
+              aria-expanded={isMenuOpen}
+              aria-controls="curiva-mobile-navigation"
             >
               {isMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
@@ -751,7 +779,25 @@ const Header: React.FC = () => {
       </div>
       </header>
 
-
+      {/* Small screens use thumb-first navigation; some focused workspaces provide their own actions. */}
+      {!location.pathname.startsWith('/admin/') && (
+      <nav aria-label="Mobile quick navigation" className="xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 backdrop-blur-xl px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
+        <div className="mx-auto grid max-w-lg grid-cols-4 gap-1">
+          <Link to="/" onClick={() => handleLinkClick('/')} aria-current={location.pathname === '/' ? 'page' : undefined} className={location.pathname === '/' ? "flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl bg-primary/10 text-primary text-[10px] font-bold transition-colors" : "flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-text-secondary hover:bg-bg-secondary text-[10px] font-bold transition-colors"}>
+            <Home className="h-5 w-5" aria-hidden="true" /><span>Home</span>
+          </Link>
+          <Link to={isPatientWorkspace ? '/public-education' : (currentRole === 'Practitioner' || currentRole === 'Researcher' ? '/clinical-guides' : '/student-resources')} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+            <BookOpen className="h-5 w-5" aria-hidden="true" /><span>Explore</span>
+          </Link>
+          <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+            <Search className="h-5 w-5" aria-hidden="true" /><span>Search</span>
+          </button>
+          <button type="button" onClick={() => setIsMenuOpen(true)} aria-label="Open full navigation menu" className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+            <Menu className="h-5 w-5" aria-hidden="true" /><span>Menu</span>
+          </button>
+        </div>
+      </nav>
+      )}
 
       {/* Mobile Navigation Drawer */}
       <AnimatePresence mode="wait">
@@ -761,10 +807,14 @@ const Header: React.FC = () => {
             initial="closed"
             animate="open"
             exit="closed"
-            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
+            id="curiva-mobile-navigation"
+            role="dialog"
+            aria-modal="true"
+            aria-label="Mobile navigation"
+            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-bg-primary shadow-2xl flex flex-col"
             style={{ perspective: 1200, transformStyle: "preserve-3d" }}
           >
-            <div className="flex items-center justify-between p-6 border-b border-border">
+            <div className="flex items-center justify-between gap-3 px-4 py-3 pt-[calc(env(safe-area-inset-top,0px)+0.75rem)] sm:p-6 border-b border-border">
               <Logo size="sm" />
               <button
                 onClick={() => setIsMenuOpen(false)}
@@ -788,7 +838,7 @@ const Header: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-10">
+            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-4 pb-8 sm:p-6 space-y-7 sm:space-y-10">
               {/* Mobile Search */}
               <motion.div variants={itemVariants} className="space-y-4">
                 <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] px-2">

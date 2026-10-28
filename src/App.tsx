@@ -47,6 +47,8 @@ const Home = lazyLoad(() => import('./pages/Home'));
 const CurivaHome = lazyLoad(() => import('./pages/CurivaHome'));
 const Articles = lazyLoad(() => import('./pages/Articles'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
+const ResearchEntryPage = lazyLoad(() => import('./pages/ResearchEntryPage'));
+const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const About = lazyLoad(() => import('./pages/About'));
 const PrivacyPolicy = lazyLoad(() => import('./pages/PrivacyPolicy'));
 const MedicalDisclaimer = lazyLoad(() => import('./pages/MedicalDisclaimer'));
@@ -72,6 +74,8 @@ const StudyTool = lazyLoad(() => import('./pages/StudyTool'));
 const Stalwarts = lazyLoad(() => import('./pages/Stalwarts'));
 const Profile = lazyLoad(() => import('./pages/Profile'));
 const Auth = lazyLoad(() => import('./pages/Auth'));
+const Appointments = lazyLoad(() => import('./pages/Appointments'));
+const AdminAppointments = lazyLoad(() => import('./pages/AdminAppointments'));
 const FindRemedy = lazyLoad(() => import('./pages/FindRemedy'));
 const MCQPractice = lazyLoad(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazyLoad(() => import('./pages/ClinicalGuides'));
@@ -119,6 +123,7 @@ const CellInjuryMasterPage = lazyLoad(() => import('./pages/CellInjuryMasterPage
 const UniversityBlueprints = lazyLoad(() => import('./pages/UniversityBlueprints'));
 const FlashcardsPage = lazyLoad(() => import('./pages/FlashcardsPage'));
 const Quizzes = lazyLoad(() => import('./pages/Quizzes'));
+const StudyToolkit = lazyLoad(() => import('./pages/StudyToolkit'));
 const AiapgetMcqSimulator = lazyLoad(() => import('./pages/AiapgetMcqSimulator'));
 const ClinicalTherapeuticsPage = lazyLoad(() => import('./pages/ClinicalTherapeuticsPage'));
 
@@ -279,6 +284,7 @@ function AppRoutes() {
                 <Route path="/university-blueprints" element={<PageWrapper><UniversityBlueprints /></PageWrapper>} />
                 <Route path="/flashcards" element={<PageWrapper><FlashcardsPage /></PageWrapper>} />
                 <Route path="/quizzes" element={<PageWrapper><Quizzes /></PageWrapper>} />
+                <Route path="/study-toolkit" element={<PageWrapper><StudyToolkit /></PageWrapper>} />
                 <Route path="/quiz" element={<Navigate to="/quizzes" replace />} />
                 <Route path="/aiapget-mcq-simulator" element={<PageWrapper><AiapgetMcqSimulator /></PageWrapper>} />
                 <Route path="/clinical-therapeutics" element={<PageWrapper><ClinicalTherapeuticsPage /></PageWrapper>} />
@@ -370,6 +376,7 @@ function AppRoutes() {
                 {/* Knowledge Base & Research Routes */}
                 <Route path="/knowledge-base" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
                 <Route path="/research-updates" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
+                <Route path="/research-entry/:slug" element={<PageWrapper><ResearchEntryPage /></PageWrapper>} />
                 <Route path="/categories" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/categories/*" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/historic-pioneers" element={<PageWrapper><Stalwarts /></PageWrapper>} />
@@ -395,6 +402,8 @@ function AppRoutes() {
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+                <Route path="/appointments" element={<PageWrapper><Appointments /></PageWrapper>} />
+                <Route path="/admin/appointments" element={<PageWrapper><AdminAppointments /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/my-library" element={<Navigate to="/library" replace />} />
@@ -460,6 +469,7 @@ function AppRoutes() {
                 <Route path="/syllabus" element={<Navigate to="/cbdc-syllabus" replace />} />
                 <Route path="/coming-soon" element={<PageWrapper><ComingSoon /></PageWrapper>} />
                 <Route path="/admin/link-audit" element={<PageWrapper><AdminLinkAudit /></PageWrapper>} />
+                <Route path="/admin/dashboard" element={<PageWrapper><AdminAnalyticsDashboard /></PageWrapper>} />
 
                 {/* Catch-all Wildcard Route */}
                 <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />

@@ -6,7 +6,6 @@ export interface Resource {
   pageCount: number;
   price: number; // in INR
   thumbnail: string;
-  fileUrl: string;
   isPro?: boolean;
 }
 
@@ -19,7 +18,6 @@ export const resources: Resource[] = [
     pageCount: 1,
     price: 120,
     thumbnail: 'https://curivahomoeopathy.netlify.app/assets/cheat_sheet_cover.png', // I'll assume this asset will be handled or use a generic one
-    fileUrl: 'https://drive.google.com/file/d/1o_hf7hoxzvbVb7sR4MOLCfodkZfglice/view?usp=drivesdk',
     isPro: false
   }
 ];

@@ -1,0 +1,156 @@
+/* Curiva web design foundation.
+   Scoped to the public homepage so existing educational routes remain visually stable
+   while the shared system is introduced incrementally. */
+
+:root {
+  --curiva-forest: #153d35;
+  --curiva-forest-deep: #102d32;
+  --curiva-mint: #d9f0e2;
+  --curiva-mint-strong: #b6dfc6;
+  --curiva-canvas: #f5f8f5;
+  --curiva-surface: #ffffff;
+  --curiva-ink: #193b35;
+  --curiva-muted: #687b72;
+  --curiva-line: #e0e9e2;
+  --curiva-focus: #26795a;
+  --curiva-radius-card: 1.5rem;
+  --curiva-shadow-card: 0 8px 30px rgb(25 59 53 / 4%);
+  --curiva-shadow-hover: 0 18px 42px rgb(25 59 53 / 10%);
+}
+
+.curiva-home {
+  color: var(--curiva-ink);
+  background:
+    radial-gradient(ellipse at 4% 12%, rgb(220 240 226 / 52%), transparent 34rem),
+    radial-gradient(ellipse at 96% 54%, rgb(232 241 235 / 60%), transparent 30rem),
+    var(--curiva-canvas);
+}
+
+.curiva-home__hero {
+  isolation: isolate;
+  border: 1px solid rgb(255 255 255 / 8%);
+  background-image:
+    radial-gradient(circle at 88% 16%, rgb(146 208 176 / 13%), transparent 20rem),
+    linear-gradient(125deg, transparent 35%, rgb(255 255 255 / 2%) 100%);
+}
+
+.curiva-home__workspace-panel {
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 8%);
+}
+
+.curiva-home__card {
+  box-shadow: var(--curiva-shadow-card);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.curiva-home__card:hover {
+  transform: translateY(-3px);
+  box-shadow: var(--curiva-shadow-hover);
+}
+
+.curiva-home :is(a, button, input, select, textarea):focus-visible {
+  outline: 3px solid var(--curiva-focus);
+  outline-offset: 3px;
+}
+
+.curiva-home :is(a, button) {
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+}
+
+.curiva-home__section-title {
+  text-wrap: balance;
+}
+
+@media (max-width: 640px) {
+  .curiva-home__hero {
+    border-radius: 1.5rem;
+  }
+
+  .curiva-home__card:hover {
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curiva-home *,
+  .curiva-home *::before,
+  .curiva-home *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .curiva-home__card:hover {
+    transform: none;
+  }
+}
+
+
+/* Shared components for secondary Curiva destinations. Keep selectors scoped so
+   legacy learning pages can adopt the system incrementally without regressions. */
+.curiva-page {
+  --curiva-control-height: 3rem;
+  --curiva-content-gutter: clamp(1rem, 3vw, 2rem);
+  color: var(--color-text-primary, var(--curiva-ink));
+}
+
+.curiva-page .curiva-eyebrow {
+  color: var(--color-primary, var(--curiva-focus));
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.curiva-page .curiva-surface {
+  min-width: 0;
+  border-radius: var(--curiva-radius-card);
+  box-shadow: var(--curiva-shadow-card);
+  transition: box-shadow 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.curiva-page .curiva-control {
+  min-height: var(--curiva-control-height);
+  box-sizing: border-box;
+  color: var(--color-text-primary, var(--curiva-ink));
+}
+
+.curiva-page .curiva-control::placeholder {
+  color: var(--color-text-tertiary, var(--curiva-muted));
+  opacity: 1;
+}
+
+.curiva-page .curiva-control:focus-visible {
+  outline: 3px solid var(--curiva-focus);
+  outline-offset: 2px;
+  border-color: var(--curiva-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .curiva-page .curiva-surface:hover {
+    box-shadow: var(--curiva-shadow-hover);
+  }
+}
+
+@media (max-width: 640px) {
+  .curiva-page {
+    --curiva-control-height: 3rem;
+  }
+
+  .curiva-page .curiva-surface {
+    border-radius: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curiva-page .curiva-surface,
+  .curiva-page .curiva-control {
+    transition: none !important;
+  }
+}

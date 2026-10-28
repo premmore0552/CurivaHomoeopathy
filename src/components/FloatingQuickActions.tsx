@@ -138,7 +138,7 @@ export default function FloatingQuickActions() {
   return (
     <>
       {/* PERSISTENT FLOATING ACTIONS TRIGGERS */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-2.5 items-end">
+      <div className="hidden xl:flex fixed bottom-6 right-6 z-40 max-w-[calc(100vw-3rem)] flex-col items-end gap-2.5">
         {/* Back To Top Button */}
         <AnimatePresence>
           {showScrollTop && (
