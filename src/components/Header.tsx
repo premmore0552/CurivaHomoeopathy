@@ -761,6 +761,9 @@ const Header: React.FC = () => {
       </div>
       </header>
 
+      {/* Persistent search controller: the modal must work even when the mobile drawer is closed. */}
+      <SearchAutocomplete hideTrigger />
+
       {/* Mobile thumb navigation is intentionally different from desktop hover mega-menus. */}
       <nav aria-label="Mobile quick navigation" className="xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 backdrop-blur-xl px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
         <div className="mx-auto grid max-w-lg grid-cols-4 gap-1">
@@ -824,7 +827,18 @@ const Header: React.FC = () => {
                 <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] px-2">
                   Quick Search
                 </h3>
-                <SearchAutocomplete />
+                <button
+                  type="button"
+                  onClick={() => {
+                    setIsMenuOpen(false);
+                    window.setTimeout(() => window.dispatchEvent(new CustomEvent('open-command-palette')), 120);
+                  }}
+                  className="flex min-h-12 w-full items-center gap-3 rounded-2xl border border-border bg-bg-secondary px-4 py-3 text-left text-sm font-semibold text-text-secondary"
+                >
+                  <Search className="h-5 w-5 text-primary" />
+                  <span className="flex-1">Search resources, topics, and remedies</span>
+                  <ChevronRight className="h-4 w-4" />
+                </button>
               </motion.div>
               
               {/* Mobile Links */}
