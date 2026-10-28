@@ -197,6 +197,15 @@ const Header: React.FC = () => {
   }, [location.pathname]);
 
   useEffect(() => {
+    if (!isMenuOpen) return;
+    const handleEscape = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') setIsMenuOpen(false);
+    };
+    window.addEventListener('keydown', handleEscape);
+    return () => window.removeEventListener('keydown', handleEscape);
+  }, [isMenuOpen]);
+
+  useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
@@ -431,7 +440,7 @@ const Header: React.FC = () => {
   return (
     <>
       {showEduBanner && (
-        <div className="bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex flex-col md:flex-row items-center justify-center gap-3 shadow-md">
+        <div className="hidden xl:flex bg-gradient-to-r from-emerald-950 via-zinc-950 to-zinc-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex-col items-center justify-center gap-3 shadow-md">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="flex items-center gap-2 relative z-10 text-[11px] md:text-xs font-semibold">
             <GraduationCap className="w-4 h-4 text-[#10B981] animate-pulse shrink-0" />
@@ -492,6 +501,8 @@ const Header: React.FC = () => {
                   className="relative"
                   onMouseEnter={() => setHoveredIndex(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  onFocus={() => setHoveredIndex(idx)}
+                  onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHoveredIndex(null); }}
                 >
                   <Link
                     to={link.to}
@@ -521,7 +532,7 @@ const Header: React.FC = () => {
                         initial={{ opacity: 0, y: 10, scale: 0.95 }}
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                        className={`absolute top-full left-0 mt-3 bg-white dark:bg-zinc-950 border border-border dark:border-zinc-800 rounded-3xl shadow-2xl p-6 z-50 ${link.dropdownWidth || 'w-64'}`}
+                        className={`absolute top-full left-0 mt-3 bg-white dark:bg-zinc-950 border border-border dark:border-zinc-800 rounded-3xl shadow-2xl p-4 sm:p-6 z-50 max-w-[calc(100vw-1.5rem)] max-h-[min(75vh,640px)] overflow-y-auto ${link.dropdownWidth || 'w-64'}`}
                       >
                          {/* MegaMenu content is rendered dynamically based on link.megaMenu boolean */}
                          {link.megaMenu ? (
@@ -593,7 +604,7 @@ const Header: React.FC = () => {
               className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <div className="w-[clamp(7rem,34vw,10rem)] sm:w-[clamp(7.5rem,13vw,10rem)] h-12 sm:h-[3.7rem] flex items-center justify-center overflow-hidden">
+              <div className="w-[clamp(9rem,42vw,11rem)] sm:w-[clamp(7.5rem,13vw,10rem)] h-12 sm:h-[3.7rem] flex items-center justify-center overflow-hidden">
                 <Logo size="sm" className="w-full max-w-[11rem] ml-0" />
               </div>
             </Link>
@@ -620,6 +631,8 @@ const Header: React.FC = () => {
                     className="relative"
                     onMouseEnter={() => setHoveredIndex(actualIdx)}
                     onMouseLeave={() => setHoveredIndex(null)}
+                    onFocus={() => setHoveredIndex(actualIdx)}
+                    onBlur={(event) => { if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHoveredIndex(null); }}
                   >
                     <Link
                       to={link.to}
@@ -646,7 +659,7 @@ const Header: React.FC = () => {
                           initial={{ opacity: 0, y: 10, scale: 0.95 }}
                           animate={{ opacity: 1, y: 0, scale: 1 }}
                           exit={{ opacity: 0, y: 10, scale: 0.95 }}
-                          className={`absolute top-full right-0 mt-3 bg-white dark:bg-zinc-950 border border-border dark:border-zinc-800 rounded-3xl shadow-2xl p-6 z-50 ${link.dropdownWidth || 'w-64'}`}
+                          className={`absolute top-full right-0 mt-3 bg-white dark:bg-zinc-950 border border-border dark:border-zinc-800 rounded-3xl shadow-2xl p-4 sm:p-6 z-50 max-w-[calc(100vw-1.5rem)] max-h-[min(75vh,640px)] overflow-y-auto ${link.dropdownWidth || 'w-64'}`}
                         >
                           {link.megaMenu ? (
                              <div className="grid grid-cols-12 gap-8">
@@ -742,10 +755,10 @@ const Header: React.FC = () => {
           <Link to="/" onClick={() => handleLinkClick('/')} className={`flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold ${location.pathname === '/' ? 'text-primary bg-primary/10' : 'text-text-secondary'}`}>
             <Home className="h-5 w-5" /><span>Home</span>
           </Link>
-          <Link to={isPatientWorkspace ? '/public-education' : '/student-resources'} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
+          <Link to={isPatientWorkspace ? '/public-education' : ['Practitioner', 'Researcher', 'Administrator'].includes(currentRole) ? '/clinical-guides' : '/student-resources'} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
             <BookOpen className="h-5 w-5" /><span>Explore</span>
           </Link>
-          <button type="button" onClick={() => setIsMenuOpen(true)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
+          <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary" aria-label="Open global search">
             <Search className="h-5 w-5" /><span>Search</span>
           </button>
           <button type="button" onClick={() => setIsMenuOpen(true)} aria-label="Open full navigation" className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary">
@@ -763,11 +776,13 @@ const Header: React.FC = () => {
             animate="open"
             exit="closed"
             id="curiva-mobile-navigation"
+            role="dialog"
+            aria-modal="true"
             aria-label="Mobile navigation"
             className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] max-h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
             style={{ perspective: 1200, transformStyle: "preserve-3d" }}
           >
-            <div className="flex items-center justify-between p-6 border-b border-border">
+            <div className="flex items-center justify-between p-4 sm:p-6 border-b border-border">
               <Logo size="sm" />
               <button
                 onClick={() => setIsMenuOpen(false)}
