@@ -89,3 +89,68 @@
     transform: none;
   }
 }
+
+
+/* Shared components for secondary Curiva destinations. Keep selectors scoped so
+   legacy learning pages can adopt the system incrementally without regressions. */
+.curiva-page {
+  --curiva-control-height: 3rem;
+  --curiva-content-gutter: clamp(1rem, 3vw, 2rem);
+  color: var(--color-text-primary, var(--curiva-ink));
+}
+
+.curiva-page .curiva-eyebrow {
+  color: var(--color-primary, var(--curiva-focus));
+  font-size: 0.6875rem;
+  font-weight: 800;
+  line-height: 1.4;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.curiva-page .curiva-surface {
+  min-width: 0;
+  border-radius: var(--curiva-radius-card);
+  box-shadow: var(--curiva-shadow-card);
+  transition: box-shadow 180ms ease, border-color 180ms ease, transform 180ms ease;
+}
+
+.curiva-page .curiva-control {
+  min-height: var(--curiva-control-height);
+  box-sizing: border-box;
+  color: var(--color-text-primary, var(--curiva-ink));
+}
+
+.curiva-page .curiva-control::placeholder {
+  color: var(--color-text-tertiary, var(--curiva-muted));
+  opacity: 1;
+}
+
+.curiva-page .curiva-control:focus-visible {
+  outline: 3px solid var(--curiva-focus);
+  outline-offset: 2px;
+  border-color: var(--curiva-focus);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .curiva-page .curiva-surface:hover {
+    box-shadow: var(--curiva-shadow-hover);
+  }
+}
+
+@media (max-width: 640px) {
+  .curiva-page {
+    --curiva-control-height: 3rem;
+  }
+
+  .curiva-page .curiva-surface {
+    border-radius: 1.25rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .curiva-page .curiva-surface,
+  .curiva-page .curiva-control {
+    transition: none !important;
+  }
+}
