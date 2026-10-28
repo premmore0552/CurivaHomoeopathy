@@ -779,7 +779,8 @@ const Header: React.FC = () => {
       </div>
       </header>
 
-      {/* Small screens use thumb-first navigation; desktop retains full mega menus. */}
+      {/* Small screens use thumb-first navigation; some focused workspaces provide their own actions. */}
+      {!location.pathname.startsWith('/admin/') && (
       <nav aria-label="Mobile quick navigation" className="xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 backdrop-blur-xl px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
         <div className="mx-auto grid max-w-lg grid-cols-4 gap-1">
           <Link to="/" onClick={() => handleLinkClick('/')} aria-current={location.pathname === '/' ? 'page' : undefined} className={location.pathname === '/' ? "flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl bg-primary/10 text-primary text-[10px] font-bold transition-colors" : "flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-text-secondary hover:bg-bg-secondary text-[10px] font-bold transition-colors"}>
@@ -796,6 +797,7 @@ const Header: React.FC = () => {
           </button>
         </div>
       </nav>
+      )}
 
       {/* Mobile Navigation Drawer */}
       <AnimatePresence mode="wait">
