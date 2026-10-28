@@ -441,7 +441,7 @@ const Header: React.FC = () => {
   return (
     <>
       {showEduBanner && (
-        <div className="bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex flex-col md:flex-row items-center justify-center gap-3 shadow-md">
+        <div className="hidden sm:flex bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex-col md:flex-row items-center justify-center gap-3 shadow-md">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="flex items-center gap-2 relative z-10 text-[11px] md:text-xs font-semibold">
             <GraduationCap className="w-4 h-4 text-[#10B981] animate-pulse shrink-0" />
@@ -477,7 +477,7 @@ const Header: React.FC = () => {
         }`}
       >
       <div className="max-w-7xl mx-auto h-full w-full px-4 sm:px-6 lg:px-8">
-        <div className="flex h-full w-full min-w-0 items-center justify-between gap-3 sm:gap-4">
+        <div className="flex h-full w-full min-w-0 items-center justify-between gap-2 sm:gap-4">
           
           {/* Desktop Navigation Left */}
           <nav className="hidden xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
@@ -498,6 +498,10 @@ const Header: React.FC = () => {
                   className="relative"
                   onMouseEnter={() => setHoveredIndex(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
+                  onFocus={() => setHoveredIndex(idx)}
+                  onBlur={(event) => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHoveredIndex(null);
+                  }}
                 >
                   <Link
                     to={link.to}
@@ -591,8 +595,15 @@ const Header: React.FC = () => {
             })}
           </nav>
 
-          {/* Logo Center */}
-          <div className="flex justify-center px-2 sm:px-4 lg:px-6 flex-shrink-0">
+          {/* Mobile brand is independent of desktop navigation geometry. */}
+          <div className="flex min-w-0 flex-1 items-center xl:hidden">
+            <Link to="/" onClick={() => handleLinkClick('/')} aria-label="Curiva home" className="inline-flex min-w-0 items-center">
+              <Logo size="sm" className="max-w-full" />
+            </Link>
+          </div>
+
+          {/* Desktop Logo Center */}
+          <div className="hidden xl:flex justify-center px-2 sm:px-4 lg:px-6 flex-shrink-0">
             <Link 
               to="/" 
               onClick={() => handleLinkClick('/')} 
@@ -626,6 +637,10 @@ const Header: React.FC = () => {
                     className="relative"
                     onMouseEnter={() => setHoveredIndex(actualIdx)}
                     onMouseLeave={() => setHoveredIndex(null)}
+                    onFocus={() => setHoveredIndex(actualIdx)}
+                    onBlur={(event) => {
+                      if (!event.currentTarget.contains(event.relatedTarget as Node | null)) setHoveredIndex(null);
+                    }}
                   >
                     <Link
                       to={link.to}
@@ -729,8 +744,9 @@ const Header: React.FC = () => {
           <div className="ml-auto flex shrink-0 items-center gap-2 sm:gap-3 xl:hidden">
              <ThemeToggle />
              <button
+              type="button"
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="p-3 rounded-2xl bg-primary text-white shadow-xl active:scale-95 transition-all"
+              className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-primary text-white shadow-lg active:scale-95 transition-transform"
               aria-label={isMenuOpen ? "Close navigation menu" : "Open navigation menu"}
               aria-expanded={isMenuOpen}
               aria-controls="curiva-mobile-navigation"
@@ -742,7 +758,23 @@ const Header: React.FC = () => {
       </div>
       </header>
 
-
+      {/* Small screens use thumb-first navigation; desktop retains full mega menus. */}
+      <nav aria-label="Mobile quick navigation" className="xl:hidden fixed inset-x-0 bottom-0 z-40 border-t border-border bg-bg-primary/95 backdrop-blur-xl px-2 pt-2 pb-[calc(env(safe-area-inset-bottom,0px)+0.5rem)] shadow-[0_-8px_30px_rgba(0,0,0,0.08)]">
+        <div className="mx-auto grid max-w-lg grid-cols-4 gap-1">
+          <Link to="/" onClick={() => handleLinkClick('/')} aria-current={location.pathname === '/' ? 'page' : undefined} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl bg-primary/5 text-primary text-[10px] font-bold transition-colors">
+            <Home className="h-5 w-5" aria-hidden="true" /><span>Home</span>
+          </Link>
+          <Link to={isPatientWorkspace ? '/public-education' : (currentRole === 'Practitioner' || currentRole === 'Researcher' ? '/clinical-guides' : '/student-resources')} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+            <BookOpen className="h-5 w-5" aria-hidden="true" /><span>Explore</span>
+          </Link>
+          <button type="button" onClick={() => { setIsMenuOpen(true); window.setTimeout(() => document.querySelector<HTMLInputElement>('#curiva-mobile-navigation input')?.focus(), 180); }} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+            <Search className="h-5 w-5" aria-hidden="true" /><span>Search</span>
+          </button>
+          <button type="button" onClick={() => setIsMenuOpen(true)} aria-label="Open full navigation menu" className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+            <Menu className="h-5 w-5" aria-hidden="true" /><span>Menu</span>
+          </button>
+        </div>
+      </nav>
 
       {/* Mobile Navigation Drawer */}
       <AnimatePresence mode="wait">
@@ -756,10 +788,10 @@ const Header: React.FC = () => {
             role="dialog"
             aria-modal="true"
             aria-label="Mobile navigation"
-            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] bg-bg-primary shadow-2xl transition-colors duration-300 flex flex-col"
+            className="xl:hidden fixed inset-0 z-[60] w-full h-[100dvh] max-h-[100dvh] overflow-hidden bg-bg-primary shadow-2xl flex flex-col"
             style={{ perspective: 1200, transformStyle: "preserve-3d" }}
           >
-            <div className="flex items-center justify-between p-6 border-b border-border">
+            <div className="flex items-center justify-between gap-3 px-4 py-3 pt-[calc(env(safe-area-inset-top,0px)+0.75rem)] sm:p-6 border-b border-border">
               <Logo size="sm" />
               <button
                 onClick={() => setIsMenuOpen(false)}
@@ -783,7 +815,7 @@ const Header: React.FC = () => {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto p-6 space-y-10">
+            <div className="flex-1 min-h-0 overflow-y-auto overscroll-contain px-4 py-4 pb-8 sm:p-6 space-y-7 sm:space-y-10">
               {/* Mobile Search */}
               <motion.div variants={itemVariants} className="space-y-4">
                 <h3 className="text-[10px] font-black text-primary uppercase tracking-[0.2em] px-2">
