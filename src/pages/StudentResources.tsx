@@ -153,9 +153,26 @@ export default function StudentResources() {
         </div>
       </div>
 
+      {/* Searchable resource catalogue */}
+      <section aria-labelledby="resource-catalogue-title" className="space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-3">
+          <div>
+            <p className="curiva-eyebrow">Find your next study step</p>
+            <h2 id="resource-catalogue-title" className="text-xl sm:text-2xl font-bold mt-2">Explore learning resources</h2>
+            <p className="text-sm text-text-secondary mt-1">Search by tool, subject, exam, or feature.</p>
+          </div>
+          <span className="text-xs font-semibold text-text-tertiary" aria-live="polite">{filteredCenters.length} of {resourceCenters.length} resource centers</span>
+        </div>
+        <div className="relative max-w-2xl">
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-text-tertiary pointer-events-none" aria-hidden="true" />
+          <input type="search" value={resourceQuery} onChange={(event) => setResourceQuery(event.target.value)} placeholder="Search study centers, flashcards, MCQs..." aria-label="Search student resources" className="curiva-control w-full rounded-2xl border border-border bg-bg-secondary py-4 pl-12 pr-12 text-base text-text-primary shadow-sm focus:border-primary" />
+          {resourceQuery && <button type="button" onClick={() => setResourceQuery("")} aria-label="Clear resource search" className="absolute right-3 top-1/2 -translate-y-1/2 rounded-lg p-2 text-text-tertiary hover:bg-bg-tertiary hover:text-primary"><X size={17}/></button>}
+        </div>
+      </section>
+
       {/* Main Grid of Dedicated Resource Portals */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        {resourceCenters.map((center, idx) => {
+      {filteredCenters.length > 0 ? <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        {filteredCenters.map((center) => {
           const Icon = center.icon;
 
           return (
