@@ -788,7 +788,7 @@ const Header: React.FC = () => {
           <Link to={isPatientWorkspace ? '/public-education' : (currentRole === 'Practitioner' || currentRole === 'Researcher' ? '/clinical-guides' : '/student-resources')} onClick={() => setIsMenuOpen(false)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
             <BookOpen className="h-5 w-5" aria-hidden="true" /><span>Explore</span>
           </Link>
-          <button type="button" onClick={() => { setIsMenuOpen(true); window.setTimeout(() => document.querySelector<HTMLInputElement>('#curiva-mobile-navigation input')?.focus(), 180); }} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
+          <button type="button" onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
             <Search className="h-5 w-5" aria-hidden="true" /><span>Search</span>
           </button>
           <button type="button" onClick={() => setIsMenuOpen(true)} aria-label="Open full navigation menu" className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl text-[10px] font-bold text-text-secondary hover:bg-bg-secondary transition-colors">
