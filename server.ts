@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express from "express";
-import { createServer as createViteServer } from "vite";
 import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
@@ -3013,6 +3012,11 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
 
   // Vite middleware for development
   if (!isServerlessRuntime && process.env.NODE_ENV !== "production") {
+    // Load Vite only in the local development server. Keeping it out of the
+    // static import graph prevents Netlify's function bundler from tracing
+    // Vite's native CSS transformer dependencies into the serverless API.
+    const vitePackage = "vite";
+    const { createServer: createViteServer } = await import(vitePackage);
     const vite = await createViteServer({
       server: { middlewareMode: true },
       appType: "spa",
