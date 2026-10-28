@@ -47,6 +47,7 @@ const Home = lazyLoad(() => import('./pages/Home'));
 const CurivaHome = lazyLoad(() => import('./pages/CurivaHome'));
 const Articles = lazyLoad(() => import('./pages/Articles'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
+const ResearchEntryPage = lazyLoad(() => import('./pages/ResearchEntryPage'));
 const About = lazyLoad(() => import('./pages/About'));
 const PrivacyPolicy = lazyLoad(() => import('./pages/PrivacyPolicy'));
 const MedicalDisclaimer = lazyLoad(() => import('./pages/MedicalDisclaimer'));
@@ -104,6 +105,7 @@ const FmtSearchPage = lazyLoad(() => import('./pages/FmtSearchPage'));
 const AskHomoeopath = lazyLoad(() => import('./pages/AskHomoeopath'));
 const FirstBhmsCrashCourse = lazyLoad(() => import('./pages/FirstBhmsCrashCourse'));
 const AdminLinkAudit = lazyLoad(() => import('./pages/AdminLinkAudit'));
+const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const ComingSoon = lazyLoad(() => import('./pages/ComingSoon'));
 const NotFound = lazyLoad(() => import('./pages/NotFound'));
 
@@ -368,6 +370,7 @@ function AppRoutes() {
                 <Route path="/student-academy/cheat-sheets" element={<PageWrapper><StudentResources /></PageWrapper>} />
 
                 {/* Knowledge Base & Research Routes */}
+                <Route path="/research-entry/:slug" element={<PageWrapper><ResearchEntryPage /></PageWrapper>} />
                 <Route path="/knowledge-base" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
                 <Route path="/research-updates" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/categories" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
@@ -460,6 +463,7 @@ function AppRoutes() {
                 <Route path="/syllabus" element={<Navigate to="/cbdc-syllabus" replace />} />
                 <Route path="/coming-soon" element={<PageWrapper><ComingSoon /></PageWrapper>} />
                 <Route path="/admin/link-audit" element={<PageWrapper><AdminLinkAudit /></PageWrapper>} />
+                <Route path="/admin/dashboard" element={<PageWrapper><AdminAnalyticsDashboard /></PageWrapper>} />
 
                 {/* Catch-all Wildcard Route */}
                 <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />

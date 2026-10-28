@@ -87,7 +87,7 @@
   html {
     scroll-behavior: smooth;
     @apply antialiased text-text-primary bg-bg-primary;
-    font-size: 14.5px; /* Elegantly scales down all rem units to make website look mini size and high-precision */
+    font-size: 16px; /* Keep body text comfortably readable on mobile; scale individual components intentionally. */
   }
 
   body {
@@ -755,7 +755,7 @@ body, header, aside, .card, button, input, select, textarea, div {
 }
 
 /* Ensure all sections and main wrappers are fluid */
-section, main, article, aside, nav, footer {
+section, main, article, aside, footer {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
@@ -806,3 +806,49 @@ table {
 
 
 
+
+
+/* Mobile-first site-wide usability pass */
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+body { min-width: 320px; }
+#root { width: 100%; min-height: 100dvh; overflow-x: clip; }
+a, button, input, select, textarea { -webkit-tap-highlight-color: transparent; }
+button, [role="button"], a { touch-action: manipulation; }
+button, input, select, textarea { max-width: 100%; }
+input, select, textarea { font-size: max(16px, 1em); }
+:where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-primary) !important;
+  outline-offset: 3px;
+}
+img, video, iframe, svg { max-width: 100%; }
+table { display: block; max-width: 100%; overflow-x: auto; }
+@media (max-width: 1279px) {
+  header { max-width: 100vw; }
+  header nav { min-width: 0; }
+}
+@media (max-width: 767px) {
+  html { scroll-padding-top: 5rem; }
+  body { font-size: 16px; }
+  main { min-width: 0; }
+  h1 { font-size: clamp(1.8rem, 7vw, 2.65rem); line-height: 1.12; overflow-wrap: anywhere; }
+  h2 { font-size: clamp(1.45rem, 5.5vw, 2rem); line-height: 1.2; }
+  h3 { font-size: clamp(1.15rem, 4.5vw, 1.5rem); }
+  p, li { overflow-wrap: anywhere; }
+  .mednix-card { padding: 1.25rem; border-radius: 1.25rem; }
+  .btn-premium { min-height: 48px; padding: .9rem 1.25rem; max-width: 100%; white-space: normal; }
+  .markdown-body table { font-size: .875rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: .01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .01ms !important;
+  }
+}
+
+
+/* Reserve space for the dedicated fixed mobile navigation bar. */
+@media (max-width: 1279px) {
+  body { padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px)); }
+}

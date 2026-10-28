@@ -16,7 +16,7 @@ import {
   levenshteinDistance 
 } from '../utils/searchIndex';
 
-export default function SearchAutocomplete() {
+export default function SearchAutocomplete({ hideTrigger = false }: { hideTrigger?: boolean }) {
   const { currentRole } = useRole();
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -339,7 +339,7 @@ export default function SearchAutocomplete() {
   return (
     <>
       {/* Outer Click Trigger Bar (Algolia styled) */}
-      <div 
+      {!hideTrigger && <div 
         ref={containerRef} 
         onClick={() => setIsModalOpen(true)}
         className="relative group w-full md:w-60 lg:w-72 cursor-pointer select-none"
@@ -353,7 +353,7 @@ export default function SearchAutocomplete() {
             <span>⌘</span><span>K</span>
           </kbd>
         </div>
-      </div>
+      </div>}
 
       {/* Modern Blurred Full-Screen Modal Search Console */}
       <AnimatePresence>

@@ -48,6 +48,16 @@ export default function FloatingQuickActions() {
     setCurrentPearlIdx(sum % CLINICAL_PEARLS.length);
   }, [location.pathname]);
 
+  // Hide floating actions and close any open drawer when entering the mobile/tablet layout.
+  useEffect(() => {
+    const closeOnNarrowLayout = () => {
+      if (window.matchMedia('(max-width: 1279px)').matches) setIsOpen(false);
+    };
+    closeOnNarrowLayout();
+    window.addEventListener('resize', closeOnNarrowLayout);
+    return () => window.removeEventListener('resize', closeOnNarrowLayout);
+  }, []);
+
   // Monitor scroll height to show Back to Top sub-button
   useEffect(() => {
     const handleScroll = () => {
@@ -138,7 +148,7 @@ export default function FloatingQuickActions() {
   return (
     <>
       {/* PERSISTENT FLOATING ACTIONS TRIGGERS */}
-      <div className="fixed bottom-6 right-6 z-40 flex flex-col gap-2.5 items-end">
+      <div className="hidden xl:flex fixed bottom-[calc(env(safe-area-inset-bottom,0px)+1.5rem)] right-6 z-40 max-w-[calc(100vw-1.5rem)] flex-col items-end gap-2.5">
         {/* Back To Top Button */}
         <AnimatePresence>
           {showScrollTop && (
@@ -165,12 +175,12 @@ export default function FloatingQuickActions() {
           whileHover={{ scale: 1.03 }}
           whileTap={{ scale: 0.97 }}
           onClick={() => setIsOpen(true)}
-          className="px-4 py-3.5 bg-primary hover:bg-primary-dark text-white rounded-full shadow-xl shadow-primary/25 cursor-pointer transition-all flex items-center justify-center gap-2 border border-primary/20 group focus:outline-none focus:ring-2 focus:ring-primary/40"
+          className="min-h-11 max-w-full px-3 py-3 sm:px-4 sm:py-3.5 bg-primary hover:bg-primary-dark text-white rounded-full shadow-xl shadow-primary/25 cursor-pointer transition-all flex items-center justify-center gap-2 border border-primary/20 group focus:outline-none focus:ring-2 focus:ring-primary/40"
           title="Open Quick Settings & Directory"
           id="fab-quick-actions"
         >
           <Sliders className="w-4 h-4 animate-pulse group-hover:rotate-45 transition-transform duration-300" />
-          <span className="text-xs font-bold uppercase tracking-wider pr-0.5">Quick Actions</span>
+          <span className="text-[11px] sm:text-xs font-bold uppercase tracking-wide sm:tracking-wider pr-0.5 whitespace-nowrap">Quick Actions</span>
           {headings.length > 0 && (
             <span className="w-2 h-2 rounded-full bg-accent animate-ping absolute top-0.5 right-0.5" />
           )}
@@ -197,7 +207,7 @@ export default function FloatingQuickActions() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 26, stiffness: 210 }}
-              className="fixed top-0 right-0 h-full w-85 sm:w-100 bg-white dark:bg-gray-950 border-l border-border shadow-2xl z-50 flex flex-col"
+              className="fixed inset-y-0 right-0 h-[100dvh] w-[min(100vw,24rem)] sm:w-100 bg-white dark:bg-gray-950 border-l border-border shadow-2xl z-50 flex flex-col"
               id="fab-drawer-panel"
             >
               {/* Header */}
