@@ -37,7 +37,9 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
         className="space-y-2"
       >
         <button
+          type="button"
           onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
+          aria-expanded={isSubMenuOpen}
           className={`flex items-center justify-between w-full p-5 rounded-3xl font-black transition-all border group ${
             isActive || dropdownItems.some((d: any) => location.pathname === d.to)
             ? 'bg-primary/5 text-primary border-primary/20' 
