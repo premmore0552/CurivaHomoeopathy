@@ -48,6 +48,16 @@ export default function FloatingQuickActions() {
     setCurrentPearlIdx(sum % CLINICAL_PEARLS.length);
   }, [location.pathname]);
 
+  // Hide floating actions and close any open drawer when entering the mobile/tablet layout.
+  useEffect(() => {
+    const closeOnNarrowLayout = () => {
+      if (window.matchMedia('(max-width: 1279px)').matches) setIsOpen(false);
+    };
+    closeOnNarrowLayout();
+    window.addEventListener('resize', closeOnNarrowLayout);
+    return () => window.removeEventListener('resize', closeOnNarrowLayout);
+  }, []);
+
   // Monitor scroll height to show Back to Top sub-button
   useEffect(() => {
     const handleScroll = () => {
