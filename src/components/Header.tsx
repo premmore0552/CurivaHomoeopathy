@@ -193,7 +193,7 @@ const Header: React.FC = () => {
       drawer?.querySelector<HTMLElement>('button[aria-label="Close menu"]')?.focus();
     }, 0);
 
-    const handleKeyDown = (event: KeyboardEvent) => {
+    const handleEscape = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setIsMenuOpen(false);
         return;
@@ -213,10 +213,10 @@ const Header: React.FC = () => {
       }
     };
 
-    window.addEventListener('keydown', handleKeyDown);
+    window.addEventListener('keydown', handleEscape);
     return () => {
       window.clearTimeout(focusTimer);
-      window.removeEventListener('keydown', handleKeyDown);
+      window.removeEventListener('keydown', handleEscape);
       document.body.style.overflow = previousOverflow;
     };
   }, [isMenuOpen]);
