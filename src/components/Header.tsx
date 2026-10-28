@@ -20,6 +20,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
   const [isSubMenuOpen, setIsSubMenuOpen] = useState(false);
   const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
   const LinkIcon = link.icon ? (Icons as any)[link.icon] : null;
+  const submenuId = `mobile-nav-submenu-${String(link.name || 'section').toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
 
   const dropdownItems = useMemo(() => {
     if (link.dropdown) return link.dropdown;
@@ -38,6 +39,8 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
       >
         <button
           onClick={() => setIsSubMenuOpen(!isSubMenuOpen)}
+          aria-expanded={isSubMenuOpen}
+          aria-controls={submenuId}
           className={`flex items-center justify-between w-full p-5 rounded-3xl font-black transition-all border group ${
             isActive || dropdownItems.some((d: any) => location.pathname === d.to)
             ? 'bg-primary/5 text-primary border-primary/20' 
@@ -54,6 +57,7 @@ const MobileNavLink = ({ link, isActive, itemVariants, handleLinkClick, location
         <AnimatePresence>
           {isSubMenuOpen && (
             <motion.div
+              id={submenuId}
               initial={{ height: 0, opacity: 0 }}
               animate={{ height: 'auto', opacity: 1 }}
               exit={{ height: 0, opacity: 0 }}
@@ -204,6 +208,14 @@ const Header: React.FC = () => {
     window.addEventListener('keydown', handleEscape);
     return () => window.removeEventListener('keydown', handleEscape);
   }, [isMenuOpen]);
+
+  useEffect(() => {
+    const closeMobileMenuOnDesktop = () => {
+      if (window.matchMedia('(min-width: 1280px)').matches) setIsMenuOpen(false);
+    };
+    window.addEventListener('resize', closeMobileMenuOnDesktop);
+    return () => window.removeEventListener('resize', closeMobileMenuOnDesktop);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => setIsScrolled(window.scrollY > 20);
