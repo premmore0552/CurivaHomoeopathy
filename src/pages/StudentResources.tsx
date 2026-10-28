@@ -177,8 +177,8 @@ export default function StudentResources() {
 
           return (
             <div
-              key={idx}
-              className="bg-bg-secondary border border-border rounded-3xl p-6 sm:p-7 flex flex-col justify-between shadow-sm hover:border-primary/50 hover:shadow-md transition-all group"
+              key={center.title}
+              className="curiva-surface bg-bg-secondary border border-border rounded-3xl p-5 sm:p-7 flex flex-col justify-between shadow-sm hover:border-primary/50 hover:shadow-md transition-all group"
             >
               <div className="space-y-4">
                 <div className="flex items-center justify-between">
@@ -226,10 +226,15 @@ export default function StudentResources() {
             </div>
           );
         })}
-      </div>
+      </div> : <div className="curiva-surface rounded-3xl border border-border bg-bg-secondary px-5 py-12 text-center">
+        <div className="mx-auto mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary"><Search size={22}/></div>
+        <h3 className="text-lg font-bold">No matching resource centers</h3>
+        <p className="mt-2 text-sm text-text-secondary">Try a broader term such as “subject”, “exam”, “clinical”, or “flashcards”.</p>
+        <button type="button" onClick={() => setResourceQuery("")} className="mt-5 inline-flex min-h-11 items-center justify-center rounded-xl bg-primary px-5 py-3 text-sm font-bold text-white hover:bg-primary-dark">Clear search</button>
+      </div>}
 
       {/* Year-by-Year Fast Jump Section */}
-      <div className="bg-bg-secondary border border-border rounded-3xl p-6 sm:p-8 space-y-6">
+      <div className="curiva-surface bg-bg-secondary border border-border rounded-3xl p-5 sm:p-8 space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
           <div>
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-text-primary">
