@@ -755,7 +755,7 @@ body, header, aside, .card, button, input, select, textarea, div {
 }
 
 /* Ensure all sections and main wrappers are fluid */
-section, main, article, aside, nav, footer {
+section, main, article, aside, footer {
   width: 100%;
   max-width: 100%;
   box-sizing: border-box;
