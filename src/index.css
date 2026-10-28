@@ -899,3 +899,27 @@ table {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Priority 1 responsive safety: reserve room for mobile thumb navigation. */
+@media (max-width: 1279px) {
+  body {
+    padding-bottom: calc(4.75rem + env(safe-area-inset-bottom, 0px));
+  }
+}
+@media (max-width: 639px) {
+  table {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  main, section, article, aside, form, fieldset, [class*="grid"] {
+    min-width: 0;
+  }
+}
+@media (hover: none) and (pointer: coarse) {
+  a, button, [role="button"] { touch-action: manipulation; }
+}
