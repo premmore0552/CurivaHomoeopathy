@@ -495,7 +495,7 @@ const Header: React.FC = () => {
         >
           
           {/* Desktop Navigation Left */}
-          <nav className="hidden xl:flex items-center gap-1.5 flex-1 overflow-hidden" aria-label="Main Navigation Left">
+          <nav className="hidden xl:flex min-w-0 items-center gap-1.5 flex-1" aria-label="Main Navigation Left">
             {leftLinks.map((link: any, idx: number) => {
               const isActive = location.pathname === link.to;
               const hasDropdown = 'dropdown' in link || 'megaMenu' in link;
@@ -616,7 +616,7 @@ const Header: React.FC = () => {
               className="flex flex-col items-center hover:scale-105 transition-transform group"
               aria-label="Home"
             >
-              <div className="w-[clamp(9rem,42vw,11rem)] sm:w-[clamp(7.5rem,13vw,10rem)] h-12 sm:h-[3.7rem] flex items-center justify-center overflow-hidden">
+              <div className="w-[clamp(9rem,42vw,11rem)] sm:w-[clamp(7.5rem,13vw,10rem)] h-12 sm:h-14 flex items-center justify-center overflow-hidden">
                 <Logo size="sm" className="w-full max-w-[11rem] ml-0" />
               </div>
             </Link>
