@@ -57,6 +57,7 @@ const TermsOfService = lazyLoad(() => import('./pages/TermsOfService'));
 const AilmentDetail = lazyLoad(() => import('./pages/AilmentDetail'));
 const ComparisonTool = lazyLoad(() => import('./pages/ComparisonTool'));
 const RepertoryTool = lazyLoad(() => import('./pages/RepertoryTool'));
+const BoerickeRepertoryPage = lazyLoad(() => import('./pages/BoerickeRepertoryPage'));
 const Encyclopedia = lazyLoad(() => import('./pages/Encyclopedia'));
 const FAQPage = lazyLoad(() => import('./pages/FAQPage'));
 const TreatmentsPage = lazyLoad(() => import('./pages/TreatmentsPage'));
@@ -266,6 +267,7 @@ function AppRoutes() {
                 <Route path="/subject/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
                 <Route path="/subject/repertory" element={<PageWrapper><RepertorySubject /></PageWrapper>} />
+                <Route path="/repertory/boericke" element={<PageWrapper><BoerickeRepertoryPage /></PageWrapper>} />
                 <Route path="/subject/pharmacy" element={<PageWrapper><PharmacySubject /></PageWrapper>} />
                 <Route path="/subject/anatomy" element={<PageWrapper><AnatomyLibrary /></PageWrapper>} />
                 <Route path="/subject/physiology" element={<PageWrapper><PhysiologyLibrary /></PageWrapper>} />

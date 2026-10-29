@@ -13,7 +13,9 @@
     "lint": "tsc --noEmit",
     "cap:add": "cap add android",
     "cap:sync": "cap sync",
-    "cap:open": "cap open android"
+    "cap:open": "cap open android",
+    "import:boericke": "node scripts/import-boericke-ocr.mjs",
+    "prebuild": "node scripts/import-boericke-ocr.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",
