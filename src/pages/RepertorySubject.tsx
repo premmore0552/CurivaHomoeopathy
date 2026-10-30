@@ -111,6 +111,13 @@ export default function RepertorySubject() {
             >
               Search Kent Rubrics
             </Link>
+            <Link
+              to="/repertory/kent-1897"
+              className="inline-flex items-center gap-2 bg-emerald-700/70 text-white border border-emerald-400/30 px-6 py-3 rounded-xl font-bold text-sm hover:bg-emerald-700 transition-all"
+            >
+              Browse 1897 Source Text
+              <ArrowRight className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>
