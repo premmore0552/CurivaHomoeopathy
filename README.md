@@ -14,7 +14,7 @@ This repository is the existing Curiva Homoeopathy website and Capacitor app. Co
 ### Kent 1897 source-text browser
 
 The Repertory Study Center retains the existing curated repertory and adds a separate
-searchable reader for the 1897 Kent source transcription. The source browser is at
+searchable reader for the supplied Volume 1 scan of the 1897 Kent source transcription. The source browser is at
 `/repertory/kent-1897`. To generate its static text data from the Wellcome / Internet
 Archive OCR transcription, follow `docs/KENT_1897_IMPORT.md` and run
 `npm run import:kent:1897` before committing the generated `public/data/kent-1897` files.
