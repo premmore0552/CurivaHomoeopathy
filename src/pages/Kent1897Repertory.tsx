@@ -111,7 +111,7 @@ const chapterGroups = [
   { name: 'Generals & modalities', ids: ['sleep', 'chill', 'fever', 'perspiration', 'skin', 'generalities'] },
 ];
 
-const curatedById = new Map(repertoryDatabase.map((chapter) => [chapter.id, chapter]));
+const curatedById = new Map<string, RepertoryChapter>(repertoryDatabase.map((chapter) => [chapter.id, chapter] as const));
 
 function chapterForId(id: string): KentChapter {
   return kentChapters.find((chapter) => chapter.id === id) || kentChapters[0];
@@ -229,9 +229,6 @@ export default function Kent1897Repertory() {
 
   const results = useMemo(() => scoreRepertorization(selections), [selections]);
   const selectedPage = pages.find((page) => page.textPage === selectedTextPage) || null;
-  const structuredChapterCount = new Set(kentChapters
-    .filter((chapter) => chapter.curatedId && curatedById.has(chapter.curatedId))
-    .map((chapter) => chapter.curatedId)).size;
 
   function selectChapter(chapterId: string) {
     setActiveChapterId(chapterId);
