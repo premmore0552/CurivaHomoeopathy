@@ -13,7 +13,8 @@
     "lint": "tsc --noEmit",
     "cap:add": "cap add android",
     "cap:sync": "cap sync",
-    "cap:open": "cap open android"
+    "cap:open": "cap open android",
+    "import:kent:1897": "node scripts/import-kent-1897.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",
