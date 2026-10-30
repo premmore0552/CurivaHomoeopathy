@@ -105,16 +105,16 @@ export default function Kent1897Repertory() {
       <header className="rounded-3xl border border-border bg-bg-secondary p-6 sm:p-10 space-y-4">
         <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary">
           <BookOpen className="h-4 w-4" />
-          Historical source edition · 1897
+          Historical source edition · 1897 · Volume 1 scan
         </div>
         <h1 className="text-3xl sm:text-5xl font-serif font-bold tracking-tight">
           Kent's Repertory
           <span className="block text-primary">Original source text</span>
         </h1>
         <p className="max-w-3xl text-sm sm:text-base leading-relaxed text-text-secondary">
-          Search the OCR transcription of <em>Repertory of the Homoeopathic Materia Medica</em>
+          Search the OCR transcription of the supplied Volume 1 scan of <em>Repertory of the Homoeopathic Materia Medica</em>
           by J. T. Kent. Search results take you to the extracted text page so that wording
-          can be checked against the original scan.
+          can be checked against the original scan. Volume 2 is a separate part of the complete set.
         </p>
         <div className="flex flex-wrap gap-2 text-xs text-text-secondary">
           <span className="rounded-lg border border-border bg-bg-primary px-3 py-2">J. T. Kent, M.D.</span>
@@ -184,8 +184,8 @@ export default function Kent1897Repertory() {
               <code className="mx-1 rounded bg-black/5 px-1 py-0.5">npm run import:kent:1897</code>
               and rebuild the site. See docs/KENT_1897_IMPORT.md for the complete import instructions.
             </p>
-            <a href={sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold underline">
-              View the source scan on Internet Archive <ExternalLink className="h-3.5 w-3.5" />
+            <a href="https://wellcomecollection.org/works/aguw48nw/items" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold underline">
+              View Wellcome source record and licence <ExternalLink className="h-3.5 w-3.5" />
             </a>
           </div>
         )}
@@ -265,11 +265,12 @@ export default function Kent1897Repertory() {
         <p>
           Source attribution: J. T. Kent, <em>Repertory of the Homoeopathic Materia Medica</em>,
           Examiner Printing House, Lancaster, 1897. Digitized source record: Wellcome Collection /
-          Internet Archive item b20416234_001. The OCR transcription is a derivative text extraction;
-          transcription errors and page-number offsets are possible.
+          Internet Archive item b20416234_001. This import covers the supplied Volume 1 scan only;
+          Wellcome catalogues the complete work in two volumes. The OCR transcription is a derivative
+          text extraction; transcription errors and page-number offsets are possible.
         </p>
-        <a className="mt-2 inline-flex items-center gap-1 text-primary underline" href={sourceUrl} target="_blank" rel="noreferrer">
-          Source record and scan <ExternalLink className="h-3.5 w-3.5" />
+        <a className="mt-2 inline-flex items-center gap-1 text-primary underline" href="https://wellcomecollection.org/works/aguw48nw/items" target="_blank" rel="noreferrer">
+          Wellcome source record and Public Domain Mark <ExternalLink className="h-3.5 w-3.5" />
         </a>
       </footer>
     </div>
