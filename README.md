@@ -11,7 +11,18 @@ This repository is the existing Curiva Homoeopathy website and Capacitor app. Co
 - Do not merge to `main`, deploy production, or publish Firebase rules without explicit approval.
 - The configured Netlify build uses `npm run build` and publishes `dist`; the existing `netlify.toml` owns the rewrite and security-header configuration.
 
-### Local development
+### Kent 1897 source-text browser
+
+The Repertory Study Center retains the existing curated repertory and adds a separate
+searchable reader for the 1897 Kent source transcription. The source browser is at
+`/repertory/kent-1897`. To generate its static text data from the Wellcome / Internet
+Archive OCR transcription, follow `docs/KENT_1897_IMPORT.md` and run
+`npm run import:kent:1897` before committing the generated `public/data/kent-1897` files.
+
+The reader labels its content as OCR-derived. It does not infer remedy grades or
+turn historical text into patient-specific diagnostic or treatment advice.
+
+## Local development
 
 ```bash
 npm ci
