@@ -1,0 +1,30 @@
+name: Verify Kent 1897 integration
+
+on:
+  push:
+    branches:
+      - feat/kent-1897-source-browser
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:
+      COMMIT_REF: ${{ github.sha }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install locked dependencies
+        run: npm ci
+      - name: Typecheck
+        run: npm run lint
+      - name: Build website and app bundle
+        run: npm run build
