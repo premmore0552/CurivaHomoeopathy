@@ -60,3 +60,24 @@ letters, punctuation, remedy abbreviations, page numbers and layout. The importe
 not assign remedy grades, infer a rubric hierarchy, calculate clinical scores, or make
 treatment recommendations. Any structured rubric/grade database must be checked
 against the page image and reviewed separately before being called complete.
+
+## Rebuilt chapter browser and repertorization workspace
+
+The page at `/repertory/kent-1897` includes a 37-chapter directory for the full edition,
+grouped into study sections. Its printed-page ranges are a navigation aid; the imported
+text remains limited to the supplied Volume 1 scan. Chapter-scoped OCR filtering uses
+best-effort printed page labels extracted from the text and must be checked against the
+scan.
+
+The browser can show structured rubric records only where the existing Curiva curated
+database provides them. That database currently contains eight curated sections; it is
+not a complete 37-chapter transcription of Kent. Chapters without structured records
+remain accessible through OCR source search.
+
+The repertorization engine in `src/lib/kentRepertorizationEngine.ts` computes weighted
+overlap from selected curated rubrics. Users assign a symptom priority of 1 (supporting),
+2 (characteristic), or 3 (keynote). The resulting weighted-coverage percentage is the
+remedy's accumulated user-priority points divided by total priority points in the case.
+The engine reports the exact matched rubrics and does not fabricate remedy grades,
+infer missing rubric entries, or claim diagnostic/prescribing authority. It runs locally
+and requires no external AI API key.
