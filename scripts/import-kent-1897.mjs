@@ -81,7 +81,10 @@ async function main() {
     source: {
       archiveIdentifier: 'b20416234_001',
       archiveUrl: 'https://archive.org/details/b20416234_001',
-      attribution: 'Wellcome Collection',
+      wellcomeUrl: 'https://wellcomecollection.org/works/aguw48nw/items',
+      attribution: 'Repertory of the homoeopathic materia medica / by J.T. Kent. Public Domain Mark. Source: Wellcome Collection.',
+      volume: 'Volume 1 scan',
+      setNote: 'Wellcome catalogues the complete work in two volumes; this import covers the supplied Volume 1 scan only.',
       originalPublicationYear: 1897,
       extractionMethod: 'pdftotext -layout -enc UTF-8',
       sha256: sourceHash,
