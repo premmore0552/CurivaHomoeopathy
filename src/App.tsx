@@ -57,6 +57,7 @@ const TermsOfService = lazyLoad(() => import('./pages/TermsOfService'));
 const AilmentDetail = lazyLoad(() => import('./pages/AilmentDetail'));
 const ComparisonTool = lazyLoad(() => import('./pages/ComparisonTool'));
 const RepertoryTool = lazyLoad(() => import('./pages/RepertoryTool'));
+const Kent1897Repertory = lazyLoad(() => import('./pages/Kent1897Repertory'));
 const Encyclopedia = lazyLoad(() => import('./pages/Encyclopedia'));
 const FAQPage = lazyLoad(() => import('./pages/FAQPage'));
 const TreatmentsPage = lazyLoad(() => import('./pages/TreatmentsPage'));
@@ -398,6 +399,7 @@ function AppRoutes() {
                 {/* Research & Tools */}
                 <Route path="/research" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/repertory" element={<PageWrapper><RepertoryTool /></PageWrapper>} />
+                <Route path="/repertory/kent-1897" element={<PageWrapper><Kent1897Repertory /></PageWrapper>} />
                 <Route path="/visualization" element={<PageWrapper><StudyTool /></PageWrapper>} />
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
