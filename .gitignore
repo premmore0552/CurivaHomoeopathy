@@ -7,3 +7,6 @@ coverage/
 .env*
 !.env.example
 blog.db
+
+# Local OCR input; commit the generated public dataset, not the working text dump.
+scripts/kent-source/kent-1897-raw.txt
