@@ -182,7 +182,7 @@ export default function Kent1897Repertory() {
             <p>
               Place the OCR text at <code>scripts/kent-source/kent-1897-raw.txt</code>, then run
               <code className="mx-1 rounded bg-black/5 px-1 py-0.5">npm run import:kent:1897</code>
-              and rebuild the site. See the Kent import instructions in the repository README.
+              and rebuild the site. See docs/KENT_1897_IMPORT.md for the complete import instructions.
             </p>
             <a href={sourceUrl} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 font-semibold underline">
               View the source scan on Internet Archive <ExternalLink className="h-3.5 w-3.5" />
