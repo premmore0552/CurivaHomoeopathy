@@ -10,8 +10,10 @@ turn OCR text into verified rubric/remedy-grade data.
 - Examiner Printing House, Lancaster, Pennsylvania, 1897.
 - Digitized source record: Wellcome Collection / Internet Archive, identifier
   https://archive.org/details/b20416234_001
-- The digitized copy is catalogued with a Public Domain Mark. Preserve attribution
-  and check source-record notes for reuse in the relevant jurisdiction.
+- Wellcome identifies the digitized copy as Public Domain Mark and provides the credit:
+  Repertory of the homoeopathic materia medica / by J.T. Kent. Source: Wellcome Collection.
+- This import is for the supplied Volume 1 scan (686 digitized pages). Wellcome describes
+  the complete work as a two-volume set; do not label this single-volume import complete.
 
 ## Prepare the OCR transcription
 
