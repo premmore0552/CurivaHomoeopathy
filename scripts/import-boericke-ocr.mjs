@@ -15,7 +15,7 @@ const SOURCE_DIR = path.join(ROOT, 'scripts', 'boericke-source');
 const DATA_DIR = path.join(ROOT, 'public', 'data', 'materia-medica');
 const REMEDIES_DIR = path.join(DATA_DIR, 'remedies');
 const SOURCE_FILENAME = '2015.125811.Pocket-Manual-Of-Homoeopathic-Materia-Medica-Ed8th_text (1).txt';
-const SOURCE_URL = 'https://www.homeoint.org/books/boericmm/index.htm';
+const SOURCE_URL = 'https://books.google.com/books?id=6wKpz2qozHQC';
 const PARSER_VERSION = 'boericke-ocr-1.1';
 
 const slugify = value => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
