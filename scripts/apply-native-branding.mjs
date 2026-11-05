@@ -28,10 +28,10 @@ export async function applyNativeBranding(androidProjectDir) {
   const res = path.join(androidProjectDir, 'app', 'src', 'main', 'res');
   const manifestPath = path.join(androidProjectDir, 'app', 'src', 'main', 'AndroidManifest.xml');
   let manifest = await readFile(manifestPath, 'utf8');
-  if (!/<application\\b[^>]*>/s.test(manifest)) {
+  if (!manifest.includes('<application')) {
     throw new Error('AndroidManifest.xml does not contain an application element.');
   }
-  manifest = manifest.replace(/<application\\b[^>]*>/s, tag => {
+  manifest = manifest.replace(/<application[^>]*>/s, tag => {
     let next = tag;
     next = /android:icon="[^"]*"/.test(next)
       ? next.replace(/android:icon="[^"]*"/, 'android:icon="@mipmap/ic_launcher"')
@@ -48,7 +48,7 @@ export async function applyNativeBranding(androidProjectDir) {
     ['mipmap-anydpi/ic_launcher_round.xml', legacy],
     ['mipmap-anydpi-v26/ic_launcher.xml', adaptive],
     ['mipmap-anydpi-v26/ic_launcher_round.xml', adaptive],
-    ['values/curiva_colors.xml', '<resources><color name="curiva_launcher_background">#087F70</color></resources>\\n']
+    ['values/curiva_colors.xml', '<resources><color name="curiva_launcher_background">#087F70</color></resources>' + String.fromCharCode(10)]
   ];
   for (const [relative, content] of resources) {
     const target = path.join(res, relative);

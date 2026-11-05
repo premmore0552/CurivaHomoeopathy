@@ -25,8 +25,8 @@ test('native branding writes adaptive and legacy launcher resources and updates 
   const legacy = await readFile(path.join(appDir, 'res/mipmap-anydpi/ic_launcher.xml'), 'utf8');
 
   assert.equal(written.length, 6);
-  assert.match(manifest, /android:icon="@mipmap\\/ic_launcher"/);
-  assert.match(manifest, /android:roundIcon="@mipmap\\/ic_launcher_round"/);
+  assert.ok(manifest.includes('android:icon="@mipmap/ic_launcher"'));
+  assert.ok(manifest.includes('android:roundIcon="@mipmap/ic_launcher_round"'));
   assert.match(adaptive, /<adaptive-icon/);
   assert.match(adaptive, /curiva_launcher_foreground/);
   assert.match(foreground, /#DDEFA4/);
