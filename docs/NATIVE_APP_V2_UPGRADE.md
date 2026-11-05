@@ -9,6 +9,7 @@ This change set introduces a first, reviewable V2 milestone for the native Capac
 - A native account card in the Progress tab with sign-out and a route back to account entry.
 - A branded botanical/open-book vector mark used by the native splash, header, and authentication screen.
 - A daily study planner with selectable 15/30/45/60-minute targets and four check-off activities. It is stored locally by day.
+- Android adaptive and legacy launcher-icon resources generated from the Curiva botanical/open-book identity during the APK workflow.
 
 ## Important boundaries
 - The student/practitioner category is self-selected profile metadata, not proof of registration, qualification, or authority to practise.
@@ -23,7 +24,7 @@ This change set introduces a first, reviewable V2 milestone for the native Capac
 2. Verify Email/Password is enabled in Firebase Authentication and test student and practitioner account creation, repeat sign-in, invalid password, password reset, sign-out, and offline guest mode.
 3. Test the APK on a physical Android device, including first launch, process restart, keyboard resize, small screens, and returning from offline mode to sign-in.
 4. Verify an existing install retains its current local study progress after upgrading.
-5. Generate/update Android launcher icon resources from the approved mark and validate adaptive icon foreground/background on device before production release.
+5. Confirm the Android workflow generates adaptive/legacy launcher icon resources and validate the icon mask on API 24 and API 26+ devices before production release.
 6. Review account category wording and privacy notice before public distribution.
 
 Do not merge or deploy this milestone to production until the feature build, Firebase tests, and device checks pass.

@@ -74,7 +74,7 @@ jobs:
           npx esbuild src/server/clinicCalendar.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/clinicCalendar.mjs
 
       - name: Verify navigation, private downloads, and Netlify API
-        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs
+        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs tests/native-branding.test.mjs
 
       - name: Set up Java for the Firestore emulator
         uses: actions/setup-java@v4
