@@ -1,10 +1,10 @@
 import { db, doc, getDoc, setDoc, serverTimestamp } from '../lib/firebase';
+import { safeStudyPlan, type StoredStudyPlan } from './nativeProgressValidation';
 
 export type NativeProgressSyncStatus = 'idle' | 'syncing' | 'synced' | 'offline';
 
 type StoredLesson = { subjectId: string; chapterTitle: string; subjectTitle: string };
 type StoredQuizResult = { date: string; subject: string; score: number; total: number; percent: number };
-type StoredStudyPlan = { date: string; goal: number; completed: string[] };
 
 interface NativeProgressSnapshot {
   completedLessons: string[];
@@ -55,14 +55,6 @@ function safeLastLesson(value: unknown): StoredLesson | null {
     chapterTitle: item.chapterTitle.slice(0, 220),
     subjectTitle: item.subjectTitle.slice(0, 160)
   };
-}
-
-function safeStudyPlan(value: unknown): StoredStudyPlan | null {
-  if (!value || typeof value !== 'object') return null;
-  const item = value as Record<string, unknown>;
-  if (typeof item.date !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(item.date)) return null;
-  const goal = [15, 30, 45, 60].includes(Number(item.goal)) ? Number(item.goal) : 30;
-  return { date: item.date, goal, completed: safeStrings(item.completed, 4).filter(id => ['topic', 'mcq', 'cards', 'materia'].includes(id)) };
 }
 
 function readLocalProgress(): NativeProgressSnapshot {

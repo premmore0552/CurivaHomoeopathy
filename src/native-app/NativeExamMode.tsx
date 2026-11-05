@@ -57,6 +57,7 @@ export default function NativeExamMode({ questions, initialSubject, onExit, onCo
   const [flagged, setFlagged] = useState<string[]>([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [secondsRemaining, setSecondsRemaining] = useState(0);
+  const [deadlineMs, setDeadlineMs] = useState<number | null>(null);
   const [summary, setSummary] = useState<ExamSummary | null>(null);
   const finishRef = useRef<() => void>(() => undefined);
   const availableQuestions = useMemo(
@@ -78,22 +79,28 @@ export default function NativeExamMode({ questions, initialSubject, onExit, onCo
     setFlagged([]);
     setQuestionIndex(0);
     setSecondsRemaining(timeLimit);
+    setDeadlineMs(Date.now() + timeLimit * 1000);
     setSummary(null);
     setPhase('running');
   };
 
   const finishExam = () => {
     if (phase !== 'running' || !session.length) return;
+    const remainingAtSubmit = deadlineMs === null
+      ? secondsRemaining
+      : Math.max(0, Math.ceil((deadlineMs - Date.now()) / 1000));
+    const elapsedAtSubmit = Math.max(0, timeLimit - remainingAtSubmit);
     const correct = session.filter(q => answers[q.id] === q.answer).length;
     const attempted = Object.keys(answers).filter(id => session.some(q => q.id === id)).length;
     const total = session.length;
     const percent = Math.round(correct / total * 100);
+    setSecondsRemaining(remainingAtSubmit);
     setSummary({
       correct,
       attempted,
       unanswered: Math.max(0, total - attempted),
       percent,
-      elapsedSeconds,
+      elapsedSeconds: elapsedAtSubmit,
       total
     });
     setPhase('result');
@@ -102,12 +109,28 @@ export default function NativeExamMode({ questions, initialSubject, onExit, onCo
   finishRef.current = finishExam;
 
   useEffect(() => {
-    if (phase !== 'running') return;
-    const timer = window.setInterval(() => {
-      setSecondsRemaining(value => value <= 1 ? 0 : value - 1);
-    }, 1000);
-    return () => window.clearInterval(timer);
-  }, [phase]);
+    if (phase !== 'running' || deadlineMs === null) return;
+
+    const refreshRemaining = () => {
+      const remaining = Math.max(0, Math.ceil((deadlineMs - Date.now()) / 1000));
+      setSecondsRemaining(remaining);
+    };
+
+    // Calculate against an absolute deadline so background timer throttling
+    // cannot extend an exam after the app is resumed.
+    refreshRemaining();
+    const timer = window.setInterval(refreshRemaining, 1000);
+    window.addEventListener('focus', refreshRemaining);
+    window.addEventListener('pageshow', refreshRemaining);
+    document.addEventListener('visibilitychange', refreshRemaining);
+
+    return () => {
+      window.clearInterval(timer);
+      window.removeEventListener('focus', refreshRemaining);
+      window.removeEventListener('pageshow', refreshRemaining);
+      document.removeEventListener('visibilitychange', refreshRemaining);
+    };
+  }, [phase, deadlineMs]);
 
   useEffect(() => {
     if (phase === 'running' && secondsRemaining === 0) finishRef.current();

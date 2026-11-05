@@ -53,15 +53,15 @@ export default function AdminAnalyticsDashboard() {
     <div className="mx-auto max-w-[1600px] px-4 py-5 sm:px-6 lg:px-8 lg:py-8">
       <nav aria-label="Breadcrumb" className="hidden sm:flex items-center gap-2 text-xs text-text-tertiary mb-5"><Link to="/" className="hover:text-primary">Website</Link><ChevronRight size={14}/><span>Administration</span><ChevronRight size={14}/><span className="text-text-primary font-semibold">Analytics overview</span></nav>
       <div className="flex items-start justify-between gap-3 mb-6">
-        <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-primary mb-2">Curiva · Operations</p><h1 className="text-3xl sm:text-4xl font-bold">Analytics overview</h1><p className="mt-2 text-sm text-text-secondary max-w-2xl">Monitor resource discovery, engagement, and site activity from one responsive workspace.</p></div>
+        <div><p className="text-xs font-extrabold uppercase tracking-[.18em] text-primary mb-2">Curiva · Operations · Demo</p><h1 className="text-3xl sm:text-4xl font-bold">Analytics overview</h1><p className="mt-2 text-sm text-text-secondary max-w-2xl">This is a design preview only. The figures, charts, and activity below are illustrative sample data and are not connected to live site analytics.</p></div>
         <div className="hidden xl:flex gap-2"><button onClick={() => setFiltersOpen(true)} className="inline-flex items-center gap-2 rounded-xl border border-border px-4 py-3 text-sm font-semibold hover:bg-bg-tertiary"><Filter size={16}/> Filters</button><button onClick={() => window.print()} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-3 text-sm font-bold text-white"><Download size={16}/> Export / Print</button></div>
       </div>
       <div className="grid grid-cols-2 xl:grid-cols-4 gap-3 sm:gap-4 mb-6">
         {[
-          { label: 'Total visits', value: '24.8k', change: '+12.4%', icon: Activity },
-          { label: 'Active readers', value: '8,642', change: '+8.2%', icon: Users },
-          { label: 'Resource opens', value: '16.3k', change: '+15.7%', icon: BookOpen },
-          { label: 'Engagement rate', value: '64.8%', change: '+3.1%', icon: BarChart3 }
+          { label: 'Sample total visits', value: '24.8k', change: '+12.4%', icon: Activity },
+          { label: 'Sample active readers', value: '8,642', change: '+8.2%', icon: Users },
+          { label: 'Sample resource opens', value: '16.3k', change: '+15.7%', icon: BookOpen },
+          { label: 'Sample engagement rate', value: '64.8%', change: '+3.1%', icon: BarChart3 }
         ].map(k => <article key={k.label} className="rounded-2xl border border-border bg-bg-secondary p-4 sm:p-5 min-w-0"><div className="flex items-center justify-between gap-2"><span className="text-xs sm:text-sm text-text-secondary">{k.label}</span><k.icon className="hidden sm:block text-primary" size={18}/></div><div className="mt-3 text-2xl sm:text-3xl font-bold tracking-tight">{k.value}</div><div className="mt-2 flex items-center gap-1 text-xs font-bold text-primary"><ArrowUpRight size={14}/>{k.change}<span className="font-normal text-text-tertiary">vs prior period</span></div></article>)}
       </div>
       <div className="grid grid-cols-1 xl:grid-cols-12 gap-5 xl:gap-6">

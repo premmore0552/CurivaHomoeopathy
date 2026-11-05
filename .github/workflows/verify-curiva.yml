@@ -34,6 +34,8 @@ jobs:
         run: npm ci
       - name: Verify Boericke source reconciliation and importer
         run: npm run test:boericke
+      - name: Test native study-plan validation
+        run: npm run test:native-progress
 
       - name: Typecheck
         run: npm run lint
@@ -74,7 +76,6 @@ jobs:
           npx esbuild src/server/clinicCalendar.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/clinicCalendar.mjs
 
       - name: Verify navigation, private downloads, and Netlify API
-        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs
         run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs tests/native-branding.test.mjs
 
       - name: Set up Java for the Firestore emulator

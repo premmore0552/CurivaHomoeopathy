@@ -7,7 +7,7 @@ import {
   Activity, ArrowLeft, ArrowRight, Award, Bookmark, BookmarkCheck, BookOpen,
   Brain, Check, CheckCircle2, ChevronRight, Clock3, Compass, Flame, GraduationCap,
   HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope,
-  HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope, Cloud, CloudOff,
+  Cloud, CloudOff,
   Target, TrendingUp, Trophy, X, Zap, Play, RotateCcw, NotebookPen, Microscope, FlaskConical, BookMarked, UserRound, LogOut
 } from 'lucide-react';
 import { allBhmsSubjects } from '../pages/AllSubjectsHub';
