@@ -109,7 +109,6 @@ const FmtSearchPage = lazyLoad(() => import('./pages/FmtSearchPage'));
 const AskHomoeopath = lazyLoad(() => import('./pages/AskHomoeopath'));
 const FirstBhmsCrashCourse = lazyLoad(() => import('./pages/FirstBhmsCrashCourse'));
 const AdminLinkAudit = lazyLoad(() => import('./pages/AdminLinkAudit'));
-const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const ComingSoon = lazyLoad(() => import('./pages/ComingSoon'));
 const NotFound = lazyLoad(() => import('./pages/NotFound'));
 
