@@ -33,6 +33,7 @@ import { PathologyStudyTools } from '../components/pathology/PathologyStudyTools
 import { PathologyExamPrep } from '../components/pathology/PathologyExamPrep';
 import { PathologyProgressCard } from '../components/pathology/PathologyProgressCard';
 import { PathologyDetailModal } from '../components/pathology/PathologyDetailModal';
+import { PathologyBookContents } from '../components/pathology/PathologyBookContents';
 
 import { NchCurriculumDashboard } from '../components/pathology/NchCurriculumDashboard';
 import { NchCurriculumExplorer } from '../components/pathology/NchCurriculumExplorer';
@@ -49,7 +50,6 @@ import {
   examQuestionsBank 
 } from '../data/pathologyData';
 
-import { allNchPathologyCompetencies } from '../data/nchPathologyCurriculum';
 import { PathologyChapter, PathologyTopic, PathologyProgress, NchCompetency } from '../types/pathology';
 
 export default function PathologySubject() {
@@ -92,13 +92,13 @@ export default function PathologySubject() {
   };
 
   const handleStartPathology = () => {
-    setActiveTab('curriculum');
-    window.scrollTo({ top: 400, behavior: 'smooth' });
+    setActiveTab('hub');
+    window.requestAnimationFrame(() => document.getElementById('pathology-book-contents-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
 
-  const handleExploreSyllabus = () => {
-    setActiveTab('curriculum');
-    window.scrollTo({ top: 400, behavior: 'smooth' });
+  const handleExploreChapters = () => {
+    setActiveTab('hub');
+    window.requestAnimationFrame(() => document.getElementById('pathology-book-contents-heading')?.scrollIntoView({ behavior: 'smooth', block: 'start' }));
   };
 
   const handleOpenItemModal = (type: string, item: any) => {
@@ -112,33 +112,37 @@ export default function PathologySubject() {
   return (
     <div className="min-h-screen bg-bg-primary text-text-primary py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto space-y-10">
       <SEO 
-        title="2nd BHMS Pathology — NCH CBDC Master Curriculum Map & Exam Prep | Curiva Homoeopathy"
-        description="Official NCH Competency Based Dynamic Curriculum (CBDC) map for 2nd BHMS Pathology. Paper I, Paper II, Histopathology slides, Gross specimens, Lab reports, and examination schemes."
+        title="Harsh Mohan Textbook of Pathology, 7th Edition — Chapter Guide | Curiva Homoeopathy"
+        description="Browse all 28 chapters of Harsh Mohan’s Textbook of Pathology, seventh edition, organised by section with page references and a detailed digital guide to cell injury."
       />
 
       {/* 1. HERO / HEADER */}
       <PathologyHeader 
         onStartPathology={handleStartPathology}
-        onExploreSyllabus={handleExploreSyllabus}
-        totalChapters={generalPathologyChapters.length + systemicPathologyChapters.length}
-        totalTopics={allNchPathologyCompetencies.length}
+        onExploreChapters={handleExploreChapters}
+        totalChapters={28}
       />
 
       {/* 2. PRIMARY SEARCH INTERFACE */}
-      <PathologySearch 
-        generalChapters={generalPathologyChapters}
-        systemicChapters={systemicPathologyChapters}
-        definitions={sampleDefinitions}
-        comparisons={sampleComparisons}
-        questions={examQuestionsBank}
-        onSelectItem={handleOpenItemModal}
-      />
+      <details className="group rounded-2xl border border-border bg-bg-secondary px-4 py-3">
+        <summary className="cursor-pointer list-none text-sm font-bold text-text-primary">Search supplementary study notes and exam resources <span className="ml-2 text-xs font-semibold text-text-tertiary group-open:hidden">Show</span><span className="ml-2 hidden text-xs font-semibold text-text-tertiary group-open:inline">Hide</span></summary>
+        <div className="pt-4">
+          <PathologySearch
+            generalChapters={generalPathologyChapters}
+            systemicChapters={systemicPathologyChapters}
+            definitions={sampleDefinitions}
+            comparisons={sampleComparisons}
+            questions={examQuestionsBank}
+            onSelectItem={handleOpenItemModal}
+          />
+        </div>
+      </details>
 
       {/* 3. NAVIGATION VIEW TABS */}
       <div className="flex items-center gap-2 border-b border-border pb-3 overflow-x-auto scrollbar-none">
         {[
-          { id: 'hub', label: 'Pathology Hub', icon: Microscope },
-          { id: 'cell-injury', label: 'Cell Injury & Adaptations (Part 3 Master)', icon: Flame },
+          { id: 'hub', label: 'Textbook Contents', icon: Microscope },
+          { id: 'cell-injury', label: 'Chapter 2: Cell Injury & Ageing', icon: Flame },
           { id: 'curriculum', label: 'NCH CBDC Syllabus Map', icon: ShieldCheck },
           { id: 'practical', label: 'Practical (Slides & Specimens)', icon: Layers },
           { id: 'general', label: 'General Pathology (Paper I-A)', icon: BookOpen },
@@ -170,99 +174,47 @@ export default function PathologySubject() {
 
       {/* VIEW: PATHOLOGY HUB (DEFAULT LANDING VIEW) */}
       {activeTab === 'hub' && (
-        <div ref={overviewRef} className="space-y-12 animate-fadeIn">
-          {/* Section: Master NCH Curriculum Dashboard */}
-          <NchCurriculumDashboard 
-            onExploreCurriculum={() => setActiveTab('curriculum')}
-            onOpenPracticalHub={() => setActiveTab('practical')}
-          />
+        <div ref={overviewRef} className="space-y-8 animate-fadeIn">
+          <PathologyBookContents />
 
-          {/* Spotlight: Cell Injury, Adaptations & Cell Death Master Digital Chapter */}
-          <div className="bg-gradient-to-r from-emerald-900 via-teal-950 to-slate-900 text-white p-6 sm:p-8 rounded-3xl border border-emerald-500/30 shadow-lg flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
-            <div className="space-y-2 max-w-2xl">
-              <div className="flex items-center gap-2 flex-wrap">
-                <span className="px-3 py-1 rounded-full text-[11px] font-bold uppercase tracking-wider bg-emerald-500/20 text-emerald-300 border border-emerald-400/30">
-                  ⚡ Comprehensive Master Chapter Available
-                </span>
-                <span className="text-xs text-slate-300">
-                  Paper I Section A • HomUG-PM I.2, I.3, I.4, I.5
-                </span>
-              </div>
-              <h3 className="text-xl sm:text-2xl font-extrabold text-white">
-                Cell Injury, Cellular Adaptations & Cell Death (Complete Master Suite)
-              </h3>
-              <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-                Full 8-part digital textbook, 15 interactive flowcharts, 10 comparison tables, 10 clinical cases simulator, histopathology spotters, and university exam blueprints.
-              </p>
-            </div>
-
-            <div className="flex flex-col sm:flex-row gap-3 shrink-0 w-full md:w-auto">
-              <button
-                onClick={() => setActiveTab('cell-injury')}
-                className="px-5 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-emerald-500 hover:bg-emerald-400 text-slate-950 shadow-md transition-all flex items-center justify-center gap-2 cursor-pointer"
-              >
-                Open Master Chapter <ArrowRight className="w-4 h-4" />
-              </button>
-              <Link
-                to="/subject/pathology/cell-injury"
-                className="px-4 py-3 rounded-2xl text-xs sm:text-sm font-bold bg-white/10 hover:bg-white/20 text-white border border-white/20 transition-all text-center"
-              >
-                Standalone View
-              </Link>
-            </div>
+          <div className="flex flex-col gap-3 rounded-2xl border border-border bg-bg-secondary p-4 sm:flex-row sm:items-center sm:justify-between">
+            <p className="text-sm text-text-secondary">The NCH-CBDC map, practical resources and exam tools remain available as supplementary study material.</p>
+            <button onClick={() => setActiveTab('curriculum')} className="shrink-0 rounded-xl bg-red-800 px-4 py-2.5 text-xs font-bold text-white hover:bg-red-900">
+              Open NCH curriculum and resources <ArrowRight className="ml-1 inline h-3.5 w-3.5" />
+            </button>
           </div>
 
-          {/* Section: Overview Grid */}
-          <PathologyOverviewGrid 
-            onSelectSection={(key) => {
-              if (key === 'general') setActiveTab('general');
-              else if (key === 'systemic') setActiveTab('systemic');
-              else if (['laq', 'saq', 'mcq', 'viva'].includes(key)) setActiveTab('exam-prep');
-              else if (key === 'revision' || key === 'definitions') setActiveTab('tools');
-            }}
-            counts={{
-              generalTopics: totalGeneralTopics,
-              systemicTopics: totalSystemicTopics,
-              laqCount: laqsCount,
-              saqCount: saqsCount,
-              mcqCount: mcqsCount,
-              vivaCount: vivaCount,
-              definitionsCount: sampleDefinitions.length,
-            }}
-          />
-
-          {/* Section: Dedicated General & Systemic Pathology Cards */}
-          <PathologySectionCards 
-            generalChapters={generalPathologyChapters}
-            systemicChapters={systemicPathologyChapters}
-            onOpenGeneral={() => setActiveTab('general')}
-            onOpenSystemic={() => setActiveTab('systemic')}
-            onSelectChapter={(chap) => handleOpenItemModal('chapter', chap)}
-          />
-
-          {/* Section: Pathology Study Tools */}
-          <PathologyStudyTools 
-            tools={pathologyStudyTools}
-            onSelectTool={(tool) => handleOpenItemModal('study-tool', tool)}
-          />
-
-          {/* Section: Exam Preparation Suite */}
-          <PathologyExamPrep 
-            onSelectType={(type) => {
-              const matched = examQuestionsBank.find(q => q.type === type);
-              if (matched) handleOpenItemModal(type, matched);
-              else setActiveTab('exam-prep');
-            }}
-            counts={{
-              laqs: laqsCount,
-              saqs: saqsCount,
-              mcqs: mcqsCount,
-              viva: vivaCount,
-            }}
-          />
-
-          {/* Section: Student Progress Dashboard */}
-          <PathologyProgressCard progress={currentProgress} />
+          <details className="group rounded-3xl border border-border bg-bg-secondary p-5 sm:p-6">
+            <summary className="cursor-pointer list-none text-base font-bold text-text-primary">Supplementary study notes, exam preparation and progress tools <span className="ml-2 text-xs font-semibold text-text-tertiary group-open:hidden">Show</span><span className="ml-2 hidden text-xs font-semibold text-text-tertiary group-open:inline">Hide</span></summary>
+            <div className="mt-6 space-y-10">
+              <PathologyOverviewGrid
+                onSelectSection={(key) => {
+                  if (key === 'general') setActiveTab('general');
+                  else if (key === 'systemic') setActiveTab('systemic');
+                  else if (['laq', 'saq', 'mcq', 'viva'].includes(key)) setActiveTab('exam-prep');
+                  else if (key === 'revision' || key === 'definitions') setActiveTab('tools');
+                }}
+                counts={{ generalTopics: totalGeneralTopics, systemicTopics: totalSystemicTopics, laqCount: laqsCount, saqCount: saqsCount, mcqCount: mcqsCount, vivaCount: vivaCount, definitionsCount: sampleDefinitions.length }}
+              />
+              <PathologySectionCards
+                generalChapters={generalPathologyChapters}
+                systemicChapters={systemicPathologyChapters}
+                onOpenGeneral={() => setActiveTab('general')}
+                onOpenSystemic={() => setActiveTab('systemic')}
+                onSelectChapter={(chap) => handleOpenItemModal('chapter', chap)}
+              />
+              <PathologyStudyTools tools={pathologyStudyTools} onSelectTool={(tool) => handleOpenItemModal('study-tool', tool)} />
+              <PathologyExamPrep
+                onSelectType={(type) => {
+                  const matched = examQuestionsBank.find(q => q.type === type);
+                  if (matched) handleOpenItemModal(type, matched);
+                  else setActiveTab('exam-prep');
+                }}
+                counts={{ laqs: laqsCount, saqs: saqsCount, mcqs: mcqsCount, viva: vivaCount }}
+              />
+              <PathologyProgressCard progress={currentProgress} />
+            </div>
+          </details>
         </div>
       )}
 

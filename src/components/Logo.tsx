@@ -34,7 +34,7 @@ const Logo: React.FC<LogoProps> = ({ className = '', size = 'md', showText = tru
         {!imgError ? (
           <img 
             src="/curiva_logo.svg" 
-            alt="Curiva Logo" 
+            alt="Curiva Homoeopathy logo"
             onError={() => setImgError(true)}
             className="w-full h-full object-contain rounded-lg" 
           />

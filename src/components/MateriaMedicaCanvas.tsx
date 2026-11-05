@@ -912,7 +912,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                           : 'hover:border-blue-500/50 dark:hover:border-blue-500/30';
 
                       const glowClass = isPlant
-                        ? 'group-hover:shadow-[0_20px_50px_rgba(16,185,129,0.06)]'
+                        ? 'group-hover:shadow-[0_20px_50px_rgba(21,154,114,0.06)]'
                         : isAnimal
                           ? 'group-hover:shadow-[0_20px_50px_rgba(168,85,247,0.06)]'
                           : 'group-hover:shadow-[0_20px_50px_rgba(59,130,246,0.06)]';

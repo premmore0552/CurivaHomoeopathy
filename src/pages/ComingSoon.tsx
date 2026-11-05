@@ -207,7 +207,7 @@ export default function ComingSoon() {
               { unit: 'Unit IV', title: 'Recall & Viva Preparation', desc: 'Active recall flashcards, MCQs, University PYQs, and viva boosters.' },
             ].map((section, idx) => (
               <div key={idx} className="p-4 bg-bg-primary border border-border/60 rounded-xl space-y-2">
-                <span className="text-[9px] font-black uppercase text-[#10B981] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
+                <span className="text-[9px] font-black uppercase text-[#159A72] bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/20">
                   {section.unit}
                 </span>
                 <h4 className="text-xs font-bold text-text-primary pt-1">{section.title}</h4>
