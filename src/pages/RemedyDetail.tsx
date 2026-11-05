@@ -293,7 +293,7 @@ export default function RemedyDetail() {
                 setRegistry(regData);
               }
             }
-          }          } else {
+          } else {
             throw new Error(`Remedy not found: ${remedyId}`);
           }
         }
@@ -576,7 +576,7 @@ export default function RemedyDetail() {
                 >
                   {metadata.commonName} {metadata.family && <span className="text-text-tertiary not-italic text-lg ml-2">— {metadata.family}</span>}
                 </motion.p>
-              
+              )}
               {metadata?.review_required && (
                 <div className="mt-6 mx-auto lg:mx-0 max-w-4xl rounded-2xl border border-amber-500/25 bg-amber-500/5 p-4 text-left">
                   <p className="text-xs font-bold text-amber-700 dark:text-amber-300">
@@ -587,8 +587,7 @@ export default function RemedyDetail() {
                   </p>
                   {metadata.source_url && <a href={metadata.source_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">View online source <ExternalLink className="h-3 w-3" /></a>}
                 </div>
-              )})}
-
+              )}
               <motion.div 
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
