@@ -1098,7 +1098,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                               onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.sourceSlug || remedy.id}`)}
                               className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
                             >
-                              <span>Full Portrait</span>
+                              <span>{remedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                               <ArrowUpRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -2015,7 +2015,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                     className="flex items-center gap-1.5 px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white rounded-lg text-[10px] font-black uppercase tracking-wider text-primary transition-all cursor-pointer"
                     title="View Widescreen Standalone Portrait"
                   >
-                    <span>Full Portrait</span>
+                    <span>{remedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 animate-bounce" />
                   </button>
                   <button
@@ -2132,7 +2132,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
 
                       {/* Clinical Usage section */}
                       <div className="mt-6 pt-4 border-t border-border">
-                        <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2.5">🧬 Verified Clinical Registrations:</span>
+                        <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2.5">🧬 Traditional study topics (not treatment recommendations):</span>
                         <div className="flex flex-wrap gap-1.5">
                           {selectedRemedy.clinicalApplications.map((app, appIdx) => (
                             <span key={appIdx} className="px-3 py-1 bg-white border border-border rounded-lg text-[10px] font-black uppercase tracking-wider text-text-secondary">
