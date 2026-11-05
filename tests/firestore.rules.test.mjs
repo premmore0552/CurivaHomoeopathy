@@ -104,3 +104,42 @@ test('clients may create pending order records but cannot mark orders paid or up
   await assertSucceeds(getDoc(pendingRef));
   await assertFails(getDoc(doc(bob, 'orders', 'pending-order')));
 });
+
+function nativeLearningProgress(uid = 'alice') {
+  return {
+    uid,
+    version: 1,
+    completedLessons: ['anatomy:cell-structure'],
+    quizHistory: [{ date: '2026-11-06', subject: 'Anatomy', score: 8, total: 10, percent: 80 }],
+    knownFlashcards: ['card-1'],
+    studyDays: ['2026-11-06'],
+    lastLesson: { subjectId: 'anatomy', chapterTitle: 'Cell structure', subjectTitle: 'Anatomy' },
+    studyPlan: { date: '2026-11-06', goal: 30, completed: ['topic'] },
+    updatedAt: serverTimestamp(),
+  };
+}
+
+test('native learning progress is private to its account and accepts bounded owner sync writes', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const ref = doc(alice, 'nativeLearningProgress', 'alice');
+
+  await assertSucceeds(setDoc(ref, nativeLearningProgress()));
+  await assertSucceeds(getDoc(ref));
+  await assertFails(getDoc(doc(bob, 'nativeLearningProgress', 'alice')));
+  await assertFails(setDoc(doc(bob, 'nativeLearningProgress', 'alice'), nativeLearningProgress('alice')));
+  await assertSucceeds(updateDoc(ref, {
+    completedLessons: ['anatomy:cell-structure', 'physiology:cell-membrane'],
+    updatedAt: serverTimestamp(),
+  }));
+});
+
+test('native learning progress rejects malformed study plans and signed-out access', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const signedOut = testEnv.unauthenticatedContext().firestore();
+  const invalid = nativeLearningProgress();
+  invalid.studyPlan = { date: 'not-a-date', goal: 999, completed: ['anything'] };
+
+  await assertFails(setDoc(doc(alice, 'nativeLearningProgress', 'alice'), invalid));
+  await assertFails(getDoc(doc(signedOut, 'nativeLearningProgress', 'alice')));
+});

@@ -108,6 +108,166 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // --- Collection: Native learning progress ---
+    // Academic progress only. Never store patient records, symptoms or clinical case notes here.
+    function isValidNativeLearningProgress(data, userId) {
+      return data.keys().hasAll([
+               'uid', 'version', 'completedLessons', 'quizHistory',
+               'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'uid', 'version', 'completedLessons', 'quizHistory',
+               'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+             ]) &&
+             data.uid == userId &&
+             data.version == 1 &&
+             data.completedLessons is list && data.completedLessons.size() <= 3000 &&
+             data.quizHistory is list && data.quizHistory.size() <= 200 &&
+             data.knownFlashcards is list && data.knownFlashcards.size() <= 5000 &&
+             data.studyDays is list && data.studyDays.size() <= 800 &&
+             (data.lastLesson == null ||
+               (data.lastLesson is map &&
+                data.lastLesson.keys().hasOnly(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+                data.lastLesson.keys().hasAll(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+                data.lastLesson.subjectId is string && data.lastLesson.subjectId.size() <= 120 &&
+                data.lastLesson.chapterTitle is string && data.lastLesson.chapterTitle.size() <= 220 &&
+                data.lastLesson.subjectTitle is string && data.lastLesson.subjectTitle.size() <= 160)) &&
+             (data.studyPlan == null ||
+               (data.studyPlan is map &&
+                data.studyPlan.keys().hasOnly(['date', 'goal', 'completed']) &&
+                data.studyPlan.keys().hasAll(['date', 'goal', 'completed']) &&
+                data.studyPlan.date is string &&
+                data.studyPlan.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}
+    match /questions/{questionId} {
+      allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      
+      allow create: if isSignedIn() && 
+                      isValidQuestion(incoming()) &&
+                      incoming().status == 'pending' &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Orders ---
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      
+      allow create: if (
+                      (isSignedIn() && incoming().userId == request.auth.uid) ||
+                      (!isSignedIn() && incoming().userId == 'guest')
+                    ) &&
+                    isValidOrder(incoming()) &&
+                    incoming().createdAt == request.time;
+      
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Kits ---
+    match /kits/{kitId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && (
+        (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Screenings ---
+    match /screenings/{screeningId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow create: if isSignedIn() && isValidScreening(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId;
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Appointment Requests ---
+    // Request workflow only; do not store symptoms or medical records here.
+    function isValidAppointmentRequest(data) {
+      return data.keys().hasAll([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.userId == request.auth.uid &&
+             data.userEmail == request.auth.token.get('email', null) &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() <= 30 &&
+             data.serviceType in ['initial-consultation', 'follow-up', 'general-consultation'] &&
+             data.preferredDate is string &&
+             data.preferredDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+             data.preferredTime in ['morning', 'afternoon', 'evening'] &&
+             data.timezone is string && data.timezone.size() <= 80 &&
+             data.status == 'requested' &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
+    }
+
+    match /appointmentRequests/{requestId} {
+      allow create: if isSignedIn() && isValidAppointmentRequest(incoming());
+
+      // Owners can only access their own requests. Admin access is separately authorized.
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+
+      // Staff review must go through the server-side calendar integration.
+      allow update: if false;
+
+      // Requesters may cancel a request that is still awaiting review, but cannot confirm it.
+      allow update: if isSignedIn() &&
+                    existing().userId == request.auth.uid &&
+                    existing().status == 'requested' &&
+                    incoming().userId == existing().userId &&
+                    incoming().status == 'cancelled' &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    // --- Collection: Test for Connection ---
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // --- Collection: Admins ---
+    match /admins/{adminId} {
+      allow read: if isAdmin();
+      allow write: if isAdmin();
+    }
+  }
+}
+) &&
+                data.studyPlan.goal in [15, 30, 45, 60] &&
+                data.studyPlan.completed is list && data.studyPlan.completed.size() <= 4)) &&
+             data.updatedAt == request.time;
+    }
+
+    match /nativeLearningProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidNativeLearningProgress(incoming(), userId);
+      allow delete: if false;
+    }
+
     // --- Collection: Questions ---
     match /questions/{questionId} {
       allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
