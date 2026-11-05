@@ -23,7 +23,7 @@ export function safeStudyPlan(value: unknown): StoredStudyPlan | null {
   if (!value || typeof value !== 'object' || Array.isArray(value)) return null;
 
   const item = value as Record<string, unknown>;
-  if (typeof item.date !== 'string' || !/^\\d{4}-\\d{2}-\\d{2}$/.test(item.date)) {
+  if (typeof item.date !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(item.date)) {
     return null;
   }
 
