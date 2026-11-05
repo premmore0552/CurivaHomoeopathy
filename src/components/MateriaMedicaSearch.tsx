@@ -114,8 +114,8 @@ export default function MateriaMedicaSearch() {
 
   const highlightMatch = (text: string, query: string) => {
     if (!query) return text;
-    const escapedQuery = query.replace(/[.*+?^$()|[\]\\]/g, '\\    const parts = text.split(new RegExp(`(${query})`, 'gi'));');
-    const parts = text.split(new RegExp(`(${escapedQuery})`, 'gi'));
+    const escapedQuery = query.replace(/[.*+?^$()|[\\]\\\\]/g, char => '\\' + char);
+    const parts = text.split(new RegExp('(' + escapedQuery + ')', 'gi'));
     return parts.map((part, i) => 
       part.toLowerCase() === query.toLowerCase() 
         ? <mark key={i} className="bg-primary/20 text-primary rounded px-0.5">{part}</mark> 

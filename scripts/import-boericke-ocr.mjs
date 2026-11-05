@@ -352,7 +352,7 @@ async function main() {
 
   const sourceText = (await Promise.all(partFiles.map(name =>
     readFile(path.join(SOURCE_DIR, name), 'utf8')
-  ))).join('');
+  ))).join('\n');
   const parsed = parseMateriaMedicaText(sourceText);
   if (parsed.rawHeadingCandidates !== 639 || parsed.entries.length !== 638) {
     throw new Error(

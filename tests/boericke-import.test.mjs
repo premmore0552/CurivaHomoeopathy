@@ -11,7 +11,7 @@ const SOURCE_DIR = path.join(ROOT, 'scripts', 'boericke-source');
 async function readStagedSource() {
   const names = (await readdir(SOURCE_DIR)).filter(name => /^part-\d{2}\.txt$/.test(name)).sort();
   assert.equal(names.length, 10, 'all ten source segments must be staged');
-  return (await Promise.all(names.map(name => readFile(path.join(SOURCE_DIR, name), 'utf8')))).join('');
+  return (await Promise.all(names.map(name => readFile(path.join(SOURCE_DIR, name), 'utf8')))).join('\n');
 }
 
 test('source bounds and remedy count reconcile against the 8th-edition OCR text', async () => {
