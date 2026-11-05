@@ -293,6 +293,16 @@ export default function MateriaMedicaCanvas() {
       unusedSourceRecords.delete(sourceRecord.slug);
       return {
         ...remedy,
+        description: sourceRecord.snippet || remedy.description,
+        // Keep this card layer strictly source-indexed; the full profile page
+        // displays all of Boericke's chapter text, including specific symptoms.
+        keyCharacteristics: [],
+        modalities: { better: [], worse: [] },
+        thermal: 'Not stated',
+        thirst: 'See the relevant original Boericke chapter.',
+        mind: [],
+        physical: [],
+        clinicalApplications: [],
         dosage: undefined,
         sourceSlug: sourceRecord.slug,
         sourceSnippet: sourceRecord.snippet || remedy.sourceSnippet,
@@ -967,17 +977,19 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                                 </div>
 
                                 <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
-                                  <button
-                                    onClick={() => setSelectedRemedy(remedy)}
-                                    className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
-                                  >
-                                    <Sparkles className="w-3.5 h-3.5 text-accent-light" /> Initialize AI Canvas
-                                  </button>
+                                  {!remedy.sourceSlug && (
+                                    <button
+                                      onClick={() => setSelectedRemedy(remedy)}
+                                      className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                                    >
+                                      <Sparkles className="w-3.5 h-3.5 text-accent-light" /> Initialize AI Canvas
+                                    </button>
+                                  )}
                                   <button
                                     onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.sourceSlug || remedy.id}`)}
                                     className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
                                   >
-                                    <span>Full Portrait</span>
+                                    <span>{remedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                                     <ArrowUpRight className="w-3.5 h-3.5" />
                                   </button>
                                 </div>
@@ -1074,12 +1086,14 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                           </div>
 
                           <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
-                            <button
-                              onClick={() => setSelectedRemedy(remedy)}
-                              className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
-                            >
-                              <Sparkles className="w-3.5 h-3.5 text-accent-light animate-pulse" /> Initialize AI Canvas
-                            </button>
+                            {!remedy.sourceSlug && (
+                              <button
+                                onClick={() => setSelectedRemedy(remedy)}
+                                className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                              >
+                                <Sparkles className="w-3.5 h-3.5 text-accent-light animate-pulse" /> Initialize AI Canvas
+                              </button>
+                            )}
                             <button
                               onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.sourceSlug || remedy.id}`)}
                               className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
