@@ -1,5 +1,6 @@
 import "dotenv/config";
 import express from "express";
+import rateLimit from "express-rate-limit";
 import { allBlogPosts } from "./src/data/blogPosts";
 import { enhancedRemedies } from "./src/data/enhancedRemedies";
 import { conditionsData } from "./src/data/conditionsData";
@@ -189,7 +190,15 @@ async function startServer() {
     });
   });
 
-  app.post('/api/appointments/notify-request', async (req, res) => {
+  const appointmentNotifyRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, error: 'Too many appointment notification attempts. Please try again later.' },
+  });
+
+  app.post('/api/appointments/notify-request', appointmentNotifyRateLimiter, async (req, res) => {
     const authorization = typeof req.headers.authorization === 'string' ? req.headers.authorization : '';
     if (!authorization.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, error: 'Sign in to notify the clinic about an appointment request.' });
