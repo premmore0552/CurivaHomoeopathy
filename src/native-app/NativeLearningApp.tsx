@@ -21,9 +21,10 @@ import { nativeQuestionBank, type NativeQuestion } from './quizBank';
 import { importedMedicalMCQs } from '../data/medicalMcqBank';
 import './native-learning.css';
 import NativeStudyPlanner from './NativeStudyPlanner';
+import NativeExamMode, { type NativeExamHistoryResult } from './NativeExamMode';
 
 type Tab = 'home' | 'learn' | 'practice' | 'flashcards' | 'library' | 'profile';
-type Screen = 'main' | 'subject' | 'lesson' | 'article' | 'remedy' | 'repertory' | 'quiz' | 'quiz-result';
+type Screen = 'main' | 'subject' | 'lesson' | 'article' | 'remedy' | 'repertory' | 'quiz' | 'quiz-result' | 'exam';
 type StoredLesson = { subjectId: string; chapterTitle: string; subjectTitle: string };
 type StoredQuizResult = { date: string; subject: string; score: number; total: number; percent: number };
 
@@ -342,7 +343,8 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
     return { done, total: chapters.length, percent: chapters.length ? Math.round(done / chapters.length * 100) : 0 };
   };
   const goBack = () => {
-    if (screen === 'quiz-result' || screen === 'quiz') { setScreen('main'); setActiveTab('practice'); }
+    if (screen === 'exam') { setScreen('main'); setActiveTab('practice'); }
+    else if (screen === 'quiz-result' || screen === 'quiz') { setScreen('main'); setActiveTab('practice'); }
     else if (screen === 'article' || screen === 'remedy' || screen === 'repertory') { setScreen('main'); setActiveTab('library'); setSearch(''); }
     else if (screen === 'lesson') setScreen('subject');
     else if (screen === 'subject') { setScreen('main'); setActiveTab('learn'); }
@@ -391,7 +393,7 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
         {activeTab === 'practice' && <>
           <div className="native-page-intro"><span className="native-eyebrow">ACTIVE RECALL</span><h1>Practice makes <em>progress.</em></h1><p>Answer, get an explanation, and learn from every choice.</p></div>
           <div className="native-quiz-hero"><div className="native-quiz-hero-orb"><Brain size={32} /></div><div><span className="native-eyebrow native-eyebrow-light">QUICK MIX</span><h2>Question bank</h2><p>Anatomy, physiology, pathology, pharmacology and more.</p></div><div className="native-quiz-hero-footer"><span><Clock3 size={15} /> 5–8 minutes</span><span><ListChecks size={15} /> Explanations included</span></div></div>
-          <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">CHOOSE A FOCUS</span><h2>Question set</h2></div></div><label className="native-field-label" htmlFor="native-quiz-subject">Subject</label><select id="native-quiz-subject" className="native-select" value={quizSubject} onChange={(event) => setQuizSubject(event.target.value)}>{allQuestionSubjects.map((subject) => <option key={subject} value={subject}>{subject}</option>)}</select><label className="native-field-label native-quiz-length-label" htmlFor="native-quiz-length">Session length</label><select id="native-quiz-length" className="native-select" value={quizLength} onChange={(event) => setQuizLength(event.target.value)}><option value="10">10 questions · quick review</option><option value="20">20 questions · focused session</option><option value="all">Full selected question bank</option></select><div className="native-quiz-summary"><div><strong>{(quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject)).length || allQuestionBank.length}</strong><span>questions</span></div><div><strong>Instant</strong><span>feedback</span></div><div><strong>Offline</strong><span>available</span></div></div><button className="native-primary-button" onClick={startQuiz}>Start practice <ArrowRight size={18} /></button></section>
+          <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">CHOOSE A FOCUS</span><h2>Question set</h2></div></div><label className="native-field-label" htmlFor="native-quiz-subject">Subject</label><select id="native-quiz-subject" className="native-select" value={quizSubject} onChange={(event) => setQuizSubject(event.target.value)}>{allQuestionSubjects.map((subject) => <option key={subject} value={subject}>{subject}</option>)}</select><label className="native-field-label native-quiz-length-label" htmlFor="native-quiz-length">Session length</label><select id="native-quiz-length" className="native-select" value={quizLength} onChange={(event) => setQuizLength(event.target.value)}><option value="10">10 questions · quick review</option><option value="20">20 questions · focused session</option><option value="all">Full selected question bank</option></select><div className="native-quiz-summary"><div><strong>{(quizSubject === 'All subjects' ? allQuestionBank : allQuestionBank.filter((q) => q.subject === quizSubject)).length || allQuestionBank.length}</strong><span>questions</span></div><div><strong>Instant</strong><span>feedback</span></div><div><strong>Offline</strong><span>available</span></div></div><button className="native-primary-button" onClick={startQuiz}>Start practice <ArrowRight size={18} /></button><button type="button" className="native-exam-entry-card" onClick={() => setScreen('exam')}><span><Clock3 size={19} /></span><div><strong>Timed mock examination</strong><small>Choose a paper length, manage your time and review answers after submission.</small></div><ArrowRight size={17} /></button></section>
           {quizHistory.length > 0 && <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">RECENT SESSIONS</span><h2>Your attempts</h2></div></div><div className="native-history-list">{quizHistory.slice(0, 3).map((result, index) => <div className="native-history-row" key={result.date + '-' + index}><span className="native-history-badge"><Award size={17} /></span><div><strong>{result.subject}</strong><small>{result.date} · {result.score}/{result.total} correct</small></div><b>{result.percent}%</b></div>)}</div></section>}
           <div className="native-disclaimer"><ShieldCheck size={16} /><span>Questions support revision and do not replace your prescribed curriculum or supervised clinical training.</span></div>
         </>}
@@ -579,6 +581,12 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
         <div className="native-quiz-bottom"><span><Target size={16} /> Score: {quizScore}/{questionIndex + (selectedAnswer !== null ? 1 : 0)}</span><button className="native-primary-button" disabled={selectedAnswer === null} onClick={nextQuestion}>{questionIndex + 1 === activeQuestions.length ? 'See results' : 'Next question'} <ArrowRight size={17} /></button></div>
       </motion.main>}
 
+      {screen === 'exam' && <NativeExamMode questions={allQuestionBank} initialSubject={quizSubject} onExit={() => { setScreen('main'); setActiveTab('practice'); }} onComplete={(result: NativeExamHistoryResult) => {
+        setQuizHistory(items => [result, ...items].slice(0, 30));
+        const today = new Date().toISOString().slice(0, 10);
+        recordStudyDay();
+        setStudyDays(items => Array.from(new Set([...items, today])));
+      }} />}
       {screen === 'quiz-result' && <motion.main key="quiz-result" className="native-detail-content native-quiz-result" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}><div className="native-result-illustration"><Trophy size={35} /></div><span className="native-eyebrow">SESSION COMPLETE</span><h1>Good work. Keep <em>going.</em></h1><p className="native-result-copy">Every question is a chance to reinforce understanding.</p><div className="native-result-score"><strong>{quizScore}/{activeQuestions.length}</strong><span>correct answers</span><div className="native-progress-track"><span style={{ width: String(Math.round(quizScore / activeQuestions.length * 100)) + '%' }} /></div><b>{Math.round(quizScore / activeQuestions.length * 100)}% accuracy</b></div><div className="native-result-actions"><button className="native-primary-button" onClick={startQuiz}><RotateCcw size={17} /> Try again</button><button className="native-secondary-button" onClick={() => { setScreen('main'); setActiveTab('practice'); }}>Back to practice</button></div></motion.main>}
     </AnimatePresence>
 
