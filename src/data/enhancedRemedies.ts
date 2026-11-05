@@ -10,7 +10,7 @@ export interface RemedyDetailData {
   id: string;
   name: string;
   latinName?: string;
-  family: 'Plant' | 'Mineral' | 'Animal' | 'Sarcode' | 'Nosode' | 'Imponderabilia';
+  family: 'Plant' | 'Mineral' | 'Animal' | 'Sarcode' | 'Nosode' | 'Imponderabilia' | 'Other';
   origin: string;
   description: string;
   keyCharacteristics: string[];
@@ -18,7 +18,7 @@ export interface RemedyDetailData {
     better: string[];
     worse: string[];
   };
-  thermal: 'Chilly' | 'Hot' | 'Ambi-thermal';
+  thermal: 'Chilly' | 'Hot' | 'Ambi-thermal' | 'Not stated';
   thirst: string;
   mind?: string[];
   physical?: string[];
@@ -31,6 +31,11 @@ export interface RemedyDetailData {
   followsWell?: string[];
   imageUrl?: string;
   dosage?: string;
+  /** Canonical slug in the imported William Boericke source library. */
+  sourceSlug?: string;
+  /** Introductory text indexed from the historical Boericke source. */
+  sourceSnippet?: string;
+  historicalSource?: string;
 }
 
 export const enhancedRemedies: RemedyDetailData[] = [
