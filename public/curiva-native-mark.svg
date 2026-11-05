@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-labelledby="title desc">
+<title id="title">Curiva learning mark</title>
+<desc id="desc">A calm botanical leaf rising from an open book, representing medical learning.</desc>
+<defs>
+  <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#118c78"/><stop offset="1" stop-color="#064f49"/></linearGradient>
+  <linearGradient id="leaf" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e0f1a7"/><stop offset="1" stop-color="#9edb9f"/></linearGradient>
+</defs>
+<rect x="12" y="12" width="488" height="488" rx="132" fill="url(#bg)"/>
+<circle cx="256" cy="242" r="166" fill="none" stroke="#ffffff" stroke-opacity=".12" stroke-width="8"/>
+<path d="M112 304c54-16 103-12 144 17 41-29 90-33 144-17v73c-53-16-102-11-144 18-42-29-91-34-144-18z" fill="none" stroke="#f7fff9" stroke-width="19" stroke-linejoin="round"/>
+<path d="M256 321v72" stroke="#f7fff9" stroke-width="15" stroke-linecap="round"/>
+<path d="M256 300c-4-72 10-130 48-176" fill="none" stroke="#d9eda2" stroke-width="15" stroke-linecap="round"/>
+<path d="M286 170c-1-45 29-75 83-78-1 47-28 78-83 78z" fill="url(#leaf)" stroke="#f7fff9" stroke-width="9" stroke-linejoin="round"/>
+<path d="M246 225c-55-3-84-32-87-86 52 3 84 31 87 86z" fill="url(#leaf)" stroke="#f7fff9" stroke-width="9" stroke-linejoin="round"/>
+<path d="M254 287c-44-7-66-34-65-79 44 8 66 34 65 79z" fill="#a9dca0" stroke="#f7fff9" stroke-width="8" stroke-linejoin="round"/>
+<circle cx="256" cy="115" r="12" fill="#f5c56a"/>
+</svg>
