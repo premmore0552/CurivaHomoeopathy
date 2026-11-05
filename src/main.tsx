@@ -7,10 +7,10 @@ const root = createRoot(document.getElementById('root')!);
 async function bootCuriva() {
   if (Capacitor.isNativePlatform()) {
     // Native Android opens its own bundled learning interface, not the website routes.
-    const { default: NativeLearningApp } = await import('./native-app/NativeLearningApp');
+    const { default: NativeAppEntry } = await import('./native-app/NativeAppEntry');
     root.render(
       <StrictMode>
-        <NativeLearningApp />
+        <NativeAppEntry />
       </StrictMode>,
     );
     return;
