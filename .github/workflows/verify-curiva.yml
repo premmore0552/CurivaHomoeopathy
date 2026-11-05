@@ -1,0 +1,87 @@
+name: Verify Curiva website and app assets
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: verify-curiva-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  verify:
+    name: Typecheck, build website, and validate free OTA bundle
+    runs-on: ubuntu-latest
+    env:
+      COMMIT_REF: ${{ github.sha }}
+    steps:
+      - name: Check out source
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npm run lint
+
+      - name: Build website and self-hosted app update bundle
+        run: npm run build
+
+      - name: Validate OTA ZIP and manifest
+        shell: bash
+        run: |
+          set -euo pipefail
+          bundle="$(find dist/live-updates/bundles -maxdepth 1 -name '*.zip' -print -quit)"
+          test -n "$bundle"
+          unzip -t "$bundle"
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+          import crypto from 'node:crypto';
+          const manifest = JSON.parse(fs.readFileSync('dist/live-updates/latest.json', 'utf8'));
+          const files = fs.readdirSync('dist/live-updates/bundles').filter((name) => name.endsWith('.zip'));
+          if (files.length !== 1) throw new Error('Expected exactly one current OTA zip in a clean build');
+          const zip = fs.readFileSync(`dist/live-updates/bundles/${files[0]}`);
+          const checksum = crypto.createHash('sha256').update(zip).digest('hex');
+          if (manifest.checksum !== checksum) throw new Error('OTA manifest checksum mismatch');
+          if (manifest.bundleId !== files[0].replace(/\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
+          console.log(`Verified OTA bundle ${manifest.bundleId}`);
+          NODE
+          if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?$'; then
+            echo "Server-only Express artifact must not be included in the mobile bundle."
+            exit 1
+          fi
+
+      - name: Bundle the Netlify API function and private-download helpers
+        run: |
+          npx esbuild netlify/functions/api.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/functions/api.mjs
+          mkdir -p .netlify-build/server
+          npx esbuild src/server/paidOrderStore.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/paidOrderStore.mjs
+          npx esbuild src/server/resourceEmail.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/resourceEmail.mjs
+          npx esbuild src/server/clinicCalendar.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/server/clinicCalendar.mjs
+
+      - name: Verify navigation, private downloads, and Netlify API
+        run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs
+
+      - name: Set up Java for the Firestore emulator
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '21'
+
+      - name: Install temporary Firestore rules test tools
+        run: npm install --no-save --package-lock=false firebase-tools @firebase/rules-unit-testing
+
+      - name: Test Firestore security rules in the emulator
+        run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"

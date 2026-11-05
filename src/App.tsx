@@ -1,4 +1,7 @@
+import './index.css';
 import React, { Suspense, lazy, useState, useEffect } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { LiveUpdate } from '@capawesome/capacitor-live-update';
 import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'react-router-dom';
 import { AnimatePresence, motion } from 'motion/react';
 import { HelmetProvider } from 'react-helmet-async';
@@ -41,8 +44,11 @@ function lazyLoad<T extends React.ComponentType<any>>(
 }
 
 const Home = lazyLoad(() => import('./pages/Home'));
+const CurivaHome = lazyLoad(() => import('./pages/CurivaHome'));
 const Articles = lazyLoad(() => import('./pages/Articles'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
+const ResearchEntryPage = lazyLoad(() => import('./pages/ResearchEntryPage'));
+const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const About = lazyLoad(() => import('./pages/About'));
 const PrivacyPolicy = lazyLoad(() => import('./pages/PrivacyPolicy'));
 const MedicalDisclaimer = lazyLoad(() => import('./pages/MedicalDisclaimer'));
@@ -63,10 +69,13 @@ const OrganonMedicine = lazyLoad(() => import('./pages/OrganonMedicine'));
 const ResourceStore = lazyLoad(() => import('./pages/ResourceStore'));
 const MyLibrary = lazyLoad(() => import('./pages/MyLibrary'));
 const StudentResources = lazyLoad(() => import('./pages/StudentResources'));
+const FreeBookLibrary = lazyLoad(() => import('./pages/FreeBookLibrary'));
 const StudyTool = lazyLoad(() => import('./pages/StudyTool'));
 const Stalwarts = lazyLoad(() => import('./pages/Stalwarts'));
 const Profile = lazyLoad(() => import('./pages/Profile'));
 const Auth = lazyLoad(() => import('./pages/Auth'));
+const Appointments = lazyLoad(() => import('./pages/Appointments'));
+const AdminAppointments = lazyLoad(() => import('./pages/AdminAppointments'));
 const FindRemedy = lazyLoad(() => import('./pages/FindRemedy'));
 const MCQPractice = lazyLoad(() => import('./pages/MCQPractice'));
 const ClinicalGuides = lazyLoad(() => import('./pages/ClinicalGuides'));
@@ -114,6 +123,7 @@ const CellInjuryMasterPage = lazyLoad(() => import('./pages/CellInjuryMasterPage
 const UniversityBlueprints = lazyLoad(() => import('./pages/UniversityBlueprints'));
 const FlashcardsPage = lazyLoad(() => import('./pages/FlashcardsPage'));
 const Quizzes = lazyLoad(() => import('./pages/Quizzes'));
+const StudyToolkit = lazyLoad(() => import('./pages/StudyToolkit'));
 const AiapgetMcqSimulator = lazyLoad(() => import('./pages/AiapgetMcqSimulator'));
 const ClinicalTherapeuticsPage = lazyLoad(() => import('./pages/ClinicalTherapeuticsPage'));
 
@@ -246,10 +256,12 @@ function AppRoutes() {
           <AnimatePresence mode="wait">
             <Suspense fallback={<LoadingScreen />}>
               <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<PageWrapper><Home /></PageWrapper>} />
+                <Route path="/" element={<PageWrapper><CurivaHome /></PageWrapper>} />
+                <Route path="/classic-home" element={<PageWrapper><Home /></PageWrapper>} />
                 
                 {/* Subject-Wise Study Center Routes */}
                 <Route path="/subjects" element={<PageWrapper><AllSubjectsHub /></PageWrapper>} />
+                <Route path="/free-books" element={<PageWrapper><FreeBookLibrary /></PageWrapper>} />
                 <Route path="/all-subjects" element={<Navigate to="/subjects" replace />} />
                 <Route path="/subject/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
@@ -272,6 +284,7 @@ function AppRoutes() {
                 <Route path="/university-blueprints" element={<PageWrapper><UniversityBlueprints /></PageWrapper>} />
                 <Route path="/flashcards" element={<PageWrapper><FlashcardsPage /></PageWrapper>} />
                 <Route path="/quizzes" element={<PageWrapper><Quizzes /></PageWrapper>} />
+                <Route path="/study-toolkit" element={<PageWrapper><StudyToolkit /></PageWrapper>} />
                 <Route path="/quiz" element={<Navigate to="/quizzes" replace />} />
                 <Route path="/aiapget-mcq-simulator" element={<PageWrapper><AiapgetMcqSimulator /></PageWrapper>} />
                 <Route path="/clinical-therapeutics" element={<PageWrapper><ClinicalTherapeuticsPage /></PageWrapper>} />
@@ -363,6 +376,7 @@ function AppRoutes() {
                 {/* Knowledge Base & Research Routes */}
                 <Route path="/knowledge-base" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
                 <Route path="/research-updates" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
+                <Route path="/research-entry/:slug" element={<PageWrapper><ResearchEntryPage /></PageWrapper>} />
                 <Route path="/categories" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/categories/*" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/historic-pioneers" element={<PageWrapper><Stalwarts /></PageWrapper>} />
@@ -388,6 +402,8 @@ function AppRoutes() {
                 <Route path="/analysis" element={<PageWrapper><ComparisonTool /></PageWrapper>} />
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
+                <Route path="/appointments" element={<PageWrapper><Appointments /></PageWrapper>} />
+                <Route path="/admin/appointments" element={<PageWrapper><AdminAppointments /></PageWrapper>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/my-library" element={<Navigate to="/library" replace />} />
@@ -453,6 +469,7 @@ function AppRoutes() {
                 <Route path="/syllabus" element={<Navigate to="/cbdc-syllabus" replace />} />
                 <Route path="/coming-soon" element={<PageWrapper><ComingSoon /></PageWrapper>} />
                 <Route path="/admin/link-audit" element={<PageWrapper><AdminLinkAudit /></PageWrapper>} />
+                <Route path="/admin/dashboard" element={<PageWrapper><AdminAnalyticsDashboard /></PageWrapper>} />
 
                 {/* Catch-all Wildcard Route */}
                 <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
@@ -472,6 +489,71 @@ export default function App() {
   const [initiallyLoading, setInitiallyLoading] = useState(true);
 
   useEffect(() => {
+    if (Capacitor.isNativePlatform()) {
+      // Mark the current bundle healthy before invoking any update APIs.
+      void (async () => {
+        try {
+          await LiveUpdate.ready();
+        } catch (error) {
+          console.warn('Curiva live-update readiness check failed.', error);
+          return;
+        }
+
+        try {
+          const manifestUrl = 'https://curivahomoeopathy.netlify.app/live-updates/latest.json';
+          const manifestResponse = await fetch(manifestUrl, { cache: 'no-store' });
+          if (!manifestResponse.ok) return;
+
+          const manifest = (await manifestResponse.json()) as {
+            bundleId?: string;
+            url?: string;
+            checksum?: string;
+            signature?: string;
+          };
+
+          if (
+            typeof manifest.bundleId !== 'string' ||
+            !/^[a-zA-Z0-9._-]{1,64}$/.test(manifest.bundleId) ||
+            typeof manifest.url !== 'string' ||
+            typeof manifest.checksum !== 'string' ||
+            !/^[a-f0-9]{64}$/i.test(manifest.checksum)
+          ) {
+            return;
+          }
+
+          const manifestOrigin = new URL(manifestUrl).origin;
+          const bundleUrl = new URL(manifest.url, manifestUrl);
+          // Only accept versioned bundles hosted by Curiva's own deployment.
+          if (
+            bundleUrl.origin !== manifestOrigin ||
+            !bundleUrl.pathname.startsWith('/live-updates/bundles/')
+          ) {
+            return;
+          }
+
+          const current = await LiveUpdate.getCurrentBundle();
+          if (current.bundleId === manifest.bundleId) return;
+
+          const bundles = await LiveUpdate.getBundles();
+          if (!bundles.bundleIds.includes(manifest.bundleId)) {
+            await LiveUpdate.downloadBundle({
+              artifactType: 'zip',
+              bundleId: manifest.bundleId,
+              url: bundleUrl.toString(),
+              checksum: manifest.checksum,
+              ...(manifest.signature ? { signature: manifest.signature } : {})
+            });
+          }
+
+          // Apply on the next cold start, avoiding interruption or lost form state.
+          await LiveUpdate.setNextBundle({ bundleId: manifest.bundleId });
+        } catch (error) {
+          // The app remains usable offline; failed checks simply retry on a later launch.
+          console.info('Curiva self-hosted update check skipped.', error);
+        }
+      })();
+    }
+
     const timer = setTimeout(() => {
       setInitiallyLoading(false);
     }, 1200);

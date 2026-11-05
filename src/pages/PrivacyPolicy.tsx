@@ -30,7 +30,8 @@ export default function PrivacyPolicy() {
             </p>
             <ul className="list-disc pl-6 space-y-3">
               <li><strong>Contact Information:</strong> Email address only if you voluntarily subscribe to our newsletter or provide feedback.</li>
-              <li><strong>Feedback Data:</strong> Any comments or error reports you submit through our feedback forms. <strong>We do not collect or store patient medical history or clinical health data.</strong></li>
+              <li><strong>Feedback Data:</strong> Any comments or error reports you submit through our feedback forms. Do not include medical histories or confidential clinical information in feedback forms.</li>
+              <li><strong>Appointment request data:</strong> If you use the appointment-request page, Curiva stores your account ID and email (when available), the name you provide, an optional phone number, requested service category, preferred date and time window, time zone, request status, and any administrative response. This request form does not ask for symptoms, diagnoses, or medical documents.</li>
               <li><strong>Usage Data:</strong> Non-personal information automatically collected through cookies, such as IP address and browser type to understand how users interact with our research content.</li>
             </ul>
             
@@ -40,11 +41,12 @@ export default function PrivacyPolicy() {
               <li>To improve our educational resources based on user feedback.</li>
               <li>To send you research updates and homoeopathic awareness newsletters if subscribed.</li>
               <li>To respond to your specific inquiries or content suggestions.</li>
+              <li>To store appointment requests, show their status to the signed-in requester, and allow authorized administrators to review them. A request is not a confirmed appointment; this release does not send automatic email or SMS notifications.</li>
             </ul>
 
             <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">3. Data Security & Integrity</h2>
             <p>
-              While we do not store health records, we implement standard security measures to protect your contact information and feedback. We do not sell or share any user data with third-party pharmaceutical or medical marketing firms.
+              Appointment requests are stored in Firebase Firestore and are intended to be visible only to the signed-in requester and authorized administrators under the configured security rules. Deployment of the updated rules is required before the appointment request feature can be enabled. Do not submit symptoms, medical history, reports, or other clinical details through this scheduling form. We do not sell user data to third-party pharmaceutical or medical marketing firms.
             </p>
             
             <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">4. Third-Party Links</h2>

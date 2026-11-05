@@ -5,8 +5,21 @@ import {defineConfig, loadEnv} from 'vite';
 
 export default defineConfig(({mode}) => {
   const env = loadEnv(mode, '.', '');
+  const appVersion = env.VITE_APP_VERSION || process.env.COMMIT_REF || process.env.GITHUB_SHA || 'local';
   return {
-    plugins: [react(), tailwindcss()],
+    plugins: [
+      {
+        name: 'curiva-build-version',
+        transformIndexHtml: {
+          order: 'pre',
+          handler(html) {
+            return html.replaceAll('__CURIVA_BUILD_VERSION__', appVersion);
+          },
+        },
+      },
+      react(),
+      tailwindcss(),
+    ],
     resolve: {
       alias: {
         '@': path.resolve('.'),

@@ -15,6 +15,29 @@ import {
   SearchResult, 
   levenshteinDistance 
 } from '../utils/searchIndex';
+const SEARCH_HISTORY_KEY = 'curiva_global_search_history';
+
+function readSearchHistory(): string[] {
+  try {
+    const value = localStorage.getItem(SEARCH_HISTORY_KEY);
+    if (!value) return [];
+    const parsed: unknown = JSON.parse(value);
+    return Array.isArray(parsed)
+      ? parsed.filter((item): item is string => typeof item === 'string' && item.trim().length > 0).slice(0, 5)
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function persistSearchHistory(history: string[]) {
+  try {
+    localStorage.setItem(SEARCH_HISTORY_KEY, JSON.stringify(history.slice(0, 5)));
+  } catch {
+    // Search remains usable when storage is blocked or the browser is in private mode.
+  }
+}
+
 
 export default function SearchAutocomplete() {
   const { currentRole } = useRole();
@@ -52,29 +75,17 @@ export default function SearchAutocomplete() {
   const [isListening, setIsListening] = useState(false);
   const [voiceSupported, setVoiceSupported] = useState(false);
 
-  const containerRef = useRef<HTMLDivElement>(null);
+  const containerRef = useRef<HTMLButtonElement>(null);
+  const modalPanelRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const modalInputRef = useRef<HTMLInputElement>(null);
   const navigate = useNavigate();
 
-  // Load Search History and check Voice support
+  // Load actual recent searches and detect optional browser speech support.
   useEffect(() => {
-    const history = localStorage.getItem('curiva_global_search_history');
-    if (history) {
-      try {
-        setSearchHistory(JSON.parse(history).slice(0, 5));
-      } catch (e) {
-        setSearchHistory([]);
-      }
-    } else {
-      // Pre-seed some history if empty
-      setSearchHistory(["Arnica montana", "Vital Force", "Aphorism 1"]);
-    }
-
+    setSearchHistory(readSearchHistory());
     const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
-    if (SpeechRecognition) {
-      setVoiceSupported(true);
-    }
+    setVoiceSupported(Boolean(SpeechRecognition));
   }, []);
 
   // Keyboard shortcut CMD+K or Ctrl+K to open search console
@@ -124,19 +135,47 @@ export default function SearchAutocomplete() {
     setSearchedGoogle(false);
   }, [query, activeFilter]);
 
-  // Focus modal input on open
+  // Lock background scrolling while search is open, focus the input, and restore focus on close.
   useEffect(() => {
-    if (isModalOpen) {
-      setTimeout(() => {
-        modalInputRef.current?.focus();
-      }, 100);
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
+    if (!isModalOpen) {
       setIsListening(false);
+      return;
     }
+
+    const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.body.style.overflow = 'hidden';
+    const focusTimer = window.setTimeout(() => modalInputRef.current?.focus(), 50);
+
+    const trapFocus = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setIsModalOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab' || !modalPanelRef.current) return;
+      const focusable = Array.from(
+        modalPanelRef.current.querySelectorAll<HTMLElement>(
+          'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])'
+        )
+      ).filter((element) => element.getClientRects().length > 0);
+      if (!focusable.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+
+    window.addEventListener('keydown', trapFocus);
     return () => {
-      document.body.style.overflow = 'unset';
+      window.clearTimeout(focusTimer);
+      window.removeEventListener('keydown', trapFocus);
+      document.body.style.overflow = previousOverflow;
+      previouslyFocused?.focus();
     };
   }, [isModalOpen]);
 
@@ -237,7 +276,7 @@ export default function SearchAutocomplete() {
     // Add to Recent Searches history
     const updatedHistory = [doc.title, ...searchHistory.filter(item => item !== doc.title)].slice(0, 5);
     setSearchHistory(updatedHistory);
-    localStorage.setItem('curiva_global_search_history', JSON.stringify(updatedHistory));
+    persistSearchHistory(updatedHistory);
 
     setIsModalOpen(false);
     setQuery('');
@@ -258,7 +297,7 @@ export default function SearchAutocomplete() {
 
   const clearHistory = () => {
     setSearchHistory([]);
-    localStorage.removeItem('curiva_global_search_history');
+    persistSearchHistory([]);
   };
 
   const handleSuggestionClick = (text: string) => {
@@ -338,11 +377,13 @@ export default function SearchAutocomplete() {
 
   return (
     <>
-      {/* Outer Click Trigger Bar (Algolia styled) */}
-      <div 
-        ref={containerRef} 
+      {/* Keyboard-accessible global search trigger */}
+      <button
+        ref={containerRef}
+        type="button"
         onClick={() => setIsModalOpen(true)}
-        className="relative group w-full md:w-60 lg:w-72 cursor-pointer select-none"
+        aria-label="Open global search"
+        className="relative group w-full md:w-60 lg:w-72 cursor-pointer select-none text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
       >
         <div className="flex items-center gap-3 pl-4 pr-3 py-2.5 bg-bg-secondary hover:bg-white dark:hover:bg-zinc-800 border border-border rounded-full shadow-inner hover:shadow-soft hover:border-primary/40 transition-all">
           <Search className="text-text-secondary group-hover:text-primary w-4 h-4 transition-colors" />
@@ -353,12 +394,12 @@ export default function SearchAutocomplete() {
             <span>⌘</span><span>K</span>
           </kbd>
         </div>
-      </div>
+      </button>
 
       {/* Modern Blurred Full-Screen Modal Search Console */}
       <AnimatePresence>
         {isModalOpen && (
-          <div className="fixed inset-0 z-[200] overflow-y-auto">
+          <div className="fixed inset-0 z-[200] overflow-y-auto overscroll-contain" role="presentation">
             {/* Backdrop blur */}
             <motion.div 
               initial={{ opacity: 0 }}
@@ -369,21 +410,27 @@ export default function SearchAutocomplete() {
             />
 
             {/* Inner Console Container */}
-            <div className="flex min-h-screen items-center justify-center p-4 sm:p-6 md:p-10">
+            <div className="flex min-h-[100dvh] items-stretch justify-center p-0 sm:items-center sm:p-6 md:p-10">
               <motion.div 
                 initial={{ opacity: 0, scale: 0.96, y: 15 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 exit={{ opacity: 0, scale: 0.96, y: 15 }}
                 transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                ref={modalPanelRef}
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="curiva-global-search-title"
                 onKeyDown={handleModalKeyDown}
-                className="relative w-full max-w-4xl bg-white dark:bg-zinc-900 rounded-3xl border border-border dark:border-zinc-800 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] flex flex-col overflow-hidden max-h-[85vh]"
+                className="relative w-full max-w-4xl bg-white dark:bg-zinc-900 rounded-none sm:rounded-3xl border border-border dark:border-zinc-800 shadow-[0_50px_100px_-20px_rgba(0,0,0,0.25)] flex flex-col overflow-hidden h-[100dvh] sm:h-auto max-h-[100dvh] sm:max-h-[85vh]"
               >
                 {/* 1. Header Search Input Bar */}
-                <div className="flex items-center gap-4 px-6 py-4.5 border-b border-border dark:border-zinc-800 bg-bg-secondary/40">
+                <div className="flex items-center gap-3 px-4 py-4 sm:gap-4 sm:px-6 border-b border-border dark:border-zinc-800 bg-bg-secondary/40 pt-[calc(env(safe-area-inset-top,0px)+1rem)] sm:pt-4">
                   <Search className="w-5 h-5 text-primary shrink-0" />
                   
+                  <h2 id="curiva-global-search-title" className="sr-only">Search Curiva resources</h2>
                   <input
                     ref={modalInputRef}
+                    aria-label="Search Curiva resources"
                     type="text"
                     value={query}
                     onChange={(e) => setQuery(e.target.value)}
@@ -433,7 +480,7 @@ export default function SearchAutocomplete() {
                 </div>
 
                 {/* 2. Intelligent Search Filter Category Tabs */}
-                <div className="flex items-center gap-1 overflow-x-auto px-6 py-3 border-b border-border dark:border-zinc-800/80 scrollbar-none bg-white dark:bg-zinc-900 shrink-0">
+                <div className="flex items-center gap-1 overflow-x-auto px-4 sm:px-6 py-3 border-b border-border dark:border-zinc-800/80 scrollbar-none bg-white dark:bg-zinc-900 shrink-0">
                   {[
                     { id: 'all', label: 'All Content' },
                     { id: 'remedy', label: 'Remedies (MM)' },

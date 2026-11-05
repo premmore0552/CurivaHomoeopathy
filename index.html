@@ -49,7 +49,7 @@
     <script type="module" src="/src/main.tsx"></script>
     <script>
       // Clear old caches and unregister service workers on version change to avoid blank screen / stale chunk assets
-      const APP_VERSION = 'v12';
+      const APP_VERSION = '__CURIVA_BUILD_VERSION__';
       const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('ais-dev') || window.location.hostname.includes('ais-pre');
 
       if (isDev) {
