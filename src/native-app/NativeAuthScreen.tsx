@@ -16,7 +16,14 @@ interface NativeAuthScreenProps {
 }
 
 export default function NativeAuthScreen({ onAuthenticated, onContinueOffline }: NativeAuthScreenProps) {
-  const [audience, setAudience] = useState<NativeAudience>('student');
+  const [audience, setAudience] = useState<NativeAudience>(() => {
+    try {
+      return localStorage.getItem('curiva-native-audience') === 'practitioner' ? 'practitioner' : 'student';
+    } catch {
+      return 'student';
+    }
+  });
+  const [audienceTouched, setAudienceTouched] = useState(false);
   const [mode, setMode] = useState<'signin' | 'signup'>('signin');
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -63,14 +70,23 @@ export default function NativeAuthScreen({ onAuthenticated, onContinueOffline }:
         await signInWithEmailAndPassword(auth, email.trim().toLowerCase(), password);
       }
 
-      // Authentication remains usable even if Firestore profile setup is temporarily offline.
+      // Existing accounts keep their saved workspace unless the user explicitly
+      // chooses a different one. New accounts save the currently selected category.
+      let resolvedAudience = audience;
       try {
-        await userService.syncAuthUser(audience);
+        const savedProfession = await userService.syncAuthUser(
+          mode === 'signup' || audienceTouched ? audience : undefined
+        );
+        if (mode === 'signin' && !audienceTouched && savedProfession) {
+          resolvedAudience = savedProfession === 'practitioner' || savedProfession === 'doctor'
+            ? 'practitioner'
+            : 'student';
+        }
       } catch (profileError) {
         console.warn('Curiva profile setup will need a connected retry.', profileError);
         setNotice('Signed in. Your account profile can finish syncing when you are online.');
       }
-      onAuthenticated(audience);
+      onAuthenticated(resolvedAudience);
     } catch (authError) {
       setError(friendlyError(authError));
     } finally {
@@ -112,12 +128,12 @@ export default function NativeAuthScreen({ onAuthenticated, onContinueOffline }:
           </div>
 
           <div className="native-auth-audience" role="group" aria-label="Choose account category">
-            <button type="button" className={audience === 'student' ? 'is-selected' : ''} onClick={() => { setAudience('student'); setError(''); }}>
+            <button type="button" className={audience === 'student' ? 'is-selected' : ''} onClick={() => { setAudience('student'); setAudienceTouched(true); setError(''); }}>
               <span><GraduationCap size={20} /></span>
               <strong>BHMS student</strong>
               <small>Curriculum, revision and exam practice</small>
             </button>
-            <button type="button" className={audience === 'practitioner' ? 'is-selected' : ''} onClick={() => { setAudience('practitioner'); setError(''); }}>
+            <button type="button" className={audience === 'practitioner' ? 'is-selected' : ''} onClick={() => { setAudience('practitioner'); setAudienceTouched(true); setError(''); }}>
               <span><Stethoscope size={20} /></span>
               <strong>Practitioner</strong>
               <small>Professional reference and continuing study</small>
