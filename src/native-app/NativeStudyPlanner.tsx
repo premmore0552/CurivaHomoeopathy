@@ -32,8 +32,18 @@ export default function NativeStudyPlanner() {
   useEffect(() => {
     try {
       localStorage.setItem('curiva-native-study-plan', JSON.stringify({ date: dateKey, goal: plan.goal, completed: plan.completed }));
+      window.dispatchEvent(new Event('curiva-native-progress-updated'));
     } catch { /* The planner remains usable for this session. */ }
   }, [dateKey, plan]);
+
+  useEffect(() => {
+    const restore = () => setPlan(current => {
+      const next = readPlan(dateKey);
+      return JSON.stringify(current) === JSON.stringify(next) ? current : next;
+    });
+    window.addEventListener('curiva-native-progress-restored', restore);
+    return () => window.removeEventListener('curiva-native-progress-restored', restore);
+  }, [dateKey]);
 
   const toggleTask = (id: string) => {
     setPlan(current => ({

@@ -6,7 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import {
   Activity, ArrowLeft, ArrowRight, Award, Bookmark, BookmarkCheck, BookOpen,
   Brain, Check, CheckCircle2, ChevronRight, Clock3, Compass, Flame, GraduationCap,
-  HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope,
+  HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope, Cloud, CloudOff,
   Target, TrendingUp, Trophy, X, Zap, Play, RotateCcw, NotebookPen, Microscope, FlaskConical, BookMarked, UserRound, LogOut
 } from 'lucide-react';
 import { allBhmsSubjects } from '../pages/AllSubjectsHub';
@@ -37,8 +37,23 @@ function useStoredState<T>(key: string, initialValue: T): [T, React.Dispatch<Rea
     }
   });
   useEffect(() => {
-    try { localStorage.setItem(key, JSON.stringify(value)); } catch { /* Storage is optional. */ }
+    try {
+      localStorage.setItem(key, JSON.stringify(value));
+      window.dispatchEvent(new Event('curiva-native-progress-updated'));
+    } catch { /* Storage is optional. */ }
   }, [key, value]);
+  useEffect(() => {
+    const restore = () => {
+      try {
+        const raw = localStorage.getItem(key);
+        if (raw === null) return;
+        const restored = JSON.parse(raw) as T;
+        setValue(current => JSON.stringify(current) === JSON.stringify(restored) ? current : restored);
+      } catch { /* Keep the current value if storage cannot be read. */ }
+    };
+    window.addEventListener('curiva-native-progress-restored', restore);
+    return () => window.removeEventListener('curiva-native-progress-restored', restore);
+  }, [key]);
   return [value, setValue];
 }
 
@@ -99,6 +114,7 @@ export interface NativeAccountInfo {
   displayName: string;
   email: string;
   audience: NativeAudience;
+  progressSyncStatus?: 'idle' | 'syncing' | 'synced' | 'offline';
 }
 
 interface NativeLearningAppProps {
@@ -431,12 +447,13 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
         </>}
 
         {activeTab === 'profile' && <>
-          <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>Your progress and bookmarks stay on this device.</p></div>
+          <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>{account ? 'Study progress syncs to your account when online. Bookmarks stay on this device.' : 'Your study progress and bookmarks stay on this device.'}</p></div>
           <section className="native-account-card">
             <div className="native-account-icon"><UserRound size={20} /></div>
             <div className="native-account-copy">
               <strong>{account ? (account.audience === 'practitioner' ? 'Practitioner account' : 'Student account') : 'Offline learner'}</strong>
               <span>{account ? (account.email || account.displayName) : 'Your study tools are available on this device without signing in.'}</span>
+              {account && <small className={'native-sync-state is-' + (account.progressSyncStatus || 'idle')} aria-live="polite">{account.progressSyncStatus === 'synced' ? <><Cloud size={12} /> Study progress backed up</> : account.progressSyncStatus === 'syncing' ? <><Cloud size={12} /> Syncing study progress…</> : account.progressSyncStatus === 'offline' ? <><CloudOff size={12} /> Offline — progress stays on this device</> : <><Cloud size={12} /> Cloud backup starting</>}</small>}
             </div>
             {account ? <button type="button" className="native-account-action native-account-signout" onClick={() => void onSignOut?.()}><LogOut size={15} /> Sign out</button> : <button type="button" className="native-account-action" onClick={onManageAccount}><ShieldCheck size={15} /> Sign in</button>}
           </section>

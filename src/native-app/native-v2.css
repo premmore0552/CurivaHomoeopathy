@@ -105,3 +105,9 @@
 @media (prefers-reduced-motion: reduce) {
   .native-plan-progress span { transition: none; }
 }
+
+.native-sync-state { display: inline-flex; align-items: center; gap: 5px; width: fit-content; margin-top: 3px; font-size: 8px; font-weight: 800; line-height: 1.35; }
+.native-sync-state.is-synced { color: #16815f; }
+.native-sync-state.is-syncing { color: #567d9c; }
+.native-sync-state.is-offline { color: #a46a45; }
+.native-sync-state.is-idle { color: #81968a; }

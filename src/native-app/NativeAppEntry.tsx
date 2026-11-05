@@ -3,6 +3,7 @@ import type { User } from 'firebase/auth';
 import { auth, onAuthStateChanged, signOut } from '../lib/firebase';
 import NativeLearningApp, { type NativeAccountInfo, type NativeAudience } from './NativeLearningApp';
 import NativeAuthScreen from './NativeAuthScreen';
+import { startNativeProgressSync, type NativeProgressSyncStatus } from './nativeProgressSync';
 import './native-v2.css';
 
 function readAudience(): NativeAudience {
@@ -27,6 +28,7 @@ export default function NativeAppEntry() {
   const [offlineMode, setOfflineMode] = useState(readOfflineMode);
   const [showAuth, setShowAuth] = useState(!readOfflineMode());
   const [audience, setAudience] = useState<NativeAudience>(readAudience);
+  const [progressSyncStatus, setProgressSyncStatus] = useState<NativeProgressSyncStatus>('idle');
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, nextUser => {
@@ -44,6 +46,11 @@ export default function NativeAppEntry() {
     });
     return () => unsubscribe();
   }, []);
+
+  useEffect(() => {
+    if (!user) { setProgressSyncStatus('idle'); return; }
+    return startNativeProgressSync(user.uid, setProgressSyncStatus);
+  }, [user?.uid]);
 
   const handleContinueOffline = () => {
     try { localStorage.setItem('curiva-native-access-mode', 'offline'); } catch { /* App remains usable. */ }
@@ -78,7 +85,8 @@ export default function NativeAppEntry() {
     const account: NativeAccountInfo = {
       displayName: user.displayName || user.email?.split('@')[0] || 'Curiva learner',
       email: user.email || '',
-      audience
+      audience,
+      progressSyncStatus
     };
     return <NativeLearningApp account={account} onSignOut={handleSignOut} />;
   }
