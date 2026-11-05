@@ -39,7 +39,7 @@ function persistSearchHistory(history: string[]) {
 }
 
 
-export default function SearchAutocomplete({ hideTrigger = false }: { hideTrigger?: boolean }) {
+export default function SearchAutocomplete() {
   const { currentRole } = useRole();
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -377,9 +377,6 @@ export default function SearchAutocomplete({ hideTrigger = false }: { hideTrigge
 
   return (
     <>
-      {/* Outer Click Trigger Bar (Algolia styled) */}
-      {!hideTrigger && <div 
-        ref={containerRef} 
       {/* Keyboard-accessible global search trigger */}
       <button
         ref={containerRef}
@@ -397,7 +394,6 @@ export default function SearchAutocomplete({ hideTrigger = false }: { hideTrigge
             <span>⌘</span><span>K</span>
           </kbd>
         </div>
-      </div>}
       </button>
 
       {/* Modern Blurred Full-Screen Modal Search Console */}
