@@ -1098,7 +1098,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                               onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.sourceSlug || remedy.id}`)}
                               className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
                             >
-                              <span>{remedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
+                              <span>{selectedRemedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                               <ArrowUpRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
