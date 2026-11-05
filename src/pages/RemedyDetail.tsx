@@ -225,30 +225,75 @@ export default function RemedyDetail() {
           );
 
           if (localRemedy) {
-            setContent({
-              title: localRemedy.name,
-              sections: {
-                "Intro": `${localRemedy.commonName} (${localRemedy.family}).`,
-                "Keynotes": localRemedy.keynotes.join('. '),
-                "Mind": localRemedy.mind.join('. '),
-                "Physical": localRemedy.physical.join('. '),
-                "Modalities": `Better: ${localRemedy.modalities.better.join(', ')}. Worse: ${localRemedy.modalities.worse.join(', ')}.`
+            let loadedBoerickeProfile = false;
+            try {
+              // Resolve legacy IDs and aliases to Boericke's canonical remedy slug.
+              const indexResponse = await fetch('/data/materia-medica/search-index.json');
+              if (isJson(indexResponse)) {
+                const searchIndex = await indexResponse.json();
+                const normalize = (value: string) => value.normalize('NFKD')
+                  .replace(/[\u0300-\u036f]/g, '')
+                  .toLowerCase().replace(/[^a-z0-9]+/g, '');
+                const localNames = [localRemedy.name, localRemedy.commonName, localRemedy.id].map(normalize).filter(Boolean);
+                const sourceRecord = Array.isArray(searchIndex) ? searchIndex.find((record: any) => {
+                  const sourceNames = [record.title, record.slug, ...(record.aliases || [])].map(normalize);
+                  return localNames.some(name => sourceNames.includes(name));
+                }) : null;
+                if (sourceRecord && sourceRecord.slug) {
+                  const [sourceContentResponse, sourceMetadataResponse] = await Promise.all([
+                    fetch('/data/materia-medica/remedies/' + sourceRecord.slug + '/content.json'),
+                    fetch('/data/materia-medica/remedies/' + sourceRecord.slug + '/metadata.json')
+                  ]);
+                  if (isJson(sourceContentResponse) && isJson(sourceMetadataResponse)) {
+                    const sourceContent = await sourceContentResponse.json();
+                    const sourceMetadata = await sourceMetadataResponse.json();
+                    const completeRegistry = {
+                      total_remedies: searchIndex.length,
+                      import_date: sourceMetadata.import_date || '',
+                      remedies: searchIndex.map((record: any) => ({ slug: record.slug, title: record.title, aliases: record.aliases || [] }))
+                    };
+                    setContent(sourceContent);
+                    setMetadata(sourceMetadata);
+                    setRegistry(completeRegistry);
+                    if (sourceContent.sections && sourceContent.sections.Relationship) {
+                      const relationshipText = sourceContent.sections.Relationship.toLowerCase();
+                      setRelatedRemedies(completeRegistry.remedies.filter((record: any) =>
+                        record.slug !== sourceRecord.slug && relationshipText.includes(record.title.toLowerCase())
+                      ).slice(0, 4));
+                    }
+                    loadedBoerickeProfile = true;
+                  }
+                }
               }
-            });
-            setMetadata({
-              slug: id || localRemedy.id.toLowerCase(),
-              title: localRemedy.name,
-              alphabet: localRemedy.name.charAt(0).toUpperCase(),
-              detected_headings: ["Intro", "Keynotes", "Mind", "Physical", "Modalities"],
-              word_count: 500,
-              estimated_reading_time: "2 mins"
-            });
-            // Try to at least get the registry for navigation
-            if (isJson(regRes)) {
-              const regData = await (regRes as Response).json();
-              setRegistry(regData);
+            } catch (sourceError) {
+              console.warn('Boericke source lookup failed; using the local legacy summary:', sourceError);
             }
-          } else {
+
+            if (!loadedBoerickeProfile) {
+              setContent({
+                title: localRemedy.name,
+                sections: {
+                  Intro: localRemedy.commonName + ' (' + localRemedy.family + ').',
+                  Keynotes: localRemedy.keynotes.join('. '),
+                  Mind: localRemedy.mind.join('. '),
+                  Physical: localRemedy.physical.join('. '),
+                  Modalities: 'Better: ' + localRemedy.modalities.better.join(', ') + '. Worse: ' + localRemedy.modalities.worse.join(', ') + '.'
+                }
+              });
+              setMetadata({
+                slug: id || localRemedy.id.toLowerCase(),
+                title: localRemedy.name,
+                alphabet: localRemedy.name.charAt(0).toUpperCase(),
+                detected_headings: ['Intro', 'Keynotes', 'Mind', 'Physical', 'Modalities'],
+                word_count: 500,
+                estimated_reading_time: '2 mins'
+              });
+              if (isJson(regRes)) {
+                const regData = await (regRes as Response).json();
+                setRegistry(regData);
+              }
+            }
+          }          } else {
             throw new Error(`Remedy not found: ${remedyId}`);
           }
         }
@@ -293,7 +338,10 @@ export default function RemedyDetail() {
 
   const handleCopyCitation = () => {
     if (!content) return;
-    const citation = `${content.title}. Curiva Homoeopathic Materia Medica. Retrieved from ${window.location.href}`;
+    const sourceName = metadata?.source || 'William Boericke, Pocket Manual of Homoeopathic Materia Medica';
+    const edition = metadata?.edition || '8th edition (1922)';
+    const sourceUrl = metadata?.source_url || 'https://www.homeoint.org/books/boericmm/index.htm';
+    const citation = `${content.title}. In: ${sourceName}. ${edition}. Digital source: ${sourceUrl}. Curiva profile: ${window.location.href}`;
     navigator.clipboard.writeText(citation);
     setCopyFeedback(true);
     setTimeout(() => setCopyFeedback(false), 2000);
@@ -528,7 +576,18 @@ export default function RemedyDetail() {
                 >
                   {metadata.commonName} {metadata.family && <span className="text-text-tertiary not-italic text-lg ml-2">— {metadata.family}</span>}
                 </motion.p>
-              )}
+              
+              {metadata?.review_required && (
+                <div className="mt-6 mx-auto lg:mx-0 max-w-4xl rounded-2xl border border-amber-500/25 bg-amber-500/5 p-4 text-left">
+                  <p className="text-xs font-bold text-amber-700 dark:text-amber-300">
+                    Historical Boericke reference · {metadata.edition || 'edition not specified'}
+                  </p>
+                  <p className="mt-1 text-xs leading-relaxed text-text-secondary">
+                    OCR-derived historical text may contain recognition errors. It documents Boericke's historical descriptions, not established evidence of efficacy or a modern treatment guideline. Any historical Dose section is for bibliographic study only, not prescribing or self-treatment.
+                  </p>
+                  {metadata.source_url && <a href={metadata.source_url} target="_blank" rel="noreferrer" className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-primary hover:underline">View online source <ExternalLink className="h-3 w-3" /></a>}
+                </div>
+              )})}
 
               <motion.div 
                 initial={{ opacity: 0 }}
@@ -692,7 +751,12 @@ export default function RemedyDetail() {
                       readerTheme === 'dark-contrast' ? 'text-zinc-300' : 
                       'text-text-secondary'
                     }`}>
-                      {registry ? crossLinkText(text, registry.remedies) : text}
+                                        {id.toLowerCase() === 'dose' && (
+                    <div className="mb-5 rounded-xl border border-amber-500/25 bg-amber-500/5 p-4 text-xs leading-relaxed text-text-secondary">
+                      Historical posology transcribed from Boericke for source study only. It is not a current dose recommendation and must not be used for self-treatment.
+                    </div>
+                  )}
+                  {registry ? crossLinkText(text, registry.remedies) : text}
                     </div>
                   </div>
                 </motion.section>
@@ -709,7 +773,7 @@ export default function RemedyDetail() {
                 <div className="space-y-3">
                   <p className="text-[10px] font-black uppercase tracking-widest text-text-tertiary">AMA Style</p>
                   <div className="p-4 bg-white dark:bg-zinc-800 rounded-xl border border-border text-xs font-mono text-text-secondary leading-relaxed select-all">
-                    Boericke W. {content.title}. In: Pocket Manual of Homoeopathic Materia Medica. 9th ed. San Francisco, CA: Boericke & Runyon; 1927.
+                    Boericke W. {content.title}. In: {metadata?.source || 'Pocket Manual of Homoeopathic Materia Medica'}. {metadata?.edition || '8th edition (1922)'}. Digital source: {metadata?.source_url || 'https://www.homeoint.org/books/boericmm/index.htm'}.
                   </div>
                 </div>
                 <div className="space-y-3">
@@ -721,7 +785,7 @@ export default function RemedyDetail() {
               </div>
               <div className="mt-8 pt-8 border-t border-border flex items-center gap-4 text-[10px] text-text-tertiary font-medium">
                 <ShieldCheck className="w-4 h-4" />
-                <span>Text content is immutable and derived from verified classical 1927 edition records.</span>
+                <span>Historical source transcription: {metadata?.edition || 'Boericke reference edition'}. OCR-derived material should be checked against the scan; it is not clinical efficacy evidence or prescribing advice.</span>
               </div>
             </section>
 
