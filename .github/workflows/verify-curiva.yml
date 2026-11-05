@@ -32,6 +32,8 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+      - name: Verify Boericke source reconciliation and importer
+        run: npm run test:boericke
 
       - name: Typecheck
         run: npm run lint

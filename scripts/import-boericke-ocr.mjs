@@ -1,15 +1,14 @@
 #!/usr/bin/env node
 /**
  * Build the William Boericke 8th-edition Materia Medica dataset from the
- * user-supplied OCR transcription staged in scripts/boericke-source/part-*.txt.
- *
- * Existing curated remedy files are never overwritten. New remedies are
- * written as content.json + metadata.json and added to the registry/search index.
- * OCR-derived text is a historical reference; it is not treatment advice.
+ * supplied OCR transcription staged in scripts/boericke-source/part-*.txt.
+ * Existing curated remedy content is never overwritten. Source aliases are
+ * merged into registry/search metadata; partial writes are recovered safely.
  */
+import { createHash } from 'node:crypto';
 import { readdir, readFile, writeFile, mkdir, access } from 'node:fs/promises';
 import path from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const SOURCE_DIR = path.join(ROOT, 'scripts', 'boericke-source');
@@ -17,12 +16,14 @@ const DATA_DIR = path.join(ROOT, 'public', 'data', 'materia-medica');
 const REMEDIES_DIR = path.join(DATA_DIR, 'remedies');
 const SOURCE_FILENAME = '2015.125811.Pocket-Manual-Of-Homoeopathic-Materia-Medica-Ed8th_text (1).txt';
 const SOURCE_URL = 'https://www.homeoint.org/books/boericmm/index.htm';
-const IMPORT_DATE = '2026-10-30';
+const PARSER_VERSION = 'boericke-ocr-1.1';
 
 const slugify = value => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '')
   .toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-const titleCase = value => value.toLowerCase().replace(/\b([a-z])/g, c => c.toUpperCase());
-const escapeRegex = value => value.replace(/[.*+?^$\{\}()|[\]\\]/g, '\\$&');
+const titleCase = value => value.toLowerCase().replace(/\b([a-z])/g, c => c.toUpperCase())
+  .replace(/\bX-ray\b/gi, 'X-Ray');
+const uniqueStrings = values => [...new Set(values.map(x => String(x || '').trim()).filter(Boolean))];
+
 async function readJson(file, fallback) {
   try { return JSON.parse(await readFile(file, 'utf8')); }
   catch (error) { if (error.code === 'ENOENT') return fallback; throw error; }
@@ -35,104 +36,195 @@ async function saveJson(file, data) {
   await writeFile(file, JSON.stringify(data, null, 2) + '\n', 'utf8');
 }
 
-const CORRECTIONS = new Map([
+const HEADING_CORRECTIONS = new Map([
   ['2INGIBER', 'Zingiber'],
+  ['APOCYNUM ANDROSAE MIFOLIUM', 'Apocynum Androsaemifolium'],
+  ['BLATTA URIENTALIS', 'Blatta Orientalis'],
   ['CALAREA ACETICA', 'Calcarea Acetica'],
   ['CALAREA ARSENICA', 'Calcarea Arsenica'],
   ['CALAREA CARBONICA—OSTREARUM', 'Calcarea Carbonica'],
-  ['CALAREA CARBONICA', 'Calcarea Carbonica'],
   ['CALAREA FLUORICA', 'Calcarea Fluorica'],
   ['CALAREA PHOSPHORICA', 'Calcarea Phosphorica'],
   ['CALAREA SILICATA', 'Calcarea Silicata'],
   ['CALAREA SULPHURICA', 'Calcarea Sulphurica'],
   ['CALTHA PAIJJRTRLS', 'Caltha Palustris'],
-  ['BLATTA URIENTALIS', 'Blatta Orientalis'],
   ['CINCHONA OFF-ICINALIS', 'Cinchona Officinalis'],
-  ['PTNUS SYLVESTRIS', 'Pinus Sylvestris'],
+  ['CROCTTS SATTVA', 'Crocus Sativa'],
+  ['EUONYMUS AXROPURPUREA', 'Euonymus Atropurpurea'],
+  ['KALMIA LATTFOLIA', 'Kalmia Latifolia'],
   ['PLUMBUM MBTALLICUM', 'Plumbum Metallicum'],
+  ['PTNUS SYLVESTRIS', 'Pinus Sylvestris'],
   ['RUMBX CRISPUS', 'Rumex Crispus'],
   ['TEUCFIUM MARUM', 'Teucrium Marum'],
   ['TONOO', 'Tongo'],
-  ['TUBERCUUNUM', 'Tuberculinum'],
-  ['OFFICINALE', 'Boletus Laricis'],
-  ['LANCIOLATUS', 'Bothrops Lanciolatus'],
-  ['MOSA)', 'Cimicifuga Racemosa'],
-  ['RUBER', 'Cinnabaris'],
-  ['SCOPARIUS', 'Spartium Scoparium'],
-  ['LYCOPERSICUM ESCULENTUM', 'Solanum Lycopersicum']
+  ['TUBERCUUNUM', 'Tuberculinum']
 ]);
-const SPLIT_HEADER_FRAGMENTS = new Set([
-  'OFFICINALE', 'LANCIOLATUS', 'MOSA)', 'RUBER', 'SCOPARIUS', 'LYCOPERSICUM ESCULENTUM'
+
+const SPLIT_HEADING_FRAGMENTS = new Map([
+  ['OFFICINALE', { title: 'Boletus Laricis', alias: 'Polyporus Officinale' }],
+  ['LANCIOLATUS', { title: 'Bothrops Lanciolatus', alias: 'Lachesis Lanciolatus' }],
+  ['MOSA)', { title: 'Cimicifuga Racemosa', alias: 'Actaea Racemosa' }],
+  ['RUBER', { title: 'Cinnabaris', alias: 'Mercurius Sulphuratus Ruber' }],
+  ['SCOPARIUS', { title: 'Spartium Scoparium', alias: 'Cystisus Scoparius' }],
+  ['LYCOPERSICUM ESCULENTUM', { title: 'Solanum Lycopersicum', alias: 'Lycopersicum Esculentum' }]
 ]);
-const ALIASES_TO_EXISTING = new Map([
+
+const SOURCE_TO_EXISTING_SLUG = new Map([
   ['alnus', 'alnus-serrulata'],
   ['aloe', 'aloe-socotrina'],
   ['alstonia', 'alstonia-scholaris'],
+  ['ambrosia', 'ambrosia-artemisiaefolia'],
   ['ammoniacum', 'ammoniacum-gummi'],
+  ['ammonium-carb', 'ammonium-carbonicum'],
   ['amyl-nitrosum', 'amyl-nitrite'],
   ['anacardium', 'anacardium-orientale'],
   ['anagallis', 'anagallis-arvensis']
 ]);
 
 const SECTION_NAMES = [
-  'Female Sexual Organs','Male Sexual Organs','Urinary Organs','Generalities','Fever and Chill',
-  'Food and Drinks','Clinical Uses','Nervous System','Heart and Pulse','Female','Relationship',
-  'Complementary','Aggravation','Expectoration','Perspiration','Modalities','Antidotes','Compare',
-  'Clinical','Proving','Intro','Mind','Head','Eyes','Ears','Nose','Face','Mouth','Teeth','Tongue',
-  'Throat','Stomach','Abdomen','Rectum','Bowels','Urine','Urinary','Male','Respiratory','Chest',
-  'Heart','Circulation','Neck','Back','Extremities','Limbs','Joints','Sleep','Dreams','Skin','Fever',
-  'Chill','Nerves','Larynx','Cough','Appetite','Stool','Bladder','Kidneys','Genitalia','Glands',
-  'Bones','Muscles','Tissue','Temperature','Touch','Pressure','Side','Position','Time','Food',
-  'General','Relations','Pulse','Voice','Lungs','Taste','Vision','Nails'
-].sort((a,b) => b.length - a.length);
-const SECTION_RE = new RegExp('(^|\\n\\n)(' + SECTION_NAMES.map(escapeRegex).join('|') +
-  ')\\s*(?:[.:·]\\s*)?[—–-]\\s*', 'gim');
+  'Non-Homoeopathic Uses', 'Female Sexual Organs', 'Male Sexual Organs',
+  'Back and Extremities', 'Stomach and Abdomen', 'Urinary Organs',
+  'Fever and Chill', 'Food and Drinks', 'Clinical Uses', 'Nervous System',
+  'Heart and Pulse', 'Relationship', 'Complementary', 'Expectoration',
+  'Perspiration', 'Modalities', 'Aggravation', 'Antidotes', 'Comparison',
+  'Clinical', 'Proving', 'Generalities', 'Mental', 'Intro', 'Mind', 'Head',
+  'Eyes', 'Ears', 'Nose', 'Face', 'Mouth', 'Teeth', 'Tongue', 'Throat',
+  'Stomach', 'Abdomen', 'Rectum', 'Bowels', 'Urine', 'Urinary', 'Male',
+  'Female', 'Respiratory', 'Chest', 'Heart', 'Circulation', 'Neck', 'Back',
+  'Extremities', 'Limbs', 'Joints', 'Sleep', 'Dreams', 'Skin', 'Fever',
+  'Chill', 'Nerves', 'Larynx', 'Cough', 'Appetite', 'Stool', 'Bladder',
+  'Kidneys', 'Genitalia', 'Glands', 'Bones', 'Muscles', 'Tissue',
+  'Temperature', 'Touch', 'Pressure', 'Side', 'Position', 'Time', 'Food',
+  'General', 'Relations', 'Pulse', 'Voice', 'Lungs', 'Taste', 'Vision',
+  'Nails', 'Dose'
+].sort((a, b) => b.length - a.length);
+const escapeRegex = value => value.replace(/[.*+?^$()|[\]\\]/g, '\\$&');
+const SECTION_RE = new RegExp(
+  '(^|\\n\\n)(' + uniqueStrings(SECTION_NAMES).map(escapeRegex).join('|') +
+  ')\\s*(?:[.:·]\\s*)?[—–-]\\s*',
+  'gim'
+);
 
-function normalizeBody(lines) {
-  const cleaned = lines.join('\n')
-    .replace(/\f/g, '\n').replace(/\r/g, '')
-    .replace(/\u00ad/g, '')
-    .replace(/([A-Za-z])[-–]\s*\n\s*([a-z])/g, '$1$2');
-  return cleaned.split(/\n\s*\n+/)
-    .map(p => p.split('\n').map(x => x.trim()).filter(Boolean).join(' '))
-    .filter(Boolean).join('\n\n').replace(/[ \t]{2,}/g, ' ').trim();
+function getMatterMedicaBounds(lines) {
+  const start = lines.findIndex(line => /ABIES CANADENSIS/i.test(line));
+  const end = lines.findIndex((line, index) => index > start && line.trim().toUpperCase() === 'REPERTORY');
+  if (start < 0 || end < 0 || end <= start) {
+    throw new Error('Could not verify Materia Medica start and Repertory boundary in source text.');
+  }
+  return { start, end };
 }
-function findHeaders(lines, start, end) {
+
+function titleAndAliasesForHeader(rawHeader, fragment) {
+  if (fragment) {
+    return { title: fragment.title, aliases: [fragment.alias], correction: 'split-heading-fragment' };
+  }
+
+  const rawUpper = rawHeader.toUpperCase().trim();
+  const correction = HEADING_CORRECTIONS.get(rawUpper);
+  if (correction) return { title: correction, aliases: [], correction: 'ocr-heading-correction' };
+
+  let primary = rawHeader.replace(/\*+$/g, '').trim();
+  let aliasText = '';
+  if (/OXYDENDRON-\*ANDROMEDA ARBOREA/i.test(primary)) {
+    primary = 'OXYDENDRON';
+    aliasText = 'ANDROMEDA ARBOREA';
+  } else {
+    const parts = primary.split(/[—–]/);
+    primary = parts.shift() || primary;
+    aliasText = parts.join(' ').replace(/^\s*[-–—]+\s*/, '').trim();
+  }
+  primary = primary.replace(/[.·]+$/g, '').replace(/\s*[-–]+\s*$/g, '').trim();
+
+  const aliases = [];
+  if (aliasText) {
+    const cleanedAlias = aliasText.replace(/[()[\]]/g, ' ').replace(/\s+/g, ' ').trim();
+    if (cleanedAlias && cleanedAlias.length <= 90) aliases.push(titleCase(cleanedAlias));
+  }
+  return { title: titleCase(primary), aliases, correction: null };
+}
+
+function collectRemedyHeaders(lines, bounds) {
   const headers = [];
-  const isUpperHeader = s => /^[A-Z0-9][A-Z0-9 ,.;()\[\]/—–\-:&']+$/.test(s) &&
-    /[A-Z]/.test(s) && s.length <= 130;
-  for (let i = start; i < end; i++) {
-    const raw = lines[i].trim();
-    if (!raw || !isUpperHeader(raw) || /^\d{1,4}\s/.test(raw)) continue;
-    let next = i + 1;
-    while (next < end && !lines[next].trim()) next++;
-    const following = lines[next]?.trim() || '';
+  const excluded = [];
+  const upperHeading = /^[A-Z0-9][A-Z0-9 ,.;()\[\]\/—–\-:&'*]+$/;
+  let rawHeadingCandidates = 0;
+
+  for (let index = bounds.start; index < bounds.end; index++) {
+    const raw = lines[index].trim();
+    if (!raw || raw.length > 130 || !upperHeading.test(raw) || !/[A-Z]/.test(raw)) continue;
+    if (/^\d{1,4}\s/.test(raw)) continue;
+
+    let next = index + 1;
+    while (next < bounds.end && !lines[next].trim()) next++;
+    if (next >= bounds.end) continue;
+    const following = lines[next].trim();
     if (!(following.startsWith('(') || following.startsWith('—') ||
       following.startsWith('-') || following.startsWith('['))) continue;
-    if (/^SILICEA[—– -].*\b\d{2,4}$/.test(raw)) continue;
-    let idx = i, title = raw, corrected = CORRECTIONS.get(raw.toUpperCase());
-    if (SPLIT_HEADER_FRAGMENTS.has(raw.toUpperCase())) {
-      let previous = i - 1;
-      while (previous > start && !lines[previous].trim()) previous--;
-      idx = previous;
-      title = corrected || titleCase(raw);
-    } else {
-      const unwrapped = raw.split(/[—–]/)[0].trim().replace(/\s*[-–]\s*$/, '');
-      title = corrected || titleCase(unwrapped.replace(/\s*\d{1,4}\s*$/, '').trim());
+
+    rawHeadingCandidates++;
+    if (/^SILICEA[—– -].*\b\d{2,4}$/.test(raw)) {
+      excluded.push({ line: index + 1, heading: raw, reason: 'running-page-header-not-remedy' });
+      continue;
     }
-    // A few OCR hyphenation/spacing variants that otherwise collide or mis-slug.
-    if (/^Cinchona Off-icinalis$/i.test(title)) title = 'Cinchona Officinalis';
-    headers.push({ idx, next, raw, title });
+
+    const fragment = SPLIT_HEADING_FRAGMENTS.get(raw.toUpperCase());
+    let headerIndex = index;
+    let headingLines = [raw];
+    if (fragment) {
+      let previous = index - 1;
+      while (previous > bounds.start && !lines[previous].trim()) previous--;
+      if (previous <= bounds.start) {
+        throw new Error('Could not reconstruct split heading at source line ' + (index + 1));
+      }
+      headerIndex = previous;
+      headingLines = [lines[previous].trim(), raw];
+    }
+
+    const parsed = titleAndAliasesForHeader(headingLines.join(' '), fragment);
+    const commonNameMatch = following.match(/^\(([^)]{2,90})\)/);
+    const commonName = commonNameMatch ? commonNameMatch[1].replace(/\s+/g, ' ').trim() : '';
+    const aliases = uniqueStrings([...parsed.aliases, commonName]);
+    headers.push({
+      lineStart: headerIndex + 1,
+      bodyStart: next,
+      sourceHeading: headingLines.join(' ').replace(/\s+/g, ' ').trim(),
+      rawHeading: raw,
+      title: parsed.title,
+      slug: slugify(parsed.title),
+      aliases,
+      headingCorrection: parsed.correction,
+      commonName
+    });
   }
-  headers.sort((a,b) => a.idx - b.idx);
-  return headers.filter((h,i) => i === 0 || h.idx > headers[i-1].idx);
+
+  headers.sort((a, b) => a.lineStart - b.lineStart);
+  const uniqueHeaders = [];
+  for (const header of headers) {
+    if (uniqueHeaders.length && header.lineStart === uniqueHeaders[uniqueHeaders.length - 1].lineStart) {
+      const prior = uniqueHeaders[uniqueHeaders.length - 1];
+      prior.aliases = uniqueStrings([...prior.aliases, ...header.aliases]);
+      continue;
+    }
+    uniqueHeaders.push(header);
+  }
+  return { headers: uniqueHeaders, rawHeadingCandidates, excluded };
 }
-function buildProfile(header, bodyLines) {
-  const normalized = normalizeBody(bodyLines);
-  const sections = {};
+
+export function splitRemedySections(bodyLines) {
+  const rawBody = bodyLines.join('\n')
+    .replace(/\f/g, '\n')
+    .replace(/\r/g, '')
+    .replace(/\u00ad/g, '')
+    .replace(/([A-Za-z])[-–]\s*\n\s*([a-z])/g, '$1$2');
+
+  const paragraphs = rawBody.split(/\n\s*\n+/)
+    .map(paragraph => paragraph.split('\n').map(line => line.trim()).filter(Boolean).join(' '))
+    .filter(Boolean);
+  const normalized = paragraphs.join('\n\n').replace(/[ \t]{2,}/g, ' ').trim();
+
   const matches = [];
-  let match;
   SECTION_RE.lastIndex = 0;
+  let match;
   while ((match = SECTION_RE.exec(normalized)) !== null) {
     matches.push({
       start: match.index + match[1].length,
@@ -140,146 +232,321 @@ function buildProfile(header, bodyLines) {
       label: match[2].replace(/\s+/g, ' ').trim()
     });
   }
+
+  const sections = {};
   if (matches.length) {
     const intro = normalized.slice(0, matches[0].start).trim();
     if (intro) sections.Intro = intro;
-    for (let i = 0; i < matches.length; i++) {
-      const current = matches[i];
-      const body = normalized.slice(current.end, i + 1 < matches.length ? matches[i + 1].start : normalized.length).trim();
-      if (body) {
-        const key = current.label === 'Fever and Chill' ? 'Fever' : current.label;
-        sections[key] = sections[key] ? sections[key] + '\n\n' + body : body;
-      }
+    for (let index = 0; index < matches.length; index++) {
+      const current = matches[index];
+      const text = normalized.slice(
+        current.end,
+        index + 1 < matches.length ? matches[index + 1].start : normalized.length
+      ).trim();
+      if (text) sections[current.label] = sections[current.label]
+        ? sections[current.label] + '\n\n' + text : text;
     }
     if (!sections.Intro) sections.Intro = '';
   } else {
     sections.Intro = normalized;
   }
-  const allText = Object.values(sections).join(' ');
-  const words = (allText.match(/\b[\w'-]+\b/g) || []).length;
-  const slug = slugify(header.title);
-  return {
-    slug,
-    title: header.title,
-    content: { title: header.title, sections },
-    metadata: {
-      slug,
+  return sections;
+}
+
+export function parseMateriaMedicaText(sourceText) {
+  const lines = sourceText.replace(/^\uFEFF/, '').split(/\r?\n/);
+  const bounds = getMatterMedicaBounds(lines);
+  const result = collectRemedyHeaders(lines, bounds);
+  const entries = [];
+
+  for (let index = 0; index < result.headers.length; index++) {
+    const header = result.headers[index];
+    const nextHeader = result.headers[index + 1];
+    const end = nextHeader ? nextHeader.lineStart - 1 : bounds.end;
+    const bodyLines = lines.slice(header.bodyStart, end);
+    const sections = splitRemedySections(bodyLines);
+    const allText = Object.values(sections).join(' ');
+    const wordCount = (allText.match(/\b[\w'-]+\b/g) || []).length;
+    if (!header.slug || !header.title || wordCount < 10 || !allText.trim()) {
+      throw new Error('Incomplete source profile detected for "' + header.title + '" at line ' + header.lineStart);
+    }
+    const sourceLineEnd = Math.max(header.lineStart, end);
+    const metadata = {
+      slug: header.slug,
       title: header.title,
       alphabet: header.title.charAt(0).toUpperCase(),
       detected_headings: Object.keys(sections),
-      word_count: words,
+      word_count: wordCount,
       character_count: allText.length,
       paragraph_count: allText.split(/\n\s*\n/).filter(Boolean).length,
-      estimated_reading_time: Math.max(1, Math.ceil(words / 200)) + ' mins',
-      import_date: IMPORT_DATE,
-      parser_version: 'boericke-ocr-1.0',
+      estimated_reading_time: Math.max(1, Math.ceil(wordCount / 200)) + ' mins',
+      import_date: new Date().toISOString().slice(0, 10),
+      parser_version: PARSER_VERSION,
+      source: 'William Boericke, Pocket Manual of Homoeopathic Materia Medica',
+      edition: '8th edition (1922)',
       source_filename: SOURCE_FILENAME,
       source_url: SOURCE_URL,
-      content_status: 'OCR-derived; review transcription artifacts before scholarly use'
-    }
+      source_heading: header.sourceHeading,
+      source_line_start: header.lineStart,
+      source_line_end: sourceLineEnd,
+      commonName: header.commonName,
+      aliases: header.aliases,
+      content_status: 'ocr-derived-needs-editorial-review',
+      review_required: true,
+      heading_review_required: Boolean(header.headingCorrection),
+      heading_correction: header.headingCorrection || undefined
+    };
+    entries.push({
+      slug: header.slug,
+      title: header.title,
+      aliases: header.aliases,
+      content: { title: header.title, sections },
+      metadata
+    });
+  }
+
+  const slugCounts = new Map();
+  for (const entry of entries) slugCounts.set(entry.slug, (slugCounts.get(entry.slug) || 0) + 1);
+  const duplicateSlugs = [...slugCounts.entries()].filter(([, count]) => count > 1).map(([slug]) => slug);
+  if (duplicateSlugs.length) throw new Error('Duplicate source remedy slugs detected: ' + duplicateSlugs.join(', '));
+
+  return {
+    lines,
+    bounds,
+    entries,
+    rawHeadingCandidates: result.rawHeadingCandidates,
+    excludedHeadingCandidates: result.excluded,
+    sourceMateriaMedicaLines: bounds.end - bounds.start,
+    sourceMateriaMedicaHash: createHash('sha256').update(lines.slice(bounds.start, bounds.end).join('\n')).digest('hex')
+  };
+}
+
+function mergeAliases(previous, incoming) {
+  return uniqueStrings([...(previous || []), ...(incoming || [])]);
+}
+
+function makeSearchRecord(slug, title, content, aliases, previous) {
+  const intro = content.sections?.Intro || Object.values(content.sections || {})[0] || '';
+  const modalities = content.sections?.Modalities || '';
+  return {
+    ...(previous || {}),
+    slug,
+    title,
+    snippet: previous?.snippet || intro.slice(0, 520),
+    keynotes: previous?.keynotes || modalities.slice(0, 260),
+    aliases: mergeAliases(previous?.aliases, aliases),
+    source: previous?.source || 'William Boericke, 8th edition (OCR-derived)'
   };
 }
 
 async function main() {
   const partFiles = (await readdir(SOURCE_DIR))
-    .filter(x => /^part-\d{2}\.txt$/.test(x)).sort();
-  if (partFiles.length < 10) throw new Error('Boericke source text is incomplete: expected all 10 staged segments.');
-  const source = (await Promise.all(partFiles.map(x => readFile(path.join(SOURCE_DIR, x), 'utf8')))).join('');
-  const lines = source.replace(/^\uFEFF/, '').split(/\r?\n/);
-  const materiaStart = lines.findIndex(x => x.toUpperCase().includes('ABIES CANADENSIS'));
-  const repertoryStart = lines.findIndex((x,i) => i > materiaStart && x.trim().toUpperCase() === 'REPERTORY');
-  if (materiaStart < 0 || repertoryStart < 0) throw new Error('Could not verify start/end of the Materia Medica section.');
-  const headers = findHeaders(lines, materiaStart, repertoryStart);
-  if (headers.length < 500) throw new Error('Safety stop: too few remedy headings detected; no catalogue update written.');
+    .filter(name => /^part-\d{2}\.txt$/.test(name))
+    .sort();
+  const expectedFiles = Array.from({ length: 10 }, (_, index) =>
+    'part-' + String(index + 1).padStart(2, '0') + '.txt'
+  );
+  if (expectedFiles.some((name, index) => partFiles[index] !== name) || partFiles.length !== expectedFiles.length) {
+    throw new Error('Boericke source is incomplete; expected exactly part-01.txt through part-10.txt.');
+  }
 
-  const existingRegistry = await readJson(path.join(DATA_DIR, 'registry.json'), { total_remedies: 0, import_date: IMPORT_DATE, remedies: [] });
+  const sourceText = (await Promise.all(partFiles.map(name =>
+    readFile(path.join(SOURCE_DIR, name), 'utf8')
+  ))).join('');
+  const parsed = parseMateriaMedicaText(sourceText);
+  if (parsed.rawHeadingCandidates !== 639 || parsed.entries.length !== 638) {
+    throw new Error(
+      'Source reconciliation stop: expected 639 heading candidates and 638 remedy entries; found ' +
+      parsed.rawHeadingCandidates + ' candidates and ' + parsed.entries.length + ' entries.'
+    );
+  }
+
+  const existingRegistry = await readJson(
+    path.join(DATA_DIR, 'registry.json'),
+    { total_remedies: 0, import_date: new Date().toISOString().slice(0, 10), remedies: [] }
+  );
   const existingSearch = await readJson(path.join(DATA_DIR, 'search-index.json'), []);
-  const existingSlugs = new Set(existingRegistry.remedies.map(x => slugify(x.slug)));
-  const registryBySlug = new Map(existingRegistry.remedies.map(x => [x.slug, x]));
-  const searchBySlug = new Map(existingSearch.map(x => [x.slug, x]));
-  const created = [];
-  const skippedExisting = [];
-  const duplicateSlugs = new Set();
+  if (!Array.isArray(existingRegistry.remedies) || !Array.isArray(existingSearch)) {
+    throw new Error('Existing Materia Medica registry or search index has an invalid shape.');
+  }
 
-  for (let i = 0; i < headers.length; i++) {
-    const header = headers[i];
-    const end = i + 1 < headers.length ? headers[i + 1].idx : repertoryStart;
-    if (end <= header.next) continue;
-    const profile = buildProfile(header, lines.slice(header.next, end));
-    const aliasTarget = ALIASES_TO_EXISTING.get(profile.slug);
-    if (aliasTarget) profile.slug = aliasTarget;
-    const existingMatch = registryBySlug.get(profile.slug) || [...registryBySlug.values()].find(x => slugify(x.slug) === profile.slug);
-    if (existingMatch) {
-      skippedExisting.push(profile.slug);
-      const srcSearch = searchBySlug.get(existingMatch.slug);
-      if (srcSearch && header.title !== existingMatch.title) {
-        srcSearch.aliases = [...new Set([...(srcSearch.aliases || []), header.title])];
+  const registryBySlug = new Map();
+  for (const item of existingRegistry.remedies) {
+    if (!item?.slug || !item?.title) throw new Error('Invalid entry in existing Materia Medica registry.');
+    if (registryBySlug.has(item.slug)) throw new Error('Duplicate existing registry slug: ' + item.slug);
+    registryBySlug.set(item.slug, item);
+  }
+  const searchBySlug = new Map();
+  for (const item of existingSearch) {
+    if (!item?.slug || !item?.title) throw new Error('Invalid entry in existing Materia Medica search index.');
+    if (searchBySlug.has(item.slug)) throw new Error('Duplicate existing search-index slug: ' + item.slug);
+    searchBySlug.set(item.slug, item);
+  }
+
+  const created = [];
+  const matchedExisting = [];
+  const recoveredExisting = [];
+  const correctedHeadings = [];
+  const aliasMerges = [];
+  const plannedWrites = [];
+
+  for (const profile of parsed.entries) {
+    if (profile.metadata.heading_review_required) {
+      correctedHeadings.push({
+        line: profile.metadata.source_line_start,
+        sourceHeading: profile.metadata.source_heading,
+        title: profile.title,
+        correction: profile.metadata.heading_correction
+      });
+    }
+
+    const targetSlug = SOURCE_TO_EXISTING_SLUG.get(profile.slug) || profile.slug;
+    const existing = registryBySlug.get(targetSlug);
+    if (existing) {
+      const merged = mergeAliases(existing.aliases, [
+        ...profile.aliases,
+        profile.slug !== targetSlug ? profile.title : ''
+      ]);
+      if (merged.length) registryBySlug.set(targetSlug, { ...existing, aliases: merged });
+      const oldSearch = searchBySlug.get(targetSlug);
+      const contentFile = path.join(REMEDIES_DIR, targetSlug, 'content.json');
+      const contentData = await readJson(contentFile, null);
+      if (!oldSearch && !contentData) {
+        throw new Error('Existing remedy "' + targetSlug + '" lacks both search metadata and content.json.');
       }
+      searchBySlug.set(targetSlug, makeSearchRecord(
+        targetSlug, existing.title, contentData || { sections: {} }, merged, oldSearch
+      ));
+      matchedExisting.push({ sourceTitle: profile.title, existingTitle: existing.title, slug: targetSlug });
+      if (merged.length !== (existing.aliases || []).length) aliasMerges.push({ slug: targetSlug, aliases: merged });
       continue;
     }
-    if (duplicateSlugs.has(profile.slug)) continue;
-    duplicateSlugs.add(profile.slug);
-    profile.title = profile.slug === profile.metadata.slug ? profile.title : profile.title;
-    profile.content.title = profile.title;
-    profile.metadata.slug = profile.slug;
-    profile.metadata.title = profile.title;
+
     const folder = path.join(REMEDIES_DIR, profile.slug);
     const contentFile = path.join(folder, 'content.json');
     const metadataFile = path.join(folder, 'metadata.json');
-    if (await exists(contentFile) && await exists(metadataFile)) {
-      skippedExisting.push(profile.slug);
-      registryBySlug.set(profile.slug, { slug: profile.slug, title: profile.title });
-      existingSlugs.add(profile.slug);
+    const hasContent = await exists(contentFile);
+    const hasMetadata = await exists(metadataFile);
+    if (hasContent !== hasMetadata) {
+      throw new Error('Partial/orphaned remedy files for "' + profile.slug + '"; refusing to overwrite.');
+    }
+    if (hasContent && hasMetadata) {
+      const [contentData, metadataData] = await Promise.all([
+        readJson(contentFile, null), readJson(metadataFile, null)
+      ]);
+      if (!contentData?.sections || !metadataData?.slug) {
+        throw new Error('Existing remedy files are invalid for "' + profile.slug + '".');
+      }
+      registryBySlug.set(profile.slug, {
+        slug: profile.slug, title: contentData.title || profile.title, aliases: profile.aliases
+      });
+      searchBySlug.set(profile.slug, makeSearchRecord(
+        profile.slug, contentData.title || profile.title, contentData, profile.aliases, searchBySlug.get(profile.slug)
+      ));
+      recoveredExisting.push(profile.slug);
       continue;
     }
-    await saveJson(contentFile, profile.content);
-    await saveJson(metadataFile, profile.metadata);
-    const intro = profile.content.sections.Intro || Object.values(profile.content.sections)[0] || '';
-    registryBySlug.set(profile.slug, { slug: profile.slug, title: profile.title });
-    searchBySlug.set(profile.slug, {
-      slug: profile.slug,
-      title: profile.title,
-      snippet: intro.slice(0, 520),
-      keynotes: (profile.content.sections.Modalities || '').slice(0, 260),
-      source: 'William Boericke, 8th edition (OCR-derived)'
-    });
+
+    plannedWrites.push(profile);
+    registryBySlug.set(profile.slug, { slug: profile.slug, title: profile.title, aliases: profile.aliases });
+    searchBySlug.set(profile.slug, makeSearchRecord(profile.slug, profile.title, profile.content, profile.aliases, null));
     created.push({ slug: profile.slug, title: profile.title, words: profile.metadata.word_count });
+  }
+
+  // Recover any registry entries whose search records were absent without rewriting content.
+  for (const [slug, item] of registryBySlug) {
+    if (searchBySlug.has(slug)) continue;
+    const contentData = await readJson(path.join(REMEDIES_DIR, slug, 'content.json'), null);
+    if (!contentData?.sections) throw new Error('Registry remedy "' + slug + '" has no content/search record.');
+    searchBySlug.set(slug, makeSearchRecord(slug, item.title, contentData, item.aliases, null));
   }
 
   const registry = {
     ...existingRegistry,
     total_remedies: registryBySlug.size,
-    import_date: IMPORT_DATE,
-    remedies: [...registryBySlug.values()].sort((a,b) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base' })),
-    source_note: 'Expanded from the supplied OCR transcription of William Boericke, Pocket Manual of Homoeopathic Materia Medica, 8th edition (1922). Individual OCR-derived entries require editorial review.'
+    import_date: new Date().toISOString().slice(0, 10),
+    remedies: [...registryBySlug.values()].sort((a, b) =>
+      a.title.localeCompare(b.title, 'en', { sensitivity: 'base' })
+    ),
+    source_note: 'William Boericke, Pocket Manual of Homoeopathic Materia Medica, 8th edition (1922). New source profiles are OCR-derived and require editorial review.'
   };
-  const searchIndex = [...searchBySlug.values()].sort((a,b) => a.title.localeCompare(b.title, 'en', { sensitivity: 'base' }));
+  const searchIndex = [...searchBySlug.values()].sort((a, b) =>
+    a.title.localeCompare(b.title, 'en', { sensitivity: 'base' })
+  );
+
+  const registrySlugs = registry.remedies.map(item => item.slug);
+  const searchSlugs = searchIndex.map(item => item.slug);
+  if (new Set(registrySlugs).size !== registrySlugs.length) throw new Error('Duplicate registry slugs after merge.');
+  if (new Set(searchSlugs).size !== searchSlugs.length) throw new Error('Duplicate search-index slugs after merge.');
+  if (registrySlugs.length !== searchSlugs.length ||
+      registrySlugs.some(slug => !searchBySlug.has(slug))) {
+    throw new Error('Registry and search index do not have a one-to-one slug mapping.');
+  }
+  if (created.length + matchedExisting.length + recoveredExisting.length !== parsed.entries.length) {
+    throw new Error('Import reconciliation failed; not every source entry was classified exactly once.');
+  }
+
+  // Validate all data before writing; do not touch pre-existing content files.
+  for (const profile of plannedWrites) {
+    if (!Object.values(profile.content.sections).some(Boolean)) {
+      throw new Error('Refusing to write an empty profile: ' + profile.slug);
+    }
+  }
+  await Promise.all(plannedWrites.map(async profile => {
+    const folder = path.join(REMEDIES_DIR, profile.slug);
+    await saveJson(path.join(folder, 'content.json'), profile.content);
+    await saveJson(path.join(folder, 'metadata.json'), profile.metadata);
+  }));
+
   await saveJson(path.join(DATA_DIR, 'registry.json'), registry);
   await saveJson(path.join(DATA_DIR, 'search-index.json'), searchIndex);
-  await saveJson(path.join(DATA_DIR, 'boericke-import-manifest.json'), {
-    source: SOURCE_FILENAME,
-    sourceReference: SOURCE_URL,
-    generatedAt: new Date().toISOString(),
-    materiaMedicaStartLine: materiaStart + 1,
-    repertoryStartLine: repertoryStart + 1,
-    detectedHeadingCandidates: headers.length,
-    newRemediesWritten: created.length,
-    existingRemediesPreserved: skippedExisting.length,
-    totalRegistryRemedies: registry.total_remedies,
-    duplicateSlugsSuppressed: duplicateSlugs.size - created.length,
-    note: 'Historical reference text extracted from OCR. This catalogue is for study/reference only, not medical advice.'
-  });
+  const manifest = {
+    generated_at: new Date().toISOString(),
+    parser_version: PARSER_VERSION,
+    source_filename: SOURCE_FILENAME,
+    source_reference: SOURCE_URL,
+    source_sha256_materia_medica_section: parsed.sourceMateriaMedicaHash,
+    source_materia_medica_lines: parsed.sourceMateriaMedicaLines,
+    raw_heading_candidates: parsed.rawHeadingCandidates,
+    excluded_heading_candidates: parsed.excludedHeadingCandidates,
+    source_remedy_entries: parsed.entries.length,
+    newly_created_profiles: created.length,
+    matched_existing_profiles: matchedExisting.length,
+    recovered_preexisting_profiles: recoveredExisting.length,
+    total_registry_remedies: registry.total_remedies,
+    search_index_remedies: searchIndex.length,
+    duplicate_registry_slugs: 0,
+    duplicate_search_slugs: 0,
+    profiles_missing_from_search_index: 0,
+    dose_sections_found: parsed.entries.filter(entry => entry.content.sections.Dose).length,
+    heading_corrections: correctedHeadings,
+    alias_merges: aliasMerges,
+    short_profiles_below_50_words: parsed.entries.filter(entry => entry.metadata.word_count < 50)
+      .map(entry => ({ slug: entry.slug, title: entry.title, words: entry.metadata.word_count })),
+    note: 'New remedy profiles are OCR-derived historical reference text and must be proofread against the printed edition. This material is not medical advice.'
+  };
+  await saveJson(path.join(DATA_DIR, 'boericke-import-manifest.json'), manifest);
+
   console.log(JSON.stringify({
     ok: true,
-    headingCandidates: headers.length,
-    newRemediesWritten: created.length,
-    preservedExisting: skippedExisting.length,
+    rawHeadingCandidates: parsed.rawHeadingCandidates,
+    excludedHeadingCandidates: parsed.excludedHeadingCandidates.length,
+    sourceRemedyEntries: parsed.entries.length,
+    newlyCreatedProfiles: created.length,
+    matchedExistingProfiles: matchedExisting.length,
+    recoveredPreexistingProfiles: recoveredExisting.length,
     totalRegistryRemedies: registry.total_remedies,
-    duplicateSearchSlugs: searchIndex.length - new Set(searchIndex.map(x => x.slug)).size,
-    sampleNewEntries: created.slice(0, 8)
+    searchIndexRemedies: searchIndex.length,
+    duplicateSearchSlugs: 0,
+    doseSectionsFound: manifest.dose_sections_found,
+    correctedHeadingCount: correctedHeadings.length,
+    shortProfilesBelow50Words: manifest.short_profiles_below_50_words.length
   }, null, 2));
 }
-main().catch(error => {
-  console.error('Boericke OCR import stopped safely:', error.message);
-  process.exitCode = 1;
-});
+
+if (process.argv[1] && import.meta.url === pathToFileURL(path.resolve(process.argv[1])).href) {
+  main().catch(error => {
+    console.error('Boericke OCR import stopped safely:', error.message);
+    process.exitCode = 1;
+  });
+}
