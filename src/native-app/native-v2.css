@@ -1,0 +1,183 @@
+/* Curiva native V2: identity, access and daily-study components. */
+.native-brand-mark {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  overflow: visible;
+}
+.native-brand-mark img { width: 42px; height: 42px; display: block; object-fit: contain; }
+.native-splash-mark {
+  background: transparent !important;
+  box-shadow: none !important;
+  border-radius: 0 !important;
+  width: 92px !important;
+  height: 92px !important;
+}
+.native-splash-mark img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.native-account-card {
+  display: flex; align-items: center; gap: 12px; padding: 14px; margin: 0 0 20px;
+  border: 1px solid var(--na-line); border-radius: 19px; background: #fff;
+}
+.native-account-icon { width: 42px; height: 42px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 14px; color: var(--na-green); background: var(--na-mint); }
+.native-account-copy { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 4px; }
+.native-account-copy strong { color: var(--na-ink); font-size: 11px; font-weight: 800; }
+.native-account-copy span { color: var(--na-muted); font-size: 9px; line-height: 1.4; overflow-wrap: anywhere; }
+.native-account-action { min-height: 36px; display: inline-flex; align-items: center; justify-content: center; gap: 6px; border: 0; border-radius: 11px; padding: 0 10px; background: var(--na-green); color: #fff; font-size: 9px; font-weight: 800; white-space: nowrap; }
+.native-account-signout { color: #8f5b51; background: #fff2ee; }
+
+.native-plan-card { padding: 18px; margin: 2px 0 25px; border: 1px solid #dcebe4; border-radius: 23px; background: linear-gradient(145deg, #fff 0%, #f2faf5 100%); box-shadow: 0 12px 28px rgba(18, 74, 60, .06); }
+.native-plan-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; }
+.native-plan-heading h2 { margin: 8px 0 5px; color: var(--na-ink); font-family: 'Manrope', system-ui, sans-serif; font-size: 20px; font-weight: 800; letter-spacing: -.04em; line-height: 1.15; }
+.native-plan-heading p { max-width: 250px; margin: 0; color: var(--na-muted); font-size: 10px; line-height: 1.55; }
+.native-plan-count { width: 54px; height: 54px; flex: 0 0 auto; display: grid; align-content: center; justify-items: center; border-radius: 17px; background: #e5f5ed; color: var(--na-green-deep); }
+.native-plan-count strong { font-size: 15px; font-weight: 900; }
+.native-plan-count span { font-size: 8px; font-weight: 800; text-transform: uppercase; letter-spacing: .08em; }
+.native-plan-goals { display: flex; align-items: center; flex-wrap: wrap; gap: 6px; margin: 17px 0 11px; }
+.native-plan-goals > span { display: inline-flex; align-items: center; gap: 5px; margin-right: auto; color: var(--na-muted); font-size: 9px; font-weight: 800; }
+.native-plan-goals button { min-height: 31px; padding: 0 9px; border: 1px solid var(--na-line); border-radius: 10px; background: #fff; color: var(--na-muted); font-size: 9px; font-weight: 800; }
+.native-plan-goals button.is-selected { border-color: var(--na-green); background: var(--na-green); color: #fff; }
+.native-plan-progress { height: 6px; overflow: hidden; border-radius: 20px; background: #e7efea; }
+.native-plan-progress span { display: block; height: 100%; border-radius: inherit; background: linear-gradient(90deg, #087f70, #61b49a); transition: width .2s ease; }
+.native-plan-tasks { display: flex; flex-direction: column; gap: 7px; margin-top: 13px; }
+.native-plan-task { display: flex; align-items: center; gap: 10px; width: 100%; padding: 10px; border: 1px solid transparent; border-radius: 13px; background: rgba(255,255,255,.8); color: var(--na-ink); text-align: left; }
+.native-plan-task.is-done { border-color: #d8eee3; background: #edf8f1; }
+.native-plan-check { width: 23px; height: 23px; flex: 0 0 auto; display: grid; place-items: center; border: 1.5px solid #c9d9d1; border-radius: 8px; color: #fff; }
+.native-plan-task.is-done .native-plan-check { border-color: var(--na-green); background: var(--na-green); }
+.native-plan-task-copy { display: flex; min-width: 0; flex-direction: column; gap: 3px; }
+.native-plan-task-copy strong { font-size: 10px; font-weight: 800; }
+.native-plan-task-copy small { color: var(--na-muted); font-size: 9px; line-height: 1.35; }
+.native-plan-foot { display: flex; align-items: flex-start; gap: 6px; margin-top: 11px; color: #80958b; font-size: 8px; line-height: 1.45; }
+.native-plan-foot svg { flex: 0 0 auto; margin-top: 1px; }
+
+.native-auth-gate { min-height: 100dvh; display: grid; place-items: center; padding: max(24px, env(safe-area-inset-top)) 18px max(28px, env(safe-area-inset-bottom)); background: radial-gradient(circle at 10% 0%, #def4e8 0, transparent 33%), linear-gradient(155deg, #f7fbf7 0%, #eef6f0 100%); color: #173a32; }
+.native-auth-shell { width: min(100%, 460px); margin: auto; }
+.native-auth-brand { display: flex; align-items: center; justify-content: center; gap: 12px; margin: 0 auto 18px; }
+.native-auth-brand img { width: 54px; height: 54px; object-fit: contain; }
+.native-auth-brand div { display: flex; flex-direction: column; gap: 3px; }
+.native-auth-brand strong { font-size: 18px; font-weight: 900; letter-spacing: .16em; }
+.native-auth-brand span { color: #64837a; font-size: 8px; font-weight: 800; letter-spacing: .17em; }
+.native-auth-card { padding: 24px; border: 1px solid rgba(203, 224, 211, .9); border-radius: 26px; background: rgba(255,255,255,.94); box-shadow: 0 22px 55px rgba(32, 83, 61, .09); }
+.native-auth-kicker { display: inline-flex; align-items: center; gap: 6px; color: #14816d; font-size: 9px; font-weight: 900; letter-spacing: .12em; }
+.native-auth-heading h1 { margin: 11px 0 7px; color: #183d34; font-family: 'Manrope', system-ui, sans-serif; font-size: clamp(28px, 8vw, 36px); font-weight: 900; letter-spacing: -.055em; line-height: 1.05; }
+.native-auth-heading p { margin: 0; color: #71877d; font-size: 11px; line-height: 1.55; }
+.native-auth-audience { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin: 19px 0 15px; }
+.native-auth-audience button { min-width: 0; display: flex; flex-direction: column; align-items: flex-start; gap: 5px; padding: 12px; border: 1px solid #e1ebe4; border-radius: 16px; background: #fbfdfb; color: #25463c; text-align: left; }
+.native-auth-audience button.is-selected { border-color: #13816f; background: #eff9f3; box-shadow: inset 0 0 0 1px rgba(19,129,111,.14); }
+.native-auth-audience button > span { width: 32px; height: 32px; display: grid; place-items: center; border-radius: 11px; background: #e2f3e9; color: #087f70; }
+.native-auth-audience strong { font-size: 10px; font-weight: 900; }
+.native-auth-audience small { color: #788b82; font-size: 8px; line-height: 1.35; }
+.native-auth-mode { display: grid; grid-template-columns: 1fr 1fr; padding: 4px; border-radius: 13px; background: #f0f5f1; }
+.native-auth-mode button { min-height: 36px; border: 0; border-radius: 10px; background: transparent; color: #71877d; font-size: 10px; font-weight: 800; }
+.native-auth-mode button.is-active { background: white; color: #087f70; box-shadow: 0 2px 8px rgba(22, 64, 49, .08); }
+.native-auth-form { display: flex; flex-direction: column; gap: 12px; margin-top: 17px; }
+.native-auth-form label { display: flex; flex-direction: column; gap: 6px; color: #35594c; font-size: 9px; font-weight: 800; }
+.native-auth-input { min-height: 46px; display: flex; align-items: center; gap: 9px; padding: 0 12px; border: 1px solid #dfe9e2; border-radius: 13px; background: #fcfdfc; color: #8a9d92; }
+.native-auth-input:focus-within { border-color: #13816f; box-shadow: 0 0 0 3px rgba(19,129,111,.09); }
+.native-auth-input input { width: 100%; min-width: 0; border: 0; outline: 0; background: transparent; color: #183d34; font-size: 11px; }
+.native-auth-input input::placeholder { color: #a1b1a8; }
+.native-auth-input button { display: grid; place-items: center; border: 0; background: transparent; color: #81958a; }
+.native-auth-forgot { display: inline-flex; align-items: center; gap: 5px; align-self: flex-end; border: 0; background: transparent; color: #13816f; font-size: 9px; font-weight: 800; }
+.native-auth-forgot:disabled { opacity: .5; }
+.native-auth-submit { width: 100%; min-height: 48px; display: flex; align-items: center; justify-content: center; gap: 8px; margin-top: 2px; border: 0; border-radius: 14px; background: linear-gradient(120deg, #0b6f61, #13957d); color: white; font-size: 11px; font-weight: 900; box-shadow: 0 10px 20px rgba(8,127,112,.16); }
+.native-auth-submit:disabled { opacity: .6; }
+.native-auth-message { padding: 10px 12px; border-radius: 11px; font-size: 9px; line-height: 1.45; }
+.native-auth-message.is-error { border: 1px solid #f3d4ce; background: #fff5f2; color: #a14d40; }
+.native-auth-message.is-notice { border: 1px solid #d3e9dc; background: #f0faf3; color: #347257; }
+.native-auth-assurance { display: flex; align-items: flex-start; gap: 7px; margin-top: 14px; color: #83968b; font-size: 8px; line-height: 1.45; }
+.native-auth-assurance svg { flex: 0 0 auto; color: #13816f; }
+.native-auth-divider { display: flex; align-items: center; gap: 10px; margin: 15px 0 11px; color: #9cac9f; font-size: 8px; font-weight: 800; }
+.native-auth-divider::before, .native-auth-divider::after { content: ''; height: 1px; flex: 1; background: #edf1ed; }
+.native-auth-offline { width: 100%; min-height: 44px; display: flex; align-items: center; justify-content: center; gap: 8px; border: 1px solid #d9e6dd; border-radius: 13px; background: #fff; color: #31594a; font-size: 10px; font-weight: 800; }
+.native-auth-footnote, .native-auth-footer { color: #84978d; font-size: 8px; line-height: 1.55; text-align: center; }
+.native-auth-footnote { margin: 12px 0 0; }
+.native-auth-footer { margin: 15px 0 0; }
+.native-entry-loading { min-height: 100dvh; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: #f4faf5; color: #295445; }
+.native-entry-loading img { width: 68px; height: 68px; }
+.native-entry-loading strong { font-size: 18px; font-weight: 900; letter-spacing: .1em; }
+.native-entry-loading span { color: #81968a; font-size: 10px; }
+@media (max-width: 380px) {
+  .native-auth-card { padding: 18px; }
+  .native-auth-audience { gap: 6px; }
+  .native-auth-audience button { padding: 10px; }
+  .native-plan-card { padding: 15px; }
+  .native-plan-goals button { padding: 0 7px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .native-plan-progress span { transition: none; }
+}
+
+.native-sync-state { display: inline-flex; align-items: center; gap: 5px; width: fit-content; margin-top: 3px; font-size: 8px; font-weight: 800; line-height: 1.35; }
+.native-sync-state.is-synced { color: #16815f; }
+.native-sync-state.is-syncing { color: #567d9c; }
+.native-sync-state.is-offline { color: #a46a45; }
+.native-sync-state.is-idle { color: #81968a; }
+
+.native-exam-screen { color: var(--na-ink); }
+.native-exam-kicker, .native-exam-running-head, .native-exam-progress-meta, .native-exam-question-actions, .native-exam-navigation, .native-exam-review-heading, .native-exam-review-meta { display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+.native-exam-kicker { margin: 2px 0 10px; }
+.native-exam-mode-tag, .native-exam-clock { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; border-radius: 12px; background: #e6f5ec; color: #087f70; font-size: 9px; font-weight: 900; letter-spacing: .06em; }
+.native-exam-screen h1 { margin: 12px 0 10px; color: var(--na-ink); font-family: 'Manrope', system-ui, sans-serif; font-size: clamp(26px, 7vw, 35px); font-weight: 900; letter-spacing: -.05em; line-height: 1.08; }
+.native-exam-intro { margin: 0 0 18px; color: var(--na-muted); font-size: 11px; line-height: 1.65; }
+.native-exam-setup-card { padding: 17px; border: 1px solid var(--na-line); border-radius: 20px; background: white; }
+.native-exam-setup-card .native-field-label { display: block; margin: 13px 0 6px; }
+.native-exam-setup-card .native-field-label:first-child { margin-top: 0; }
+.native-exam-setup-stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; margin: 16px 0; }
+.native-exam-setup-stats div { display: flex; flex-direction: column; gap: 3px; padding: 10px 8px; border-radius: 12px; background: #f4f9f5; }
+.native-exam-setup-stats strong { color: var(--na-green-deep); font-size: 12px; font-weight: 900; }
+.native-exam-setup-stats span { color: var(--na-muted); font-size: 8px; }
+.native-exam-start { width: 100%; justify-content: center; }
+.native-exam-exit { width: 100%; justify-content: center; margin-top: 12px; }
+.native-exam-running-head { margin-bottom: 15px; }
+.native-exam-running-head > div:first-child { display: flex; flex-direction: column; gap: 4px; }
+.native-exam-running-head > div:first-child strong { color: var(--na-ink); font-size: 12px; font-weight: 900; }
+.native-exam-clock { background: #e9f5ef; color: #087f70; font-size: 14px; font-variant-numeric: tabular-nums; }
+.native-exam-clock.is-warning { background: #fff0e9; color: #ad5a43; }
+.native-exam-progress-meta { margin: 0 0 8px; color: var(--na-muted); font-size: 9px; font-weight: 800; }
+.native-exam-track { margin-bottom: 18px; }
+.native-exam-options { display: flex; flex-direction: column; gap: 9px; margin-top: 20px; }
+.native-exam-option { display: flex; align-items: center; gap: 11px; width: 100%; min-height: 55px; padding: 11px 13px; border: 1px solid var(--na-line); border-radius: 15px; background: white; color: var(--na-ink); text-align: left; }
+.native-exam-option > span { display: grid; place-items: center; width: 29px; height: 29px; flex: 0 0 auto; border-radius: 9px; background: #f0f5f1; color: #71877d; font-size: 10px; font-weight: 900; }
+.native-exam-option strong { flex: 1; font-size: 11px; line-height: 1.45; font-weight: 700; }
+.native-exam-option.is-selected { border-color: var(--na-green); background: #eff8f2; box-shadow: inset 0 0 0 1px rgba(8,127,112,.12); }
+.native-exam-option.is-selected > span { background: var(--na-green); color: white; }
+.native-exam-option.is-selected > svg { color: var(--na-green); }
+.native-exam-question-actions { margin: 15px 0 10px; color: var(--na-muted); font-size: 9px; }
+.native-exam-question-actions button { display: inline-flex; align-items: center; gap: 6px; padding: 8px 10px; border: 1px solid var(--na-line); border-radius: 11px; background: white; color: var(--na-muted); font-size: 9px; font-weight: 800; }
+.native-exam-question-actions button.is-flagged { border-color: #f1d4a6; background: #fff8e9; color: #9b7130; }
+.native-exam-navigator { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 7px; max-height: 150px; overflow: auto; padding: 10px; border: 1px solid var(--na-line); border-radius: 15px; background: #f8fbf9; }
+.native-exam-navigator button { min-height: 33px; border: 1px solid #e1eae4; border-radius: 9px; background: white; color: #758980; font-size: 9px; font-weight: 900; }
+.native-exam-navigator button.is-answered { border-color: #b9dfcb; background: #e9f7ee; color: #087f70; }
+.native-exam-navigator button.is-flagged { box-shadow: inset 0 -3px 0 #e4b85d; }
+.native-exam-navigator button.is-current { outline: 2px solid var(--na-green); outline-offset: 1px; color: var(--na-green-deep); }
+.native-exam-navigation { margin-top: 14px; }
+.native-exam-navigation > button { min-width: 112px; justify-content: center; }
+.native-exam-submit { display: flex; align-items: center; justify-content: center; gap: 8px; width: 100%; min-height: 46px; margin-top: 12px; border: 0; border-radius: 13px; background: #173e35; color: white; font-size: 10px; font-weight: 900; }
+.native-exam-hint { margin: 9px 0 0; color: #8a9b91; font-size: 8px; line-height: 1.5; text-align: center; }
+.native-exam-score { display: flex; flex-direction: column; align-items: center; gap: 7px; padding: 23px; margin: 18px 0 13px; border: 1px solid #dcebe2; border-radius: 21px; background: #f4faf6; }
+.native-exam-score strong { color: var(--na-green-deep); font-size: 38px; font-weight: 900; letter-spacing: -.06em; }
+.native-exam-score span { color: var(--na-muted); font-size: 10px; font-weight: 800; }
+.native-exam-score .native-progress-track { width: 100%; margin-top: 7px; }
+.native-exam-result-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 7px; }
+.native-exam-result-grid div { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 13px 6px; border: 1px solid var(--na-line); border-radius: 13px; background: white; }
+.native-exam-result-grid strong { color: var(--na-ink); font-size: 16px; font-weight: 900; }
+.native-exam-result-grid span { color: var(--na-muted); font-size: 8px; }
+.native-exam-result-actions { display: flex; flex-direction: column; gap: 8px; margin-top: 16px; }
+.native-exam-result-actions button { width: 100%; justify-content: center; }
+.native-exam-review-heading { align-items: flex-start; }
+.native-exam-review-heading .native-icon-button { flex: 0 0 auto; }
+.native-exam-review-list { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+.native-exam-review-item { padding: 14px; border: 1px solid var(--na-line); border-radius: 16px; background: white; }
+.native-exam-review-meta { color: var(--na-muted); font-size: 8px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; }
+.native-exam-review-meta b.is-correct { color: #138260; }
+.native-exam-review-meta b.is-incorrect { color: #ae624c; }
+.native-exam-review-item h3 { margin: 10px 0; color: var(--na-ink); font-size: 12px; line-height: 1.55; }
+.native-exam-review-answer { display: flex; flex-direction: column; gap: 4px; padding: 9px 10px; margin-top: 6px; border-radius: 10px; background: #fff4ef; }
+.native-exam-review-answer.is-key { background: #edf8f1; }
+.native-exam-review-answer strong { color: var(--na-muted); font-size: 8px; text-transform: uppercase; letter-spacing: .06em; }
+.native-exam-review-answer span { color: var(--na-ink); font-size: 10px; line-height: 1.4; font-weight: 700; }
+.native-exam-review-item p { margin: 10px 0 0; color: var(--na-muted); font-size: 9px; line-height: 1.6; }
+.native-exam-entry-card { display: flex; align-items: center; gap: 11px; width: 100%; padding: 13px; margin-top: 12px; border: 1px solid #dcebe2; border-radius: 16px; background: linear-gradient(120deg, #f0faf3, #fff); color: var(--na-ink); text-align: left; }
+.native-exam-entry-card > span { width: 40px; height: 40px; flex: 0 0 auto; display: grid; place-items: center; border-radius: 13px; background: #dff3e7; color: var(--na-green); }
+.native-exam-entry-card > div { display: flex; flex: 1; min-width: 0; flex-direction: column; gap: 4px; }
+.native-exam-entry-card strong { font-size: 10px; font-weight: 900; }
+.native-exam-entry-card small { color: var(--na-muted); font-size: 8px; line-height: 1.45; }
