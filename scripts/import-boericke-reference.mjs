@@ -35,8 +35,8 @@ function decodeHtml(value = '') {
     .replace(/[\u00a0\t\r]+/g, ' ').replace(/\s+/g, ' ').trim();
 }
 function plainText(html = '') {
-  return decodeHtml(html.replace(/<script\b[^>]*>[\s\S]*?<\/script>/gi, ' ')
-    .replace(/<style\b[^>]*>[\s\S]*?<\/style>/gi, ' ')
+  return decodeHtml(html.replace(/<script\b[^>]*>[\s\S]*?<\/script\b[^>]*>/gi, ' ')
+    .replace(/<style\b[^>]*>[\s\S]*?<\/style\b[^>]*>/gi, ' ')
     .replace(/<br\s*\/?>/gi, '\n').replace(/<\/(?:p|div|li|h[1-6]|tr|td|blockquote)>/gi, '\n')
     .replace(/<[^>]+>/g, ' ')).split('\n').map(x => x.trim()).filter(Boolean).join('\n');
 }
