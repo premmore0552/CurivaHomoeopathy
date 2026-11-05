@@ -91,7 +91,6 @@ export default function NativeAppEntry() {
     const account: NativeAccountInfo = {
       displayName: user.displayName || user.email?.split('@')[0] || 'Curiva learner',
       email: user.email || '',
-      audience
       audience,
       progressSyncStatus
     };
