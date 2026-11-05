@@ -106,6 +106,7 @@ export const userService = {
           updatedAt: serverTimestamp()
         };
         await setDoc(docRef, initialData);
+        return profession || 'user';
       } else {
         const currentData = docSnap.data() || {};
         
@@ -162,6 +163,7 @@ export const userService = {
         }
 
         await updateDoc(docRef, updateData);
+        return profession || currentData.profession || 'user';
       }
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
