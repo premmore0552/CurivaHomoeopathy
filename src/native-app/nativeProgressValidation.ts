@@ -34,7 +34,11 @@ export function safeStudyPlan(value: unknown): StoredStudyPlan | null {
 
   const requestedGoal = Number(item.goal);
   const goal = [15, 30, 45, 60].includes(requestedGoal) ? requestedGoal : 30;
-  const completed = safeStrings(item.completed, 4).filter((id) => VALID_TASK_IDS.has(id));
+  const completed = Array.isArray(item.completed)
+    ? Array.from(new Set(item.completed.filter((id): id is string =>
+        typeof id === 'string' && VALID_TASK_IDS.has(id)
+      ))).slice(-4)
+    : [];
 
   return { date: item.date, goal, completed };
 }
