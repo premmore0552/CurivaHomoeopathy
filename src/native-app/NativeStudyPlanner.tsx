@@ -32,9 +32,6 @@ export default function NativeStudyPlanner() {
   useEffect(() => {
     try {
       localStorage.setItem('curiva-native-study-plan', JSON.stringify({ date: dateKey, goal: plan.goal, completed: plan.completed }));
-    } catch { /* The planner remains usable for this session. */ }
-  }, [dateKey, plan]);
-
       window.dispatchEvent(new Event('curiva-native-progress-updated'));
     } catch { /* The planner remains usable for this session. */ }
   }, [dateKey, plan]);
@@ -79,7 +76,7 @@ export default function NativeStudyPlanner() {
           </button>;
         })}
       </div>
-      <div className="native-plan-foot"><Clock3 size={13} /><span>{plan.goal} minutes is your chosen daily target. Your checklist is saved on this device.</span></div>
+      <div className="native-plan-foot"><Clock3 size={13} /><span>{plan.goal} minutes is your chosen daily target. Your checklist is saved on this device and synced to your Curiva account when you are signed in.</span></div>
     </section>
   );
 }
