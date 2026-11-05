@@ -59,6 +59,7 @@ jobs:
             npm run cap:add
           fi
           npx cap sync android
+          node scripts/apply-native-branding.mjs
 
       - name: Build Android debug APK
         working-directory: android

@@ -57,6 +57,7 @@ const TermsOfService = lazyLoad(() => import('./pages/TermsOfService'));
 const AilmentDetail = lazyLoad(() => import('./pages/AilmentDetail'));
 const ComparisonTool = lazyLoad(() => import('./pages/ComparisonTool'));
 const RepertoryTool = lazyLoad(() => import('./pages/RepertoryTool'));
+const BoerickeRepertoryPage = lazyLoad(() => import('./pages/BoerickeRepertoryPage'));
 const Encyclopedia = lazyLoad(() => import('./pages/Encyclopedia'));
 const FAQPage = lazyLoad(() => import('./pages/FAQPage'));
 const TreatmentsPage = lazyLoad(() => import('./pages/TreatmentsPage'));
@@ -108,6 +109,7 @@ const FmtSearchPage = lazyLoad(() => import('./pages/FmtSearchPage'));
 const AskHomoeopath = lazyLoad(() => import('./pages/AskHomoeopath'));
 const FirstBhmsCrashCourse = lazyLoad(() => import('./pages/FirstBhmsCrashCourse'));
 const AdminLinkAudit = lazyLoad(() => import('./pages/AdminLinkAudit'));
+const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const ComingSoon = lazyLoad(() => import('./pages/ComingSoon'));
 const NotFound = lazyLoad(() => import('./pages/NotFound'));
 
@@ -266,6 +268,7 @@ function AppRoutes() {
                 <Route path="/subject/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
                 <Route path="/subject/repertory" element={<PageWrapper><RepertorySubject /></PageWrapper>} />
+                <Route path="/repertory/boericke" element={<PageWrapper><BoerickeRepertoryPage /></PageWrapper>} />
                 <Route path="/subject/pharmacy" element={<PageWrapper><PharmacySubject /></PageWrapper>} />
                 <Route path="/subject/anatomy" element={<PageWrapper><AnatomyLibrary /></PageWrapper>} />
                 <Route path="/subject/physiology" element={<PageWrapper><PhysiologyLibrary /></PageWrapper>} />
@@ -374,6 +377,7 @@ function AppRoutes() {
                 <Route path="/student-academy/cheat-sheets" element={<PageWrapper><StudentResources /></PageWrapper>} />
 
                 {/* Knowledge Base & Research Routes */}
+                <Route path="/research-entry/:slug" element={<PageWrapper><ResearchEntryPage /></PageWrapper>} />
                 <Route path="/knowledge-base" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
                 <Route path="/research-updates" element={<PageWrapper><CategoriesPage /></PageWrapper>} />
                 <Route path="/research-entry/:slug" element={<PageWrapper><ResearchEntryPage /></PageWrapper>} />

@@ -1,4 +1,14 @@
 import React, { useMemo, useState } from 'react';
+type NodeType = 'category' | 'topic' | 'remedy' | 'research' | 'principle';
+type MindMapNode = {
+  id: string; name: string; type: NodeType | 'root'; color?: string; iconName?: string;
+  articleId?: string; summary?: string; children?: MindMapNode[];
+};
+type ResearchNode = {
+  id: string; name: string; type: NodeType; parent: string; slug: string;
+  summary: string; tags: string[]; related: string[];
+};
+
 import { useNavigate } from 'react-router-dom';
 import {
   Activity, ArrowDownToLine, ArrowRight, BookOpen, Check, ChevronDown,
@@ -10,6 +20,130 @@ type NodeType = 'category' | 'topic' | 'remedy' | 'research' | 'principle';
 type ResearchNode = {
   id: string; name: string; type: NodeType; parent: string; summary: string;
   slug: string; tags: string[]; related: string[];
+const data: MindMapNode = {
+  id: "root",
+  name: "Curiva Research",
+  type: "root",
+  color: "#ba1173",
+  children: [
+    {
+      id: "materia-medica-root",
+      name: "Materia Medica A-Z",
+      type: "category",
+      iconName: "BookOpen",
+      color: "#159A72",
+      children: [
+        {
+          id: "mineral-remedies",
+          name: "Minerals & Salts",
+          type: "topic",
+          summary: "Elemental remedies, acids, and tissue salts with deep chronic and constitutional action.",
+          children: [
+            { id: "arsenicum-album", name: "Arsenicum Alb", type: "remedy", articleId: "/remedy/arsenicum-album", summary: "Arsenious acid. Marked by intense anxiety, restlessness, burning pains relieved by heat, and drinking in small sips." },
+            { id: "calc-carb", name: "Calcarea Carb", type: "remedy", articleId: "/remedy/calc-carb", summary: "Calcium carbonate. Suits fair, flabby, cold damp constitution. Sour sweat on head, cold damp feet." },
+            { id: "nat-mur", name: "Natrum Mur", type: "remedy", articleId: "/remedy/nat-mur", summary: "Sodium chloride. Solitary grief, mapping-type headache, dry cracked lips, worse under direct sun." },
+            { id: "sulphur", name: "Sulphur", type: "remedy", articleId: "/remedy/sulphur", summary: "Elemental sulphur. Ragged philosopher, burning soles, skin eruptions worse from washing, dislikes bathing." },
+            { id: "silicea", name: "Silicea", type: "remedy", articleId: "/remedy/silicea", summary: "Silica. Cold, sweaty feet with offensive odor, lack of grit or self-confidence, slow healing." },
+            { id: "phosphorus", name: "Phosphorus", type: "remedy", articleId: "/remedy/phosphorus", summary: "Elemental phosphorus. Tall, slender active individuals. Bleeding tendency, craves cold drinks and ice creams." }
+          ]
+        },
+        {
+          id: "botanical-remedies",
+          name: "Plant Kingdom",
+          type: "topic",
+          summary: "Remedies derived from wild plants, creepers, and trees with rapid energetic responses.",
+          children: [
+            { id: "aconite", name: "Aconite", type: "remedy", articleId: "/remedy/aconite", summary: "Monkshood. Sudden violent fevers and acute panics from cold dry winds. Great fear of death." },
+            { id: "arnica", name: "Arnica", type: "remedy", articleId: "/remedy/arnica", summary: "Leopards bane. Premiere medicine for blunt trauma, soreness, muscle bruising, and mechanical strain." },
+            { id: "belladonna", name: "Belladonna", type: "remedy", articleId: "/remedy/belladonna", summary: "Deadly nightshade. Flashing heat, congestive throbbing pain, sudden onset, bright red face, dilated pupils." },
+            { id: "bryonia", name: "Bryonia", type: "remedy", articleId: "/remedy/bryonia", summary: "Wild hops. Worse for slightest touch or motion. Extreme dryness of mucous membranes, thirst for large quantities." },
+            { id: "pulsatilla", name: "Pulsatilla", type: "remedy", articleId: "/remedy/pulsatilla", summary: "Windflower. Mild, yielding temperament. Changeable complaints, seeks cool open air, thirstless." },
+            { id: "gelsemium", name: "Gelsemium", type: "remedy", articleId: "/remedy/gelsemium", summary: "Yellow jasmine. Motor paralysis, dullness, dizziness, heaviness of eyelids, thirstless." },
+            { id: "lycopodium", name: "Lycopodium", type: "remedy", articleId: "/remedy/lycopodium", summary: "Club moss. Deep flatulence, right-sided symptoms that travel to left, craves warm sweets, feels insecure." }
+          ]
+        },
+        {
+          id: "animal-remedies",
+          name: "Animal Poisons",
+          type: "topic",
+          summary: "Energetic, reactive animal kingdoms materials representing high physiological speed and sensitivity.",
+          children: [
+            { id: "apis", name: "Apis Mel", type: "remedy", articleId: "/remedy/apis", summary: "Honeybee venom. Stinging, burning pain, baggy edema around eyelids, extremely sensitive to heat." },
+            { id: "lachesis", name: "Lachesis", type: "remedy", articleId: "/remedy/lachesis", summary: "Surukuku snake venom. Marked left-sided congestion, extreme talkativeness, intolerance to collars." }
+          ]
+        }
+      ]
+    },
+    {
+      id: "clinical-materia-medica-root",
+      name: "Clinical Therapeutics",
+      type: "category",
+      iconName: "Activity",
+      color: "#0ea5e9",
+      children: [
+        {
+          id: "clinical-gastro",
+          name: "Digestive Systems",
+          type: "topic",
+          summary: "Gastrointestinal clinical disorders mapped to targeted therapeutics.",
+          children: [
+            { id: "acidity-clinical", name: "Acidity & Heartburn", type: "research", articleId: "/read/acidity-relief", summary: "Management of burning, reflux, and bloating with Nux Vomica, Lycopodium, and Carbo Veg." },
+            { id: "constipation-clinical", name: "Bowel Inertia", type: "research", articleId: "/read/constipation-remedies", summary: "Resolving chronic dry, hard stools using Bryonia, Alumina, and Opium." }
+          ]
+        },
+        {
+          id: "clinical-respiratory",
+          name: "Respiratory Tracts",
+          type: "topic",
+          summary: "Pulmonary pathologies and allergy states of nose, ears, and airways.",
+          children: [
+            { id: "allergy-clinical", name: "Allergic Rhinitis", type: "research", articleId: "/read/allergic-rhinitis", summary: "Controlling excoriating coryza, sneezing, and watery eyes with Allium Cepa and Sabadilla." },
+            { id: "asthma-clinical", name: "Spasmodic Asthma", type: "research", articleId: "/read/asthma-relief", summary: "Guiding acute asthmatic dyspnea and wheezing with Ipecac, Arsenicum, and Lobelia." },
+            { id: "sinusitis-clinical", name: "Acute Sinusitis", type: "research", articleId: "/read/sinusitis-remedies", summary: "Alleviating frontal congestion with Kali Bichromicum and Silicea." }
+          ]
+        },
+        {
+          id: "clinical-integumentary",
+          name: "Dermatological Care",
+          type: "topic",
+          summary: "Management of chronic eczema, acne, psoriasis, and deep tissue lesions.",
+          children: [
+            { id: "acne-clinical", name: "Acne Vulgaris", type: "research", articleId: "/read/acne-healing", summary: "Treating inflammatory pustules and scars with Berberis Aquifolium, Pulsatilla, and Sulfur." },
+            { id: "eczema-clinical", name: "Eczema & Dermatitis", type: "research", articleId: "/read/eczema-treatment", summary: "Calming dry, cracked skin eruptions and itching with Graphites, Mezereum, and Petroleum." },
+            { id: "hair-loss-clinical", name: "Hairfall & Thinning", type: "research", articleId: "/read/hair-loss-Homoeopathy", summary: "Restoring hair follicle vitality and treating alopecia areata with Fluoric Acid, Phosphorus, and Lycopodium." }
+          ]
+        },
+        {
+          id: "clinical-neuro",
+          name: "Nervous Headache",
+          type: "topic",
+          summary: "Differential clinical guides for migraine, tension cephalalgia, and neuralgia.",
+          children: [
+            { id: "migraine-clinical", name: "Migraine Protocol", type: "research", articleId: "/read/migraine-remedies", summary: "Classifying congestive, nerved, and occipital throbbing headache with Belladonna and Iris." }
+          ]
+        }
+      ]
+    },
+    {
+      id: "organon-philosophy",
+      name: "Organon & Principles",
+      type: "category",
+      iconName: "GraduationCap",
+      color: "#f59e0b",
+      children: [
+        {
+          id: "hahnemannian-principles",
+          name: "Classical Philosophy",
+          type: "topic",
+          summary: " bedrock therapeutic dogmas established by Dr. Samuel Hahnemann.",
+          children: [
+            { id: "samuel-hahnemann", name: "Founder's Philosophy", type: "research", articleId: "/glossary/philosophy", summary: "Similia Similibus Curentur. Exploring dynamic drug proving and pure healing mechanisms." },
+            { id: "aphorisms-vital", name: "Vital Force (Aphorisms 9-16)", type: "research", articleId: "/glossary/philosophy", summary: "Understanding the spirit-like force that animates the healthy organism." }
+          ]
+        }
+      ]
+    }
+  ]
 };
 
 export const researchNodes: ResearchNode[] = [

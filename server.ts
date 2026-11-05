@@ -199,6 +199,7 @@ async function startServer() {
   });
 
   app.post('/api/appointments/notify-request', appointmentNotifyRateLimiter, async (req, res) => {
+  app.post('/api/appointments/notify-request', async (req, res) => {
     const authorization = typeof req.headers.authorization === 'string' ? req.headers.authorization : '';
     if (!authorization.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, error: 'Sign in to notify the clinic about an appointment request.' });
@@ -413,6 +414,97 @@ async function startServer() {
     }
     const resource = resources.find((item) => item.id === resourceId);
 
+
+      try {
+        await patchFirestoreDocument('appointmentRequests', requestId, fields, updateMask, deleteMask, request.updateTime);
+      } catch (writeError) {
+        if (rollbackCalendar) {
+          try {
+            await rollbackCalendar();
+          } catch (rollbackError: any) {
+            console.error('Calendar rollback failed and requires manual reconciliation:', rollbackError?.message || 'Unknown rollback error');
+          }
+        }
+        throw writeError;
+      }
+
+      let emailDelivery: 'sent' | 'not-configured' | 'failed' = 'not-configured';
+      if (isResourceEmailConfigured()) {
+        try {
+          await sendAppointmentStatusNotification({
+            requestId,
+            to: request.userEmail,
+            requesterName: request.displayName,
+            status,
+            adminResponse,
+            confirmedDateTime: status === 'confirmed' ? confirmedTime : undefined,
+            confirmedTimeZone: status === 'confirmed' ? clinicTimezone : undefined,
+          });
+          emailDelivery = 'sent';
+        } catch (emailError: any) {
+          console.error('Appointment status email failed:', emailError?.message || 'Unknown error');
+          emailDelivery = 'failed';
+        }
+      }
+      return res.json({
+        success: true,
+        status,
+        calendarEventId: status === 'confirmed' ? eventId : null,
+        calendarTimezone: status === 'confirmed' ? clinicTimezone : null,
+        emailDelivery,
+      });
+    } catch (error: any) {
+      console.error('Appointment review update failed:', error?.message || 'Unknown error');
+      const errorMessage = String(error?.message || '');
+      const conflict = errorMessage.includes('HTTP 409') ||
+        errorMessage.includes('HTTP 412') ||
+        errorMessage.includes('overlaps an existing clinic calendar event');
+      return res.status(conflict ? 409 : 503).json({
+        success: false,
+        error: conflict ? 'Another administrator changed this request; refresh before trying again.' : error?.message || 'The request could not be updated safely.',
+      });
+    }
+  });
+
+  // Resource email delivery is intentionally unavailable until a real provider is configured.
+  // Never report a successful delivery when the server has not sent an email.
+  app.post("/api/send-resource-email", (_req, res) => {
+    res.status(503).json({
+      success: false,
+      error: "Resource email delivery is not configured yet. Please contact Curiva support for access."
+    });
+  });
+
+  // Razorpay Order Creation
+  // Prices and currency are derived from the server-side catalogue; never trust client-supplied amounts.
+  app.post("/api/create-razorpay-order", async (req, res) => {
+    const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
+    const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim() : "";
+    const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
+    let verifiedOrderUser: { uid: string; email: string | null } | null = null;
+    if (authorization.startsWith("Bearer ")) {
+      try {
+        verifiedOrderUser = await verifyFirebaseIdToken(authorization.slice(7).trim());
+      } catch {
+        return res.status(401).json({ error: "Your account session could not be verified. Sign in again before checkout." });
+      }
+    }
+    const emailParts = customerEmail.split("@");
+    const emailDomain = emailParts[1] || "";
+    const hasWhitespace = [...customerEmail].some((character) => character.charCodeAt(0) <= 32);
+    if (
+      customerEmail.length > 200 ||
+      emailParts.length !== 2 ||
+      !emailParts[0] ||
+      !emailDomain.includes(".") ||
+      emailDomain.startsWith(".") ||
+      emailDomain.endsWith(".") ||
+      hasWhitespace
+    ) {
+      return res.status(400).json({ error: "Enter a valid email address before creating an order." });
+    }
+    const resource = resources.find((item) => item.id === resourceId);
+
     if (!resource) {
       return res.status(400).json({ error: "Choose a valid resource before creating an order." });
     }
@@ -544,6 +636,97 @@ async function startServer() {
     }
   });
 
+  // Razorpay webhook recovery for captured payments if the browser callback is interrupted.
+  app.post("/api/razorpay-webhook", async (req, res) => {
+    const webhookSecret = process.env.RAZORPAY_WEBHOOK_SECRET;
+    if (!webhookSecret) {
+      return res.status(503).json({ received: false, error: "Payment webhook is not configured." });
+    }
+
+    const signatureHeader = req.headers["x-razorpay-signature"];
+    const signature = Array.isArray(signatureHeader) ? signatureHeader[0] : signatureHeader;
+    const rawBody = (req as any).rawBody as Buffer | undefined;
+    if (!rawBody || typeof signature !== "string" || !/^[a-f0-9]{64}$/i.test(signature)) {
+      return res.status(400).json({ received: false, error: "Invalid webhook signature." });
+    }
+
+    const expectedSignature = crypto.createHmac("sha256", webhookSecret).update(rawBody).digest();
+    const providedSignature = Buffer.from(signature, "hex");
+    if (!(providedSignature.length === expectedSignature.length && crypto.timingSafeEqual(expectedSignature, providedSignature))) {
+      return res.status(400).json({ received: false, error: "Invalid webhook signature." });
+    }
+
+    if (req.body?.event !== "payment.captured") {
+      return res.status(200).json({ received: true, ignored: true });
+    }
+
+    const paymentEntity = req.body?.payload?.payment?.entity;
+    const orderId = typeof paymentEntity?.order_id === "string" ? paymentEntity.order_id : "";
+    const paymentId = typeof paymentEntity?.id === "string" ? paymentEntity.id : "";
+    if (!orderId || !paymentId) {
+      return res.status(400).json({ received: false, error: "Captured payment webhook is missing its order/payment ID." });
+    }
+
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return res.status(503).json({ received: false, error: "Payment verification is temporarily unavailable." });
+    }
+
+    try {
+      const [order, payment] = await Promise.all([
+        razorpay.orders.fetch(orderId),
+        razorpay.payments.fetch(paymentId),
+      ]);
+      const resourceId = typeof order.notes?.resource_id === "string" ? order.notes.resource_id : "";
+      const resource = resources.find((item) => item.id === resourceId);
+      const expectedAmount = resource && Number.isFinite(resource.price) ? Math.round(resource.price * 100) : -1;
+      const paymentAmount = Number(payment.amount);
+      const orderAmount = Number(order.amount);
+
+      if (
+        !resource ||
+        order.id !== orderId ||
+        payment.order_id !== orderId ||
+        payment.id !== paymentId ||
+        payment.status !== "captured" ||
+        !Number.isSafeInteger(paymentAmount) ||
+        paymentAmount !== orderAmount ||
+        orderAmount !== expectedAmount ||
+        payment.currency !== "INR" ||
+        order.currency !== "INR"
+      ) {
+        return res.status(400).json({ received: false, error: "Payment does not match a captured catalogue order." });
+      }
+
+      const userEmail = typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "";
+      if (!userEmail) {
+        console.error("Captured payment webhook has no customer email:", orderId);
+        return res.status(503).json({ received: false, error: "Captured order is missing its contact email." });
+      }
+
+      const ownerId = typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest";
+      await persistPaidOrder({
+        orderId: order.id,
+        paymentId: payment.id,
+        userId: ownerId,
+        userEmail,
+        resourceId: resource.id,
+        resourceTitle: resource.title,
+        amount: paymentAmount,
+        currency: payment.currency,
+      });
+      const emailDelivery = await emailPaidResourceIfConfigured(order, payment, resource, ownerId, userEmail);
+      if (emailDelivery === 'failed') {
+        // Ask Razorpay to retry; Resend's idempotency key prevents duplicate delivery.
+        return res.status(503).json({ received: false, recorded: true, error: "Paid order was recorded; resource email delivery will be retried." });
+      }
+      return res.status(200).json({ received: true, recorded: true, emailDelivery });
+    } catch (error: any) {
+      console.error("Razorpay webhook processing failed:", error?.message || "Unknown error");
+      return res.status(503).json({ received: false, error: "Webhook processing failed; Razorpay may retry." });
+    }
+  });
+
   // Razorpay Payment Verification
   app.post("/api/verify-razorpay-payment", async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body ?? {};
@@ -558,6 +741,125 @@ async function startServer() {
       typeof razorpay_signature !== "string" || !/^[a-f0-9]{64}$/i.test(razorpay_signature)
     ) {
       return res.status(400).json({ success: false, message: "Invalid payment verification payload." });
+    }
+
+    const body = `${razorpay_order_id}|${razorpay_payment_id}`;
+    const expectedSignature = crypto.createHmac("sha256", secret).update(body).digest();
+    const providedSignature = Buffer.from(razorpay_signature, "hex");
+
+    if (!(providedSignature.length === expectedSignature.length && crypto.timingSafeEqual(expectedSignature, providedSignature))) {
+      return res.status(400).json({ success: false, message: "Invalid signature" });
+    }
+
+    // A valid signature alone does not prove that the payment was captured for the
+    // expected catalogue price. Cross-check both records with Razorpay's API.
+    const razorpay = getRazorpay();
+    if (!razorpay) {
+      return res.status(503).json({ success: false, error: "Payment verification is temporarily unavailable." });
+    }
+
+    try {
+      const [order, payment] = await Promise.all([
+        razorpay.orders.fetch(razorpay_order_id),
+        razorpay.payments.fetch(razorpay_payment_id),
+      ]);
+      const resourceId = typeof order.notes?.resource_id === "string" ? order.notes.resource_id : "";
+      const resource = resources.find((item) => item.id === resourceId);
+      const expectedAmount = resource && Number.isFinite(resource.price) ? Math.round(resource.price * 100) : -1;
+      const paymentAmount = Number(payment.amount);
+      const orderAmount = Number(order.amount);
+
+      if (
+        !resource ||
+        order.id !== razorpay_order_id ||
+        payment.order_id !== razorpay_order_id ||
+        payment.id !== razorpay_payment_id ||
+        payment.status !== "captured" ||
+        !Number.isSafeInteger(paymentAmount) ||
+        paymentAmount !== orderAmount ||
+        orderAmount !== expectedAmount ||
+        payment.currency !== "INR" ||
+        order.currency !== "INR"
+      ) {
+        return res.status(400).json({ success: false, message: "Payment does not match a captured catalogue order." });
+      }
+
+      // Record the captured payment in Firestore from the trusted server before releasing access.
+      // The browser is never allowed to mark an order as paid.
+      const orderedUserId = typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest";
+      const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
+      let verifiedUser: { uid: string; email: string | null } | null = null;
+      if (authorization.startsWith("Bearer ")) {
+        try {
+          verifiedUser = await verifyFirebaseIdToken(authorization.slice(7).trim());
+        } catch {
+          return res.status(401).json({
+            success: false,
+            paymentVerified: true,
+            retryable: true,
+            error: "Razorpay verified the payment, but your account could not be re-verified. Sign in and retry verification; do not pay again.",
+          });
+        }
+      }
+
+      if (orderedUserId !== "guest" && (!verifiedUser || verifiedUser.uid !== orderedUserId)) {
+        return res.status(401).json({
+          success: false,
+          paymentVerified: true,
+          retryable: true,
+          error: "This payment belongs to a different Curiva account. Sign in to the account used at checkout and retry; do not pay again.",
+        });
+      }
+      const orderOwnerId = orderedUserId === "guest" ? "guest" : verifiedUser!.uid;
+      const userEmail = (orderOwnerId !== "guest" ? verifiedUser?.email : null) ||
+        (typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "");
+      if (!userEmail) {
+        return res.status(503).json({
+          success: false,
+          paymentVerified: true,
+          retryable: false,
+          error: "Razorpay verified the payment, but the order has no verified contact email. Do not pay again; contact Curiva support with your payment ID.",
+        });
+      }
+
+      let downloadUrl: string;
+      try {
+        // The object was checked before checkout, but signed URLs are created only after capture.
+        downloadUrl = createSignedDownloadUrl(resource.storageObject, 3600);
+      } catch (downloadError: any) {
+        console.error("Private download signing failed:", downloadError?.message || "Unknown signing error");
+        return res.status(503).json({
+          success: false,
+          paymentVerified: true,
+          retryable: true,
+          error: "Razorpay verified your payment, but the secure download link could not be issued. Retry verification; do not pay again.",
+        });
+      }
+
+      try {
+        await persistPaidOrder({
+          orderId: order.id,
+          paymentId: payment.id,
+          userId: orderOwnerId,
+          userEmail,
+          resourceId: resource.id,
+          resourceTitle: resource.title,
+          amount: paymentAmount,
+          currency: payment.currency,
+        });
+      } catch (recordError: any) {
+        const configured = isPaidOrderStoreConfigured();
+        console.error("Captured payment could not be persisted:", recordError?.message || "Unknown Firestore error");
+        return res.status(503).json({
+          success: false,
+          paymentVerified: true,
+          retryable: configured,
+          error: configured
+            ? "Razorpay verified your payment, but secure order recording is temporarily unavailable. Retry verification here; do not pay again."
+            : "Razorpay verified your payment, but secure order recording is not configured. Do not pay again; contact Curiva support with your payment ID.",
+        });
+      }
+
     }
 
     const body = `${razorpay_order_id}|${razorpay_payment_id}`;

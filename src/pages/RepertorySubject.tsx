@@ -111,6 +111,13 @@ export default function RepertorySubject() {
             >
               Search Kent Rubrics
             </Link>
+            <Link
+              to="/repertory/boericke"
+              className="inline-flex items-center gap-2 bg-amber-300 text-slate-950 px-6 py-3 rounded-xl font-bold text-sm shadow-md hover:bg-amber-200 transition-all"
+            >
+              Open Boericke Repertory Index
+              <BookMarked className="w-4 h-4" />
+            </Link>
           </div>
         </div>
       </div>

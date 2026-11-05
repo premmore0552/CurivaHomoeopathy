@@ -71,7 +71,7 @@ export default function Encyclopedia() {
                    Materia <br/> <span className="text-primary italic">Medica</span>
                  </h1>
                  <p className="text-xl md:text-2xl text-text-secondary max-w-2xl font-serif italic leading-relaxed">
-                   Your centralized gateway for evidence-based Homoeopathic remedy profiles, keynotes, and clinical indications.
+                   Browse historical remedy profiles transcribed from William Boericke's Materia Medica, with original symptom chapters, modalities, and drug relationships. These records support historical study, not treatment decisions.
                  </p>
                </motion.div>
              )}
@@ -157,7 +157,7 @@ export default function Encyclopedia() {
 
             <div className="hidden md:flex items-center gap-3 px-4 py-2 bg-primary/5 text-primary text-xs font-bold rounded-2xl border border-primary/10">
               <ShieldCheck className="w-4 h-4 shrink-0 text-primary" />
-              <span>Accurate References &middot; Evidence-Backed</span>
+              <span>Historical Texts &middot; Source Attributed</span>
             </div>
           </div>
         </div>

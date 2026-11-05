@@ -108,6 +108,46 @@ service cloud.firestore {
       allow delete: if isAdmin();
     }
 
+    // --- Collection: Native learning progress ---
+    // Academic progress only. Never store patient records, symptoms or clinical case notes here.
+    function isValidNativeLearningProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.completedLessons is list && data.completedLessons.size() <= 3000 &&
+      data.quizHistory is list && data.quizHistory.size() <= 200 &&
+      data.knownFlashcards is list && data.knownFlashcards.size() <= 5000 &&
+      data.studyDays is list && data.studyDays.size() <= 800 &&
+      (data.lastLesson == null ||
+        (data.lastLesson is map &&
+         data.lastLesson.keys().hasOnly(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.keys().hasAll(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.subjectId is string && data.lastLesson.subjectId.size() <= 120 &&
+         data.lastLesson.chapterTitle is string && data.lastLesson.chapterTitle.size() <= 220 &&
+         data.lastLesson.subjectTitle is string && data.lastLesson.subjectTitle.size() <= 160)) &&
+      (data.studyPlan == null ||
+        (data.studyPlan is map &&
+         data.studyPlan.keys().hasOnly(['date', 'goal', 'completed']) &&
+         data.studyPlan.keys().hasAll(['date', 'goal', 'completed']) &&
+         data.studyPlan.date is string && data.studyPlan.date.size() == 10 &&
+         data.studyPlan.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}') &&
+         data.studyPlan.goal in [15, 30, 45, 60] &&
+         data.studyPlan.completed is list && data.studyPlan.completed.size() <= 4)) &&
+      data.updatedAt == request.time;
+    }
+
+    match /nativeLearningProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidNativeLearningProgress(incoming(), userId);
+      allow delete: if false;
+    }
     // --- Collection: Questions ---
     match /questions/{questionId} {
       allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';

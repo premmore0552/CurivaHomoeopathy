@@ -19,6 +19,17 @@ export interface RemedyMetadata {
   checksum?: string;
   commonName?: string;
   family?: string;
+  aliases?: string[];
+  source?: string;
+  source_url?: string;
+  edition?: string;
+  source_heading?: string;
+  source_line_start?: number;
+  source_line_end?: number;
+  content_status?: string;
+  review_required?: boolean;
+  heading_review_required?: boolean;
+  heading_correction?: string;
 }
 
 export interface RemedyRegistry {
@@ -27,6 +38,7 @@ export interface RemedyRegistry {
   remedies: {
     slug: string;
     title: string;
+    aliases?: string[];
   }[];
 }
 
