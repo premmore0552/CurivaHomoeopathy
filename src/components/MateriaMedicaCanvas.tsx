@@ -252,7 +252,6 @@ interface BoerickeSearchRecord {
 }
 
 const normalizeRemedyName = (value: string = '') => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
-  value.normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 export default function MateriaMedicaCanvas() {
   const navigate = useNavigate();
