@@ -207,7 +207,7 @@ const VIVA_QUESTIONS = [
 ];
 
 // Merge datasets to provide maximum rich entries
-const allRemedies: RemedyDetailData[] = (() => {
+const seededRemedies: RemedyDetailData[] = (() => {
   const mergedMap = new Map<string, RemedyDetailData>();
 
   // Seed with material data with compatibility conversion
@@ -242,10 +242,106 @@ const allRemedies: RemedyDetailData[] = (() => {
   return Array.from(mergedMap.values()).sort((a, b) => a.name.localeCompare(b.name));
 })();
 
+interface BoerickeSearchRecord {
+  slug: string;
+  title: string;
+  snippet?: string;
+  keynotes?: string;
+  aliases?: string[];
+  source?: string;
+}
+
+const normalizeRemedyName = (value: string = '') => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
+
 export default function MateriaMedicaCanvas() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams] = useSearchParams();
+
+  // The build-time Boericke importer generates a searchable 638-entry index.
+  // Load it at runtime so the directory and canonical profile links use the
+  // same slugs as the original source chapters.
+  const [boerickeRecords, setBoerickeRecords] = useState<BoerickeSearchRecord[]>([]);
+  useEffect(() => {
+    let active = true;
+    fetch('/data/materia-medica/search-index.json')
+      .then(response => {
+        if (!response.ok) throw new Error(`Boericke search index unavailable (${response.status})`);
+        return response.json();
+      })
+      .then((records: unknown) => {
+        if (active && Array.isArray(records)) setBoerickeRecords(records as BoerickeSearchRecord[]);
+      })
+      .catch(error => console.error('Unable to load the Boericke remedy index:', error));
+    return () => { active = false; };
+  }, []);
+
+  const allRemedies = useMemo(() => {
+    const unusedSourceRecords = new Map(boerickeRecords.map(record => [record.slug, record]));
+    const enrichedSeeds = seededRemedies.map(remedy => {
+      const terms = [remedy.name, remedy.latinName || '', remedy.origin || '']
+        .map(normalizeRemedyName).filter(Boolean);
+      const sourceRecord = boerickeRecords.find(record => {
+        const sourceTerms = [record.title, record.slug, ...(record.aliases || [])]
+          .map(normalizeRemedyName);
+        return terms.some(term => sourceTerms.includes(term));
+      });
+
+      // The source text has its own historical Dose chapter. Do not surface
+      // unsourced legacy dosage strings from the old local summary dataset.
+      if (!sourceRecord) return { ...remedy, dosage: undefined };
+      unusedSourceRecords.delete(sourceRecord.slug);
+      return {
+        ...remedy,
+        description: sourceRecord.snippet || remedy.description,
+        // Keep this card layer strictly source-indexed; the full profile page
+        // displays all of Boericke's chapter text, including specific symptoms.
+        keyCharacteristics: [],
+        modalities: { better: [], worse: [] },
+        thermal: 'Not stated' as const,
+        thirst: 'See the relevant original Boericke chapter.',
+        mind: [],
+        physical: [],
+        clinicalApplications: [],
+        dosage: undefined,
+        sourceSlug: sourceRecord.slug,
+        sourceSnippet: sourceRecord.snippet || remedy.sourceSnippet,
+        historicalSource: sourceRecord.source || 'William Boericke, Pocket Manual of Homoeopathic Materia Medica (8th edition, 1922)'
+      };
+    });
+
+    const sourceOnlyRecords: RemedyDetailData[] = [...unusedSourceRecords.values()].map(record => ({
+      id: record.slug,
+      sourceSlug: record.slug,
+      name: record.title,
+      latinName: record.title,
+      family: 'Other',
+      origin: (record.aliases || []).join('; '),
+      description: record.snippet || `${record.title} — open the full profile for the historical source chapters.`,
+      sourceSnippet: record.snippet || '',
+      historicalSource: record.source || 'William Boericke, Pocket Manual of Homoeopathic Materia Medica (8th edition, 1922)',
+      keyCharacteristics: [],
+      modalities: { better: [], worse: [] },
+      thermal: 'Not stated',
+      thirst: 'Not separately indexed; consult the original source chapters.',
+      mind: [],
+      physical: [],
+      clinicalApplications: [],
+      comparisons: [],
+      relatedAilments: [],
+      dosage: undefined
+    }));
+
+    // Deduplicate local aliases and repeated seed entries against canonical
+    // source slugs, while retaining one complete local profile when present.
+    const unique = new Map<string, RemedyDetailData>();
+    [...enrichedSeeds, ...sourceOnlyRecords].forEach(remedy => {
+      const key = remedy.sourceSlug ? `boericke:${remedy.sourceSlug}` : `local:${normalizeRemedyName(remedy.name)}`;
+      const previous = unique.get(key);
+      if (!previous || (remedy.sourceSlug && !previous.sourceSlug)) unique.set(key, remedy);
+    });
+    return [...unique.values()].sort((a, b) => a.name.localeCompare(b.name));
+  }, [boerickeRecords]);
 
   const [selectedLetter, setSelectedLetter] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState('');
@@ -335,6 +431,7 @@ export default function MateriaMedicaCanvas() {
     { id: 'Plant', label: 'Plant', icon: Leaf },
     { id: 'Mineral', label: 'Mineral', icon: Database },
     { id: 'Animal', label: 'Animal', icon: Activity },
+    { id: 'Other', label: 'Other', icon: BookOpen },
   ];
 
   useEffect(() => {
@@ -343,7 +440,7 @@ export default function MateriaMedicaCanvas() {
     if (remedySlug && allRemedies.length > 0) {
       const normalizedSlug = remedySlug.toLowerCase().replace(/[^a-z0-9]/g, '');
       const match = allRemedies.find(r => {
-        const idMatch = r.id.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedSlug;
+        const idMatch = r.id.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedSlug || (r.sourceSlug || '').replace(/[^a-z0-9]/g, '') === normalizedSlug;
         const nameMatch = r.name.toLowerCase().replace(/[^a-z0-9]/g, '') === normalizedSlug;
         const slugifiedName = r.name.toLowerCase().replace(/[^a-z0-9]/g, '-').replace(/-+/g, '-').replace(/^-|-$/g, '');
         const slugMatch = slugifiedName === remedySlug.toLowerCase();
@@ -374,7 +471,8 @@ export default function MateriaMedicaCanvas() {
       const matchesSearch = searchQuery 
         ? nameStr.toLowerCase().includes(searchQuery.toLowerCase()) || 
           commonNameStr.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          (item.keyCharacteristics && item.keyCharacteristics.some(k => k.toLowerCase().includes(searchQuery.toLowerCase())))
+          (item.keyCharacteristics && item.keyCharacteristics.some(k => k.toLowerCase().includes(searchQuery.toLowerCase()))) ||
+          (item.sourceSnippet || '').toLowerCase().includes(searchQuery.toLowerCase())
         : true;
       const matchesFamily = activeFamily ? item.family === activeFamily : true;
       
@@ -646,6 +744,15 @@ You can click any ready-to-study suggestion below to load insights. If you like 
 
             {activeSection === 'directory' ? (
               <div className="space-y-10 animate-fade">
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-3 text-xs">
+                  <span className="font-bold text-text-primary">
+                    {boerickeRecords.length > 0
+                      ? `${boerickeRecords.length} Boericke source records loaded · ${allRemedies.length} total directory entries`
+                      : `Loading the Boericke source index · ${allRemedies.length} local entries available`}
+                  </span>
+                  <span className="text-text-secondary">William Boericke · 8th edition (1922) · OCR transcription</span>
+                </div>
+
                 {/* Search & Families Toolbar */}
                 <div className="bg-white dark:bg-zinc-900 border border-border p-6 rounded-3xl shadow-sm flex flex-col xl:flex-row gap-6 items-center justify-between">
                   
@@ -870,17 +977,19 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                                 </div>
 
                                 <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
+                                  {!remedy.sourceSlug && (
+                                    <button
+                                      onClick={() => setSelectedRemedy(remedy)}
+                                      className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                                    >
+                                      <Sparkles className="w-3.5 h-3.5 text-accent-light" /> Initialize AI Canvas
+                                    </button>
+                                  )}
                                   <button
-                                    onClick={() => setSelectedRemedy(remedy)}
-                                    className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
-                                  >
-                                    <Sparkles className="w-3.5 h-3.5 text-accent-light" /> Initialize AI Canvas
-                                  </button>
-                                  <button
-                                    onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.id}`)}
+                                    onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.sourceSlug || remedy.id}`)}
                                     className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
                                   >
-                                    <span>Full Portrait</span>
+                                    <span>{selectedRemedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                                     <ArrowUpRight className="w-3.5 h-3.5" />
                                   </button>
                                 </div>
@@ -977,17 +1086,19 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                           </div>
 
                           <div className="pt-6 mt-6 border-t border-border/60 flex flex-col sm:flex-row gap-2 items-center justify-between">
+                            {!remedy.sourceSlug && (
+                              <button
+                                onClick={() => setSelectedRemedy(remedy)}
+                                className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
+                              >
+                                <Sparkles className="w-3.5 h-3.5 text-accent-light animate-pulse" /> Initialize AI Canvas
+                              </button>
+                            )}
                             <button
-                              onClick={() => setSelectedRemedy(remedy)}
-                              className="flex-grow w-full py-3 bg-primary text-white rounded-xl text-[9px] font-black uppercase tracking-widest hover:bg-primary-dark transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md shadow-primary/10"
-                            >
-                              <Sparkles className="w-3.5 h-3.5 text-accent-light animate-pulse" /> Initialize AI Canvas
-                            </button>
-                            <button
-                              onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.id}`)}
+                              onClick={() => navigate(`/homoeopathy/materia-medica/${remedy.sourceSlug || remedy.id}`)}
                               className="w-full sm:w-auto px-4 py-3 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white text-primary text-[9px] font-black uppercase tracking-widest transition-all rounded-xl cursor-pointer flex items-center justify-center gap-1 shrink-0"
                             >
-                              <span>Full Portrait</span>
+                              <span>{selectedRemedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                               <ArrowUpRight className="w-3.5 h-3.5" />
                             </button>
                           </div>
@@ -1900,11 +2011,11 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                 </div>
                 <div className="flex items-center gap-2.5">
                   <button
-                    onClick={() => navigate(`/remedy/${selectedRemedy.id}`)}
+                    onClick={() => navigate(`/remedy/${selectedRemedy.sourceSlug || selectedRemedy.id}`)}
                     className="flex items-center gap-1.5 px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white rounded-lg text-[10px] font-black uppercase tracking-wider text-primary transition-all cursor-pointer"
                     title="View Widescreen Standalone Portrait"
                   >
-                    <span>Full Portrait</span>
+                    <span>{selectedRemedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 animate-bounce" />
                   </button>
                   <button
@@ -2021,7 +2132,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
 
                       {/* Clinical Usage section */}
                       <div className="mt-6 pt-4 border-t border-border">
-                        <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2.5">🧬 Verified Clinical Registrations:</span>
+                        <span className="text-[10px] font-black text-primary uppercase tracking-widest block mb-2.5">🧬 Traditional study topics (not treatment recommendations):</span>
                         <div className="flex flex-wrap gap-1.5">
                           {selectedRemedy.clinicalApplications.map((app, appIdx) => (
                             <span key={appIdx} className="px-3 py-1 bg-white border border-border rounded-lg text-[10px] font-black uppercase tracking-wider text-text-secondary">
