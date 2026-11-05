@@ -6,14 +6,6 @@ export type StoredStudyPlan = {
 
 const VALID_TASK_IDS = new Set(['topic', 'mcq', 'cards', 'materia']);
 
-function safeStrings(value: unknown, limit: number): string[] {
-  return Array.isArray(value)
-    ? Array.from(new Set(value.filter((item): item is string =>
-        typeof item === 'string' && item.length > 0 && item.length <= 220
-      ))).slice(-limit)
-    : [];
-}
-
 /**
  * Validates and normalizes a study plan restored from local storage or Firestore.
  * Dates are date-only ISO values (YYYY-MM-DD), validated in UTC to avoid
