@@ -552,8 +552,16 @@ async function startServer() {
     }
   });
 
+  const verifyRazorpayPaymentLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 20,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, error: "Too many payment verification attempts. Please try again later." },
+  });
+
   // Razorpay Payment Verification
-  app.post("/api/verify-razorpay-payment", async (req, res) => {
+  app.post("/api/verify-razorpay-payment", verifyRazorpayPaymentLimiter, async (req, res) => {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body ?? {};
     const secret = process.env.RAZORPAY_KEY_SECRET;
 
