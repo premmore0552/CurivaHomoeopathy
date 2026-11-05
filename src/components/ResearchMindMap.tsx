@@ -16,6 +16,10 @@ import {
   ShieldCheck, Sparkles, X, ZoomIn, ZoomOut, RotateCcw
 } from 'lucide-react';
 
+type NodeType = 'category' | 'topic' | 'remedy' | 'research' | 'principle';
+type ResearchNode = {
+  id: string; name: string; type: NodeType; parent: string; summary: string;
+  slug: string; tags: string[]; related: string[];
 const data: MindMapNode = {
   id: "root",
   name: "Curiva Research",

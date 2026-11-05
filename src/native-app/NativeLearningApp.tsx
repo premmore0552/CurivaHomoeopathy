@@ -6,6 +6,7 @@ import { AnimatePresence, motion } from 'motion/react';
 import {
   Activity, ArrowLeft, ArrowRight, Award, Bookmark, BookmarkCheck, BookOpen,
   Brain, Check, CheckCircle2, ChevronRight, Clock3, Compass, Flame, GraduationCap,
+  HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope,
   HeartPulse, Home, Layers, Library, ListChecks, Search, ShieldCheck, Sparkles, Stethoscope, Cloud, CloudOff,
   Target, TrendingUp, Trophy, X, Zap, Play, RotateCcw, NotebookPen, Microscope, FlaskConical, BookMarked, UserRound, LogOut
 } from 'lucide-react';
@@ -449,6 +450,7 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
         </>}
 
         {activeTab === 'profile' && <>
+          <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>Your progress and bookmarks stay on this device.</p></div>
           <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>{account ? 'Study progress syncs to your account when online. Bookmarks stay on this device.' : 'Your study progress and bookmarks stay on this device.'}</p></div>
           <section className="native-account-card">
             <div className="native-account-icon"><UserRound size={20} /></div>

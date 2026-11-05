@@ -462,6 +462,8 @@ const Header: React.FC = () => {
   return (
     <>
       {showEduBanner && (
+        <div className="hidden sm:flex bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex-col md:flex-row items-center justify-center gap-3 shadow-md">
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(16,185,129,0.06)_0%,transparent_70%)] pointer-events-none" />
         <div className="bg-gradient-to-r from-emerald-950 via-zinc-950 to-emerald-950 text-white border-b border-emerald-500/10 py-3 px-4 text-center relative z-[60] flex flex-col md:flex-row items-center justify-center gap-3 shadow-md">
           <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,rgba(21,154,114,0.06)_0%,transparent_70%)] pointer-events-none" />
           <div className="flex items-center gap-2 relative z-10 text-[11px] md:text-xs font-semibold">

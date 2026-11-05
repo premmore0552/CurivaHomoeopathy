@@ -48,6 +48,7 @@ const CurivaHome = lazyLoad(() => import('./pages/CurivaHome'));
 const Articles = lazyLoad(() => import('./pages/Articles'));
 const CategoriesPage = lazyLoad(() => import('./pages/CategoriesPage'));
 const ResearchEntryPage = lazyLoad(() => import('./pages/ResearchEntryPage'));
+const AdminAnalyticsDashboard = lazyLoad(() => import('./pages/AdminAnalyticsDashboard'));
 const About = lazyLoad(() => import('./pages/About'));
 const PrivacyPolicy = lazyLoad(() => import('./pages/PrivacyPolicy'));
 const MedicalDisclaimer = lazyLoad(() => import('./pages/MedicalDisclaimer'));

@@ -28,6 +28,9 @@ export default function NativeAppEntry() {
   const [offlineMode, setOfflineMode] = useState(readOfflineMode);
   const [showAuth, setShowAuth] = useState(!readOfflineMode());
   const [audience, setAudience] = useState<NativeAudience>(readAudience);
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, nextUser => {
   const [progressSyncStatus, setProgressSyncStatus] = useState<NativeProgressSyncStatus>('idle');
 
   useEffect(() => {
@@ -48,6 +51,7 @@ export default function NativeAppEntry() {
     return () => unsubscribe();
   }, []);
 
+  const handleContinueOffline = () => {
   useEffect(() => {
     if (!user) { setProgressSyncStatus('idle'); return; }
     return startNativeProgressSync(user.uid, setProgressSyncStatus);
@@ -87,6 +91,7 @@ export default function NativeAppEntry() {
     const account: NativeAccountInfo = {
       displayName: user.displayName || user.email?.split('@')[0] || 'Curiva learner',
       email: user.email || '',
+      audience
       audience,
       progressSyncStatus
     };
