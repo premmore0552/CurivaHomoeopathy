@@ -21,6 +21,7 @@ export interface RemedyMetadata {
   family?: string;
   aliases?: string[];
   source?: string;
+  source_url?: string;
   edition?: string;
   source_heading?: string;
   source_line_start?: number;
