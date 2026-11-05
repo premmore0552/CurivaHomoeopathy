@@ -953,3 +953,25 @@ table {
 @media (hover: none) and (pointer: coarse) {
   a, button, [role="button"] { touch-action: manipulation; }
 }
+
+
+/* Responsive safeguards: keep mobile controls readable and prevent horizontal overflow. */
+@media (max-width: 767px) {
+  html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+  body { min-width: 320px; overflow-x: clip; }
+  #root, main { min-width: 0; max-width: 100%; }
+  img, video, iframe { max-width: 100%; }
+  input, select, textarea { max-width: 100%; font-size: 16px; }
+  :where(a, button, input, select, textarea, summary, [tabindex]):focus-visible {
+    outline: 3px solid var(--color-primary);
+    outline-offset: 3px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
