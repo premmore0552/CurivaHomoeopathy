@@ -251,7 +251,7 @@ interface BoerickeSearchRecord {
   source?: string;
 }
 
-const normalizeRemedyName = (value: string = '') =>
+const normalizeRemedyName = (value: string = '') => value.normalize('NFKD').replace(/[\u0300-\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
   value.normalize('NFKD').replace(/[\\u0300-\\u036f]/g, '').toLowerCase().replace(/[^a-z0-9]+/g, '');
 
 export default function MateriaMedicaCanvas() {
@@ -735,6 +735,15 @@ You can click any ready-to-study suggestion below to load insights. If you like 
 
             {activeSection === 'directory' ? (
               <div className="space-y-10 animate-fade">
+                <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-primary/15 bg-primary/5 px-4 py-3 text-xs">
+                  <span className="font-bold text-text-primary">
+                    {boerickeRecords.length > 0
+                      ? `${boerickeRecords.length} Boericke source records loaded · ${allRemedies.length} total directory entries`
+                      : `Loading the Boericke source index · ${allRemedies.length} local entries available`}
+                  </span>
+                  <span className="text-text-secondary">William Boericke · 8th edition (1922) · OCR transcription</span>
+                </div>
+
                 {/* Search & Families Toolbar */}
                 <div className="bg-white dark:bg-zinc-900 border border-border p-6 rounded-3xl shadow-sm flex flex-col xl:flex-row gap-6 items-center justify-between">
                   
