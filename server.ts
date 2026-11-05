@@ -375,9 +375,17 @@ async function startServer() {
     });
   });
 
+  const createRazorpayOrderLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 10,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { error: "Too many order creation attempts. Please try again later." },
+  });
+
   // Razorpay Order Creation
   // Prices and currency are derived from the server-side catalogue; never trust client-supplied amounts.
-  app.post("/api/create-razorpay-order", async (req, res) => {
+  app.post("/api/create-razorpay-order", createRazorpayOrderLimiter, async (req, res) => {
     const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
     const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim() : "";
     const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
