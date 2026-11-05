@@ -17,7 +17,8 @@
     "import:boericke": "node scripts/import-boericke-ocr.mjs",
     "prebuild": "node scripts/import-boericke-ocr.mjs",
     "predev": "npm run import:boericke",
-    "test:boericke": "node --test tests/boericke-import.test.mjs"
+    "test:boericke": "node --test tests/boericke-import.test.mjs",
+    "test:native-progress": "tsx --test tests/native-progress-sync.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",
