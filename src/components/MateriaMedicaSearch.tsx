@@ -10,6 +10,7 @@ interface SearchResult {
   category: string;
   snippet?: string;
   keynotes?: string;
+  aliases?: string[];
 }
 
 export default function MateriaMedicaSearch() {
@@ -82,7 +83,8 @@ export default function MateriaMedicaSearch() {
         r.title.toLowerCase().includes(q) ||
         r.slug.toLowerCase().includes(q) ||
         (r.snippet && r.snippet.toLowerCase().includes(q)) ||
-        (r.keynotes && r.keynotes.toLowerCase().includes(q))
+        (r.keynotes && r.keynotes.toLowerCase().includes(q)) ||
+        (r.aliases && r.aliases.some(alias => alias.toLowerCase().includes(q)))
       )
       .slice(0, 8);
     
@@ -102,9 +104,9 @@ export default function MateriaMedicaSearch() {
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (e.key === 'ArrowDown') {
-      setSelectedIndex(prev => (prev + 1) % results.length);
+      if (results.length) setSelectedIndex(prev => (prev + 1) % results.length);
     } else if (e.key === 'ArrowUp') {
-      setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
+      if (results.length) setSelectedIndex(prev => (prev - 1 + results.length) % results.length);
     } else if (e.key === 'Enter' && results[selectedIndex]) {
       handleSelect(results[selectedIndex].slug);
     }
@@ -112,7 +114,8 @@ export default function MateriaMedicaSearch() {
 
   const highlightMatch = (text: string, query: string) => {
     if (!query) return text;
-    const parts = text.split(new RegExp(`(${query})`, 'gi'));
+    const escapedQuery = query.replace(/[.*+?^$()|[\\]\\\\]/g, char => '\\' + char);
+    const parts = text.split(new RegExp('(' + escapedQuery + ')', 'gi'));
     return parts.map((part, i) => 
       part.toLowerCase() === query.toLowerCase() 
         ? <mark key={i} className="bg-primary/20 text-primary rounded px-0.5">{part}</mark> 
@@ -156,7 +159,7 @@ export default function MateriaMedicaSearch() {
                 <input 
                   ref={inputRef}
                   type="text"
-                  placeholder="Search 1,200+ remedies and symptoms..."
+                  placeholder="Search remedies and symptoms..."
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                   onKeyDown={handleKeyDown}
