@@ -3,18 +3,25 @@ import type { User } from 'firebase/auth';
 import { auth, onAuthStateChanged, signOut } from '../lib/firebase';
 import NativeLearningApp, { type NativeAccountInfo, type NativeAudience } from './NativeLearningApp';
 import NativeAuthScreen from './NativeAuthScreen';
-import { prepareNativeAccountProgress, prepareNativeGuestProgress, startNativeProgressSync, type NativeProgressSyncStatus } from './nativeProgressSync';
+import {
+  prepareNativeAccountProgress,
+  prepareNativeGuestProgress,
+  startNativeProgressSync,
+  type NativeProgressSyncStatus,
+} from './nativeProgressSync';
 import './native-v2.css';
 
 function readAudience(): NativeAudience {
   try {
-    return localStorage.getItem('curiva-native-audience') === 'practitioner' ? 'practitioner' : 'student';
+    return localStorage.getItem('curiva-native-audience') === 'practitioner'
+      ? 'practitioner'
+      : 'student';
   } catch {
     return 'student';
   }
 }
 
-function readOfflineMode() {
+function readOfflineMode(): boolean {
   try {
     return localStorage.getItem('curiva-native-access-mode') === 'offline';
   } catch {
@@ -28,18 +35,20 @@ export default function NativeAppEntry() {
   const [offlineMode, setOfflineMode] = useState(readOfflineMode);
   const [showAuth, setShowAuth] = useState(!readOfflineMode());
   const [audience, setAudience] = useState<NativeAudience>(readAudience);
-
-  useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, nextUser => {
   const [progressSyncStatus, setProgressSyncStatus] = useState<NativeProgressSyncStatus>('idle');
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, nextUser => {
+    const unsubscribe = onAuthStateChanged(auth, (nextUser) => {
       if (nextUser) prepareNativeAccountProgress(nextUser.uid);
       setUser(nextUser);
       setAuthReady(true);
+
       if (nextUser) {
-        try { localStorage.removeItem('curiva-native-access-mode'); } catch { /* Optional storage. */ }
+        try {
+          localStorage.removeItem('curiva-native-access-mode');
+        } catch {
+          // Authentication remains valid when local preferences cannot be cleared.
+        }
         setOfflineMode(false);
         setShowAuth(false);
       } else {
@@ -48,18 +57,26 @@ export default function NativeAppEntry() {
         setShowAuth(!guest);
       }
     });
-    return () => unsubscribe();
+
+    return unsubscribe;
   }, []);
 
-  const handleContinueOffline = () => {
   useEffect(() => {
-    if (!user) { setProgressSyncStatus('idle'); return; }
+    if (!user) {
+      setProgressSyncStatus('idle');
+      return;
+    }
+
     return startNativeProgressSync(user.uid, setProgressSyncStatus);
   }, [user?.uid]);
 
   const handleContinueOffline = () => {
     prepareNativeGuestProgress();
-    try { localStorage.setItem('curiva-native-access-mode', 'offline'); } catch { /* App remains usable. */ }
+    try {
+      localStorage.setItem('curiva-native-access-mode', 'offline');
+    } catch {
+      // Offline mode remains available for this session.
+    }
     setOfflineMode(true);
     setShowAuth(false);
   };
@@ -68,7 +85,9 @@ export default function NativeAppEntry() {
     try {
       localStorage.setItem('curiva-native-audience', selectedAudience);
       localStorage.removeItem('curiva-native-access-mode');
-    } catch { /* Session still works without local preferences. */ }
+    } catch {
+      // Session state remains valid without local preferences.
+    }
     setAudience(selectedAudience);
     setOfflineMode(false);
     setUser(auth.currentUser);
@@ -77,14 +96,24 @@ export default function NativeAppEntry() {
 
   const handleSignOut = async () => {
     await signOut(auth);
-    try { localStorage.removeItem('curiva-native-access-mode'); } catch { /* Optional storage. */ }
+    try {
+      localStorage.removeItem('curiva-native-access-mode');
+    } catch {
+      // Sign-out is complete even if optional local cleanup fails.
+    }
     setUser(null);
     setOfflineMode(false);
     setShowAuth(true);
   };
 
   if (!authReady) {
-    return <div className="native-entry-loading"><img src="/curiva-native-mark.svg" alt="" /><strong>Curiva</strong><span>Preparing your learning space…</span></div>;
+    return (
+      <div className="native-entry-loading">
+        <img src="/curiva-native-mark.svg" alt="" />
+        <strong>Curiva</strong>
+        <span>Preparing your learning space…</span>
+      </div>
+    );
   }
 
   if (user) {
@@ -92,7 +121,7 @@ export default function NativeAppEntry() {
       displayName: user.displayName || user.email?.split('@')[0] || 'Curiva learner',
       email: user.email || '',
       audience,
-      progressSyncStatus
+      progressSyncStatus,
     };
     return <NativeLearningApp account={account} onSignOut={handleSignOut} />;
   }
@@ -101,5 +130,10 @@ export default function NativeAppEntry() {
     return <NativeLearningApp onManageAccount={() => setShowAuth(true)} />;
   }
 
-  return <NativeAuthScreen onAuthenticated={handleAuthenticated} onContinueOffline={handleContinueOffline} />;
+  return (
+    <NativeAuthScreen
+      onAuthenticated={handleAuthenticated}
+      onContinueOffline={handleContinueOffline}
+    />
+  );
 }
