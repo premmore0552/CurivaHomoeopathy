@@ -16,6 +16,7 @@ interface NativeProgressSnapshot {
 }
 
 const OWNER_KEY = 'curiva-native-progress-owner-uid';
+const CACHE_PREFIX = 'curiva-native-account-cache:';
 const EMPTY_PROGRESS: NativeProgressSnapshot = {
   completedLessons: [], quizHistory: [], knownFlashcards: [], studyDays: [],
   lastLesson: null, studyPlan: null
@@ -114,11 +115,56 @@ function writeLocalProgress(progress: NativeProgressSnapshot) {
   window.dispatchEvent(new Event('curiva-native-progress-restored'));
 }
 
-async function syncOnce(uid: string): Promise<void> {
+function readLocalAccountCache(owner: string): { progress: NativeProgressSnapshot; bookmarks: string[] } {
+  const cache = parseStored<{ progress?: unknown; bookmarks?: unknown }>(CACHE_PREFIX + owner, {});
+  const p = (cache.progress || {}) as Partial<NativeProgressSnapshot>;
+  return {
+    progress: {
+      completedLessons: safeStrings(p.completedLessons, 3000),
+      quizHistory: safeQuizHistory(p.quizHistory),
+      knownFlashcards: safeStrings(p.knownFlashcards, 5000),
+      studyDays: safeStrings(p.studyDays, 800),
+      lastLesson: safeLastLesson(p.lastLesson),
+      studyPlan: safeStudyPlan(p.studyPlan)
+    },
+    bookmarks: safeStrings(cache.bookmarks, 5000)
+  };
+}
+
+function writeLocalBookmarks(bookmarks: string[]) {
+  localStorage.setItem('curiva-native-bookmarks', JSON.stringify(bookmarks));
+}
+
+function prepareLocalOwner(owner: string) {
   const previousOwner = localStorage.getItem(OWNER_KEY);
-  // Unassigned legacy progress is adopted by the first account. Do not copy one
-  // account's local history into another account on a shared device.
-  const local = !previousOwner || previousOwner === uid ? readLocalProgress() : { ...EMPTY_PROGRESS };
+  if (previousOwner === owner) return;
+  if (previousOwner) {
+    const previousCache = {
+      progress: readLocalProgress(),
+      bookmarks: safeStrings(parseStored('curiva-native-bookmarks', []), 5000)
+    };
+    localStorage.setItem(CACHE_PREFIX + previousOwner, JSON.stringify(previousCache));
+    const nextCache = readLocalAccountCache(owner);
+    writeLocalProgress(nextCache.progress);
+    writeLocalBookmarks(nextCache.bookmarks);
+  }
+  // When no owner is recorded, preserve the pre-account/legacy local progress for
+  // the first account or guest session instead of silently discarding it.
+  localStorage.setItem(OWNER_KEY, owner);
+  window.dispatchEvent(new Event('curiva-native-progress-restored'));
+}
+
+export function prepareNativeGuestProgress() {
+  prepareLocalOwner('guest');
+}
+
+export function prepareNativeAccountProgress(uid: string) {
+  prepareLocalOwner(uid);
+}
+
+async function syncOnce(uid: string): Promise<void> {
+  prepareLocalOwner(uid);
+  const local = readLocalProgress();
   const progressRef = doc(db, 'nativeLearningProgress', uid);
   const snapshot = await getDoc(progressRef);
   const remote = snapshot.exists() ? snapshot.data() as Partial<NativeProgressSnapshot> : EMPTY_PROGRESS;
@@ -171,6 +217,7 @@ export function startNativeProgressSync(uid: string, onStatus: (status: NativePr
   };
   const onProgressChanged = () => schedule();
   const onOnline = () => { void sync(); };
+  prepareLocalOwner(uid);
   window.addEventListener('curiva-native-progress-updated', onProgressChanged);
   window.addEventListener('online', onOnline);
   void sync();

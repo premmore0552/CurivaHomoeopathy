@@ -3,7 +3,7 @@ import type { User } from 'firebase/auth';
 import { auth, onAuthStateChanged, signOut } from '../lib/firebase';
 import NativeLearningApp, { type NativeAccountInfo, type NativeAudience } from './NativeLearningApp';
 import NativeAuthScreen from './NativeAuthScreen';
-import { startNativeProgressSync, type NativeProgressSyncStatus } from './nativeProgressSync';
+import { prepareNativeAccountProgress, prepareNativeGuestProgress, startNativeProgressSync, type NativeProgressSyncStatus } from './nativeProgressSync';
 import './native-v2.css';
 
 function readAudience(): NativeAudience {
@@ -32,6 +32,7 @@ export default function NativeAppEntry() {
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, nextUser => {
+      if (nextUser) prepareNativeAccountProgress(nextUser.uid);
       setUser(nextUser);
       setAuthReady(true);
       if (nextUser) {
@@ -53,6 +54,7 @@ export default function NativeAppEntry() {
   }, [user?.uid]);
 
   const handleContinueOffline = () => {
+    prepareNativeGuestProgress();
     try { localStorage.setItem('curiva-native-access-mode', 'offline'); } catch { /* App remains usable. */ }
     setOfflineMode(true);
     setShowAuth(false);
