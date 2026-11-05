@@ -340,7 +340,7 @@ export default function RemedyDetail() {
     if (!content) return;
     const sourceName = metadata?.source || 'William Boericke, Pocket Manual of Homoeopathic Materia Medica';
     const edition = metadata?.edition || '8th edition (1922)';
-    const sourceUrl = metadata?.source_url || 'https://www.homeoint.org/books/boericmm/index.htm';
+    const sourceUrl = metadata?.source_url || 'https://books.google.com/books?id=6wKpz2qozHQC';
     const citation = `${content.title}. In: ${sourceName}. ${edition}. Digital source: ${sourceUrl}. Curiva profile: ${window.location.href}`;
     navigator.clipboard.writeText(citation);
     setCopyFeedback(true);
