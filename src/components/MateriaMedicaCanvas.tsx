@@ -2015,7 +2015,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                     className="flex items-center gap-1.5 px-3 py-1.5 border border-primary/20 bg-primary/5 hover:bg-primary hover:text-white rounded-lg text-[10px] font-black uppercase tracking-wider text-primary transition-all cursor-pointer"
                     title="View Widescreen Standalone Portrait"
                   >
-                    <span>{remedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
+                    <span>{selectedRemedy.sourceSlug ? 'Full Boericke Profile' : 'Full Portrait'}</span>
                     <ArrowUpRight className="w-3.5 h-3.5 animate-bounce" />
                   </button>
                   <button
