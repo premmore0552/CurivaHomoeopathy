@@ -2,49 +2,26 @@
 
 An educational blog focused on Homoeopathy, holistic healing, and natural medicine awareness.
 
-## Deployment to Netlify
+## Existing project and deployment workflow
 
-This project is ready for deployment to Netlify.
+This repository is the existing Curiva Homoeopathy website and Capacitor app. Continue development in the repository's development branch `feat/full-platform-transformation`; do not create another repository or Netlify site for this work.
 
-### Steps to Deploy
+- Production hosting remains connected to `main` on the existing Netlify site.
+- Feature work should stay in the draft pull request until review and deploy-preview verification are complete.
+- Do not merge to `main`, deploy production, or publish Firebase rules without explicit approval.
+- The configured Netlify build uses `npm run build` and publishes `dist`; the existing `netlify.toml` owns the rewrite and security-header configuration.
 
-1. **Push to GitHub**:
-   - Create a new repository on GitHub.
-   - Initialize git in your local project folder:
-     ```bash
-     git init
-     git add .
-     git commit -m "Initial commit"
-     git branch -M main
-     git remote add origin <YOUR_GITHUB_REPO_URL>
-     git push -u origin main
-     ```
-
-2. **Connect to Netlify**:
-   - Log in to [Netlify](https://www.netlify.com/).
-   - Click **"Add new site"** > **"Import from an existing project"**.
-   - Select **GitHub** and choose this repository.
-   - Netlify will use the settings in `netlify.toml` automatically:
-     - **Build Command**: `npm run build`
-     - **Publish Directory**: `dist`
-
-### Note on Backend (Express/SQLite)
-
-This project currently uses an Express server with a SQLite database for the API. 
-**Netlify's standard deployment is for static sites.** 
-
-To make the blog fully functional on Netlify:
-- The current setup uses a local SQLite database which is not persistent on Netlify.
-- For a production deployment on Netlify, you should consider moving the blog data to a static JSON file or a headless CMS.
-
-## Local Development
+### Local development
 
 ```bash
-npm install
+npm ci
 npm run dev
+npm run build
 ```
 
+### Deploy-preview validation
 
+Use the current draft pull request's preview build to verify the frontend and API integration before production. Configure secrets only in Netlify's environment-variable settings; never commit real keys or use `VITE_*` for server credentials. Required external-service setup for payments, private downloads, email delivery, and clinic calendar is documented below. Firebase rule deployment should be a separate, reviewed operation because it replaces the database's deployed rules.
 
 ## Free website + app workflow
 
@@ -103,6 +80,18 @@ npm run build
 
 This repo's Netlify site builds and deploys from `main`. Keep the Netlify Git connection's build command at `npm run build` and publish directory at `dist`. The site uses a free Netlify subdomain, so a separately purchased domain isn't needed.
 
+## Existing Express API on Netlify
+
+The development branch wraps the existing Express routes in `netlify/functions/api.ts` via `serverless-http`; `netlify.toml` rewrites `/api/*` to the function before the SPA fallback. This keeps the website and API in one project without starting a listening socket inside the function.
+
+Configure server-side environment variables in the Netlify deploy-preview environment before testing integrations: `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `FIREBASE_SERVICE_ACCOUNT_JSON`, `CURIVA_PRIVATE_DOWNLOAD_BUCKET`, optional `FIRESTORE_DATABASE_ID` and `FIREBASE_WEB_API_KEY`, plus `GEMINI_API_KEY` and (when used) `GOOGLE_CUSTOM_SEARCH_API_KEY` / `GOOGLE_CUSTOM_SEARCH_CX`. For delivery email, set `RESEND_API_KEY` and `RESOURCE_EMAIL_FROM`; verify the sender/domain in Resend before enabling it. `VITE_RAZORPAY_KEY_ID` is a public checkout key injected during the frontend build; never place server secrets in `VITE_*` variables.
+
+The payment verification route writes an idempotent `paid` order document to the configured Firestore database using the server-only service account before releasing a download link. The `/api/razorpay-webhook` endpoint validates `X-Razorpay-Signature` against the raw request bytes and re-fetches captured order/payment records before using the same paid-order persistence path. Configure `payment.captured` in the Razorpay dashboard to call this endpoint and set the same webhook secret in Netlify.
+
+Private downloads use Cloud Storage signed URLs. Set `CURIVA_PRIVATE_DOWNLOAD_BUCKET`, enable public access prevention on that bucket, and upload the real PDF at `resources/homoeopathy-modalities-cheat-sheet.pdf`. The server checks that the PDF exists before creating a Razorpay order; the bucket must not grant `allUsers` or `allAuthenticatedUsers` access. The Firebase service account needs Firestore write access and Storage Object Viewer access.
+
+Paid-resource delivery email uses Resend when `RESEND_API_KEY` and `RESOURCE_EMAIL_FROM` are set. Verify the sender/domain in Resend. Email attempts use a stable idempotency key so browser callbacks and webhook retries do not send duplicates. Without those variables, checkout still presents the signed download link and accurately says email is not configured. Blog records are still seeded in memory. These changes are code- and CI-validated on the development branch; sandbox payment, real email, and private-object delivery still need a configured deploy preview.
+
 ## Separate native medical-learning experience
 
 The Android Capacitor entry point is intentionally separate from the browser website. At startup, `src/main.tsx` detects the native platform and dynamically loads `src/native-app/NativeLearningApp.tsx`; only browser visits load the website routes and website providers. The Android app does not navigate to or render `curivahomoeopathy.netlify.app` as its interface.
@@ -110,3 +99,10 @@ The Android Capacitor entry point is intentionally separate from the browser web
 The native interface contains an animated mobile-first dashboard, BHMS subject/chapter catalogue imported from `src/pages/AllSubjectsHub.tsx`, offline article reading, detailed Anatomy/Physiology/FMT modules, searchable Materia Medica profiles, a repertory browser, the existing multi-subject MCQ bank plus core-science questions, flip-card revision using `src/data/flashcards_data.ts`, subject filters, expandable viva answers, bookmarks, lesson completion, quiz history, mastered-card counts, and a local study streak. Learning progress is stored on the device. Core screens and learning material are bundled with the build and remain available without a network connection; the optional self-hosted live-update check only retrieves update metadata and does not display the website. Native updates are accepted only when the manifest explicitly declares `appShell: curiva-native-learning-v1`, so a legacy website-only manifest cannot replace the native learning interface. The Materia Medica/repertory sections are academic references, not evidence of efficacy or patient-specific treatment advice. Further lesson, video, and question content can be expanded in the native app without changing the public website experience.
 
 The first pass intentionally reuses the website's existing curriculum and article data instead of scraping or remotely loading pages. Imported health material should be reviewed for accuracy and sourcing before being treated as a clinical reference. This product is for education, not diagnosis or patient-specific treatment.
+
+
+### Clinic appointment calendar integration
+
+Appointment requests remain request-only until the clinic calendar is configured. Set `CURIVA_CLINIC_CALENDAR_ID`, `CURIVA_CLINIC_TIMEZONE`, `CURIVA_APPOINTMENT_ADMIN_UIDS` (comma-separated Firebase Auth UIDs), and optionally `CURIVA_APPOINTMENT_DURATION_MINUTES` in the Netlify function environment. Share the target Google Calendar with the Firebase service account in `FIREBASE_SERVICE_ACCOUNT_JSON` and grant it permission to manage events. Depending on the Google Workspace/domain setup, attendee invitations may require additional delegation. Set `CURIVA_APPOINTMENT_NOTIFICATION_EMAIL` for staff request alerts and configure Resend (`RESEND_API_KEY` and verified `RESOURCE_EMAIL_FROM`) for staff and requester notifications.
+
+The admin page disables confirmation until the server confirms calendar configuration and requires a real clinic date/time. The server creates or updates the Google Calendar event and requests an attendee invitation before saving status `confirmed` in Firestore. Declining/cancelling a previously confirmed request removes its calendar event first. Client-side Firestore rules block staff status writes so confirmation cannot bypass the server workflow. Test confirmation, rescheduling, cancellation, notifications and retries in a deploy preview before using real appointments. This is not a substitute for a final clinic workflow review.

@@ -57,7 +57,7 @@ export default function PotencyChart() {
       potency: '30C to 200C (Standard Therapeutic)',
       rationale: 'Balanced case: Stable vital force, minimal organic disease, and good symptom alignment. Standard clinical guidelines support initiating centesimal remedies in 30C or 200C doses with careful observation.',
       rule: 'Rule of Balance: Stable chronic or acute symptoms with healthy reactors thrive under standard centesimals.',
-      color: 'text-[#10b981] bg-[#10b981]/10 border-[#10b981]/20'
+      color: 'text-[#159A72] bg-[#159A72]/10 border-[#159A72]/20'
     };
   };
 
@@ -259,7 +259,7 @@ export default function PotencyChart() {
               <div className="pt-2">
                 <button
                   onClick={resetEstimator}
-                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#10b981] hover:text-[#059669] transition-colors cursor-pointer select-none"
+                  className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-[#159A72] hover:text-[#128562] transition-colors cursor-pointer select-none"
                 >
                   <RefreshCw className="w-3 h-3" /> Reset Estimation Knobs
                 </button>

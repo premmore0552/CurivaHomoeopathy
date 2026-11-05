@@ -1,4 +1,5 @@
 import React from 'react';
+import '../styles/curiva-design-system.css';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import {
@@ -89,6 +90,14 @@ const patientFeatures: Feature[] = [
     icon: Users,
     tone: 'violet',
     eyebrow: 'Get help',
+  },
+  {
+    title: 'Appointment requests',
+    description: 'Share a preferred date and time window, then track the request status in your account.',
+    href: '/appointments',
+    icon: Calendar,
+    tone: 'amber',
+    eyebrow: 'Request a visit',
   },
 ];
 
@@ -233,12 +242,12 @@ function FeatureCard({ feature, index }: { feature: Feature; index: number }) {
       {feature.href && !feature.planned ? (
         <Link
           to={feature.href}
-          className="group block h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5 shadow-[0_8px_30px_rgba(25,59,53,0.035)] transition-all duration-200 hover:-translate-y-1 hover:border-[#b5d9c4] hover:shadow-[0_16px_38px_rgba(25,59,53,0.09)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2d7960]"
+          className="curiva-home__card group block h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5 transition-all duration-200 hover:-translate-y-1 hover:border-[#b5d9c4] hover:shadow-[0_16px_38px_rgba(25,59,53,0.09)] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#2d7960]"
         >
           {content}
         </Link>
       ) : (
-        <div className="h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5 shadow-[0_8px_30px_rgba(25,59,53,0.035)]">
+        <div className="curiva-home__card h-full rounded-[1.5rem] border border-[#e2eae5] bg-white p-5">
           {content}
         </div>
       )}
@@ -286,9 +295,9 @@ export default function CurivaHome() {
   const DashboardIcon = dashboard.icon;
 
   return (
-    <div className="min-h-screen bg-[#f5f8f5] pb-16 text-[#193b35]">
+    <div className="curiva-home min-h-screen bg-[#f5f8f5] pb-16 text-[#193b35]">
       <div className="mx-auto max-w-7xl px-4 pb-10 pt-5 sm:px-6 sm:pt-8 lg:px-8">
-        <section className="relative overflow-hidden rounded-[2rem] bg-[#112f35] text-white shadow-[0_25px_70px_rgba(17,47,53,0.16)]">
+        <section className="curiva-home__hero relative overflow-hidden rounded-[2rem] bg-[#112f35] text-white shadow-[0_25px_70px_rgba(17,47,53,0.16)]">
           <div className="pointer-events-none absolute -right-20 -top-24 h-72 w-72 rounded-full bg-[#8dcfb0]/15 blur-3xl" />
           <div className="pointer-events-none absolute -bottom-32 left-[28%] h-72 w-72 rounded-full bg-[#2d7960]/35 blur-3xl" />
           <div className="relative grid gap-8 p-6 sm:p-9 lg:grid-cols-[1.35fr_0.65fr] lg:items-end lg:p-12">
@@ -339,7 +348,7 @@ export default function CurivaHome() {
               </div>
             </div>
 
-            <div className="rounded-[1.5rem] border border-white/12 bg-white/7 p-5 backdrop-blur-sm sm:p-6">
+            <div className="curiva-home__workspace-panel rounded-[1.5rem] border border-white/12 bg-white/7 p-5 backdrop-blur-sm sm:p-6">
               <div className="flex items-center gap-3">
                 <span className="flex h-12 w-12 items-center justify-center rounded-2xl bg-[#d8f0e1] text-[#1c674e]">
                   <DashboardIcon className="h-6 w-6" />
@@ -515,11 +524,14 @@ export default function CurivaHome() {
               <div className="flex h-11 w-11 items-center justify-center rounded-2xl bg-[#edf1f3] text-[#53636d]">
                 <Calendar className="h-5 w-5" />
               </div>
-              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-[#708079]">Planned module</p>
-              <h2 className="mt-2 text-xl font-bold text-[#193b35]">Doctor profiles & appointments</h2>
+              <p className="mt-4 text-[10px] font-bold uppercase tracking-[0.18em] text-[#708079]">Request-based workflow</p>
+              <h2 className="mt-2 text-xl font-bold text-[#193b35]">Request a consultation</h2>
               <p className="mt-2 text-sm leading-6 text-[#63736e]">
-                A verified doctor directory and booking workflow should be connected to real practitioner verification, live availability, consent, and secure backend records before appointments are offered.
+                Submit a preferred date and time window and track its review status. Requests do not reserve a slot; the clinic must confirm after checking its real calendar.
               </p>
+              <Link to="/appointments" className="mt-5 inline-flex min-h-11 items-center gap-2 rounded-full bg-[#153d35] px-5 py-3 text-sm font-bold text-white transition hover:bg-[#205747] focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[#26795a]">
+                Create appointment request <ArrowRight className="h-4 w-4" />
+              </Link>
             </div>
           </section>
         )}

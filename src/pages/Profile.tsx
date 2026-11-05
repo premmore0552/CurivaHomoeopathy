@@ -83,7 +83,20 @@ export default function Profile() {
 
   // Authenticate and fetch
   useEffect(() => {
+    // Keep nested Firestore listeners in the effect scope so they are always
+    // released when auth changes or the profile page unmounts.
+    let unsubscribeKits: (() => void) | undefined;
+    let unsubscribeScreenings: (() => void) | undefined;
+
     const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      unsubscribeKits?.();
+      unsubscribeScreenings?.();
+      unsubscribeKits = undefined;
+      unsubscribeScreenings = undefined;
+
+      // Never leave a prior account's cloud data visible while a new account loads.
+      setKits([]);
+      setScreenings([]);
       setUser(currentUser);
       setLoading(false);
       
@@ -91,7 +104,7 @@ export default function Profile() {
         setDisplayName(currentUser.displayName || '');
         // Fetch real cloud case logs (using kits table to preserve schema)
         const kitsQuery = query(collection(db, 'kits'), where('userId', '==', currentUser.uid));
-        const unsubKits = onSnapshot(kitsQuery, (snapshot) => {
+        unsubscribeKits = onSnapshot(kitsQuery, (snapshot) => {
           const logsList: any[] = [];
           snapshot.forEach((docRef) => {
             logsList.push({ ...docRef.data() });
@@ -103,7 +116,7 @@ export default function Profile() {
 
         // Fetch real cloud screenings for Mock Assessments
         const screeningsQuery = query(collection(db, 'screenings'), where('userId', '==', currentUser.uid));
-        const unsubScreenings = onSnapshot(screeningsQuery, (snapshot) => {
+        unsubscribeScreenings = onSnapshot(screeningsQuery, (snapshot) => {
           const sList: any[] = [];
           snapshot.forEach((docRef) => {
             sList.push({ id: docRef.id, ...docRef.data() });
@@ -113,10 +126,6 @@ export default function Profile() {
           handleFirestoreError(err, OperationType.LIST, 'screenings');
         });
 
-        return () => {
-          unsubKits();
-          unsubScreenings();
-        };
       } else {
         // Load demo local items for guest experience
         const localKitsVal = localStorage.getItem('curiva_demo_kits');
@@ -151,7 +160,11 @@ export default function Profile() {
       }
     });
 
-    return () => unsubscribe();
+    return () => {
+      unsubscribe();
+      unsubscribeKits?.();
+      unsubscribeScreenings?.();
+    };
   }, []);
 
   // Sync profile fields with state on change

@@ -363,3 +363,15 @@
 .native-rubric-remedies span, .native-mini-chip { display: inline-flex; padding: 6px 8px; border-radius: 8px; background: #e9f7ef; color: var(--na-green-deep); font-size: 9px; font-weight: 800; }
 .native-mini-chip-list { display: flex; flex-wrap: wrap; gap: 5px; }
 .native-mini-chip.is-warm { background: #fff0e9; color: #9b5b45; }
+
+
+/* Accessibility and input affordances for keyboard, switch and external-keyboard users. */
+.native-app-shell :is(button, a, input, select, textarea, summary, [tabindex]):focus-visible {
+  outline: 3px solid #087f70;
+  outline-offset: 3px;
+}
+
+.native-app-shell :is(button, a) {
+  touch-action: manipulation;
+  -webkit-tap-highlight-color: transparent;
+}
