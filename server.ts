@@ -64,6 +64,13 @@ async function startServer() {
     process.env.NETLIFY || process.env.AWS_LAMBDA_FUNCTION_NAME || process.env.LAMBDA_TASK_ROOT
   );
 
+  // Netlify forwards the visitor address through X-Forwarded-For. Trust only
+  // the platform proxy hop so IP-based API limits key on the visitor, not the
+  // shared function runtime.
+  if (process.env.NETLIFY) {
+    app.set('trust proxy', 1);
+  }
+
   // Database setup (Pure JS In-Memory representation)
   // Helper to generate slug
   const generateSlug = (title: string, id: string) => {
