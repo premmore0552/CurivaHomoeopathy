@@ -1,4 +1,14 @@
 import React, { useMemo, useState } from 'react';
+type NodeType = 'category' | 'topic' | 'remedy' | 'research' | 'principle';
+type MindMapNode = {
+  id: string; name: string; type: NodeType | 'root'; color?: string; iconName?: string;
+  articleId?: string; summary?: string; children?: MindMapNode[];
+};
+type ResearchNode = {
+  id: string; name: string; type: NodeType; parent: string; slug: string;
+  summary: string; tags: string[]; related: string[];
+};
+
 import { useNavigate } from 'react-router-dom';
 import {
   Activity, ArrowDownToLine, ArrowRight, BookOpen, Check, ChevronDown,
