@@ -388,7 +388,7 @@ export const CBDC_COMPETENCIES: Record<string, CbdcCompetency[]> = {
       prerequisites: ["OG1.1 History of Medicine"],
       quickOverview: "Born on April 10, 1755 in Meissen, Saxony (Germany), Christian Friedrich Samuel Hahnemann mastered 8 languages, graduated MD from Erlangen in 1779, discovered Homoeopathy in 1790, wrote the Organon in 1810, and passed away in Paris on July 2, 1843. Stalwarts like Boenninghausen, Hering, and Kent developed repertories and refined philosophy.",
       whyThisMatters: {
-        clinical: "Knowing Hering's Law of Cure and Kent's Repertory structure is fundamental to everyday clinical prescribing and evaluation of progress.",
+        clinical: "Knowing Hering's Law of Cure and Kent Repertory structure is fundamental to everyday clinical prescribing and evaluation of progress.",
         university: "Guaranteed 5-mark and 10-mark questions on Hahnemann's life and Stalwarts in 1st BHMS Paper I.",
         aiapget: "High-yield dates, book titles, Latin phrases, and quotes by Hahnemann and stalwarts.",
         practical: "Inspires clinical perseverance and dedication to truth in medical practice."
@@ -397,7 +397,7 @@ export const CBDC_COMPETENCIES: Record<string, CbdcCompetency[]> = {
         "Samuel Hahnemann was born to Christian Gottfried Hahnemann (a porcelain painter) and Johanna Christiana. His father taught him never to learn passively, but to 'think for himself' (Aude Sapere).",
         "Hahnemann studied medicine at Leipzig and Vienna, graduating MD from Erlangen University on August 10, 1779 with his thesis on cramp conditions.",
         "Major Hahnemannian Masterpieces: (1) Fragmenta de Viribus (1805), (2) Organon of Medicine (1810–1842, 6 editions), (3) Materia Medica Pura (1811–1821, 6 vols), (4) The Chronic Diseases (1828, 5 vols).",
-        "Key Stalwarts: Baron von Boenninghausen (1st Repertory 1832), Constantine Hering ('Father of American Homoeopathy' & Hering's Law of Cure), James Tyler Kent (Repertory 1897 & 12 Observations)."
+        "Key Stalwarts: Baron von Boenninghausen (1st Repertory 1832), Constantine Hering ('Father of American Homoeopathy' & Hering's Law of Cure), James Tyler Kent (Kent Repertory, published in 1897, and the 12 Observations)."
       ],
       stepByStep: [
         "1. Birth: 10th April 1755, Meissen, Germany.",
@@ -480,7 +480,7 @@ export const CBDC_COMPETENCIES: Record<string, CbdcCompetency[]> = {
       ],
       commonMistakes: [
         "Stating Hering's law as 'Outside to Inside' (Correct: Within Outwards).",
-        "Attributing the Therapeutic Pocket Book to Kent (Correct: Boenninghausen wrote TPB in 1846; Kent published Repertory in 1897)."
+        "Attributing the Therapeutic Pocket Book to Kent (Correct: Boenninghausen wrote TPB in 1846; Kent published the Kent Repertory in 1897)."
       ],
       frequentlyConfusedTopics: [
         {
@@ -505,7 +505,7 @@ export const CBDC_COMPETENCIES: Record<string, CbdcCompetency[]> = {
       ],
       integration: {
         horizontal: [
-          { subject: "Repertory", correlation: "Boenninghausen's TPB and Kent's Repertory structure directly depend on Organon case taking rules." },
+          { subject: "Repertory", correlation: "Boenninghausen's TPB and Kent Repertory structure directly depend on Organon case taking rules." },
           { subject: "Materia Medica", correlation: "Hering's Guiding Symptoms provides clinical evaluation of remedy provings." }
         ],
         vertical: {
