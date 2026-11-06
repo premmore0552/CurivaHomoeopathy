@@ -312,7 +312,7 @@ service cloud.firestore {
                     incoming().updatedAt == request.time &&
                     incoming().diff(resource.data).affectedKeys().hasOnly([
                       'age', 'hpvVaxStatus', 'lastPapSmearYears', 'symptoms',
-                      'familyHistory', 'riskLevel', 'recommendation', 'updatedAt'
+                      'familyHistory', 'updatedAt'
                     ]) &&
                     isValidScreening(incoming());
       allow delete: if isAdmin();
