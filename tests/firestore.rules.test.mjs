@@ -134,6 +134,56 @@ test('native learning progress is private to its account and accepts bounded own
   }));
 });
 
+function studyToolkitProgress(uid = 'alice') {
+  return {
+    uid,
+    version: 1,
+    tasks: [{ id: 'task-1', title: 'Revise anatomy', done: false, date: '2026-11-06', subject: 'Anatomy', chapter: 'Thorax' }],
+    notes: [{ id: 'note-1', title: 'Thorax', content: 'Review the mediastinal relations.', subject: 'Anatomy', chapter: 'Thorax', updatedAt: '2026-11-06T10:00:00.000Z' }],
+    cards: [{ id: 'card-1', front: 'Define cardiac output.', back: 'Volume of blood pumped per minute.', subject: 'Physiology', createdAt: '2026-11-06T10:00:00.000Z' }],
+    sessions: [{ id: 'session-1', date: '2026-11-06', minutes: 25, topic: 'Thorax revision', subject: 'Anatomy' }],
+    readingLogs: [{ id: 'reading-1', date: '2026-11-06', subject: 'Anatomy', chapter: 'Thorax', pages: '12-18', notes: 'Revise pleural reflections.' }],
+    reflections: [{ id: 'reflection-1', date: '2026-11-06', learned: 'Mediastinal divisions', improve: 'Relations of the heart' }],
+    dailyGoal: 60,
+    weeklyGoal: 300,
+    examDate: '2027-03-12',
+    focusMode: false,
+    timer: { mode: 'focus', durationMinutes: 25, remainingSeconds: 1500, running: false, deadlineAt: null, topic: 'General revision' },
+    updatedAt: serverTimestamp(),
+  };
+}
+
+test('study toolkit workspace is private to its owner and supports bounded account sync', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const workspace = doc(alice, 'studyToolkitProgress', 'alice');
+
+  await assertSucceeds(setDoc(workspace, studyToolkitProgress()));
+  await assertSucceeds(getDoc(workspace));
+  await assertFails(getDoc(doc(bob, 'studyToolkitProgress', 'alice')));
+  await assertFails(setDoc(doc(bob, 'studyToolkitProgress', 'alice'), studyToolkitProgress('alice')));
+  await assertSucceeds(updateDoc(workspace, {
+    dailyGoal: 90,
+    timer: { mode: 'focus', durationMinutes: 25, remainingSeconds: 900, running: false, deadlineAt: null, topic: 'Thorax' },
+    updatedAt: serverTimestamp(),
+  }));
+});
+
+test('study toolkit workspace rejects malformed goals, unexpected fields and signed-out access', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const signedOut = testEnv.unauthenticatedContext().firestore();
+  const invalidGoal = studyToolkitProgress();
+  invalidGoal.dailyGoal = 999;
+
+  const unexpectedField = studyToolkitProgress();
+  unexpectedField.privateClinicalNotes = 'not part of the academic study workspace';
+
+  await assertFails(setDoc(doc(alice, 'studyToolkitProgress', 'alice'), invalidGoal));
+  await assertFails(setDoc(doc(alice, 'studyToolkitProgress', 'alice'), unexpectedField));
+  await assertFails(getDoc(doc(signedOut, 'studyToolkitProgress', 'alice')));
+  await assertFails(setDoc(doc(signedOut, 'studyToolkitProgress', 'alice'), studyToolkitProgress()));
+});
+
 test('native learning progress rejects malformed study plans and signed-out access', async () => {
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
   const signedOut = testEnv.unauthenticatedContext().firestore();
