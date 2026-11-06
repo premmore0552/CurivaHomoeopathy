@@ -1130,8 +1130,8 @@ const CBDC_SYLLABUS_DATA: YearSyllabus[] = [
         practicalHours: 120,
         nonLectureHours: 50,
         examPattern: { theoryPapers: 1, theoryMarks: 100, practicalMarks: 100, internalAssessment: 50, totalMarks: 250 },
-        books: ["Kent's Repertory of HMM", "Boger's Boenninghausen's Characteristics", "Kishore's Card Repertory"],
-        pearls: "Master Kent's philosophical structure of symptoms (mental general -> physical general -> particular) and Boenninghausen's complete symptom concepts."
+        books: ["Kent Repertory of HMM", "Boger's Boenninghausen's Characteristics", "Kishore's Card Repertory"],
+        pearls: "Master the philosophical structure of the Kent Repertory of symptoms (mental general -> physical general -> particular) and Boenninghausen's complete symptom concepts."
       }
     ]
   }

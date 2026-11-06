@@ -172,10 +172,10 @@ const subjectMCQs: Record<string, MCQ[]> = {
   "Repertory": [
     {
       id: 'rep_1',
-      question: "In Kent's Repertory of the Homoeopathic Materia Medica, which section contains the rubric 'Fear of death'?",
+      question: "In Kent Repertory of the Homoeopathic Materia Medica, which section contains the rubric 'Fear of death'?",
       options: ["Mind", "Generalities", "Head", "Chest"],
       correctAnswer: 0,
-      explanation: "All psychological, cognitive, and mental symptoms, including specific fears like 'Fear of death', are indexed under the 'Mind' section of Kent's Repertory.",
+      explanation: "All psychological, cognitive, and mental symptoms, including specific fears like 'Fear of death', are indexed under the 'Mind' section of Kent Repertory.",
       category: "Layout",
       subject: "Repertory"
     },
@@ -193,7 +193,7 @@ const subjectMCQs: Record<string, MCQ[]> = {
       question: "Which of the following is considered the standard sequence of sections in a classical repertory schema like Kent's?",
       options: ["Mind - Head - Face - Throat - Chest - Extremities - Generalities", "Generalities - Mind - Head - Extremities - Sleep", "Mind - Generalities - Head - Vertigo - Sleep", "Head - Vertigo - Mind - Chest - Extremities"],
       correctAnswer: 0,
-      explanation: "Kent's Repertory follows a regional 'top-to-bottom' anatomical layout: beginning with Mind, down through Head, Face, Throat, internal organs, Chest, Extremities, and culminating in global 'Generalities'.",
+      explanation: "Kent Repertory follows a regional 'top-to-bottom' anatomical layout: beginning with Mind, down through Head, Face, Throat, internal organs, Chest, Extremities, and culminating in global 'Generalities'.",
       category: "Structure",
       subject: "Repertory"
     }

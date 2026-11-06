@@ -783,11 +783,11 @@ export const HomoeopathicFlashcards: Flashcard[] = [
   {
     term: "Repertory Synthesis",
     subType: "Repertory",
-    definition: "A modern, comprehensive repertory edited by Dr. Frederik Schroyens, based on Kent's Repertory but updated with clinical additions.",
+    definition: "A modern, comprehensive repertory edited by Dr. Frederik Schroyens, based on Kent Repertory but updated with clinical additions.",
     clinicalSignificance: "Widely used in digital Homoeopathy software for precise cross-referencing and structural clarity."
   },
   {
-    term: "Kent's Repertory",
+    term: "Kent Repertory",
     subType: "Repertory",
     definition: "The monumental work by Dr. J.T. Kent, structured hierarchically from Generals (Mind, Generals) to Particulars (Head, Eyes, Chest, etc.).",
     clinicalSignificance: "Serves as the gold standard for constitutional repertorization in classical Homoeopathy."
