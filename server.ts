@@ -1349,7 +1349,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
           title: item.title,
           type: item.category.toLowerCase().includes("profile") || item.category.toLowerCase().includes("remedy") ? "remedy" : "article",
           link: item.path,
-          reason: `Verified ${item.category} matching "${query}".`
+          reason: `Related ${item.category} study resource matching "${query}".`
         });
       });
 
@@ -1375,7 +1375,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
               title: cond.title,
               type: "ailment",
               link: `/conditions/${cond.id}`,
-              reason: `Clinical Therapeutics guide for ${cond.title}: ${cond.excerpt}`
+              reason: `Related condition-education page for ${cond.title}: ${cond.excerpt}`
             });
           }
         }
@@ -1389,7 +1389,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
               title: post.title,
               type: "article",
               link: `/read/${post.slug}`,
-              reason: `Academic research publication: ${post.excerpt}`
+              reason: `Related learning article: ${post.excerpt}`
             });
           }
         }
@@ -1456,7 +1456,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
               title: "Homeopathic Materia Medica",
               type: "article",
               link: "/materia-medica",
-              reason: "Explore our master curriculum profiles for comprehensive clinical search."
+              reason: "Explore related Materia Medica pages for academic study; this search does not recommend treatment."
             });
           }
           return { text: JSON.stringify(results) };
@@ -1567,13 +1567,13 @@ Hair loss has many possible causes. This educational checklist cannot assess you
       
       const score = isPerfectMatch ? 95 : (userPrescLower.length > 3 ? 40 : 10);
       const strengths = isPerfectMatch 
-        ? ["Accurately identified the target remedy based on the patient's symptoms.", "Recognized the core characteristics and modalities of the case."] 
-        : ["Attempted to analyze the clinical picture and proposed a therapeutic prescription."];
+        ? ["Matched the exercise's preselected target profile by name.", "Recognized terminology used in the fictional study case."] 
+        : ["The proposed answer did not match the exercise's preselected profile."];
       const weaknesses = isPerfectMatch 
         ? ["Could explore deeper miasmatic background or potency selection details."] 
         : [`Did not identify the correct target remedy (${targetRemedy}).`, `Missed the key modalities and characteristic symptoms representing this constitutional profile.`];
       const lesson = rem 
-        ? `Recall that ${rem.name} is characterized by: ${rem.keyCharacteristics.slice(0, 2).join(", ")}. It is a ${rem.thermal} remedy and is particularly ${rem.thirst.toLowerCase()}.` 
+        ? `In this fictional exercise, the target profile ${rem.name} is described with these traditional materia medica features: ${rem.keyCharacteristics.slice(0, 2).join(", ")}. These notes are historical study content, not treatment guidance.` 
         : `Make sure to carefully study the keynotes, thermal states, and modalities before final repertorization.`;
 
       return res.json({ score, strengths, weaknesses, lesson });
