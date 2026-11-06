@@ -25,8 +25,7 @@ const topics = [
   'Preparation of homoeopathic dilutions', 'Inflammation, repair and cell injury',
   'Forensic identification and medico-legal documentation', 'Principles of clinical examination'
 ];
-const todayKey = () => {
-  const now = new Date();
+const todayKey = (now = new Date()) => {
   return [now.getFullYear(), String(now.getMonth() + 1).padStart(2, '0'), String(now.getDate()).padStart(2, '0')].join('-');
 };
 const Panel = ({ title, icon, children }: { title: string; icon: React.ReactNode; children: React.ReactNode }) => (
@@ -70,6 +69,19 @@ export default function StudyToolkitDashboard() {
     ? state.sessions.slice(0, 12)
     : state.sessions.filter(session => session.subject === sessionFilter || session.topic === sessionFilter).slice(0, 12),
   [state.sessions, sessionFilter]);
+  const weekActivity = useMemo(() => Array.from({ length: 7 }, (_, index) => {
+    const date = new Date();
+    date.setHours(0, 0, 0, 0);
+    date.setDate(date.getDate() - (6 - index));
+    const key = todayKey(date);
+    return {
+      date: key,
+      label: date.toLocaleDateString(undefined, { weekday: 'short' }),
+      minutes: state.sessions.filter(session => session.date === key).reduce((sum, session) => sum + session.minutes, 0)
+    };
+  }), [state.sessions]);
+  const maxWeekMinutes = Math.max(1, ...weekActivity.map(day => day.minutes));
+  const sessionSubjects = [...new Set(state.sessions.map(session => session.subject || session.topic))].filter(Boolean);
   const completedTasks = state.tasks.filter(task => task.done).length;
   const examDays = state.examDate
     ? Math.ceil((new Date(`${state.examDate}T23:59:59`).getTime() - Date.now()) / 86400000)
@@ -235,6 +247,13 @@ export default function StudyToolkitDashboard() {
             <span className="text-xs text-text-secondary">{state.sessions.length} recorded sessions • {weeklyMinutes} min this week</span>
             <button type="button" onClick={clearSessions} className="text-[10px] font-bold text-red-600">Clear history</button>
           </div>
+          <div className="grid grid-cols-7 gap-2 rounded-xl bg-bg-primary p-3">
+            {weekActivity.map(day => <div key={day.date} className="flex min-w-0 flex-col items-center gap-1.5">
+              <div className="flex h-16 w-full items-end justify-center rounded-md bg-bg-secondary"><div className="w-3/4 rounded-t-md bg-emerald-500" style={{ height: `${day.minutes ? Math.max(8, day.minutes / maxWeekMinutes * 100) : 2}%` }} title={`${day.minutes} minutes`}/></div>
+              <span className="text-[9px] text-text-tertiary">{day.label}</span>
+            </div>)}
+          </div>
+          <select value={sessionFilter} onChange={e => setSessionFilter(e.target.value)} className="w-full rounded-xl border border-border bg-bg-primary p-2 text-xs"><option value="all">All study sessions</option>{sessionSubjects.map(subject => <option key={subject} value={subject}>{subject}</option>)}</select>
           {filteredSessions.length ? <ul className="space-y-2">{filteredSessions.map(session => <li key={session.id} className="flex items-center justify-between rounded-xl bg-bg-primary p-3 text-xs"><span>{session.topic}<small className="ml-2 text-text-tertiary">{session.date}</small></span><strong>{session.minutes} min</strong></li>)}</ul> : <p className="text-xs text-text-tertiary">Finish a focus timer or log a study session to see it here.</p>}
           <button type="button" onClick={() => addSession(25, 'Manual study entry')} className="rounded-xl border border-border px-3 py-2 text-xs font-bold">Log 25-minute study block</button>
         </Panel>
