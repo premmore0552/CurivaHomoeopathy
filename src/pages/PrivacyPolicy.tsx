@@ -35,6 +35,7 @@ export default function PrivacyPolicy() {
               <li><strong>Feedback data:</strong> Comments or error reports you submit through feedback forms. Do not include medical histories or confidential clinical information in feedback forms.</li>
               <li><strong>Appointment request data:</strong> If you use the appointment-request page, Curiva stores your account ID and email (when available), the name you provide, an optional phone number, requested service category, preferred date and time window, time zone, request status, and any administrative response. This request form does not ask for symptoms, diagnoses, or medical documents.</li>
               <li><strong>Purchase and payment records:</strong> When you purchase a resource, Curiva receives and stores order and payment identifiers, the resource purchased, amount, currency, and the contact email used to fulfil the order. Payment processing is handled through the configured payment provider; Curiva does not store full card details.</li>
+              <li><strong>AI assistant prompts:</strong> When you use the AI study assistant, the prompt you submit and up to the 12 most recent conversation messages are sent to Google Gemini to generate a response. Do not include names, contact details, medical-record numbers, photographs, or identifiable or sensitive patient information. AI responses may be inaccurate and are not medical advice.</li>
               <li><strong>Usage data:</strong> Technical information such as browser type and network or device information may be processed to operate, secure, and understand use of the service.</li>
             </ul>
 
@@ -53,12 +54,12 @@ export default function PrivacyPolicy() {
               Learning progress is stored in local device storage and, for signed-in users when sync is available, in Firebase Firestore. Firestore security rules restrict client access to a user's own learning-progress document and do not allow client-side listing or deletion of these documents. Appointment requests are stored in Firebase Firestore and are intended to be visible to the signed-in requester and authorized administrators under the configured security rules. Purchase records are written by the trusted server after payment verification. We use private, time-limited download links for purchased resources.
             </p>
             <p>
-              Do not submit symptoms, medical history, reports, or other clinical details through the scheduling or feedback forms. We do not sell user data to third-party pharmaceutical or medical marketing firms.
+              Do not submit symptoms, medical history, reports, or other clinical details through the scheduling or feedback forms. Do not submit identifiable patient information or sensitive health details to the AI study assistant. We do not sell user data to third-party pharmaceutical or medical marketing firms.
             </p>
 
             <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">4. Third-Party Services and Links</h2>
             <p>
-              Curiva uses service providers such as Firebase for account and data storage, a payment provider to process purchases, and an email provider when email delivery is configured. These providers process information as needed to provide their services under their own terms and privacy policies. Our website may also contain links to third-party websites; we are not responsible for the privacy practices or content of those external sites.
+              Curiva uses Firebase for account and data storage, Google Gemini when you use the AI study assistant, a payment provider to process purchases, and an email provider when email delivery is configured. When you use the AI assistant, the prompt and recent conversation context are transmitted to Google Gemini for response generation. Do not submit identifiable patient records or sensitive personal health information. These providers process information under their own terms and privacy policies; consult their current privacy information for their handling and retention practices. Our website may also contain links to third-party websites; we are not responsible for the privacy practices or content of those external sites.
             </p>
 
             <h2 className="text-2xl font-serif font-bold text-text-primary mt-12 mb-4">5. Your Choices and Rights</h2>
