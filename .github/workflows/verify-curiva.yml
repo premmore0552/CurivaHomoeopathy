@@ -36,6 +36,8 @@ jobs:
         run: npm run test:boericke
       - name: Test native study-plan validation
         run: npm run test:native-progress
+      - name: Test conflict-safe study workspace sync
+        run: npm run test:study-toolkit-sync
 
       - name: Typecheck
         run: npm run lint
