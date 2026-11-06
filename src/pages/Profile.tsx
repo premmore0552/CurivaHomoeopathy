@@ -33,7 +33,8 @@ import {
 import { auth, db, doc, setDoc, query, collection, where, onSnapshot, signOut, handleFirestoreError, OperationType } from '../lib/firebase';
 import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import SEO from '../components/SEO';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+import StudyToolkitDashboard from '../components/StudyToolkitDashboard';
 import { useRole, UserRole } from '../context/RoleContext';
 import { useUser } from '../hooks/useUser';
 import { userService } from '../services/userService';
@@ -54,13 +55,14 @@ interface CaseLog {
 
 export default function Profile() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const { currentRole, setCurrentRole, authorizedRoles } = useRole();
   const { profile } = useUser();
   const [user, setUser] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [kits, setKits] = useState<any[]>([]); // Preserving database 'kits' collection mapping for Saved Case Logs
   const [screenings, setScreenings] = useState<any[]>([]); // Preserving database 'screenings' collection mapping for Mock Assessments
-  const [activeTab, setActiveTab] = useState<'kits' | 'screenings' | 'planner' | 'settings'>('kits');
+  const [activeTab, setActiveTab] = useState<'kits' | 'screenings' | 'planner' | 'settings'>(() => searchParams.get('tab') === 'planner' ? 'planner' : 'kits');
 
   // Interactive Form States
   const [isAddingLog, setIsAddingLog] = useState(false);
@@ -779,45 +781,10 @@ export default function Profile() {
             </div>
           )}
 
-          {/* BHMS Study Planner Tab */}
+          {/* Shared Curiva Study Toolkit dashboard */}
           {activeTab === 'planner' && (
-            <div className="bg-bg-secondary border border-border rounded-2xl p-8 md:p-12 shadow-soft space-y-8 animate-fadeIn text-center max-w-3xl mx-auto">
-              <Compass className="w-12 h-12 text-primary mx-auto animate-spin-slow" />
-              <div className="space-y-2">
-                <h3 className="text-2xl font-display font-bold text-primary">BHMS Academic Study Planner</h3>
-                <p className="text-sm text-text-secondary leading-relaxed max-w-lg mx-auto">
-                  Organize and track your university exam preparation, clinical laboratory rotations, and daily medicine proving cards.
-                </p>
-              </div>
-
-              <div className="p-6 bg-white border border-border/80 rounded-xl max-w-xl mx-auto space-y-4 text-left">
-                <h4 className="text-xs font-bold text-primary uppercase tracking-wide border-b border-border/50 pb-2 flex items-center gap-1.5">
-                  <Calendar className="w-4 h-4 text-accent" /> Active Study Timetable Checklist
-                </h4>
-                <div className="space-y-3 text-[11px] font-mono text-text-secondary">
-                  <div className="flex items-center gap-2.5">
-                    <input type="checkbox" defaultChecked className="rounded text-primary focus:ring-primary w-4 h-4 cursor-pointer" />
-                    <span>Review Kent's Repertorization rules (Mind chapter)</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <input type="checkbox" className="rounded text-primary focus:ring-primary w-4 h-4 cursor-pointer" />
-                    <span>Practice comparative Materia Medica</span>
-                  </div>
-                  <div className="flex items-center gap-2.5">
-                    <input type="checkbox" className="rounded text-primary focus:ring-primary w-4 h-4 cursor-pointer" />
-                    <span>Take AIAPGET Mock test on Student Hub</span>
-                  </div>
-                </div>
-              </div>
-
-              <div className="pt-2 flex justify-center gap-4">
-                <Link
-                  to="/student-resources"
-                  className="px-6 py-3 bg-primary hover:bg-primary-dark text-white rounded-xl text-xs font-bold uppercase tracking-wider transition-all"
-                >
-                  Access Study Resources
-                </Link>
-              </div>
+            <div className="space-y-4 animate-fadeIn">
+              <StudyToolkitDashboard />
             </div>
           )}
 
