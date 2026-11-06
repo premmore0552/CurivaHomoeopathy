@@ -1,5 +1,9 @@
 import React, { useCallback, useEffect, useMemo, useState } from 'react';
-import { AlertCircle, ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, CheckCircle2, Clock3, Filter, Flag, Search, ShieldCheck, Trophy, XCircle } from 'lucide-react';
+import type { User } from 'firebase/auth';
+import { Capacitor } from '@capacitor/core';
+import { AlertCircle, ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, CheckCircle2, Clock3, Filter, Flag, LogOut, Search, ShieldCheck, Trophy, UserRound, XCircle } from 'lucide-react';
+import { auth, googleProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from '../lib/firebase';
+import { userService } from '../services/userService';
 import SEO from './SEO';
 import {
   chauhanQuestionBank,
@@ -13,12 +17,15 @@ import {
 type Props = {
   embedded?: boolean;
   onBack?: () => void;
+  onManageAccount?: () => void;
 };
 
 type PracticeFilter = 'all' | 'bookmarked' | 'incorrect' | 'source-review';
 
-const BOOKMARK_KEY = 'curiva-chauhan-upsc-md-bookmarks';
-const INCORRECT_KEY = 'curiva-chauhan-upsc-md-incorrect';
+const BOOKMARK_KEY = 'curiva-chauhan-upsc-md-bookmarks:';
+const INCORRECT_KEY = 'curiva-chauhan-upsc-md-incorrect:';
+const GOOGLE_REDIRECT_PENDING_KEY = 'curiva-chauhan-google-redirect-pending';
+const NATIVE_RETURN_TO_BANK_KEY = 'curiva-native-open-upsc-md-after-auth';
 
 function readIdList(key: string): string[] {
   try {
@@ -56,16 +63,21 @@ function SourceLine({ question }: { question: ChauhanQuestion }) {
   );
 }
 
-export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Props) {
+export default function UPSCMDQuestionPractice({ embedded = false, onBack, onManageAccount }: Props) {
+  const [authUser, setAuthUser] = useState<User | null>(null);
+  const [authReady, setAuthReady] = useState(false);
+  const [authBusy, setAuthBusy] = useState(false);
+  const [authError, setAuthError] = useState('');
+  const [loadedAccountUid, setLoadedAccountUid] = useState<string | null>(null);
   const [mode, setMode] = useState<'practice' | 'mock' | 'results'>('practice');
   const [query, setQuery] = useState('');
   const [chapter, setChapter] = useState('All chapters');
   const [practiceFilter, setPracticeFilter] = useState<PracticeFilter>('all');
   const [index, setIndex] = useState(0);
   const [practiceAnswers, setPracticeAnswers] = useState<Record<string, number>>({});
-  const [bookmarks, setBookmarks] = useState<string[]>(() => readIdList(BOOKMARK_KEY));
-  const [incorrectIds, setIncorrectIds] = useState<string[]>(() => readIdList(INCORRECT_KEY));
-  const [revealedIds, setRevealedIds] = useState<string[]>([]);
+  const [bookmarks, setBookmarks] = useState<string[]>([]);
+  const [incorrectIds, setIncorrectIds] = useState<string[]>([]);
+  const [expandedExplanationId, setExpandedExplanationId] = useState<string | null>(null);
   const [mockLength, setMockLength] = useState('50');
   const [mockDuration, setMockDuration] = useState('30');
   const [mockQuestions, setMockQuestions] = useState<ChauhanQuestion[]>([]);
@@ -76,12 +88,94 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Pro
   const [remainingSeconds, setRemainingSeconds] = useState(0);
 
   useEffect(() => {
-    try { localStorage.setItem(BOOKMARK_KEY, JSON.stringify(bookmarks)); } catch { /* Offline storage is optional. */ }
-  }, [bookmarks]);
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      setAuthUser(user);
+      setAuthReady(true);
+      if (user && !Capacitor.isNativePlatform()) {
+        try {
+          if (localStorage.getItem(GOOGLE_REDIRECT_PENDING_KEY) === 'true') {
+            localStorage.removeItem(GOOGLE_REDIRECT_PENDING_KEY);
+            void userService.syncAuthUser('Scholar').catch((error) => {
+              console.warn('Curiva profile sync will retry at the next sign-in.', error);
+            });
+          }
+        } catch { /* Auth remains available if optional browser storage is blocked. */ }
+      }
+    });
+    return unsubscribe;
+  }, []);
 
   useEffect(() => {
-    try { localStorage.setItem(INCORRECT_KEY, JSON.stringify(incorrectIds)); } catch { /* Offline storage is optional. */ }
-  }, [incorrectIds]);
+    if (!authUser) {
+      setBookmarks([]);
+      setIncorrectIds([]);
+      setLoadedAccountUid(null);
+      return;
+    }
+    const uid = authUser.uid;
+    setBookmarks(readIdList(BOOKMARK_KEY + uid));
+    setIncorrectIds(readIdList(INCORRECT_KEY + uid));
+    setLoadedAccountUid(uid);
+  }, [authUser?.uid]);
+
+  useEffect(() => {
+    if (!authUser || loadedAccountUid !== authUser.uid) return;
+    try { localStorage.setItem(BOOKMARK_KEY + authUser.uid, JSON.stringify(bookmarks)); } catch { /* Account-local storage is optional. */ }
+  }, [authUser?.uid, loadedAccountUid, bookmarks]);
+
+  useEffect(() => {
+    if (!authUser || loadedAccountUid !== authUser.uid) return;
+    try { localStorage.setItem(INCORRECT_KEY + authUser.uid, JSON.stringify(incorrectIds)); } catch { /* Account-local storage is optional. */ }
+  }, [authUser?.uid, loadedAccountUid, incorrectIds]);
+
+  const handleGoogleSignIn = async () => {
+    setAuthBusy(true);
+    setAuthError('');
+    try {
+      const isMobileBrowser = /Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+      if (isMobileBrowser) {
+        localStorage.setItem(GOOGLE_REDIRECT_PENDING_KEY, 'true');
+        await signInWithRedirect(auth, googleProvider);
+        return;
+      }
+      const credential = await signInWithPopup(auth, googleProvider);
+      try {
+        await userService.syncAuthUser('Scholar');
+      } catch (profileError) {
+        console.warn('Google sign-in succeeded; Curiva profile sync will retry later.', profileError);
+      }
+      setAuthUser(credential.user);
+    } catch (error) {
+      const code = (error as { code?: string })?.code || '';
+      setAuthError(
+        code === 'auth/popup-blocked'
+          ? 'Your browser blocked the Google sign-in popup. Allow popups for Curiva and try again.'
+          : code === 'auth/popup-closed-by-user'
+            ? 'Google sign-in was closed before it finished. Try again.'
+            : code === 'auth/unauthorized-domain'
+              ? 'This website domain is not yet authorised in Firebase Authentication.'
+              : (error instanceof Error ? error.message : 'Google sign-in could not be completed.')
+      );
+    } finally {
+      setAuthBusy(false);
+    }
+  };
+
+  const handleNativeSignIn = () => {
+    try { localStorage.setItem(NATIVE_RETURN_TO_BANK_KEY, 'true'); } catch { /* Return navigation is optional. */ }
+    onManageAccount?.();
+  };
+
+  const handleSignOut = async () => {
+    try {
+      await signOut(auth);
+      setMode('practice');
+      setPracticeAnswers({});
+      setExpandedExplanationId(null);
+    } catch (error) {
+      setAuthError(error instanceof Error ? error.message : 'Sign out could not be completed.');
+    }
+  };
 
   const filteredQuestions = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
@@ -100,12 +194,13 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Pro
     });
   }, [query, chapter, practiceFilter, bookmarks, incorrectIds]);
 
-  useEffect(() => { setIndex(0); }, [query, chapter, practiceFilter]);
+  useEffect(() => { setIndex(0); setExpandedExplanationId(null); }, [query, chapter, practiceFilter]);
 
   const currentQuestion = filteredQuestions[index];
   const isBookmarked = currentQuestion ? bookmarks.includes(currentQuestion.id) : false;
   const selectedPracticeAnswer = currentQuestion ? practiceAnswers[currentQuestion.id] : undefined;
   const isCurrentScorable = Boolean(currentQuestion?.scoringEnabled && currentQuestion.correctIndex !== null);
+  const isCurrentExplanationExpanded = Boolean(currentQuestion && expandedExplanationId === currentQuestion.id);
 
   const mockPool = useMemo(
     () => chapter === 'All chapters'
@@ -160,8 +255,8 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Pro
     }
   };
 
-  const revealSourceNote = (id: string) => {
-    setRevealedIds((items) => items.includes(id) ? items : [...items, id]);
+  const toggleExplanation = (id: string) => {
+    setExpandedExplanationId((current) => current === id ? null : id);
   };
 
   const startMock = () => {
@@ -218,6 +313,47 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Pro
         </div>
       </header>
 
+      {!authReady ? (
+        <section className="rounded-3xl border border-border bg-bg-secondary p-8 text-center">
+          <div className="mx-auto mb-3 h-9 w-9 animate-spin rounded-full border-2 border-primary/25 border-t-primary" />
+          <p className="text-sm font-semibold text-text-secondary">Checking your Curiva account…</p>
+        </section>
+      ) : !authUser ? (
+        <section className="mx-auto w-full max-w-xl space-y-4 rounded-3xl border border-border bg-bg-secondary p-6 text-center shadow-sm sm:p-8">
+          <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-primary/10 text-primary"><ShieldCheck size={27} /></div>
+          <div className="space-y-2">
+            <span className="text-xs font-black uppercase tracking-[0.15em] text-primary">Your Curiva study account</span>
+            <h2 className="text-2xl font-serif font-bold text-text-primary">Sign in to practise</h2>
+            <p className="text-sm leading-relaxed text-text-secondary">Sign in to open the complete UPSC & MD question bank. Your bookmarks and incorrect-answer list will be kept separately for your account on this device.</p>
+          </div>
+          {Capacitor.isNativePlatform() ? (
+            <button type="button" disabled={!onManageAccount} onClick={handleNativeSignIn} className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-primary px-5 py-3.5 text-sm font-bold text-white disabled:opacity-40">
+              <UserRound size={18} /> Sign in to your Curiva account
+            </button>
+          ) : (
+            <button type="button" disabled={authBusy} onClick={() => void handleGoogleSignIn()} className="inline-flex w-full items-center justify-center gap-3 rounded-xl bg-white px-5 py-3.5 text-sm font-bold text-slate-800 shadow-sm ring-1 ring-slate-200 hover:bg-slate-50 disabled:opacity-50">
+              <span className="flex h-6 w-6 items-center justify-center rounded-full border border-slate-200 text-sm font-black text-[#4285F4]">G</span>
+              {authBusy ? 'Connecting to Google…' : 'Continue with Google'}
+            </button>
+          )}
+          {authError && <p role="alert" className="rounded-xl border border-red-500/25 bg-red-500/10 p-3 text-left text-xs leading-relaxed text-red-700 dark:text-red-300">{authError}</p>}
+          {!Capacitor.isNativePlatform() && <p className="text-[11px] text-text-tertiary">Google sign-in is handled securely by Firebase Authentication. Curiva does not receive or store your Google password.</p>}
+          {Capacitor.isNativePlatform() && <p className="text-[11px] text-text-tertiary">Use the sign-in screen provided by the Curiva Android app to continue.</p>}
+        </section>
+      ) : (
+        <>
+          {!embedded && (
+            <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-border bg-bg-secondary px-4 py-3">
+              <div className="flex min-w-0 items-center gap-3">
+                {authUser.photoURL ? <img src={authUser.photoURL} alt="" className="h-9 w-9 rounded-full" /> : <span className="flex h-9 w-9 items-center justify-center rounded-full bg-primary/10 text-primary"><UserRound size={17} /></span>}
+                <div className="min-w-0">
+                  <p className="truncate text-sm font-bold text-text-primary">{authUser.displayName || 'Curiva learner'}</p>
+                  <p className="truncate text-xs text-text-tertiary">{authUser.email}</p>
+                </div>
+              </div>
+              <button type="button" onClick={() => void handleSignOut()} className="inline-flex items-center gap-2 rounded-xl border border-border px-3 py-2 text-xs font-bold text-text-secondary hover:bg-bg-primary"><LogOut size={14} /> Sign out</button>
+            </div>
+          )}
       {mode === 'practice' && <>
         <section className="rounded-2xl border border-border bg-bg-secondary p-4 sm:p-5">
           <div className="grid gap-3 md:grid-cols-[minmax(0,1fr)_minmax(13rem,0.45fr)]">
@@ -295,17 +431,55 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Pro
             })}
           </div>}
 
-          {selectedPracticeAnswer !== undefined && !isCurrentScorable && <div className="rounded-xl border border-amber-500/30 bg-amber-500/10 p-3 text-xs leading-relaxed text-amber-900 dark:text-amber-200"><AlertCircle size={15} className="mr-1 inline" />The printed answer could not be converted into a reliable A–D key. This response is retained as practice but is not marked right or wrong.</div>}
-
-          {selectedPracticeAnswer !== undefined || revealedIds.includes(currentQuestion.id) || currentQuestion.options.length === 0 ? (
-            <div className="space-y-3 rounded-2xl border border-border bg-bg-primary p-4">
-              <h3 className="text-xs font-black uppercase tracking-wider text-primary">{isCurrentScorable ? (selectedPracticeAnswer === currentQuestion.correctIndex ? 'Correct answer' : 'Answer explanation') : 'Source answer / explanation'}</h3>
-              {isCurrentScorable && <p className="text-sm font-semibold text-text-primary">{currentQuestion.options[currentQuestion.correctIndex as number]}</p>}
-              {!isCurrentScorable && currentQuestion.sourceAnswerText && <p className="text-sm text-text-primary">Source answer: {currentQuestion.sourceAnswerText}</p>}
-              {currentQuestion.explanation && <p className="whitespace-pre-wrap text-sm leading-relaxed text-text-secondary">{currentQuestion.explanation}</p>}
-              {!currentQuestion.explanation && <p className="text-sm text-text-tertiary">No separate explanation text was extracted for this item.</p>}
+          {selectedPracticeAnswer !== undefined && (
+            <div className={'rounded-xl border p-3 text-xs leading-relaxed ' + (isCurrentScorable
+              ? selectedPracticeAnswer === currentQuestion.correctIndex
+                ? 'border-emerald-500/30 bg-emerald-500/10 text-emerald-800 dark:text-emerald-200'
+                : 'border-red-500/30 bg-red-500/10 text-red-800 dark:text-red-200'
+              : 'border-amber-500/30 bg-amber-500/10 text-amber-900 dark:text-amber-200')}>
+              {isCurrentScorable
+                ? selectedPracticeAnswer === currentQuestion.correctIndex ? 'Correct answer.' : 'Not quite. Review the source explanation below.'
+                : 'This item is retained for practice, but the source does not provide a reliably scorable A–D key.'}
             </div>
-          ) : <button type="button" onClick={() => revealSourceNote(currentQuestion.id)} className="rounded-xl border border-border px-3 py-2 text-xs font-bold text-text-secondary">Reveal source answer / explanation</button>}
+          )}
+
+          <button
+            type="button"
+            onClick={() => toggleExplanation(currentQuestion.id)}
+            aria-expanded={isCurrentExplanationExpanded}
+            aria-controls={'chauhan-explanation-' + currentQuestion.id}
+            className="inline-flex items-center gap-2 rounded-xl border border-primary/30 bg-primary/5 px-4 py-3 text-sm font-bold text-primary hover:bg-primary/10"
+          >
+            {isCurrentExplanationExpanded ? 'Hide full explanation' : 'View full explanation'}
+            <ArrowRight size={15} className={isCurrentExplanationExpanded ? 'rotate-90' : ''} />
+          </button>
+
+          {isCurrentExplanationExpanded && (
+            <section
+              id={'chauhan-explanation-' + currentQuestion.id}
+              className="space-y-4 rounded-2xl border border-border bg-bg-primary p-4 sm:p-5"
+            >
+              <div className="space-y-1">
+                <h3 className="text-sm font-black text-primary">Full source explanation</h3>
+                <p className="text-[11px] text-text-tertiary">The complete explanation text extracted for this question is shown below.</p>
+              </div>
+              {isCurrentScorable && currentQuestion.correctIndex !== null && (
+                <div className="rounded-xl bg-emerald-500/10 p-3">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-emerald-700 dark:text-emerald-300">Correct answer</p>
+                  <p className="mt-1 whitespace-pre-wrap break-words text-sm font-semibold text-text-primary">{currentQuestion.options[currentQuestion.correctIndex]}</p>
+                </div>
+              )}
+              {!isCurrentScorable && currentQuestion.sourceAnswerText && (
+                <div className="rounded-xl bg-bg-secondary p-3">
+                  <p className="text-[10px] font-black uppercase tracking-wider text-text-tertiary">Source answer</p>
+                  <p className="mt-1 whitespace-pre-wrap break-words text-sm text-text-primary">{currentQuestion.sourceAnswerText}</p>
+                </div>
+              )}
+              {currentQuestion.explanation?.trim()
+                ? <div className="whitespace-pre-wrap break-words [overflow-wrap:anywhere] text-sm leading-7 text-text-secondary">{currentQuestion.explanation}</div>
+                : <p className="text-sm text-text-tertiary">No separate explanation text was present in the extracted source for this question.</p>}
+            </section>
+          )}
 
           {!currentQuestion.scoringEnabled && currentQuestion.reviewFlags.length > 0 && <p className="text-[11px] text-text-tertiary">Import note: {currentQuestion.reviewFlags.join(', ').replaceAll('_', ' ')}.</p>}
 
@@ -385,6 +559,8 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack }: Pro
         <p className="mt-1">Source answers and explanations are retained from the supplied edition. Items without a clear answer key or complete extracted options remain visibly unscored; consult the cited page in the original edition where necessary. Public distribution permission was confirmed by the Curiva content owner.</p>
         <p className="mt-1">This is an educational revision tool. The book is a historical preparation compilation and is not represented as a current official UPSC or MD entrance syllabus.</p>
       </footer>
+        </>
+      )}
     </main>
   );
 }
