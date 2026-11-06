@@ -139,6 +139,21 @@ test('users cannot self-assign administrator status through profiles or admin me
   await assertFails(setDoc(doc(alice, 'admins', 'alice'), { active: true }));
   await assertFails(setDoc(doc(alice, 'admins', 'bob'), { active: true }));
 
+  const unverifiedBootstrap = testEnv.authenticatedContext('unverified-admin', {
+    email: 'premmore0552@gmail.com',
+  }).firestore();
+  await assertFails(setDoc(doc(unverifiedBootstrap, 'admins', 'unverified-admin'), {
+    active: true,
+  }));
+
+  const forgedProfile = {
+    uid: 'bob',
+    email: 'bob@example.test',
+    profession: 'Administrator',
+    createdAt: serverTimestamp(),
+  };
+  await assertFails(setDoc(doc(bob, 'users', 'bob'), forgedProfile));
+
   const safeProfile = {
     uid: 'alice',
     email: 'alice@example.test',
