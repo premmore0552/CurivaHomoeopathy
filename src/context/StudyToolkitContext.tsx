@@ -1,7 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { auth, db, doc, getDoc, onAuthStateChanged, serverTimestamp, setDoc } from '../lib/firebase';
+import { auth, db, doc, getDoc, onAuthStateChanged, onSnapshot, runTransaction, serverTimestamp } from '../lib/firebase';
+import { mergeStudyToolkitStates } from '../utils/studyToolkitSync';
 
-export type StudyTask = { id: string; title: string; done: boolean; date: string; subject?: string; chapter?: string };
+export type StudyTask = { id: string; title: string; done: boolean; date: string; updatedAt?: string; subject?: string; chapter?: string };
 export type StudyNote = { id: string; title: string; content: string; subject?: string; chapter?: string; updatedAt: string };
 export type StudyFlashcard = { id: string; front: string; back: string; subject?: string; chapter?: string; createdAt: string };
 export type StudySession = { id: string; date: string; minutes: number; topic: string; subject?: string };
@@ -61,6 +62,7 @@ function normalizeState(value: unknown): StudyToolkitState {
       title: boundedString(item.title, 180),
       done: item.done === true,
       date: boundedString(item.date, 10, studyDateKey()),
+      updatedAt: boundedString(item.updatedAt, 40, `${boundedString(item.date, 10, studyDateKey())}T00:00:00.000Z`),
       ...(typeof item.subject === 'string' ? { subject: boundedString(item.subject, 120) } : {}),
       ...(typeof item.chapter === 'string' ? { chapter: boundedString(item.chapter, 180) } : {})
     }), 300).filter(task => task.title.trim()),
@@ -114,6 +116,38 @@ function normalizeState(value: unknown): StudyToolkitState {
       topic: boundedString(timer.topic, 180, 'General revision')
     }
   };
+}
+
+
+const baseStorageKey = (scope: string) => `${STORAGE_VERSION}:${scope}:synced-base`;
+
+function readStoredState(key: string): StudyToolkitState | null {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? normalizeState(JSON.parse(saved)) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredState(key: string, value: StudyToolkitState): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn('Curiva study workspace cache could not be updated in this browser.', error);
+  }
+}
+
+function persistableState(value: StudyToolkitState): StudyToolkitState {
+  const snapshot = normalizeState(value);
+  // Running timers are synchronized by their absolute deadline, not every tick.
+  return snapshot.timer.running
+    ? { ...snapshot, timer: { ...snapshot.timer, remainingSeconds: 0 } }
+    : snapshot;
+}
+
+function sameWorkspace(left: StudyToolkitState, right: StudyToolkitState): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
 }
 
 function loadGuestState(): StudyToolkitState {
