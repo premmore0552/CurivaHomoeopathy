@@ -89,7 +89,7 @@ const resourceCenters = [
     badge: "3,196 Questions",
     color: "from-indigo-600 to-blue-700",
     features: [
-      "3,196 source questions across 18 chapter sections",
+      "3,196 source questions from the book's 18-chapter contents",
       "3,100 questions with extractable answer keys",
       "Subject filters, explanations and source-page references",
       "Timed 50, 100 and 200-question mock papers"
