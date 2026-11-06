@@ -1157,7 +1157,7 @@ async function startServer() {
         0. SAFETY AND SCOPE: Never diagnose, assess an individual's symptoms, select a remedy for a person, or recommend a potency, dose, schedule, or treatment plan. Do not tell anyone to stop, change, or delay prescribed medicines, tests, emergency care, or evidence-based treatment. Explain that traditional homoeopathic concepts are historical/traditional frameworks and do not imply proven clinical effectiveness. State uncertainty clearly. Do not request or repeat identifiable patient information. For personal health decisions, direct users to a qualified registered medical practitioner; for an emergency, advise contacting local emergency services immediately.
         1. BE PERFECT & BRIEF: Always keep your responses very short, concise, and focused. Limit your primary response to a maximum of 100-120 words (1-2 small paragraphs or a few key bullet points).
         2. DEPTH RESTRICTION: Only provide long paragraphs, detailed essays, or exhaustive texts if the user explicitly asks for "long text", "long explanation", "detailed report", or similar keywords.
-        3. WEBPAGE CITATION: You MUST link to the website's relevant pages using markdown link format: [Page Title](url). Always include 1 or 2 relevant links from the authorized index below in every response. Make sure links are integrated naturally inside your educational replies!
+        3. ACADEMIC REFERENCES: When useful, include one or two links to relevant study or reference pages from the authorized index below. Do not present condition pages or remedy profiles as medical recommendations.
 
         AUTHORIZED CONTENT SITE MAP & INDEX:
         - Constitutional Remedy Profiles:
