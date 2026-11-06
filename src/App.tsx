@@ -130,6 +130,7 @@ const FlashcardsPage = lazyLoad(() => import('./pages/FlashcardsPage'));
 const Quizzes = lazyLoad(() => import('./pages/Quizzes'));
 const StudyToolkit = lazyLoad(() => import('./pages/StudyToolkit'));
 const AiapgetMcqSimulator = lazyLoad(() => import('./pages/AiapgetMcqSimulator'));
+const UPSCMDQuestionPractice = lazyLoad(() => import('./components/UPSCMDQuestionPractice'));
 const ClinicalTherapeuticsPage = lazyLoad(() => import('./pages/ClinicalTherapeuticsPage'));
 
 // New Syllabus Portals
@@ -445,6 +446,8 @@ function AppRoutes() {
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/my-library" element={<Navigate to="/library" replace />} />
                 <Route path="/mcq-practice" element={<PageWrapper><AiapgetMcqSimulator /></PageWrapper>} />
+                <Route path="/upsc-md-practice" element={<PageWrapper><UPSCMDQuestionPractice /></PageWrapper>} />
+                <Route path="/student-academy/upsc-md-practice" element={<PageWrapper><UPSCMDQuestionPractice /></PageWrapper>} />
                 
                 {/* Stalwarts Gallery */}
                 <Route path="/stalwarts" element={<PageWrapper><Stalwarts /></PageWrapper>} />
