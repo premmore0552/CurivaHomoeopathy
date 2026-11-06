@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useUser } from '../hooks/useUser';
-import { auth, db, doc, getDoc } from '../lib/firebase';
+import { auth, db, doc, getDoc, onAuthStateChanged } from '../lib/firebase';
 import { userService } from '../services/userService';
 
 export type UserRole = 
@@ -66,7 +66,7 @@ interface RoleContextType {
 const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
 export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { profile, loading: profileLoading } = useUser();
+  const { profile } = useUser();
   const [currentRole, setCurrentRoleState] = useState<UserRole>('Guest');
   const [isAdministrator, setIsAdministrator] = useState(false);
   const [adminAccessReady, setAdminAccessReady] = useState(false);
@@ -75,22 +75,18 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   // Admin status comes only from a protected membership document or the verified
   // bootstrap account. The editable profile profession is never an authority source.
+  // Listen to auth changes directly so a sign-out/account switch revokes access immediately.
   useEffect(() => {
     let active = true;
-    if (profileLoading) {
-      setAdminAccessReady(false);
-      return () => { active = false; };
-    }
-
-    const user = auth.currentUser;
-    if (!profile?.uid || !user || user.uid !== profile.uid) {
+    const unsubscribe = onAuthStateChanged(auth, async user => {
       setIsAdministrator(false);
-      setAdminAccessReady(true);
-      return () => { active = false; };
-    }
+      setAdminAccessReady(false);
 
-    setAdminAccessReady(false);
-    const verifyMembership = async () => {
+      if (!user) {
+        setAdminAccessReady(true);
+        return;
+      }
+
       let granted = Boolean(
         user.emailVerified && user.email?.toLowerCase() === 'premmore0552@gmail.com'
       );
@@ -102,15 +98,17 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
         console.warn('Curiva administrator membership could not be verified.', error);
       }
 
-      if (active) {
+      if (active && auth.currentUser?.uid === user.uid) {
         setIsAdministrator(granted);
         setAdminAccessReady(true);
       }
-    };
+    });
 
-    void verifyMembership();
-    return () => { active = false; };
-  }, [profile?.uid, profileLoading]);
+    return () => {
+      active = false;
+      unsubscribe();
+    };
+  }, []);
 
   // Load only selectable workspace roles. Administrator is included exclusively
   // after the trusted membership check above succeeds.
@@ -141,7 +139,7 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
     } else {
       const savedRole = localStorage.getItem('curiva_selected_role') as UserRole | null;
       const completed = localStorage.getItem('curiva_onboarding_completed') === 'true';
-      setCurrentRoleState(savedRole && allRoles.includes(savedRole) ? savedRole : 'Guest');
+      setCurrentRoleState(savedRole && allRoles.includes(savedRole) ? savedRole : (isAdministrator ? 'Administrator' : 'Guest'));
       setOnboardingCompleted(completed);
       setAuthorizedRoles(allRoles);
     }
