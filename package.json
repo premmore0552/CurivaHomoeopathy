@@ -19,7 +19,8 @@
     "predev": "npm run import:boericke",
     "test:boericke": "node --test tests/boericke-import.test.mjs",
     "test:native-progress": "tsx --test tests/native-progress-sync.test.ts",
-    "test:study-toolkit-sync": "tsx --test tests/study-toolkit-sync.test.ts"
+    "test:study-toolkit-sync": "tsx --test tests/study-toolkit-sync.test.ts",
+    "test:chauhan-question-bank": "tsx --test tests/chauhan-question-bank.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.4.1",
