@@ -98,8 +98,7 @@ service cloud.firestore {
              (!data.keys().hasAny(['lastPapSmearYears']) ||
                (data.lastPapSmearYears is string && data.lastPapSmearYears.size() <= 40)) &&
              (!data.keys().hasAny(['symptoms']) ||
-               (data.symptoms is list && data.symptoms.size() <= 20 &&
-                data.symptoms.all(item, item is string && item.size() <= 120))) &&
+               (data.symptoms is list && data.symptoms.size() <= 20)) &&
              (!data.keys().hasAny(['familyHistory']) || data.familyHistory is bool) &&
              (!data.keys().hasAny(['recommendation']) ||
                (data.recommendation is string && data.recommendation.size() <= 1000)) &&
