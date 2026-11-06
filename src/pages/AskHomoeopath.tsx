@@ -38,7 +38,7 @@ export default function AskHomoeopath() {
   const suggestedPrompts = [
     { label: "What is constitutional prescribing?", query: "Can you explain what constitutional prescribing means in Homoeopathy, and how a remedy is selected?" },
     { label: "How do dilutions and potencies work?", query: "How do Homoeopathic dilutions (like 30C or 200C) work if they are so diluted?" },
-    { label: "Are remedies safe with allopathy?", query: "Is it safe to take Homoeopathic remedies of high dilutions alongside my prescribed allopathic medications?" },
+    { label: "How should complementary-care claims be evaluated?", query: "How can I critically evaluate claims about homoeopathic remedies alongside evidence-based medical care?" },
     { label: "What is the Law of Similars?", query: "What is the core baseline philosophy behind the 'Law of Similars' in classical Homoeopathy?" }
   ];
 
@@ -54,9 +54,9 @@ export default function AskHomoeopath() {
         role: 'model',
         text: `Hello! I am your ✨ **Curiva Homoeopathic Consultation Companion**. 
 
-I am here to guide you through classical Homoeopathic principles, help you understand constitutional remedy selecting, clarify potency questions, and explain how natural therapeutic triggers can restore balance to your vital force.
+I can help you study homoeopathic history, terminology, materia medica descriptions, and Organon concepts. Responses are AI-generated study explanations and may be incomplete or incorrect.
 
-Feel free to click one of the quick prompts below or ask me about any holistic health philosophies directly! How can I support your healing journey today?`,
+Please use this as an academic learning aid, not as a consultation or source of treatment advice. Avoid sharing personal health details or identifiable patient information. What topic would you like to study?`,
         timestamp: new Date()
       }
     ]);
@@ -85,7 +85,7 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
 
     try {
       // Map stateful message arrays for API consistency
-      const conversationHistory = messages.map(msg => ({
+      const conversationHistory = messages.slice(-12).map(msg => ({
         role: msg.role === 'model' ? 'model' : 'user',
         text: msg.text
       }));
@@ -114,7 +114,7 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
       }
     } catch (err: any) {
       console.error(err);
-      setErrorText("Our clinical server is currently syncing connection layers. Please retry your message.");
+      setErrorText("The study assistant is temporarily unavailable. Please retry shortly.");
     } finally {
       setIsTyping(false);
     }
@@ -123,8 +123,8 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
   return (
     <div className="min-h-screen bg-bg-primary pt-8 pb-24 font-sans text-text-primary">
       <SEO 
-        title="Interactive Homoeopathy AI Assistant | Curiva Homoeopathy"
-        description="Connect with Curiva's AI Consultation Companion to explore constitutional remedies, potentization, and holistic healing philosophy safely."
+        title="Homoeopathy Study Assistant | Curiva Homoeopathy"
+        description="An AI-assisted academic study tool for exploring homoeopathic history, materia medica terminology, and Organon concepts."
       />
 
       <div className="max-w-7xl mx-auto px-4 mt-6">
@@ -136,13 +136,19 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
               <Heart className="w-5.5 h-5.5 text-primary" />
             </div>
             <div>
-              <h1 className="text-xl md:text-2xl font-display font-medium text-primary">Homoeopathy AI Assistant</h1>
-              <p className="text-xs text-text-tertiary">Real-time classical therapeutics &amp; organon guidelines</p>
+              <h1 className="text-xl md:text-2xl font-display font-medium text-primary">Homoeopathy Study Assistant</h1>
+              <p className="text-xs text-text-tertiary">AI-assisted academic explanations and revision</p>
             </div>
           </div>
           <Link to="/" className="text-xs text-primary hover:text-accent font-bold transition-colors">
             Back to Home
           </Link>
+        </div>
+
+        <div role="note" className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs text-text-secondary space-y-2">
+          <p className="font-bold text-amber-800 dark:text-amber-200">Educational use only — not a clinical consultation</p>
+          <p>Responses are AI-generated and may be inaccurate. This tool cannot diagnose, choose remedies, or recommend potencies, doses, or treatment plans. Do not delay medical assessment or stop/change prescribed treatment because of a response. For personal health concerns, consult a qualified registered medical practitioner; for emergencies, contact local emergency services.</p>
+          <p>Do not enter names, contact details, medical-record numbers, photographs, or other identifying or sensitive patient information. Prompts and recent chat context are sent to Google Gemini to generate replies.</p>
         </div>
 
         {/* Outer Split Layout */}
@@ -156,9 +162,9 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
             <div className="px-6 py-4.5 border-b border-border bg-bg-primary/50 flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                <span className="text-xs font-black uppercase tracking-wider text-primary">Companion Consultation Online</span>
+                <span className="text-xs font-black uppercase tracking-wider text-primary">Educational assistant</span>
               </div>
-              <span className="text-[10px] font-mono text-text-tertiary">Secured SSL Session</span>
+              <span className="text-[10px] font-mono text-text-tertiary">Avoid patient identifiers</span>
             </div>
 
             {/* Message Area */}
@@ -229,7 +235,7 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
                     <Loader2 className="w-4.5 h-4.5 animate-spin" />
                   </div>
                   <div className="bg-bg-primary border border-border p-4 rounded-2xl rounded-tl-none text-xs text-text-tertiary">
-                    Reviewing classical pharmacopoeia guidelines...
+                    Preparing an educational explanation...
                   </div>
                 </div>
               )}
@@ -268,7 +274,8 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
                 type="text"
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
-                placeholder="Ask about constitutional remedies, Organon guidelines, or chronic miasms..."
+                placeholder="Ask an academic question about homoeopathic history or study concepts..."
+                maxLength={4000}
                 disabled={isTyping}
                 className="flex-grow px-5 py-3 rounded-xl border border-border bg-bg-primary focus:outline-none focus:border-primary text-xs md:text-sm font-medium"
               />
@@ -294,7 +301,7 @@ Feel free to click one of the quick prompts below or ask me about any holistic h
                 <ShieldCheck className="w-4 h-4" /> Science &amp; Safety
               </h4>
               <p className="text-xs text-text-secondary leading-relaxed">
-                Homoeopathy is a gentle complementary therapeutic art. Registered remedies are prepared in accordance with official Homoeopathic Pharmacopoeias. They stimulate wellness and do not substitute standard emergency medical settings.
+                This section summarizes ideas from homoeopathic traditions for academic study. A remedy description is not proof that a treatment is effective or safe. Do not delay evidence-based assessment or alter prescribed medicine because of a chatbot response. For personal health decisions, consult a qualified registered medical practitioner.
               </p>
             </div>
 
