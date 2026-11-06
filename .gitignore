@@ -7,3 +7,20 @@ coverage/
 .env*
 !.env.example
 blog.db
+
+# Temporary Google Gemini share-page extraction output (do not commit)
+/destination.html
+/direct_share.html
+/shared_content.html
+/destination_script_*.js
+/large_script_*.js
+/global_data.json
+/decoded_strings.txt
+/large_strings_output.txt
+/extracted_string_*.txt
+/extracted_block_*.txt
+/jina_output.txt
+/canvas_match_*.txt
+/match_*.txt
+/interesting_script_*.js
+/success_html_*.html
