@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { HomoeopathicFlashcards, Flashcard } from '../data/flashcards_data';
+import CustomFlashcardsPanel from '../components/CustomFlashcardsPanel';
 
 export default function FlashcardsPage() {
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -154,6 +155,8 @@ export default function FlashcardsPage() {
           </div>
         </div>
       </div>
+
+      <CustomFlashcardsPanel />
 
       {/* Controls Bar: Search, Category Filter, Mode Switches */}
       <div className="bg-bg-secondary border border-border rounded-3xl p-4 sm:p-6 space-y-4 shadow-sm">
