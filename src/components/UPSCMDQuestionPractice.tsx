@@ -146,6 +146,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
       }
       setAuthUser(credential.user);
     } catch (error) {
+      try { localStorage.removeItem(GOOGLE_REDIRECT_PENDING_KEY); } catch { /* Ignore optional cleanup failures. */ }
       const code = (error as { code?: string })?.code || '';
       setAuthError(
         code === 'auth/popup-blocked'
