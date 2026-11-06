@@ -46,6 +46,11 @@ export interface UserProfile {
   updatedAt: any;
 }
 
+function safeProfileProfession(value?: string): string {
+  const clean = (value || 'user').trim().slice(0, 80);
+  return /admin/i.test(clean) ? 'user' : clean;
+}
+
 export const userService = {
   async getProfile(uid: string): Promise<UserProfile | null> {
     const docRef = doc(db, 'users', uid);
@@ -59,7 +64,7 @@ export const userService = {
           readingHistory: data.readingHistory || [],
           activities: data.activities || [],
           interests: data.interests || [],
-          profession: data.profession || 'user',
+          profession: data.safeProfession,
         } as UserProfile;
       }
       return null;
@@ -72,6 +77,7 @@ export const userService = {
   async syncAuthUser(profession?: string) {
     const user = auth.currentUser;
     if (!user) return;
+    const safeProfession = safeProfileProfession(profession);
 
     try {
       const docRef = doc(db, 'users', user.uid);
@@ -82,7 +88,7 @@ export const userService = {
         id: Math.random().toString(36).substring(2, 11),
         type: 'login' as const,
         details: isNewUser 
-          ? `Created account under workspace: ${profession || 'user'}`
+          ? `Created account under workspace: ${safeProfession}`
           : `Authenticated with portal session. Welcome back!`,
         timestamp: new Date().toISOString()
       };
@@ -96,7 +102,7 @@ export const userService = {
           phoneNumber: user.phoneNumber || '',
           displayName: user.displayName || user.email?.split('@')[0] || user.phoneNumber || 'Scholar Homoeopath',
           photoURL: user.photoURL || '',
-          profession: profession || 'user',
+          profession: safeProfession,
           bookmarks: [],
           readingHistory: [],
           activities: [loginAct],
@@ -106,7 +112,7 @@ export const userService = {
           updatedAt: serverTimestamp()
         };
         await setDoc(docRef, initialData);
-        return profession || 'user';
+        return safeProfession;
       } else {
         const currentData = docSnap.data() || {};
         
@@ -159,11 +165,11 @@ export const userService = {
         }
 
         if (profession) {
-          updateData.profession = profession;
+          updateData.profession = safeProfession;
         }
 
         await updateDoc(docRef, updateData);
-        return profession || currentData.profession || 'user';
+        return profession || currentData.safeProfession;
       }
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
@@ -197,7 +203,11 @@ export const userService = {
 
     const docRef = doc(db, 'users', user.uid);
     try {
-      const details = `Updated fields: ${Object.keys(data).filter(k => data[k as keyof typeof data] !== undefined).join(', ')}`;
+      const safeData = {
+        ...data,
+        ...(data.profession !== undefined ? { profession: safeProfileProfession(data.profession) } : {})
+      };
+      const details = `Updated fields: ${Object.keys(safeData).filter(k => safeData[k as keyof typeof safeData] !== undefined).join(', ')}`;
       const act = {
         id: Math.random().toString(36).substring(2, 11),
         type: 'profile_update' as const,
@@ -205,7 +215,7 @@ export const userService = {
         timestamp: new Date().toISOString()
       };
       const updateData: any = {
-        ...data,
+        ...safeData,
         activities: arrayUnion(act),
         updatedAt: serverTimestamp()
       };
@@ -216,6 +226,7 @@ export const userService = {
   },
 
   async updateProfession(profession: string) {
+    if (/admin/i.test(profession)) throw new Error('Administrator access must be granted by a trusted administrator.');
     const user = auth.currentUser;
     if (!user) throw new Error('Auth required');
 
