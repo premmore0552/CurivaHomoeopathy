@@ -1,6 +1,6 @@
 import { mkdir, writeFile } from 'node:fs/promises';
 import path from 'node:path';
-import { allBhmsSubjects } from '../src/pages/AllSubjectsHub';
+import { allBhmsSubjects } from '../src/data/bhmsSubjects';
 import { materiaMedicaData } from '../src/data/materiaMedica';
 import { repertoryDatabase } from '../src/data/repertoryDatabase';
 import { HomoeopathicFlashcards } from '../src/data/flashcards_data';

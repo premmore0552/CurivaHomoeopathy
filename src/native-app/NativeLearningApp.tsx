@@ -10,7 +10,7 @@ import {
   Cloud, CloudOff,
   Target, TrendingUp, Trophy, X, Zap, Play, RotateCcw, NotebookPen, Microscope, FlaskConical, BookMarked, UserRound, LogOut
 } from 'lucide-react';
-import { allBhmsSubjects } from '../pages/AllSubjectsHub';
+import { allBhmsSubjects } from '../data/bhmsSubjects';
 import { allBlogPosts } from '../data/blogPosts';
 import { HomoeopathicFlashcards } from '../data/flashcards_data';
 import { materiaMedicaData } from '../data/materiaMedica';
