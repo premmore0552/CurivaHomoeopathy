@@ -310,10 +310,10 @@ Please use this as an academic learning aid, not as a consultation or source of 
               
               <div className="space-y-3">
                 {[
-                  { name: 'Similia Similibus Curentur', desc: 'Like cures like: substances causing physical symptoms in healthy provers can cure similar symptoms in patients.' },
-                  { name: 'The Single Remedy Rule', desc: 'Classical Homoeopathy mandates prescribing one unified remedy at any time to preserve clean symptom pictures.' },
-                  { name: 'The Minimum Dose Law', desc: 'Remedies are repetitively succussed and diluted, capturing energetic signatures while neutralizing toxicity.' },
-                  { name: 'Miasmatic Foundation', desc: 'Evaluating chronic illness layers of Psoric, Sycotic, and Syphilitic inherited disease tendencies.' }
+                  { name: 'Similia Similibus Curentur', desc: 'A traditional homoeopathic doctrine that studies similarity between symptoms produced in healthy provers and descriptions in remedy literature. This historical principle is not proof of clinical effectiveness.' },
+                  { name: 'The Single Remedy Rule', desc: 'A classical Hahnemannian practice principle studied in the history and philosophy of homoeopathy; it is not an instruction for personal treatment.' },
+                  { name: 'The Minimum Dose Principle', desc: 'A traditional doctrine describing serial dilution and succussion. Its proposed therapeutic mechanism is a historical claim, not an established scientific explanation.' },
+                  { name: 'Miasmatic Theory', desc: 'A historical theoretical framework using terms such as Psora, Sycosis, and Syphilis. These are not modern biomedical diagnoses or validated models of inherited disease.' }
                 ].map((bio, bioIdx) => (
                   <div key={bioIdx} className="border-l-2 border-primary/20 pl-3 space-y-0.5">
                     <span className="text-[11px] font-bold text-primary block">{bio.name}</span>
@@ -331,7 +331,7 @@ Please use this as an academic learning aid, not as a consultation or source of 
                 to="/symptom-checker" 
                 className="w-full inline-flex items-center justify-center gap-1 bg-white text-primary text-[10px] font-bold uppercase tracking-wider p-3 rounded-xl hover:bg-accent hover:text-white transition-all cursor-pointer"
               >
-                Launch Symptom Checker <ArrowRight className="w-3.5 h-3.5" />
+                Open Case-Repertorizer Study Simulator <ArrowRight className="w-3.5 h-3.5" />
               </Link>
             </div>
 
