@@ -18,7 +18,7 @@ export default function PrivacyPolicy() {
           <h1 className="text-4xl font-serif font-bold text-primary mb-8">Privacy Policy</h1>
 
           <div className="prose prose-lg max-w-none text-text-secondary space-y-6 dark:prose-invert">
-            <p className="text-sm text-text-secondary italic">Last Updated: November 6, 2026</p>
+            <p className="text-sm text-text-secondary italic">Last Updated: November 7, 2026</p>
 
             <p>
               At Curiva Homoeopathy, we are committed to protecting your privacy and ensuring the security of your personal information. This Privacy Policy explains how we collect, use, and safeguard information when you use our website and learning app.
