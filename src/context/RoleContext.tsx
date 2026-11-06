@@ -1,6 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { useUser } from '../hooks/useUser';
-import { db, doc, setDoc } from '../lib/firebase';
+import { auth, db, doc, getDoc } from '../lib/firebase';
 import { userService } from '../services/userService';
 
 export type UserRole = 
@@ -51,6 +51,8 @@ interface RoleContextType {
   currentRole: UserRole;
   setCurrentRole: (role: UserRole) => void;
   authorizedRoles: UserRole[];
+  isAdministrator: boolean;
+  adminAccessReady: boolean;
   onboardingCompleted: boolean;
   completeOnboarding: (selectedRole: UserRole) => void;
   hasAccess: (allowedRoles: UserRole[]) => boolean;
@@ -64,26 +66,67 @@ interface RoleContextType {
 const RoleContext = createContext<RoleContextType | undefined>(undefined);
 
 export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
-  const { profile } = useUser();
+  const { profile, loading: profileLoading } = useUser();
   const [currentRole, setCurrentRoleState] = useState<UserRole>('Guest');
+  const [isAdministrator, setIsAdministrator] = useState(false);
+  const [adminAccessReady, setAdminAccessReady] = useState(false);
   const [onboardingCompleted, setOnboardingCompleted] = useState<boolean>(false);
   const [authorizedRoles, setAuthorizedRoles] = useState<UserRole[]>(['Guest', 'Public']);
 
-  // Load from profile or localStorage
+  // Admin status comes only from a protected membership document or the verified
+  // bootstrap account. The editable profile profession is never an authority source.
   useEffect(() => {
-    const allRoles: UserRole[] = [
-      'Guest', 'Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'Administrator'
+    let active = true;
+    if (profileLoading) {
+      setAdminAccessReady(false);
+      return () => { active = false; };
+    }
+
+    const user = auth.currentUser;
+    if (!profile?.uid || !user || user.uid !== profile.uid) {
+      setIsAdministrator(false);
+      setAdminAccessReady(true);
+      return () => { active = false; };
+    }
+
+    setAdminAccessReady(false);
+    const verifyMembership = async () => {
+      let granted = Boolean(
+        user.emailVerified && user.email?.toLowerCase() === 'premmore0552@gmail.com'
+      );
+      try {
+        const membership = await getDoc(doc(db, 'admins', user.uid));
+        granted = granted || membership.exists();
+      } catch (error) {
+        // Fail closed: a failed membership lookup must never grant admin access.
+        console.warn('Curiva administrator membership could not be verified.', error);
+      }
+
+      if (active) {
+        setIsAdministrator(granted);
+        setAdminAccessReady(true);
+      }
+    };
+
+    void verifyMembership();
+    return () => { active = false; };
+  }, [profile?.uid, profileLoading]);
+
+  // Load only selectable workspace roles. Administrator is included exclusively
+  // after the trusted membership check above succeeds.
+  useEffect(() => {
+    const selectableRoles: UserRole[] = [
+      'Guest', 'Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher'
     ];
+    const allRoles = isAdministrator ? [...selectableRoles, 'Administrator'] : selectableRoles;
 
     if (profile) {
-      // Sync with signed-in profile profession/role
       const profileProf = profile.profession;
       let matchedRole: UserRole = 'Guest';
-      
+
       if (profileProf) {
         const lowerProf = profileProf.toLowerCase();
-        if (lowerProf.includes('admin')) matchedRole = 'Administrator';
-        else if (lowerProf.includes('faculty') || lowerProf.includes('teacher')) matchedRole = 'Faculty';
+        if (lowerProf.includes('faculty') || lowerProf.includes('teacher')) matchedRole = 'Faculty';
         else if (lowerProf.includes('research')) matchedRole = 'Researcher';
         else if (lowerProf.includes('practitioner') || lowerProf.includes('doctor')) matchedRole = 'Practitioner';
         else if (lowerProf.includes('intern')) matchedRole = 'Intern';
@@ -91,28 +134,28 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
         else if (lowerProf.includes('public') || lowerProf.includes('user') || lowerProf.includes('patient')) matchedRole = 'Public';
       }
 
+      if (isAdministrator) matchedRole = 'Administrator';
       setCurrentRoleState(matchedRole);
       setOnboardingCompleted(true);
       setAuthorizedRoles(allRoles);
     } else {
-      // Guest local-storage state
-      const savedRole = localStorage.getItem('curiva_selected_role') as UserRole;
+      const savedRole = localStorage.getItem('curiva_selected_role') as UserRole | null;
       const completed = localStorage.getItem('curiva_onboarding_completed') === 'true';
-      
-      if (savedRole) {
-        setCurrentRoleState(savedRole);
-      }
+      setCurrentRoleState(savedRole && allRoles.includes(savedRole) ? savedRole : 'Guest');
       setOnboardingCompleted(completed);
       setAuthorizedRoles(allRoles);
     }
-  }, [profile]);
+  }, [profile, isAdministrator]);
 
   const setCurrentRole = async (role: UserRole) => {
+    // Reject forged attempts to choose Administrator from a normal profile.
+    if (role === 'Administrator' && !isAdministrator) return;
+
     setCurrentRoleState(role);
     localStorage.setItem('curiva_selected_role', role);
 
-    // Persist to user profile if signed in
-    if (profile && profile.uid) {
+    // The admin grant is not a profile field and must never be written here.
+    if (profile?.uid && role !== 'Administrator') {
       try {
         await userService.updateProfession(role);
       } catch (e) {
@@ -129,7 +172,7 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   const hasAccess = (allowedRoles: UserRole[]) => {
     if (allowedRoles.includes('Guest')) return true;
-    if (currentRole === 'Administrator') return true;
+    if (currentRole === 'Administrator') return isAdministrator;
     return allowedRoles.includes(currentRole);
   };
 
@@ -352,6 +395,8 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
       currentRole,
       setCurrentRole,
       authorizedRoles,
+      isAdministrator,
+      adminAccessReady,
       onboardingCompleted,
       completeOnboarding,
       hasAccess,
