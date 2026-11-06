@@ -364,10 +364,10 @@ export default function SymptomChecker() {
                   {currentStep}
                 </span>
                 <span className="text-[10px] font-black uppercase tracking-widest text-primary">
-                  {currentStep === 1 && "1. Constitutional Mentals"}
-                  {currentStep === 2 && "2. Physical Generals"}
-                  {currentStep === 3 && "3. Modalities & Aggravations"}
-                  {currentStep === 4 && "4. Chief Pathology Affinity"}
+                  {currentStep === 1 && "1. Vignette Theme"}
+                  {currentStep === 2 && "2. Physical-Theme Descriptors"}
+                  {currentStep === 3 && "3. Modalities & Side Themes"}
+                  {currentStep === 4 && "4. Broad Study Topic"}
                 </span>
               </div>
               <span className="text-xs font-mono font-black text-text-tertiary">
@@ -484,7 +484,7 @@ export default function SymptomChecker() {
                   className="space-y-6"
                 >
                   <div className="space-y-4">
-                    <h3 className="text-lg font-display font-bold text-primary">Chief Modalities &amp; Side Affinities</h3>
+                    <h3 className="text-lg font-display font-bold text-primary">Selected Modalities &amp; Side Themes</h3>
                     
                     {/* Aggravation factor */}
                     <div className="space-y-2">
@@ -682,7 +682,7 @@ export default function SymptomChecker() {
                     <span className="capitalize">{caseData.aggravationFactor.replace(/_/g, ' ')}</span>
                   </div>
                   <div>
-                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Main pathology focus:</span>
+                    <span className="text-text-tertiary block text-[10px] uppercase font-bold">Selected study topic:</span>
                     <span className="capitalize">{caseData.chiefComplaint}</span>
                   </div>
                 </div>
