@@ -9,13 +9,14 @@ function formatTime(seconds: number) {
 }
 
 export default function StudyToolkitDock() {
-  const { state, startTimer, pauseTimer, resetTimer, saveNote, setFocusMode } = useStudyToolkit();
+  const { state, signedIn, syncStatus, startTimer, pauseTimer, resetTimer, saveNote, setFocusMode } = useStudyToolkit();
   const [open, setOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
   const [topic, setTopic] = useState(state.timer.topic);
   const timer = state.timer;
+  const syncLabel = !signedIn ? 'Saved on this device' : syncStatus === 'synced' ? 'Synced to your account' : syncStatus === 'syncing' ? 'Syncing study data…' : syncStatus === 'pending' ? 'Changes waiting to sync' : syncStatus === 'offline' ? 'Offline · saved on this device' : 'Account workspace';
   const remaining = timer.running && timer.deadlineAt
     ? Math.max(0, Math.ceil((timer.deadlineAt - Date.now()) / 1000))
     : timer.remainingSeconds;
@@ -37,6 +38,7 @@ export default function StudyToolkitDock() {
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-primary">Curiva Study Controls</p>
                 <p className="text-xs text-text-secondary">Timer stays active as you move around the site.</p>
+                <p className="mt-1 text-[10px] font-semibold text-text-tertiary" role="status" aria-live="polite">{syncLabel}</p>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="rounded-lg p-1.5 hover:bg-bg-primary" aria-label="Close study controls"><X size={16}/></button>
             </div>
