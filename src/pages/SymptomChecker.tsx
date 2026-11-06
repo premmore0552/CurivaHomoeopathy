@@ -611,7 +611,7 @@ export default function SymptomChecker() {
                   </>
                 ) : currentStep === 4 ? (
                   <>
-                    Generate Repertory Grid <Activity className="w-4 h-4" />
+                    Generate Example Grid <Activity className="w-4 h-4" />
                   </>
                 ) : (
                   <>
@@ -757,7 +757,7 @@ export default function SymptomChecker() {
                     <Award className="w-5 h-5" />
                   </div>
                   <div>
-                    <h4 className="text-xs font-bold text-emerald-800 dark:text-emerald-200">Repertorization Complete</h4>
+                    <h4 className="text-xs font-bold text-emerald-800 dark:text-emerald-200">Study Exercise Complete</h4>
                     <p className="text-[11px] text-emerald-700/80 dark:text-emerald-300/80">Practised case studies help with post-graduate BHMS board questions.</p>
                   </div>
                 </div>
