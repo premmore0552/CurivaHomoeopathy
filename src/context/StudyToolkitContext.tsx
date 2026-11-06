@@ -63,44 +63,44 @@ function normalizeState(value: unknown): StudyToolkitState {
       date: boundedString(item.date, 10, studyDateKey()),
       ...(typeof item.subject === 'string' ? { subject: boundedString(item.subject, 120) } : {}),
       ...(typeof item.chapter === 'string' ? { chapter: boundedString(item.chapter, 180) } : {})
-    }), 500).filter(task => task.title.trim()),
+    }), 300).filter(task => task.title.trim()),
     notes: list(raw.notes, (item, index) => ({
       id: boundedString(item.id, 100, `note-${index}`),
       title: boundedString(item.title, 160, 'Study note'),
-      content: boundedString(item.content, 12000),
+      content: boundedString(item.content, 4000),
       ...(typeof item.subject === 'string' ? { subject: boundedString(item.subject, 120) } : {}),
       ...(typeof item.chapter === 'string' ? { chapter: boundedString(item.chapter, 180) } : {}),
       updatedAt: boundedString(item.updatedAt, 40, new Date().toISOString())
-    }), 100).filter(note => note.content.trim()),
+    }), 40).filter(note => note.content.trim()),
     cards: list(raw.cards, (item, index) => ({
       id: boundedString(item.id, 100, `card-${index}`),
-      front: boundedString(item.front, 500),
-      back: boundedString(item.back, 2000),
+      front: boundedString(item.front, 300),
+      back: boundedString(item.back, 800),
       ...(typeof item.subject === 'string' ? { subject: boundedString(item.subject, 120) } : {}),
       ...(typeof item.chapter === 'string' ? { chapter: boundedString(item.chapter, 180) } : {}),
       createdAt: boundedString(item.createdAt, 40, new Date().toISOString())
-    }), 1500).filter(card => card.front.trim() && card.back.trim()),
+    }), 150).filter(card => card.front.trim() && card.back.trim()),
     sessions: list(raw.sessions, (item, index) => ({
       id: boundedString(item.id, 100, `session-${index}`),
       date: boundedString(item.date, 10, studyDateKey()),
       minutes: Number.isFinite(item.minutes) ? Math.min(720, Math.max(0, Math.round(item.minutes))) : 0,
       topic: boundedString(item.topic, 180, 'Study session'),
       ...(typeof item.subject === 'string' ? { subject: boundedString(item.subject, 120) } : {})
-    }), 1000).filter(session => session.minutes > 0),
+    }), 500).filter(session => session.minutes > 0),
     readingLogs: list(raw.readingLogs, (item, index) => ({
       id: boundedString(item.id, 100, `reading-${index}`),
       date: boundedString(item.date, 10, studyDateKey()),
       subject: boundedString(item.subject, 120),
       chapter: boundedString(item.chapter, 180),
       ...(typeof item.pages === 'string' ? { pages: boundedString(item.pages, 80) } : {}),
-      ...(typeof item.notes === 'string' ? { notes: boundedString(item.notes, 1000) } : {})
-    }), 1000).filter(log => log.subject || log.chapter),
+      ...(typeof item.notes === 'string' ? { notes: boundedString(item.notes, 500) } : {})
+    }), 150).filter(log => log.subject || log.chapter),
     reflections: list(raw.reflections, (item, index) => ({
       id: boundedString(item.id, 100, `reflection-${index}`),
       date: boundedString(item.date, 10, studyDateKey()),
-      learned: boundedString(item.learned, 2000),
-      improve: boundedString(item.improve, 2000)
-    }), 400).filter(reflection => reflection.learned || reflection.improve),
+      learned: boundedString(item.learned, 1000),
+      improve: boundedString(item.improve, 1000)
+    }), 50).filter(reflection => reflection.learned || reflection.improve),
     dailyGoal: Number.isFinite(raw.dailyGoal) ? Math.min(720, Math.max(5, Math.round(raw.dailyGoal!))) : base.dailyGoal,
     weeklyGoal: Number.isFinite(raw.weeklyGoal) ? Math.min(5000, Math.max(30, Math.round(raw.weeklyGoal!))) : base.weeklyGoal,
     examDate: boundedString(raw.examDate, 10),
@@ -200,11 +200,13 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const [scope, setScope] = useState<string | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const authRequest = useRef(0);
   const completedDeadline = useRef<number | null>(null);
 
   useEffect(() => {
     let active = true;
     const unsubscribe = onAuthStateChanged(auth, async user => {
+      const requestId = ++authRequest.current;
       const nextScope = user ? `account:${user.uid}` : 'guest';
       setReady(false);
       setScope(null);
@@ -226,7 +228,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
         }
       }
 
-      if (!active) return;
+      if (!active || requestId !== authRequest.current) return;
       setState(nextState);
       setScope(nextScope);
       setReady(true);
@@ -278,7 +280,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
       setState(current => {
         if (!current.timer.running || current.timer.deadlineAt !== deadline) return current;
         const sessions = current.timer.mode === 'focus'
-          ? [{ id: id(), date: studyDateKey(), minutes: current.timer.durationMinutes, topic: current.timer.topic }, ...current.sessions].slice(0, 1000)
+          ? [{ id: id(), date: studyDateKey(), minutes: current.timer.durationMinutes, topic: current.timer.topic }, ...current.sessions] .slice(0, 500)
           : current.sessions;
         return {
           ...current,
@@ -303,20 +305,20 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const addTask = useCallback((title: string, subject?: string, chapter?: string) => {
     const clean = title.trim();
     if (!clean) return;
-    setState(current => ({ ...current, tasks: [{ id: id(), title: clean.slice(0, 180), done: false, date: studyDateKey(), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}) }, ...current.tasks].slice(0, 500) }));
+    setState(current => ({ ...current, tasks: [{ id: id(), title: clean.slice(0, 160), done: false, date: studyDateKey(), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}) }, ...current.tasks].slice(0, 300) }));
   }, []);
   const toggleTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.map(task => task.id === taskId ? { ...task, done: !task.done } : task) })), []);
   const deleteTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.filter(task => task.id !== taskId) })), []);
   const saveNote = useCallback((note: Omit<StudyNote, 'id' | 'updatedAt'> & { id?: string }) => {
     const clean = note.content.trim();
     if (!clean) return;
-    const next: StudyNote = { id: note.id || id(), title: note.title.trim().slice(0, 160) || 'Study note', content: clean.slice(0, 12000), ...(note.subject ? { subject: note.subject.slice(0, 120) } : {}), ...(note.chapter ? { chapter: note.chapter.slice(0, 180) } : {}), updatedAt: new Date().toISOString() };
-    setState(current => ({ ...current, notes: [next, ...current.notes.filter(item => item.id !== next.id)].slice(0, 100) }));
+    const next: StudyNote = { id: note.id || id(), title: note.title.trim().slice(0, 160) || 'Study note', content: clean.slice(0, 4000), ...(note.subject ? { subject: note.subject.slice(0, 120) } : {}), ...(note.chapter ? { chapter: note.chapter.slice(0, 180) } : {}), updatedAt: new Date().toISOString() };
+    setState(current => ({ ...current, notes: [next, ...current.notes.filter(item => item.id !== next.id)] .slice(0, 40) }));
   }, []);
   const deleteNote = useCallback((noteId: string) => setState(current => ({ ...current, notes: current.notes.filter(note => note.id !== noteId) })), []);
   const addCard = useCallback((front: string, back: string, subject?: string, chapter?: string) => {
     if (!front.trim() || !back.trim()) return;
-    setState(current => ({ ...current, cards: [{ id: id(), front: front.trim().slice(0, 500), back: back.trim().slice(0, 2000), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}), createdAt: new Date().toISOString() }, ...current.cards].slice(0, 1500) }));
+    setState(current => ({ ...current, cards: [{ id: id(), front: front.trim().slice(0, 300), back: back.trim().slice(0, 800), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}), createdAt: new Date().toISOString() }, ...current.cards] .slice(0, 150) }));
   }, []);
   const addSession = useCallback((minutes: number, topic: string, subject?: string) => {
     const duration = Math.min(720, Math.max(1, Math.round(minutes)));
@@ -324,13 +326,13 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   }, []);
   const addReadingLog = useCallback((log: Omit<StudyReadingLog, 'id' | 'date'>) => {
     if (!log.subject.trim() && !log.chapter.trim()) return;
-    setState(current => ({ ...current, readingLogs: [{ ...log, id: id(), date: studyDateKey() }, ...current.readingLogs].slice(0, 1000) }));
+    setState(current => ({ ...current, readingLogs: [{ ...log, id: id(), date: studyDateKey() }, ...current.readingLogs].slice(0, 150) }));
   }, []);
   const saveReflection = useCallback((learned: string, improve: string) => {
     const date = studyDateKey();
     setState(current => {
-      const next = { id: id(), date, learned: learned.slice(0, 2000), improve: improve.slice(0, 2000) };
-      return { ...current, reflections: [next, ...current.reflections.filter(item => item.date !== date)].slice(0, 400) };
+      const next = { id: id(), date, learned: learned.slice(0, 1000), improve: improve.slice(0, 1000) };
+      return { ...current, reflections: [next, ...current.reflections.filter(item => item.date !== date)].slice(0, 50) };
     });
   }, []);
   const setGoals = useCallback((daily: number, weekly: number) => setState(current => ({
