@@ -27,6 +27,7 @@ import {
   Cpu
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import SubjectStudyTools from '../components/SubjectStudyTools';
 
 export interface SubjectChapter {
   title: string;
@@ -1009,6 +1010,7 @@ export default function AllSubjectsHub() {
                       ))}
                     </ul>
                   </div>
+                  <SubjectStudyTools subject={sub.title} chapters={sub.chapters.map(ch => ch.title)} />
                 </div>
               )}
             </div>
