@@ -6,7 +6,7 @@ An educational medical-learning platform for BHMS students. The website and Andr
 
 ## Existing project and deployment workflow
 
-This repository is the existing Curiva Homoeopathy website and Capacitor app. Continue development in the repository's development branch `feat/full-platform-transformation`; do not create another repository or Netlify site for this work.
+This repository contains the Curiva Homoeopathy website and a separate native Android learning app. The website remains a React/Vite deployment; Android is Kotlin/Jetpack Compose. Continue development in the repository's development branch `feat/full-platform-transformation`; do not create another repository or Netlify site for this work.
 
 - Production hosting remains connected to `main` on the existing Netlify site.
 - Feature work should stay in the draft pull request until review and deploy-preview verification are complete.
@@ -44,7 +44,7 @@ Free plans have usage limits; this setup is designed to incur no service subscri
 4. The standalone Compose Android app is intentionally excluded from website OTA updates. New native screens or bundled learning-content updates are delivered in a newly built Android APK/AAB; the website itself continues to update through Netlify.
 5. GitHub Actions runs `npm ci`, `npm run lint`, `npm run build`, and ZIP/manifest validation for pull requests and pushes.
 
-Only compatible web-layer changes (HTML, CSS, JavaScript and static assets) can use OTA. Native code, Android permissions, or adding/changing native plugins still require a rebuilt native app. Existing installed apps do not gain live-update support until they receive that first native build.
+Only the website browser layer uses the website's static update artifacts. The standalone Compose Android app does not download or display website bundles; native UI and bundled learning-content updates require a new Android APK/AAB.
 
 ### Native setup and test APK
 
@@ -99,9 +99,9 @@ Paid-resource delivery email uses Resend when `RESEND_API_KEY` and `RESOURCE_EMA
 
 ## Separate native medical-learning experience
 
-The Android Capacitor entry point is intentionally separate from the browser website. At startup, `src/main.tsx` detects the native platform and dynamically loads `src/native-app/NativeLearningApp.tsx`; only browser visits load the website routes and website providers. The Android app does not navigate to or render `curivahomoeopathy.netlify.app` as its interface.
+The Android APK launches a Kotlin ComponentActivity that renders native Jetpack Compose screens. It does not load the React router, the website's HTML bundle, or curivahomoeopathy.netlify.app. The browser website remains the React/Vite product.
 
-The native interface contains an animated mobile-first dashboard, BHMS subject/chapter catalogue imported from `src/pages/AllSubjectsHub.tsx`, offline article reading, detailed Anatomy/Physiology/FMT modules, searchable Materia Medica profiles, a repertory browser, the existing multi-subject MCQ bank plus core-science questions, flip-card revision using `src/data/flashcards_data.ts`, subject filters, expandable viva answers, bookmarks, lesson completion, quiz history, mastered-card counts, and a local study streak. Learning progress is stored on the device. Core screens and learning material are bundled with the build and remain available without a network connection; the optional self-hosted live-update check only retrieves update metadata and does not display the website. Native updates are accepted only when the manifest explicitly declares `appShell: curiva-native-learning-v1`, so a legacy website-only manifest cannot replace the native learning interface. The Materia Medica/repertory sections are academic references, not evidence of efficacy or patient-specific treatment advice. Further lesson, video, and question content can be expanded in the native app without changing the public website experience.
+The native interface contains a BHMS subject browser with year filters, detailed offline learning notes sourced from the CBDC topic database and the Anatomy/Physiology modules, MCQ practice with explanations and timed mock tests, flashcards with active recall, searchable Materia Medica profiles, and a searchable Kent Repertory chapter/rubric index. A daily study checklist, lesson completion, known-card status, saved Materia Medica profiles, quiz attempts, and last quiz score are stored locally on the device. The APK contains its learning data as a bundled JSON asset and removes the website bundle, Capacitor runtime/bridge dependencies, and network permissions. There is no login, cloud sync, AI endpoint, or online content request in this native build. Materia Medica and repertory content is provided for academic study only, not diagnosis or treatment.
 
 The first pass intentionally reuses the website's existing curriculum and article data instead of scraping or remotely loading pages. Imported health material should be reviewed for accuracy and sourcing before being treated as a clinical reference. This product is for education, not diagnosis or patient-specific treatment.
 

@@ -293,9 +293,10 @@ private fun CurivaApp(data: LearningLibrary, prefs: SharedPreferences) {
                             onTask = { planDone = updateSet(planDone, it, "plan_" + today) },
                             onSubject = { selectedSubjectId = it.id; screen = "subject" },
                             onPractice = { tab = Tab.Practice.name })
-                        Tab.Learn -> LearnScreen(data.subjects, query, year,
+                        Tab.Learn -> LearnScreen(data.subjects, data.lessons, query, year,
                             onSearch = { query = it }, onYear = { year = it },
-                            onSubject = { selectedSubjectId = it.id; screen = "subject" })
+                            onSubject = { selectedSubjectId = it.id; screen = "subject" },
+                            onLesson = { item -> selectedLessonId = item.id; selectedSubjectId = item.subjectId; screen = "lesson" })
                         Tab.Practice -> PracticeSetup(data.questions, quizSubject, onSubject = { quizSubject = it }, onStart = ::startQuiz)
                         Tab.Cards -> FlashcardScreen(data.cards, flashIndex, flashFilter, flashFlipped, known,
                             onFilter = { flashFilter = it; flashIndex = 0; flashFlipped = false },
@@ -389,22 +390,45 @@ private fun HomeScreen(
 }
 
 @Composable
-private fun LearnScreen(subjects: List<Subject>, search: String, year: String, onSearch: (String) -> Unit, onYear: (String) -> Unit, onSubject: (Subject) -> Unit) {
+private fun LearnScreen(
+    subjects: List<Subject>, lessons: List<Lesson>, search: String, year: String,
+    onSearch: (String) -> Unit, onYear: (String) -> Unit,
+    onSubject: (Subject) -> Unit, onLesson: (Lesson) -> Unit
+) {
     val years = listOf("All years", "1st BHMS", "2nd BHMS", "3rd BHMS", "4th BHMS")
     val filtered = subjects.filter { (year == "All years" || it.year == year) &&
         (search.isBlank() || (it.title + it.summary + it.category + it.highYield.joinToString(" ")).contains(search, true)) }
+    val lessonMatches = if (search.isBlank()) emptyList() else lessons.filter { lesson ->
+        (year == "All years" || lesson.year.isBlank() || lesson.year == year) &&
+            (lesson.title + lesson.subject + lesson.overview + lesson.points.joinToString(" ") +
+                lesson.sections.joinToString(" ") { it.heading + " " + it.body }).contains(search, true)
+    }
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(17.dp), verticalArrangement = Arrangement.spacedBy(9.dp)) {
         item {
-            Text("Explore your subject list.", color = Muted, fontSize = 12.sp)
+            Text("Explore subjects and search inside your study notes.", color = Muted, fontSize = 12.sp)
             Spacer(Modifier.height(8.dp))
-            OutlinedTextField(search, onSearch, modifier = Modifier.fillMaxWidth(), placeholder = { Text("Search subjects and topics") }, leadingIcon = { Icon(Icons.Filled.Search, null) }, singleLine = true, shape = RoundedCornerShape(15.dp))
+            OutlinedTextField(search, onSearch, modifier = Modifier.fillMaxWidth(), placeholder = { Text("Search subjects, lessons and notes") }, leadingIcon = { Icon(Icons.Filled.Search, null) }, singleLine = true, shape = RoundedCornerShape(15.dp))
             Row(Modifier.horizontalScroll(rememberScrollState()), horizontalArrangement = Arrangement.spacedBy(5.dp)) {
                 years.forEach { FilterChip(selected = year == it, onClick = { onYear(it) }, label = { Text(it, fontSize = 10.sp) }) }
             }
-            Text(filtered.size.toString() + " subjects", color = Muted, fontSize = 10.sp)
+            Text(filtered.size.toString() + " subjects · " + lessonMatches.size + " note matches", color = Muted, fontSize = 10.sp)
         }
         items(filtered, key = { it.id }) { SubjectRow(it) { onSubject(it) } }
-        if (filtered.isEmpty()) item { Empty("No matches", "Try another subject or BHMS year.") }
+        if (lessonMatches.isNotEmpty()) {
+            item { Heading("Study note matches", "Open detailed offline lessons") }
+            items(lessonMatches, key = { it.id }) { lesson ->
+                Card(Modifier.fillMaxWidth().clickable { onLesson(lesson) }, colors = CardDefaults.cardColors(containerColor = Color.White), shape = RoundedCornerShape(14.dp)) {
+                    Row(Modifier.padding(13.dp), verticalAlignment = Alignment.CenterVertically) {
+                        Column(Modifier.weight(1f)) {
+                            Text(lesson.title, fontWeight = FontWeight.Bold, fontSize = 12.sp)
+                            Text(lesson.subject + " · " + lesson.year, color = Muted, fontSize = 10.sp)
+                        }
+                        Icon(Icons.Filled.ChevronRight, null, tint = Green)
+                    }
+                }
+            }
+        }
+        if (filtered.isEmpty() && lessonMatches.isEmpty()) item { Empty("No matches", "Try another topic or BHMS year.") }
     }
 }
 

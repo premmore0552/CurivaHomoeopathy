@@ -23,7 +23,7 @@ if (!gradle.includes('org.jetbrains.kotlin.plugin.compose') || !gradle.includes(
   throw new Error('Jetpack Compose dependencies were not configured.');
 }
 if (/android.permission.INTERNET|android.permission.ACCESS_NETWORK_STATE/.test(manifest)) throw new Error('Native offline app should not request network permissions.');
-if (/capacitor.settings.gradle|:capacitor-android|capacitor-cordova-android-plugins/.test(settings) || /capacitor.build.gradle|project\\(':capacitor-android'\\)/.test(gradle)) throw new Error('Capacitor bridge dependencies remain in the native APK project.');
+if (/capacitor.settings.gradle|:capacitor-android|capacitor-cordova-android-plugins/.test(settings) || gradle.includes('capacitor.build.gradle') || gradle.includes("project(':capacitor-android')") || gradle.includes("project(':capacitor-cordova-android-plugins')")) throw new Error('Capacitor bridge dependencies remain in the native APK project.');
 try {
   await access(path.join(assets, 'public'));
   throw new Error('Website bundle found in Android assets; this would re-introduce the website WebView.');
