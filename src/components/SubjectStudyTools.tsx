@@ -88,7 +88,7 @@ export default function SubjectStudyTools({ subject, chapters }: { subject: stri
         <div className="rounded-xl border border-border bg-bg-secondary p-3 space-y-2">
           <h5 className="flex items-center gap-2 text-xs font-black"><NotebookPen size={15}/> Chapter quick notes</h5>
           <input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Note heading" maxLength={160} className="w-full rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>
-          <textarea value={note} onChange={e => setNote(e.target.value)} rows={3} maxLength={12000} placeholder={`Write your ${subject} revision note…`} className="w-full rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>
+          <textarea value={note} onChange={e => setNote(e.target.value)} rows={3} maxLength={4000} placeholder={`Write your ${subject} revision note…`} className="w-full rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>
           <div className="flex items-center justify-between"><span className="text-[10px] text-text-tertiary">{note.trim() ? note.trim().split(/\\s+/).length : 0} words</span><button type="button" onClick={saveSubjectNote} disabled={!note.trim()} className="rounded-lg bg-primary px-3 py-2 text-xs font-bold text-white disabled:opacity-40">Save note</button></div>
           {notes.slice(0,3).map(item => <div key={item.id} className="rounded-lg bg-bg-primary p-2 text-[11px]"><strong>{item.title}</strong><p className="mt-0.5 line-clamp-2 text-text-secondary">{item.content}</p></div>)}
         </div>
