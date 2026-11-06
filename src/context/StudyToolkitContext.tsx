@@ -335,7 +335,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   }, []);
   const addSession = useCallback((minutes: number, topic: string, subject?: string) => {
     const duration = Math.min(720, Math.max(1, Math.round(minutes)));
-    setState(current => ({ ...current, sessions: [{ id: id(), date: studyDateKey(), minutes: duration, topic: topic.slice(0, 180), ...(subject ? { subject } : {}) }, ...current.sessions].slice(0, 1000) }));
+    setState(current => ({ ...current, sessions: [{ id: id(), date: studyDateKey(), minutes: duration, topic: topic.slice(0, 180), ...(subject ? { subject } : {}) }, ...current.sessions].slice(0, 500) }));
   }, []);
   const addReadingLog = useCallback((log: Omit<StudyReadingLog, 'id' | 'date'>) => {
     if (!log.subject.trim() && !log.chapter.trim()) return;
