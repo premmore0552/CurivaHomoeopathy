@@ -40,10 +40,17 @@ service cloud.firestore {
 
     // --- Validation Helpers ---
 
+    function hasSafeProfession(data) {
+      return !data.keys().hasAny(['profession']) ||
+        (data.profession is string && data.profession.size() <= 80 &&
+         !data.profession.matches('.*[Aa][Dd][Mm][Ii][Nn].*'));
+    }
+
     function isValidUser(data) {
       return data.keys().hasAll(['uid', 'email']) && 
              data.uid == request.auth.uid &&
-             data.email is string && data.email.size() <= 200;
+             data.email is string && data.email.size() <= 200 &&
+             hasSafeProfession(data);
     }
 
     function isValidQuestion(data) {
@@ -83,7 +90,7 @@ service cloud.firestore {
     
     match /users/{userId} {
       allow get: if isOwner(userId) || isAdmin();
-      allow list: if isOwner(userId) || (isSignedIn() && request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isOwner(userId) || isAdmin();
       
       allow create: if isOwner(userId) && 
                       isValidUser(incoming()) &&
