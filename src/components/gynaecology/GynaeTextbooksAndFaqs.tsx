@@ -30,7 +30,7 @@ const obgStudentFaqs = [
   },
   {
     q: "Which repertories are best suited for solving Gynaecological case questions?",
-    a: "Dr. J.T. Kent's Repertory has exhaustive rubrics in the 'Genitalia Female', 'Pregnancy', and 'Parturition' sections. Additionally, Boericke's Repertory and Murphy's Clinical Repertory provide quick, direct clinical chapters for common OBG complaints."
+    a: "Dr. J.T. Kent Repertory has exhaustive rubrics in the 'Genitalia Female', 'Pregnancy', and 'Parturition' sections. Additionally, Boericke's Repertory and Murphy's Clinical Repertory provide quick, direct clinical chapters for common OBG complaints."
   }
 ];
 

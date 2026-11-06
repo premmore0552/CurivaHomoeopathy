@@ -143,7 +143,7 @@ export default function SymptomChecker() {
         }
       ];
 
-      // Simplified illustrative weights only; this is not a validated Kent repertory or clinical algorithm.
+      // Simplified illustrative weights only; this is not a validated Kent Repertory or clinical algorithm.
       const { mentalState, thermalPreference, thirstLevel, sideAffinity, aggravationFactor, chiefComplaint } = caseData;
 
       remedies.forEach(rem => {
@@ -298,7 +298,7 @@ export default function SymptomChecker() {
         {hasStarted && (
           <div role="note" className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs text-text-secondary space-y-1">
             <p className="font-bold text-amber-800 dark:text-amber-200">Study exercise only — not clinical decision support</p>
-            <p>This fixed six-profile teaching matrix uses simplified, hard-coded weights. It is not a complete Kent repertory, validated scoring system, diagnostic method, or basis for choosing a remedy, potency, dose, or treatment. Use fictional or fully de-identified cases only. Do not delay medical assessment or change prescribed care based on this exercise.</p>
+            <p>This fixed six-profile teaching matrix uses simplified, hard-coded weights. It is not a complete Kent Repertory, validated scoring system, diagnostic method, or basis for choosing a remedy, potency, dose, or treatment. Use fictional or fully de-identified cases only. Do not delay medical assessment or change prescribed care based on this exercise.</p>
           </div>
         )}
 
@@ -688,7 +688,7 @@ export default function SymptomChecker() {
                 </div>
               </div>
 
-              {/* Kent's Repertorization Matrix Table */}
+              {/* Kent Repertory Matching Matrix (illustrative) */}
               <div className="space-y-3">
                 <h3 className="text-xs font-black text-primary uppercase tracking-wider">Example Matching Matrix (not a validated repertory):</h3>
                 <PremiumTable

@@ -386,7 +386,7 @@ export function GynaeTherapeuticsGuide() {
 
             {/* Kent Repertory Rubrics */}
             <div className="p-3 bg-bg-primary rounded-xl border border-border/60 space-y-1 text-xs">
-              <div className="font-bold text-[11px] text-text-tertiary uppercase">Kent Repertorial Rubrics:</div>
+              <div className="font-bold text-[11px] text-text-tertiary uppercase">Kent Repertory Rubrics:</div>
               {remedy.repertoryRubrics.map((rub, i) => (
                 <div key={i} className="font-mono text-[11px] text-purple-700 dark:text-purple-300">
                   • {rub}

@@ -30,7 +30,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   },
   {
     id: "AQ-1003",
-    question: "Kent's Repertory has how many sections/chapters in total?",
+    question: "Kent Repertory has how many sections/chapters in total?",
     options: ["31", "37", "42", "45"],
     correctAnswer: "37",
     explanation: "Dr. J.T. Kent's 'Repertory of the Homoeopathic Materia Medica' contains exactly 37 chapters, starting with 'Mind' and ending with 'Generalities'.",
@@ -66,7 +66,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   },
   {
     id: "AQ-1007",
-    question: "In Kent's Repertory, the rubric 'Delusions' is found under which main chapter?",
+    question: "In Kent Repertory, the rubric 'Delusions' is found under which main chapter?",
     options: ["Mind", "Head", "Eyes", "Generalities"],
     correctAnswer: "Mind",
     explanation: "The rubric 'Delusions' belongs to the 'Mind' chapter, containing sub-rubrics for specific illusions, visions, and hallucinatory states.",
@@ -185,7 +185,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
     options: [
       "Boenninghausen's Therapeutic Pocket Book",
       "Synoptic Key of the Materia Medica",
-      "Kent's Repertory",
+      "Kent Repertory",
       "The Prescriber"
     ],
     correctAnswer: "Synoptic Key of the Materia Medica",
@@ -213,7 +213,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   },
   {
     id: "AQ-1020",
-    question: "Which grade represents the highest level of clinical/proving validation in Kent's Repertory?",
+    question: "Which grade represents the highest level of clinical/proving validation in Kent Repertory?",
     options: ["First Grade (Bold)", "Second Grade (Italics)", "Third Grade (Roman)", "Fourth Grade (Underlined)"],
     correctAnswer: "First Grade (Bold)",
     explanation: "First Grade (printed in Bold, valued at 3 points) represents symptoms that were experienced by almost all provers and cured consistently in clinical practice.",
@@ -231,7 +231,7 @@ export const classicAIAPGETQuestions: AIAPGETQuestion[] = [
   },
   {
     id: "AQ-1022",
-    question: "The term 'Miserable' in Kent's Repertory is located in which chapter?",
+    question: "The term 'Miserable' in Kent Repertory is located in which chapter?",
     options: ["Mind", "Head", "Generalities", "Sleep"],
     correctAnswer: "Mind",
     explanation: "Under 'Mind', 'Miserable' is indexed as a state of deep psychological dejection or feeling of wretchedness.",
@@ -342,7 +342,7 @@ export const remediesMatrix = [
 ];
 
 export const repertoriesMatrix = [
-  { title: "Kent's Repertory", author: "Dr. J.T. Kent", year: "1897", chapters: "37 chapters", principles: "General to Particular structure" },
+  { title: "Kent Repertory", author: "Dr. J.T. Kent", year: "1897", chapters: "37 chapters", principles: "General to Particular structure" },
   { title: "Therapeutic Pocket Book", author: "Dr. Boenninghausen", year: "1846", chapters: "7 sections", principles: "Doctrine of Analogy and Concomitants" },
   { title: "Boger Boenninghausen Characteristics", author: "Dr. C.M. Boger", year: "1905", chapters: "53 chapters", principles: "Anatomical times and pathological generals" },
   { title: "Synthesis Repertory", author: "Dr. Frederik Schroyens", year: "1993", chapters: "38 chapters", principles: "Modern expanded computerized compilation" },

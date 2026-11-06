@@ -29,7 +29,7 @@ const repertoryModules = [
     ]
   },
   {
-    title: "2. Kent's Repertory (Detailed Study)",
+    title: "2. Kent Repertory (Detailed Study)",
     topics: [
       "Philosophical Background: Deduction from General to Particulars (Deductive Logic)",
       "Plan and Construction: 37 Chapters starting from Mind to Generalities",

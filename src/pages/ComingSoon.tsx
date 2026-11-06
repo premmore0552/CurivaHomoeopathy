@@ -72,7 +72,7 @@ export default function ComingSoon() {
     { title: '1st BHMS Physiology', path: '/physiology', icon: Activity, desc: 'Systemic Functions & Biochemistry' },
     { title: 'Materia Medica', path: '/materia-medica', icon: BookOpen, desc: 'Drug Proving Keynotes & Provers' },
     { title: 'Organon of Medicine', path: '/organon-philosophy', icon: BookOpenText, desc: 'Samuel Hahnemann Aphorisms §1–291' },
-    { title: 'Repertory & Case Taking', path: '/repertory', icon: Compass, desc: 'Kent Rubrics & Case Totalities' },
+    { title: 'Repertory & Case Taking', path: '/repertory', icon: Compass, desc: 'Kent Repertory rubrics & Case Totalities' },
     { title: 'FMT & Jurisprudence', path: '/fmt', icon: FileText, desc: 'Toxicology & Medical Ethics' },
   ];
 

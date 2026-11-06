@@ -69,7 +69,7 @@ export default function ThirdBhmsPortal() {
           </div>
           <h2 className="text-xl font-serif font-bold text-text-primary">Repertory & Organon</h2>
           <p className="text-xs text-text-secondary leading-relaxed">
-            Kent repertory 37 chapters, case taking methods, and chronic disease management.
+            Kent Repertory 37 chapters, case taking methods, and chronic disease management.
           </p>
           <Link to="/subject/repertory" className="inline-flex items-center gap-2 text-primary font-bold text-xs hover:underline pt-2">
             View Repertory Module <ArrowRight className="w-3.5 h-3.5" />

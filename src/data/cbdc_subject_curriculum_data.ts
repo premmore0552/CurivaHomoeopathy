@@ -1234,13 +1234,13 @@ export const COMPLETE_SUBJECT_CURRICULUM_DATA: Record<string, Unit[]> = {
         {
           id: "rep_c1",
           number: 1,
-          name: "Kent's Repertory, Boenninghausen (TPB), Boger (BBCR) & Software",
+          name: "Kent Repertory, Boenninghausen (TPB), Boger (BBCR) & Software",
           examPriority: "High",
           studyTime: "24 Hours",
           topics: [
             {
               id: "rep_t1",
-              name: "Kent's Repertory: Plan, 37 Chapters, Grading & Deductive Method",
+              name: "Kent Repertory: Plan, 37 Chapters, Grading & Deductive Method",
               status: "Available",
               link: "/subject/repertory",
               resources: { notes: true, diagrams: true, viva: true },

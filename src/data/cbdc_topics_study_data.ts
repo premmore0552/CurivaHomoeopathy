@@ -486,13 +486,13 @@ export const CBDC_TOPIC_STUDY_DATABASE: Record<string, TopicStudyDetail> = {
   // --- REPERTORY (4TH BHMS) ---
   "rep_kent_structure": {
     id: "rep_kent_structure",
-    name: "Kent's Repertory: Plan, Construction, 37 Chapters & Typographic Grading",
+    name: "Kent Repertory: Plan, Construction, 37 Chapters & Typographic Grading",
     subjectId: "repertory",
     subjectName: "Repertory & Repertorisation (HomUG-Rep)",
     year: "4th BHMS",
     competencyLevel: "Must Know",
     domain: "Cognitive",
-    overview: "Dr. James Tyler Kent published his Repertory of the Homoeopathic Materia Medica in 1897, based on Hahnemann's deductive logic (General to Particular) and Swedenborg's philosophical hierarchy. It is structured into 37 anatomical and functional chapters arranged anatomico-physiologically from Head to Extremities (Mind -> Vertigo -> Head -> Eye ... -> Skin -> Generalities).",
+    overview: "Dr. James Tyler Kent published the Kent Repertory (Repertory of the Homoeopathic Materia Medica) in 1897, based on Hahnemann's deductive logic (General to Particular) and Swedenborg's philosophical hierarchy. It is structured into 37 anatomical and functional chapters arranged anatomico-physiologically from Head to Extremities (Mind -> Vertigo -> Head -> Eye ... -> Skin -> Generalities).",
     whyImportant: "The global benchmark repertory in homoeopathic practice; standard 10-mark essay in 4th BHMS Repertory examination.",
     coreConcepts: [
       "Deductive Method of Repertorisation: Reasoning from Generals (Mental Generals -> Physical Generals) down to Particulars.",
@@ -508,19 +508,19 @@ export const CBDC_TOPIC_STUDY_DATABASE: Record<string, TopicStudyDetail> = {
       "Never prescribe on a rubric count alone; verify the resulting repertorial synthesis against the Materia Medica drug picture."
     ],
     examLAQs: [
-      "Discuss the plan, construction, philosophical background, and 37 chapters of Kent's Repertory. Explain the method of evaluation of symptoms and typographical grading of remedies. (10 Marks)"
+      "Discuss the plan, construction, philosophical background, and 37 chapters of Kent Repertory. Explain the method of evaluation of symptoms and typographical grading of remedies. (10 Marks)"
     ],
     examSAQs: [
-      "Explain the typographical gradation in Kent's Repertory with examples (5 Marks)",
+      "Explain the typographical gradation in Kent Repertory with examples (5 Marks)",
       "Kent's concept of symptom hierarchy (General to Particular) (5 Marks)",
       "Mention the cross-references and arrangement of rubrics in Kent's 'Mind' chapter (5 Marks)"
     ],
     vivaQuestions: [
-      "Which is the first and which is the last chapter in Kent's Repertory? (Mind is 1st, Generalities is 37th)",
+      "Which is the first and which is the last chapter in Kent Repertory? (Mind is 1st, Generalities is 37th)",
       "What mathematical weight is given to Bold, Italic, and Roman types in Kent's rubric analysis? (3, 2, and 1)",
       "How are rubrics arranged under each chapter in Kent? (Alphabetical order with standardized sub-rubrics)"
     ],
-    recommendedBooks: ["Kent's Repertory of Homoeopathic Materia Medica", "Tiwari's Essentials of Repertorization", "Munir Ahmed Repertory"],
+    recommendedBooks: ["Kent Repertory of Homoeopathic Materia Medica", "Tiwari's Essentials of Repertorization", "Munir Ahmed Repertory"],
     studyHubLink: "/subject/repertory",
     relatedRemedies: ["Sulphur", "Lycopodium", "Calcarea carb", "Nux vomica", "Pulsatilla"]
   }

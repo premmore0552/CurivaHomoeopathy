@@ -169,7 +169,7 @@ const AIAPGET_QUESTIONS = [
   },
   {
     category: "Kent Repertory",
-    question: "In Kent's Repertory, under which chapter will you find the rubric 'Sensitiveness to music'?",
+    question: "In Kent Repertory, under which chapter will you find the rubric 'Sensitiveness to music'?",
     options: ["Mind", "Hearing", "Generalities", "Nervous System"],
     answer: "Mind",
     pearl: "Sensitiveness to music is a mental symptom and is classified under the chapter 'MIND'. Prominent remedies include Natrum Carb, Aconite, and Chamomilla."
@@ -1445,7 +1445,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                             />
                             <button
                               onClick={() => {
-                                handleAnalyzeWithAi(`Act as an expert Kent's Repertory system. Map these symptoms: "${symptomsInput}". Output:
+                                handleAnalyzeWithAi(`Act as an expert Kent Repertory system. Map these symptoms: "${symptomsInput}". Output:
                                   - RUBRICS IDENTIFIED: (Identify classic Kent labels, e.g. 'MIND - ANXIETY - health, about')
                                   - RUBRICS WITH REMEDIES: (List remedies under each rubric with degrees/grades, e.g., 3-grade, 2-grade, 1-grade)
                                   - REPERTORIZATION RANKING: (Score and rank remedies based on mathematical rubric coverage)

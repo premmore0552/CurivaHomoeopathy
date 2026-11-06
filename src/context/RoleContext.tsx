@@ -281,7 +281,7 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
       case 'Researcher':
         return [
           { title: 'Scientific Proofs of High Dilutions', link: '/public-education', type: 'PDF', badge: 'Evidence', description: 'Meta-analysis of clinical trials on ultra-high Homoeopathic dilutions.' },
-          { title: 'Repertory rubric Concordance Index', link: '/symptom-checker', type: 'Tool', description: 'Audit mathematical models used behind Kent repertory calculations.' }
+          { title: 'Repertory rubric Concordance Index', link: '/symptom-checker', type: 'Tool', description: 'Audit mathematical models used behind Kent Repertory calculations.' }
         ];
       case 'Administrator':
         return [

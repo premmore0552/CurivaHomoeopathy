@@ -86,7 +86,7 @@ export const stalwartsData: Stalwart[] = [
     description: "A legendary American physician known for his high-potency practice and deep philosophical insights. His repertory remains a primary foundation for classical practice today.",
     contributions: [
       "Authorship of 'Lectures on Homoeopathic Philosophy'",
-      "Created the comprehensive Kent's Repertory of Materia Medica",
+      "Created the comprehensive Kent Repertory of Homoeopathic Materia Medica",
       "Standardized the use of high potencies (up to MM) and series in prescribing"
     ],
     imageUrl: "https://upload.wikimedia.org/wikipedia/commons/thumb/2/23/James_Tyler_Kent.jpg/800px-James_Tyler_Kent.jpg",
