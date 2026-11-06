@@ -1087,11 +1087,12 @@ async function startServer() {
       matched.push({ name: "Organon of Medicine & Hahnemannian Philosophy", path: "/lexicon/all", category: "Academic Reference" });
     }
 
-    // Construct beautiful markdown block at the bottom
-    let referenceSection = `\n\n---\n\n### 📚 Verified Encyclopedia & Reference Sources:\n*Verify case characteristics and study guidelines directly from our peer-reviewed college curriculum:*`;
+    // Append neutral links to related learning pages; the presence of a page match
+    // is not a clinical review or evidence assessment.
+    let referenceSection = `\n\n---\n\n### 📚 Related Study Pages:\n*Use these pages as educational reading, and check the cited source and edition where available:*`;
     
     matched.forEach(ref => {
-      referenceSection += `\n- **[${ref.name}](${ref.path})** (${ref.category}) — Click to view authentic textbook profiles and verify accuracy.`;
+      referenceSection += `\n- **[${ref.name}](${ref.path})** (${ref.category}) — Related academic reading.`;
     });
 
     return text + referenceSection;
@@ -1110,30 +1111,54 @@ async function startServer() {
 
   app.post("/api/gemini/curiva-care", aiApiRateLimiter, async (req, res) => {
     try {
-      const { prompt, conversationHistory } = req.body;
-      if (!prompt) {
-        return res.status(400).json({ error: "Prompt is required" });
+      const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
+      const { prompt, conversationHistory } = body;
+      if (typeof prompt !== "string" || !prompt.trim()) {
+        return res.status(400).json({ error: "A non-empty prompt is required" });
+      }
+      if (prompt.length > 4000) {
+        return res.status(413).json({ error: "Prompt is too long. Please keep it under 4,000 characters." });
+      }
+      if (
+        conversationHistory !== undefined &&
+        (!Array.isArray(conversationHistory) ||
+          conversationHistory.length > 12 ||
+          conversationHistory.some((message: any) =>
+            !message ||
+            typeof message !== "object" ||
+            !["user", "model"].includes(message.role) ||
+            typeof message.text !== "string" ||
+            message.text.length > 3000
+          ))
+      ) {
+        return res.status(400).json({ error: "Conversation history is invalid or too large." });
+      }
+      const safeHistory = Array.isArray(conversationHistory) ? conversationHistory : [];
+      const historyCharacters = safeHistory.reduce((total: number, message: any) => total + message.text.length, 0);
+      if (historyCharacters > 12000) {
+        return res.status(413).json({ error: "Conversation history is too long. Start a new study conversation." });
       }
 
-      // Check if prompt has any matches in REFERENCE_CATALOG for instant fast responses
+      // Check if the prompt matches an academic reference page.
       const matchedContent = getInstantResponseForKeyword(prompt);
       if (matchedContent.length > 0) {
-        let text = `### ⚡ Instant Clinical Insights:\nTo ensure you receive the most accurate and immediate support, I have bypassed the AI synthesis and retrieved verified page matches from our official college study database directly for your request:\n\n`;
+        let text = `### 📚 Study references matching your topic:\nThese are Curiva learning pages related to the words in your prompt. A page match is not a clinical assessment or verification of treatment effectiveness.\n\n`;
         matchedContent.forEach(item => {
-          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}* — Click to view authentic medical textbook profiles instantly.\n\n`;
+          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}*\n\n`;
         });
-        text += `\nThis official content has been pre-screened for professional clinical accuracy and is provided for immediate, faster reading. Please click the links above to read the comprehensive details on our website.`;
+        text += `\nFor education only: do not use these pages or an AI response to diagnose, choose a remedy, set a dose, delay medical assessment, or change prescribed treatment. Consult a qualified registered medical practitioner for personal health decisions.`;
         return res.json({ text });
       }
 
       const curivaCareSystemInstruction = `
-        You are the ✨ Curiva Homeopathic Consultation Companion, an empathetic, highly knowledgeable, and professional classical homeopath.
-        You represent Curiva's clinical homeopathic advisory team designed to support patient understanding around classical homeopathic science, organon principles, and constitutional remedy dynamics.
-        
+        You are Curiva's AI Homoeopathy Study Assistant. You are an educational language model, not a clinician, homeopath, practitioner, or member of a clinical advisory team.
+        You help students and readers understand homoeopathic history, terminology, repertory concepts, and educational materials. You do not provide patient care.
+
         CRITICAL RESPONSE INSTRUCTIONS:
+        0. SAFETY AND SCOPE: Never diagnose, assess an individual's symptoms, select a remedy for a person, or recommend a potency, dose, schedule, or treatment plan. Do not tell anyone to stop, change, or delay prescribed medicines, tests, emergency care, or evidence-based treatment. Explain that traditional homoeopathic concepts are historical/traditional frameworks and do not imply proven clinical effectiveness. State uncertainty clearly. Do not request or repeat identifiable patient information. For personal health decisions, direct users to a qualified registered medical practitioner; for an emergency, advise contacting local emergency services immediately.
         1. BE PERFECT & BRIEF: Always keep your responses very short, concise, and focused. Limit your primary response to a maximum of 100-120 words (1-2 small paragraphs or a few key bullet points).
         2. DEPTH RESTRICTION: Only provide long paragraphs, detailed essays, or exhaustive texts if the user explicitly asks for "long text", "long explanation", "detailed report", or similar keywords.
-        3. WEBPAGE CITATION: You MUST link to the website's relevant pages using markdown link format: [Page Title](url). Always include 1 or 2 relevant links from the authorized index below in every response. Make sure links are integrated naturally inside your educational replies!
+        3. ACADEMIC REFERENCES: When useful, include one or two links to relevant study or reference pages from the authorized index below. Do not present condition pages or remedy profiles as medical recommendations.
 
         AUTHORIZED CONTENT SITE MAP & INDEX:
         - Constitutional Remedy Profiles:
@@ -1150,7 +1175,7 @@ async function startServer() {
           * Rhus Toxicodendron (restlessness, joints stiff but better moving): '/read/rhus-tox' or '/read/rhus-tox-profile'
           * Natrum Muriaticum (suppressed deep sorrow, craves salt): '/read/natrum-muriaticum' or '/read/nat-mur-profile'
           * Sepia Officinalis (indifference to loved ones, bearing down pain): '/read/sepia'
-        - Common Ailments Treatment Pages:
+        - Condition education pages (academic background only):
           * Hair Loss, Alopecia & Thinning: '/read/hair-loss-homeopathy'
           * Anxiety & Mental Strain: '/read/anxiety-homeopathy-deep'
           * Depression & Chronic Low Mood: '/read/depression-homeopathy'
@@ -1176,8 +1201,8 @@ async function startServer() {
       const ai = getGeminiClient();
       
       const contents: any[] = [];
-      if (conversationHistory && Array.isArray(conversationHistory)) {
-        conversationHistory.forEach((msg: any) => {
+      if (safeHistory.length > 0) {
+        safeHistory.forEach((msg: any) => {
           contents.push({
             role: msg.role === "user" ? "user" : "model",
             parts: [{ text: msg.text }]
@@ -1195,122 +1220,127 @@ async function startServer() {
         config: {
           systemInstruction: curivaCareSystemInstruction
         },
-        fallback: `### 🌿 Offline Classical Consultation Mode
-I am currently operating in offline mode to ensure uninterrupted patient support. 
-
-Based on traditional homeopathic principles, classical individualization takes into account your exact physical, mental, and constitutional state:
-- **Acute Care**: For sudden symptoms (like fear, acute shock, or high-fever states), acute remedies like **[Aconitum Napellus](/read/aconite-profile)** or **[Belladonna](/read/belladonna-profile)** are traditionally studied.
-- **Chronic & Constitutional**: For deep-acting issues or long-standing complaints, deeper constitutional remedies such as **[Lycopodium Clavatum](/read/lycopodium-profile)**, **[Pulsatilla Nigricans](/read/pulsatilla-profile)**, or **[Arsenicum Album](/read/arsenicum-profile)** are selected based on the totality of symptoms.
-
-Please browse our academic textbook database at our **[Materia Medica Profiles](/materia-medica)** to study these remedies, or read our **[Therapeutics Guide](/lexicon/clinical)** for detailed case taking principles.`
+        fallback: `The AI study assistant is temporarily unavailable. Please retry later, or use the site's Materia Medica and Organon pages as academic references. Do not use a fallback message or study page for diagnosis or treatment decisions.`
       });
 
       const rawText = response?.text || "";
-      const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from homeopathic consultant.";
+      const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from the study assistant.";
       res.json({ text: textWithLinks });
     } catch (error: any) {
       console.error("Gemini Curiva Care Proxy Error:", error);
-      res.status(500).json({ error: error.message || "Failed to process homeopathic query" });
+      res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
     }
   });
 
   app.post("/api/gemini/hair-loss-coach", aiApiRateLimiter, async (req, res) => {
     try {
-      const { prompt, type, conversationHistory } = req.body;
-      if (!prompt) {
-        return res.status(400).json({ error: "Prompt is required" });
+      const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
+      const { prompt, type = "coach", conversationHistory } = body;
+
+      if (typeof prompt !== "string" || !prompt.trim()) {
+        return res.status(400).json({ error: "A non-empty study prompt is required." });
+      }
+      if (prompt.length > 4000) {
+        return res.status(413).json({ error: "Prompt is too long. Please keep it under 4,000 characters." });
+      }
+      if (!["coach", "blueprint"].includes(type)) {
+        return res.status(400).json({ error: "Unsupported study assistant mode." });
+      }
+      if (
+        conversationHistory !== undefined &&
+        (!Array.isArray(conversationHistory) ||
+          conversationHistory.length > 5 ||
+          conversationHistory.some((message: any) =>
+            !message ||
+            typeof message !== "object" ||
+            !["user", "coach"].includes(message.sender) ||
+            typeof message.text !== "string" ||
+            message.text.length > 2000
+          ))
+      ) {
+        return res.status(400).json({ error: "Conversation history is invalid or too large." });
       }
 
-      // Check if prompt has any matches in REFERENCE_CATALOG for instant fast responses
+      const safeHistory = Array.isArray(conversationHistory) ? conversationHistory : [];
+      const historyCharacters = safeHistory.reduce((total: number, message: any) => total + message.text.length, 0);
+      if (historyCharacters > 8000) {
+        return res.status(413).json({ error: "Conversation history is too long. Start a new study conversation." });
+      }
+
+      // Keyword matches are navigation aids only, not clinical review or validation.
       const matchedContent = getInstantResponseForKeyword(prompt);
       if (matchedContent.length > 0) {
-        let text = `### ⚡ Instant Scalp & Hair Health Insights:\nI have found verified official research pages matching your query instantly on our website. To provide you with the most accurate information immediately and bypass any AI synthesis delay, here are the official curriculum pages:\n\n`;
+        let text = `### 📚 Related hair-health study pages:\nThese pages matched words in your prompt. A keyword match is not a diagnosis, a review of your circumstances, or evidence that a treatment works.\n\n`;
         matchedContent.forEach(item => {
-          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}* — Click here to read our full, detailed guidelines directly on the website.\n\n`;
+          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}*\n\n`;
         });
-        text += `\nThese verified pages contain complete, peer-reviewed details on remedies and clinical diagnostics for your query. Click the link(s) above to access them instantly.`;
+        text += `\nFor personal health decisions, consult a qualified registered medical practitioner or dermatologist. Do not use these links to delay assessment or change prescribed care.`;
         return res.json({ text });
       }
 
       const coachSystemInstruction = `
-        You are the ✨ Curiva AI Scalp Coach, an empathetic, science-based, and holistic hair wellness advisor built by Curiva Homoeopathy. 
-        Your guidance must directly reflect the philosophy in the 'Hair Fall Recovery Guide' eBook:
-        - Real recovery is built from the bottom up: Sleep (Foundation), Nutrition (especially Protein), Stress Management, Hydration, and Scalp Care.
-        - Hair is non-essential for survival; the body starves the hair first under stress or nutritional lack.
-        - Demystify magic products, shampoo switching, and rapid quick-fixes.
-        - Explain traditional homeopathic perspectives (like individualization and constitutional support) in a balanced, grounded way.
-        - Encourage clinical investigations (blood checks for Iron/Ferritin, Vitamin D, B12, Thyroid, PCOS) for chronic issues.
-        - Always maintain a warm, friendly, companionable tone. Do not prescribe specific clinical drugs, but act as a coaching companion.
-        Keep answers conversational, positive, and formatted with light markdown where useful. Output should be straight advice, maximum 2-3 logical paragraphs or clear bullet lists.
+        You are Curiva's AI Hair-Health Study Assistant. You are an educational tool, not a doctor, dermatologist, or personal health coach.
+        Explain general hair biology, common terminology, and how to critically read health information in clear language.
+        Do not diagnose the user's hair loss or infer its cause. Do not create individualized recovery or treatment plans, interpret personal symptoms or test results, or recommend medicines, supplements, tests, dosages, homoeopathic remedies, potencies, or schedules.
+        Do not claim that sleep, nutrition, scalp massage, hydration, or homoeopathy will treat a particular user's hair loss. Do not tell users to stop, delay, or change prescribed treatment.
+        Explain that hair loss has many possible causes and that an individual assessment belongs with a qualified registered medical practitioner or dermatologist. Encourage timely professional assessment for sudden, patchy, painful, inflamed, rapidly worsening, or otherwise concerning hair loss.
+        Do not ask for names, contact details, photographs, medical records, or identifying patient information. Treat user-provided health details as unverified and avoid repeating sensitive details.
+        Present traditional homoeopathic ideas only as historical/academic material and clearly state that this does not establish clinical effectiveness.
+        Keep answers concise, neutral, non-alarmist, and educational.
       `;
 
       const blueprintSystemInstruction = `
-        You are the ✨ Curiva AI Blueprint Generator. Based on the user's details (diet, sleep, stress, lifestyle), generate a beautifully structured 7-day personalized Hair Recovery Plan.
-        Align directly with the Curiva philosophy (Holistic, bottom-up priority starting with Sleep & Nutrition, demystifying quick fixes).
-        Keep the steps concise, practical, highly encouraging, and realistic. Use markdown headings (##, ###) and clean bullet lists (-). Only print the plan, without administrative chatter.
+        You are Curiva's AI Hair-Health Study Checklist Generator.
+        Generate a general educational checklist about reading reliable hair-health information and preparing questions for a qualified clinician. Do not call it a personalized recovery plan.
+        Do not infer a diagnosis or cause, interpret symptoms or test results, or suggest specific investigations, medicines, supplements, diets, doses, homeopathic remedies, potencies, or treatment schedules.
+        Do not make promises about regrowth or recovery. Include a short note that hair loss has many possible causes and personal care requires assessment by a qualified registered medical practitioner or dermatologist.
+        Use simple headings and brief bullet points. Avoid requesting or repeating identifying or sensitive information.
       `;
 
-      const instruction = type === "blueprint" ? blueprintSystemInstruction : coachSystemInstruction;
-
-      const ai = getGeminiClient();
-      
       const contents: any[] = [];
-      if (conversationHistory && Array.isArray(conversationHistory)) {
-        conversationHistory.forEach((msg: any) => {
-          contents.push({
-            role: msg.role === "user" ? "user" : "model",
-            parts: [{ text: msg.text }]
-          });
+      safeHistory.forEach((message: any) => {
+        contents.push({
+          role: message.sender === "user" ? "user" : "model",
+          parts: [{ text: message.text }]
         });
-      }
-      contents.push({
-        role: "user",
-        parts: [{ text: prompt }]
       });
+      contents.push({ role: "user", parts: [{ text: prompt }] });
 
       const response = await safeGenerateContent({
         model: "gemini-3.5-flash",
-        contents: contents,
+        contents,
         config: {
-          systemInstruction: instruction
+          systemInstruction: type === "blueprint" ? blueprintSystemInstruction : coachSystemInstruction
         },
-        fallback: type === "blueprint" ? `## 📋 Your 7-Day Personal Hair Recovery Plan (Offline Blueprint)
+        fallback: type === "blueprint"
+          ? `## General hair-health study checklist
 
-Since hair is non-essential for survival, the body starves the hair follicles first during times of stress, poor sleep, or nutritional deficits. Real recovery is built from the bottom up. Here is your holistic blueprint:
+- Note the questions you would like to ask a qualified registered medical practitioner or dermatologist.
+- Record reliable sources and the date of any health information you read.
+- Be cautious about products or online claims promising guaranteed regrowth.
+- Do not start supplements, medicines, or homoeopathic products—or change prescribed care—based on an AI-generated checklist.
 
-### 🌟 Daily Foundations (Days 1–7):
-1. **Sleep First (Foundation)**: Target 7.5 to 8 hours of quality sleep. Fall asleep before 11 PM to optimize growth hormones.
-2. **Protein intake**: Ensure at least 1g of protein per kg of body weight daily (lentils, paneer, eggs, seeds).
-3. **Scalp Micro-circulation**: Perform 2-3 minutes of gentle fingertip massage to stimulate follicles.
-4. **Hydration**: Drink 2.5 to 3 liters of warm water daily to flush out cellular toxins.
-5. **Traditional Constitutional Support**: Consult our Materia Medica profile on **[Lycopodium](/read/lycopodium-profile)** (if hair thinning is accompanied by bloating or lower-body weakness) or **[Pulsatilla](/read/pulsatilla-profile)** (if related to hormonal fluctuations).
-
-*For a full clinical evaluation, check our detailed [Hair Loss Guide](/read/hair-loss-homeopathy) or review our [Patient eBooks](/ebooks).*`
-        : `### 💆 Scalp Coaching (Offline Mode)
-
-Welcome to the Scalp Coach! While my high-fidelity AI connection is paused, I want to emphasize our core scientific recovery principle: **Hair recovery is a bottom-up process**.
-
-1. **Sleep & Stress**: High cortisol (stress hormone) pushes active hair follicles into the resting phase (Telogen Effluvium). Prioritizing consistent, early sleep is your absolute #1 scalp treatment.
-2. **Nutritional Starvation**: The body prioritizes vital organs. If you lack iron, protein, or trace minerals, your scalp suffers first. Focus on building nutrient density.
-3. **Clinical Screening**: For persistent hair fall, consider checking your blood serum levels for: Ferritin/Iron, Vitamin D3, B12, Thyroid (TSH), and hormonal balance (PCOS screening).
-
-Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** for remedy guidelines.`
+Hair loss has many possible causes. This educational checklist cannot assess your situation or replace a clinical evaluation.`
+          : `I can explain general hair biology and help you study reliable health information. Hair loss has many possible causes, so an AI chat cannot identify the cause or choose treatment. For personal concerns, discuss them with a qualified registered medical practitioner or dermatologist. Please do not share identifying or sensitive patient information here.`
       });
 
       const rawText = response?.text || "";
-      const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from AI coach.";
-      res.json({ text: textWithLinks });
+      res.json({ text: rawText || "The study assistant did not return a response. Please try again later." });
     } catch (error: any) {
-      console.error("Gemini Hair Loss Coach Proxy Error:", error);
-      res.status(500).json({ error: error.message || "Failed to process coach query" });
+      console.error("Gemini Hair Health Study Assistant Error:", error);
+      res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
     }
   });
 
   app.post("/api/gemini/search", aiApiRateLimiter, async (req, res) => {
     try {
-      const { query } = req.body;
-      if (!query) {
-        return res.status(400).json({ error: "Query is required" });
+      const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
+      const { query } = body;
+      if (typeof query !== "string" || !query.trim()) {
+        return res.status(400).json({ error: "A non-empty search query is required" });
+      }
+      if (query.length > 500) {
+        return res.status(413).json({ error: "Search query is too long. Please keep it under 500 characters." });
       }
 
       const q = query.toLowerCase().trim();
@@ -1323,7 +1353,7 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
           title: item.title,
           type: item.category.toLowerCase().includes("profile") || item.category.toLowerCase().includes("remedy") ? "remedy" : "article",
           link: item.path,
-          reason: `Verified ${item.category} matching "${query}".`
+          reason: `Related ${item.category} study resource matching "${query}".`
         });
       });
 
@@ -1349,7 +1379,7 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
               title: cond.title,
               type: "ailment",
               link: `/conditions/${cond.id}`,
-              reason: `Clinical Therapeutics guide for ${cond.title}: ${cond.excerpt}`
+              reason: `Related condition-education page for ${cond.title}: ${cond.excerpt}`
             });
           }
         }
@@ -1363,7 +1393,7 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
               title: post.title,
               type: "article",
               link: `/read/${post.slug}`,
-              reason: `Academic research publication: ${post.excerpt}`
+              reason: `Related learning article: ${post.excerpt}`
             });
           }
         }
@@ -1430,7 +1460,7 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
               title: "Homeopathic Materia Medica",
               type: "article",
               link: "/materia-medica",
-              reason: "Explore our master curriculum profiles for comprehensive clinical search."
+              reason: "Explore related Materia Medica pages for academic study; this search does not recommend treatment."
             });
           }
           return { text: JSON.stringify(results) };
@@ -1447,86 +1477,11 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
     }
   });
 
-  app.post("/api/gemini/analyze-symptoms", aiApiRateLimiter, async (req, res) => {
-    try {
-      const { symptoms } = req.body;
-      if (!symptoms) {
-        return res.status(400).json({ error: "Symptoms are required" });
-      }
-
-      const response = await safeGenerateContent({
-        model: "gemini-3.5-flash",
-        contents: `Analyse these symptoms for homeopathic remedies: "${symptoms}".
-        Suggest top 3 remedies and explain the differential logic part.
-        
-        Format: [ { "remedy": "Name", "logic": "Explain why", "keynotes": ["symptom1", "symptom2"] } ]`,
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                remedy: { type: Type.STRING },
-                logic: { type: Type.STRING },
-                keynotes: { type: Type.ARRAY, items: { type: Type.STRING } }
-              }
-            }
-          }
-        },
-        fallback: () => {
-          const symLower = symptoms.toLowerCase();
-          const results: any[] = [];
-          
-          if (symLower.includes("bloat") || symLower.includes("gas") || symLower.includes("flatulence") || symLower.includes("digest")) {
-            results.push({
-              remedy: "Lycopodium Clavatum",
-              logic: "Indicated for flatulent distension of abdomen, worse from 4 PM to 8 PM, with right-to-left direction of symptoms.",
-              keynotes: ["Satiety after first few mouthfuls", "Desire for warm drinks and sweets", "Right-sided flatulence"]
-            });
-          }
-          
-          if (symLower.includes("cry") || symLower.includes("weep") || symLower.includes("mild") || symLower.includes("change")) {
-            results.push({
-              remedy: "Pulsatilla Nigricans",
-              logic: "Indicated for mild, gentle, yielding dispositions who weep easily and seek open fresh air.",
-              keynotes: ["Thirstlessness with dry mouth", "Better in open air", "Changeable physical symptoms"]
-            });
-          }
-
-          if (symLower.includes("anxious") || symLower.includes("restless") || symLower.includes("chilly") || symLower.includes("mid")) {
-            results.push({
-              remedy: "Arsenicum Album",
-              logic: "Suited to highly anxious, restless individuals with burning pains better from heat, worse after midnight.",
-              keynotes: ["Anxiety about health and death", "Chilly with thirst for sips of cold water", "Worse from 1 AM to 2 AM"]
-            });
-          }
-          
-          if (results.length === 0) {
-            results.push({
-              remedy: "Nux Vomica",
-              logic: "Suited for oversensitive, irritable, sedentary lifestyles with digestive stagnation.",
-              keynotes: ["Ineffectual urging for stool", "Extremely chilly and irritable", "Overindulgence in stimulants"]
-            });
-            results.push({
-              remedy: "Gelsemium",
-              logic: "Indicated for deep-acting nervous exhaustion characterized by dullness, dizziness, and drowsiness.",
-              keynotes: ["Complete muscular relaxation", "Thirstless during fever", "Complaints from anticipation"]
-            });
-          }
-          
-          return { text: JSON.stringify(results.slice(0, 3)) };
-        }
-      });
-
-      if (response && response.text) {
-        return res.json(JSON.parse(response.text));
-      }
-      return res.json([]);
-    } catch (error: any) {
-      console.error("Gemini Analyse Symptoms Proxy Error:", error);
-      res.status(500).json({ error: error.message || "Failed to analyze symptoms" });
-    }
+  app.post("/api/gemini/analyze-symptoms", aiApiRateLimiter, async (_req, res) => {
+    return res.status(410).json({
+      error: "Symptom-to-remedy analysis is disabled pending an educational redesign.",
+      message: "This endpoint must not be used for diagnosis, individualized remedy selection, potency, dosing, or treatment advice."
+    });
   });
 
   app.post("/api/gemini/case-simulation", aiApiRateLimiter, async (req, res) => {
@@ -1616,13 +1571,13 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
       
       const score = isPerfectMatch ? 95 : (userPrescLower.length > 3 ? 40 : 10);
       const strengths = isPerfectMatch 
-        ? ["Accurately identified the target remedy based on the patient's symptoms.", "Recognized the core characteristics and modalities of the case."] 
-        : ["Attempted to analyze the clinical picture and proposed a therapeutic prescription."];
+        ? ["Matched the exercise's preselected target profile by name.", "Recognized terminology used in the fictional study case."] 
+        : ["The proposed answer did not match the exercise's preselected profile."];
       const weaknesses = isPerfectMatch 
         ? ["Could explore deeper miasmatic background or potency selection details."] 
         : [`Did not identify the correct target remedy (${targetRemedy}).`, `Missed the key modalities and characteristic symptoms representing this constitutional profile.`];
       const lesson = rem 
-        ? `Recall that ${rem.name} is characterized by: ${rem.keyCharacteristics.slice(0, 2).join(", ")}. It is a ${rem.thermal} remedy and is particularly ${rem.thirst.toLowerCase()}.` 
+        ? `In this fictional exercise, the target profile ${rem.name} is described with these traditional materia medica features: ${rem.keyCharacteristics.slice(0, 2).join(", ")}. These notes are historical study content, not treatment guidance.` 
         : `Make sure to carefully study the keynotes, thermal states, and modalities before final repertorization.`;
 
       return res.json({ score, strengths, weaknesses, lesson });
@@ -1632,738 +1587,13 @@ Read our official **[Hair Loss Therapeutics Page](/read/hair-loss-homeopathy)** 
     }
   });
 
-  app.post("/api/gemini/professional-tool", aiApiRateLimiter, async (req, res) => {
-    try {
-      const { toolType, payload } = req.body;
-      if (!toolType || !payload) {
-        return res.status(400).json({ error: "toolType and payload are required" });
-      }
-
-      const defaultRem = enhancedRemedies[0];
-      let resultText = "";
-
-      switch (toolType) {
-        case "simillimum": {
-          const { complaint = "", modalities = "", mentals = "", thermal = "", thirst = "", cravings = "" } = payload;
-          const compLower = complaint.toLowerCase();
-          const modsLower = modalities.toLowerCase();
-          const mentLower = mentals.toLowerCase();
-          const thermLower = thermal.toLowerCase();
-          const thirstLower = thirst.toLowerCase();
-          
-          let bestRem = defaultRem;
-          let maxScore = -1;
-          enhancedRemedies.forEach(rem => {
-            let score = 0;
-            if (thermLower && rem.thermal.toLowerCase().includes(thermLower)) score += 3;
-            if (thirstLower && rem.thirst.toLowerCase().includes(thirstLower)) score += 2;
-            rem.clinicalApplications.forEach(app => {
-              if (compLower.includes(app.toLowerCase())) score += 5;
-            });
-            rem.keyCharacteristics.forEach(char => {
-              if (modsLower.includes(char.toLowerCase()) || compLower.includes(char.toLowerCase())) score += 4;
-            });
-            if (rem.mind) {
-              rem.mind.forEach(m => {
-                if (mentLower.includes(m.toLowerCase())) score += 3;
-              });
-            }
-            if (score > maxScore) {
-              maxScore = score;
-              bestRem = rem;
-            }
-          });
-
-          const sibling1 = enhancedRemedies.find(r => r.id !== bestRem.id) || defaultRem;
-          const sibling2 = enhancedRemedies.find(r => r.id !== bestRem.id && r.id !== sibling1.id) || defaultRem;
-
-          resultText = `
-### ⚡ Instant Non-AI Clinical Case Analysis:
-To guarantee maximum precision and bypass any AI synthesis lag, your case has been processed using our local homeopathic differential repertorization matrix.
-
-#### 1. 📋 **Case Synthesis & Dynamic Interpretation**
-- **Symptom Mapping**: The patient presents with **${complaint || "chronic symptoms"}**, influenced primarily by **${modalities || "specific environmental modalities"}**.
-- **Miasmatic & Vital Force Alignment**: Based on the clinical picture, the vital force shows an energetic disturbance expressing through **${bestRem.family}** pathways, with primary affinity for the **${bestRem.clinicalApplications.slice(0, 2).join(" and ")}** systems.
-
-#### 2. 🔢 **Repertory Rubric Selection**
-| Symptom Described | Repertory Rubric (Kent / Boericke) | Graduation / Weight |
-|---|---|---|
-| ${complaint || "Main Complaint"} | GENERALS - ${bestRem.clinicalApplications[0]?.toUpperCase() || "PATHOLOGY"} | +3 (Bold) |
-| ${modalities || "Modalities"} | GENERALS - MODALITIES - ${bestRem.modalities.worse[0]?.toUpperCase() || "AGGRAVATION"} | +2 (Italic) |
-| ${mentals || "Mentals"} | MIND - CHARACTERISTICS - ${bestRem.mind?.[0]?.toUpperCase() || "EMOTIONAL"} | +2 (Italic) |
-| ${thermal || "Thermal State"} | GENERALS - THERMALS - ${bestRem.thermal.toUpperCase()} | +3 (Bold) |
-
-#### 3. 🌟 **The True Simillimum: ${bestRem.name}**
-- **Justification**: **${bestRem.name}** is the definitive simillimum because it perfectly covers the thermal profile (**${bestRem.thermal}**), thirst state (**${bestRem.thirst}**), and the unique modalities.
-- **Key Characteristics**: ${bestRem.keyCharacteristics.join(", ")}.
-
-#### 4. 🧪 **Differential Diagnosis & Sibling Remedies**
-| Attribute / Modality | **${bestRem.name} (Simillimum)** | **${sibling1.name} (Sibling A)** | **${sibling2.name} (Sibling B)** |
-|---|---|---|---|
-| **Thermal Axis** | ${bestRem.thermal} | ${sibling1.thermal} | ${sibling2.thermal} |
-| **Thirst Level** | ${bestRem.thirst} | ${sibling1.thirst} | ${sibling2.thirst} |
-| **Core Affinity** | ${bestRem.clinicalApplications.slice(0, 2).join(", ")} | ${sibling1.clinicalApplications.slice(0, 2).join(", ")} | ${sibling2.clinicalApplications.slice(0, 2).join(", ")} |
-
-#### 5. 📦 **Posology & Potency Strategy**
-- **Potency Selection**: Centesimal **200C** (single dose) or **LM1 to LM3** potencies if hypersensitive or dealing with structural skin pathologies.
-- **Repetition Schedule**: Administer one dose, then hold. Re-assess in 14 days according to **Hering's Laws of Cure** (symptoms moving from above-downwards, within-outwards, and in reverse order of appearance).
-          `;
-          break;
-        }
-
-        case "miasmatic": {
-          const { familyHistory = "", suppressedEruptions = "", pathology = "", mentalMiasm = "" } = payload;
-          const allText = (familyHistory + " " + suppressedEruptions + " " + pathology + " " + mentalMiasm).toLowerCase();
-          
-          let miasm = "Psora";
-          let intercurrent = "Psorinum 200C";
-          let description = "The fundamental miasm of deficiency, itch, physiological irritation, and hypersensitivity. Representing the basic struggle of the vital force.";
-          
-          if (allText.includes("wart") || allText.includes("growth") || allText.includes("sycosis") || allText.includes("sycotic") || allText.includes("gonorrh")) {
-            miasm = "Sycosis";
-            intercurrent = "Medorrhinum 1M";
-            description = "The miasm of excess, overgrowth, hyper-proliferation, thick discharges, and retention. Marked by pelvic issues and suspicious/fixed ideas.";
-          } else if (allText.includes("ulcer") || allText.includes("syphilis") || allText.includes("destruction") || allText.includes("deform") || allText.includes("necrosis")) {
-            miasm = "Syphilis";
-            intercurrent = "Syphilinum 1M";
-            description = "The miasm of destruction, degeneration, tissue death, organic lesions, and structural deformation. Marked by nocturnal aggravations and hopeless depression.";
-          } else if (allText.includes("tuberc") || allText.includes("asthma") || allText.includes("phthisis") || allText.includes("lung") || allText.includes("chest") || allText.includes("thin")) {
-            miasm = "Tubercular";
-            intercurrent = "Tuberculinum Bovinum 200C";
-            description = "The miasm of rapid change, wasting, hectic fevers, and travel desires. Suited to thin, narrow-chested individuals with respiratory vulnerabilities.";
-          } else if (allText.includes("cancer") || allText.includes("carcin") || allText.includes("tumor") || allText.includes("perfection")) {
-            miasm = "Cancer";
-            intercurrent = "Carcinosinum 200C / 1M";
-            description = "The miasm of over-adaptation, ultimate suppression of self, perfectionism, family history of malignancy, and severe chronic fatigue.";
-          }
-
-          resultText = `
-### 🦠 Verified Miasmatic Profiling Report (Non-AI)
-
-#### 1. **Active Miasmatic Profiling**: **${miasm} Miasm**
-- **Dynamic Analysis**: Based on the clinical details, structural updates, and mental disposition, the active chronic layer is identified as the **${miasm}** miasm.
-- **Pathological Essence**: ${description}
-
-#### 2. **Histogenetic Markers & Hereditary Trails**
-- **Family History Indicators**: \`${familyHistory || "Not specified"}\` indicates a deep-seated predisposition.
-- **Suppressive Obstacles**: \`${suppressedEruptions || "None reported"}\` highlights potential barriers that have pushed the pathology deeper into the interior organs.
-
-#### 3. 💊 **Intercurrent Anti-Miasmatic Clearance**
-- **Recommended Intercurrent**: **${intercurrent}**
-- **Administration Rule**: Administer a single dose early in the morning on an empty stomach when the constitutional remedy's action seems to plateaus or stands blocked by miasmatic barriers.
-
-#### 4. 🔄 **Hering's Law Verification Parameters**
-- **Expected Progression**: Healing is moving correctly if symptoms return from within-outwards (e.g., brief eruption on the skin reappearing), from above-downwards, or in reverse order of appearance.
-          `;
-          break;
-        }
-
-        case "differentiation": {
-          const { remedyA = "", remedyB = "", clinicalContext = "" } = payload;
-          const remA = enhancedRemedies.find(r => r.name.toLowerCase().includes(remedyA.toLowerCase()) || remedyA.toLowerCase().includes(r.name.toLowerCase())) || enhancedRemedies[0];
-          const remB = enhancedRemedies.find(r => r.name.toLowerCase().includes(remedyB.toLowerCase()) || remedyB.toLowerCase().includes(r.name.toLowerCase()) || r.id !== remA.id) || enhancedRemedies[1];
-
-          resultText = `
-### ⚖️ Comparative Materia Medica Differentiation (Non-AI)
-
-#### 1. 🔍 **Core Portrait Contrast**
-- **${remA.name} Archetype**: Prepared from **${remA.origin}**, this remedy is characterized by **${remA.description}**.
-- **${remB.name} Archetype**: Prepared from **${remB.origin}**, this remedy is characterized by **${remB.description}**.
-
-#### 2. 📊 **Modality Differentiating Table**
-| Feature | **${remA.name}** | **${remB.name}** |
-|---|---|---|
-| **Thermal Axis** | ${remA.thermal} | ${remB.thermal} |
-| **Thirst Level** | ${remA.thirst} | ${remB.thirst} |
-| **Ameliorations (Better)** | ${remA.modalities.better.slice(0, 2).join(", ")} | ${remB.modalities.better.slice(0, 2).join(", ")} |
-| **Aggravations (Worse)** | ${remA.modalities.worse.slice(0, 2).join(", ")} | ${remB.modalities.worse.slice(0, 2).join(", ")} |
-| **Mind & Emotions** | ${remA.mind?.slice(0, 2).join(", ") || "Active"} | ${remB.mind?.slice(0, 2).join(", ") || "Sensitive"} |
-
-#### 3. 🔑 **The Clinical 'Clincher' Keynote**
-- To immediately differentiate in **${clinicalContext || "clinical practice"}**, observe:
-  - Prescribe **${remA.name}** if the patient shows high-yield keynotes like *${remA.keyCharacteristics[0]}* and is *${remA.thermal.toLowerCase()}*.
-  - Prescribe **${remB.name}** if the patient shows *${remB.keyCharacteristics[0]}* and is *${remB.thermal.toLowerCase()}*.
-          `;
-          break;
-        }
-
-        case "materia-medica": {
-          const { remedyName = "", level = "Advanced" } = payload;
-          const rem = enhancedRemedies.find(r => r.name.toLowerCase().includes(remedyName.toLowerCase()) || remedyName.toLowerCase().includes(r.name.toLowerCase())) || defaultRem;
-
-          resultText = `
-### 🏺 Comprehensive Materia Medica Study Card: **${rem.name}** (${level} level)
-
-#### 1. 🌟 **The Remedy Portrait (Archetype)**
-- **Latin Name**: *${rem.latinName || rem.name}*
-- **Kingdom / Family**: ${rem.family}
-- **Source Origin**: ${rem.origin}
-- **Overview**: ${rem.description}
-
-#### 2. 🔑 **Clinical Keynotes & Modalities**
-- **Better (Ameliorations)**: ${rem.modalities.better.join(", ")}
-- **Worse (Aggravations)**: ${rem.modalities.worse.join(", ")}
-
-#### 3. 🧬 **Generals & Particulars**
-- **Thermal Axis**: ${rem.thermal}
-- **Thirst Parameter**: ${rem.thirst}
-- **Characteristics**: ${rem.keyCharacteristics.join(". ")}
-
-#### 4. 🤝 **Drug Relationships**
-- **Complementary**: ${rem.complementary?.join(", ") || "Sulphur, Lycopodium"}
-- **Inimical**: ${rem.inimical?.join(", ") || "None recorded"}
-- **Antidotes**: Nux Vomica, Camphora
-
-#### 5. 🏺 **Constitution & Active Miasm**
-- **Miasmatic Alignment**: Primarily **Psora** and **Sycosis** axis.
-- **Physical Temperament**: ${rem.mind?.slice(0, 2).join(", ") || "Highly sensitive and reactive"} temperament.
-
-#### 6. 🎯 **Clinical Indications**
-- ${rem.clinicalApplications.join(", ")}
-
-#### 7. 💡 **Memory Tricks & Mnemonic Anchors**
-- **Mnemonic**: *"Remember ${rem.name.slice(0, 4).toUpperCase()} is **${rem.thermal}** and experiences **${rem.keyCharacteristics[0] || "specific keynote"}**!"*
-
-#### 8. 🎤 **Viva Questions (Oral Exam Practice)**
-1. **Question**: State the chief modalities of ${rem.name}.
-   - **Answer**: Better from ${rem.modalities.better[0] || "rest"} and worse from ${rem.modalities.worse[0] || "motion"}.
-2. **Question**: Describe the thermal state and thirst of this remedy.
-   - **Answer**: It is a ${rem.thermal} remedy with ${rem.thirst.toLowerCase()} thirst characteristics.
-
-#### 9. 🏆 **AIAPGET High-Yield Points**
-- Associated with the **${rem.family}** kingdom.
-- Often proved by classical masters; exhibits strong affinity for **${rem.clinicalApplications[0] || "nervous system"}**.
-          `;
-          break;
-        }
-
-        case "repertory": {
-          const { symptoms = "" } = payload;
-          const symsLower = symptoms.toLowerCase();
-          const matchedRems: typeof enhancedRemedies = [];
-          enhancedRemedies.forEach(rem => {
-            if (symsLower.includes(rem.name.toLowerCase()) || rem.clinicalApplications.some(a => symsLower.includes(a.toLowerCase())) || rem.keyCharacteristics.some(c => symsLower.includes(c.toLowerCase()))) {
-              matchedRems.push(rem);
-            }
-          });
-          if (matchedRems.length === 0) {
-            matchedRems.push(enhancedRemedies[0], enhancedRemedies[1]);
-          }
-
-          resultText = `
-### 📖 Repertorial Analysis & Rubric Translation (Non-AI)
-
-#### 1. 📋 **Rubric Translation Table**
-| plain Symptom Described | Kent / Synthesis Repertory Rubric | Graduation (Weight) |
-|---|---|---|
-| ${symptoms || "Patient presentation"} | GENERALS - CLINICAL - ${matchedRems[0].clinicalApplications[0]?.toUpperCase() || "PATHOLOGY"} | 3 (Bold / High) |
-| Thermal Sensitivity | GENERALS - TEMPERATURE - ${matchedRems[0].thermal.toUpperCase()} | 2 (Italic / Moderate) |
-| Modality Indicators | GENERALS - MODALITIES - BETTER FROM - ${matchedRems[0].modalities.better[0]?.toUpperCase() || "REST"} | 1 (Roman / Low) |
-
-#### 2. 🔮 **High-Affinity Remedy Suggestions**
-${matchedRems.map((rem, i) => `${i+1}. **${rem.name}** (Graduation Score: 8/9 rubrics covered)`).join("\n")}
-
-#### 3. 🧠 **Clinical Selection Logic**
-- The rubrics are structured systematically based on **Boenninghausen's Method of Complete Symptoms** (Locality, Sensation, Modality, Concomitance).
-- **Potency Selection**: Begin with a **30C** or **200C** depending on whether symptoms are functional or organic.
-          `;
-          break;
-        }
-
-        case "rubric-finder": {
-          const { plainTextQuery = "" } = payload;
-          resultText = `
-### 🔍 Repertory Rubric Search Hierarchy (Non-AI)
-
-#### 1. 🔍 **Rubric Hierarchy Tree**
-- **MIND** - ANXIETY - health, about - *Lyc., Ars., Phos.*
-- **GENERALS** - COLD - aggravation, from - *Hep., Nux-v., Psor.*
-- **STOMACH** - THIRST - extreme - *Bry., Nat-m., Sulph.*
-- **HEAD** - PAIN - periodic - *Gels., Bell., Sang.*
-
-*(Matches for: "${plainTextQuery}")*
-
-#### 2. 📝 **Interpretation & Nuance**
-- When repertorizing, differentiate carefully between mental anxiety and physical restlessness. 
-- Ensure that the local particular symptoms are always subordinated to the general constitutional thermals and mind states.
-
-#### 3. 🔄 **Cross-References / Related Rubrics**
-- Compare: **MIND - RESTLESSNESS** with **GENERALS - RESTLESSNESS - physical**.
-          `;
-          break;
-        }
-
-        case "clinical-analyzer": {
-          const { caseText = "" } = payload;
-          const textLower = caseText.toLowerCase();
-          let matchedRem = defaultRem;
-          enhancedRemedies.forEach(rem => {
-            if (textLower.includes(rem.name.toLowerCase()) || rem.keyCharacteristics.some(c => textLower.includes(c.toLowerCase()))) {
-              matchedRem = rem;
-            }
-          });
-
-          resultText = `
-### 🗺️ Comprehensive Clinical Case Evaluation (Non-AI)
-
-#### 1. 📝 **Symptom Classification**
-- **Mental Generals**: Highly anxious, sensitive, or apprehensive (matches **${matchedRem.name}** profile).
-- **Physical Generals**: Thermal state is **${matchedRem.thermal}**, thirst profile is **${matchedRem.thirst}**.
-- **Local Particulars**: Primary affection of the **${matchedRem.clinicalApplications.slice(0, 2).join(", ")}** systems.
-- **Section 153 Keynotes**: *${matchedRem.keyCharacteristics[0]}*.
-
-#### 2. 🗺️ **Miasmatic Evaluation & Layer Analysis**
-- The presentation suggests a chronic active layer of **Psora** secondary to stress and environmental triggers, with some sycotic traits (tissue changes).
-
-#### 3. 🌟 **The Diagnostic Synthesis**
-- **Simillimum**: **${matchedRem.name}**
-- **Reasoning**: It covers all generals, physical modalities, and unique characteristic keynotes beautifully.
-
-#### 4. 🧪 **Prescribing Blueprint**
-- **Potency**: **200C**, single dose.
-- **Repetition**: Placebo daily; repeating the remedy only if improvement stops.
-          `;
-          break;
-        }
-
-        case "viva-examiner": {
-          const { topic = "Materia Medica Keynotes", userResponseText = "", questionIndex = 1 } = payload;
-          const score = userResponseText.length > 10 ? 8.5 : 4.0;
-          
-          resultText = `
-### 🎤 Homeopathic Viva (Oral Examination) Board (Non-AI)
-
-**Topic**: ${topic} | **Current Question Index**: ${questionIndex}
-
-${userResponseText ? `
-#### ⭐️ **Evaluative Feedback on Your Answer**
-- **Marks Awarded**: **${score} / 10**
-- **Feedback**: Your answer shows a good basic understanding. To achieve full marks, remember to mention the exact prover names and botanical family classifications.
-
-#### 🎯 **Model textbook Answer**
-- The correct clinical presentation always requires analyzing the three legs of the homeopathic stool: constitutional generals, physical keynotes, and modality changes.
-` : ""}
-
-#### 🔄 **Your Viva Challenge Question**
-- *"Could you explain the relationship between **Lycopodium**, **Sulphur**, and **Calcarea Carbonica** (the famous Sulphur-Calcarea-Lycopodium trio) and how they complement each other?"*
-
-*Please respond in the box below to continue your mock oral exam!*
-          `;
-          break;
-        }
-
-        case "answer-evaluator": {
-          const { questionTitle = "Materia Medica Keynotes", studentAnswer = "" } = payload;
-          const marks = studentAnswer.length > 20 ? 16 : 8;
-
-          resultText = `
-### 🏆 BHMS Board Exam Official Evaluation (Non-AI)
-
-- **Question Evaluated**: "${questionTitle}"
-- **Marks Awarded**: **${marks} / 20**
-
-#### ❌ **Omitted High-Yield Points & Corrections**
-- Ensure you mention:
-  - The exact Latin name of the drug source.
-  - Thermal parameters and thirst indicators.
-  - Active provers and drug relationship details (complementary, inimical).
-
-#### ✍️ **Recommended Presentation Enhancements**
-- Present comparison elements using clean Markdown grids.
-- Bold your keynotes to grab the examiner's eye immediately.
-
-#### 🌟 **Perfect Answer Model Outline**
-1. **Introduction & Common Name** (e.g. Club Moss).
-2. **Physical Generals & Thermals** (e.g. Chilly or Hot).
-3. **Chief Keynotes & Modalities** (Aggravations/Ameliorations).
-4. **Drug Relationships**.
-          `;
-          break;
-        }
-
-        case "quiz-generator": {
-          const { topic = "Polychrest Remedies" } = payload;
-          resultText = `
-### 🏆 High-Yield AIAPGET Practice Quiz: **${topic}** (Non-AI)
-
-#### **Question 1**
-Which remedy is characterized by "sudden, violent congestion with high fever, red face, and throbbing headache"?
-- A) Lycopodium Clavatum
-- B) Belladonna
-- C) Pulsatilla Nigricans
-- D) Silica
-- **Correct Option**: **B**
-- **Explanation**: Belladonna is the premier acute congested remedy with violent, burning heat, red flushed face, and throbbing carotids.
-
-#### **Question 2**
-What is a major characteristic of Bryonia Alba?
-- A) Better from motion
-- B) Worse from any motion, better from rest
-- C) Thirstless with a hot face
-- D) Left-sided headache only
-- **Correct Option**: **B**
-- **Explanation**: Bryonia Alba is extremely aggravated by even the slightest motion and is highly ameliorated by absolute quiet and rest.
-
-#### **Question 3**
-Which remedy is prepared from "the wind flower" and is highly suited to mild, yielding personalities?
-- A) Aconite
-- B) Nux Vomica
-- C) Pulsatilla Nigricans
-- D) Arsenicum Album
-- **Correct Option**: **C**
-- **Explanation**: Pulsatilla is prepared from Pulsatilla Nigricans (wind flower) and is suited to gentle, mild, yielding dispositions.
-
-#### **Question 4**
-Lycopodium Clavatum is primarily indicated for complaints that are:
-- A) Left-sided and move to the right
-- B) Right-sided and move to the left
-- C) Alternating sides every 24 hours
-- D) Unaffected by lateralization
-- **Correct Option**: **B**
-- **Explanation**: Lycopodium is a classic right-sided remedy where complaints often start on the right and travel to the left.
-
-#### **Question 5**
-Identify the chilly, highly anxious, fastidious remedy that craves warm drinks:
-- A) Sulphur
-- B) Arsenicum Album
-- C) Pulsatilla
-- D) Belladonna
-- **Correct Option**: **B**
-- **Explanation**: Arsenicum Album is highly chilly, intensely anxious, extremely fastidious, and relieved by hot applications/warm drinks.
-          `;
-          break;
-        }
-
-        case "study-planner": {
-          const { weakSubjects = "Miasms, Repertory formulas", weeklyHoursAvailable = "20" } = payload;
-          resultText = `
-### 📅 Tailored BHMS & AIAPGET study Planner (Non-AI)
-
-**Weekly Budget**: ${weeklyHoursAvailable} Hours | **Focus Areas**: ${weakSubjects}
-
-#### 📅 **Weekly Hours Allocation**
-- **Monday / Wednesday**: 4 Hours — Materia Medica & Organon of Medicine (Reviewing weak chapters).
-- **Tuesday / Thursday**: 4 Hours — Repertory mathematical formulations and Rubric translations.
-- **Friday**: 3 Hours — Clinical Case Analysis and mock test MCQs.
-- **Saturday / Sunday**: 5 Hours — Spaced revision, group study, and exam simulator review.
-
-#### 🔄 **Revision & Active Recall Cycles**
-- Spend 15 minutes before every session recalling yesterday's main points.
-- Use mock flashcards for keynotes.
-
-#### 🎯 **Weak Area Interventions**
-- Read Samuel Hahnemann's Organon of Medicine (Aphorisms 1-70) to solidify your miasmatic foundations.
-          `;
-          break;
-        }
-
-        case "mnemonic-generator": {
-          const { conceptToMemorize = "Ars Alb Keynotes" } = payload;
-          resultText = `
-### 🔑 High-Retention Homeopathic Mnemonic (Non-AI)
-
-#### **Concept**: ${conceptToMemorize}
-
-#### 🔑 **The Core Formula**: **"F - A - S - T"**
-- **F**: **Fastidious** (wants everything in its exact place, highly orderly).
-- **A**: **Anxious** (profound anxiety about health, death, and future).
-- **S**: **Sipping water** (extreme thirst for small quantities of cold water at frequent intervals).
-- **T**: **Thermal: Chilly** (extremely sensitive to cold, relieved by heat).
-
-#### 🏰 **Memory Palace Narrative**
-- Imagine a highly organized room where a chilly patient wearing three coats is neatly placing items in perfect rows (**Fastidious/Chilly**). They are holding a tiny teacup, taking single sips of water (**Sipping**), and nervously checking their pulse every minute (**Anxious**).
-          `;
-          break;
-        }
-
-        case "personality-decoder": {
-          const { remedyName = "Pulsatilla" } = payload;
-          const rem = enhancedRemedies.find(r => r.name.toLowerCase().includes(remedyName.toLowerCase()) || remedyName.toLowerCase().includes(r.name.toLowerCase())) || defaultRem;
-
-          resultText = `
-### 🎭 Contemporary Personality Profile: **${rem.name}** (Non-AI)
-
-#### 1. 🎭 **The Real-Life Archetype: "The Empathetic Romantic"**
-- If **${rem.name}** walked into a modern coffee shop, they would be wearing soft, flowing pastel colors, ordering a decaf latte with no ice, and politely offering their seat to anyone who looks tired. They seek warmth, connection, and constant reassurance.
-
-#### 2. 💔 **Inner Fears, Passions & Desires**
-- **Core Dread**: Fear of rejection, being left alone, or ignored.
-- **Aspiration**: Deep emotional intimacy and a gentle environment.
-- **Triggers**: Warm, stuffy rooms, cold rejection, or harsh words.
-
-#### 3. 🔄 **Interpersonal Dynamics**
-- Highly yielding, easily crying when narrating symptoms, yet immensely comforting and supportive to their loved ones.
-          `;
-          break;
-        }
-
-        case "story-generator": {
-          const { remedyName = "Aconite" } = payload;
-          const rem = enhancedRemedies.find(r => r.name.toLowerCase().includes(remedyName.toLowerCase()) || remedyName.toLowerCase().includes(r.name.toLowerCase())) || defaultRem;
-
-          resultText = `
-### 📖 Allegorical Study Narrative: The Legend of **${rem.name}** (Non-AI)
-
-#### 1. 📖 **The Allegory**
-- Once, in a quiet village nested in a windy valley, lived a strong young traveler. One night, a sudden, freezing dry wind swept down from the northern peaks. Within hours, the traveler woke up in a state of sudden, violent panic. Their skin felt hot and dry, their pulse throbbed like a drum, and they were filled with an absolute terror that they would not survive the night.
-- They drank cold water in large, eager gulps, tossing and turning restlessly. A wise physician arrived and offered them a golden flower prepared from the mountain peaks. Within minutes, the fever broke, the panic dissolved, and calm returned.
-
-#### 🧩 **Materia Medica Decryption**
-- **Freezing dry wind**: Represents the classic Aconite etiology (complaints arising from exposure to cold, dry winds).
-- **Sudden panic & fear of death**: Represents the defining mental keynote of Aconitum Napellus.
-- **Large gulps of cold water**: Outlines the intense thirst characteristic of this acute state.
-          `;
-          break;
-        }
-
-        case "clinical-mystery": {
-          resultText = `
-### 🕵️‍♂️ Homeopathic Clinical Mystery Challenge (Non-AI)
-
-#### **Stage 1 Clues: The Patient's Diary**
-- *"Dear Diary, my stomach feels so bloated every evening at exactly 4:00 PM. I feel so full after just a few bites of food, even though I sat down feeling hungry. My family says I've become very irritable and insecure, even though I try to act confident in public..."*
-
-#### **Diagnostic Option Prompts**
-- A) Pulsatilla Nigricans
-- B) Lycopodium Clavatum
-- C) Nux Vomica
-- D) Arsenicum Album
-
-*Think carefully! Which polychrest remedy fits the 4:00 PM to 8:00 PM aggravation, early satiety, and masked lack of confidence?*
-- **Answer**: **B (Lycopodium Clavatum)**!
-          `;
-          break;
-        }
-
-        case "aiapget-coach": {
-          const { targetRank = "Top 100" } = payload;
-          resultText = `
-### 🎯 Tactical AIAPGET Prep Briefing (Non-AI)
-
-- **Target Goal**: ${targetRank} State Ranking
-
-#### 📊 **Symptom Performance Diagnostics**
-- **Time Management**: Keep your speed at 45 seconds per MCQ.
-- **Common Mistakes**: Most errors in Repertory come from confusing Kent's chapters (e.g., placing specific rubrics in Mind instead of Generals).
-
-#### 🎯 **14-Day High-Yield Revision Sprint**
-- **Days 1-4**: Standardize your knowledge of Samuel Hahnemann's Organon of Medicine (Aphorisms 71-145 on drug proving).
-- **Days 5-8**: Focus entirely on the thermal states and thirst parameters of all polychrests.
-- **Days 9-12**: Memorize the grading formulas of Kent's Repertory.
-- **Days 13-14**: Take full-length diagnostic mock exams.
-          `;
-          break;
-        }
-
-        case "anatomy-tutor": {
-          const { anatomyTopic = "Brachial Plexus" } = payload;
-          resultText = `
-### 📚 First-Year Anatomy Study Blueprint: **${anatomyTopic}** (Non-AI)
-
-#### 1. 📦 **Anatomical Summary**
-- **Structure**: High-yield region crucial for clinical examinations.
-- **Nerve / Blood Supply**: Highlight arterial divisions and muscular relations.
-
-#### 🗺️ **Anatomical Markdown Outline**
-\`\`\`
-       [ Roots: C5, C6, C7, C8, T1 ]
-                    |
-                 [ Trunks ]
-                    |
-                [ Divisions ]
-                    |
-                 [ Cords ]
-                    |
-             [ Terminal Branches ]
-\`\`\`
-
-#### 💡 **Recall Mnemonics**
-- *"Remember To Drink Cold Beer"* (Roots, Trunks, Divisions, Cords, Branches).
-          `;
-          break;
-        }
-
-        case "physiology-tutor": {
-          const { mechanismTopic = "Cardiac Cycle" } = payload;
-          resultText = `
-### 🔄 Medical Physiology Masterclass: **${mechanismTopic}** (Non-AI)
-
-#### 1. 🔄 **Step-by-Step Pathway**
-- Highly detailed physiological steps illustrating active feedback loops.
-
-#### 📊 **Functional Flow Diagram**
-\`\`\`
-[ Initial Stimulus ] -> [ Receptor Activation ] -> [ Feedback Loop ] -> [ Physiological Response ]
-\`\`\`
-
-#### 🏆 **Homeopathic Correlation**
-- Imbalances in this feedback mechanism represent the outer manifestation of a perturbed Vital Force (Organon §9-12).
-          `;
-          break;
-        }
-
-        case "organon-mentor": {
-          const { queryTermOrAphorism = "Vital Force" } = payload;
-          resultText = `
-### 📜 Samuel Hahnemann's Organon Mentor (Non-AI)
-
-#### **Topic**: ${queryTermOrAphorism}
-
-#### 1. 📜 **The Aphorism Text**
-- Refer to **Aphorisms 9, 10, and 11** of the Organon of Medicine:
-  - *"In the healthy condition of man, the spiritual vital force (autocracy), the dynamics that animates the material body (organism), rules with unbounded sway..."*
-
-#### 🔍 **Historical Context**
-- Hahnemann formulated the vital force concept to contrast the purely mechanistic and materialist medical views of his contemporaries, emphasizing the dynamic nature of health and disease.
-          `;
-          break;
-        }
-
-        case "research-assistant": {
-          const { paperTopicOrAbstract = "Nanoparticles in homeopathy" } = payload;
-          resultText = `
-### 🔬 Homeopathic Clinical Research Summary (Non-AI)
-
-#### **Topic**: ${paperTopicOrAbstract}
-
-#### 1. 📝 **Key Findings & Methodology**
-- Ultra-dilutions of homeopathic remedies retain physical nanoparticles of the starting material (solute) inside stable water-ethanol silicate clusters.
-
-#### 📊 **Evidence standing**
-- High quality physical chemistry models combined with laboratory in-vitro cell assays support the biological activity of homeopathic potencies.
-          `;
-          break;
-        }
-
-        case "daily-learning-coach": {
-          resultText = `
-### 💊 Your Daily Learning Cocktail (Non-AI)
-
-1. 💊 **Daily Remedy Spotlight**: **Silicea** (prepared from pure silica). Chilly, lack of physical grit, sand-in-eyes sensation, highly ameliorated by wrapping head warmly.
-2. 📖 **Daily Repertory Rubric**: **MIND - OBSTINATE** - *Sil., Calc., Nux-v.* (Graduation: 3 / Bold).
-3. 🧠 **Daily Mnemonic**: **"S - I - L"** (Sensitive, Insecure, Lack of grit).
-4. 🏆 **Daily Mock Question**: Which remedy is worse from wet weather and better from dry heat? (Answer: **Rhus Tox**).
-          `;
-          break;
-        }
-
-        case "voice-repertorizer": {
-          const { transcriptText = "" } = payload;
-          resultText = `
-### 🎙️ Spoken Transcript Repertorization Report (Non-AI)
-
-#### 1. 🎙️ **Extracted Clinical Keywords**
-- Plain text transcript analyze indicates: \`${transcriptText || "No voice input captured"}\`.
-
-#### 📊 **Kent Repertorial Rubric Mapping**
-- **GENERALS - THERMALS - CHILLY** (Weight: 3)
-- **MIND - ANXIETY - health, about** (Weight: 2)
-          `;
-          break;
-        }
-
-        case "remedy-battle": {
-          const { fighterA = "Nux Vomica", fighterB = "Pulsatilla" } = payload;
-          resultText = `
-### ⚔️ Homeopathic Remedy Battle Arena (Non-AI)
-
-#### **Fighter A**: ${fighterA} vs **Fighter B**: ${fighterB}
-
-#### 📊 **Attributes Grid**
-| Attribute | **${fighterA}** | **${fighterB}** |
-|---|---|---|
-| **Speed** | Fast, acute, hyperactive | Slow, lingering, gentle |
-| **Thermal Defense** | Highly Chilly | Highly Warm/Hot |
-| **Thirst Meter** | Moderate, dry mouth | Absolutely Thirstless |
-| **Mental Weapon** | Irritability, oversensitive | Yielding, weeping, gentle |
-
-#### ⚔️ **The Clinical Duel**
-- When **${fighterA}**'s chilly, hypersensitive, hyperactive energy meets the warm, mild, highly changeable climate of **${fighterB}**, the clinical picture splits cleanly. They represent polar opposites in prescribing!
-          `;
-          break;
-        }
-
-        case "guess-remedy": {
-          resultText = `
-### 🧩 "Guess the Remedy" Clinical Riddle (Non-AI)
-
-#### 🧩 **The Clues**
-1. I am a highly chilly mineral remedy.
-2. I have a profound lack of self-confidence, yet I am extremely obstinate once my mind is set.
-3. My physical symptoms are characterized by slow, sluggish development, and I cannot tolerate any cold drafts.
-4. I have an intense dread of needles or sharp objects.
-
-#### 🗳️ **Options List**
-- A) Pulsatilla
-- B) Lycopodium
-- C) Silicea
-- D) Sulphur
-
-- **Correct Answer**: **C (Silicea)**!
-          `;
-          break;
-        }
-
-        case "flashcard-generator": {
-          const { topicName = "Polychrest Remedies" } = payload;
-          resultText = `
-### 🗂️ Printable Exam Revision Flashcards: **${topicName}** (Non-AI)
-
-+-----------------------------------------+
-| FRONT: Aconitum Napellus                |
-|                                         |
-| Synonyms, Thermal state, and etiology?  |
-+-----------------------------------------+
-| BACK: Monkshood. Highly Chilly.         |
-| Complaints from sudden cold dry winds.  |
-| Sudden fever, fear of death, panic.     |
-+-----------------------------------------+
-
-+-----------------------------------------+
-| FRONT: Dryonia Alba                     |
-|                                         |
-| Defining physical modality?            |
-+-----------------------------------------+
-| BACK: Worse from any physical motion.   |
-| Better from absolute rest, quiet, and   |
-| lying on the painful side. Dry mucous   |
-| membranes, extreme thirst.              |
-+-----------------------------------------+
-          `;
-          break;
-        }
-
-        case "case-simulation": {
-          resultText = `
-### 🩺 Clinical Residency Case File: Case #304 (Non-AI)
-
-- **Patient Demographics**: 34-year-old software engineer.
-- **Subjective Symptoms**: *"Doctor, I've had severe digestive problems for months. I feel so bloated after eating even a light lunch. I get very anxious about my presentations, and I get cold very easily."*
-- **Objective Findings**: Abdominal distension, dry tongue with red margins.
-- **Miasmatic Trail**: Genetic predispositions.
-
-#### 🗳️ **Your Clinical Challenge Prompts**
-1. Identify the primary constitutional remedy covering these bloating, anxious, chilly symptoms.
-2. What are the key ameliorations of this remedy?
-          `;
-          break;
-        }
-
-        default: {
-          resultText = "No specific non-AI tool output has been pre-screened for this selection.";
-          break;
-        }
-      }
-
-      const textWithLinks = appendReferenceLinks(resultText, JSON.stringify(payload || {}));
-      res.json({ text: textWithLinks });
-    } catch (error: any) {
-      console.error("Gemini Professional Tool Proxy Error:", error);
-      res.status(500).json({ error: error.message || "Failed to process professional tool request" });
-    }
+  app.post("/api/gemini/professional-tool", aiApiRateLimiter, async (_req, res) => {
+    return res.status(410).json({
+      error: "The professional clinical-decision tool is disabled pending an educational redesign.",
+      message: "This endpoint must not be used for diagnosis, individualized remedy selection, potency, dosing, or treatment advice."
+    });
   });
 
-  // Public Health eBook Generator Endpoint
   app.post("/api/gemini/generate-ebook", aiApiRateLimiter, async (req, res) => {
     try {
       const { title, condition, audience = "General Public, Patients, Caregivers", section = "full", customNotes = "" } = req.body;

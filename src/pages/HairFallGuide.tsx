@@ -635,7 +635,7 @@ export default function HairFallGuide() {
       content: `
         <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Homoeopathy & Hair Fall: A Realistic Perspective</h2>
         <p class="mb-4">Can Homoeopathy help hair fall? The honest answer is: <strong>it depends entirely on the cause</strong>. Hair fall is not a disease; it is a symptom of an underlying issue.</p>
-        <p class="mb-4">Whether triggered by chronic stress, nutritional deficiencies, or hormonal disorders, different causes require personalized approaches. Homoeopathy is traditionally based on understanding the individual holistically, rather than offering a one-size-fits-all solution.</p>
+        <p class="mb-4">Hair loss has many possible causes and an individual assessment may be needed to understand them. Traditional homoeopathic literature emphasizes individualization, but this historical framework does not establish that homoeopathic products are effective treatments for hair loss.</p>
 
         <div class="my-6 p-5 bg-emerald-50 dark:bg-zinc-800 rounded-2xl border border-emerald-100 dark:border-zinc-700 text-sm">
           <span class="uppercase tracking-wider font-semibold text-emerald-800 dark:text-emerald-400 text-xs block mb-2">🌿 What Homoeopathy Cannot Do</span>
@@ -719,12 +719,12 @@ export default function HairFallGuide() {
     {
       id: "ch24",
       title: "Chapter 24",
-      subtitle: "Your Personal Recovery Plan",
+      subtitle: "Hair-Health Study Planner",
       content: `
-        <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Build Your Personal Hair Recovery Plan</h2>
-        <p class="mb-4">Because hair fall is highly individual, what works for someone else may not be what your body needs. Use this interactive planner below to identify your triggers and select your recovery goals.</p>
+        <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Hair-Health Study Planner</h2>
+        <p class="mb-4">Hair loss has many possible causes and an individual assessment is needed to understand a person's circumstances. This section provides general educational reading prompts; it does not assess symptoms or choose treatment.</p>
 
-        <p class="mb-4">Select your custom focus group below to read your actionable guide, then write in your lifestyle details to get a personalized 7-day hair wellness regimen crafted by our built-in Curiva AI assistant.</p>
+        <p class="mb-4">Choose a general topic to generate an educational checklist. Do not enter personal health details, patient information, or test results in the AI assistant.</p>
       `
     },
     {
@@ -914,7 +914,7 @@ export default function HairFallGuide() {
   const [chatMessages, setChatMessages] = useState<Array<{ sender: "user" | "coach"; text: string; isError?: boolean }>>([
     {
       sender: "coach",
-      text: "Hello! I am your ✨ **Curiva AI Scalp Coach**.\n\nI have read the complete *Hair Fall Recovery Guide* and can help customize your health journey. Feel free to ask me anything about stress, protein, sleep, or Homoeopathic constitutional perspectives."
+      text: "Hello! I am your ✨ **Curiva AI Hair-Health Study Assistant**.\n\nI can explain general hair biology and help you study health information. I cannot diagnose hair loss or create a personal treatment plan. For personal concerns, consult a qualified registered medical practitioner or dermatologist. Please do not share identifying or sensitive patient information."
     }
   ]);
 
@@ -1244,7 +1244,7 @@ export default function HairFallGuide() {
     <>
       <SEO 
         title="Interactive Hair Fall Recovery Guide | Curiva" 
-        description="Explore the complete comprehensive eBook Guide with practical advice, scorecards, custom planners and real-time AI Scalp Coaching."
+        description="Explore educational reading on hair health, practical study prompts, and a general AI hair-health study assistant."
       />
 
       <div className={`min-h-screen font-sans flex flex-col relative overflow-hidden transition-colors duration-300 ${getPageBackgroundClass()}`}>
@@ -1370,14 +1370,14 @@ export default function HairFallGuide() {
             <button 
               onClick={() => setIsCoachOpen(true)}
               className="p-2 bg-primary-light hover:bg-primary/20 text-primary rounded-xl transition flex items-center gap-1.5 font-bold text-xs shadow-sm"
-              title="Consult AI Scalp Coach"
+              title="Open AI Hair-Health Study Assistant"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-dark"></span>
               </span>
               <Sparkles className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">AI Coach</span>
+              <span className="hidden sm:inline">Study Assistant</span>
             </button>
 
             {/* Close Ebook to articles */}
@@ -1553,22 +1553,26 @@ export default function HairFallGuide() {
                   <div className="bg-bg-secondary/40 dark:bg-zinc-900/40 p-6 rounded-2xl border-2 border-dashed border-border">
                     <span className="text-[10px] uppercase font-black tracking-wider text-primary dark:text-primary flex items-center gap-1.5 mb-2">
                       <Sparkles className="w-3.5 h-3.5 text-primary" />
-                      <span>STEP 2: CUSTOMIZE PERSONAL BLUEPRINT</span>
+                      <span>STEP 2: GENERAL STUDY CHECKLIST</span>
                     </span>
                     <h3 className="font-serif font-black text-lg text-text-primary mb-1">
-                      ✨ AI Scalp Blueprint Generator
+                      ✨ AI Hair-Health Study Checklist
                     </h3>
                     <p className="text-xs text-text-secondary mb-4">
-                      Briefly enter your diet, sleep schedule, average coffee count, or stress level to write a custom 7-day hair recovery blueprint instantly.
+                      Enter a general academic topic to generate a short educational checklist. Do not enter personal health details, test results, or patient information.
                     </p>
 
+                    <div role="note" className="mb-3 rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-[11px] text-text-secondary">
+                      <strong className="block text-amber-800 dark:text-amber-200 mb-1">Educational information only</strong>
+                      This checklist cannot diagnose hair loss or recommend an individualized plan, test, medicine, supplement, or remedy. Do not change prescribed care based on AI output. Consult a qualified registered medical practitioner or dermatologist for personal health concerns. Prompts are sent to Curiva's server and may be sent to Google Gemini to generate a reply. Do not include identifying or sensitive patient information.
+                    </div>
                     <div className="space-y-3">
                       <textarea
                         value={aiPlanInput}
                         onChange={(e) => setAiPlanInput(e.target.value)}
                         rows={3}
                         maxLength={400}
-                        placeholder="e.g. Vegetarian diet, sleep at 2 AM for 6 hours, drink 3 cups of coffee daily, high exam stress."
+                        placeholder="e.g. Explain common causes of hair shedding in general terms."
                         className="w-full p-3.5 bg-bg-primary rounded-xl border border-border text-xs md:text-sm outline-none focus:ring-1 focus:ring-primary transition resize-none"
                       />
 
@@ -1611,7 +1615,7 @@ export default function HairFallGuide() {
                     {aiPlanOutput && (
                       <div className="mt-6 p-5 bg-card/60 rounded-xl border border-border prose dark:prose-invert max-w-none text-xs md:text-sm">
                         <div className="border-b border-border pb-2 mb-3 flex items-center justify-between">
-                          <span className="font-bold text-[10px] tracking-wide text-primary dark:text-primary uppercase">✨ Personalized Wellness Regimen</span>
+                          <span className="font-bold text-[10px] tracking-wide text-primary dark:text-primary uppercase">✨ General Educational Checklist</span>
                           <button onClick={() => setAiPlanOutput("")} className="text-[10px] text-text-secondary hover:text-text-primary">Dismiss</button>
                         </div>
                         {renderFormattedMarkdown(aiPlanOutput)}
@@ -1742,7 +1746,7 @@ export default function HairFallGuide() {
                 <div className="p-4 border-b border-border flex justify-between items-center bg-primary-light/60 dark:bg-zinc-900">
                   <span className="font-serif font-black text-primary dark:text-primary-light flex items-center gap-1.5 text-sm uppercase">
                     <Sparkles className="w-4.5 h-4.5 text-primary" />
-                    <span>Curiva AI Scalp Coach</span>
+                    <span>Curiva AI Hair-Health Study Assistant</span>
                   </span>
                   <button 
                     onClick={() => setIsCoachOpen(false)}
@@ -1750,6 +1754,10 @@ export default function HairFallGuide() {
                   >
                     <X className="w-5 h-5" />
                   </button>
+                </div>
+
+                <div role="note" className="border-b border-amber-500/30 bg-amber-500/5 px-4 py-3 text-[10px] leading-relaxed text-text-secondary">
+                  <strong className="text-amber-800 dark:text-amber-200">Educational use only — not medical advice.</strong> This assistant cannot diagnose or create treatment plans. Do not start or change medicines, supplements, homoeopathic products, or prescribed care based on a response. For personal concerns, consult a qualified registered medical practitioner or dermatologist. Prompts and recent chat context reach Curiva's server and may be sent to Google Gemini for generated replies; do not share identifiers or sensitive patient information.
                 </div>
 
                 {/* Message area */}
@@ -1762,7 +1770,7 @@ export default function HairFallGuide() {
                       <div className={`p-3.5 rounded-2xl max-w-[85%] shadow-sm ${msg.sender === "user" ? "bg-primary text-white rounded-tr-none" : msg.isError ? "bg-red-50 dark:bg-red-950/20 text-red-900 border-l-4 border-red-500 rounded-tl-none text-xs" : "bg-bg-primary rounded-tl-none"}`}>
                         {msg.sender === "coach" && (
                           <span className="text-[10px] uppercase font-black text-primary dark:text-primary-light block mb-1">
-                            ✨ AI Coach
+                            ✨ Study Assistant
                           </span>
                         )}
                         <div className="text-xs md:text-sm leading-relaxed whitespace-pre-wrap">
@@ -1777,7 +1785,7 @@ export default function HairFallGuide() {
                     <div className="flex justify-start">
                       <div className="p-3 bg-bg-primary border border-border rounded-2xl rounded-tl-none flex items-center gap-2 text-xs text-text-secondary">
                         <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                        <span>AI Coach is reading Ebook parameters...</span>
+                        <span>Study Assistant is preparing an educational response...</span>
                       </div>
                     </div>
                   )}
@@ -1812,10 +1820,11 @@ export default function HairFallGuide() {
                     type="text"
                     value={chatInput}
                     onChange={(e) => setChatInput(e.target.value)}
+                    maxLength={4000}
                     onKeyDown={(e) => {
                       if (e.key === "Enter") handleSendChatMessage();
                     }}
-                    placeholder="Ask about stress, nutrition, or homoeopathy..."
+                    placeholder="Ask a general hair-health study question..."
                     className="flex-1 p-2.5 bg-bg-secondary rounded-xl border border-border text-xs md:text-sm outline-none focus:ring-1 focus:ring-primary focus:bg-bg-primary transition"
                   />
                   <button

@@ -1,6 +1,6 @@
 # API and feature inventory (source-level)
 
-Inspected on `feat/full-platform-transformation`; this is not a runtime or production smoke test.
+Updated 7 November 2026 from the current `main` baseline and the security-hardening review branch; this remains a source-level inventory, not a runtime or production smoke test.
 
 ## Express endpoints found in `server.ts`
 - `POST /api/send-resource-email`
@@ -9,10 +9,10 @@ Inspected on `feat/full-platform-transformation`; this is not a runtime or produ
 - `POST /api/gemini/curiva-care`
 - `POST /api/gemini/hair-loss-coach`
 - `POST /api/gemini/search`
-- `POST /api/gemini/analyze-symptoms`
-- `POST /api/gemini/case-simulation`
-- `POST /api/gemini/simulation-feedback`
-- `POST /api/gemini/professional-tool`
+- `POST /api/gemini/analyze-symptoms` — disabled with HTTP 410 pending educational redesign
+- `POST /api/gemini/case-simulation` — local educational roleplay; not patient care
+- `POST /api/gemini/simulation-feedback` — exercise profile-match feedback, not clinical accuracy
+- `POST /api/gemini/professional-tool` — disabled with HTTP 410 pending educational redesign
 - `POST /api/gemini/generate-ebook`
 - `POST /api/custom-search`
 - `POST /api/personalize`
