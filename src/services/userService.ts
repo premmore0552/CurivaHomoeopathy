@@ -64,7 +64,7 @@ export const userService = {
           readingHistory: data.readingHistory || [],
           activities: data.activities || [],
           interests: data.interests || [],
-          profession: data.safeProfession,
+          profession: data.profession || 'user',
         } as UserProfile;
       }
       return null;
@@ -169,7 +169,7 @@ export const userService = {
         }
 
         await updateDoc(docRef, updateData);
-        return profession || currentData.safeProfession;
+        return profession ? safeProfession : currentData.profession || 'user';
       }
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
