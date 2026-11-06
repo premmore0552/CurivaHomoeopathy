@@ -79,6 +79,33 @@ service cloud.firestore {
              data.status in ['ordered', 'shipped', 'delivered', 'active', 'sent_back', 'processing', 'completed'];
     }
 
+    // Firestore Rules has no general-purpose list iteration; validate each bounded entry explicitly.
+    function isValidScreeningSymptoms(data) {
+      return !data.keys().hasAny(['symptoms']) ||
+        (data.symptoms is list &&
+         data.symptoms.size() <= 20 &&
+         (data.symptoms.size() < 1 || (data.symptoms[0] is string && data.symptoms[0].size() <= 120)) &&
+         (data.symptoms.size() < 2 || (data.symptoms[1] is string && data.symptoms[1].size() <= 120)) &&
+         (data.symptoms.size() < 3 || (data.symptoms[2] is string && data.symptoms[2].size() <= 120)) &&
+         (data.symptoms.size() < 4 || (data.symptoms[3] is string && data.symptoms[3].size() <= 120)) &&
+         (data.symptoms.size() < 5 || (data.symptoms[4] is string && data.symptoms[4].size() <= 120)) &&
+         (data.symptoms.size() < 6 || (data.symptoms[5] is string && data.symptoms[5].size() <= 120)) &&
+         (data.symptoms.size() < 7 || (data.symptoms[6] is string && data.symptoms[6].size() <= 120)) &&
+         (data.symptoms.size() < 8 || (data.symptoms[7] is string && data.symptoms[7].size() <= 120)) &&
+         (data.symptoms.size() < 9 || (data.symptoms[8] is string && data.symptoms[8].size() <= 120)) &&
+         (data.symptoms.size() < 10 || (data.symptoms[9] is string && data.symptoms[9].size() <= 120)) &&
+         (data.symptoms.size() < 11 || (data.symptoms[10] is string && data.symptoms[10].size() <= 120)) &&
+         (data.symptoms.size() < 12 || (data.symptoms[11] is string && data.symptoms[11].size() <= 120)) &&
+         (data.symptoms.size() < 13 || (data.symptoms[12] is string && data.symptoms[12].size() <= 120)) &&
+         (data.symptoms.size() < 14 || (data.symptoms[13] is string && data.symptoms[13].size() <= 120)) &&
+         (data.symptoms.size() < 15 || (data.symptoms[14] is string && data.symptoms[14].size() <= 120)) &&
+         (data.symptoms.size() < 16 || (data.symptoms[15] is string && data.symptoms[15].size() <= 120)) &&
+         (data.symptoms.size() < 17 || (data.symptoms[16] is string && data.symptoms[16].size() <= 120)) &&
+         (data.symptoms.size() < 18 || (data.symptoms[17] is string && data.symptoms[17].size() <= 120)) &&
+         (data.symptoms.size() < 19 || (data.symptoms[18] is string && data.symptoms[18].size() <= 120)) &&
+         (data.symptoms.size() < 20 || (data.symptoms[19] is string && data.symptoms[19].size() <= 120)));
+    }
+
     // Screening records can contain sensitive reproductive-health information.
     // Keep the schema closed and each optional field bounded.
     function isValidScreening(data) {
@@ -97,8 +124,7 @@ service cloud.firestore {
                (data.hpvVaxStatus is string && data.hpvVaxStatus.size() <= 40)) &&
              (!data.keys().hasAny(['lastPapSmearYears']) ||
                (data.lastPapSmearYears is string && data.lastPapSmearYears.size() <= 40)) &&
-             (!data.keys().hasAny(['symptoms']) ||
-               (data.symptoms is list && data.symptoms.size() <= 20)) &&
+             isValidScreeningSymptoms(data) &&
              (!data.keys().hasAny(['familyHistory']) || data.familyHistory is bool) &&
              (!data.keys().hasAny(['recommendation']) ||
                (data.recommendation is string && data.recommendation.size() <= 1000)) &&
