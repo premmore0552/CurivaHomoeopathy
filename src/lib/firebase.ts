@@ -25,6 +25,7 @@ import {
   orderBy as firestoreOrderBy,
   getDocs as firestoreGetDocs,
   onSnapshot as firestoreOnSnapshot,
+  runTransaction as firestoreRunTransaction,
   arrayUnion,
   arrayRemove,
   increment,
@@ -91,6 +92,10 @@ export async function getDocs(queryRef: any) {
       });
     }
   };
+}
+
+export function runTransaction<T>(dbInstance: any, updateFunction: (transaction: any) => Promise<T>, options?: any): Promise<T> {
+  return firestoreRunTransaction(dbInstance, updateFunction, options);
 }
 
 export function setDoc(docRef: any, data: any, options?: any) {

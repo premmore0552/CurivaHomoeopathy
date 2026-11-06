@@ -1,7 +1,8 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { auth, db, doc, getDoc, onAuthStateChanged, serverTimestamp, setDoc } from '../lib/firebase';
+import { auth, db, doc, getDoc, onAuthStateChanged, onSnapshot, runTransaction, serverTimestamp } from '../lib/firebase';
+import { mergeStudyToolkitStates } from '../utils/studyToolkitSync';
 
-export type StudyTask = { id: string; title: string; done: boolean; date: string; subject?: string; chapter?: string };
+export type StudyTask = { id: string; title: string; done: boolean; date: string; updatedAt?: string; subject?: string; chapter?: string };
 export type StudyNote = { id: string; title: string; content: string; subject?: string; chapter?: string; updatedAt: string };
 export type StudyFlashcard = { id: string; front: string; back: string; subject?: string; chapter?: string; createdAt: string };
 export type StudySession = { id: string; date: string; minutes: number; topic: string; subject?: string };
@@ -61,6 +62,7 @@ function normalizeState(value: unknown): StudyToolkitState {
       title: boundedString(item.title, 180),
       done: item.done === true,
       date: boundedString(item.date, 10, studyDateKey()),
+      updatedAt: boundedString(item.updatedAt, 40, `${boundedString(item.date, 10, studyDateKey())}T00:00:00.000Z`),
       ...(typeof item.subject === 'string' ? { subject: boundedString(item.subject, 120) } : {}),
       ...(typeof item.chapter === 'string' ? { chapter: boundedString(item.chapter, 180) } : {})
     }), 300).filter(task => task.title.trim()),
@@ -116,6 +118,38 @@ function normalizeState(value: unknown): StudyToolkitState {
   };
 }
 
+
+const baseStorageKey = (scope: string) => `${STORAGE_VERSION}:${scope}:synced-base`;
+
+function readStoredState(key: string): StudyToolkitState | null {
+  try {
+    const saved = localStorage.getItem(key);
+    return saved ? normalizeState(JSON.parse(saved)) : null;
+  } catch {
+    return null;
+  }
+}
+
+function writeStoredState(key: string, value: StudyToolkitState): void {
+  try {
+    localStorage.setItem(key, JSON.stringify(value));
+  } catch (error) {
+    console.warn('Curiva study workspace cache could not be updated in this browser.', error);
+  }
+}
+
+function persistableState(value: StudyToolkitState): StudyToolkitState {
+  const snapshot = normalizeState(value);
+  // Running timers are synchronized by their absolute deadline, not every tick.
+  return snapshot.timer.running
+    ? { ...snapshot, timer: { ...snapshot.timer, remainingSeconds: 0 } }
+    : snapshot;
+}
+
+function sameWorkspace(left: StudyToolkitState, right: StudyToolkitState): boolean {
+  return JSON.stringify(left) === JSON.stringify(right);
+}
+
 function loadGuestState(): StudyToolkitState {
   try {
     const saved = localStorage.getItem(`${STORAGE_VERSION}:guest`);
@@ -167,10 +201,13 @@ function loadGuestState(): StudyToolkitState {
   return normalizeState(state);
 }
 
+type StudyToolkitSyncStatus = 'local' | 'synced' | 'pending' | 'syncing' | 'offline';
+
 type StudyToolkitContextValue = {
   state: StudyToolkitState;
   ready: boolean;
   signedIn: boolean;
+  syncStatus: StudyToolkitSyncStatus;
   todayMinutes: number;
   weeklyMinutes: number;
   streak: number;
@@ -199,83 +236,239 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const [ready, setReady] = useState(false);
   const [scope, setScope] = useState<string | null>(null);
   const [signedIn, setSignedIn] = useState(false);
+  const [syncStatus, setSyncStatus] = useState<StudyToolkitSyncStatus>('local');
   const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const lastPersisted = useRef<string>('');
+  const retryTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const baseState = useRef<StudyToolkitState | null>(null);
+  const stateRef = useRef(state);
+  const scopeRef = useRef(scope);
+  const syncRunning = useRef(false);
+  const syncQueued = useRef(false);
+  const retryCount = useRef(0);
+  const cacheSignature = useRef('');
+  const preferLocalScalarConflicts = useRef(true);
   const authRequest = useRef(0);
   const completedDeadline = useRef<number | null>(null);
+
+  stateRef.current = state;
+  scopeRef.current = scope;
+
+  const syncAccountWorkspace = useCallback(async (uid: string) => {
+    if (syncRunning.current) {
+      syncQueued.current = true;
+      return;
+    }
+
+    syncRunning.current = true;
+    const accountScope = `account:${uid}`;
+    setSyncStatus('syncing');
+    const localSnapshot = persistableState(stateRef.current);
+    const baseSnapshot = baseState.current || emptyState();
+    const reference = doc(db, 'studyToolkitProgress', uid);
+
+    try {
+      const merged = await runTransaction(db, async transaction => {
+        const remoteSnapshot = await transaction.get(reference);
+        const remote = remoteSnapshot.exists()
+          ? normalizeState(remoteSnapshot.data())
+          : emptyState();
+        const reconciled = mergeStudyToolkitStates(
+          baseSnapshot,
+          localSnapshot,
+          remote,
+          preferLocalScalarConflicts.current
+        );
+        transaction.set(reference, {
+          uid,
+          ...reconciled,
+          updatedAt: serverTimestamp()
+        });
+        return reconciled;
+      });
+
+      if (scopeRef.current === accountScope) {
+        baseState.current = merged;
+        preferLocalScalarConflicts.current = true;
+        retryCount.current = 0;
+        if (retryTimeout.current) clearTimeout(retryTimeout.current);
+        retryTimeout.current = null;
+        writeStoredState(baseStorageKey(accountScope), merged);
+
+        // Rebase edits made while the transaction was in flight instead of
+        // replacing them with the older snapshot that was just committed.
+        const latestLocal = persistableState(stateRef.current);
+        const rebased = mergeStudyToolkitStates(localSnapshot, latestLocal, merged);
+        if (!sameWorkspace(rebased, latestLocal)) setState(rebased);
+        writeStoredState(`${STORAGE_VERSION}:${accountScope}`, rebased);
+        setSyncStatus(sameWorkspace(rebased, merged) ? 'synced' : 'pending');
+      }
+    } catch (error) {
+      if (scopeRef.current === accountScope) {
+        setSyncStatus('offline');
+        console.warn('Curiva study workspace sync was deferred; the account-specific local cache is preserved.', error);
+        if (retryTimeout.current) clearTimeout(retryTimeout.current);
+        const delay = Math.min(60_000, 2_000 * (2 ** Math.min(retryCount.current, 5)));
+        retryCount.current += 1;
+        retryTimeout.current = setTimeout(() => {
+          retryTimeout.current = null;
+          void syncAccountWorkspace(uid);
+        }, delay);
+      }
+    } finally {
+      syncRunning.current = false;
+      if (syncQueued.current) {
+        syncQueued.current = false;
+        const activeScope = scopeRef.current;
+        if (activeScope?.startsWith('account:')) {
+          if (saveTimeout.current) clearTimeout(saveTimeout.current);
+          saveTimeout.current = setTimeout(() => {
+            saveTimeout.current = null;
+            void syncAccountWorkspace(activeScope.slice('account:'.length));
+          }, 100);
+        }
+      }
+    }
+  }, []);
+
+  const scheduleSync = useCallback((uid: string, delay = 650) => {
+    if (saveTimeout.current) clearTimeout(saveTimeout.current);
+    if (retryTimeout.current) clearTimeout(retryTimeout.current);
+    retryTimeout.current = null;
+    saveTimeout.current = setTimeout(() => {
+      saveTimeout.current = null;
+      void syncAccountWorkspace(uid);
+    }, delay);
+  }, [syncAccountWorkspace]);
 
   useEffect(() => {
     let active = true;
     const unsubscribe = onAuthStateChanged(auth, async user => {
       const requestId = ++authRequest.current;
       const nextScope = user ? `account:${user.uid}` : 'guest';
+      if (saveTimeout.current) clearTimeout(saveTimeout.current);
+      if (retryTimeout.current) clearTimeout(retryTimeout.current);
+      saveTimeout.current = null;
+      retryTimeout.current = null;
+      cacheSignature.current = '';
       setReady(false);
       setScope(null);
       setSignedIn(Boolean(user));
+      setSyncStatus(user ? 'syncing' : 'local');
+
       let nextState = emptyState();
+      let nextBase = emptyState();
+      let cloudAvailable = !user;
+      let hasKnownBase = false;
 
       if (!user) {
         nextState = loadGuestState();
+        nextBase = nextState;
       } else {
-        try {
-          const cache = localStorage.getItem(`${STORAGE_VERSION}:${nextScope}`);
-          if (cache) nextState = normalizeState(JSON.parse(cache));
-        } catch { /* The cloud copy remains the account source of truth. */ }
+        const cached = readStoredState(`${STORAGE_VERSION}:${nextScope}`);
+        const cachedBase = readStoredState(baseStorageKey(nextScope));
+        hasKnownBase = Boolean(cachedBase);
+
         try {
           const snapshot = await getDoc(doc(db, 'studyToolkitProgress', user.uid));
-          if (snapshot.exists()) nextState = normalizeState(snapshot.data());
+          const remote = snapshot.exists() ? normalizeState(snapshot.data()) : emptyState();
+          cloudAvailable = true;
+          nextBase = remote;
+
+          if (!cached) {
+            nextState = remote;
+          } else if (cachedBase) {
+            nextState = mergeStudyToolkitStates(cachedBase, cached, remote);
+          } else {
+            // Older app versions did not store a last-synced baseline. Preserve
+            // any unique cached entries, but prefer cloud scalar settings.
+            nextState = mergeStudyToolkitStates(emptyState(), cached, remote, false);
+          }
         } catch (error) {
+          nextState = cached || emptyState();
+          nextBase = cachedBase || emptyState();
           console.warn('Curiva study workspace is using its account-specific local cache while cloud sync is unavailable.', error);
         }
       }
 
       if (!active || requestId !== authRequest.current) return;
+      baseState.current = nextBase;
+      preferLocalScalarConflicts.current = cloudAvailable || hasKnownBase;
+      if (user && cloudAvailable) writeStoredState(baseStorageKey(nextScope), nextBase);
       setState(nextState);
       setScope(nextScope);
       setReady(true);
+      setSyncStatus(!user ? 'local' : cloudAvailable
+        ? (sameWorkspace(persistableState(nextState), persistableState(nextBase)) ? 'synced' : 'pending')
+        : 'offline');
     });
 
     return () => {
       active = false;
       unsubscribe();
       if (saveTimeout.current) clearTimeout(saveTimeout.current);
+      if (retryTimeout.current) clearTimeout(retryTimeout.current);
     };
   }, []);
 
+  // Keep each signed-in device live with remote workspace changes. Three-way
+  // reconciliation retains pending local edits while adopting untouched remote
+  // changes; deletes win conflicts to prevent stale offline data reappearing.
+  useEffect(() => {
+    if (!ready || !scope?.startsWith('account:')) return;
+    let active = true;
+    const uid = scope.slice('account:'.length);
+    const unsubscribe = onSnapshot(doc(db, 'studyToolkitProgress', uid), snapshot => {
+      if (!active) return;
+      const remote = snapshot.exists() ? normalizeState(snapshot.data()) : emptyState();
+      const base = baseState.current || remote;
+      const local = persistableState(stateRef.current);
+      const reconciled = mergeStudyToolkitStates(
+        base,
+        local,
+        remote,
+        preferLocalScalarConflicts.current
+      );
+      baseState.current = remote;
+      writeStoredState(baseStorageKey(scope), remote);
+      if (!sameWorkspace(reconciled, local)) setState(reconciled);
+      setSyncStatus(sameWorkspace(reconciled, remote) ? 'synced' : 'pending');
+    }, error => {
+      if (!active) return;
+      setSyncStatus('offline');
+      console.warn('Live Curiva study workspace updates are temporarily unavailable; local changes are retained.', error);
+    });
+
+    return () => {
+      active = false;
+      unsubscribe();
+    };
+  }, [ready, scope]);
+
   useEffect(() => {
     if (!ready || !scope) return;
-    const snapshot = normalizeState(state);
-    // A running timer is represented by its absolute deadline. Do not persist a
-    // new Firestore document on every visible second; pause/start/completion
-    // transitions still persist immediately through this effect.
-    const persistedSnapshot = snapshot.timer.running
-      ? { ...snapshot, timer: { ...snapshot.timer, remainingSeconds: 0 } }
-      : snapshot;
-    const serialized = JSON.stringify(persistedSnapshot);
+    const snapshot = persistableState(state);
+    const serialized = JSON.stringify(snapshot);
     const signature = `${scope}:${serialized}`;
-    if (lastPersisted.current === signature) return;
-    lastPersisted.current = signature;
 
-    try {
-      localStorage.setItem(`${STORAGE_VERSION}:${scope}`, serialized);
-    } catch (error) {
-      console.warn('Curiva study workspace could not be cached in this browser.', error);
+    if (cacheSignature.current !== signature) {
+      writeStoredState(`${STORAGE_VERSION}:${scope}`, snapshot);
+      cacheSignature.current = signature;
     }
 
-    if (!scope.startsWith('account:')) return;
-    if (saveTimeout.current) clearTimeout(saveTimeout.current);
-    const uid = scope.slice('account:'.length);
-    saveTimeout.current = setTimeout(() => {
-      void setDoc(doc(db, 'studyToolkitProgress', uid), {
-        uid,
-        ...persistedSnapshot,
-        updatedAt: serverTimestamp()
-      }).catch(error => {
-        lastPersisted.current = '';
-        console.warn('Curiva study workspace could not sync to the account yet; the account-specific local cache is preserved.', error);
-      });
-    }, 650);
-  }, [state, ready, scope]);
+    if (!scope.startsWith('account:')) {
+      setSyncStatus('local');
+      return;
+    }
+
+    const baseline = baseState.current || emptyState();
+    if (sameWorkspace(snapshot, baseline)) {
+      setSyncStatus(current => current === 'syncing' ? current : 'synced');
+      return;
+    }
+
+    setSyncStatus(current => current === 'syncing' ? current : 'pending');
+    scheduleSync(scope.slice('account:'.length));
+  }, [state, ready, scope, scheduleSync]);
 
   useEffect(() => {
     if (!state.timer.running || !state.timer.deadlineAt) return;
@@ -318,9 +511,9 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const addTask = useCallback((title: string, subject?: string, chapter?: string) => {
     const clean = title.trim();
     if (!clean) return;
-    setState(current => ({ ...current, tasks: [{ id: id(), title: clean.slice(0, 160), done: false, date: studyDateKey(), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}) }, ...current.tasks].slice(0, 300) }));
+    setState(current => ({ ...current, tasks: [{ id: id(), title: clean.slice(0, 160), done: false, date: studyDateKey(), updatedAt: new Date().toISOString(), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}) }, ...current.tasks].slice(0, 300) }));
   }, []);
-  const toggleTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.map(task => task.id === taskId ? { ...task, done: !task.done } : task) })), []);
+  const toggleTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.map(task => task.id === taskId ? { ...task, done: !task.done, updatedAt: new Date().toISOString() } : task) })), []);
   const deleteTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.filter(task => task.id !== taskId) })), []);
   const saveNote = useCallback((note: Omit<StudyNote, 'id' | 'updatedAt'> & { id?: string }) => {
     const clean = note.content.trim();
@@ -393,10 +586,10 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   }
 
   const value = useMemo<StudyToolkitContextValue>(() => ({
-    state, ready, signedIn, todayMinutes, weeklyMinutes, streak,
+    state, ready, signedIn, syncStatus, todayMinutes, weeklyMinutes, streak,
     addTask, toggleTask, deleteTask, saveNote, deleteNote, addCard, addSession, addReadingLog,
     saveReflection, setGoals, setExamDate, setFocusMode, startTimer, pauseTimer, resetTimer, clearSessions
-  }), [state, ready, signedIn, todayMinutes, weeklyMinutes, streak, addTask, toggleTask, deleteTask, saveNote, deleteNote, addCard, addSession, addReadingLog, saveReflection, setGoals, setExamDate, setFocusMode, startTimer, pauseTimer, resetTimer, clearSessions]);
+  }), [state, ready, signedIn, syncStatus, todayMinutes, weeklyMinutes, streak, addTask, toggleTask, deleteTask, saveNote, deleteNote, addCard, addSession, addReadingLog, saveReflection, setGoals, setExamDate, setFocusMode, startTimer, pauseTimer, resetTimer, clearSessions]);
 
   return <StudyToolkitContext.Provider value={value}>{children}</StudyToolkitContext.Provider>;
 }
