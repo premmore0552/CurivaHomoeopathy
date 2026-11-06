@@ -428,8 +428,8 @@ export default function SymptomChecker() {
                       <h4 className="text-xs font-black uppercase tracking-wider text-text-tertiary">A. Thermal Reactions (Reaction to Heat/Cold):</h4>
                       <div className="grid grid-cols-2 gap-3">
                         {[
-                          { val: 'chilly', label: 'Chilly Patient', desc: 'Extremely sensitive to cold drafts, cold climate, and warm coverings feel comforting.' },
-                          { val: 'hot', label: 'Hot / Warm Patient', desc: 'Cannot tolerate warm rooms or thick blankets, deeply craves fresh open air.' }
+                          { val: 'chilly', label: 'Chilly tendency (study theme)', desc: 'A traditional materia medica descriptor used in this fictional academic example.' },
+                          { val: 'hot', label: 'Warm tendency (study theme)', desc: 'A traditional materia medica descriptor used in this fictional academic example.' }
                         ].map((opt) => (
                           <button
                             key={opt.val}
