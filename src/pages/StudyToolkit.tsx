@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { Activity, ArrowRight, BookOpen, Brain, CalendarDays, CheckSquare, Clock3, FileText, Flame, Focus, Layers, Lightbulb, ListChecks, NotebookPen, Target, Timer, Zap } from 'lucide-react';
+import { ArrowRight, BookOpen, Brain, Clock3, Flame, Layers, Lightbulb, ListChecks, Target, Timer, Zap } from 'lucide-react';
 import SEO from '../components/SEO';
 import { useStudyToolkit } from '../context/StudyToolkitContext';
 
