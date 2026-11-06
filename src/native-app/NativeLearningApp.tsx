@@ -129,6 +129,16 @@ interface NativeLearningAppProps {
 export default function NativeLearningApp({ account = null, onManageAccount, onSignOut }: NativeLearningAppProps = {}) {
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [screen, setScreen] = useState<Screen>('main');
+  useEffect(() => {
+    if (!account) return;
+    try {
+      if (localStorage.getItem('curiva-native-open-upsc-md-after-auth') === 'true') {
+        localStorage.removeItem('curiva-native-open-upsc-md-after-auth');
+        setActiveTab('practice');
+        setScreen('upsc-md-practice');
+      }
+    } catch { /* Resume is optional if local preferences are unavailable. */ }
+  }, [account?.email]);
   const [selectedSubjectId, setSelectedSubjectId] = useState('');
   const [selectedChapterTitle, setSelectedChapterTitle] = useState('');
   const [selectedArticleSlug, setSelectedArticleSlug] = useState('');
@@ -591,7 +601,7 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
         recordStudyDay();
         setStudyDays(items => Array.from(new Set([...items, today])));
       }} />}
-      {screen === 'upsc-md-practice' && <UPSCMDQuestionPractice embedded onBack={() => { setScreen('main'); setActiveTab('practice'); }} />}
+      {screen === 'upsc-md-practice' && <UPSCMDQuestionPractice embedded onManageAccount={onManageAccount} onBack={() => { setScreen('main'); setActiveTab('practice'); }} />}
       {screen === 'quiz-result' && <motion.main key="quiz-result" className="native-detail-content native-quiz-result" initial={{ opacity: 0, scale: 0.97 }} animate={{ opacity: 1, scale: 1 }}><div className="native-result-illustration"><Trophy size={35} /></div><span className="native-eyebrow">SESSION COMPLETE</span><h1>Good work. Keep <em>going.</em></h1><p className="native-result-copy">Every question is a chance to reinforce understanding.</p><div className="native-result-score"><strong>{quizScore}/{activeQuestions.length}</strong><span>correct answers</span><div className="native-progress-track"><span style={{ width: String(Math.round(quizScore / activeQuestions.length * 100)) + '%' }} /></div><b>{Math.round(quizScore / activeQuestions.length * 100)}% accuracy</b></div><div className="native-result-actions"><button className="native-primary-button" onClick={startQuiz}><RotateCcw size={17} /> Try again</button><button className="native-secondary-button" onClick={() => { setScreen('main'); setActiveTab('practice'); }}>Back to practice</button></div></motion.main>}
     </AnimatePresence>
 
