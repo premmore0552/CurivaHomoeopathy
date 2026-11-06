@@ -202,8 +202,8 @@ export default function StudyToolkitDashboard() {
 
         <Panel title="Quick notes and word counter" icon={<NotebookPen size={18} className="text-violet-600"/>}>
           <input value={noteTitle} onChange={e => setNoteTitle(e.target.value)} placeholder="Note title" maxLength={160} className="w-full rounded-xl border border-border bg-bg-primary p-3 text-sm"/>
-          <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)} rows={4} maxLength={12000} placeholder="Write a concise summary or concept to revisit…" className="w-full rounded-xl border border-border bg-bg-primary p-3 text-sm"/>
-          <div className="flex items-center justify-between text-[11px] text-text-tertiary"><span>{wordCount} words</span><span>{noteContent.length}/12000 characters</span></div>
+          <textarea value={noteContent} onChange={e => setNoteContent(e.target.value)} rows={4} maxLength={4000} placeholder="Write a concise summary or concept to revisit…" className="w-full rounded-xl border border-border bg-bg-primary p-3 text-sm"/>
+          <div className="flex items-center justify-between text-[11px] text-text-tertiary"><span>{wordCount} words</span><span>{noteContent.length}/4000 characters</span></div>
           <button type="button" onClick={saveDailyNote} disabled={!noteContent.trim()} className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white disabled:opacity-40">Save note</button>
           <div className="max-h-40 space-y-2 overflow-y-auto">
             {state.notes.slice(0, 5).map(note => <div key={note.id} className="flex items-start gap-2 rounded-xl bg-bg-primary p-2.5"><div className="min-w-0 flex-1"><strong className="block text-xs">{note.title}</strong><p className="line-clamp-2 text-[11px] text-text-secondary">{note.content}</p></div><button type="button" onClick={() => deleteNote(note.id)} aria-label={`Delete ${note.title}`} className="text-text-tertiary hover:text-red-600"><Trash2 size={14}/></button></div>)}
