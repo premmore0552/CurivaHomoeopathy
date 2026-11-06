@@ -6,6 +6,8 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import { AnimatePresence, motion } from 'motion/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
+import { StudyToolkitProvider } from './context/StudyToolkitContext';
+import StudyToolkitDock from './components/StudyToolkitDock';
 import { useReading } from './context/ReadingContext';
 import ReadingProgressBar from './components/ReadingProgressBar';
 import Header from './components/Header';
@@ -244,11 +246,13 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   const location = useLocation();
   return (
+    <StudyToolkitProvider>
     <>
       <ReadingProgressBar />
       <RouteScrollToTop />
       <ScrollToTop />
       <FloatingQuickActions />
+      <StudyToolkitDock />
       <MedicalDisclaimerModal />
       <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary flex flex-col transition-colors duration-300">
         <Header />
@@ -483,6 +487,7 @@ function AppRoutes() {
         <Footer />
       </div>
     </>
+    </StudyToolkitProvider>
   );
 }
 
