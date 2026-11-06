@@ -148,7 +148,7 @@ Please use this as an academic learning aid, not as a consultation or source of 
         <div role="note" className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs text-text-secondary space-y-2">
           <p className="font-bold text-amber-800 dark:text-amber-200">Educational use only — not a clinical consultation</p>
           <p>Responses are AI-generated and may be inaccurate. This tool cannot diagnose, choose remedies, or recommend potencies, doses, or treatment plans. Do not delay medical assessment or stop/change prescribed treatment because of a response. For personal health concerns, consult a qualified registered medical practitioner; for emergencies, contact local emergency services.</p>
-          <p>Do not enter names, contact details, medical-record numbers, photographs, or other identifying or sensitive patient information. Prompts and recent chat context are sent to Google Gemini to generate replies.</p>
+          <p>Do not enter names, contact details, medical-record numbers, photographs, or other identifying or sensitive patient information. The prompt and recent chat context are sent to Curiva's server; when an AI-generated reply is needed, they are passed to Google Gemini. Some keyword matches return study links directly without Gemini generation.</p>
         </div>
 
         {/* Outer Split Layout */}
