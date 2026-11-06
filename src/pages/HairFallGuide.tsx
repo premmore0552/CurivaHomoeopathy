@@ -635,7 +635,7 @@ export default function HairFallGuide() {
       content: `
         <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Homoeopathy & Hair Fall: A Realistic Perspective</h2>
         <p class="mb-4">Can Homoeopathy help hair fall? The honest answer is: <strong>it depends entirely on the cause</strong>. Hair fall is not a disease; it is a symptom of an underlying issue.</p>
-        <p class="mb-4">Whether triggered by chronic stress, nutritional deficiencies, or hormonal disorders, different causes require personalized approaches. Homoeopathy is traditionally based on understanding the individual holistically, rather than offering a one-size-fits-all solution.</p>
+        <p class="mb-4">Hair loss has many possible causes and an individual assessment may be needed to understand them. Traditional homoeopathic literature emphasizes individualization, but this historical framework does not establish that homoeopathic products are effective treatments for hair loss.</p>
 
         <div class="my-6 p-5 bg-emerald-50 dark:bg-zinc-800 rounded-2xl border border-emerald-100 dark:border-zinc-700 text-sm">
           <span class="uppercase tracking-wider font-semibold text-emerald-800 dark:text-emerald-400 text-xs block mb-2">🌿 What Homoeopathy Cannot Do</span>
@@ -1770,7 +1770,7 @@ export default function HairFallGuide() {
                       <div className={`p-3.5 rounded-2xl max-w-[85%] shadow-sm ${msg.sender === "user" ? "bg-primary text-white rounded-tr-none" : msg.isError ? "bg-red-50 dark:bg-red-950/20 text-red-900 border-l-4 border-red-500 rounded-tl-none text-xs" : "bg-bg-primary rounded-tl-none"}`}>
                         {msg.sender === "coach" && (
                           <span className="text-[10px] uppercase font-black text-primary dark:text-primary-light block mb-1">
-                            ✨ AI Coach
+                            ✨ Study Assistant
                           </span>
                         )}
                         <div className="text-xs md:text-sm leading-relaxed whitespace-pre-wrap">
@@ -1785,7 +1785,7 @@ export default function HairFallGuide() {
                     <div className="flex justify-start">
                       <div className="p-3 bg-bg-primary border border-border rounded-2xl rounded-tl-none flex items-center gap-2 text-xs text-text-secondary">
                         <Loader2 className="w-4 h-4 animate-spin text-primary" />
-                        <span>AI Coach is reading Ebook parameters...</span>
+                        <span>Study Assistant is preparing an educational response...</span>
                       </div>
                     </div>
                   )}
