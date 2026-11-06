@@ -8,7 +8,6 @@ import {
   Cpu, 
   GraduationCap, 
   Search, 
-  ShieldCheck, 
   Sparkles,
   ArrowRight,
   Globe
