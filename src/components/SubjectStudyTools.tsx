@@ -60,9 +60,13 @@ export default function SubjectStudyTools({ subject, chapters }: { subject: stri
         <div className="rounded-xl border border-border bg-bg-secondary p-3 space-y-3">
           <h5 className="flex items-center gap-2 text-xs font-black"><ListTodo size={15}/> Chapter checklist &amp; revision filters</h5>
           <div className="flex gap-2">
-            <select value={chapter} onChange={e => setChapter(e.target.value)} className="min-w-0 flex-1 rounded-lg border border-border bg-bg-primary p-2 text-xs">
-              {chapters.map(item => <option key={item} value={item}>{item}</option>)}
-            </select>
+            {chapters.length > 0 ? (
+              <select value={chapter} onChange={e => setChapter(e.target.value)} className="min-w-0 flex-1 rounded-lg border border-border bg-bg-primary p-2 text-xs">
+                {chapters.map(item => <option key={item} value={item}>{item}</option>)}
+              </select>
+            ) : (
+              <input value={chapter} onChange={e => setChapter(e.target.value)} placeholder="Enter a chapter or topic" className="min-w-0 flex-1 rounded-lg border border-border bg-bg-primary p-2 text-xs"/>
+            )}
             <button type="button" onClick={addChapterTask} disabled={!chapter || tasks.some(task => task.chapter === chapter && !task.done)} className="inline-flex items-center gap-1 rounded-lg bg-primary px-3 py-2 text-xs font-bold text-white disabled:opacity-40"><Plus size={14}/> Add</button>
           </div>
           <div className="flex gap-1.5">{(['all','open','done'] as const).map(value => <button key={value} type="button" onClick={() => setFilter(value)} className={`rounded-md px-2.5 py-1 text-[10px] font-bold capitalize ${filter === value ? 'bg-primary text-white' : 'bg-bg-primary text-text-secondary'}`}>{value}</button>)}</div>
@@ -100,7 +104,9 @@ export default function SubjectStudyTools({ subject, chapters }: { subject: stri
         <div className="rounded-xl border border-border bg-bg-secondary p-3 space-y-2 lg:col-span-2">
           <h5 className="flex items-center gap-2 text-xs font-black"><BookMarked size={15}/> Reading log</h5>
           <div className="grid gap-2 sm:grid-cols-[1fr_10rem]">
-            <input value={chapter} onChange={e => setChapter(e.target.value)} placeholder="Chapter / topic read" className="rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>
+            {chapters.length > 0
+              ? <select value={chapter} onChange={e => setChapter(e.target.value)} className="rounded-lg border border-border bg-bg-primary p-2.5 text-xs">{chapters.map(item => <option key={item}>{item}</option>)}</select>
+              : <input value={chapter} onChange={e => setChapter(e.target.value)} placeholder="Chapter / topic read" className="rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>}
             <input value={pages} onChange={e => setPages(e.target.value)} placeholder="Pages / section" maxLength={80} className="rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>
           </div>
           <textarea value={readingNote} onChange={e => setReadingNote(e.target.value)} rows={2} placeholder="Reading notes (optional)" maxLength={1000} className="w-full rounded-lg border border-border bg-bg-primary p-2.5 text-xs"/>
