@@ -53,6 +53,14 @@ This is an engineering review, not a penetration test, clinical validation, priv
 - [ ] Compare the proposed Firestore rules against the currently deployed rules before any Firebase rules deployment. Rules deployment replaces the deployed rules and must remain a separately reviewed operation.
 - [ ] Confirm backups, access controls, provider retention configuration, and support contact details before collecting any new category of personal or health information.
 
+## Generated research-artifact cleanup
+
+The repository previously contained a temporary Google Gemini share-page extraction workflow at the repository root. Its scripts downloaded shared conversation HTML, extracted embedded JSON and JavaScript, and generated decoded strings and keyword-match dumps. These files were not imported by the application or invoked by the package scripts.
+
+The cleanup branch removes the downloaded share-page snapshots, extracted JavaScript/JSON/text outputs, derived keyword-match files, and the ad-hoc fetch/parse/analyze helper scripts. It retains unrelated Materia Medica ID lists and other root-level utilities whose role is separate from this Gemini extraction workflow. `.gitignore` now blocks the generated output patterns from being re-added accidentally.
+
+Deleting these files from the current tree does not erase earlier commits or copies already cloned/forked. If a shared Gemini conversation contained private or sensitive material, revoke its original Google share link and consider a separately planned Git-history purge; history rewriting is intentionally not part of this cleanup PR.
+
 ## Review limitations
 
 The repository was inspected through GitHub source/metadata access. No local checkout, npm install, local test execution, interactive browser session, device run, live API request, external provider sandbox transaction, production database query, or penetration test was performed in this review. CI results on this change branch are the authoritative code execution check after the pull request is opened.
