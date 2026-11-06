@@ -260,7 +260,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
     }
 
     syncRunning.current = true;
-    const accountScope = \`account:\${uid}\`;
+    const accountScope = `account:${uid}`;
     setSyncStatus('syncing');
     const localSnapshot = persistableState(stateRef.current);
     const baseSnapshot = baseState.current || emptyState();
@@ -299,7 +299,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
         const latestLocal = persistableState(stateRef.current);
         const rebased = mergeStudyToolkitStates(localSnapshot, latestLocal, merged);
         if (!sameWorkspace(rebased, latestLocal)) setState(rebased);
-        writeStoredState(\`\${STORAGE_VERSION}:\${accountScope}\`, rebased);
+        writeStoredState(`${STORAGE_VERSION}:${accountScope}`, rebased);
         setSyncStatus(sameWorkspace(rebased, merged) ? 'synced' : 'pending');
       }
     } catch (error) {
@@ -344,7 +344,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
     let active = true;
     const unsubscribe = onAuthStateChanged(auth, async user => {
       const requestId = ++authRequest.current;
-      const nextScope = user ? \`account:\${user.uid}\` : 'guest';
+      const nextScope = user ? `account:${user.uid}` : 'guest';
       if (saveTimeout.current) clearTimeout(saveTimeout.current);
       if (retryTimeout.current) clearTimeout(retryTimeout.current);
       saveTimeout.current = null;
@@ -364,7 +364,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
         nextState = loadGuestState();
         nextBase = nextState;
       } else {
-        const cached = readStoredState(\`\${STORAGE_VERSION}:\${nextScope}\`);
+        const cached = readStoredState(`${STORAGE_VERSION}:${nextScope}`);
         const cachedBase = readStoredState(baseStorageKey(nextScope));
         hasKnownBase = Boolean(cachedBase);
 
@@ -448,10 +448,10 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
     if (!ready || !scope) return;
     const snapshot = persistableState(state);
     const serialized = JSON.stringify(snapshot);
-    const signature = \`\${scope}:\${serialized}\`;
+    const signature = `${scope}:${serialized}`;
 
     if (cacheSignature.current !== signature) {
-      writeStoredState(\`\${STORAGE_VERSION}:\${scope}\`, snapshot);
+      writeStoredState(`${STORAGE_VERSION}:${scope}`, snapshot);
       cacheSignature.current = signature;
     }
 
