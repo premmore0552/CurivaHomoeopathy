@@ -1,6 +1,6 @@
 # API and feature inventory (source-level)
 
-Inspected on `feat/full-platform-transformation`; this is not a runtime or production smoke test.
+Updated 7 November 2026 from the current `main` baseline and the security-hardening review branch; this remains a source-level inventory, not a runtime or production smoke test.
 
 ## Express endpoints found in `server.ts`
 - `POST /api/send-resource-email`
