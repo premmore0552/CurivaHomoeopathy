@@ -1087,11 +1087,12 @@ async function startServer() {
       matched.push({ name: "Organon of Medicine & Hahnemannian Philosophy", path: "/lexicon/all", category: "Academic Reference" });
     }
 
-    // Construct beautiful markdown block at the bottom
-    let referenceSection = `\n\n---\n\n### 📚 Verified Encyclopedia & Reference Sources:\n*Verify case characteristics and study guidelines directly from our peer-reviewed college curriculum:*`;
+    // Append neutral links to related learning pages; the presence of a page match
+    // is not a clinical review or evidence assessment.
+    let referenceSection = `\n\n---\n\n### 📚 Related Study Pages:\n*Use these pages as educational reading, and check the cited source and edition where available:*`;
     
     matched.forEach(ref => {
-      referenceSection += `\n- **[${ref.name}](${ref.path})** (${ref.category}) — Click to view authentic textbook profiles and verify accuracy.`;
+      referenceSection += `\n- **[${ref.name}](${ref.path})** (${ref.category}) — Related academic reading.`;
     });
 
     return text + referenceSection;
@@ -1174,7 +1175,7 @@ async function startServer() {
           * Rhus Toxicodendron (restlessness, joints stiff but better moving): '/read/rhus-tox' or '/read/rhus-tox-profile'
           * Natrum Muriaticum (suppressed deep sorrow, craves salt): '/read/natrum-muriaticum' or '/read/nat-mur-profile'
           * Sepia Officinalis (indifference to loved ones, bearing down pain): '/read/sepia'
-        - Common Ailments Treatment Pages:
+        - Condition education pages (academic background only):
           * Hair Loss, Alopecia & Thinning: '/read/hair-loss-homeopathy'
           * Anxiety & Mental Strain: '/read/anxiety-homeopathy-deep'
           * Depression & Chronic Low Mood: '/read/depression-homeopathy'
