@@ -210,7 +210,7 @@ service cloud.firestore {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow create: if isSignedIn() && 
                       isValidQuestion(incoming()) &&
@@ -227,7 +227,7 @@ service cloud.firestore {
     // --- Collection: Orders ---
     match /orders/{orderId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow create: if (
                       (isSignedIn() && incoming().userId == request.auth.uid) ||
@@ -243,7 +243,7 @@ service cloud.firestore {
     // --- Collection: Kits ---
     match /kits/{kitId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
       allow update: if isSignedIn() && (
         (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
@@ -255,7 +255,7 @@ service cloud.firestore {
     // --- Collection: Screenings ---
     match /screenings/{screeningId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isSignedIn() && isValidScreening(incoming()) && incoming().createdAt == request.time;
       allow update: if isSignedIn() && resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId;
       allow delete: if isAdmin();
