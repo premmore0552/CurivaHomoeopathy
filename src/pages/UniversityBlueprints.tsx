@@ -175,7 +175,7 @@ const blueprintsData = [
         totalMarks: 100,
         pattern: "LAQ (10 Marks x 2 = 20), SAQ (5 Marks x 8 = 40), Very Short (2 Marks x 20 = 40)",
         highYieldTopics: [
-          "Kent's Repertory: Plan, construction, 37 chapters, and typographic grading (1, 2, 3)",
+          "Kent Repertory: Plan, construction, 37 chapters, and typographic grading (1, 2, 3)",
           "Boenninghausen's Therapeutic Pocket Book (TPB): Doctrine of Analogy, Complete Symptom, and Concomitants",
           "Boger's BBCR: Pathological general, tissue affinities, and Synoptic Key",
           "Methods of Repertorisation: Kentian (General to Particular), Boenninghausen (Particular to General), Boger method",

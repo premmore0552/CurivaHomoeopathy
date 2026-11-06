@@ -51,7 +51,7 @@ const activeFAQ = [
   },
   {
     q: "What clinical research & study tools are available for professionals and students?",
-    a: "Curiva simplifies practitioner cases with smart clinical decision-support modules, an advanced symptomatic checker, a Kent repertory calculator to compute remedy weights, and a side-by-side comparative analyzer to differentiate sister remedies."
+    a: "Curiva simplifies practitioner cases with smart clinical decision-support modules, an advanced symptomatic checker, a Kent Repertory calculator to compute remedy weights, and a side-by-side comparative analyzer to differentiate sister remedies."
   },
   {
     q: "Can normal citizens or patients use Curiva?",
@@ -102,11 +102,11 @@ const studyPathTopics: StudyTopic[] = [
     id: "clinical-practice",
     category: "Academic Stage 3",
     title: "Clinical Repertorization",
-    subtitle: "Symptom Logic, Kent Rubrics & Posology",
+    subtitle: "Symptom Logic, Kent Repertory rubrics & Posology",
     distilledSummary: "Clinical practice relies on accurate symptom synthesis. We translate natural patient details into official repertory indexes (rubrics), perform logical symptom weight assessments, and select matching potencies and dosages safely.",
     coreConcepts: [
       { name: "Holistic Case Recording", description: "Documenting patient history, sleep indices, temperaments, and somatic patterns without preconceptions." },
-      { name: "Rubric Translation", description: "Converting raw symptom expressions into formal repertory titles mapped in Kent's historical indexes." },
+      { name: "Rubric Translation", description: "Converting raw symptom expressions into formal repertory titles mapped in the historical Kent Repertory indexes." },
       { name: "Mathematical Synthesis", description: "Ranking candidates based on the scale of matched symptom categories, modal generalities, and clinical scores." },
       { name: "Syllabus Posology", description: "Gauging exact remedy strengths (e.g., 30C vs 200C vs LM) matching the defensive strength of the body." }
     ],
