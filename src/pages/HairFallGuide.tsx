@@ -719,12 +719,12 @@ export default function HairFallGuide() {
     {
       id: "ch24",
       title: "Chapter 24",
-      subtitle: "Your Personal Recovery Plan",
+      subtitle: "Hair-Health Study Planner",
       content: `
-        <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Build Your Personal Hair Recovery Plan</h2>
-        <p class="mb-4">Because hair fall is highly individual, what works for someone else may not be what your body needs. Use this interactive planner below to identify your triggers and select your recovery goals.</p>
+        <h2 class="text-3xl md:text-4xl font-serif font-black text-slate-900 dark:text-white mb-6">Hair-Health Study Planner</h2>
+        <p class="mb-4">Hair loss has many possible causes and an individual assessment is needed to understand a person's circumstances. This section provides general educational reading prompts; it does not assess symptoms or choose treatment.</p>
 
-        <p class="mb-4">Select your custom focus group below to read your actionable guide, then write in your lifestyle details to get a personalized 7-day hair wellness regimen crafted by our built-in Curiva AI assistant.</p>
+        <p class="mb-4">Choose a general topic to generate an educational checklist. Do not enter personal health details, patient information, or test results in the AI assistant.</p>
       `
     },
     {
@@ -1244,7 +1244,7 @@ export default function HairFallGuide() {
     <>
       <SEO 
         title="Interactive Hair Fall Recovery Guide | Curiva" 
-        description="Explore the complete comprehensive eBook Guide with practical advice, scorecards, custom planners and real-time AI Scalp Coaching."
+        description="Explore educational reading on hair health, practical study prompts, and a general AI hair-health study assistant."
       />
 
       <div className={`min-h-screen font-sans flex flex-col relative overflow-hidden transition-colors duration-300 ${getPageBackgroundClass()}`}>
@@ -1370,14 +1370,14 @@ export default function HairFallGuide() {
             <button 
               onClick={() => setIsCoachOpen(true)}
               className="p-2 bg-primary-light hover:bg-primary/20 text-primary rounded-xl transition flex items-center gap-1.5 font-bold text-xs shadow-sm"
-              title="Consult AI Scalp Coach"
+              title="Open AI Hair-Health Study Assistant"
             >
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-accent-dark"></span>
               </span>
               <Sparkles className="w-3.5 h-3.5" />
-              <span className="hidden sm:inline">AI Coach</span>
+              <span className="hidden sm:inline">Study Assistant</span>
             </button>
 
             {/* Close Ebook to articles */}
