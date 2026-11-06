@@ -1110,27 +1110,51 @@ async function startServer() {
 
   app.post("/api/gemini/curiva-care", aiApiRateLimiter, async (req, res) => {
     try {
-      const { prompt, conversationHistory } = req.body;
-      if (!prompt) {
-        return res.status(400).json({ error: "Prompt is required" });
+      const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
+      const { prompt, conversationHistory } = body;
+      if (typeof prompt !== "string" || !prompt.trim()) {
+        return res.status(400).json({ error: "A non-empty prompt is required" });
+      }
+      if (prompt.length > 4000) {
+        return res.status(413).json({ error: "Prompt is too long. Please keep it under 4,000 characters." });
+      }
+      if (
+        conversationHistory !== undefined &&
+        (!Array.isArray(conversationHistory) ||
+          conversationHistory.length > 12 ||
+          conversationHistory.some((message: any) =>
+            !message ||
+            typeof message !== "object" ||
+            !["user", "model"].includes(message.role) ||
+            typeof message.text !== "string" ||
+            message.text.length > 3000
+          ))
+      ) {
+        return res.status(400).json({ error: "Conversation history is invalid or too large." });
+      }
+      const safeHistory = Array.isArray(conversationHistory) ? conversationHistory : [];
+      const historyCharacters = safeHistory.reduce((total: number, message: any) => total + message.text.length, 0);
+      if (historyCharacters > 12000) {
+        return res.status(413).json({ error: "Conversation history is too long. Start a new study conversation." });
       }
 
-      // Check if prompt has any matches in REFERENCE_CATALOG for instant fast responses
+      // Check if the prompt matches an academic reference page.
       const matchedContent = getInstantResponseForKeyword(prompt);
       if (matchedContent.length > 0) {
-        let text = `### ⚡ Instant Clinical Insights:\nTo ensure you receive the most accurate and immediate support, I have bypassed the AI synthesis and retrieved verified page matches from our official college study database directly for your request:\n\n`;
+        let text = `### 📚 Study references matching your topic:\nThese are Curiva learning pages related to the words in your prompt. A page match is not a clinical assessment or verification of treatment effectiveness.\n\n`;
         matchedContent.forEach(item => {
-          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}* — Click to view authentic medical textbook profiles instantly.\n\n`;
+          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}*\n\n`;
         });
-        text += `\nThis official content has been pre-screened for professional clinical accuracy and is provided for immediate, faster reading. Please click the links above to read the comprehensive details on our website.`;
+        text += `\nFor education only: do not use these pages or an AI response to diagnose, choose a remedy, set a dose, delay medical assessment, or change prescribed treatment. Consult a qualified registered medical practitioner for personal health decisions.`;
         return res.json({ text });
       }
 
       const curivaCareSystemInstruction = `
-        You are the ✨ Curiva Homeopathic Consultation Companion, an empathetic, highly knowledgeable, and professional classical homeopath.
-        You represent Curiva's clinical homeopathic advisory team designed to support patient understanding around classical homeopathic science, organon principles, and constitutional remedy dynamics.
-        
+        You are Curiva's AI Homoeopathy Study Assistant. You are an educational language model, not a clinician, homeopath, practitioner, or member of a clinical advisory team.
+        You help students and readers understand homoeopathic history, terminology, repertory concepts, and educational materials. You do not provide patient care.
+
         CRITICAL RESPONSE INSTRUCTIONS:
+        0. SAFETY AND SCOPE: Never diagnose, assess an individual's symptoms, select a remedy for a person, or recommend a potency, dose, schedule, or treatment plan. Do not tell anyone to stop, change, or delay prescribed medicines, tests, emergency care, or evidence-based treatment. Explain that traditional homoeopathic concepts are historical/traditional frameworks and do not imply proven clinical effectiveness. State uncertainty clearly. Do not request or repeat identifiable patient information. For personal health decisions, direct users to a qualified registered medical practitioner; for an emergency, advise contacting local emergency services immediately.
         1. BE PERFECT & BRIEF: Always keep your responses very short, concise, and focused. Limit your primary response to a maximum of 100-120 words (1-2 small paragraphs or a few key bullet points).
         2. DEPTH RESTRICTION: Only provide long paragraphs, detailed essays, or exhaustive texts if the user explicitly asks for "long text", "long explanation", "detailed report", or similar keywords.
         3. WEBPAGE CITATION: You MUST link to the website's relevant pages using markdown link format: [Page Title](url). Always include 1 or 2 relevant links from the authorized index below in every response. Make sure links are integrated naturally inside your educational replies!
@@ -1176,8 +1200,8 @@ async function startServer() {
       const ai = getGeminiClient();
       
       const contents: any[] = [];
-      if (conversationHistory && Array.isArray(conversationHistory)) {
-        conversationHistory.forEach((msg: any) => {
+      if (safeHistory.length > 0) {
+        safeHistory.forEach((msg: any) => {
           contents.push({
             role: msg.role === "user" ? "user" : "model",
             parts: [{ text: msg.text }]
@@ -1195,22 +1219,15 @@ async function startServer() {
         config: {
           systemInstruction: curivaCareSystemInstruction
         },
-        fallback: `### 🌿 Offline Classical Consultation Mode
-I am currently operating in offline mode to ensure uninterrupted patient support. 
-
-Based on traditional homeopathic principles, classical individualization takes into account your exact physical, mental, and constitutional state:
-- **Acute Care**: For sudden symptoms (like fear, acute shock, or high-fever states), acute remedies like **[Aconitum Napellus](/read/aconite-profile)** or **[Belladonna](/read/belladonna-profile)** are traditionally studied.
-- **Chronic & Constitutional**: For deep-acting issues or long-standing complaints, deeper constitutional remedies such as **[Lycopodium Clavatum](/read/lycopodium-profile)**, **[Pulsatilla Nigricans](/read/pulsatilla-profile)**, or **[Arsenicum Album](/read/arsenicum-profile)** are selected based on the totality of symptoms.
-
-Please browse our academic textbook database at our **[Materia Medica Profiles](/materia-medica)** to study these remedies, or read our **[Therapeutics Guide](/lexicon/clinical)** for detailed case taking principles.`
+        fallback: `The AI study assistant is temporarily unavailable. Please retry later, or use the site's Materia Medica and Organon pages as academic references. Do not use a fallback message or study page for diagnosis or treatment decisions.`
       });
 
       const rawText = response?.text || "";
-      const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from homeopathic consultant.";
+      const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from the study assistant.";
       res.json({ text: textWithLinks });
     } catch (error: any) {
       console.error("Gemini Curiva Care Proxy Error:", error);
-      res.status(500).json({ error: error.message || "Failed to process homeopathic query" });
+      res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
     }
   });
 
