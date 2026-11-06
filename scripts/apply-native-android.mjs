@@ -37,14 +37,25 @@ function insertAtBlockEnd(source, marker, snippet) {
   throw new Error('Unclosed Gradle block: ' + marker);
 }
 
-let gradle = await readFile(gradlePath, 'utf8');
-if (!gradle.includes('org.jetbrains.kotlin.android')) {
-  gradle = gradle.replace(/plugins\s*\{/, match =>
-    match + "\n    id 'org.jetbrains.kotlin.android' version '2.2.21'");
+const rootGradlePath = path.join(project, 'build.gradle');
+let rootGradle = await readFile(rootGradlePath, 'utf8');
+const kotlinClasspath = [
+  "        classpath 'org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21'",
+  "        classpath 'org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.2.21'"
+].join('\n');
+if (!rootGradle.includes('kotlin-gradle-plugin:2.2.21')) {
+  rootGradle = rootGradle.replace(/dependencies\s*\{/, match => match + '\n' + kotlinClasspath + '\n');
 }
-if (!gradle.includes('org.jetbrains.kotlin.plugin.compose')) {
-  gradle = gradle.replace(/plugins\s*\{/, match =>
-    match + "\n    id 'org.jetbrains.kotlin.plugin.compose' version '2.2.21'");
+await writeFile(rootGradlePath, rootGradle, 'utf8');
+
+let gradle = await readFile(gradlePath, 'utf8');
+if (!gradle.includes("apply plugin: 'org.jetbrains.kotlin.android'")) {
+  gradle = gradle.replace(/apply plugin: ['"]com\.android\.application['"]/, match =>
+    match + "\napply plugin: 'org.jetbrains.kotlin.android'");
+}
+if (!gradle.includes("apply plugin: 'org.jetbrains.kotlin.plugin.compose'")) {
+  gradle = gradle.replace(/apply plugin: ['"]org\.jetbrains\.kotlin\.android['"]/, match =>
+    match + "\napply plugin: 'org.jetbrains.kotlin.plugin.compose'");
 }
 if (!/buildFeatures\s*\{[\s\S]*?compose\s+true/.test(gradle)) {
   if (/buildFeatures\s*\{/.test(gradle)) {
