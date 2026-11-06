@@ -6,6 +6,7 @@ on:
     branches: [main]
     paths:
       - 'src/**'
+      - 'native-android/**'
       - 'public/**'
       - 'package.json'
       - 'package-lock.json'
@@ -42,24 +43,30 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Install web dependencies
+      - name: Install dependencies
         run: npm ci
 
       - name: Typecheck
         run: npm run lint
 
-      - name: Build shared website and OTA assets
+      - name: Build website shell for Android platform generation
         run: npm run build
         env:
           COMMIT_REF: ${{ github.sha }}
 
-      - name: Generate Android project
+      - name: Generate Android platform project
         run: |
-          if [ ! -d android ]; then
-            npm run cap:add
-          fi
-          npx cap sync android
-          node scripts/apply-native-branding.mjs
+          rm -rf android
+          npm run cap:add
+
+      - name: Export bundled offline learning library
+        run: npm run export:native-content
+
+      - name: Configure standalone Jetpack Compose app
+        run: node scripts/apply-native-android.mjs
+
+      - name: Verify native app contains no website or network shell
+        run: node scripts/verify-native-android.mjs
 
       - name: Build Android debug APK
         working-directory: android

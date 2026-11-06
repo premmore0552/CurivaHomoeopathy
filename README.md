@@ -1,6 +1,8 @@
 # Curiva Homoeopathy
 
-An educational blog focused on Homoeopathy, holistic healing, and natural medicine awareness.
+An educational medical-learning platform for BHMS students. The website and Android app are separate products.
+
+> **Android app architecture:** The Android build is a standalone Kotlin + Jetpack Compose application. It does not open the React website, does not embed a website WebView, and does not request internet access. Its curriculum, lessons, question bank, flashcards, Materia Medica profiles, and Kent Repertory index are bundled for offline study. Learning progress is saved locally on the device; account sign-in and cloud progress sync are not part of this native build.
 
 ## Existing project and deployment workflow
 
@@ -25,11 +27,11 @@ Use the current draft pull request's preview build to verify the frontend and AP
 
 ## Free website + app workflow
 
-Curiva uses one React/Vite frontend for the website and Capacitor app.
+Curiva's public website uses React/Vite. The Android application is a separate native Kotlin + Jetpack Compose project generated in CI from the same educational source data.
 
 - **Website hosting:** Netlify's Free plan, using the existing `curivahomoeopathy.netlify.app` address.
 - **Source control and build checks:** public GitHub repository + GitHub Actions.
-- **App live updates:** the open-source MIT-licensed `@capawesome/capacitor-live-update` plugin in **self-hosted** mode. The bundle ZIP and `latest.json` manifest are published as ordinary static files by the same Netlify deployment. **No Capawesome Cloud account, API token, or paid OTA plan is required.**
+- **Native Android app:** Kotlin + Jetpack Compose, with offline content bundled into the APK. It does not consume website live-update bundles; native UI or content changes require a new Android APK/AAB build.
 - **Mobile package:** `com.curiva.homoeopathy`.
 
 Free plans have usage limits; this setup is designed to incur no service subscription charges while usage stays within the providers' free quotas. Netlify's free plan has a monthly credit limit, so deployments/traffic may pause when the quota is reached instead of requiring automatic paid overages.
@@ -39,26 +41,29 @@ Free plans have usage limits; this setup is designed to incur no service subscri
 1. A push to `main` triggers the Netlify production deploy (provided the existing Netlify Git integration remains enabled).
 2. `npm run build` builds the website, creates a ZIP of the web assets for the app, computes a SHA-256 checksum, and writes `dist/live-updates/latest.json`.
 3. Netlify serves the website, manifest, and versioned ZIP from the same free static deployment.
-4. After the installed native app has the live-update plugin, it checks the manifest on launch, verifies the ZIP checksum, downloads a newer web bundle and stages it for the next app restart. It does not interrupt an active session.
+4. The standalone Compose Android app is intentionally excluded from website OTA updates. New native screens or bundled learning-content updates are delivered in a newly built Android APK/AAB; the website itself continues to update through Netlify.
 5. GitHub Actions runs `npm ci`, `npm run lint`, `npm run build`, and ZIP/manifest validation for pull requests and pushes.
 
 Only compatible web-layer changes (HTML, CSS, JavaScript and static assets) can use OTA. Native code, Android permissions, or adding/changing native plugins still require a rebuilt native app. Existing installed apps do not gain live-update support until they receive that first native build.
 
 ### Native setup and test APK
 
-The repository does not need to check in generated Android/Gradle files. The workflow `.github/workflows/build-android-debug.yml` creates the Android platform from the Capacitor config, syncs the native plugin, builds a debug APK, and uploads it as the `curiva-android-debug-apk` artifact. Run it from the GitHub Actions tab or open a pull request affecting the app files.
+The repository does not check in generated Android/Gradle files. The workflow `.github/workflows/build-android-debug.yml` generates a temporary Capacitor platform shell, replaces its WebView activity and bridge dependencies with the native Compose activity, exports bundled offline study content, verifies that website assets and internet permissions are absent, builds a debug APK, and uploads it as the `curiva-android-debug-apk` artifact. Run it from the GitHub Actions tab or open a pull request affecting the app files.
 
 For local development:
 
 ```bash
 npm ci
+npm run lint
 npm run build
 npm run cap:add
-npx cap sync android
-npx cap open android
+npm run export:native-content
+node scripts/apply-native-android.mjs
+node scripts/verify-native-android.mjs
+cd android && ./gradlew assembleDebug
 ```
 
-Keep the package ID `com.curiva.homoeopathy`. The CI APK is a **debug/test build**, not a Play Store release; it uses Android's debug signing key. Installing it over an existing app signed by another key will fail. Do not uninstall any existing production app unless its data is backed up. To update an already-published app in place, its original Android release keystore is required. Store releases require a separately configured, backed-up signing keystore.
+Keep the package ID `com.curiva.homoeopathy`. The native app stores lesson completion, study-plan items, flashcard status, saved profiles, and quiz summaries locally with Android SharedPreferences. It does not currently provide login or cloud synchronisation. The CI APK is a **debug/test build**, not a Play Store release; it uses Android's debug signing key. Installing it over an existing app signed by another key will fail. Do not uninstall any existing production app unless its data is backed up. To update an already-published app in place, its original Android release keystore is required. Store releases require a separately configured, backed-up signing keystore.
 
 ### Free OTA verification (no secrets required)
 

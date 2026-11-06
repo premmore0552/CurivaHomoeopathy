@@ -24,3 +24,6 @@ blog.db
 /match_*.txt
 /interesting_script_*.js
 /success_html_*.html
+
+# Generated native Android/Gradle project (built by CI)
+/android
