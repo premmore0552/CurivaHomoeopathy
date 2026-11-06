@@ -64,6 +64,8 @@ export default function Profile() {
   const [screenings, setScreenings] = useState<any[]>([]); // Preserving database 'screenings' collection mapping for Mock Assessments
   const [activeTab, setActiveTab] = useState<'kits' | 'screenings' | 'planner' | 'settings'>(() => searchParams.get('tab') === 'planner' ? 'planner' : 'kits');
 
+  useEffect(() => { if (searchParams.get('tab') === 'planner') setActiveTab('planner'); }, [searchParams]);
+
   // Interactive Form States
   const [isAddingLog, setIsAddingLog] = useState(false);
   const [testType, setTestType] = useState('repertory_check');
