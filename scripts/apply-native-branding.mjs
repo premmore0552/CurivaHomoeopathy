@@ -48,7 +48,7 @@ export async function applyNativeBranding(androidProjectDir) {
     ['mipmap-anydpi/ic_launcher_round.xml', legacy],
     ['mipmap-anydpi-v26/ic_launcher.xml', adaptive],
     ['mipmap-anydpi-v26/ic_launcher_round.xml', adaptive],
-    ['values/curiva_colors.xml', '<resources><color name="curiva_launcher_background">#087F70</color></resources>' + String.fromCharCode(10)]
+    ['values/curiva_colors.xml', '<resources><color name="curiva_launcher_background">#087F70</color><color name="colorPrimary">#087F70</color><color name="colorPrimaryDark">#164B40</color><color name="colorAccent">#D59C45</color></resources>' + String.fromCharCode(10)]
   ];
   for (const [relative, content] of resources) {
     const target = path.join(res, relative);
