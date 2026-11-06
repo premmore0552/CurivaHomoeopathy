@@ -1334,9 +1334,13 @@ Hair loss has many possible causes. This educational checklist cannot assess you
 
   app.post("/api/gemini/search", aiApiRateLimiter, async (req, res) => {
     try {
-      const { query } = req.body;
-      if (!query) {
-        return res.status(400).json({ error: "Query is required" });
+      const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
+      const { query } = body;
+      if (typeof query !== "string" || !query.trim()) {
+        return res.status(400).json({ error: "A non-empty search query is required" });
+      }
+      if (query.length > 500) {
+        return res.status(413).json({ error: "Search query is too long. Please keep it under 500 characters." });
       }
 
       const q = query.toLowerCase().trim();
