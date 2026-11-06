@@ -33,7 +33,7 @@ service cloud.firestore {
     // Checking if user is admin
     function isAdmin() {
       return isSignedIn() && (
-        request.auth.token.email == 'premmore0552@gmail.com' ||
+        (request.auth.token.email_verified == true && request.auth.token.email == 'premmore0552@gmail.com') ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
@@ -89,7 +89,8 @@ service cloud.firestore {
                       isValidUser(incoming()) &&
                       incoming().createdAt == request.time;
       
-      allow update: if isOwner(userId) && 
+      allow update: if isOwner(userId) &&
+                       hasSafeProfession(incoming()) &&
                        incoming().uid == existing().uid &&
                        incoming().email == existing().email &&
                        incoming().createdAt == existing().createdAt &&
@@ -309,8 +310,11 @@ service cloud.firestore {
 
     // --- Collection: Admins ---
     match /admins/{adminId} {
-      allow read: if isAdmin();
-      allow write: if isAdmin();
+      // A user may check only their own membership document. Only an existing
+      // administrator can create, modify, list, or delete admin memberships.
+      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == adminId);
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
     }
   }
 }
