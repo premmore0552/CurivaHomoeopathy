@@ -171,14 +171,14 @@ test('users cannot self-assign administrator status through profiles or admin me
     updatedAt: serverTimestamp(),
   }));
 
-  // The verified bootstrap administrator can provision a membership, which the
-  // target account can then read but cannot modify.
+  // The verified bootstrap administrator can provision a membership. This grants
+  // Bob admin authority; an unrelated ordinary user still cannot change the grant.
   await assertSucceeds(setDoc(doc(bootstrapAdmin, 'admins', 'bob'), {
     active: true,
     createdAt: serverTimestamp(),
   }));
   await assertSucceeds(getDoc(doc(bob, 'admins', 'bob')));
-  await assertFails(updateDoc(doc(bob, 'admins', 'bob'), { active: false }));
+  await assertFails(updateDoc(doc(alice, 'admins', 'bob'), { active: false }));
   await assertFails(getDoc(doc(alice, 'admins', 'bob')));
 });
 
