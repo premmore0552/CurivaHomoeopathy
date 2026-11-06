@@ -33,7 +33,10 @@ test('only source-keyed questions can be used for scored practice', () => {
   }
   for (const question of unscoredChauhanQuestions) {
     assert.equal(question.scoringEnabled, false);
-    assert.equal(question.correctIndex, null);
+    assert.ok(question.answerStatus === 'source_review' || question.answerStatus === 'written_answer');
+    if (question.correctIndex !== null) {
+      assert.ok(question.correctIndex >= 0 && question.correctIndex < 4);
+    }
     assert.ok(question.reviewFlags.length > 0);
   }
 });
