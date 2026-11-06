@@ -200,6 +200,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const [scope, setScope] = useState<string | null>(null);
   const [signedIn, setSignedIn] = useState(false);
   const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const lastPersisted = useRef<string>('');
   const authRequest = useRef(0);
   const completedDeadline = useRef<number | null>(null);
 
@@ -244,8 +245,19 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   useEffect(() => {
     if (!ready || !scope) return;
     const snapshot = normalizeState(state);
+    // A running timer is represented by its absolute deadline. Do not persist a
+    // new Firestore document on every visible second; pause/start/completion
+    // transitions still persist immediately through this effect.
+    const persistedSnapshot = snapshot.timer.running
+      ? { ...snapshot, timer: { ...snapshot.timer, remainingSeconds: 0 } }
+      : snapshot;
+    const serialized = JSON.stringify(persistedSnapshot);
+    const signature = `${scope}:${serialized}`;
+    if (lastPersisted.current === signature) return;
+    lastPersisted.current = signature;
+
     try {
-      localStorage.setItem(`${STORAGE_VERSION}:${scope}`, JSON.stringify(snapshot));
+      localStorage.setItem(`${STORAGE_VERSION}:${scope}`, serialized);
     } catch (error) {
       console.warn('Curiva study workspace could not be cached in this browser.', error);
     }
@@ -256,9 +268,10 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
     saveTimeout.current = setTimeout(() => {
       void setDoc(doc(db, 'studyToolkitProgress', uid), {
         uid,
-        ...snapshot,
+        ...persistedSnapshot,
         updatedAt: serverTimestamp()
       }).catch(error => {
+        lastPersisted.current = '';
         console.warn('Curiva study workspace could not sync to the account yet; the account-specific local cache is preserved.', error);
       });
     }, 650);
