@@ -2,6 +2,7 @@ import { initializeApp } from 'firebase/app';
 import { 
   getAuth, 
   signInWithPopup, 
+  signInWithRedirect,
   GoogleAuthProvider, 
   signOut,
   signInWithPhoneNumber,
@@ -41,6 +42,7 @@ export const googleProvider = new GoogleAuthProvider();
 
 export { 
   signInWithPopup, 
+  signInWithRedirect,
   signOut,
   signInWithPhoneNumber,
   RecaptchaVerifier,
