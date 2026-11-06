@@ -250,6 +250,14 @@ test('screening records are private, owner-bound and use a closed bounded schema
   const oversized = screeningRecord();
   oversized.symptoms = Array.from({ length: 21 }, () => 'symptom');
   await assertFails(setDoc(doc(alice, 'screenings', 'oversized'), oversized));
+
+  const oversizedEntry = screeningRecord();
+  oversizedEntry.symptoms = ['x'.repeat(121)];
+  await assertFails(setDoc(doc(alice, 'screenings', 'oversized-entry'), oversizedEntry));
+
+  const malformedEntry = screeningRecord();
+  malformedEntry.symptoms = [{ unexpected: 'object' }] as any;
+  await assertFails(setDoc(doc(alice, 'screenings', 'malformed-entry'), malformedEntry));
 });
 
 test('screening owners cannot mutate identity or immutable timestamps', async () => {
