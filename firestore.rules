@@ -148,6 +148,54 @@ service cloud.firestore {
       allow create, update: if isOwner(userId) && isValidNativeLearningProgress(incoming(), userId);
       allow delete: if false;
     }
+    // --- Collection: Website Study Toolkit ---
+    // One bounded academic workspace per signed-in account. Guest records stay in browser storage.
+    function isValidStudyTimer(timer) {
+      return timer is map &&
+        timer.keys().hasAll(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.keys().hasOnly(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.mode in ['focus', 'break'] &&
+        timer.durationMinutes is int && timer.durationMinutes >= 5 && timer.durationMinutes <= 120 &&
+        timer.remainingSeconds is int && timer.remainingSeconds >= 0 && timer.remainingSeconds <= 7200 &&
+        timer.running is bool &&
+        (timer.deadlineAt == null || timer.deadlineAt is number) &&
+        timer.topic is string && timer.topic.size() <= 180;
+    }
+
+    function isValidStudyToolkitProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.tasks is list && data.tasks.size() <= 300 &&
+      data.notes is list && data.notes.size() <= 40 &&
+      data.cards is list && data.cards.size() <= 150 &&
+      data.sessions is list && data.sessions.size() <= 500 &&
+      data.readingLogs is list && data.readingLogs.size() <= 150 &&
+      data.reflections is list && data.reflections.size() <= 50 &&
+      data.dailyGoal is int && data.dailyGoal >= 5 && data.dailyGoal <= 720 &&
+      data.weeklyGoal is int && data.weeklyGoal >= 30 && data.weeklyGoal <= 5000 &&
+      data.examDate is string && data.examDate.size() <= 10 &&
+      (data.examDate == '' || data.examDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) &&
+      data.focusMode is bool &&
+      isValidStudyTimer(data.timer) &&
+      data.updatedAt == request.time;
+    }
+
+    match /studyToolkitProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidStudyToolkitProgress(incoming(), userId);
+      allow delete: if false;
+    }
+
     // --- Collection: Questions ---
     match /questions/{questionId} {
       allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';

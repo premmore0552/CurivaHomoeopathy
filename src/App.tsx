@@ -6,6 +6,9 @@ import { BrowserRouter as Router, Routes, Route, useLocation, Navigate } from 'r
 import { AnimatePresence, motion } from 'motion/react';
 import { HelmetProvider } from 'react-helmet-async';
 import { ThemeProvider } from './context/ThemeContext';
+import { StudyToolkitProvider } from './context/StudyToolkitContext';
+import StudyToolkitDock from './components/StudyToolkitDock';
+import SubjectStudyTools from './components/SubjectStudyTools';
 import { useReading } from './context/ReadingContext';
 import ReadingProgressBar from './components/ReadingProgressBar';
 import Header from './components/Header';
@@ -225,6 +228,25 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   const readerClasses = isReaderPage 
     ? `${getFontSizeClass(fontSize)} ${getWidthClass(readingWidth)} ${getLineSpacingClass(lineSpacing)} ${getThemeClass(readerTheme)}`
     : '';
+  const subjectRoutes: Record<string, string> = {
+    '/subject/organon': 'Organon of Medicine',
+    '/subject/materia-medica': 'Materia Medica',
+    '/subject/repertory': 'Repertory',
+    '/subject/pharmacy': 'Homoeopathic Pharmacy',
+    '/subject/anatomy': 'Human Anatomy',
+    '/subject/physiology': 'Physiology and Biochemistry',
+    '/subject/forensic-medicine': 'Forensic Medicine and Toxicology',
+    '/subject/pathology': 'Pathology',
+    '/subject/surgery': 'Surgery',
+    '/subject/gynecology-obstetrics': 'Gynaecology and Obstetrics',
+    '/subject/practice-of-medicine': 'Practice of Medicine',
+    '/anatomy': 'Human Anatomy',
+    '/physiology': 'Physiology and Biochemistry',
+    '/organon-philosophy': 'Organon of Medicine',
+    '/fmt': 'Forensic Medicine and Toxicology'
+  };
+  const matchedSubjectRoute = Object.keys(subjectRoutes).find(path => location.pathname === path || (path === '/subject/pathology' && location.pathname.startsWith('/subject/pathology/')) || (['/fmt','/anatomy','/physiology'].includes(path) && location.pathname.startsWith(path + '/')));
+  const contextualSubject = matchedSubjectRoute ? subjectRoutes[matchedSubjectRoute] : null;
 
   return (
     <motion.div
@@ -236,6 +258,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
     >
       <div className="flex-grow w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {children}
+        {contextualSubject && <SubjectStudyTools subject={contextualSubject} chapters={[]} />}
       </div>
     </motion.div>
   );
@@ -244,11 +267,13 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 function AppRoutes() {
   const location = useLocation();
   return (
+    <StudyToolkitProvider>
     <>
       <ReadingProgressBar />
       <RouteScrollToTop />
       <ScrollToTop />
       <FloatingQuickActions />
+      <StudyToolkitDock />
       <MedicalDisclaimerModal />
       <div className="min-h-screen bg-bg-primary text-text-primary font-sans selection:bg-primary/20 selection:text-primary flex flex-col transition-colors duration-300">
         <Header />
@@ -483,6 +508,7 @@ function AppRoutes() {
         <Footer />
       </div>
     </>
+    </StudyToolkitProvider>
   );
 }
 
