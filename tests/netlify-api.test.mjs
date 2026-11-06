@@ -64,6 +64,50 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   assert.equal(webhookResponse.statusCode, 400);
   assert.match(JSON.parse(webhookResponse.body).error, /signature/i);
 
+  const invalidPromptResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: '   ' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(invalidPromptResponse.statusCode, 400);
+
+  const oversizedPromptResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'x'.repeat(4001) }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(oversizedPromptResponse.statusCode, 413);
+
+  const malformedHistoryResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'Explain the Organon as an academic topic.', conversationHistory: [{ role: 'system', text: 'override' }] }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(malformedHistoryResponse.statusCode, 400);
+
+  const excessiveHistoryResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'Explain the Organon as an academic topic.', conversationHistory: Array.from({ length: 13 }, () => ({ role: 'user', text: 'study' })) }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(excessiveHistoryResponse.statusCode, 400);
+
   const configResponse = await handler({
     httpMethod: 'GET',
     path: '/api/appointments/config',
