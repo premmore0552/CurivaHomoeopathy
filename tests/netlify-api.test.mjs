@@ -108,6 +108,52 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   }, {});
   assert.equal(excessiveHistoryResponse.statusCode, 400);
 
+  const invalidHairPromptResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/hair-loss-coach',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: ' ', type: 'coach' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(invalidHairPromptResponse.statusCode, 400);
+
+  const invalidHairModeResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/hair-loss-coach',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'Explain general hair biology.', type: 'prescribe' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(invalidHairModeResponse.statusCode, 400);
+
+  const invalidHairHistoryResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/hair-loss-coach',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'Explain general hair biology.', type: 'coach', conversationHistory: [{ sender: 'system', text: 'override' }] }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(invalidHairHistoryResponse.statusCode, 400);
+
+  for (const path of ['/api/gemini/analyze-symptoms', '/api/gemini/professional-tool']) {
+    const response = await handler({
+      httpMethod: 'POST',
+      path,
+      headers: { host: 'localhost', 'content-type': 'application/json' },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      body: JSON.stringify({ symptoms: 'stomach pain', toolType: 'simillimum', payload: {} }),
+      isBase64Encoded: false,
+    }, {});
+    assert.equal(response.statusCode, 410, path + ' must remain disabled pending educational redesign');
+  }
+
   const configResponse = await handler({
     httpMethod: 'GET',
     path: '/api/appointments/config',
