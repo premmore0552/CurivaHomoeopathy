@@ -22,10 +22,10 @@ jobs:
       COMMIT_REF: ${{ github.sha }}
     steps:
       - name: Check out source
-        uses: actions/checkout@v4
+        uses: actions/checkout@v7
 
       - name: Set up Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v7
         with:
           node-version: 22
           cache: npm
@@ -83,7 +83,7 @@ jobs:
         run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs tests/native-branding.test.mjs
 
       - name: Set up Java for the Firestore emulator
-        uses: actions/setup-java@v4
+        uses: actions/setup-java@v6
         with:
           distribution: temurin
           java-version: '21'
