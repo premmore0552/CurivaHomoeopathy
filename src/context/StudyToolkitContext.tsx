@@ -511,9 +511,9 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const addTask = useCallback((title: string, subject?: string, chapter?: string) => {
     const clean = title.trim();
     if (!clean) return;
-    setState(current => ({ ...current, tasks: [{ id: id(), title: clean.slice(0, 160), done: false, date: studyDateKey(), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}) }, ...current.tasks].slice(0, 300) }));
+    setState(current => ({ ...current, tasks: [{ id: id(), title: clean.slice(0, 160), done: false, date: studyDateKey(), updatedAt: new Date().toISOString(), ...(subject ? { subject } : {}), ...(chapter ? { chapter } : {}) }, ...current.tasks].slice(0, 300) }));
   }, []);
-  const toggleTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.map(task => task.id === taskId ? { ...task, done: !task.done } : task) })), []);
+  const toggleTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.map(task => task.id === taskId ? { ...task, done: !task.done, updatedAt: new Date().toISOString() } : task) })), []);
   const deleteTask = useCallback((taskId: string) => setState(current => ({ ...current, tasks: current.tasks.filter(task => task.id !== taskId) })), []);
   const saveNote = useCallback((note: Omit<StudyNote, 'id' | 'updatedAt'> & { id?: string }) => {
     const clean = note.content.trim();
@@ -586,10 +586,10 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   }
 
   const value = useMemo<StudyToolkitContextValue>(() => ({
-    state, ready, signedIn, todayMinutes, weeklyMinutes, streak,
+    state, ready, signedIn, syncStatus, todayMinutes, weeklyMinutes, streak,
     addTask, toggleTask, deleteTask, saveNote, deleteNote, addCard, addSession, addReadingLog,
     saveReflection, setGoals, setExamDate, setFocusMode, startTimer, pauseTimer, resetTimer, clearSessions
-  }), [state, ready, signedIn, todayMinutes, weeklyMinutes, streak, addTask, toggleTask, deleteTask, saveNote, deleteNote, addCard, addSession, addReadingLog, saveReflection, setGoals, setExamDate, setFocusMode, startTimer, pauseTimer, resetTimer, clearSessions]);
+  }), [state, ready, signedIn, syncStatus, todayMinutes, weeklyMinutes, streak, addTask, toggleTask, deleteTask, saveNote, deleteNote, addCard, addSession, addReadingLog, saveReflection, setGoals, setExamDate, setFocusMode, startTimer, pauseTimer, resetTimer, clearSessions]);
 
   return <StudyToolkitContext.Provider value={value}>{children}</StudyToolkitContext.Provider>;
 }
