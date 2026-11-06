@@ -23,6 +23,8 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - language: actions
+            build-mode: none
           - language: javascript-typescript
             build-mode: none
           - language: java-kotlin
@@ -52,9 +54,8 @@ jobs:
           languages: ${{ matrix.language }}
           build-mode: ${{ matrix.build-mode }}
 
-      # The Android Gradle project is generated in CI and intentionally is not
-      # committed to the repository. Prepare it before the manual CodeQL build
-      # so the Kotlin extractor observes the actual Compose app compilation.
+      # Android Gradle is generated during CI rather than committed. Prepare
+      # it before the manual build so Kotlin extraction sees the Compose app.
       - name: Install JavaScript and TypeScript dependencies
         if: matrix.language == 'java-kotlin'
         run: npm ci
