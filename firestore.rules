@@ -33,17 +33,24 @@ service cloud.firestore {
     // Checking if user is admin
     function isAdmin() {
       return isSignedIn() && (
-        request.auth.token.email == 'premmore0552@gmail.com' ||
+        (request.auth.token.email_verified == true && request.auth.token.email == 'premmore0552@gmail.com') ||
         exists(/databases/$(database)/documents/admins/$(request.auth.uid))
       );
     }
 
     // --- Validation Helpers ---
 
+    function hasSafeProfession(data) {
+      return !data.keys().hasAny(['profession']) ||
+        (data.profession is string && data.profession.size() <= 80 &&
+         !data.profession.matches('.*[Aa][Dd][Mm][Ii][Nn].*'));
+    }
+
     function isValidUser(data) {
       return data.keys().hasAll(['uid', 'email']) && 
              data.uid == request.auth.uid &&
-             data.email is string && data.email.size() <= 200;
+             data.email is string && data.email.size() <= 200 &&
+             hasSafeProfession(data);
     }
 
     function isValidQuestion(data) {
@@ -83,13 +90,14 @@ service cloud.firestore {
     
     match /users/{userId} {
       allow get: if isOwner(userId) || isAdmin();
-      allow list: if isOwner(userId) || (isSignedIn() && request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isOwner(userId) || isAdmin();
       
       allow create: if isOwner(userId) && 
                       isValidUser(incoming()) &&
                       incoming().createdAt == request.time;
       
-      allow update: if isOwner(userId) && 
+      allow update: if isOwner(userId) &&
+                       hasSafeProfession(incoming()) &&
                        incoming().uid == existing().uid &&
                        incoming().email == existing().email &&
                        incoming().createdAt == existing().createdAt &&
@@ -202,7 +210,7 @@ service cloud.firestore {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow create: if isSignedIn() && 
                       isValidQuestion(incoming()) &&
@@ -219,7 +227,7 @@ service cloud.firestore {
     // --- Collection: Orders ---
     match /orders/{orderId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       
       allow create: if (
                       (isSignedIn() && incoming().userId == request.auth.uid) ||
@@ -235,7 +243,7 @@ service cloud.firestore {
     // --- Collection: Kits ---
     match /kits/{kitId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
       allow update: if isSignedIn() && (
         (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
@@ -247,7 +255,7 @@ service cloud.firestore {
     // --- Collection: Screenings ---
     match /screenings/{screeningId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || request.auth.token.email == 'premmore0552@gmail.com');
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow create: if isSignedIn() && isValidScreening(incoming()) && incoming().createdAt == request.time;
       allow update: if isSignedIn() && resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId;
       allow delete: if isAdmin();
@@ -309,8 +317,11 @@ service cloud.firestore {
 
     // --- Collection: Admins ---
     match /admins/{adminId} {
-      allow read: if isAdmin();
-      allow write: if isAdmin();
+      // A user may check only their own membership document. Only an existing
+      // administrator can create, modify, list, or delete admin memberships.
+      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == adminId);
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
     }
   }
 }

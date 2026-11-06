@@ -175,13 +175,14 @@ export default function Profile() {
   useEffect(() => {
     if (profile) {
       setDisplayName(profile.displayName || '');
-      setProfession(profile.profession || 'BHMS Student');
+      setProfession(profile.profession && !/admin/i.test(profile.profession) ? profile.profession : 'BHMS Student');
       setBio(profile.bio || '');
       setQualifications(profile.qualifications || 'Undergraduate');
       setClinicAddress(profile.clinicAddress || '');
     } else {
       const guestName = localStorage.getItem('curiva_guest_name') || '';
-      const guestRole = (localStorage.getItem('curiva_selected_role') || 'Guest') as UserRole;
+      const storedGuestRole = localStorage.getItem('curiva_selected_role') || 'Guest';
+      const guestRole = (/admin/i.test(storedGuestRole) ? 'Guest' : storedGuestRole) as UserRole;
       const guestBio = localStorage.getItem('curiva_guest_bio') || '';
       const guestQual = localStorage.getItem('curiva_guest_qualifications') || '1st BHMS';
       const guestClinic = localStorage.getItem('curiva_guest_clinic') || '';
@@ -289,7 +290,7 @@ export default function Profile() {
     e.preventDefault();
     setSaveStatus(null);
     try {
-      const targetRole = profession as UserRole;
+      const targetRole = (/admin/i.test(profession) ? 'BHMS Student' : profession) as UserRole;
       if (user) {
         await userService.updateProfileSettings({
           displayName,
@@ -847,7 +848,6 @@ export default function Profile() {
                       <option value="Practitioner">Practitioner - Registered Practitioner (BHMS/MD)</option>
                       <option value="Faculty">Faculty - Faculty Member / Professor</option>
                       <option value="Researcher">Researcher - Homoeopathic Researcher / Scholar</option>
-                      <option value="Administrator">Administrator - Portal Administrator</option>
                     </select>
                   </div>
 

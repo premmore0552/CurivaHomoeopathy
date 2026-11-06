@@ -119,6 +119,69 @@ function nativeLearningProgress(uid = 'alice') {
   };
 }
 
+test('users cannot self-assign administrator status through profiles or admin membership documents', async () => {
+  const alice = testEnv.authenticatedContext('alice', {
+    email: 'alice@example.test',
+    email_verified: true,
+  }).firestore();
+  const bob = testEnv.authenticatedContext('bob', {
+    email: 'bob@example.test',
+    email_verified: true,
+  }).firestore();
+  const bootstrapAdmin = testEnv.authenticatedContext('clinic-admin', {
+    email: 'premmore0552@gmail.com',
+    email_verified: true,
+  }).firestore();
+
+  // Own membership lookup is allowed so the client can discover its status.
+  await assertSucceeds(getDoc(doc(alice, 'admins', 'alice')));
+  // But a normal user cannot create a membership document for themselves or others.
+  await assertFails(setDoc(doc(alice, 'admins', 'alice'), { active: true }));
+  await assertFails(setDoc(doc(alice, 'admins', 'bob'), { active: true }));
+
+  const unverifiedBootstrap = testEnv.authenticatedContext('unverified-admin', {
+    email: 'premmore0552@gmail.com',
+  }).firestore();
+  await assertFails(setDoc(doc(unverifiedBootstrap, 'admins', 'unverified-admin'), {
+    active: true,
+  }));
+
+  const forgedProfile = {
+    uid: 'bob',
+    email: 'bob@example.test',
+    profession: 'Administrator',
+    createdAt: serverTimestamp(),
+  };
+  await assertFails(setDoc(doc(bob, 'users', 'bob'), forgedProfile));
+
+  const safeProfile = {
+    uid: 'alice',
+    email: 'alice@example.test',
+    profession: 'BHMS Student',
+    createdAt: serverTimestamp(),
+  };
+  const aliceProfile = doc(alice, 'users', 'alice');
+  await assertSucceeds(setDoc(aliceProfile, safeProfile));
+  await assertFails(updateDoc(aliceProfile, {
+    profession: 'Administrator',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(aliceProfile, {
+    profession: 'portal-admin',
+    updatedAt: serverTimestamp(),
+  }));
+
+  // The verified bootstrap administrator can provision a membership. This grants
+  // Bob admin authority; an unrelated ordinary user still cannot change the grant.
+  await assertSucceeds(setDoc(doc(bootstrapAdmin, 'admins', 'bob'), {
+    active: true,
+    createdAt: serverTimestamp(),
+  }));
+  await assertSucceeds(getDoc(doc(bob, 'admins', 'bob')));
+  await assertFails(updateDoc(doc(alice, 'admins', 'bob'), { active: false }));
+  await assertFails(getDoc(doc(alice, 'admins', 'bob')));
+});
+
 test('native learning progress is private to its account and accepts bounded owner sync writes', async () => {
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
   const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();

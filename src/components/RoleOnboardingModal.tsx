@@ -8,7 +8,6 @@ import {
   Cpu, 
   GraduationCap, 
   Search, 
-  ShieldCheck, 
   Sparkles,
   ArrowRight,
   Globe
@@ -90,14 +89,6 @@ export default function RoleOnboardingModal() {
       color: 'border-cyan-200 bg-cyan-50/50 dark:bg-cyan-950/10 dark:border-cyan-900/30 text-cyan-600',
       features: ['Clinical Trial Databases', 'ultra-high dilution evidence', 'Affinity concordances']
     },
-    {
-      id: 'Administrator',
-      title: 'Portal Administrator',
-      description: 'System operators auditing sitemaps, link hierarchies & user registries.',
-      icon: ShieldCheck,
-      color: 'border-red-200 bg-red-50/50 dark:bg-red-950/10 dark:border-red-900/30 text-red-600',
-      features: ['Knowledge Graph & Link Audit', 'Simulated Totality Logs Review', 'Portal security parameters']
-    }
   ];
 
   const handleSelectRole = (role: UserRole) => {
