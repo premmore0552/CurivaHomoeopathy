@@ -116,7 +116,9 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
     const selectableRoles: UserRole[] = [
       'Guest', 'Public', 'BHMS Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher'
     ];
-    const allRoles = isAdministrator ? [...selectableRoles, 'Administrator'] : selectableRoles;
+    const allRoles: UserRole[] = isAdministrator
+      ? [...selectableRoles, 'Administrator']
+      : selectableRoles;
 
     if (profile) {
       const profileProf = profile.profession;
