@@ -51,3 +51,14 @@ test('question formats and the three separately labelled solved papers remain re
   assert.ok(chauhanQuestionBank.some((question) => question.chapter === 'Question Paper RPSC 2008'));
   assert.ok(chauhanQuestionBank.some((question) => question.chapter === 'Question Paper UPSC 2008'));
 });
+
+
+test('the longest source explanations are retained without import truncation', () => {
+  const longExplanation = chauhanQuestionBank.find(
+    (question) => question.questionNumber === 110 &&
+      question.chapter === 'Organon of Medicine & Homeopathic Philosophy'
+  );
+  assert.ok(longExplanation);
+  assert.ok(longExplanation.explanation.length > 9000);
+  assert.ok(longExplanation.explanation.includes('Ref: Organon of art of healing by Baldwin'));
+});
