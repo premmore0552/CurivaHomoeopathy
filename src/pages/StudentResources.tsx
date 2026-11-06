@@ -82,6 +82,20 @@ const resourceCenters = [
     ]
   },
   {
+    title: "UPSC & MD Entrance Question Bank",
+    description: "Practise the full Dr. V. K. Chauhan collection across Homoeopathy subjects, UPSC screening questions, and NHMC, RPSC and UPSC solved papers.",
+    icon: BrainCircuit,
+    link: "/upsc-md-practice",
+    badge: "3,196 Questions",
+    color: "from-indigo-600 to-blue-700",
+    features: [
+      "3,196 source questions across 18 chapter sections",
+      "3,100 questions with extractable answer keys",
+      "Subject filters, explanations and source-page references",
+      "Timed 50, 100 and 200-question mock papers"
+    ]
+  },
+  {
     title: "Clinical Therapeutics Center",
     description: "Evidence-informed bedside prescribing protocols mapping acute & chronic conditions to precise remedy differentials, modalities, dosages, and emergency red flags.",
     icon: Stethoscope,
