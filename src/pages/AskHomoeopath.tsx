@@ -52,7 +52,7 @@ export default function AskHomoeopath() {
       {
         id: 'initial_greet',
         role: 'model',
-        text: `Hello! I am your ✨ **Curiva Homoeopathic Consultation Companion**. 
+        text: `Hello! I am your ✨ **Curiva Homoeopathy Study Assistant**. 
 
 I can help you study homoeopathic history, terminology, materia medica descriptions, and Organon concepts. Responses are AI-generated study explanations and may be incomplete or incorrect.
 
@@ -306,7 +306,7 @@ Please use this as an academic learning aid, not as a consultation or source of 
             </div>
 
             <div className="bg-white border border-border rounded-[2rem] p-6.5 shadow-soft space-y-4">
-              <h4 className="text-sm font-display text-primary uppercase font-bold tracking-tight">Core Healing Principles</h4>
+              <h4 className="text-sm font-display text-primary uppercase font-bold tracking-tight">Core Homoeopathic Philosophy (Academic)</h4>
               
               <div className="space-y-3">
                 {[
