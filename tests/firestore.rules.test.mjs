@@ -256,7 +256,7 @@ test('screening records are private, owner-bound and use a closed bounded schema
   await assertFails(setDoc(doc(alice, 'screenings', 'oversized-entry'), oversizedEntry));
 
   const malformedEntry = screeningRecord();
-  malformedEntry.symptoms = [{ unexpected: 'object' }] as any;
+  malformedEntry.symptoms = [{ unexpected: 'object' }];
   await assertFails(setDoc(doc(alice, 'screenings', 'malformed-entry'), malformedEntry));
 });
 
