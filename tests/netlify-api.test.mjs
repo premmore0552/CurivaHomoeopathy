@@ -119,6 +119,39 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   }, {});
   assert.equal(invalidHairPromptResponse.statusCode, 400);
 
+  const oversizedHairPromptResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/hair-loss-coach',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'x'.repeat(4001), type: 'coach' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(oversizedHairPromptResponse.statusCode, 413);
+
+  const invalidSearchResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/search',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ query: ['hair loss'] }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(invalidSearchResponse.statusCode, 400);
+
+  const oversizedSearchResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/search',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ query: 'x'.repeat(501) }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(oversizedSearchResponse.statusCode, 413);
+
   const invalidHairModeResponse = await handler({
     httpMethod: 'POST',
     path: '/api/gemini/hair-loss-coach',
