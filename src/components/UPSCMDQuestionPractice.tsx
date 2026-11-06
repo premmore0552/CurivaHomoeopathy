@@ -250,7 +250,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
   const choosePracticeAnswer = (question: ChauhanQuestion, optionIndex: number) => {
     if (practiceAnswers[question.id] !== undefined) return;
     setPracticeAnswers((items) => ({ ...items, [question.id]: optionIndex }));
-    setRevealedIds((items) => items.includes(question.id) ? items : [...items, question.id]);
+
     if (question.scoringEnabled && question.correctIndex !== null && optionIndex !== question.correctIndex) {
       setIncorrectIds((items) => Array.from(new Set([...items, question.id])));
     }
