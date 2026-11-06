@@ -21,6 +21,7 @@ import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
 import Logo from './components/Logo';
 import FloatingQuickActions from './components/FloatingQuickActions';
 import { Loader2 } from 'lucide-react';
+import { useRole } from './context/RoleContext';
 
 function lazyLoad<T extends React.ComponentType<any>>(
   factory: () => Promise<{ default: T }>
@@ -167,6 +168,14 @@ function LoadingScreen() {
        </div>
     </div>
   );
+}
+
+function AdminOnlyRoute({ children }: { children: React.ReactNode }) {
+  const { isAdministrator, adminAccessReady } = useRole();
+
+  if (!adminAccessReady) return <LoadingScreen />;
+  if (!isAdministrator) return <Navigate to="/" replace />;
+  return <>{children}</>;
 }
 
 function PageWrapper({ children }: { children: React.ReactNode }) {
@@ -431,7 +440,7 @@ function AppRoutes() {
                 <Route path="/symptom-checker" element={<PageWrapper><SymptomChecker /></PageWrapper>} />
                 <Route path="/profile" element={<PageWrapper><Profile /></PageWrapper>} />
                 <Route path="/appointments" element={<PageWrapper><Appointments /></PageWrapper>} />
-                <Route path="/admin/appointments" element={<PageWrapper><AdminAppointments /></PageWrapper>} />
+                <Route path="/admin/appointments" element={<AdminOnlyRoute><PageWrapper><AdminAppointments /></PageWrapper></AdminOnlyRoute>} />
                 <Route path="/auth" element={<PageWrapper><Auth /></PageWrapper>} />
                 <Route path="/library" element={<PageWrapper><MyLibrary /></PageWrapper>} />
                 <Route path="/my-library" element={<Navigate to="/library" replace />} />
@@ -496,8 +505,8 @@ function AppRoutes() {
                 <Route path="/cbdc-syllabus" element={<PageWrapper><CbdcSyllabus /></PageWrapper>} />
                 <Route path="/syllabus" element={<Navigate to="/cbdc-syllabus" replace />} />
                 <Route path="/coming-soon" element={<PageWrapper><ComingSoon /></PageWrapper>} />
-                <Route path="/admin/link-audit" element={<PageWrapper><AdminLinkAudit /></PageWrapper>} />
-                <Route path="/admin/dashboard" element={<PageWrapper><AdminAnalyticsDashboard /></PageWrapper>} />
+                <Route path="/admin/link-audit" element={<AdminOnlyRoute><PageWrapper><AdminLinkAudit /></PageWrapper></AdminOnlyRoute>} />
+                <Route path="/admin/dashboard" element={<AdminOnlyRoute><PageWrapper><AdminAnalyticsDashboard /></PageWrapper></AdminOnlyRoute>} />
 
                 {/* Catch-all Wildcard Route */}
                 <Route path="*" element={<PageWrapper><NotFound /></PageWrapper>} />
