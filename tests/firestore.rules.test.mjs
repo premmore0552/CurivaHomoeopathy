@@ -47,6 +47,21 @@ function appointmentRequest(userId = 'alice', userEmail = 'alice@example.test') 
   };
 }
 
+function screeningRecord(userId = 'alice') {
+  return {
+    id: 'screen-1',
+    userId,
+    age: '34',
+    hpvVaxStatus: 'unknown',
+    lastPapSmearYears: '3',
+    symptoms: ['example symptom'],
+    familyHistory: false,
+    riskLevel: 'moderate',
+    recommendation: 'Discuss screening schedule with a qualified clinician.',
+    createdAt: serverTimestamp(),
+  };
+}
+
 function orderRecord(userId, status = 'pending') {
   return {
     userId,
@@ -215,6 +230,50 @@ function studyToolkitProgress(uid = 'alice') {
     updatedAt: serverTimestamp(),
   };
 }
+
+test('screening records are private, owner-bound and use a closed bounded schema', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const signedOut = testEnv.unauthenticatedContext().firestore();
+  const recordRef = doc(alice, 'screenings', 'screen-1');
+
+  await assertSucceeds(setDoc(recordRef, screeningRecord()));
+  await assertSucceeds(getDoc(recordRef));
+  await assertFails(getDoc(doc(bob, 'screenings', 'screen-1')));
+  await assertFails(setDoc(doc(bob, 'screenings', 'cross-user'), screeningRecord('alice')));
+  await assertFails(getDoc(doc(signedOut, 'screenings', 'screen-1')));
+
+  const injected = screeningRecord();
+  injected.isAdmin = true;
+  await assertFails(setDoc(doc(alice, 'screenings', 'injected'), injected));
+
+  const oversized = screeningRecord();
+  oversized.symptoms = Array.from({ length: 21 }, () => 'symptom');
+  await assertFails(setDoc(doc(alice, 'screenings', 'oversized'), oversized));
+});
+
+test('screening owners cannot mutate identity or immutable timestamps', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const recordRef = doc(alice, 'screenings', 'screen-1');
+  await assertSucceeds(setDoc(recordRef, screeningRecord()));
+
+  await assertSucceeds(updateDoc(recordRef, {
+    recommendation: 'Discuss the appropriate screening interval with a qualified clinician.',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(recordRef, {
+    userId: 'bob',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(recordRef, {
+    id: 'different-id',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(recordRef, {
+    privateClinicalNotes: 'unexpected field',
+    updatedAt: serverTimestamp(),
+  }));
+});
 
 test('study toolkit workspace is private to its owner and supports bounded account sync', async () => {
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
