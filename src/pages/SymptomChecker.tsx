@@ -90,7 +90,7 @@ export default function SymptomChecker() {
   const calculateRepertorization = () => {
     setIsSubmitting(true);
     
-    // Simulate real clinical algorithm latency
+    // Brief UI pause for the study demonstration only
     setTimeout(() => {
       const remedies: RemedyScore[] = [
         {
@@ -143,7 +143,7 @@ export default function SymptomChecker() {
         }
       ];
 
-      // Scored matrix based on Kent's Repertory grading (3 = Bold Red, 2 = Italic, 1 = Plain)
+      // Simplified illustrative weights only; this is not a validated Kent repertory or clinical algorithm.
       const { mentalState, thermalPreference, thirstLevel, sideAffinity, aggravationFactor, chiefComplaint } = caseData;
 
       remedies.forEach(rem => {
@@ -273,8 +273,8 @@ export default function SymptomChecker() {
   return (
     <div className="min-h-screen bg-bg-primary pt-12 pb-24 font-sans text-text-primary selection:bg-primary/20 selection:text-primary">
       <SEO 
-        title="Clinical Case Repertorizer & Patient Simulator"
-        description="Interactive clinical case taking and symptom repertorization sandbox. Grade polychrests based on physical modalities and constitutional mentals using Kent's methods."
+        title="Case Repertorizer Study Simulator | Curiva Homoeopathy"
+        description="A limited educational demonstration of illustrative homoeopathic remedy-profile scoring. Not a diagnostic or prescribing tool."
       />
 
       <div className="max-w-4xl mx-auto px-4 mt-6">
@@ -286,14 +286,21 @@ export default function SymptomChecker() {
               <Stethoscope className="w-6.5 h-6.5" />
             </div>
             <div>
-              <h1 id="symptom-checker-title" className="text-xl md:text-2xl font-display font-medium text-primary">Case Repertorizer Simulator</h1>
-              <p className="text-xs text-text-tertiary">Interactive student simulator for Homoeopathic case taking &amp; repertory matrices</p>
+              <h1 id="symptom-checker-title" className="text-xl md:text-2xl font-display font-medium text-primary">Case Repertorizer Study Simulator</h1>
+              <p className="text-xs text-text-tertiary">Educational case-taking and illustrative rubric-scoring demonstration</p>
             </div>
           </div>
           <Link to="/student-resources" className="text-xs text-primary hover:text-accent font-bold transition-colors">
             Access study cards
           </Link>
         </div>
+
+        {hasStarted && (
+          <div role="note" className="mb-6 rounded-2xl border border-amber-500/30 bg-amber-500/5 p-4 text-xs text-text-secondary space-y-1">
+            <p className="font-bold text-amber-800 dark:text-amber-200">Study exercise only — not clinical decision support</p>
+            <p>This fixed six-profile teaching matrix uses simplified, hard-coded weights. It is not a complete Kent repertory, validated scoring system, diagnostic method, or basis for choosing a remedy, potency, dose, or treatment. Use fictional or fully de-identified cases only. Do not delay medical assessment or change prescribed care based on this exercise.</p>
+          </div>
+        )}
 
         {!hasStarted ? (
           /* Introduction Screen */
@@ -307,9 +314,9 @@ export default function SymptomChecker() {
             </div>
 
             <div className="space-y-2">
-              <h2 className="text-2xl font-display font-bold text-primary">Clinical Modal Repertorizer</h2>
+              <h2 className="text-2xl font-display font-bold text-primary">Illustrative Case Repertorizer</h2>
               <p className="text-xs text-text-secondary leading-relaxed max-w-lg mx-auto">
-                Train your clinical judgment. Enter an active patient's constitutional temperament, thermal states, precise physical modalities, and chief complaints to generate a real Kentian-style repertorization grid.
+                Explore how a small, pre-coded teaching matrix matches selected vignette themes to six example materia medica profiles. The weights and profiles are simplified demonstrations, not a real or complete Kentian repertorization.
               </p>
             </div>
 
@@ -317,9 +324,9 @@ export default function SymptomChecker() {
             <div className="bg-amber-500/5 border border-amber-500/15 p-4 rounded-2xl flex items-start gap-3.5 text-left text-xs text-amber-800 dark:text-amber-200">
               <ShieldAlert className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
               <div className="space-y-1">
-                <p className="font-bold">Academic Educational Sandbox Only</p>
+                <p className="font-bold">Educational demonstration — not a clinical tool</p>
                 <p className="leading-relaxed opacity-90">
-                  This simulator is designed exclusively as an educational study tool for BHMS students and Homoeopathic scholars. It does not replace professional clinical diagnosis or medical consultations.
+                  This page uses a fixed six-remedy example matrix with simplified, hard-coded weights. It has not been validated as a repertory or clinical decision-support method. It cannot diagnose, recommend treatment, or replace a qualified medical assessment. Do not enter identifiable patient information or use the result to start, stop, or change treatment. For emergencies, contact local emergency services.
                 </p>
               </div>
             </div>
@@ -332,7 +339,7 @@ export default function SymptomChecker() {
                   onChange={(e) => setAcceptedDisclaimer(e.target.checked)}
                   className="rounded border-border text-primary focus:ring-primary w-4.5 h-4.5"
                 />
-                I certify that I am a BHMS student, scholar, or practitioner.
+                I understand this is a limited educational example and will use only fictional or fully de-identified vignettes.
               </label>
 
               <button
@@ -342,7 +349,7 @@ export default function SymptomChecker() {
                   acceptedDisclaimer ? 'bg-primary hover:bg-primary-dark cursor-pointer' : 'bg-primary/40 cursor-not-allowed'
                 }`}
               >
-                Launch Patient Simulator
+                Start Study Exercise
                 <ArrowRight className="w-4 h-4" />
               </button>
             </div>
@@ -378,8 +385,8 @@ export default function SymptomChecker() {
                   className="space-y-5"
                 >
                   <div className="space-y-1">
-                    <h3 className="text-lg font-display font-bold text-primary">Select Patient's Prominent Mental State</h3>
-                    <p className="text-xs text-text-secondary">Homoeopathic remedy prescription is highly dependent on psychological traits and emotional expressions.</p>
+                    <h3 className="text-lg font-display font-bold text-primary">Select a Vignette's Mental-State Theme</h3>
+                    <p className="text-xs text-text-secondary">This is a historical materia medica study theme. It does not assess a real person's mental health or support a prescription.</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {[
@@ -542,8 +549,8 @@ export default function SymptomChecker() {
                   className="space-y-5"
                 >
                   <div className="space-y-1">
-                    <h3 className="text-lg font-display font-bold text-primary">Chief Clinical Pathology Selection</h3>
-                    <p className="text-xs text-text-secondary">Determine which primary diagnostic sphere of the patient matches the current consultation focus.</p>
+                    <h3 className="text-lg font-display font-bold text-primary">Choose a Broad Topic for the Study Vignette</h3>
+                    <p className="text-xs text-text-secondary">Choose an academic topic for this fictional exercise only. This selection does not identify or confirm a medical diagnosis.</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
                     {[
@@ -630,8 +637,8 @@ export default function SymptomChecker() {
                   <span className="text-[9px] font-mono uppercase bg-primary/10 text-primary px-2.5 py-0.5 rounded font-black print:hidden">
                     Repertorization Matrix Sheet
                   </span>
-                  <h2 className="text-xl font-display font-bold text-primary mt-1">Homoeopathic Simillimum Scorecard</h2>
-                  <p className="text-xs text-text-tertiary">Assembled based on Kent's Evaluation Principles</p>
+                  <h2 className="text-xl font-display font-bold text-primary mt-1">Illustrative Remedy-Profile Scorecard</h2>
+                  <p className="text-xs text-text-tertiary">Scores from this fixed teaching example only; not a validated repertory result</p>
                 </div>
 
                 <div className="flex gap-2 print:hidden">
@@ -652,7 +659,7 @@ export default function SymptomChecker() {
 
               {/* Case Summary Panel */}
               <div className="bg-bg-primary dark:bg-gray-900 border border-border p-5 rounded-2xl space-y-3">
-                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Matched Patient Modalities:</h3>
+                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Selected Study-Vignette Themes:</h3>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 text-xs font-medium">
                   <div>
                     <span className="text-text-tertiary block text-[10px] uppercase font-bold">Mental temperament:</span>
@@ -683,7 +690,7 @@ export default function SymptomChecker() {
 
               {/* Kent's Repertorization Matrix Table */}
               <div className="space-y-3">
-                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Kentian Repertory Scoring Grid:</h3>
+                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Example Matching Matrix (not a validated repertory):</h3>
                 <PremiumTable
                   headers={[
                     "Remedy / Polychrest",
@@ -708,7 +715,7 @@ export default function SymptomChecker() {
                     <div className="text-right" key={`${rem.name}-status`}>
                       {idx === 0 ? (
                         <span className="px-2.5 py-1 bg-emerald-500/10 text-emerald-600 rounded-full font-black text-[9px] uppercase tracking-wider border border-emerald-500/20">
-                          Simillimum Candidate
+                          Highest illustrative score
                         </span>
                       ) : (
                         <span className="px-2 py-1 bg-primary/5 text-primary rounded-full font-bold text-[9px] uppercase tracking-wider border border-primary/10">
@@ -722,14 +729,14 @@ export default function SymptomChecker() {
 
               {/* Detailed Prescription Notes */}
               <div className="space-y-4 pt-3 border-t border-border">
-                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Active Remedy Therapeutics:</h3>
+                <h3 className="text-xs font-black text-primary uppercase tracking-wider">Example Remedy Profiles for Academic Review:</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                   {repertorizationResult.slice(0, 2).map((rem, i) => (
                     <div key={rem.name} className="bg-bg-primary dark:bg-gray-900 border border-border p-5 rounded-2xl space-y-2">
                       <div className="flex justify-between items-center border-b border-border/40 pb-2">
                         <h4 className="text-xs font-black text-primary">{rem.fullName}</h4>
                         <span className="text-[9px] font-mono text-accent uppercase font-bold">
-                          {i === 0 ? "Lead Prescription" : "Secondary Prescription"}
+                          {i === 0 ? "Highest score in this example" : "Next score in this example"}
                         </span>
                       </div>
                       <p className="text-xs text-text-secondary leading-relaxed font-medium">
