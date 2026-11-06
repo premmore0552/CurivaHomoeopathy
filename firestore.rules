@@ -79,11 +79,31 @@ service cloud.firestore {
              data.status in ['ordered', 'shipped', 'delivered', 'active', 'sent_back', 'processing', 'completed'];
     }
 
+    // Screening records can contain sensitive reproductive-health information.
+    // Keep the schema closed and each optional field bounded.
     function isValidScreening(data) {
       return data.keys().hasAll(['id', 'userId', 'riskLevel', 'createdAt']) &&
-             data.id is string && data.id.size() <= 100 &&
+             data.keys().hasOnly([
+               'id', 'userId', 'age', 'hpvVaxStatus', 'lastPapSmearYears',
+               'symptoms', 'familyHistory', 'riskLevel', 'recommendation',
+               'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() >= 1 && data.id.size() <= 100 &&
              data.userId == request.auth.uid &&
-             data.riskLevel in ['low', 'moderate', 'high'];
+             data.riskLevel in ['low', 'moderate', 'high'] &&
+             (!data.keys().hasAny(['age']) ||
+               (data.age is string && data.age.size() <= 3)) &&
+             (!data.keys().hasAny(['hpvVaxStatus']) ||
+               (data.hpvVaxStatus is string && data.hpvVaxStatus.size() <= 40)) &&
+             (!data.keys().hasAny(['lastPapSmearYears']) ||
+               (data.lastPapSmearYears is string && data.lastPapSmearYears.size() <= 40)) &&
+             (!data.keys().hasAny(['symptoms']) ||
+               (data.symptoms is list && data.symptoms.size() <= 20 &&
+                data.symptoms.all(item, item is string && item.size() <= 120))) &&
+             (!data.keys().hasAny(['familyHistory']) || data.familyHistory is bool) &&
+             (!data.keys().hasAny(['recommendation']) ||
+               (data.recommendation is string && data.recommendation.size() <= 1000)) &&
+             (!data.keys().hasAny(['updatedAt']) || data.updatedAt == request.time);
     }
 
     // --- Collection: Users ---
@@ -256,8 +276,20 @@ service cloud.firestore {
     match /screenings/{screeningId} {
       allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
       allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn() && isValidScreening(incoming()) && incoming().createdAt == request.time;
-      allow update: if isSignedIn() && resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId;
+      allow create: if isSignedIn() &&
+                    isValidScreening(incoming()) &&
+                    incoming().createdAt == request.time;
+      allow update: if isSignedIn() &&
+                    resource.data.userId == request.auth.uid &&
+                    incoming().userId == resource.data.userId &&
+                    incoming().id == resource.data.id &&
+                    incoming().createdAt == resource.data.createdAt &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(resource.data).affectedKeys().hasOnly([
+                      'age', 'hpvVaxStatus', 'lastPapSmearYears', 'symptoms',
+                      'familyHistory', 'riskLevel', 'recommendation', 'updatedAt'
+                    ]) &&
+                    isValidScreening(incoming());
       allow delete: if isAdmin();
     }
 
