@@ -85,10 +85,10 @@ export default function StudyToolkitDock() {
               <button type="button" onClick={() => setNoteOpen(false)} aria-label="Close quick note" className="rounded-lg p-2 hover:bg-bg-primary"><X size={17}/></button>
             </div>
             <input value={noteTitle} onChange={event => setNoteTitle(event.target.value)} placeholder="Note title" maxLength={160} className="w-full rounded-xl border border-border bg-bg-primary p-3 text-sm"/>
-            <textarea value={noteContent} onChange={event => setNoteContent(event.target.value)} placeholder="Capture a concept, definition, or reminder…" rows={7} maxLength={12000} className="w-full rounded-xl border border-border bg-bg-primary p-3 text-sm"/>
+            <textarea value={noteContent} onChange={event => setNoteContent(event.target.value)} placeholder="Capture a concept, definition, or reminder…" rows={7} maxLength={4000} className="w-full rounded-xl border border-border bg-bg-primary p-3 text-sm"/>
             <div className="flex items-center justify-between text-xs text-text-tertiary">
               <span>{noteContent.trim() ? noteContent.trim().split(/\\s+/).length : 0} words</span>
-              <span>{noteContent.length}/12000</span>
+              <span>{noteContent.length}/4000</span>
             </div>
             <div className="flex justify-end gap-2">
               <button type="button" onClick={() => setNoteOpen(false)} className="rounded-xl border border-border px-4 py-2 text-sm font-bold">Cancel</button>
