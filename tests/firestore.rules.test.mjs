@@ -266,7 +266,15 @@ test('screening owners cannot mutate identity or immutable timestamps', async ()
   await assertSucceeds(setDoc(recordRef, screeningRecord()));
 
   await assertSucceeds(updateDoc(recordRef, {
-    recommendation: 'Discuss the appropriate screening interval with a qualified clinician.',
+    lastPapSmearYears: '4',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(recordRef, {
+    recommendation: 'Change the stored recommendation',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(recordRef, {
+    riskLevel: 'low',
     updatedAt: serverTimestamp(),
   }));
   await assertFails(updateDoc(recordRef, {
