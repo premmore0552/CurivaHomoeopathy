@@ -38,6 +38,8 @@ jobs:
         run: npm run test:native-progress
       - name: Test conflict-safe study workspace sync
         run: npm run test:study-toolkit-sync
+      - name: Test complete UPSC and MD question-bank import
+        run: npm run test:chauhan-question-bank
 
       - name: Typecheck
         run: npm run lint
