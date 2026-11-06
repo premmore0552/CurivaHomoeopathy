@@ -2,7 +2,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { after, before, test } from 'node:test';
+import { after, before, beforeEach, test } from 'node:test';
 import {
   assertFails,
   assertSucceeds,
@@ -27,6 +27,11 @@ before(async () => {
   });
 });
 
+beforeEach(async () => {
+  // Keep authorization and document fixtures isolated between top-level tests.
+  await testEnv.clearFirestore();
+});
+
 after(async () => {
   await testEnv?.cleanup();
 });
@@ -47,9 +52,9 @@ function appointmentRequest(userId = 'alice', userEmail = 'alice@example.test') 
   };
 }
 
-function screeningRecord(userId = 'alice') {
+function screeningRecord(userId = 'alice', id = 'screen-1') {
   return {
-    id: 'screen-1',
+    id,
     userId,
     age: '34',
     hpvVaxStatus: 'unknown',
@@ -233,14 +238,14 @@ function studyToolkitProgress(uid = 'alice') {
 
 test('screening records are private, owner-bound and use a closed bounded schema', async () => {
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
-  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const reader = testEnv.authenticatedContext('charlie', { email: 'charlie@example.test' }).firestore();
   const signedOut = testEnv.unauthenticatedContext().firestore();
   const recordRef = doc(alice, 'screenings', 'screen-1');
 
   await assertSucceeds(setDoc(recordRef, screeningRecord()));
   await assertSucceeds(getDoc(recordRef));
-  await assertFails(getDoc(doc(bob, 'screenings', 'screen-1')));
-  await assertFails(setDoc(doc(bob, 'screenings', 'cross-user'), screeningRecord('alice')));
+  await assertFails(getDoc(doc(reader, 'screenings', 'screen-1')));
+  await assertFails(setDoc(doc(reader, 'screenings', 'cross-user'), screeningRecord('alice')));
   await assertFails(getDoc(doc(signedOut, 'screenings', 'screen-1')));
 
   const injected = screeningRecord();
@@ -262,8 +267,8 @@ test('screening records are private, owner-bound and use a closed bounded schema
 
 test('screening owners cannot mutate identity or immutable timestamps', async () => {
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
-  const recordRef = doc(alice, 'screenings', 'screen-1');
-  await assertSucceeds(setDoc(recordRef, screeningRecord()));
+  const recordRef = doc(alice, 'screenings', 'screen-immutable-1');
+  await assertSucceeds(setDoc(recordRef, screeningRecord('alice', 'screen-immutable-1')));
 
   await assertSucceeds(updateDoc(recordRef, {
     lastPapSmearYears: '4',
