@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { BookOpen, Stethoscope, Lightbulb, ChevronLeft, ArrowRight, Brain } from 'lucide-react';
 import SEO from '../components/SEO';
@@ -97,8 +98,17 @@ const QUIZ_CATEGORIES = [
   }
 ];
 
+const VIVA_PROMPTS = [
+  'Define the topic, explain its main classification, and give one example from your BHMS syllabus.',
+  'Explain the mechanism step by step, then summarize it without looking at your notes.',
+  'Compare two related concepts and identify their distinguishing features.',
+  'What are the core examination points, common misconceptions, and topics you should revise next?',
+  'Give a structured two-minute answer: definition, key points, example, and conclusion.'
+];
+
 export default function Quizzes() {
   const [activeQuiz, setActiveQuiz] = useState<string | null>(null);
+  const [vivaPrompt, setVivaPrompt] = useState('');
 
   const currentQuiz = QUIZ_CATEGORIES.find(q => q.id === activeQuiz);
 
@@ -119,6 +129,18 @@ export default function Quizzes() {
               exit={{ opacity: 0, y: -20 }}
               className="space-y-12"
             >
+              <section className="rounded-2xl border border-border bg-bg-secondary p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                <div className="min-w-0 flex-1">
+                  <div className="text-[10px] font-black uppercase tracking-widest text-primary">Curiva Study Toolkit</div>
+                  <h2 className="mt-1 text-lg font-black text-text-primary">Viva warm-up and exam planning</h2>
+                  <p className="mt-1 text-xs leading-relaxed text-text-secondary">{vivaPrompt || 'Generate an oral-exam prompt, then practise a clear, structured answer aloud.'}</p>
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <button type="button" onClick={() => setVivaPrompt(VIVA_PROMPTS[Math.floor(Math.random() * VIVA_PROMPTS.length)])} className="rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-white">Generate viva prompt</button>
+                  <Link to="/profile?tab=planner" className="rounded-xl border border-border px-4 py-2.5 text-xs font-bold">Exam countdown</Link>
+                  <Link to="/subjects" className="rounded-xl border border-border px-4 py-2.5 text-xs font-bold">Subject practice</Link>
+                </div>
+              </section>
               <div className="text-center space-y-4">
                 <h1 className="text-5xl font-display font-black text-text-primary uppercase tracking-tight italic">
                   Interactive <span className="text-primary underline decoration-primary/30 underline-offset-8">Knowledge</span> Hub
