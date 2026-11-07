@@ -150,7 +150,9 @@ test('inactive administrator memberships never grant privileged access', async (
     subject: 'A valid academic question',
     content: 'This is a sufficiently long academic question.',
     status: 'pending',
+    isAnonymous: true,
     createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   }));
 
   await testEnv.withSecurityRulesDisabled( async context => {
