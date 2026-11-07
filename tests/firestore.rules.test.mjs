@@ -141,6 +141,35 @@ function nativeLearningProgress(uid = 'alice') {
   };
 }
 
+test('inactive administrator memberships never grant privileged access', async () => {
+  const owner = testEnv.authenticatedContext('owner', { email: 'owner@example.test' }).firestore();
+  const inactiveAdmin = testEnv.authenticatedContext('inactive-admin', { email: 'inactive@example.test' }).firestore();
+  const pendingRef = doc(owner, 'questions', 'pending-owned-question');
+
+  await assertSucceeds(setDoc(pendingRef, {
+    userId: 'owner',
+    subject: 'A valid academic question',
+    content: 'This is a sufficiently long academic question.',
+    status: 'pending',
+    createdAt: serverTimestamp(),
+  }));
+
+  await withSecurityRulesDisabled(testEnv, async context => {
+    await setDoc(doc(context.firestore(), 'admins', 'inactive-admin'), {
+      active: false,
+      createdAt: new Date().toISOString(),
+    });
+  });
+
+  await assertFails(updateDoc(pendingRef, {
+    status: 'answered',
+    answer: 'Should not be allowed.',
+    answeredBy: 'inactive-admin',
+    answeredAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  }));
+});
+
 test('administrator grants are privileged-only and profiles cannot grant roles', async () => {
   const alice = testEnv.authenticatedContext('alice', {
     email: 'premmore0552@gmail.com',
