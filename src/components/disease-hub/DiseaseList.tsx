@@ -1,12 +1,12 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
-import { Disease } from '../../data/diseaseHubData';
+import type { DiseaseSummary } from '../../data/diseaseHubTypes';
 
 interface DiseaseListProps {
   system: string;
-  diseases: Disease[];
-  onSelectDisease: (id: string) => void;
+  diseases: DiseaseSummary[];
+  onSelectDisease: (system: string, slug: string) => void;
   onBack: () => void;
 }
 
@@ -29,11 +29,11 @@ export const DiseaseList: React.FC<DiseaseListProps> = ({ system, diseases, onSe
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {diseases.map((disease, idx) => (
           <motion.button
-            key={disease.id}
+            key={`${disease.system}/${disease.slug}`}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.05 }}
-            onClick={() => onSelectDisease(disease.id)}
+            onClick={() => onSelectDisease(disease.system, disease.slug)}
             className="group p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] text-left hover:border-primary hover:shadow-xl transition-all duration-300 relative overflow-hidden"
           >
             <div className="relative z-10">

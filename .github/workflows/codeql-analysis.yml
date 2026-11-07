@@ -56,6 +56,10 @@ jobs:
 
       # Android Gradle is generated during CI rather than committed. Prepare
       # it before the manual build so Kotlin extraction sees the Compose app.
+      - name: Refresh package lock for Phase 2 security pins
+        if: matrix.language == 'java-kotlin' && github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-final'
+        run: npm install --package-lock-only --ignore-scripts
+
       - name: Install JavaScript and TypeScript dependencies
         if: matrix.language == 'java-kotlin'
         run: npm ci

@@ -37,6 +37,10 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Refresh package lock for Phase 2 security pins
+        if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-final'
+        run: npm install --package-lock-only --ignore-scripts
+
       - name: Set up Java
         uses: actions/setup-java@v6
         with:

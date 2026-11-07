@@ -39,7 +39,8 @@ import {
   Info
 } from 'lucide-react';
 import SEO from '../components/SEO';
-import { diseaseHubData, Disease, ImportantRemedy } from '../data/diseaseHubData';
+import type { DiseaseSummary } from '../data/diseaseHubTypes';
+import { loadDiseaseHubCatalog } from '../data/diseaseHubAssets';
 import { comparisonRemedies, ComparisonData } from '../data/comparisonData';
 import { SystemGrid } from '../components/disease-hub/SystemGrid';
 import { DiseaseList } from '../components/disease-hub/DiseaseList';
@@ -309,9 +310,32 @@ export default function DiseaseHub() {
   // --- Disease Hub (Clinical) View State ---
   const [viewMode, setViewMode] = useState<'systems' | 'diseases'>('systems');
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
+  const [diseaseCatalog, setDiseaseCatalog] = useState<DiseaseSummary[]>([]);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState('');
+  const [catalogAttempt, setCatalogAttempt] = useState(0);
+
+  // Lightweight catalog data powers navigation and featured cards. Full records
+  // are fetched only when a learner opens a specific system or disease page.
+  useEffect(() => {
+    let active = true;
+    setCatalogLoading(true);
+    setCatalogError('');
+    loadDiseaseHubCatalog()
+      .then((catalog) => {
+        if (active) setDiseaseCatalog(catalog.diseases);
+      })
+      .catch((error: unknown) => {
+        if (active) setCatalogError(error instanceof Error ? error.message : 'The disease catalog could not be loaded.');
+      })
+      .finally(() => {
+        if (active) setCatalogLoading(false);
+      });
+    return () => { active = false; };
+  }, [catalogAttempt]);
 
   // Derived data
-  const diseasesInSystem = diseaseHubData.filter(d => d.system === selectedSystem);
+  const diseasesInSystem = diseaseCatalog.filter(d => d.system === selectedSystem);
   
   // --- Academic Tab State ---
   const [academicSearch, setAcademicSearch] = useState('');
@@ -332,11 +356,8 @@ export default function DiseaseHub() {
     navigate(`/disease-hub/${system}`);
   };
 
-  const handleSelectDisease = (id: string) => {
-    const disease = diseaseHubData.find(d => d.id === id);
-    if (disease) {
-      navigate(`/disease-hub/${disease.system}/${disease.slug}`);
-    }
+  const handleSelectDisease = (system: string, slug: string) => {
+    navigate(`/disease-hub/${system}/${slug}`);
   };
 
   const handleBackToSystems = () => {
@@ -556,10 +577,17 @@ export default function DiseaseHub() {
                         View All Diseases →
                       </button>
                     </div>
+                    {catalogLoading && <p className="text-xs text-text-secondary" role="status">Loading featured disease index…</p>}
+                    {catalogError && (
+                      <div role="alert" className="flex flex-wrap items-center justify-between gap-2 text-xs text-red-600">
+                        <span>{catalogError}</span>
+                        <button type="button" onClick={() => setCatalogAttempt((attempt) => attempt + 1)} className="font-bold underline underline-offset-2">Retry disease index</button>
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {diseaseHubData.slice(0, 3).map((disease) => (
+                      {diseaseCatalog.slice(0, 3).map((disease) => (
                         <DiseaseCard 
-                          key={disease.id} 
+                          key={`${disease.system}/${disease.slug}`} 
                           disease={disease} 
                           onClick={handleSelectDisease} 
                         />
