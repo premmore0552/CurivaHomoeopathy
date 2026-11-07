@@ -12,11 +12,13 @@ const privateIdentifierPatterns = [
   /\b[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}\b/i,
   /\b(?:\+?91[\s-]?)?[6-9]\d{9}\b/,
   /\b\d{4}[\s-]?\d{4}[\s-]?\d{4}\b/,
-  /\b(?:MRN|UHID|OPD|IPD|ABHA|patient\s*(?:id|number)|medical\s*record\s*(?:number|no\.?))\s*[:#-]?\s*[A-Z0-9/-]{4,}\b/i
+  /\b[A-Z]{5}\d{4}[A-Z]\b/i,
+  /\b(?:PAN|passport|MRN|UHID|OPD|IPD|ABHA|patient\s*(?:id|number)|medical\s*record\s*(?:number|no\.?))\s*(?:number|no\.?|id)?\s*[:#-]?\s*[A-Z0-9/-]{4,}\b/i,
 ];
 
 const sensitiveNarrativePatterns = [
   /\bmy\s+(?:patient|client|child|mother|father|wife|husband|symptoms?|diagnosis|medical history|lab report|test report|prescription)\b/i,
+  /\bI\s+(?:have|was diagnosed with|am taking|take|suffer from)\s+(?:type\s*[12]\s*)?(?:diabetes|hypertension|high blood pressure|asthma|epilepsy|cancer|HIV|hepatitis|PCOS|polycystic ovary syndrome|depression|anxiety|tuberculosis|kidney disease|heart disease|pregnancy)\b/i,
   /\b(?:patient|client)\s+(?:name|age|address|phone|history|details)\s*[:=-]/i,
   /\b(?:diagnosed|treated|admitted)\s+(?:with|for)\s+[a-z -]{3,80}\s+(?:on|at|by)\s+/i,
   /\b(?:blood report|lab report|medical record|discharge summary|prescription photo|clinical case sheet)\b/i,
