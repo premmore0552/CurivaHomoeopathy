@@ -63,7 +63,7 @@ jobs:
           const zip = fs.readFileSync(`dist/live-updates/bundles/${files[0]}`);
           const checksum = crypto.createHash('sha256').update(zip).digest('hex');
           if (manifest.checksum !== checksum) throw new Error('OTA manifest checksum mismatch');
-          if (manifest.bundleId !== files[0].replace(/\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
+          if (manifest.bundleId !== files[0].replace(/\\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
           console.log(`Verified OTA bundle ${manifest.bundleId}`);
           NODE
           if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?$'; then
@@ -81,6 +81,9 @@ jobs:
 
       - name: Verify navigation, private downloads, and Netlify API
         run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs tests/native-branding.test.mjs
+
+      - name: Verify compact initial medical disclaimer banner
+        run: node --test tests/medical-disclaimer-banner.test.mjs
 
       - name: Verify public-health content, privacy disclosure, and branding
         run: node --test tests/public-health-content.test.mjs
