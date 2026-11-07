@@ -86,7 +86,7 @@ These cannot safely be completed by editing client source alone:
 
 ## Known release risks
 
-- The last recorded dependency-install log reported 33 npm audit findings (2 low, 9 moderate, 17 high and 5 critical). This is not proof of exploitability, but it is a release blocker until a fresh audit identifies affected production paths and maintainers remediate or formally accept each risk.
+- The last recorded dependency-install log reported 33 npm audit findings (2 low, 9 moderate, 17 high and 5 critical). This is not proof of exploitability. CI now reports both the full dependency tree and production-only audit results on each verification run; that report is currently non-blocking so findings can be triaged without hiding the build result. Treat any unremediated high/critical production-path finding as a release blocker until it is fixed or formally accepted with a documented risk decision.
 - Firestore records from earlier versions may still exist. Denying client access is not deletion.
 - Browser session storage is not encrypted by Curiva; it is appropriate only for ordinary study notes, never for confidential records.
 - The AI PII filter is heuristic and not a de-identification system.
