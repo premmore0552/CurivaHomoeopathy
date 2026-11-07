@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { ShieldCheck } from 'lucide-react';
 import {
   AI_ACADEMIC_CONSENT_VERSION,
   hasAiAcademicConsent
 } from '../server/aiPrivacyGuard';
 
-type Props = {
-  onChange?: (allowed: boolean) => void;
-  compact?: boolean;
-};
+type Props = { compact?: boolean };
 
-export default function AiPrivacyNotice({ onChange, compact = false }: Props) {
+export function hasCurrentAiAcademicConsent(): boolean {
+  try {
+    return typeof sessionStorage !== 'undefined' &&
+      hasAiAcademicConsent(sessionStorage.getItem('curiva-ai-academic-consent'));
+  } catch {
+    return false;
+  }
+}
+
+export default function AiPrivacyNotice({ compact = false }: Props) {
   const [allowed, setAllowed] = useState(() => {
     try {
       return typeof sessionStorage !== 'undefined' &&
@@ -19,10 +25,6 @@ export default function AiPrivacyNotice({ onChange, compact = false }: Props) {
       return false;
     }
   });
-
-  useEffect(() => {
-    onChange?.(allowed);
-  }, [allowed, onChange]);
 
   const update = (checked: boolean) => {
     setAllowed(checked);
