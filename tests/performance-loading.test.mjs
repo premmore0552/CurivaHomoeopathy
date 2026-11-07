@@ -75,6 +75,9 @@ test('disease navigation uses system and slug instead of globally reused IDs', (
   assert.match(hub, /handleSelectDisease = \(system: string, slug: string\)/);
   assert.doesNotMatch(hub, /diseaseCatalog\.find\(d => d\.id === id\)/);
   assert.match(detail, /trackView\(\`\$\{disease\.system\}\/\$\{disease\.slug\}\`/);
+  const category = read('../src/pages/DiseaseCategoryPage.tsx');
+  assert.doesNotMatch(category, /key=\{d\.id\}/);
+  assert.match(category, /key=\{`\$\{d\.system\}\/\$\{d\.slug\}`\}/);
 });
 
 test('build and development commands generate disease JSON assets before serving', () => {
