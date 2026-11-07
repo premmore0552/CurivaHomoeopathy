@@ -12,6 +12,7 @@ const manifest = JSON.parse(read('../public/manifest.json'));
 const home = read('../src/pages/Home.tsx');
 const homeHero = read('../src/components/home/HighImpactHero.tsx');
 const app = read('../src/App.tsx');
+const appLoader = read('../src/components/LoadingStates.tsx');
 const serviceWorker = read('../public/sw.js');
 
 const expandedGuides = [
@@ -58,7 +59,8 @@ test('ebook reading progress is disclosed as device-local', () => {
 
 test('latest Curiva mark is used in boot, app loaders and PWA manifest', () => {
   assert.match(splash, /src="\/app_icon\.png\.png"/);
-  assert.match(app, /src="\/app_icon\.png\.png"/);
+  assert.match(app, /RouteLoadingScreen/);
+  assert.match(appLoader, /src="\/app_icon\.png\.png"/);
   assert.ok(manifest.icons.every((icon) => icon.src === '/app_icon.png.png' && icon.type === 'image/jpeg'));
   assert.match(bootCss, /prefers-reduced-motion/);
 });

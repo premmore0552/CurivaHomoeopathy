@@ -792,7 +792,7 @@ section, main, article, aside, nav, footer {
 }
 
 /* Fluid Media Scaling */
-img, video, canvas, svg, iframe {
+img, video, canvas, iframe {
   max-width: 100% !important;
   height: auto !important;
   display: block;
@@ -871,8 +871,7 @@ table {
   img,
   video,
   iframe,
-  canvas,
-  svg {
+  canvas {
     max-width: 100%;
   }
 
@@ -973,5 +972,101 @@ table {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+
+/* Lucide icons retain the dimensions assigned by their component classes. */
+svg.lucide { flex-shrink: 0; }
+
+
+/* Shared positioning tokens for persistent floating controls. Keep these values
+   coordinated with the fixed mobile navigation and device safe areas. */
+:root {
+  --curiva-floating-safe-bottom: env(safe-area-inset-bottom, 0px);
+  --curiva-floating-safe-left: env(safe-area-inset-left, 0px);
+  --curiva-floating-safe-right: env(safe-area-inset-right, 0px);
+  --curiva-study-dock-bottom: calc(var(--curiva-floating-safe-bottom) + 4.75rem);
+  --curiva-disclaimer-bottom: calc(var(--curiva-floating-safe-bottom) + 9rem);
+  --curiva-quick-actions-bottom: calc(var(--curiva-floating-safe-bottom) + 6rem);
+}
+
+@media (min-width: 640px) and (max-width: 1279px) {
+  :root {
+    --curiva-study-dock-bottom: calc(var(--curiva-floating-safe-bottom) + 5rem);
+    --curiva-disclaimer-bottom: calc(var(--curiva-floating-safe-bottom) + 9rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  :root {
+    --curiva-study-dock-bottom: calc(var(--curiva-floating-safe-bottom) + 1.5rem);
+    --curiva-quick-actions-bottom: calc(var(--curiva-floating-safe-bottom) + 6rem);
+    --curiva-disclaimer-bottom: calc(var(--curiva-floating-safe-bottom) + 10rem);
+  }
+}
+
+.curiva-study-dock-position {
+  bottom: var(--curiva-study-dock-bottom);
+  right: max(0.75rem, var(--curiva-floating-safe-right));
+}
+
+@media (min-width: 640px) {
+  .curiva-study-dock-position {
+    right: max(1.5rem, var(--curiva-floating-safe-right));
+  }
+}
+
+.curiva-quick-actions-position {
+  bottom: var(--curiva-quick-actions-bottom);
+  right: max(1.5rem, var(--curiva-floating-safe-right));
+}
+
+.curiva-disclaimer-position {
+  bottom: var(--curiva-disclaimer-bottom);
+  left: max(0.75rem, var(--curiva-floating-safe-left));
+  right: max(0.75rem, var(--curiva-floating-safe-right));
+  width: auto;
+  max-width: 28rem;
+  margin-inline: auto;
+}
+
+/* Expanded study controls take priority over the non-blocking acknowledgement banner. */
+body[data-curiva-study-panel-open="true"] .curiva-disclaimer-position {
+  visibility: hidden;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) and (max-width: 1279px) {
+  .curiva-disclaimer-position {
+    left: 50%;
+    right: auto;
+    width: min(30rem, calc(100vw - 2rem));
+    max-width: 30rem;
+    margin-inline: 0;
+    transform: translateX(-50%);
+  }
+}
+
+@media (min-width: 1280px) {
+  .curiva-disclaimer-position {
+    left: auto;
+    right: max(1.5rem, var(--curiva-floating-safe-right));
+    width: min(28rem, calc(100vw - 2rem));
+    max-width: 28rem;
+    margin-inline: 0;
+    transform: none;
+  }
+}
+
+.curiva-materia-search-position {
+  bottom: var(--curiva-study-dock-bottom);
+  left: max(1rem, var(--curiva-floating-safe-left));
+}
+
+@media (min-width: 1024px) {
+  .curiva-materia-search-position {
+    left: auto;
+    right: max(11rem, calc(var(--curiva-floating-safe-right) + 10rem));
   }
 }

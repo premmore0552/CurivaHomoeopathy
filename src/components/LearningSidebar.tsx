@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { 
   BookOpen, 
@@ -8,7 +8,8 @@ import {
   Award, 
   Bookmark, 
   Sparkles, 
-  ChevronRight, 
+  ChevronRight,
+  ChevronDown, 
   GraduationCap, 
   Activity, 
   FileText,
@@ -34,6 +35,7 @@ export default function LearningSidebar({
   onItemClick
 }: LearningSidebarProps) {
   const location = useLocation();
+  const [mobileExpanded, setMobileExpanded] = useState(false);
 
   const progressPercent = totalCount > 0 ? Math.round((completedCount / totalCount) * 100) : 0;
 
@@ -77,7 +79,18 @@ export default function LearningSidebar({
   };
 
   return (
-    <aside className="space-y-6 lg:sticky lg:top-28 h-fit pb-10">
+    <aside className="h-fit space-y-3 pb-10 lg:sticky lg:top-28 lg:space-y-6">
+      <button
+        type="button"
+        onClick={() => setMobileExpanded(value => !value)}
+        aria-expanded={mobileExpanded}
+        aria-controls="learning-sidebar-content"
+        className="flex min-h-12 w-full items-center justify-between rounded-xl border border-border bg-bg-secondary px-4 py-3 text-sm font-bold text-text-primary lg:hidden"
+      >
+        <span className="flex items-center gap-2"><BookOpen className="h-4 w-4 text-primary" /> Learning navigation</span>
+        <ChevronDown className={mobileExpanded ? 'h-4 w-4 rotate-180 transition-transform' : 'h-4 w-4 transition-transform'} />
+      </button>
+      <div id="learning-sidebar-content" className={(mobileExpanded ? 'block' : 'hidden') + ' space-y-6 lg:block'}>
       
       {/* Return Navigation */}
       <div className="flex flex-col gap-2">
@@ -99,7 +112,7 @@ export default function LearningSidebar({
           </span>
           <span className="text-primary font-mono">{progressPercent}%</span>
         </div>
-        <div className="w-full h-1.5 bg-bg-primary rounded-full overflow-hidden border border-border/10">
+        <div role="progressbar" aria-label="Learning progress" aria-valuemin={0} aria-valuemax={100} aria-valuenow={progressPercent} className="w-full h-1.5 bg-bg-primary rounded-full overflow-hidden border border-border/10">
           <div 
             className="h-full bg-primary rounded-full transition-all duration-500 ease-out" 
             style={{ width: `${progressPercent}%` }}
@@ -115,7 +128,7 @@ export default function LearningSidebar({
         <h4 className="px-3 mb-3 text-[9px] font-black uppercase tracking-widest text-text-tertiary">
           Core Navigation
         </h4>
-        <nav className="space-y-1">
+        <nav aria-label="Learning resources" className="space-y-1">
           {primaryMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeItem === item.id || (item.path !== '#' && location.pathname.startsWith(item.path));
@@ -125,7 +138,7 @@ export default function LearningSidebar({
                 key={item.id}
                 to={item.path}
                 onClick={(e) => handleLinkClick(item.id, e, item.path)}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all font-bold group border ${
+                className={`w-full min-h-11 flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all font-bold group border ${
                   isActive
                     ? 'bg-primary/5 border-primary/20 text-primary'
                     : 'border-transparent text-text-secondary hover:bg-bg-primary hover:text-text-primary'
@@ -149,7 +162,7 @@ export default function LearningSidebar({
         <h4 className="px-3 mb-3 text-[9px] font-black uppercase tracking-widest text-text-tertiary">
           Recall &amp; Boards
         </h4>
-        <nav className="space-y-1">
+        <nav aria-label="Practice and assessment" className="space-y-1">
           {assessmentMenuItems.map((item) => {
             const Icon = item.icon;
             const isActive = activeItem === item.id || (item.path !== '#' && location.pathname.startsWith(item.path));
@@ -159,7 +172,7 @@ export default function LearningSidebar({
                 key={item.id}
                 to={item.path}
                 onClick={(e) => handleLinkClick(item.id, e, item.path)}
-                className={`w-full flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all font-bold group border ${
+                className={`w-full min-h-11 flex items-center justify-between px-3 py-2.5 rounded-xl text-xs transition-all font-bold group border ${
                   isActive
                     ? 'bg-primary/5 border-primary/20 text-primary'
                     : 'border-transparent text-text-secondary hover:bg-bg-primary hover:text-text-primary'
@@ -207,6 +220,7 @@ export default function LearningSidebar({
         </div>
       </div>
 
+          </div>
     </aside>
   );
 }

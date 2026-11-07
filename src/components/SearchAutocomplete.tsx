@@ -39,7 +39,7 @@ function persistSearchHistory(history: string[]) {
 }
 
 
-export default function SearchAutocomplete() {
+export default function SearchAutocomplete({ triggerClassName }: { triggerClassName?: string }) {
   const { currentRole } = useRole();
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -287,7 +287,7 @@ export default function SearchAutocomplete() {
     if (query.trim()) {
       const updatedHistory = [query.trim(), ...searchHistory.filter(item => item !== query.trim())].slice(0, 5);
       setSearchHistory(updatedHistory);
-      localStorage.setItem('curiva_global_search_history', JSON.stringify(updatedHistory));
+      persistSearchHistory(updatedHistory);
 
       setIsModalOpen(false);
       navigate(`/clinical-guides?search=${encodeURIComponent(query.trim())}`);
@@ -383,7 +383,7 @@ export default function SearchAutocomplete() {
         type="button"
         onClick={() => setIsModalOpen(true)}
         aria-label="Open global search"
-        className="relative group w-full md:w-60 lg:w-72 cursor-pointer select-none text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className={"relative group w-full md:w-60 lg:w-72 cursor-pointer select-none text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary " + (triggerClassName ?? "")}
       >
         <div className="flex items-center gap-3 pl-4 pr-3 py-2.5 bg-bg-secondary hover:bg-white dark:hover:bg-zinc-800 border border-border rounded-full shadow-inner hover:shadow-soft hover:border-primary/40 transition-all">
           <Search className="text-text-secondary group-hover:text-primary w-4 h-4 transition-colors" />
