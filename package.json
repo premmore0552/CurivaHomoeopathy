@@ -53,7 +53,7 @@
     "@capacitor/cli": "^8.4.1",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.6.2",
     "esbuild": "^0.28.2",
     "tailwindcss": "^4.1.14",
     "terser": "^5.46.1",
