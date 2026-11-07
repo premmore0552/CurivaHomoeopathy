@@ -171,34 +171,34 @@ export enum OperationType {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
-  const errCode = (error as any)?.code || '';
-  const errMsg = error instanceof Error ? error.message : String(error);
-
-  const errInfo = {
-    error: errMsg,
-    code: errCode,
-    authInfo: {
-      userId: auth.currentUser?.uid,
-      email: auth.currentUser?.email,
-      emailVerified: auth.currentUser?.emailVerified,
-      isAnonymous: auth.currentUser?.isAnonymous,
-      tenantId: auth.currentUser?.tenantId,
-      providerInfo: auth.currentUser?.providerData?.map(provider => ({
-        providerId: provider.providerId,
-        email: provider.email,
-      })) || []
-    },
+  // Firebase exceptions and paths can contain account identifiers. Never log
+  // or return raw provider messages, email addresses, UIDs, or identity data.
+  const rawCode = (error as any)?.code;
+  const code = typeof rawCode === 'string'
+    ? rawCode.slice(0, 80).replace(/[^a-zA-Z0-9_.-]/g, '')
+    : 'unknown';
+  const rawMessage = error instanceof Error ? error.message : '';
+  const collection = typeof path === 'string' ? path.split('/')[0].slice(0, 64) : null;
+  const safeInfo = {
+    code: code || 'unknown',
     operationType,
-    path
+    collection,
   };
 
-  if (errCode === 'unavailable' || errMsg.includes('unavailable') || errMsg.includes('offline')) {
-    console.warn('Firestore is temporarily offline or unreachable; using local cached state.', JSON.stringify(errInfo));
+  if (
+    code === 'unavailable' ||
+    rawMessage.toLowerCase().includes('unavailable') ||
+    rawMessage.toLowerCase().includes('offline')
+  ) {
+    console.warn('Firestore is temporarily unavailable; local features may remain available.', safeInfo);
     return;
   }
 
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  console.error('Firestore operation failed.', safeInfo);
+  throw new Error(JSON.stringify({
+    ...safeInfo,
+    error: 'Cloud data operation failed. Please retry. If the problem continues, contact support.'
+  }));
 }
 
 // Safe connection check for Firestore
