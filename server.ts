@@ -124,7 +124,7 @@ async function startServer() {
       // Preserve exact bytes only for Razorpay's signed webhook. Request bodies
       // for ordinary API/AI calls are not duplicated into req.rawBody.
       const requestPath = String(req.originalUrl || req.url || "").split("?")[0];
-      if (requestPath === "/api/razorpay-webhook") {
+      if (requestPath === "/api/razorpay-webhook" || requestPath === "/razorpay-webhook") {
         req.rawBody = Buffer.from(buffer);
       }
     },
@@ -1304,6 +1304,7 @@ async function startServer() {
       if (query.length > 500) {
         return res.status(413).json({ error: "Search query is too long. Please keep it under 500 characters." });
       }
+      if (!validateExternalAcademicText(query, 500, res, "Search query")) return;
 
       const q = query.toLowerCase().trim();
       const localResults: any[] = [];
@@ -1381,7 +1382,8 @@ async function startServer() {
   app.post("/api/gemini/case-simulation", aiApiRateLimiter, async (req, res) => {
     try {
       const { messages, targetRemedy } = req.body;
-      if (typeof targetRemedy !== "string" || targetRemedy.length > 120 || !Array.isArray(messages) || messages.length > 30) {
+      if (typeof targetRemedy !== "string" || !validateExternalAcademicText(targetRemedy, 120, res, "Study exercise label") ||
+          !Array.isArray(messages) || messages.length > 30) {
         return res.status(400).json({ error: "A valid fictional study simulation is required." });
       }
       for (const message of messages) {
@@ -1461,7 +1463,8 @@ async function startServer() {
       const { targetRemedy, userPrescription, sessionSummary } = req.body;
       if (typeof targetRemedy !== "string" || targetRemedy.length > 120 ||
           !validateExternalAcademicText(userPrescription, 500, res, "Study answer") ||
-          (sessionSummary !== undefined && !validateExternalAcademicText(sessionSummary, 3000, res, "Session summary"))) {
+          (typeof sessionSummary === "string" && sessionSummary.trim().length > 0 &&
+            !validateExternalAcademicText(sessionSummary, 3000, res, "Session summary"))) {
         return;
       }
 
