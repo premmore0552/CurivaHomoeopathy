@@ -354,11 +354,8 @@ export default function DiseaseHub() {
     navigate(`/disease-hub/${system}`);
   };
 
-  const handleSelectDisease = (id: string) => {
-    const disease = diseaseCatalog.find(d => d.id === id);
-    if (disease) {
-      navigate(`/disease-hub/${disease.system}/${disease.slug}`);
-    }
+  const handleSelectDisease = (system: string, slug: string) => {
+    navigate(`/disease-hub/${system}/${slug}`);
   };
 
   const handleBackToSystems = () => {
@@ -583,7 +580,7 @@ export default function DiseaseHub() {
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {diseaseCatalog.slice(0, 3).map((disease) => (
                         <DiseaseCard 
-                          key={disease.id} 
+                          key={`${disease.system}/${disease.slug}`} 
                           disease={disease} 
                           onClick={handleSelectDisease} 
                         />
