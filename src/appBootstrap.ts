@@ -1,3 +1,5 @@
+import { Capacitor } from '@capacitor/core';
+
 declare const __CURIVA_BUILD_VERSION__: string;
 
 async function removeRegistrationsAndCaches(): Promise<void> {
@@ -25,6 +27,10 @@ async function registerPublicStaticServiceWorker(): Promise<void> {
 }
 
 async function bootBrowserCachePolicy(): Promise<void> {
+  // The native Android app has its own offline learning shell. Do not install
+  // the website service worker or clear WebView caches in native mode.
+  if (Capacitor.isNativePlatform()) return;
+
   if (import.meta.env.DEV) {
     await removeRegistrationsAndCaches();
     return;
