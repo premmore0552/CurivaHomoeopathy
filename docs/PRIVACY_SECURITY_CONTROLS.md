@@ -90,6 +90,9 @@ These cannot safely be completed by editing client source alone:
 - [ ] Website production build and OTA bundle validation
 - [ ] Firestore rules emulator tests for guest, owner, other user and admin
 - [ ] Netlify API tests for no-auth, invalid payload, PII, rate limit, webhook signature and private-download IDOR
+- [ ] Run `npm run verify:deploy-preview -- <preview-url>` and confirm the preview contains the `api` Function
+- [ ] Confirm the Gemini-specific Netlify edge quota precedes the general API redirect and review shared-IP impact
+- [ ] Confirm the production deploy record lists the `api` Function and the required production runtime variables are present with secret flags
 - [ ] CSP and service-worker regression tests
 - [ ] CodeQL and fresh production dependency audit
 - [ ] Manual mobile/desktop sign-in, payment, reading, accessibility and offline tests
