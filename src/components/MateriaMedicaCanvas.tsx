@@ -525,7 +525,15 @@ export default function MateriaMedicaCanvas() {
   useEffect(() => {
     if (selectedRemedy) {
       // Load custom study notes from storage
-      const savedNotes = localStorage.getItem(`curiva_notes_${selectedRemedy.id}`);
+      const notesKey = `curiva_notes_${selectedRemedy.id}`;
+      let savedNotes = sessionStorage.getItem(notesKey);
+      if (!savedNotes) {
+        // One-time local migration for existing users; remove the persistent
+        // copy after moving it into this tab's session scope.
+        savedNotes = localStorage.getItem(notesKey);
+        if (savedNotes) sessionStorage.setItem(notesKey, savedNotes);
+        localStorage.removeItem(notesKey);
+      }
       if (savedNotes) {
         setNotesContent(savedNotes);
       } else {
@@ -571,7 +579,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
   const saveNotes = (val: string) => {
     setNotesContent(val);
     if (selectedRemedy) {
-      localStorage.setItem(`curiva_notes_${selectedRemedy.id}`, val);
+      sessionStorage.setItem(`curiva_notes_${selectedRemedy.id}`, val);
     }
   };
 
