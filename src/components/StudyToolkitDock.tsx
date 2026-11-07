@@ -9,7 +9,7 @@ function formatTime(seconds: number) {
 }
 
 export default function StudyToolkitDock() {
-  const { state, signedIn, syncStatus, startTimer, pauseTimer, resetTimer, saveNote, setFocusMode } = useStudyToolkit();
+  const { state, startTimer, pauseTimer, resetTimer, saveNote, setFocusMode } = useStudyToolkit();
   const [open, setOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
   const [noteTitle, setNoteTitle] = useState('');
