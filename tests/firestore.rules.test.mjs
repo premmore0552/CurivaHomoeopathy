@@ -6,11 +6,11 @@ import { after, before, beforeEach, test } from 'node:test';
 import {
   assertFails,
   assertSucceeds,
-  collection,
   initializeTestEnvironment,
 } from '@firebase/rules-unit-testing';
 import {
   doc,
+  collection,
   deleteDoc,
   getDoc,
   getDocs,
