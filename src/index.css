@@ -792,7 +792,7 @@ section, main, article, aside, nav, footer {
 }
 
 /* Fluid Media Scaling */
-img, video, canvas, svg, iframe {
+img, video, canvas, iframe {
   max-width: 100% !important;
   height: auto !important;
   display: block;
@@ -871,8 +871,7 @@ table {
   img,
   video,
   iframe,
-  canvas,
-  svg {
+  canvas {
     max-width: 100%;
   }
 
