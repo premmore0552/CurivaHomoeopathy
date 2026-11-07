@@ -1,20 +1,42 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Search, X, ChevronRight, Activity, Pill, Microscope } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { diseaseHubData } from '../../data/diseaseHubData';
+import type { DiseaseSummary } from '../../data/diseaseHubTypes';
+import { loadDiseaseHubCatalog } from '../../data/diseaseHubAssets';
 
 export const DiseaseSearch: React.FC = () => {
   const [query, setQuery] = useState('');
+  const [results, setResults] = useState<DiseaseSummary[]>([]);
+  const [searchError, setSearchError] = useState('');
   const navigate = useNavigate();
 
-  const results = useMemo(() => {
-    if (!query || query.length < 2) return [];
-    const q = query.toLowerCase();
-    return diseaseHubData.filter(d => 
-      d.name.toLowerCase().includes(q) || 
-      d.simpleExplanation.toLowerCase().includes(q) ||
-      d.system.toLowerCase().includes(q)
-    ).slice(0, 5);
+  useEffect(() => {
+    const term = query.trim().toLowerCase();
+    if (term.length < 2) {
+      setResults([]);
+      setSearchError('');
+      return;
+    }
+
+    let active = true;
+    loadDiseaseHubCatalog()
+      .then((catalog) => {
+        if (!active) return;
+        setResults(catalog.diseases.filter((disease) =>
+          disease.name.toLowerCase().includes(term) ||
+          disease.simpleExplanation.toLowerCase().includes(term) ||
+          disease.system.toLowerCase().includes(term)
+        ).slice(0, 5));
+        setSearchError('');
+      })
+      .catch((error: unknown) => {
+        if (active) {
+          setResults([]);
+          setSearchError(error instanceof Error ? error.message : 'Disease search is temporarily unavailable.');
+        }
+      });
+
+    return () => { active = false; };
   }, [query]);
 
   return (
@@ -39,6 +61,8 @@ export const DiseaseSearch: React.FC = () => {
           </button>
         )}
       </div>
+
+      {searchError && <p role="alert" className="mt-2 text-xs text-red-600">{searchError}</p>}
 
       {results.length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-zinc-900 border border-border rounded-[2rem] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
