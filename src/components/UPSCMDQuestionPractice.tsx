@@ -6,13 +6,12 @@ import { auth, googleProvider, onAuthStateChanged, signInWithPopup, signInWithRe
 import { userService } from '../services/userService';
 import SEO from './SEO';
 import {
-  chauhanQuestionBank,
   chauhanQuestionBankStats,
   chauhanQuestionChapters,
   chauhanSourceAttribution,
-  scorableChauhanQuestions,
-  type ChauhanQuestion
-} from '../data/chauhanQuestionBank';
+  loadChauhanQuestionBank
+} from '../data/chauhanQuestionBankLoader';
+import type { ChauhanQuestion } from '../data/chauhanQuestionBank';
 
 type Props = {
   embedded?: boolean;
@@ -86,6 +85,16 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
   const [flaggedIds, setFlaggedIds] = useState<string[]>([]);
   const [deadline, setDeadline] = useState<number | null>(null);
   const [remainingSeconds, setRemainingSeconds] = useState(0);
+  const [questionBank, setQuestionBank] = useState<ChauhanQuestion[]>([]);
+  const [bankLoading, setBankLoading] = useState(false);
+  const [bankError, setBankError] = useState('');
+  const [bankProgress, setBankProgress] = useState({ loaded: 0, total: 11 });
+  const [bankLoadAttempt, setBankLoadAttempt] = useState(0);
+
+  const scorableQuestionBank = useMemo(
+    () => questionBank.filter((question) => question.scoringEnabled && question.correctIndex !== null),
+    [questionBank],
+  );
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
@@ -117,6 +126,39 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
     setIncorrectIds(readIdList(INCORRECT_KEY + uid));
     setLoadedAccountUid(uid);
   }, [authUser?.uid]);
+
+  // Keep the complete source question collection out of the signed-out entry path.
+  useEffect(() => {
+    if (!authReady || !authUser) {
+      setQuestionBank([]);
+      setBankLoading(false);
+      setBankError('');
+      return;
+    }
+
+    let active = true;
+    setQuestionBank([]);
+    setBankError('');
+    setBankProgress({ loaded: 0, total: 11 });
+    setBankLoading(true);
+
+    void loadChauhanQuestionBank((loaded, total) => {
+      if (active) setBankProgress({ loaded, total });
+    })
+      .then((questions) => {
+        if (active) setQuestionBank(questions);
+      })
+      .catch((error: unknown) => {
+        if (active) setBankError(error instanceof Error ? error.message : 'The question collection could not be loaded.');
+      })
+      .finally(() => {
+        if (active) setBankLoading(false);
+      });
+
+    return () => {
+      active = false;
+    };
+  }, [authReady, authUser?.uid, bankLoadAttempt]);
 
   useEffect(() => {
     if (!authUser || loadedAccountUid !== authUser.uid) return;
@@ -180,7 +222,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
 
   const filteredQuestions = useMemo(() => {
     const term = query.trim().toLocaleLowerCase();
-    return chauhanQuestionBank.filter((question) => {
+    return questionBank.filter((question) => {
       const matchesChapter = chapter === 'All chapters' || question.chapter === chapter;
       const matchesSearch = !term || [
         question.prompt, question.explanation, question.examSource || '',
@@ -193,7 +235,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
         (practiceFilter === 'source-review' && !question.scoringEnabled);
       return matchesChapter && matchesSearch && matchesFilter;
     });
-  }, [query, chapter, practiceFilter, bookmarks, incorrectIds]);
+  }, [questionBank, query, chapter, practiceFilter, bookmarks, incorrectIds]);
 
   useEffect(() => { setIndex(0); setExpandedExplanationId(null); }, [query, chapter, practiceFilter]);
 
@@ -205,9 +247,9 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
 
   const mockPool = useMemo(
     () => chapter === 'All chapters'
-      ? scorableChauhanQuestions
-      : scorableChauhanQuestions.filter((question) => question.chapter === chapter),
-    [chapter]
+      ? scorableQuestionBank
+      : scorableQuestionBank.filter((question) => question.chapter === chapter),
+    [chapter, scorableQuestionBank]
   );
   const currentMockQuestion = mockQuestions[mockIndex];
   const mockScore = mockQuestions.filter(
@@ -261,6 +303,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
   };
 
   const startMock = () => {
+    if (bankLoading || bankError || !mockPool.length) return;
     const shuffled = [...mockPool];
     for (let i = shuffled.length - 1; i > 0; i -= 1) {
       const j = Math.floor(Math.random() * (i + 1));
@@ -314,6 +357,24 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
         </div>
       </header>
 
+      {authReady && authUser && bankLoading && (
+        <section className="rounded-2xl border border-primary/20 bg-primary/5 p-4" role="status" aria-live="polite">
+          <div className="flex items-center justify-between gap-3 text-xs font-bold text-text-primary">
+            <span>Loading the complete source question collection</span>
+            <span className="tabular-nums">{bankProgress.loaded}/{bankProgress.total}</span>
+          </div>
+          <div className="mt-3 h-2 overflow-hidden rounded-full bg-bg-primary">
+            <div className="h-full rounded-full bg-primary transition-[width] duration-200" style={{ width: `${Math.round(bankProgress.loaded / Math.max(1, bankProgress.total) * 100)}%` }} />
+          </div>
+          <p className="mt-2 text-[11px] text-text-secondary">All source sections are loaded before the full searchable practice session opens.</p>
+        </section>
+      )}
+      {authReady && authUser && bankError && (
+        <section className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-red-500/25 bg-red-500/5 p-4" role="alert">
+          <p className="min-w-0 flex-1 text-xs leading-relaxed text-text-secondary">The question collection could not be loaded: {bankError}</p>
+          <button type="button" onClick={() => setBankLoadAttempt((attempt) => attempt + 1)} className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white">Retry loading</button>
+        </section>
+      )}
       {!authReady ? (
         <section className="rounded-3xl border border-border bg-bg-secondary p-8 text-center">
           <div className="mx-auto mb-3 h-9 w-9 animate-spin rounded-full border-2 border-primary/25 border-t-primary" />
@@ -385,7 +446,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
           </div>
           <div className="mt-4 flex flex-wrap items-center justify-between gap-2 text-xs text-text-tertiary">
             <span>{filteredQuestions.length.toLocaleString('en-IN')} questions match your filters</span>
-            <button type="button" onClick={startMock} disabled={!mockPool.length} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 font-bold text-white disabled:opacity-40"><Clock3 size={15} /> Start timed mock</button>
+            <button type="button" onClick={startMock} disabled={bankLoading || Boolean(bankError) || !mockPool.length} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 font-bold text-white disabled:opacity-40"><Clock3 size={15} /> Start timed mock</button>
           </div>
         </section>
 
@@ -489,7 +550,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
             <span className="text-xs font-semibold text-text-tertiary">{index + 1} / {filteredQuestions.length}</span>
             <button type="button" disabled={index >= filteredQuestions.length - 1} onClick={() => setIndex((value) => Math.min(filteredQuestions.length - 1, value + 1))} className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2.5 text-xs font-bold text-white disabled:opacity-40">Next <ArrowRight size={15} /></button>
           </div>
-        </article> : <div className="rounded-2xl border border-border bg-bg-secondary p-8 text-center text-sm text-text-secondary">No questions match this selection. Clear the search or choose another filter.</div>}
+        </article> : <div className="rounded-2xl border border-border bg-bg-secondary p-8 text-center text-sm text-text-secondary">{bankLoading ? `Loading source questions (${bankProgress.loaded}/${bankProgress.total} parts loaded)…` : bankError ? 'The question bank could not be loaded. Use the retry control above.' : 'No questions match this selection. Clear the search or choose another filter.'}</div>}
 
         <section className="rounded-2xl border border-border bg-bg-secondary p-4 text-xs leading-relaxed text-text-secondary">
           <strong className="text-text-primary">Timed mock paper presets:</strong> 50 questions / 30 minutes, 100 / 60 minutes, or 200 / 120 minutes. The source book describes approximately 200 MCQs in 2 hours as a general preparation guide; these are practice presets, not a claim about a current official exam pattern.
