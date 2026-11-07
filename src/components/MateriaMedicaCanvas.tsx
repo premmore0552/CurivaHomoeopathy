@@ -592,6 +592,13 @@ You can click any ready-to-study suggestion below to load insights. If you like 
   const handleSendPrompt = async (text: string) => {
     if (!text.trim() || isGenerating) return;
     const validated = validateAcademicAiText(text, 4000);
+    const priorHistoryIsSafe = chatMessages.slice(1).every(message =>
+      validateAcademicAiText(message.content, 3000).ok
+    );
+    if (!priorHistoryIsSafe) {
+      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Recent chat context may contain personal or clinical information. Nothing was sent. Clear the conversation and use generic academic-only text.' }]);
+      return;
+    }
     if (!aiConsent || !hasCurrentAiAcademicConsent()) {
       setChatMessages(prev => [...prev, { role: 'assistant', content: 'Please review the AI privacy notice and acknowledge external processing before sending an academic-only prompt.' }]);
       return;
