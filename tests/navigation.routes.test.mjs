@@ -36,10 +36,10 @@ test('desktop mega-menu and mobile drawer use separate responsive layouts', () =
 test('desktop dropdown panels size to content and adapt their list columns', () => {
   assert.match(header, /role="region"/);
   assert.match(header, /width: 'fit-content'/);
-  assert.match(header, /minWidth: 'min\\(32rem, calc\\(100vw - 2rem\\)\\)'/);
-  assert.match(header, /maxWidth: 'min\\(40rem, calc\\(100vw - 2rem\\)\\)'/);
-  assert.match(header, /repeat\\(auto-fit, minmax\\(min\\(100%, 14rem\\), 1fr\\)\\)/);
-  assert.doesNotMatch(header, /<section\\s+id=\\{panelId\\}/);
+  assert.ok(header.includes("minWidth: 'min(32rem, calc(100vw - 2rem))'"));
+  assert.ok(header.includes("maxWidth: 'min(40rem, calc(100vw - 2rem))'"));
+  assert.ok(header.includes("repeat(auto-fit, minmax(min(100%, 14rem), 1fr))"));
+  assert.equal(header.includes('<section\\n                      id={panelId}'), false);
   assert.doesNotMatch(header, /grid grid-cols-2 gap-2/);
 });
 
