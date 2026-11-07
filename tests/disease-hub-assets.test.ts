@@ -43,11 +43,12 @@ test('every disease-system asset exactly matches its source records', async () =
   }
 
   assert.equal(allLoaded.length, diseaseHubData.length);
+  const routeKeys = allLoaded.map((disease) => `${disease.system}/${disease.slug}`);
   assert.deepEqual(
-    allLoaded.map((disease) => disease.id).sort(),
-    diseaseHubData.map((disease) => disease.id).sort(),
+    routeKeys.sort(),
+    diseaseHubData.map((disease) => `${disease.system}/${disease.slug}`).sort(),
   );
-  assert.equal(new Set(allLoaded.map((disease) => disease.id)).size, diseaseHubData.length);
+  assert.equal(new Set(routeKeys).size, diseaseHubData.length);
 });
 
 test('every source disease system has metadata and a generated asset, including empty route aliases', async () => {
