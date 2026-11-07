@@ -7,6 +7,7 @@ const banner = readFileSync(
   'utf8',
 );
 const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
+const layout = readFileSync(new URL('../src/index.css', import.meta.url), 'utf8');
 
 test('initial disclaimer is a compact responsive bottom banner, not a full-screen modal', () => {
   assert.match(banner, /curiva-disclaimer-position/);
