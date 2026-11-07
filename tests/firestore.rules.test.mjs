@@ -292,3 +292,56 @@ test('native learning progress rejects malformed study plans and signed-out acce
   await assertFails(setDoc(doc(alice, 'nativeLearningProgress', 'alice'), invalid));
   await assertFails(getDoc(doc(signedOut, 'nativeLearningProgress', 'alice')));
 });
+
+
+test('question submissions contain no submitter contact fields and stay private until admin publication', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const signedOut = testEnv.unauthenticatedContext().firestore();
+  const questionRef = doc(alice, 'questions', 'alice-question');
+
+  const safeSubmission = {
+    userId: 'alice',
+    subject: 'Academic Materia Medica question',
+    content: 'Explain the historical meaning of a common Materia Medica term.',
+    isAnonymous: true,
+    status: 'pending',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  };
+
+  await assertSucceeds(setDoc(questionRef, safeSubmission));
+  await assertSucceeds(getDoc(questionRef));
+  await assertFails(getDoc(doc(bob, 'questions', 'alice-question')));
+  await assertFails(getDoc(doc(signedOut, 'questions', 'alice-question')));
+  await assertFails(setDoc(doc(alice, 'questions', 'published-by-client'), {
+    ...safeSubmission,
+    status: 'featured',
+  }));
+  await assertFails(setDoc(doc(alice, 'questions', 'email-copy'), {
+    ...safeSubmission,
+    userEmail: 'alice@example.test',
+  }));
+  await assertFails(setDoc(doc(alice, 'questions', 'name-copy'), {
+    ...safeSubmission,
+    userName: 'Alice Example',
+  }));
+  await assertFails(updateDoc(questionRef, {
+    status: 'featured',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(deleteDoc(questionRef));
+
+  await withSecurityRulesDisabled(testEnv, async context => {
+    await setDoc(doc(context.firestore(), 'admins', 'trusted-admin'), { active: true });
+  });
+  const trustedAdmin = testEnv.authenticatedContext('trusted-admin', { email: 'admin@example.test' }).firestore();
+  await assertSucceeds(updateDoc(doc(trustedAdmin, 'questions', 'alice-question'), {
+    status: 'featured',
+    answer: 'This is an academic explanation, not a clinical recommendation.',
+    answeredBy: 'Curiva Editorial Team',
+    answeredAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  }));
+  await assertSucceeds(getDoc(doc(signedOut, 'questions', 'alice-question')));
+});
