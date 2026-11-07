@@ -29,7 +29,7 @@ test('desktop mega-menu and mobile drawer use separate responsive layouts', () =
   assert.match(header, /hidden items-center gap-1 xl:flex/);
   assert.match(header, /fixed inset-0 z-\[100\].*xl:hidden/s);
   assert.match(header, /aria-expanded=\{mobileOpen\}/);
-  assert.match(header, /aria-controls="curiva-mobile-navigation"/);
+  assert.match(header, /aria-controls=\{mobileOpen \? "curiva-mobile-navigation"/);
   assert.doesNotMatch(header, /width:\s*'1200px'|width:\s*'1000px'|width:\s*'0px'/);
 });
 
