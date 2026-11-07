@@ -82,6 +82,9 @@ jobs:
       - name: Verify navigation, private downloads, and Netlify API
         run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs tests/native-branding.test.mjs
 
+      - name: Verify compact initial medical disclaimer banner
+        run: node --test tests/medical-disclaimer-banner.test.mjs tests/floating-controls-layout.test.mjs
+
       - name: Verify public-health content, privacy disclosure, and branding
         run: node --test tests/public-health-content.test.mjs
 

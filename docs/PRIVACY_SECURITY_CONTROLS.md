@@ -81,7 +81,7 @@ These cannot safely be completed by editing client source alone:
 - Browser session storage is not encrypted by Curiva; it is appropriate only for ordinary study notes, never for confidential records.
 - The AI PII filter is heuristic and not a de-identification system.
 - CSP allows style attributes for current UI compatibility. Inline JavaScript is not allowed; the remaining style allowance should be replaced with classes/nonces where practical.
-- API process-local rate limiting is not distributed. Add edge-level controls.
+- API abuse controls are layered: Netlify applies a shared per-IP/domain edge quota (12 requests/minute for Gemini routes and 120 requests/minute for the broader API), with Express process-local limits as a secondary backstop. These edge quotas are IP-scoped, not authenticated account quotas; users sharing a public IP share the quota. Review campus/shared-network impact and provider spend alerts before broad rollout.
 - The current code does not provide a complete user data export/deletion workflow or a published retention schedule.
 
 ## Release verification checklist
@@ -90,6 +90,9 @@ These cannot safely be completed by editing client source alone:
 - [ ] Website production build and OTA bundle validation
 - [ ] Firestore rules emulator tests for guest, owner, other user and admin
 - [ ] Netlify API tests for no-auth, invalid payload, PII, rate limit, webhook signature and private-download IDOR
+- [ ] Run `npm run verify:deploy-preview -- <preview-url>` and confirm the preview contains the `api` Function
+- [ ] Confirm the Gemini-specific Netlify edge quota precedes the general API redirect and review shared-IP impact
+- [ ] Confirm the production deploy record lists the `api` Function and the required production runtime variables are present with secret flags
 - [ ] CSP and service-worker regression tests
 - [ ] CodeQL and fresh production dependency audit
 - [ ] Manual mobile/desktop sign-in, payment, reading, accessibility and offline tests
