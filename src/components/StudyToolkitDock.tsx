@@ -31,7 +31,7 @@ export default function StudyToolkitDock() {
 
   return (
     <>
-      <div className="fixed bottom-24 right-3 sm:bottom-6 sm:right-6 z-[80] print:hidden">
+      <div className="fixed z-[80] print:hidden curiva-study-dock-position">
         {open && (
           <div className="mb-3 w-[min(19rem,calc(100vw-1.5rem))] rounded-2xl border border-border bg-bg-secondary p-4 shadow-2xl space-y-3">
             <div className="flex items-center justify-between">
