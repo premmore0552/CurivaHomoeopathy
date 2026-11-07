@@ -7,6 +7,7 @@ const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const navigation = readFileSync(new URL('../src/navigation/navigationConfig.ts', import.meta.url), 'utf8');
 const breadcrumbs = readFileSync(new URL('../src/components/Breadcrumbs.tsx', import.meta.url), 'utf8');
 const loaders = readFileSync(new URL('../src/components/LoadingStates.tsx', import.meta.url), 'utf8');
+const globalSearch = readFileSync(new URL('../src/components/SearchAutocomplete.tsx', import.meta.url), 'utf8');
 const fmtNavigation = readFileSync(new URL('../src/components/FmtBottomNav.tsx', import.meta.url), 'utf8');
 const catalogue = readFileSync(new URL('../src/data/resources.ts', import.meta.url), 'utf8');
 
@@ -45,6 +46,13 @@ test('global search palette is reused for desktop, mobile and keyboard entry', (
   assert.match(header, /SearchAutocomplete/);
   assert.match(header, /open-command-palette/);
   assert.match(header, /onClick=\{openGlobalSearch\}/);
+});
+
+test('phone search hides only its trigger while retaining the global search dialog', () => {
+  assert.match(header, /SearchAutocomplete triggerClassName="hidden md:block/);
+  assert.match(globalSearch, /triggerClassName\?: string/);
+  assert.match(globalSearch, /open-command-palette/);
+  assert.match(globalSearch, /isModalOpen &&/);
 });
 
 test('mobile thumb navigation exposes Home, Learn, Practice, Search and More', () => {
