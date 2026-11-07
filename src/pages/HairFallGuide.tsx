@@ -1079,77 +1079,22 @@ export default function HairFallGuide() {
     return { text: "Excellent foundation! Keep shining! 🌱", color: "text-emerald-500 font-bold" };
   };
 
-  // AI Personalized Custom Blueprint Generator
+  // External personal hair-health coaching is disabled. Free-text symptoms,
+  // health details, and routine information are not sent to a third-party model.
   const generateCustomAIPlan = async () => {
-    const query = aiPlanInput.trim();
-    if (!query) {
-      triggerToast("Please provide details about your routine first.");
-      return;
-    }
-
-    setIsGeneratingPlan(true);
-    setPlanError("");
-    setAiPlanOutput("");
-
-    try {
-      const response = await fetch("/api/gemini/hair-loss-coach", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: query,
-          type: "blueprint"
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Service returned error " + response.status);
-      }
-
-      const resData = await response.json();
-      setAiPlanOutput(resData.text || "No plan was compiled.");
-    } catch (err: any) {
-      console.error(err);
-      setPlanError(err.message || "Failed to customize plan. Please try again.");
-    } finally {
-      setIsGeneratingPlan(false);
-    }
+    setAiPlanOutput('');
+    setPlanError('Personalized AI hair-health planning is disabled to protect health information. This page remains a general educational guide. Please consult a qualified registered medical practitioner or dermatologist for personal advice.');
   };
 
-  // Send message to Gemini coach
   const handleSendChatMessage = async (presetText?: string) => {
     const textToSend = presetText || chatInput.trim();
     if (!textToSend) return;
-
-    if (!presetText) setChatInput("");
-
-    // Append user message
-    const nextMessages = [...chatMessages, { sender: "user" as const, text: textToSend }];
-    setChatMessages(nextMessages);
-    setIsCoachTyping(true);
-
-    try {
-      const response = await fetch("/api/gemini/hair-loss-coach", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: textToSend,
-          type: "coach",
-          conversationHistory: nextMessages.slice(-5) // Send short context
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Coach failed to fetch response: status " + response.status);
-      }
-
-      const resData = await response.json();
-      setChatMessages(prev => [...prev, { sender: "coach", text: resData.text || "No advice received." }]);
-    } catch (err: any) {
-      console.error(err);
-      setChatMessages(prev => [...prev, { sender: "coach", text: `I am experiencing a slight connectivity glitch. Please try again! (${err.message})`, isError: true }]);
-    } finally {
-      setIsCoachTyping(false);
-    }
+    if (!presetText) setChatInput('');
+    setChatMessages(prev => [
+      ...prev,
+      { sender: 'user' as const, text: textToSend },
+      { sender: 'coach' as const, text: 'This personalized AI health-chat feature has been paused. Your message was not sent. Please use the general educational chapters and consult a qualified registered medical practitioner or dermatologist for personal concerns.' }
+    ]);
   };
 
   // Parse custom markdown tags
@@ -1564,7 +1509,7 @@ export default function HairFallGuide() {
 
                     <div role="note" className="mb-3 rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-[11px] text-text-secondary">
                       <strong className="block text-amber-800 dark:text-amber-200 mb-1">Educational information only</strong>
-                      This checklist cannot diagnose hair loss or recommend an individualized plan, test, medicine, supplement, or remedy. Do not change prescribed care based on AI output. Consult a qualified registered medical practitioner or dermatologist for personal health concerns. Prompts are sent to Curiva's server and may be sent to Google Gemini to generate a reply. Do not include identifying or sensitive patient information.
+                      This checklist cannot diagnose hair loss or recommend an individualized plan, test, medicine, supplement, or remedy. Do not change prescribed care based on AI output. Consult a qualified registered medical practitioner or dermatologist for personal health concerns. Personalized AI coaching is currently disabled. Text entered in this page is not submitted to an external AI service. Do not enter patient or personally identifiable health information.
                     </div>
                     <div className="space-y-3">
                       <textarea
@@ -1757,7 +1702,7 @@ export default function HairFallGuide() {
                 </div>
 
                 <div role="note" className="border-b border-amber-500/30 bg-amber-500/5 px-4 py-3 text-[10px] leading-relaxed text-text-secondary">
-                  <strong className="text-amber-800 dark:text-amber-200">Educational use only — not medical advice.</strong> This assistant cannot diagnose or create treatment plans. Do not start or change medicines, supplements, homoeopathic products, or prescribed care based on a response. For personal concerns, consult a qualified registered medical practitioner or dermatologist. Prompts and recent chat context reach Curiva's server and may be sent to Google Gemini for generated replies; do not share identifiers or sensitive patient information.
+                  <strong className="text-amber-800 dark:text-amber-200">Educational use only — not medical advice.</strong> This assistant cannot diagnose or create treatment plans. Do not start or change medicines, supplements, homoeopathic products, or prescribed care based on a response. For personal concerns, consult a qualified registered medical practitioner or dermatologist. Personalized AI coaching is currently disabled. Chat text is not submitted to an external AI service. Do not enter patient or personally identifiable health information.
                 </div>
 
                 {/* Message area */}
