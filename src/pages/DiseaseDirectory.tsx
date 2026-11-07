@@ -1,9 +1,11 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { Search, ChevronRight, LayoutGrid, List } from 'lucide-react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { diseaseHubData, DISEASE_SYSTEMS } from '../data/diseaseHubData';
+import type { DiseaseSummary } from '../data/diseaseHubTypes';
+import { DISEASE_SYSTEMS } from '../data/diseaseHubSystems';
+import { loadDiseaseHubCatalog } from '../data/diseaseHubAssets';
 import { DiseaseCard } from '../components/disease-hub/DiseaseCard';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -11,10 +13,28 @@ const DiseaseDirectory: React.FC = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedSystem, setSelectedSystem] = useState<string | null>(null);
   const [sortBy, setSortBy] = useState<'name' | 'priority'>('name');
+  const [diseases, setDiseases] = useState<DiseaseSummary[]>([]);
+  const [catalogLoading, setCatalogLoading] = useState(true);
+  const [catalogError, setCatalogError] = useState('');
   const navigate = useNavigate();
 
+  useEffect(() => {
+    let active = true;
+    loadDiseaseHubCatalog()
+      .then((catalog) => {
+        if (active) setDiseases(catalog.diseases);
+      })
+      .catch((error: unknown) => {
+        if (active) setCatalogError(error instanceof Error ? error.message : 'The disease directory could not be loaded.');
+      })
+      .finally(() => {
+        if (active) setCatalogLoading(false);
+      });
+    return () => { active = false; };
+  }, []);
+
   const filteredDiseases = useMemo(() => {
-    let result = [...diseaseHubData];
+    let result = [...diseases];
     
     if (searchQuery) {
       const q = searchQuery.toLowerCase();
@@ -37,7 +57,7 @@ const DiseaseDirectory: React.FC = () => {
     }
 
     return result;
-  }, [searchQuery, selectedSystem, sortBy]);
+  }, [diseases, searchQuery, selectedSystem, sortBy]);
 
   return (
     <>
@@ -98,6 +118,9 @@ const DiseaseDirectory: React.FC = () => {
             </div>
           </div>
 
+          {catalogLoading && <p className="text-xs text-text-secondary" role="status">Loading disease index…</p>}
+          {catalogError && <p className="rounded-xl border border-red-500/25 bg-red-500/5 p-3 text-xs text-red-600" role="alert">{catalogError}</p>}
+
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
             {filteredDiseases.map((disease) => (
@@ -109,7 +132,7 @@ const DiseaseDirectory: React.FC = () => {
             ))}
           </div>
 
-          {filteredDiseases.length === 0 && (
+          {!catalogLoading && !catalogError && filteredDiseases.length === 0 && (
             <div className="py-20 text-center border-2 border-dashed border-border rounded-3xl">
               <p className="text-sm font-bold text-text-secondary">No diseases found matching your criteria.</p>
             </div>
