@@ -93,11 +93,15 @@ service cloud.firestore {
     }
 
     function isValidQuestion(data) {
-      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'createdAt']) &&
+      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'isAnonymous', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['userId', 'subject', 'content', 'status', 'isAnonymous', 'createdAt', 'updatedAt']) &&
              data.userId == request.auth.uid &&
              data.subject is string && data.subject.size() >= 5 && data.subject.size() <= 200 &&
              data.content is string && data.content.size() >= 10 && data.content.size() <= 2000 &&
-             data.status in ['pending', 'answered', 'featured'];
+             data.status == 'pending' &&
+             data.isAnonymous is bool &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
     }
 
     function isValidOrder(data) {
@@ -287,13 +291,20 @@ service cloud.firestore {
       allow list: if resource.data.status == 'featured' ||
                   (isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin()));
       
-      allow create: if isSignedIn() && 
-                      isValidQuestion(incoming()) &&
-                      incoming().status == 'pending' &&
-                      incoming().createdAt == request.time;
-      
-      allow update: if isAdmin() && 
-                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+      allow create: if isSignedIn() && isValidQuestion(incoming());
+
+      // Only privileged administrators may publish or answer a submission.
+      // Keep responses bounded and status transitions within the review workflow.
+      allow update: if isAdmin() &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt'
+                       ]) &&
+                       incoming().status in ['pending', 'answered', 'featured'] &&
+                       (!incoming().keys().hasAny(['answer']) ||
+                         (incoming().answer is string && incoming().answer.size() <= 4000)) &&
+                       (!incoming().keys().hasAny(['answeredBy']) ||
+                         (incoming().answeredBy is string && incoming().answeredBy.size() <= 80)) &&
+                       (!incoming().keys().hasAny(['answeredAt']) || incoming().answeredAt == request.time) &&
                        incoming().updatedAt == request.time;
 
       allow delete: if isAdmin();
