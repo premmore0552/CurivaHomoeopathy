@@ -42,6 +42,13 @@ This document records controls present in the source branch and actions still re
 - Browser analytics event logging is disabled. The newsletter and contact feedback forms no longer pretend to submit or accept data when no backend is connected.
 - Administrator membership documents are read-only to clients. Admin grants must be provisioned or revoked using a privileged Firebase Admin SDK/Console operation. A hard-coded verified-email bootstrap was removed from client and Firestore rule code.
 
+## Native Android local-data protection
+
+- The native app is offline-only and stores the learner display name, lesson completion, saved cards, study-plan checkmarks and quiz statistics in app-private preferences. It does not upload this study state to Curiva.
+- The generated manifest sets `android:allowBackup="false"` and references explicit legacy backup rules plus Android 12+ data-extraction rules. Both cloud backup and device-to-device transfer exclude the app's private files, databases and shared preferences.
+- The Progress screen provides a confirmed **Erase all local study data** action. Clearing app data or uninstalling the app removes this state; it cannot be restored from Curiva.
+- The display name is capped at 40 characters and strips control characters. The screen warns users not to enter real patient information.
+
 ## Required production configuration and operator actions
 
 These cannot safely be completed by editing client source alone:
