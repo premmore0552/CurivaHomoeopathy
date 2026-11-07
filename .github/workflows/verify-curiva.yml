@@ -47,7 +47,14 @@ jobs:
               const counts = report.metadata?.vulnerabilities || {};
               console.log(`[dependency-audit] ${label}: total=${counts.total ?? 'unknown'} info=${counts.info ?? 0} low=${counts.low ?? 0} moderate=${counts.moderate ?? 0} high=${counts.high ?? 0} critical=${counts.critical ?? 0}`);
               for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
-                console.log(`[dependency-audit] ${label} ${item.severity} ${name} direct=${item.isDirect} fixAvailable=${JSON.stringify(item.fixAvailable ?? false)}`);
+                const advisories = (item.via || []).map((entry) => {
+                  if (typeof entry === 'string') return entry;
+                  const title = entry.title || entry.name || 'advisory';
+                  const range = entry.range ? ` range=${entry.range}` : '';
+                  const url = entry.url ? ` url=${entry.url}` : '';
+                  return `${title}${range}${url}`;
+                }).join(' | ');
+                console.log(`[dependency-audit] ${label} ${item.severity} ${name} direct=${item.isDirect} range=${item.range || 'unknown'} fixAvailable=${JSON.stringify(item.fixAvailable ?? false)} advisories=${advisories || 'see npm advisory report'}`);
               }
             } catch {
               console.log(`[dependency-audit] ${label}: npm audit did not return a parseable JSON report; check registry/network output.`);
