@@ -1,93 +1,79 @@
-const CACHE_NAME = 'curiva-cache-v5';
+const CACHE_NAME = 'curiva-public-static-v6';
 const ASSETS_TO_CACHE = [
   '/',
-  '/?pwa=true',
   '/index.html',
-  '/app_icon.png',
+  '/app_icon.png.png',
   '/manifest.json'
 ];
 
+const SENSITIVE_PATH = /^\/(?:api(?:\/|$)|auth(?:\/|$)|account(?:\/|$)|appointments?(?:\/|$)|private(?:\/|$)|downloads?(?:\/|$)|resources?\/private(?:\/|$))/i;
+const STATIC_DESTINATIONS = new Set(['script', 'style', 'image', 'font']);
+
+function mayStoreResponse(request, response) {
+  if (!response || !response.ok || response.type === 'opaque') return false;
+  if (request.headers.has('authorization')) return false;
+  if (request.cache === 'no-store') return false;
+
+  const cacheControl = response.headers.get('cache-control') || '';
+  if (/\b(?:private|no-store|no-cache)\b/i.test(cacheControl)) return false;
+  if (response.headers.has('set-cookie')) return false;
+  return true;
+}
+
 self.addEventListener('install', (event) => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then((cache) => {
-      return cache.addAll(ASSETS_TO_CACHE);
-    }).then(() => self.skipWaiting())
+    caches.open(CACHE_NAME)
+      .then((cache) => cache.addAll(ASSETS_TO_CACHE))
+      .then(() => self.skipWaiting())
   );
 });
 
 self.addEventListener('activate', (event) => {
   event.waitUntil(
-    caches.keys().then((keys) => {
-      return Promise.all(
-        keys.map((key) => {
-          if (key !== CACHE_NAME) {
-            return caches.delete(key);
-          }
-        })
-      );
-    }).then(() => self.clients.claim())
+    caches.keys()
+      .then((keys) => Promise.all(keys.map((key) => key === CACHE_NAME ? Promise.resolve() : caches.delete(key))))
+      .then(() => self.clients.claim())
   );
 });
 
 self.addEventListener('fetch', (event) => {
-  // Only intercept normal GET requests on our same origin to keep external hooks safe
-  if (event.request.method !== 'GET') return;
-  
-  const url = new URL(event.request.url);
+  const request = event.request;
+  if (request.method !== 'GET') return;
+
+  const url = new URL(request.url);
   if (url.origin !== self.location.origin) return;
 
-  // Do not cache development files, HMR, or local/preview development environments
+  // Sensitive or account-related responses never enter the Cache API.
   if (
-    url.pathname.startsWith('/src/') ||
-    url.pathname.startsWith('/@') ||
-    url.pathname.includes('node_modules') ||
-    url.searchParams.has('import') ||
-    url.searchParams.has('v') ||
-    self.location.hostname === 'localhost' ||
-    self.location.hostname.includes('ais-dev') ||
-    self.location.hostname.includes('ais-pre')
+    SENSITIVE_PATH.test(url.pathname) ||
+    request.headers.has('authorization') ||
+    request.cache === 'no-store'
   ) {
+    event.respondWith(fetch(request));
     return;
   }
 
-  // Network First Strategy for HTML documents (like /, /index.html, /ask-homeopath, etc.)
-  const isHTML = event.request.headers.get('accept')?.includes('text/html');
-
-  if (isHTML) {
-    event.respondWith(
-      fetch(event.request)
-        .then((networkResponse) => {
-          if (networkResponse && networkResponse.status === 200) {
-            const responseToCache = networkResponse.clone();
-            caches.open(CACHE_NAME).then((cache) => {
-              cache.put(event.request, responseToCache);
-            });
-          }
-          return networkResponse;
-        })
-        .catch(() => {
-          return caches.match(event.request) || caches.match('/');
-        })
-    );
+  // Never cache document responses: a route may render account-specific data.
+  const acceptsHtml = request.headers.get('accept')?.includes('text/html');
+  if (acceptsHtml) {
+    event.respondWith(fetch(request).catch(() => caches.match('/') ));
     return;
   }
+
+  // Only static browser assets are eligible for stale-while-revalidate.
+  if (!STATIC_DESTINATIONS.has(request.destination)) return;
 
   event.respondWith(
-    caches.match(event.request).then((cachedResponse) => {
-      // Stale-While-Revalidate Strategy for all other static chunks and assets
-      const fetchPromise = fetch(event.request).then((networkResponse) => {
-        if (networkResponse && networkResponse.status === 200) {
-          const responseToCache = networkResponse.clone();
-          caches.open(CACHE_NAME).then((cache) => {
-            cache.put(event.request, responseToCache);
-          });
+    caches.match(request).then((cachedResponse) => {
+      const refresh = fetch(request).then((networkResponse) => {
+        if (mayStoreResponse(request, networkResponse)) {
+          const copy = networkResponse.clone();
+          void caches.open(CACHE_NAME).then((cache) => cache.put(request, copy));
         }
         return networkResponse;
-      }).catch(() => {
-        // Ignored fallback for static files
       });
 
-      return cachedResponse || fetchPromise;
+      return cachedResponse || refresh;
     })
   );
 });
