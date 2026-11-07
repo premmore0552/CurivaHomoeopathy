@@ -88,9 +88,6 @@ jobs:
       - name: Verify privacy, CSP, storage and AI security boundaries
         run: npm run test:privacy-security
 
-      - name: Verify privacy, CSP, storage and AI security boundaries
-        run: npm run test:privacy-security
-
       - name: Set up Java for the Firestore emulator
         uses: actions/setup-java@v6
         with:
