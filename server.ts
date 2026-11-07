@@ -124,7 +124,7 @@ async function startServer() {
       // Preserve exact bytes only for Razorpay's signed webhook. Request bodies
       // for ordinary API/AI calls are not duplicated into req.rawBody.
       const requestPath = String(req.originalUrl || req.url || "").split("?")[0];
-      if (requestPath === "/api/razorpay-webhook" || requestPath === "/razorpay-webhook") {
+      if (/(?:^|\\/)razorpay-webhook$/.test(requestPath)) {
         req.rawBody = Buffer.from(buffer);
       }
     },
