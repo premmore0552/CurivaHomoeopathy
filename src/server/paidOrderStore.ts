@@ -18,7 +18,7 @@ export type PaidOrder = {
   currency: string;
 };
 
-type FirebaseIdentity = { uid: string; email: string | null };
+type FirebaseIdentity = { uid: string; email: string | null; emailVerified: boolean };
 
 let cachedToken: { serviceAccount: string; scope: string; token: string; expiresAt: number } | null = null;
 
@@ -114,13 +114,13 @@ export async function verifyFirebaseIdToken(idToken: string): Promise<FirebaseId
   );
 
   const payload = await response.json() as {
-    users?: Array<{ localId?: string; email?: string }>;
+    users?: Array<{ localId?: string; email?: string; emailVerified?: boolean }>;
   };
   const user = payload.users?.[0];
   if (!response.ok || !user?.localId) {
     throw new Error('Firebase authentication token could not be verified');
   }
-  return { uid: user.localId, email: user.email ?? null };
+  return { uid: user.localId, email: user.email ?? null, emailVerified: user.emailVerified === true };
 }
 
 function fieldString(document: any, name: string): string | undefined {
