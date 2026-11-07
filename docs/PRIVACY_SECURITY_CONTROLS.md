@@ -49,6 +49,16 @@ This document records controls present in the source branch and actions still re
 - The Progress screen provides a confirmed **Erase all local study data** action. Clearing app data or uninstalling the app removes this state; it cannot be restored from Curiva.
 - The display name is capped at 40 characters and strips control characters. The screen warns users not to enter real patient information.
 
+## Production deployment and configuration audit — 7 November 2026
+
+This is a point-in-time operational audit, separate from GitHub CI results.
+
+- **The source is ahead of production.** The current Netlify project metadata reports a production deployment published on 23 October 2026, while the privacy/security changes were merged into `main` on 7 November 2026. The published deployment summary reports no serverless functions deployed. Therefore, do not claim that the new Express API protections, Firestore-backed workflows or `/api/*` edge rate-limit rule are active on the public site until a new production deployment is published and verified. The Netlify deployment summary must show the expected API function and the new redirect/header rules.
+- **Web App Check is not configured in the current Netlify environment.** The client supports reCAPTCHA Enterprise (preferred) and reCAPTCHA v3 fall-back, but the current environment-variable inventory did not contain either `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` or `VITE_FIREBASE_APPCHECK_SITE_KEY`. App Check is therefore not active for the current production build. Register the provider in Firebase Console, add the public site key as a build-scoped variable, deploy, monitor attested traffic, and only then enable Firebase enforcement. Android needs a separate native attestation provider.
+- **Database connection variables need secret treatment.** The Netlify inventory showed `NETLIFY_DATABASE_URL` and `NETLIFY_DATABASE_URL_UNPOOLED` as non-secret values with build access. Repository search found no direct references to either name. Confirm whether the Netlify database integration still needs them; remove unused values. If still required, rotate the database password/connection strings at the database provider, recreate the Netlify variables as secrets, and restrict access to the function/runtime scopes that actually need them.
+- **The development live-update signing key needs rotation.** A development-context value for `CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64` was returned unmasked during the environment audit. Treat that development signing key as exposed. Generate a replacement key pair, update the corresponding verification public key in the mobile/update verifier, replace the development Netlify value, and test OTA signing and verification before publishing a bundle. Do not paste private keys or connection strings into issues, pull requests, chats or logs.
+- **The Netlify deploy history contains queued branch previews.** A preview being queued or ready does not publish the same code to the production alias. Confirm the published production deploy's commit SHA and deploy summary after every security release.
+
 ## Required production configuration and operator actions
 
 These cannot safely be completed by editing client source alone:
