@@ -326,6 +326,7 @@ test('privacy and security notices document implemented controls and known gaps'
   assert.match(privacyPolicy, /Legacy records/);
   assert.match(privacyPolicy, /self-service account-deletion workflow/);
   assert.match(securityPolicy, /Private vulnerability reporting/);
-  assert.match(controls, /33 npm audit findings/);
+  assert.match(controls, /zero vulnerabilities for the full dependency tree/);
+  assert.match(controls, /zero for the production-only tree/);
   assert.match(controls, /penetration test/i);
 });
