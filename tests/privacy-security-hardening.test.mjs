@@ -22,6 +22,10 @@ const newsletter = read('../src/components/LeadCapture.tsx');
 const privacyPolicy = read('../src/pages/PrivacyPolicy.tsx');
 const securityPolicy = read('../SECURITY.md');
 const controls = read('../docs/PRIVACY_SECURITY_CONTROLS.md');
+const safeHtml = read('../src/components/SafeHtmlContent.tsx');
+const hairGuide = read('../src/pages/HairFallGuide.tsx');
+const cbcGuide = read('../src/pages/CbcHandbook.tsx');
+const adminLinkAudit = read('../src/pages/AdminLinkAudit.tsx');
 
 test('HTML has no inline scripts or embedded styles; boot assets are same-origin', () => {
   const scriptTags = [...indexHtml.matchAll(/<script\b([^>]*)>/gi)].map(match => match[1]);
@@ -161,6 +165,21 @@ test('analytics and fake collection forms stay disabled', () => {
   assert.match(contactPage, /does not currently operate a verified online feedback inbox/);
   assert.doesNotMatch(contactPage, /wa\.me\/|onSubmit=/);
   assert.match(newsletter, /Newsletter subscriptions are not currently enabled/);
+});
+
+test('dynamic content is rendered through a strict HTML allowlist, never raw innerHTML', () => {
+  for (const page of [hairGuide, cbcGuide, adminLinkAudit]) {
+    assert.doesNotMatch(page, /dangerouslySetInnerHTML/);
+  }
+  assert.match(hairGuide, /SafeHtmlContent/);
+  assert.match(cbcGuide, /SafeHtmlContent/);
+  assert.match(adminLinkAudit, /SafeHtmlContent/);
+  assert.match(safeHtml, /forbiddenTags/);
+  assert.match(safeHtml, /script/);
+  assert.match(safeHtml, /iframe/);
+  assert.match(safeHtml, /safeHref/);
+  assert.match(safeHtml, /noopener noreferrer nofollow/);
+  assert.doesNotMatch(safeHtml, /dangerouslySetInnerHTML/);
 });
 
 test('privacy and security notices document implemented controls and known gaps', () => {
