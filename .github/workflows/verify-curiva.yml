@@ -116,7 +116,7 @@ jobs:
         run: node --test tests/navigation.routes.test.mjs tests/netlify-api.test.mjs tests/private-downloads.test.mjs tests/clinic-calendar.test.mjs tests/native-branding.test.mjs
 
       - name: Verify compact initial medical disclaimer banner
-        run: node --test tests/medical-disclaimer-banner.test.mjs
+        run: node --test tests/medical-disclaimer-banner.test.mjs tests/floating-controls-layout.test.mjs
 
       - name: Verify deferred-data loading boundaries
         run: node --test tests/performance-loading.test.mjs
