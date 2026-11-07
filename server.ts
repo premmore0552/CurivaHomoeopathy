@@ -36,6 +36,19 @@ const getDirNameAndFileName = () => {
 
 const { filename: __filename, dirname: __dirname } = getDirNameAndFileName();
 
+function safeServerErrorCode(error: unknown): string {
+  const value = error as { code?: unknown; status?: unknown } | null;
+  if (value && typeof value.code === 'string') return value.code.slice(0, 64).replace(/[^a-zA-Z0-9_.-]/g, '');
+  if (value && typeof value.status === 'number' && Number.isFinite(value.status)) return `http_${Math.trunc(value.status)}`;
+  return 'unknown';
+}
+
+function logSafeServerError(label: string, error: unknown) {
+  // Provider exceptions may contain prompts, contact details, payment data or URLs.
+  // Log only a fixed event label and a bounded machine-readable code.
+  console.error(label, { code: safeServerErrorCode(error) });
+}
+
 // Initialize Razorpay lazily to avoid crash if keys are missing
 let razorpayInstance: Razorpay | null = null;
 
@@ -176,9 +189,9 @@ async function startServer() {
       return 'sent';
     } catch (emailError: any) {
       const expired = String(emailError?.message || '').includes('expired');
-      console.error('Paid resource email attempt failed:', emailError?.message || 'Unknown delivery error');
+      logSafeServerError('Paid resource email attempt failed.', emailError);
       await updatePaidOrderEmailStatus(order.id, expired ? 'expired' : 'failed').catch((statusError) => {
-        console.error('Unable to persist resource email status:', statusError);
+        logSafeServerError('Unable to persist resource email status.', statusError);
       });
       return expired ? 'expired' : 'failed';
     }
@@ -283,7 +296,7 @@ async function startServer() {
       });
       return res.status(200).json({ success: true, notification: 'sent' });
     } catch (error: any) {
-      console.error('Appointment request notification failed:', error?.message || 'Unknown error');
+      logSafeServerError('Appointment request notification failed.', error);
       return res.status(502).json({ success: false, notification: 'failed', error: 'Your request is saved, but the clinic email notification failed.' });
     }
   });
@@ -369,7 +382,7 @@ async function startServer() {
           try {
             await rollbackCalendar();
           } catch (rollbackError: any) {
-            console.error('Calendar rollback failed and requires manual reconciliation:', rollbackError?.message || 'Unknown rollback error');
+            logSafeServerError('Calendar rollback failed and requires manual reconciliation.', rollbackError);
           }
         }
         throw writeError;
@@ -389,7 +402,7 @@ async function startServer() {
           });
           emailDelivery = 'sent';
         } catch (emailError: any) {
-          console.error('Appointment status email failed:', emailError?.message || 'Unknown error');
+          logSafeServerError('Appointment status email failed.', emailError);
           emailDelivery = 'failed';
         }
       }
@@ -401,7 +414,7 @@ async function startServer() {
         emailDelivery,
       });
     } catch (error: any) {
-      console.error('Appointment review update failed:', error?.message || 'Unknown error');
+      logSafeServerError('Appointment review update failed.', error);
       const errorMessage = String(error?.message || '');
       const conflict = errorMessage.includes('HTTP 409') ||
         errorMessage.includes('HTTP 412') ||
@@ -469,7 +482,7 @@ async function startServer() {
     try {
       await assertPrivateDownloadAvailable(resource.storageObject);
     } catch (storageError: any) {
-      console.error("Private resource availability check failed:", storageError?.message || "Unknown storage error");
+      logSafeServerError('Private resource availability check failed.', storageError);
       return res.status(503).json({
         error: "Secure resource storage is not configured or the PDF is not uploaded yet. No payment has been taken.",
       });
@@ -493,7 +506,7 @@ async function startServer() {
       res.json(order);
     } catch (error: any) {
       // Keep provider diagnostics in server logs; do not expose internal error details to clients.
-      console.error("Razorpay order creation failed:", error?.message || "Unknown provider error");
+      logSafeServerError('Razorpay order creation failed.', error);
       res.status(502).json({
         error: "Unable to create a payment order right now. Please try again later."
       });
@@ -564,7 +577,7 @@ async function startServer() {
 
       const userEmail = typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "";
       if (!userEmail) {
-        console.error("Captured payment webhook has no customer email:", orderId);
+        console.error('Captured payment webhook is missing a customer contact field.');
         return res.status(503).json({ received: false, error: "Captured order is missing its contact email." });
       }
 
@@ -586,7 +599,7 @@ async function startServer() {
       }
       return res.status(200).json({ received: true, recorded: true, emailDelivery });
     } catch (error: any) {
-      console.error("Razorpay webhook processing failed:", error?.message || "Unknown error");
+      logSafeServerError('Razorpay webhook processing failed.', error);
       return res.status(503).json({ received: false, error: "Webhook processing failed; Razorpay may retry." });
     }
   });
@@ -699,7 +712,7 @@ async function startServer() {
         // The object was checked before checkout, but signed URLs are created only after capture.
         downloadUrl = createSignedDownloadUrl(resource.storageObject, 3600);
       } catch (downloadError: any) {
-        console.error("Private download signing failed:", downloadError?.message || "Unknown signing error");
+        logSafeServerError('Private download signing failed.', downloadError);
         return res.status(503).json({
           success: false,
           paymentVerified: true,
@@ -721,7 +734,7 @@ async function startServer() {
         });
       } catch (recordError: any) {
         const configured = isPaidOrderStoreConfigured();
-        console.error("Captured payment could not be persisted:", recordError?.message || "Unknown Firestore error");
+        logSafeServerError('Captured payment could not be persisted.', recordError);
         return res.status(503).json({
           success: false,
           paymentVerified: true,
@@ -744,7 +757,7 @@ async function startServer() {
         currency: payment.currency,
       });
     } catch (error: any) {
-      console.error("Razorpay verification lookup failed:", error?.message || "Unknown error");
+      logSafeServerError('Razorpay verification lookup failed.', error);
       return res.status(502).json({ success: false, error: "Could not confirm payment status with Razorpay. Please contact support before retrying." });
     }
   });
@@ -787,8 +800,10 @@ async function startServer() {
         if (msg.includes("429") || msg.includes("quota") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("limit") || msg.includes("Quota")) {
           console.log(`[Gemini Status] ${currentModel} rate-limited or quota reached.`);
         } else {
-          const sanitizedMsg = msg.slice(0, 100).replace(/error/gi, 'err');
-          console.log(`[Gemini Status] ${currentModel} temporarily unavailable: ${sanitizedMsg}`);
+          console.warn('Gemini provider request failed; attempting fallback.', {
+            model: currentModel,
+            code: safeServerErrorCode(error),
+          });
         }
         if (msg.includes("API key") || msg.includes("is required") || msg.includes("not found")) {
           break;
@@ -1259,7 +1274,7 @@ async function startServer() {
       const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from the study assistant.";
       res.json({ text: textWithLinks });
     } catch (error: any) {
-      console.error("Gemini Curiva Care Proxy Error:", error);
+      logSafeServerError('Gemini Curiva Care proxy failed.', error);
       res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
     }
   });
@@ -1359,7 +1374,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
       const rawText = response?.text || "";
       res.json({ text: rawText || "The study assistant did not return a response. Please try again later." });
     } catch (error: any) {
-      console.error("Gemini Hair Health Study Assistant Error:", error);
+      logSafeServerError('Gemini hair-health study assistant failed.', error);
       res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
     }
   });
@@ -1504,7 +1519,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
       }
       return res.json([]);
     } catch (error: any) {
-      console.error("Gemini Search Proxy Error:", error);
+      logSafeServerError('Gemini search proxy failed.', error);
       res.status(500).json({ error: error.message || "Failed to process search" });
     }
   });
@@ -1582,7 +1597,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
 
       return res.json({ text: responseText });
     } catch (error: any) {
-      console.error("Gemini Case Simulation Proxy Error:", error);
+      logSafeServerError('Gemini case-simulation proxy failed.', error);
       res.status(500).json({ error: error.message || "Failed to prompt simulation" });
     }
   });
@@ -1614,7 +1629,7 @@ Hair loss has many possible causes. This educational checklist cannot assess you
 
       return res.json({ score, strengths, weaknesses, lesson });
     } catch (error: any) {
-      console.error("Gemini Feedback Proxy Error:", error);
+      logSafeServerError('Gemini feedback proxy failed.', error);
       res.status(500).json({ error: error.message || "Failed to evaluate prescription" });
     }
   });
@@ -1768,7 +1783,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
       res.json({ title: bookTitle, section, content: textWithLinks });
 
     } catch (error: any) {
-      console.error("Gemini EBook Generation Error:", error);
+      logSafeServerError('Gemini ebook generation failed.', error);
       res.status(500).json({ error: error.message || "Failed to generate eBook" });
     }
   });
@@ -1832,7 +1847,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
           }
         }
       } catch (geminiError) {
-        console.warn("Gemini fallback search error (Using static default papers fallback):", geminiError);
+        logSafeServerError('Gemini fallback search failed; using static references.', geminiError);
       }
 
       const hardcodedFallback = [
@@ -1882,7 +1897,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
         
         if (!response.ok) {
           const errText = await response.text();
-          console.warn(`Google Custom Search API returned status ${response.status}. Falling back gracefully to Gemini search:`, errText);
+          console.warn('Google Custom Search API returned an error; using fallback search.', { status: response.status });
           const fallback = await getFallbackSearch(query);
           return res.json(fallback);
         }
@@ -1915,13 +1930,13 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
         });
 
       } catch (fetchError: any) {
-        console.warn("Network or connection error while calling Google Custom Search. Falling back gracefully to Gemini search:", fetchError);
+        logSafeServerError('Google Custom Search network request failed; using fallback search.', fetchError);
         const fallback = await getFallbackSearch(query);
         return res.json(fallback);
       }
 
     } catch (error: any) {
-      console.error("Custom Search Route Error:", error);
+      logSafeServerError('Custom Search route failed.', error);
       // Even in high-level errors, fallback to avoid breaking the client experience
       try {
         const fallback = await getFallbackSearch(query);
@@ -2221,7 +2236,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
             });
           }
         } catch (aiError) {
-          console.warn("Personalization Engine AI Warning (Using pre-seeded rule configurations instead):", aiError?.message || aiError);
+          logSafeServerError('Personalization engine used pre-seeded rules after provider failure.', aiError);
         }
       }
 
@@ -2246,7 +2261,7 @@ In classical homoeopathy, we do not treat the disease; we treat the *patient in 
       });
 
     } catch (err: any) {
-      console.error("Personalization Endpoint Failure:", err);
+      logSafeServerError('Personalization endpoint failed.', err);
       res.status(500).json({ error: "Failed to process personalization request" });
     }
   });
