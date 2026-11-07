@@ -37,7 +37,7 @@ if (!/android:allowBackup="false"/.test(manifest) ||
 }
 const excludedDomains = ['root', 'file', 'database', 'sharedpref', 'external', 'device_root', 'device_file', 'device_database', 'device_sharedpref', 'device_external'];
 for (const domain of excludedDomains) {
-  const excluded = new RegExp('<exclude\\\\s+domain="' + domain + '"\\\\s+path="\\."\\\\s*/>');
+  const excluded = new RegExp('<exclude\\s+domain="' + domain + '"\\s+path="\\."\\s*/>');
   if (!excluded.test(backupRules)) throw new Error('Legacy Android backups must exclude ' + domain + '.');
   if (!excluded.test(dataExtractionRules)) throw new Error('Android cloud/device transfer must exclude ' + domain + '.');
 }
