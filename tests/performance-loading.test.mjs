@@ -59,6 +59,19 @@ test('disease detail views load the selected system rather than the complete dat
   assert.match(detail, /role="status"/);
 });
 
+test('disease navigation uses system and slug instead of globally reused IDs', () => {
+  const card = read('../src/components/disease-hub/DiseaseCard.tsx');
+  const list = read('../src/components/disease-hub/DiseaseList.tsx');
+  const hub = read('../src/pages/DiseaseHub.tsx');
+  const detail = read('../src/pages/DiseasePage.tsx');
+  assert.match(card, /onClick: \(system: string, slug: string\) => void/);
+  assert.match(card, /onClick\(disease\.system, disease\.slug\)/);
+  assert.match(list, /onSelectDisease\(system: string, slug: string\)/);
+  assert.match(hub, /handleSelectDisease = \(system: string, slug: string\)/);
+  assert.doesNotMatch(hub, /diseaseCatalog\.find\(d => d\.id === id\)/);
+  assert.match(detail, /trackView\(\`\$\{disease\.system\}\/\$\{disease\.slug\}\`/);
+});
+
 test('build and development commands generate disease JSON assets before serving', () => {
   const packageJson = JSON.parse(readFileSync(new URL('../package.json', import.meta.url), 'utf8'));
   assert.match(packageJson.scripts.prebuild, /generate-disease-hub-assets/);
