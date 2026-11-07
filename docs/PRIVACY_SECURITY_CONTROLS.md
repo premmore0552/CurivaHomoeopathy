@@ -49,6 +49,17 @@ This document records controls present in the source branch and actions still re
 - The Progress screen provides a confirmed **Erase all local study data** action. Clearing app data or uninstalling the app removes this state; it cannot be restored from Curiva.
 - The display name is capped at 40 characters and strips control characters. The screen warns users not to enter real patient information.
 
+## Account-enabled Capacitor learning workspace and cloud-progress reset
+
+The repository contains two separate Android experiences. The standalone Jetpack Compose APK is offline-only as described above. A separate account-enabled learning experience (also used by the Capacitor shell when that shell is present) has optional Firebase sign-in and syncs a limited academic progress snapshot to `nativeLearningProgress/{uid}`.
+
+- The snapshot currently contains completed lesson identifiers, quiz subject/date/score summaries, mastered flashcard identifiers, study-day dates, a last-lesson reference and a bounded daily checklist. It does not contain bookmarks or free-text Study Toolkit notes.
+- Firestore rules restrict this collection to owner-only document get/create/update, deny list access and deny client document deletion. Writes are field-allowlisted and size-bounded. The account UID is the document ID and is checked by the rule.
+- The signed-in experience keeps an owner-scoped local cache in browser/app storage to support offline learning and account switching. Browser/app local storage is not encrypted by Curiva. Clearing only local site/app data does not delete the Firestore snapshot.
+- The Progress screen's reset action now asks for confirmation and replaces the signed-in account's progress fields with an empty snapshot as well as clearing the active device cache. The write is serialized with background sync so an older in-flight sync cannot repopulate the cleared data. Bookmarks are deliberately retained. Guest/offline mode clears only the guest device namespace.
+- Signing out stops further sync but does not delete previously synced progress. Users must use the confirmed reset action while signed in to clear that progress. This reset does not delete the account, appointment, payment or other Firestore records.
+- The reset path must pass the website TypeScript build and the Firestore emulator tests before release. It is not a full account deletion feature or a general clinical-record deletion workflow.
+
 ## Production deployment and configuration audit — 7 November 2026
 
 This is a point-in-time operational audit, separate from GitHub CI results.
