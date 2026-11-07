@@ -21,12 +21,13 @@ if (missingSystems.length) {
 }
 
 const ids = new Set<string>();
-const slugs = new Set<string>();
+const routeKeys = new Set<string>();
 for (const disease of diseaseHubData) {
   if (ids.has(disease.id)) throw new Error('Duplicate disease ID in source data: ' + disease.id);
-  if (slugs.has(disease.slug)) throw new Error('Duplicate disease slug in source data: ' + disease.slug);
+  const routeKey = `${disease.system}/${disease.slug}`;
+  if (routeKeys.has(routeKey)) throw new Error('Duplicate disease route in source data: ' + routeKey);
   ids.add(disease.id);
-  slugs.add(disease.slug);
+  routeKeys.add(routeKey);
 }
 
 await mkdir(systemOutput, { recursive: true });
@@ -58,10 +59,10 @@ const catalog = {
 await writeFile(path.join(outputRoot, 'catalog.json'), JSON.stringify(catalog), 'utf8');
 
 const activeFiles = new Set<string>();
-for (const [systemId, diseases] of diseasesBySystem) {
-  const fileName = `${systemId}.json`;
+for (const system of DISEASE_SYSTEMS) {
+  const fileName = `${system.id}.json`;
   activeFiles.add(fileName);
-  await writeFile(path.join(systemOutput, fileName), JSON.stringify(diseases), 'utf8');
+  await writeFile(path.join(systemOutput, fileName), JSON.stringify(diseasesBySystem.get(system.id) || []), 'utf8');
 }
 
 for (const fileName of await readdir(systemOutput)) {
