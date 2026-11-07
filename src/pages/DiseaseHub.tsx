@@ -320,6 +320,7 @@ export default function DiseaseHub() {
   useEffect(() => {
     let active = true;
     setCatalogLoading(true);
+    setCatalogError('');
     loadDiseaseHubCatalog()
       .then((catalog) => {
         if (active) setDiseaseCatalog(catalog.diseases);
