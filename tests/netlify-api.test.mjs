@@ -66,6 +66,35 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   assert.equal(webhookResponse.statusCode, 400);
   assert.match(JSON.parse(webhookResponse.body).error, /signature/i);
 
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (input, init) => {
+    if (String(input).includes('identitytoolkit.googleapis.com/v1/accounts:lookup')) {
+      return new Response(JSON.stringify({
+        users: [{ localId: 'unverified-student', email: 'student@example.test', emailVerified: false }],
+      }), { status: 200, headers: { 'content-type': 'application/json' } });
+    }
+    return originalFetch(input, init);
+  };
+  try {
+    const unverifiedOrderResponse = await handler({
+      httpMethod: 'POST',
+      path: '/api/create-razorpay-order',
+      headers: {
+        host: 'localhost',
+        'content-type': 'application/json',
+        authorization: 'Bearer test-unverified-account-token',
+      },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      body: JSON.stringify({ resourceId: 'Homoeopathy-modalities-cheat-sheet', email: 'student@example.test' }),
+      isBase64Encoded: false,
+    }, {});
+    assert.equal(unverifiedOrderResponse.statusCode, 403);
+    assert.match(JSON.parse(unverifiedOrderResponse.body).error, /verify your account email/i);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+
   const noConsentResponse = await handler({
     httpMethod: 'POST',
     path: '/api/gemini/curiva-care',
