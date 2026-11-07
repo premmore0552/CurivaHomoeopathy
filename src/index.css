@@ -975,3 +975,7 @@ table {
     transition-duration: 0.01ms !important;
   }
 }
+
+
+/* Lucide icons retain the dimensions assigned by their component classes. */
+svg.lucide { flex-shrink: 0; }
