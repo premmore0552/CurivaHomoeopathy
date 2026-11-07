@@ -33,7 +33,7 @@ export const DiseaseList: React.FC<DiseaseListProps> = ({ system, diseases, onSe
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.05 }}
-            onClick={() => onSelectDisease(disease.id)}
+            onClick={() => onSelectDisease(disease.system, disease.slug)}
             className="group p-8 bg-white dark:bg-zinc-900/60 border border-border rounded-[2.5rem] text-left hover:border-primary hover:shadow-xl transition-all duration-300 relative overflow-hidden"
           >
             <div className="relative z-10">
