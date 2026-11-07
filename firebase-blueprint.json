@@ -5,21 +5,41 @@
       "description": "User profiles, content interaction, and preferences",
       "type": "object",
       "properties": {
-        "uid": { "type": "string" },
-        "email": { "type": "string" },
-        "displayName": { "type": "string" },
-        "photoURL": { "type": "string" },
-        "profession": { "type": "string" },
-        "bio": { "type": "string" },
-        "qualifications": { "type": "string" },
-        "clinicAddress": { "type": "string" },
+        "uid": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string"
+        },
+        "displayName": {
+          "type": "string"
+        },
+        "photoURL": {
+          "type": "string"
+        },
+        "profession": {
+          "type": "string"
+        },
+        "bio": {
+          "type": "string"
+        },
+        "qualifications": {
+          "type": "string"
+        },
+        "clinicAddress": {
+          "type": "string"
+        },
         "interests": {
           "type": "array",
-          "items": { "type": "string" }
+          "items": {
+            "type": "string"
+          }
         },
-        "bookmarks": { 
-          "type": "array", 
-          "items": { "type": "string" },
+        "bookmarks": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
           "description": "Array of blog post IDs"
         },
         "readingHistory": {
@@ -27,8 +47,13 @@
           "items": {
             "type": "object",
             "properties": {
-              "postId": { "type": "string" },
-              "timestamp": { "type": "string", "format": "date-time" }
+              "postId": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              }
             }
           }
         },
@@ -37,106 +62,288 @@
           "items": {
             "type": "object",
             "properties": {
-              "id": { "type": "string" },
-              "type": { "type": "string" },
-              "details": { "type": "string" },
-              "timestamp": { "type": "string", "format": "date-time" }
+              "id": {
+                "type": "string"
+              },
+              "type": {
+                "type": "string"
+              },
+              "details": {
+                "type": "string"
+              },
+              "timestamp": {
+                "type": "string",
+                "format": "date-time"
+              }
             }
           }
         },
         "studyStats": {
           "type": "object"
         },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["uid", "email"]
+      "required": [
+        "uid",
+        "email"
+      ]
     },
     "Question": {
       "title": "Ask a Homoeopath Question",
       "description": "Questions submitted by users and answered by professionals",
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "userName": { "type": "string" },
-        "userEmail": { "type": "string" },
-        "subject": { "type": "string" },
-        "content": { "type": "string" },
-        "status": { "type": "string", "enum": ["pending", "answered", "featured"] },
-        "answer": { "type": "string" },
-        "answeredBy": { "type": "string" },
-        "answeredAt": { "type": "string", "format": "date-time" },
-        "isAnonymous": { "type": "boolean" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "userName": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "subject": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "pending",
+            "answered",
+            "featured"
+          ]
+        },
+        "answer": {
+          "type": "string"
+        },
+        "answeredBy": {
+          "type": "string"
+        },
+        "answeredAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "isAnonymous": {
+          "type": "boolean"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["userId", "subject", "content", "status", "createdAt"]
+      "required": [
+        "userId",
+        "subject",
+        "content",
+        "status",
+        "createdAt"
+      ]
     },
     "Admin": {
       "title": "Administrator",
       "description": "System administrators and professionals",
       "type": "object",
       "properties": {
-        "uid": { "type": "string" },
-        "role": { "type": "string", "enum": ["admin", "Homoeopath"] },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "uid": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "admin",
+            "Homoeopath"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["uid", "role"]
+      "required": [
+        "uid",
+        "role"
+      ]
     },
     "Order": {
       "title": "Order",
       "description": "Digital resource purchase history and fulfillment details",
       "type": "object",
       "properties": {
-        "userId": { "type": "string" },
-        "userEmail": { "type": "string" },
-        "resourceId": { "type": "string" },
-        "resourceTitle": { "type": "string" },
-        "paymentId": { "type": "string" },
-        "status": { "type": "string", "enum": ["paid", "pending", "failed"] },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "userId": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "resourceId": {
+          "type": "string"
+        },
+        "resourceTitle": {
+          "type": "string"
+        },
+        "paymentId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "paid",
+            "pending",
+            "failed"
+          ]
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["userId", "userEmail", "resourceId", "resourceTitle", "paymentId", "status", "createdAt"]
+      "required": [
+        "userId",
+        "userEmail",
+        "resourceId",
+        "resourceTitle",
+        "paymentId",
+        "status",
+        "createdAt"
+      ]
     },
     "Kit": {
       "title": "Dia Test Kit",
       "description": "Wearable diagnostic biomarker-capture kit logs and lab reports",
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "userEmail": { "type": "string" },
-        "status": { "type": "string", "enum": ["ordered", "shipped", "delivered", "active", "sent_back", "processing", "completed"] },
-        "trackingNumber": { "type": "string" },
-        "activatedAt": { "type": "string", "format": "date-time" },
-        "lastLoggedAt": { "type": "string", "format": "date-time" },
-        "wearDuration": { "type": "number" },
-        "dischargeType": { "type": "string" },
-        "symptoms": { "type": "array", "items": { "type": "string" } },
-        "labReport": { "type": "object" },
-        "createdAt": { "type": "string", "format": "date-time" },
-        "updatedAt": { "type": "string", "format": "date-time" }
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "userEmail": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "ordered",
+            "shipped",
+            "delivered",
+            "active",
+            "sent_back",
+            "processing",
+            "completed"
+          ]
+        },
+        "trackingNumber": {
+          "type": "string"
+        },
+        "activatedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "lastLoggedAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "wearDuration": {
+          "type": "number"
+        },
+        "dischargeType": {
+          "type": "string"
+        },
+        "symptoms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "labReport": {
+          "type": "object"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        },
+        "updatedAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["id", "userId", "userEmail", "status", "createdAt"]
+      "required": [
+        "id",
+        "userId",
+        "userEmail",
+        "status",
+        "createdAt"
+      ]
     },
     "Screening": {
       "title": "Self-Assessment Screening",
       "description": "Cervical pre-cancer risk evaluation scorecards",
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
-        "userId": { "type": "string" },
-        "age": { "type": "string" },
-        "hpvVaxStatus": { "type": "string" },
-        "lastPapSmearYears": { "type": "string" },
-        "symptoms": { "type": "array", "items": { "type": "string" } },
-        "familyHistory": { "type": "boolean" },
-        "riskLevel": { "type": "string", "enum": ["low", "moderate", "high"] },
-        "recommendation": { "type": "string" },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "id": {
+          "type": "string"
+        },
+        "userId": {
+          "type": "string"
+        },
+        "age": {
+          "type": "string"
+        },
+        "hpvVaxStatus": {
+          "type": "string"
+        },
+        "lastPapSmearYears": {
+          "type": "string"
+        },
+        "symptoms": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "familyHistory": {
+          "type": "boolean"
+        },
+        "riskLevel": {
+          "type": "string",
+          "enum": [
+            "low",
+            "moderate",
+            "high"
+          ]
+        },
+        "recommendation": {
+          "type": "string"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["id", "userId", "riskLevel", "createdAt"]
+      "required": [
+        "id",
+        "userId",
+        "riskLevel",
+        "createdAt"
+      ]
     }
   },
   "firestore": {
