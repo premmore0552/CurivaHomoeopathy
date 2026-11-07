@@ -555,7 +555,7 @@ async function startServer() {
 
       const userEmail = typeof order.notes?.customer_email === "string" ? order.notes.customer_email : "";
       if (!userEmail) {
-        console.error("Captured payment webhook has no customer email:", orderId);
+        console.error("Captured payment webhook is missing a customer contact field.");
         return res.status(503).json({ received: false, error: "Captured order is missing its contact email." });
       }
 
