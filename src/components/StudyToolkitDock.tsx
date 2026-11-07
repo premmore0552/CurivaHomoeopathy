@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Brain, Check, Clock3, FileText, Pause, Play, RotateCcw, Target, X, Zap } from 'lucide-react';
 import { useStudyToolkit } from '../context/StudyToolkitContext';
@@ -12,6 +12,16 @@ export default function StudyToolkitDock() {
   const { state, startTimer, pauseTimer, resetTimer, saveNote, setFocusMode } = useStudyToolkit();
   const [open, setOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
+
+  // Keep the first-run disclaimer out of the way while this expandable panel is open.
+  useEffect(() => {
+    if (open) document.body.dataset.curivaStudyPanelOpen = 'true';
+    else delete document.body.dataset.curivaStudyPanelOpen;
+
+    return () => {
+      delete document.body.dataset.curivaStudyPanelOpen;
+    };
+  }, [open]);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
   const [topic, setTopic] = useState(state.timer.topic);
@@ -31,7 +41,7 @@ export default function StudyToolkitDock() {
 
   return (
     <>
-      <div className="fixed bottom-24 right-3 sm:bottom-6 sm:right-6 z-[80] print:hidden">
+      <div className="fixed z-[80] print:hidden curiva-study-dock-position">
         {open && (
           <div className="mb-3 w-[min(19rem,calc(100vw-1.5rem))] rounded-2xl border border-border bg-bg-secondary p-4 shadow-2xl space-y-3">
             <div className="flex items-center justify-between">
