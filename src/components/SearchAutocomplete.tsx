@@ -383,7 +383,7 @@ export default function SearchAutocomplete() {
         type="button"
         onClick={() => setIsModalOpen(true)}
         aria-label="Open global search"
-        className="relative group w-full md:w-60 lg:w-72 cursor-pointer select-none text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary"
+        className={"relative group w-full md:w-60 lg:w-72 cursor-pointer select-none text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary " + (triggerClassName ?? "")}
       >
         <div className="flex items-center gap-3 pl-4 pr-3 py-2.5 bg-bg-secondary hover:bg-white dark:hover:bg-zinc-800 border border-border rounded-full shadow-inner hover:shadow-soft hover:border-primary/40 transition-all">
           <Search className="text-text-secondary group-hover:text-primary w-4 h-4 transition-colors" />
