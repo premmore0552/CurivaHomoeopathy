@@ -78,11 +78,21 @@ test('service worker caches only public static resources and excludes sensitive 
   assert.doesNotMatch(serviceWorker, /cache\.put\(event\.request/);
 });
 
-test('API redirect applies a Netlify edge rate limit by client IP and domain', () => {
+test('AI endpoints have a stricter shared Netlify edge quota ahead of the general API limit', () => {
+  const geminiStart = netlify.indexOf('from = "/api/gemini/*"');
   const apiStart = netlify.indexOf('from = "/api/*"');
-  assert.ok(apiStart >= 0);
-  const nextRedirect = netlify.indexOf('[[redirects]]', apiStart + 1);
-  const apiRule = netlify.slice(apiStart, nextRedirect === -1 ? netlify.length : nextRedirect);
+  assert.ok(geminiStart >= 0, 'Gemini edge rate limit must exist');
+  assert.ok(apiStart > geminiStart, 'the specific Gemini redirect must precede the general API redirect');
+
+  const nextAfterGemini = netlify.indexOf('[[redirects]]', geminiStart + 1);
+  const geminiRule = netlify.slice(geminiStart, nextAfterGemini === -1 ? netlify.length : nextAfterGemini);
+  assert.match(geminiRule, /to = "\/\.netlify\/functions\/api\/gemini\/:splat"/);
+  assert.match(geminiRule, /window_limit = 12/);
+  assert.match(geminiRule, /window_size = 60/);
+  assert.match(geminiRule, /aggregate_by = \["ip", "domain"\]/);
+
+  const nextAfterApi = netlify.indexOf('[[redirects]]', apiStart + 1);
+  const apiRule = netlify.slice(apiStart, nextAfterApi === -1 ? netlify.length : nextAfterApi);
   assert.match(apiRule, /window_limit = 120/);
   assert.match(apiRule, /window_size = 60/);
   assert.match(apiRule, /aggregate_by = \["ip", "domain"\]/);

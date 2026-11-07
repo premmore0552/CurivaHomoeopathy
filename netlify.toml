@@ -14,6 +14,16 @@
   external_node_modules = ["express", "serverless-http", "lightningcss", "vite", "esbuild"]
 
 [[redirects]]
+  from = "/api/gemini/*"
+  to = "/.netlify/functions/api/gemini/:splat"
+  status = 200
+  force = true
+  [redirects.rate_limit]
+    window_limit = 12
+    window_size = 60
+    aggregate_by = ["ip", "domain"]
+
+[[redirects]]
   from = "/api/*"
   to = "/.netlify/functions/api/:splat"
   status = 200

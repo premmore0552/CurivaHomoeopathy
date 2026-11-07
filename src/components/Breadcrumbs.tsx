@@ -71,15 +71,13 @@ const Breadcrumbs: React.FC = () => {
       'ask-a-homoeopath': 'Ask Expert',
       'mcq-practice': 'MCQ Practice'
     };
-    return map[segment] || segment.charAt(0).toUpperCase() + segment.slice(1).replace(/-/g, ' ');
+    const readable = (() => { try { return decodeURIComponent(segment); } catch { return segment; } })();
+    return map[segment] || readable.charAt(0).toUpperCase() + readable.slice(1).replace(/-/g, ' ');
   };
 
   return (
     <nav className="max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-5 pb-1 flex items-center flex-wrap gap-1 text-xs font-medium text-text-secondary select-none" aria-label="Breadcrumb">
-      <Link 
-        to="/" 
-        className="flex items-center gap-1.5 text-text-secondary hover:text-primary transition-colors py-1 px-2 rounded-md hover:bg-bg-secondary"
-      >
+      <Link to="/" className="flex items-center gap-1.5 rounded-md px-2 py-1 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-primary">
         <Home className="w-3.5 h-3.5" />
         <span className="font-sans">Home</span>
       </Link>
@@ -97,16 +95,15 @@ const Breadcrumbs: React.FC = () => {
         return (
           <React.Fragment key={to}>
             <ChevronRight className="w-3.5 h-3.5 text-text-tertiary opacity-60 shrink-0 mx-0.5" />
-            <Link 
-              to={to} 
-              className={`py-1 px-2 rounded-md transition-colors truncate max-w-[150px] sm:max-w-xs ${
-                last 
-                  ? 'text-primary font-semibold bg-primary-light/40 border border-primary/10 hover:bg-primary-light/60' 
-                  : 'text-text-secondary hover:text-primary hover:bg-bg-secondary'
-              }`}
-            >
-              {label}
-            </Link>
+            {last ? (
+              <span aria-current="page" className="max-w-[min(60vw,28rem)] truncate rounded-md border border-primary/10 bg-primary-light/40 px-2 py-1 font-semibold text-primary">
+                {label}
+              </span>
+            ) : (
+              <Link to={to} className="max-w-[150px] truncate rounded-md px-2 py-1 text-text-secondary transition-colors hover:bg-bg-secondary hover:text-primary sm:max-w-xs">
+                {label}
+              </Link>
+            )}
           </React.Fragment>
         );
       })}

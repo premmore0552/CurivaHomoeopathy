@@ -25,6 +25,8 @@ npm run build
 
 Use the current draft pull request's preview build to verify the frontend and API integration before production. Configure secrets only in Netlify's environment-variable settings; never commit real keys or use `VITE_*` for server credentials. Required external-service setup for payments, private downloads, email delivery, and clinic calendar is documented below. Firebase rule deployment should be a separate, reviewed operation because it replaces the database's deployed rules.
 
+Use [`docs/PRODUCTION_INTEGRATION_VERIFICATION.md`](docs/PRODUCTION_INTEGRATION_VERIFICATION.md) for the exact preview smoke command, Firestore emulator and deployment procedure, Gemini quota/safety checks, and Razorpay/Storage/Resend/Calendar release gates.
+
 ## Free website + app workflow
 
 Curiva's public website uses React/Vite. The Android application is a separate native Kotlin + Jetpack Compose project generated in CI from the same educational source data.
