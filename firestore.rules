@@ -30,11 +30,18 @@ service cloud.firestore {
       return isSignedIn() && request.auth.uid == userId;
     }
 
-    // Checking if user is admin
+    // The single verified bootstrap account may provision admins. All other
+    // administrators require an explicit, active server-provisioned membership.
+    function hasActiveAdminMembership() {
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
+    }
+
     function isAdmin() {
       return isSignedIn() && (
         (request.auth.token.email_verified == true && request.auth.token.email == 'premmore0552@gmail.com') ||
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
+        hasActiveAdminMembership()
       );
     }
 
@@ -46,11 +53,1045 @@ service cloud.firestore {
          !data.profession.matches('.*[Aa][Dd][Mm][Ii][Nn].*'));
     }
 
-    function isValidUser(data) {
-      return data.keys().hasAll(['uid', 'email']) && 
-             data.uid == request.auth.uid &&
-             data.email is string && data.email.size() <= 200 &&
-             hasSafeProfession(data);
+    function hasValidUserProfileFields(data, userId) {
+      return data.uid == userId &&
+        data.email is string && data.email.size() <= 200 &&
+        hasSafeProfession(data) &&
+        (!data.keys().hasAny(['displayName']) || (data.displayName is string && data.displayName.size() <= 100)) &&
+        (!data.keys().hasAny(['photoURL']) || (data.photoURL is string && data.photoURL.size() <= 2048)) &&
+        (!data.keys().hasAny(['phoneNumber']) || (data.phoneNumber is string && data.phoneNumber.size() <= 40)) &&
+        (!data.keys().hasAny(['bio']) || (data.bio is string && data.bio.size() <= 2000)) &&
+        (!data.keys().hasAny(['qualifications']) || (data.qualifications is string && data.qualifications.size() <= 300)) &&
+        (!data.keys().hasAny(['clinicAddress']) || (data.clinicAddress is string && data.clinicAddress.size() <= 300)) &&
+        (!data.keys().hasAny(['interests']) || (data.interests is list && data.interests.size() <= 100)) &&
+        (!data.keys().hasAny(['bookmarks']) || (data.bookmarks is list && data.bookmarks.size() <= 1500)) &&
+        (!data.keys().hasAny(['readingHistory']) || (data.readingHistory is list && data.readingHistory.size() <= 2000)) &&
+        (!data.keys().hasAny(['activities']) || (data.activities is list && data.activities.size() <= 1000)) &&
+        (!data.keys().hasAny(['studyStats']) || (data.studyStats is map && data.studyStats.size() <= 500)) &&
+        (!data.keys().hasAny(['streakCount']) || (data.streakCount is int && data.streakCount >= 0 && data.streakCount <= 100000)) &&
+        (!data.keys().hasAny(['lastActiveDate']) ||
+          (data.lastActiveDate is string && data.lastActiveDate.size() == 10 && data.lastActiveDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}
+
+    function isValidQuestion(data) {
+      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.subject is string && data.subject.size() >= 5 && data.subject.size() <= 200 &&
+             data.content is string && data.content.size() >= 10 && data.content.size() <= 2000 &&
+             data.status in ['pending', 'answered', 'featured'];
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'userEmail', 'resourceId', 'resourceTitle', 'paymentId', 'status', 'createdAt']) &&
+             data.keys().hasOnly(['userId', 'userEmail', 'resourceId', 'resourceTitle', 'paymentId', 'status', 'createdAt']) &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.userEmail is string && data.userEmail.size() <= 200 &&
+             data.resourceId is string && data.resourceId.size() <= 100 &&
+             data.resourceTitle is string && data.resourceTitle.size() <= 300 &&
+             data.paymentId is string && data.paymentId.size() <= 200 &&
+             data.status in ['pending', 'failed']; // Client writes can never assert payment as paid.
+    }
+
+    // Profile case logs are practice-only records, not patient records. Keep a
+    // closed schema, bind each record to its document ID and owner, and bound all
+    // free text. Clients can create and delete their own records but cannot edit
+    // a record after creation or change its ownership.
+    function isValidKit(data, kitId) {
+      return data.keys().hasAll([
+               'id', 'userId', 'userEmail', 'testType', 'testDate', 'clinicName',
+               'physicianName', 'resultStatus', 'hpvResult', 'createdAt'
+             ]) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'userEmail', 'testType', 'testDate', 'clinicName',
+               'physicianName', 'resultStatus', 'hpvResult', 'notes', 'createdAt'
+             ]) &&
+             data.id == kitId && data.id is string && data.id.size() >= 1 && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.userEmail is string && data.userEmail.size() <= 200 &&
+             data.testType in ['repertory_check', 'materia_medica', 'organon'] &&
+             data.testDate is string && data.testDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}
+
+    // Firestore Rules has no general-purpose list iteration; validate each bounded entry explicitly.
+    function isValidScreeningSymptoms(data) {
+      return !data.keys().hasAny(['symptoms']) ||
+        (data.symptoms is list &&
+         data.symptoms.size() <= 20 &&
+         (data.symptoms.size() < 1 || (data.symptoms[0] is string && data.symptoms[0].size() <= 120)) &&
+         (data.symptoms.size() < 2 || (data.symptoms[1] is string && data.symptoms[1].size() <= 120)) &&
+         (data.symptoms.size() < 3 || (data.symptoms[2] is string && data.symptoms[2].size() <= 120)) &&
+         (data.symptoms.size() < 4 || (data.symptoms[3] is string && data.symptoms[3].size() <= 120)) &&
+         (data.symptoms.size() < 5 || (data.symptoms[4] is string && data.symptoms[4].size() <= 120)) &&
+         (data.symptoms.size() < 6 || (data.symptoms[5] is string && data.symptoms[5].size() <= 120)) &&
+         (data.symptoms.size() < 7 || (data.symptoms[6] is string && data.symptoms[6].size() <= 120)) &&
+         (data.symptoms.size() < 8 || (data.symptoms[7] is string && data.symptoms[7].size() <= 120)) &&
+         (data.symptoms.size() < 9 || (data.symptoms[8] is string && data.symptoms[8].size() <= 120)) &&
+         (data.symptoms.size() < 10 || (data.symptoms[9] is string && data.symptoms[9].size() <= 120)) &&
+         (data.symptoms.size() < 11 || (data.symptoms[10] is string && data.symptoms[10].size() <= 120)) &&
+         (data.symptoms.size() < 12 || (data.symptoms[11] is string && data.symptoms[11].size() <= 120)) &&
+         (data.symptoms.size() < 13 || (data.symptoms[12] is string && data.symptoms[12].size() <= 120)) &&
+         (data.symptoms.size() < 14 || (data.symptoms[13] is string && data.symptoms[13].size() <= 120)) &&
+         (data.symptoms.size() < 15 || (data.symptoms[14] is string && data.symptoms[14].size() <= 120)) &&
+         (data.symptoms.size() < 16 || (data.symptoms[15] is string && data.symptoms[15].size() <= 120)) &&
+         (data.symptoms.size() < 17 || (data.symptoms[16] is string && data.symptoms[16].size() <= 120)) &&
+         (data.symptoms.size() < 18 || (data.symptoms[17] is string && data.symptoms[17].size() <= 120)) &&
+         (data.symptoms.size() < 19 || (data.symptoms[18] is string && data.symptoms[18].size() <= 120)) &&
+         (data.symptoms.size() < 20 || (data.symptoms[19] is string && data.symptoms[19].size() <= 120)));
+    }
+
+    // Screening records can contain sensitive reproductive-health information.
+    // Keep the schema closed and each optional field bounded.
+    function isValidScreening(data) {
+      return data.keys().hasAll(['id', 'userId', 'riskLevel', 'createdAt']) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'age', 'hpvVaxStatus', 'lastPapSmearYears',
+               'symptoms', 'familyHistory', 'riskLevel', 'recommendation',
+               'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() >= 1 && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.riskLevel in ['low', 'moderate', 'high'] &&
+             (!data.keys().hasAny(['age']) ||
+               (data.age is string && data.age.size() <= 3)) &&
+             (!data.keys().hasAny(['hpvVaxStatus']) ||
+               (data.hpvVaxStatus is string && data.hpvVaxStatus.size() <= 40)) &&
+             (!data.keys().hasAny(['lastPapSmearYears']) ||
+               (data.lastPapSmearYears is string && data.lastPapSmearYears.size() <= 40)) &&
+             isValidScreeningSymptoms(data) &&
+             (!data.keys().hasAny(['familyHistory']) || data.familyHistory is bool) &&
+             (!data.keys().hasAny(['recommendation']) ||
+               (data.recommendation is string && data.recommendation.size() <= 1000)) &&
+             (!data.keys().hasAny(['updatedAt']) || data.updatedAt == request.time);
+    }
+
+    // --- Collection: Users ---
+    
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isOwner(userId) || isAdmin();
+      
+      allow create: if isOwner(userId) &&
+                      isValidUser(incoming(), userId) &&
+                      incoming().createdAt == request.time &&
+                      incoming().updatedAt == request.time;
+
+      allow update: if isOwner(userId) &&
+                       hasValidUserProfileFields(incoming(), userId) &&
+                       incoming().uid == existing().uid &&
+                       incoming().email == existing().email &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'displayName', 'photoURL', 'profession', 'bio', 'qualifications',
+                         'clinicAddress', 'interests', 'bookmarks', 'readingHistory',
+                         'activities', 'studyStats', 'streakCount', 'lastActiveDate',
+                         'phoneNumber', 'updatedAt'
+                       ]) &&
+                       incoming().updatedAt == request.time;
+
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasAny(['updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Native learning progress ---
+    // Academic progress only. Never store patient records, symptoms or clinical case notes here.
+    function isValidNativeLearningProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.completedLessons is list && data.completedLessons.size() <= 3000 &&
+      data.quizHistory is list && data.quizHistory.size() <= 200 &&
+      data.knownFlashcards is list && data.knownFlashcards.size() <= 5000 &&
+      data.studyDays is list && data.studyDays.size() <= 800 &&
+      (data.lastLesson == null ||
+        (data.lastLesson is map &&
+         data.lastLesson.keys().hasOnly(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.keys().hasAll(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.subjectId is string && data.lastLesson.subjectId.size() <= 120 &&
+         data.lastLesson.chapterTitle is string && data.lastLesson.chapterTitle.size() <= 220 &&
+         data.lastLesson.subjectTitle is string && data.lastLesson.subjectTitle.size() <= 160)) &&
+      (data.studyPlan == null ||
+        (data.studyPlan is map &&
+         data.studyPlan.keys().hasOnly(['date', 'goal', 'completed']) &&
+         data.studyPlan.keys().hasAll(['date', 'goal', 'completed']) &&
+         data.studyPlan.date is string && data.studyPlan.date.size() == 10 &&
+         data.studyPlan.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}') &&
+         data.studyPlan.goal in [15, 30, 45, 60] &&
+         data.studyPlan.completed is list && data.studyPlan.completed.size() <= 4)) &&
+      data.updatedAt == request.time;
+    }
+
+    match /nativeLearningProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidNativeLearningProgress(incoming(), userId);
+      allow delete: if false;
+    }
+    // --- Collection: Website Study Toolkit ---
+    // One bounded academic workspace per signed-in account. Guest records stay in browser storage.
+    function isValidStudyTimer(timer) {
+      return timer is map &&
+        timer.keys().hasAll(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.keys().hasOnly(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.mode in ['focus', 'break'] &&
+        timer.durationMinutes is int && timer.durationMinutes >= 5 && timer.durationMinutes <= 120 &&
+        timer.remainingSeconds is int && timer.remainingSeconds >= 0 && timer.remainingSeconds <= 7200 &&
+        timer.running is bool &&
+        (timer.deadlineAt == null || timer.deadlineAt is number) &&
+        timer.topic is string && timer.topic.size() <= 180;
+    }
+
+    function isValidStudyToolkitProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.tasks is list && data.tasks.size() <= 300 &&
+      data.notes is list && data.notes.size() <= 40 &&
+      data.cards is list && data.cards.size() <= 150 &&
+      data.sessions is list && data.sessions.size() <= 500 &&
+      data.readingLogs is list && data.readingLogs.size() <= 150 &&
+      data.reflections is list && data.reflections.size() <= 50 &&
+      data.dailyGoal is int && data.dailyGoal >= 5 && data.dailyGoal <= 720 &&
+      data.weeklyGoal is int && data.weeklyGoal >= 30 && data.weeklyGoal <= 5000 &&
+      data.examDate is string && data.examDate.size() <= 10 &&
+      (data.examDate == '' || data.examDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) &&
+      data.focusMode is bool &&
+      isValidStudyTimer(data.timer) &&
+      data.updatedAt == request.time;
+    }
+
+    match /studyToolkitProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidStudyToolkitProgress(incoming(), userId);
+      allow delete: if false;
+    }
+
+    // --- Collection: Questions ---
+    match /questions/{questionId} {
+      allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn() && 
+                      isValidQuestion(incoming()) &&
+                      incoming().status == 'pending' &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Orders ---
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if (
+                      (isSignedIn() && incoming().userId == request.auth.uid) ||
+                      (!isSignedIn() && incoming().userId == 'guest')
+                    ) &&
+                    isValidOrder(incoming()) &&
+                    incoming().createdAt == request.time;
+      
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Kits ---
+    match /kits/{kitId} {
+      allow get: if isOwner(resource.data.userId) || isAdmin();
+      allow list: if isOwner(resource.data.userId) || isAdmin();
+      allow create: if isSignedIn() && isValidKit(incoming(), kitId);
+      allow update: if false;
+      allow delete: if isOwner(resource.data.userId) || isAdmin();
+    }
+
+    // --- Collection: Screenings ---
+    match /screenings/{screeningId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+                    isValidScreening(incoming()) &&
+                    incoming().createdAt == request.time;
+      allow update: if isSignedIn() &&
+                    resource.data.userId == request.auth.uid &&
+                    incoming().userId == resource.data.userId &&
+                    incoming().id == resource.data.id &&
+                    incoming().createdAt == resource.data.createdAt &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(resource.data).affectedKeys().hasOnly([
+                      'age', 'hpvVaxStatus', 'lastPapSmearYears', 'symptoms',
+                      'familyHistory', 'updatedAt'
+                    ]) &&
+                    isValidScreening(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Appointment Requests ---
+    // Request workflow only; do not store symptoms or medical records here.
+    function isValidAppointmentRequest(data) {
+      return data.keys().hasAll([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.userId == request.auth.uid &&
+             data.userEmail == request.auth.token.get('email', null) &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() <= 30 &&
+             data.serviceType in ['initial-consultation', 'follow-up', 'general-consultation'] &&
+             data.preferredDate is string &&
+             data.preferredDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+             data.preferredTime in ['morning', 'afternoon', 'evening'] &&
+             data.timezone is string && data.timezone.size() <= 80 &&
+             data.status == 'requested' &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
+    }
+
+    match /appointmentRequests/{requestId} {
+      allow create: if isSignedIn() && isValidAppointmentRequest(incoming());
+
+      // Owners can only access their own requests. Admin access is separately authorized.
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+
+      // Staff review must go through the server-side calendar integration.
+      allow update: if false;
+
+      // Requesters may cancel a request that is still awaiting review, but cannot confirm it.
+      allow update: if isSignedIn() &&
+                    existing().userId == request.auth.uid &&
+                    existing().status == 'requested' &&
+                    incoming().userId == existing().userId &&
+                    incoming().status == 'cancelled' &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    // --- Collection: Test for Connection ---
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // --- Collection: Admins ---
+    match /admins/{adminId} {
+      // Memberships are explicit, active grants. A normal account can read only
+      // its own membership state; it cannot create or alter privilege records.
+      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == adminId);
+      allow list: if isAdmin();
+      allow create: if isAdmin() &&
+        incoming().keys().hasOnly(['active', 'createdAt']) &&
+        incoming().keys().hasAll(['active', 'createdAt']) &&
+        incoming().active == true &&
+        incoming().createdAt == request.time;
+      allow update: if isAdmin() &&
+        incoming().keys().hasOnly(['active', 'createdAt']) &&
+        incoming().keys().hasAll(['active', 'createdAt']) &&
+        incoming().active is bool &&
+        incoming().createdAt == existing().createdAt;
+      allow delete: if isAdmin();
+    }
+  }
+}
+))) &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidUser(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly([
+          'uid', 'email', 'displayName', 'photoURL', 'phoneNumber', 'profession',
+          'bio', 'qualifications', 'clinicAddress', 'interests', 'bookmarks',
+          'readingHistory', 'activities', 'studyStats', 'streakCount',
+          'lastActiveDate', 'createdAt', 'updatedAt'
+        ]) &&
+        hasValidUserProfileFields(data, userId);
+    }
+
+    function isValidQuestion(data) {
+      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'createdAt']) &&
+             data.userId == request.auth.uid &&
+             data.subject is string && data.subject.size() >= 5 && data.subject.size() <= 200 &&
+             data.content is string && data.content.size() >= 10 && data.content.size() <= 2000 &&
+             data.status in ['pending', 'answered', 'featured'];
+    }
+
+    function isValidOrder(data) {
+      return data.keys().hasAll(['userId', 'userEmail', 'resourceId', 'resourceTitle', 'paymentId', 'status', 'createdAt']) &&
+             data.userId is string && data.userId.size() <= 128 &&
+             data.userEmail is string && data.userEmail.size() <= 200 &&
+             data.resourceId is string && data.resourceId.size() <= 100 &&
+             data.resourceTitle is string && data.resourceTitle.size() <= 500 &&
+             data.paymentId is string && data.paymentId.size() <= 200 &&
+             data.status in ['pending', 'failed']; // Client writes can never assert payment as paid.
+    }
+
+    function isValidKit(data) {
+      return data.keys().hasAll(['id', 'userId', 'userEmail', 'status', 'createdAt']) &&
+             data.id is string && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.userEmail is string && data.userEmail.size() <= 200 &&
+             data.status in ['ordered', 'shipped', 'delivered', 'active', 'sent_back', 'processing', 'completed'];
+    }
+
+    // Firestore Rules has no general-purpose list iteration; validate each bounded entry explicitly.
+    function isValidScreeningSymptoms(data) {
+      return !data.keys().hasAny(['symptoms']) ||
+        (data.symptoms is list &&
+         data.symptoms.size() <= 20 &&
+         (data.symptoms.size() < 1 || (data.symptoms[0] is string && data.symptoms[0].size() <= 120)) &&
+         (data.symptoms.size() < 2 || (data.symptoms[1] is string && data.symptoms[1].size() <= 120)) &&
+         (data.symptoms.size() < 3 || (data.symptoms[2] is string && data.symptoms[2].size() <= 120)) &&
+         (data.symptoms.size() < 4 || (data.symptoms[3] is string && data.symptoms[3].size() <= 120)) &&
+         (data.symptoms.size() < 5 || (data.symptoms[4] is string && data.symptoms[4].size() <= 120)) &&
+         (data.symptoms.size() < 6 || (data.symptoms[5] is string && data.symptoms[5].size() <= 120)) &&
+         (data.symptoms.size() < 7 || (data.symptoms[6] is string && data.symptoms[6].size() <= 120)) &&
+         (data.symptoms.size() < 8 || (data.symptoms[7] is string && data.symptoms[7].size() <= 120)) &&
+         (data.symptoms.size() < 9 || (data.symptoms[8] is string && data.symptoms[8].size() <= 120)) &&
+         (data.symptoms.size() < 10 || (data.symptoms[9] is string && data.symptoms[9].size() <= 120)) &&
+         (data.symptoms.size() < 11 || (data.symptoms[10] is string && data.symptoms[10].size() <= 120)) &&
+         (data.symptoms.size() < 12 || (data.symptoms[11] is string && data.symptoms[11].size() <= 120)) &&
+         (data.symptoms.size() < 13 || (data.symptoms[12] is string && data.symptoms[12].size() <= 120)) &&
+         (data.symptoms.size() < 14 || (data.symptoms[13] is string && data.symptoms[13].size() <= 120)) &&
+         (data.symptoms.size() < 15 || (data.symptoms[14] is string && data.symptoms[14].size() <= 120)) &&
+         (data.symptoms.size() < 16 || (data.symptoms[15] is string && data.symptoms[15].size() <= 120)) &&
+         (data.symptoms.size() < 17 || (data.symptoms[16] is string && data.symptoms[16].size() <= 120)) &&
+         (data.symptoms.size() < 18 || (data.symptoms[17] is string && data.symptoms[17].size() <= 120)) &&
+         (data.symptoms.size() < 19 || (data.symptoms[18] is string && data.symptoms[18].size() <= 120)) &&
+         (data.symptoms.size() < 20 || (data.symptoms[19] is string && data.symptoms[19].size() <= 120)));
+    }
+
+    // Screening records can contain sensitive reproductive-health information.
+    // Keep the schema closed and each optional field bounded.
+    function isValidScreening(data) {
+      return data.keys().hasAll(['id', 'userId', 'riskLevel', 'createdAt']) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'age', 'hpvVaxStatus', 'lastPapSmearYears',
+               'symptoms', 'familyHistory', 'riskLevel', 'recommendation',
+               'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() >= 1 && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.riskLevel in ['low', 'moderate', 'high'] &&
+             (!data.keys().hasAny(['age']) ||
+               (data.age is string && data.age.size() <= 3)) &&
+             (!data.keys().hasAny(['hpvVaxStatus']) ||
+               (data.hpvVaxStatus is string && data.hpvVaxStatus.size() <= 40)) &&
+             (!data.keys().hasAny(['lastPapSmearYears']) ||
+               (data.lastPapSmearYears is string && data.lastPapSmearYears.size() <= 40)) &&
+             isValidScreeningSymptoms(data) &&
+             (!data.keys().hasAny(['familyHistory']) || data.familyHistory is bool) &&
+             (!data.keys().hasAny(['recommendation']) ||
+               (data.recommendation is string && data.recommendation.size() <= 1000)) &&
+             (!data.keys().hasAny(['updatedAt']) || data.updatedAt == request.time);
+    }
+
+    // --- Collection: Users ---
+    
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isOwner(userId) || isAdmin();
+      
+      allow create: if isOwner(userId) && 
+                      isValidUser(incoming()) &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isOwner(userId) &&
+                       hasSafeProfession(incoming()) &&
+                       incoming().uid == existing().uid &&
+                       incoming().email == existing().email &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'displayName', 'photoURL', 'profession', 'bio', 'qualifications', 
+                         'clinicAddress', 'interests', 'bookmarks', 'readingHistory', 
+                         'activities', 'studyStats', 'streakCount', 'lastActiveDate', 
+                         'phoneNumber', 'updatedAt'
+                       ]) &&
+                       incoming().updatedAt == request.time;
+
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasAny(['updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Native learning progress ---
+    // Academic progress only. Never store patient records, symptoms or clinical case notes here.
+    function isValidNativeLearningProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.completedLessons is list && data.completedLessons.size() <= 3000 &&
+      data.quizHistory is list && data.quizHistory.size() <= 200 &&
+      data.knownFlashcards is list && data.knownFlashcards.size() <= 5000 &&
+      data.studyDays is list && data.studyDays.size() <= 800 &&
+      (data.lastLesson == null ||
+        (data.lastLesson is map &&
+         data.lastLesson.keys().hasOnly(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.keys().hasAll(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.subjectId is string && data.lastLesson.subjectId.size() <= 120 &&
+         data.lastLesson.chapterTitle is string && data.lastLesson.chapterTitle.size() <= 220 &&
+         data.lastLesson.subjectTitle is string && data.lastLesson.subjectTitle.size() <= 160)) &&
+      (data.studyPlan == null ||
+        (data.studyPlan is map &&
+         data.studyPlan.keys().hasOnly(['date', 'goal', 'completed']) &&
+         data.studyPlan.keys().hasAll(['date', 'goal', 'completed']) &&
+         data.studyPlan.date is string && data.studyPlan.date.size() == 10 &&
+         data.studyPlan.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}') &&
+         data.studyPlan.goal in [15, 30, 45, 60] &&
+         data.studyPlan.completed is list && data.studyPlan.completed.size() <= 4)) &&
+      data.updatedAt == request.time;
+    }
+
+    match /nativeLearningProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidNativeLearningProgress(incoming(), userId);
+      allow delete: if false;
+    }
+    // --- Collection: Website Study Toolkit ---
+    // One bounded academic workspace per signed-in account. Guest records stay in browser storage.
+    function isValidStudyTimer(timer) {
+      return timer is map &&
+        timer.keys().hasAll(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.keys().hasOnly(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.mode in ['focus', 'break'] &&
+        timer.durationMinutes is int && timer.durationMinutes >= 5 && timer.durationMinutes <= 120 &&
+        timer.remainingSeconds is int && timer.remainingSeconds >= 0 && timer.remainingSeconds <= 7200 &&
+        timer.running is bool &&
+        (timer.deadlineAt == null || timer.deadlineAt is number) &&
+        timer.topic is string && timer.topic.size() <= 180;
+    }
+
+    function isValidStudyToolkitProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.tasks is list && data.tasks.size() <= 300 &&
+      data.notes is list && data.notes.size() <= 40 &&
+      data.cards is list && data.cards.size() <= 150 &&
+      data.sessions is list && data.sessions.size() <= 500 &&
+      data.readingLogs is list && data.readingLogs.size() <= 150 &&
+      data.reflections is list && data.reflections.size() <= 50 &&
+      data.dailyGoal is int && data.dailyGoal >= 5 && data.dailyGoal <= 720 &&
+      data.weeklyGoal is int && data.weeklyGoal >= 30 && data.weeklyGoal <= 5000 &&
+      data.examDate is string && data.examDate.size() <= 10 &&
+      (data.examDate == '' || data.examDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) &&
+      data.focusMode is bool &&
+      isValidStudyTimer(data.timer) &&
+      data.updatedAt == request.time;
+    }
+
+    match /studyToolkitProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidStudyToolkitProgress(incoming(), userId);
+      allow delete: if false;
+    }
+
+    // --- Collection: Questions ---
+    match /questions/{questionId} {
+      allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn() && 
+                      isValidQuestion(incoming()) &&
+                      incoming().status == 'pending' &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Orders ---
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if (
+                      (isSignedIn() && incoming().userId == request.auth.uid) ||
+                      (!isSignedIn() && incoming().userId == 'guest')
+                    ) &&
+                    isValidOrder(incoming()) &&
+                    incoming().createdAt == request.time;
+      
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Kits ---
+    match /kits/{kitId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && (
+        (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Screenings ---
+    match /screenings/{screeningId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+                    isValidScreening(incoming()) &&
+                    incoming().createdAt == request.time;
+      allow update: if isSignedIn() &&
+                    resource.data.userId == request.auth.uid &&
+                    incoming().userId == resource.data.userId &&
+                    incoming().id == resource.data.id &&
+                    incoming().createdAt == resource.data.createdAt &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(resource.data).affectedKeys().hasOnly([
+                      'age', 'hpvVaxStatus', 'lastPapSmearYears', 'symptoms',
+                      'familyHistory', 'updatedAt'
+                    ]) &&
+                    isValidScreening(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Appointment Requests ---
+    // Request workflow only; do not store symptoms or medical records here.
+    function isValidAppointmentRequest(data) {
+      return data.keys().hasAll([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.userId == request.auth.uid &&
+             data.userEmail == request.auth.token.get('email', null) &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() <= 30 &&
+             data.serviceType in ['initial-consultation', 'follow-up', 'general-consultation'] &&
+             data.preferredDate is string &&
+             data.preferredDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+             data.preferredTime in ['morning', 'afternoon', 'evening'] &&
+             data.timezone is string && data.timezone.size() <= 80 &&
+             data.status == 'requested' &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
+    }
+
+    match /appointmentRequests/{requestId} {
+      allow create: if isSignedIn() && isValidAppointmentRequest(incoming());
+
+      // Owners can only access their own requests. Admin access is separately authorized.
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+
+      // Staff review must go through the server-side calendar integration.
+      allow update: if false;
+
+      // Requesters may cancel a request that is still awaiting review, but cannot confirm it.
+      allow update: if isSignedIn() &&
+                    existing().userId == request.auth.uid &&
+                    existing().status == 'requested' &&
+                    incoming().userId == existing().userId &&
+                    incoming().status == 'cancelled' &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    // --- Collection: Test for Connection ---
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // --- Collection: Admins ---
+    match /admins/{adminId} {
+      // A user may check only their own membership document. Only an existing
+      // administrator can create, modify, list, or delete admin memberships.
+      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == adminId);
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}
+) &&
+             data.clinicName is string && data.clinicName.size() >= 1 && data.clinicName.size() <= 120 &&
+             data.physicianName is string && data.physicianName.size() >= 1 && data.physicianName.size() <= 120 &&
+             data.resultStatus in ['Nux Vomica', 'Pulsatilla', 'Arsenicum Album', 'Lycopodium', 'Sulphur', 'Silicea', 'unclear'] &&
+             data.hpvResult in ['not-detected', 'detected-16', 'detected-18', 'detected-other'] &&
+             (!data.keys().hasAny(['notes']) || (data.notes is string && data.notes.size() <= 1200)) &&
+             data.createdAt is string && data.createdAt.size() >= 20 && data.createdAt.size() <= 40;
+    }
+
+    // Firestore Rules has no general-purpose list iteration; validate each bounded entry explicitly.
+    function isValidScreeningSymptoms(data) {
+      return !data.keys().hasAny(['symptoms']) ||
+        (data.symptoms is list &&
+         data.symptoms.size() <= 20 &&
+         (data.symptoms.size() < 1 || (data.symptoms[0] is string && data.symptoms[0].size() <= 120)) &&
+         (data.symptoms.size() < 2 || (data.symptoms[1] is string && data.symptoms[1].size() <= 120)) &&
+         (data.symptoms.size() < 3 || (data.symptoms[2] is string && data.symptoms[2].size() <= 120)) &&
+         (data.symptoms.size() < 4 || (data.symptoms[3] is string && data.symptoms[3].size() <= 120)) &&
+         (data.symptoms.size() < 5 || (data.symptoms[4] is string && data.symptoms[4].size() <= 120)) &&
+         (data.symptoms.size() < 6 || (data.symptoms[5] is string && data.symptoms[5].size() <= 120)) &&
+         (data.symptoms.size() < 7 || (data.symptoms[6] is string && data.symptoms[6].size() <= 120)) &&
+         (data.symptoms.size() < 8 || (data.symptoms[7] is string && data.symptoms[7].size() <= 120)) &&
+         (data.symptoms.size() < 9 || (data.symptoms[8] is string && data.symptoms[8].size() <= 120)) &&
+         (data.symptoms.size() < 10 || (data.symptoms[9] is string && data.symptoms[9].size() <= 120)) &&
+         (data.symptoms.size() < 11 || (data.symptoms[10] is string && data.symptoms[10].size() <= 120)) &&
+         (data.symptoms.size() < 12 || (data.symptoms[11] is string && data.symptoms[11].size() <= 120)) &&
+         (data.symptoms.size() < 13 || (data.symptoms[12] is string && data.symptoms[12].size() <= 120)) &&
+         (data.symptoms.size() < 14 || (data.symptoms[13] is string && data.symptoms[13].size() <= 120)) &&
+         (data.symptoms.size() < 15 || (data.symptoms[14] is string && data.symptoms[14].size() <= 120)) &&
+         (data.symptoms.size() < 16 || (data.symptoms[15] is string && data.symptoms[15].size() <= 120)) &&
+         (data.symptoms.size() < 17 || (data.symptoms[16] is string && data.symptoms[16].size() <= 120)) &&
+         (data.symptoms.size() < 18 || (data.symptoms[17] is string && data.symptoms[17].size() <= 120)) &&
+         (data.symptoms.size() < 19 || (data.symptoms[18] is string && data.symptoms[18].size() <= 120)) &&
+         (data.symptoms.size() < 20 || (data.symptoms[19] is string && data.symptoms[19].size() <= 120)));
+    }
+
+    // Screening records can contain sensitive reproductive-health information.
+    // Keep the schema closed and each optional field bounded.
+    function isValidScreening(data) {
+      return data.keys().hasAll(['id', 'userId', 'riskLevel', 'createdAt']) &&
+             data.keys().hasOnly([
+               'id', 'userId', 'age', 'hpvVaxStatus', 'lastPapSmearYears',
+               'symptoms', 'familyHistory', 'riskLevel', 'recommendation',
+               'createdAt', 'updatedAt'
+             ]) &&
+             data.id is string && data.id.size() >= 1 && data.id.size() <= 100 &&
+             data.userId == request.auth.uid &&
+             data.riskLevel in ['low', 'moderate', 'high'] &&
+             (!data.keys().hasAny(['age']) ||
+               (data.age is string && data.age.size() <= 3)) &&
+             (!data.keys().hasAny(['hpvVaxStatus']) ||
+               (data.hpvVaxStatus is string && data.hpvVaxStatus.size() <= 40)) &&
+             (!data.keys().hasAny(['lastPapSmearYears']) ||
+               (data.lastPapSmearYears is string && data.lastPapSmearYears.size() <= 40)) &&
+             isValidScreeningSymptoms(data) &&
+             (!data.keys().hasAny(['familyHistory']) || data.familyHistory is bool) &&
+             (!data.keys().hasAny(['recommendation']) ||
+               (data.recommendation is string && data.recommendation.size() <= 1000)) &&
+             (!data.keys().hasAny(['updatedAt']) || data.updatedAt == request.time);
+    }
+
+    // --- Collection: Users ---
+    
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isOwner(userId) || isAdmin();
+      
+      allow create: if isOwner(userId) && 
+                      isValidUser(incoming()) &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isOwner(userId) &&
+                       hasSafeProfession(incoming()) &&
+                       incoming().uid == existing().uid &&
+                       incoming().email == existing().email &&
+                       incoming().createdAt == existing().createdAt &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'displayName', 'photoURL', 'profession', 'bio', 'qualifications', 
+                         'clinicAddress', 'interests', 'bookmarks', 'readingHistory', 
+                         'activities', 'studyStats', 'streakCount', 'lastActiveDate', 
+                         'phoneNumber', 'updatedAt'
+                       ]) &&
+                       incoming().updatedAt == request.time;
+
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasAny(['updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Native learning progress ---
+    // Academic progress only. Never store patient records, symptoms or clinical case notes here.
+    function isValidNativeLearningProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'completedLessons', 'quizHistory',
+        'knownFlashcards', 'studyDays', 'lastLesson', 'studyPlan', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.completedLessons is list && data.completedLessons.size() <= 3000 &&
+      data.quizHistory is list && data.quizHistory.size() <= 200 &&
+      data.knownFlashcards is list && data.knownFlashcards.size() <= 5000 &&
+      data.studyDays is list && data.studyDays.size() <= 800 &&
+      (data.lastLesson == null ||
+        (data.lastLesson is map &&
+         data.lastLesson.keys().hasOnly(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.keys().hasAll(['subjectId', 'chapterTitle', 'subjectTitle']) &&
+         data.lastLesson.subjectId is string && data.lastLesson.subjectId.size() <= 120 &&
+         data.lastLesson.chapterTitle is string && data.lastLesson.chapterTitle.size() <= 220 &&
+         data.lastLesson.subjectTitle is string && data.lastLesson.subjectTitle.size() <= 160)) &&
+      (data.studyPlan == null ||
+        (data.studyPlan is map &&
+         data.studyPlan.keys().hasOnly(['date', 'goal', 'completed']) &&
+         data.studyPlan.keys().hasAll(['date', 'goal', 'completed']) &&
+         data.studyPlan.date is string && data.studyPlan.date.size() == 10 &&
+         data.studyPlan.date.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}') &&
+         data.studyPlan.goal in [15, 30, 45, 60] &&
+         data.studyPlan.completed is list && data.studyPlan.completed.size() <= 4)) &&
+      data.updatedAt == request.time;
+    }
+
+    match /nativeLearningProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidNativeLearningProgress(incoming(), userId);
+      allow delete: if false;
+    }
+    // --- Collection: Website Study Toolkit ---
+    // One bounded academic workspace per signed-in account. Guest records stay in browser storage.
+    function isValidStudyTimer(timer) {
+      return timer is map &&
+        timer.keys().hasAll(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.keys().hasOnly(['mode', 'durationMinutes', 'remainingSeconds', 'running', 'deadlineAt', 'topic']) &&
+        timer.mode in ['focus', 'break'] &&
+        timer.durationMinutes is int && timer.durationMinutes >= 5 && timer.durationMinutes <= 120 &&
+        timer.remainingSeconds is int && timer.remainingSeconds >= 0 && timer.remainingSeconds <= 7200 &&
+        timer.running is bool &&
+        (timer.deadlineAt == null || timer.deadlineAt is number) &&
+        timer.topic is string && timer.topic.size() <= 180;
+    }
+
+    function isValidStudyToolkitProgress(data, userId) {
+      return data.keys().hasAll([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.keys().hasOnly([
+        'uid', 'version', 'tasks', 'notes', 'cards', 'sessions',
+        'readingLogs', 'reflections', 'dailyGoal', 'weeklyGoal',
+        'examDate', 'focusMode', 'timer', 'updatedAt'
+      ]) &&
+      data.uid == userId && data.version == 1 &&
+      data.tasks is list && data.tasks.size() <= 300 &&
+      data.notes is list && data.notes.size() <= 40 &&
+      data.cards is list && data.cards.size() <= 150 &&
+      data.sessions is list && data.sessions.size() <= 500 &&
+      data.readingLogs is list && data.readingLogs.size() <= 150 &&
+      data.reflections is list && data.reflections.size() <= 50 &&
+      data.dailyGoal is int && data.dailyGoal >= 5 && data.dailyGoal <= 720 &&
+      data.weeklyGoal is int && data.weeklyGoal >= 30 && data.weeklyGoal <= 5000 &&
+      data.examDate is string && data.examDate.size() <= 10 &&
+      (data.examDate == '' || data.examDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$')) &&
+      data.focusMode is bool &&
+      isValidStudyTimer(data.timer) &&
+      data.updatedAt == request.time;
+    }
+
+    match /studyToolkitProgress/{userId} {
+      allow get: if isOwner(userId);
+      allow list: if false;
+      allow create, update: if isOwner(userId) && isValidStudyToolkitProgress(incoming(), userId);
+      allow delete: if false;
+    }
+
+    // --- Collection: Questions ---
+    match /questions/{questionId} {
+      allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if isSignedIn() && 
+                      isValidQuestion(incoming()) &&
+                      incoming().status == 'pending' &&
+                      incoming().createdAt == request.time;
+      
+      allow update: if isAdmin() && 
+                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+                       incoming().updatedAt == request.time;
+
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Orders ---
+    match /orders/{orderId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      
+      allow create: if (
+                      (isSignedIn() && incoming().userId == request.auth.uid) ||
+                      (!isSignedIn() && incoming().userId == 'guest')
+                    ) &&
+                    isValidOrder(incoming()) &&
+                    incoming().createdAt == request.time;
+      
+      allow update: if false;
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Kits ---
+    match /kits/{kitId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
+      allow update: if isSignedIn() && (
+        (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
+        isAdmin()
+      );
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Screenings ---
+    match /screenings/{screeningId} {
+      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      allow create: if isSignedIn() &&
+                    isValidScreening(incoming()) &&
+                    incoming().createdAt == request.time;
+      allow update: if isSignedIn() &&
+                    resource.data.userId == request.auth.uid &&
+                    incoming().userId == resource.data.userId &&
+                    incoming().id == resource.data.id &&
+                    incoming().createdAt == resource.data.createdAt &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(resource.data).affectedKeys().hasOnly([
+                      'age', 'hpvVaxStatus', 'lastPapSmearYears', 'symptoms',
+                      'familyHistory', 'updatedAt'
+                    ]) &&
+                    isValidScreening(incoming());
+      allow delete: if isAdmin();
+    }
+
+    // --- Collection: Appointment Requests ---
+    // Request workflow only; do not store symptoms or medical records here.
+    function isValidAppointmentRequest(data) {
+      return data.keys().hasAll([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.keys().hasOnly([
+               'userId', 'userEmail', 'displayName', 'phoneNumber',
+               'serviceType', 'preferredDate', 'preferredTime',
+               'timezone', 'status', 'createdAt', 'updatedAt'
+             ]) &&
+             data.userId == request.auth.uid &&
+             data.userEmail == request.auth.token.get('email', null) &&
+             data.displayName is string && data.displayName.size() <= 100 &&
+             data.phoneNumber is string && data.phoneNumber.size() <= 30 &&
+             data.serviceType in ['initial-consultation', 'follow-up', 'general-consultation'] &&
+             data.preferredDate is string &&
+             data.preferredDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}$') &&
+             data.preferredTime in ['morning', 'afternoon', 'evening'] &&
+             data.timezone is string && data.timezone.size() <= 80 &&
+             data.status == 'requested' &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
+    }
+
+    match /appointmentRequests/{requestId} {
+      allow create: if isSignedIn() && isValidAppointmentRequest(incoming());
+
+      // Owners can only access their own requests. Admin access is separately authorized.
+      allow get: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+      allow list: if isAdmin() || (isSignedIn() && existing().userId == request.auth.uid);
+
+      // Staff review must go through the server-side calendar integration.
+      allow update: if false;
+
+      // Requesters may cancel a request that is still awaiting review, but cannot confirm it.
+      allow update: if isSignedIn() &&
+                    existing().userId == request.auth.uid &&
+                    existing().status == 'requested' &&
+                    incoming().userId == existing().userId &&
+                    incoming().status == 'cancelled' &&
+                    incoming().updatedAt == request.time &&
+                    incoming().diff(existing()).affectedKeys().hasOnly(['status', 'updatedAt']);
+
+      allow delete: if false;
+    }
+
+    // --- Collection: Test for Connection ---
+    match /test/connection {
+      allow get: if true;
+    }
+
+    // --- Collection: Admins ---
+    match /admins/{adminId} {
+      // A user may check only their own membership document. Only an existing
+      // administrator can create, modify, list, or delete admin memberships.
+      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == adminId);
+      allow list: if isAdmin();
+      allow create, update, delete: if isAdmin();
+    }
+  }
+}
+))) &&
+        data.createdAt is timestamp &&
+        data.updatedAt is timestamp;
+    }
+
+    function isValidUser(data, userId) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt']) &&
+        data.keys().hasOnly([
+          'uid', 'email', 'displayName', 'photoURL', 'phoneNumber', 'profession',
+          'bio', 'qualifications', 'clinicAddress', 'interests', 'bookmarks',
+          'readingHistory', 'activities', 'studyStats', 'streakCount',
+          'lastActiveDate', 'createdAt', 'updatedAt'
+        ]) &&
+        hasValidUserProfileFields(data, userId);
     }
 
     function isValidQuestion(data) {
