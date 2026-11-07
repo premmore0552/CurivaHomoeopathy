@@ -6,6 +6,8 @@ const activity = await readFile(path.join(project, 'app', 'src', 'main', 'java',
 const gradle = await readFile(path.join(project, 'app', 'build.gradle'), 'utf8');
 const rootGradle = await readFile(path.join(project, 'build.gradle'), 'utf8');
 const manifest = await readFile(path.join(project, 'app', 'src', 'main', 'AndroidManifest.xml'), 'utf8');
+const backupRules = await readFile(path.join(project, 'app', 'src', 'main', 'res', 'xml', 'curiva_backup_rules.xml'), 'utf8');
+const dataExtractionRules = await readFile(path.join(project, 'app', 'src', 'main', 'res', 'xml', 'curiva_data_extraction_rules.xml'), 'utf8');
 const settings = await readFile(path.join(project, 'settings.gradle'), 'utf8');
 const assets = path.join(project, 'app', 'src', 'main', 'assets');
 const contentPath = path.join(assets, 'learning-content.json');
@@ -28,6 +30,20 @@ if (!gradle.includes("apply plugin: 'org.jetbrains.kotlin.android'") ||
   throw new Error('Jetpack Compose/Kotlin Gradle plugins or dependencies were not configured.');
 }
 if (/android.permission.INTERNET|android.permission.ACCESS_NETWORK_STATE/.test(manifest)) throw new Error('Native offline app should not request network permissions.');
+if (!/android:allowBackup="false"/.test(manifest) ||
+    !manifest.includes('android:fullBackupContent="@xml/curiva_backup_rules"') ||
+    !manifest.includes('android:dataExtractionRules="@xml/curiva_data_extraction_rules"')) {
+  throw new Error('Native app data backup and device-transfer protections are not enabled.');
+}
+const excludedDomains = ['root', 'file', 'database', 'sharedpref', 'external', 'device_root', 'device_file', 'device_database', 'device_sharedpref', 'device_external'];
+for (const domain of excludedDomains) {
+  const excluded = new RegExp('<exclude\\\\s+domain="' + domain + '"\\\\s+path="\\."\\\\s*/>');
+  if (!excluded.test(backupRules)) throw new Error('Legacy Android backups must exclude ' + domain + '.');
+  if (!excluded.test(dataExtractionRules)) throw new Error('Android cloud/device transfer must exclude ' + domain + '.');
+}
+if (!dataExtractionRules.includes('<cloud-backup>') || !dataExtractionRules.includes('<device-transfer>')) {
+  throw new Error('Android 12+ cloud backup and device-transfer rules are missing.');
+}
 if (/capacitor.settings.gradle|:capacitor-android|capacitor-cordova-android-plugins/.test(settings) || gradle.includes('capacitor.build.gradle') || gradle.includes("project(':capacitor-android')") || gradle.includes("project(':capacitor-cordova-android-plugins')")) throw new Error('Capacitor bridge dependencies remain in the native APK project.');
 try {
   await access(path.join(assets, 'public'));
