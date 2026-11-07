@@ -202,6 +202,11 @@ test('Firestore client diagnostics never log or return user identity', () => {
   assert.match(handler, /Cloud data operation failed/);
 });
 
+test('payment webhook diagnostics do not log internal order identifiers', () => {
+  assert.doesNotMatch(server, /has no customer email[^\n]*orderId/i);
+  assert.match(server, /Captured payment webhook is missing a customer contact field/);
+});
+
 test('server disables health-specific AI and arbitrary content-generation endpoints', () => {
   for (const route of [
     '/api/gemini/hair-loss-coach',
