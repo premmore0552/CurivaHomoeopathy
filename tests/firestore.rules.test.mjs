@@ -6,12 +6,14 @@ import { after, before, beforeEach, test } from 'node:test';
 import {
   assertFails,
   assertSucceeds,
+  collection,
   initializeTestEnvironment,
 } from '@firebase/rules-unit-testing';
 import {
   doc,
   deleteDoc,
   getDoc,
+  getDocs,
   serverTimestamp,
   setDoc,
   updateDoc,
@@ -276,9 +278,11 @@ function studyToolkitProgress(uid = 'alice') {
   };
 }
 
-test('legacy kits, reproductive screenings and free-text workspace are denied to every client', async () => {
-  await testEnv.withSecurityRulesDisabled( async context => {
+test('legacy kits, reproductive screenings and free-text workspace deny every client operation for all roles', async () => {
+  await testEnv.withSecurityRulesDisabled(async context => {
     const privilegedDb = context.firestore();
+    // Seed existing records and a real active admin so the role matrix is meaningful.
+    await setDoc(doc(privilegedDb, 'admins', 'trusted-admin'), { active: true });
     await setDoc(doc(privilegedDb, 'kits', 'legacy-case'), {
       userId: 'alice',
       notes: 'Legacy fictional case note',
@@ -286,7 +290,6 @@ test('legacy kits, reproductive screenings and free-text workspace are denied to
     });
     await setDoc(doc(privilegedDb, 'screenings', 'legacy-screening'), {
       userId: 'alice',
-      symptoms: ['legacy test record'],
       createdAt: new Date().toISOString(),
     });
     await setDoc(doc(privilegedDb, 'studyToolkitProgress', 'alice'), {
@@ -298,19 +301,22 @@ test('legacy kits, reproductive screenings and free-text workspace are denied to
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
   const trustedAdmin = testEnv.authenticatedContext('trusted-admin', { email: 'admin@example.test' }).firestore();
   const signedOut = testEnv.unauthenticatedContext().firestore();
+  const protectedCollections = [
+    { name: 'kits', existingId: 'legacy-case', newId: 'new-case' },
+    { name: 'screenings', existingId: 'legacy-screening', newId: 'new-screening' },
+    { name: 'studyToolkitProgress', existingId: 'alice', newId: 'new-workspace' },
+  ];
 
   for (const db of [alice, trustedAdmin, signedOut]) {
-    await assertFails(getDoc(doc(db, 'kits', 'legacy-case')));
-    await assertFails(getDoc(doc(db, 'screenings', 'legacy-screening')));
-    await assertFails(getDoc(doc(db, 'studyToolkitProgress', 'alice')));
-    await assertFails(setDoc(doc(db, 'kits', 'new-case'), { userId: 'alice' }));
-    await assertFails(setDoc(doc(db, 'screenings', 'new-screening'), { userId: 'alice' }));
-    await assertFails(setDoc(doc(db, 'studyToolkitProgress', 'alice'), { uid: 'alice' }));
+    for (const item of protectedCollections) {
+      const existingRef = doc(db, item.name, item.existingId);
+      await assertFails(getDoc(existingRef), `get denied: ${item.name}`);
+      await assertFails(getDocs(collection(db, item.name)), `list denied: ${item.name}`);
+      await assertFails(setDoc(doc(db, item.name, item.newId), { userId: 'alice', uid: 'alice' }), `create denied: ${item.name}`);
+      await assertFails(updateDoc(existingRef, { notes: 'must remain inaccessible' }), `update denied: ${item.name}`);
+      await assertFails(deleteDoc(existingRef), `delete denied: ${item.name}`);
+    }
   }
-
-  await assertFails(deleteDoc(doc(alice, 'kits', 'legacy-case')));
-  await assertFails(deleteDoc(doc(alice, 'screenings', 'legacy-screening')));
-  await assertFails(deleteDoc(doc(alice, 'studyToolkitProgress', 'alice')));
 });
 
 test('native learning progress rejects malformed study plans and signed-out access', async () => {
