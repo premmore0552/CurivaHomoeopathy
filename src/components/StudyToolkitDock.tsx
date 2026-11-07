@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { BookOpen, Brain, Check, Clock3, FileText, Pause, Play, RotateCcw, Target, X, Zap } from 'lucide-react';
 import { useStudyToolkit } from '../context/StudyToolkitContext';
@@ -12,6 +12,16 @@ export default function StudyToolkitDock() {
   const { state, startTimer, pauseTimer, resetTimer, saveNote, setFocusMode } = useStudyToolkit();
   const [open, setOpen] = useState(false);
   const [noteOpen, setNoteOpen] = useState(false);
+
+  // Keep the first-run disclaimer out of the way while this expandable panel is open.
+  useEffect(() => {
+    if (open) document.body.dataset.curivaStudyPanelOpen = 'true';
+    else delete document.body.dataset.curivaStudyPanelOpen;
+
+    return () => {
+      delete document.body.dataset.curivaStudyPanelOpen;
+    };
+  }, [open]);
   const [noteTitle, setNoteTitle] = useState('');
   const [noteContent, setNoteContent] = useState('');
   const [topic, setTopic] = useState(state.timer.topic);
