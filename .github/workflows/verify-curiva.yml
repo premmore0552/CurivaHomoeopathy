@@ -63,7 +63,7 @@ jobs:
           const zip = fs.readFileSync(`dist/live-updates/bundles/${files[0]}`);
           const checksum = crypto.createHash('sha256').update(zip).digest('hex');
           if (manifest.checksum !== checksum) throw new Error('OTA manifest checksum mismatch');
-          if (manifest.bundleId !== files[0].replace(/\\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
+          if (manifest.bundleId !== files[0].replace(/\.zip$/, '')) throw new Error('OTA manifest bundle ID mismatch');
           console.log(`Verified OTA bundle ${manifest.bundleId}`);
           NODE
           if unzip -Z1 "$bundle" | grep -Eq '(^|/)server\.cjs(\.map)?$'; then
