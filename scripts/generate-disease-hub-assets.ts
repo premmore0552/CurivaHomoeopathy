@@ -20,14 +20,18 @@ if (missingSystems.length) {
   throw new Error('Disease data references systems without metadata: ' + missingSystems.join(', '));
 }
 
-const ids = new Set<string>();
 const routeKeys = new Set<string>();
+const duplicateIds = new Set<string>();
+const seenIds = new Set<string>();
 for (const disease of diseaseHubData) {
-  if (ids.has(disease.id)) throw new Error('Duplicate disease ID in source data: ' + disease.id);
   const routeKey = `${disease.system}/${disease.slug}`;
   if (routeKeys.has(routeKey)) throw new Error('Duplicate disease route in source data: ' + routeKey);
-  ids.add(disease.id);
+  if (seenIds.has(disease.id)) duplicateIds.add(disease.id);
+  seenIds.add(disease.id);
   routeKeys.add(routeKey);
+}
+if (duplicateIds.size) {
+  console.info(`Source data reuses ${duplicateIds.size} disease IDs across systems; route identity is system/slug.`);
 }
 
 await mkdir(systemOutput, { recursive: true });
