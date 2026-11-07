@@ -197,7 +197,7 @@ export default function FloatingQuickActions() {
               animate={{ opacity: 0.3 }}
               exit={{ opacity: 0 }}
               onClick={() => setIsOpen(false)}
-              className="fixed inset-0 bg-black z-50 cursor-pointer"
+              className="fixed inset-0 z-[115] bg-black cursor-pointer"
               id="fab-backdrop"
             />
 
