@@ -142,9 +142,17 @@ function clearLegacyPersistentWorkspace(scope: string): void {
   // Legacy unscoped keys belong to the old guest workspace. Never delete them
   // merely because a different account signs in.
   const exactKeys = [
-    `curiva-study-toolkit-v1:${scope}`,
-    `curiva-study-toolkit-v1:${scope}:synced-base`
+    \`curiva-study-toolkit-v1:\${scope}\`,
+    \`curiva-study-toolkit-v1:\${scope}:synced-base\`
   ];
+  if (scope === 'guest') {
+    exactKeys.push(
+      'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
+      'curiva-toolkit-notes', 'curiva-toolkit-reading-log', 'curiva-toolkit-reflection',
+      'curiva-toolkit-goal', 'curiva-toolkit-weekly-target', 'curiva-toolkit-exam-date',
+      'curiva-study-toolkit-v1:guest'
+    );
+  };
   if (scope === 'guest') {
     exactKeys.push(
       'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
