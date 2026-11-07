@@ -10,8 +10,8 @@ const navItems = [
 ];
 
 const moreItems = [
-  { to: '/fmt/viva', label: 'Viva questions', description: 'Practice oral examination answers' },
-  { to: '/fmt/mcqs', label: 'MCQ practice', description: 'Test recall by topic' },
+  { to: '/fmt/viva-bank', label: 'Viva questions', description: 'Practice oral examination answers' },
+  { to: '/fmt/mcq', label: 'MCQ practice', description: 'Test recall by topic' },
   { to: '/student-resources', label: 'Study dashboard', description: 'Open your wider learning plan' },
   { to: '/library', label: 'Library', description: 'Return to saved resources' }
 ];
