@@ -30,6 +30,9 @@ const adminLinkAudit = read('../src/pages/AdminLinkAudit.tsx');
 const nativeAndroidScript = read('../scripts/apply-native-android.mjs');
 const nativeAndroidVerifier = read('../scripts/verify-native-android.mjs');
 const nativeMainActivity = read('../native-android/MainActivity.kt');
+const nativeProgressSync = read('../src/native-app/nativeProgressSync.ts');
+const nativeAppEntry = read('../src/native-app/NativeAppEntry.tsx');
+const nativeLearningApp = read('../src/native-app/NativeLearningApp.tsx');
 const verifyWorkflow = read('../.github/workflows/verify-curiva.yml');
 
 test('HTML has no inline scripts or embedded styles; boot assets are same-origin', () => {
@@ -119,6 +122,38 @@ test('CI reports fresh full-tree and production-only npm audit results', () => {
   assert.match(verifyWorkflow, /npm audit --omit=dev --json/);
   assert.match(verifyWorkflow, /production-only/);
   assert.match(verifyWorkflow, /fixAvailable/);
+});
+
+test('account-enabled native progress reset clears Firestore and local cache without sync races', () => {
+  assert.match(nativeProgressSync, /const accountLocks = new Map<string, Promise<void>>\(\)/);
+  assert.match(nativeProgressSync, /async function withAccountLock/);
+  assert.match(nativeProgressSync, /await withAccountLock\(uid, async \(\) =>/);
+  assert.match(nativeProgressSync, /export async function clearNativeProgress\(uid: string \| null\)/);
+  assert.match(nativeProgressSync, /\.\.\.EMPTY_PROGRESS/);
+  assert.match(nativeProgressSync, /localStorage\.removeItem\(CACHE_PREFIX \+ owner\)/);
+  assert.match(nativeProgressSync, /curiva-native-progress-restored/);
+  assert.match(nativeAppEntry, /await clearNativeProgress\(user\?\.uid \|\| null\)/);
+  assert.match(nativeAppEntry, /onResetProgress=\{handleResetProgress\}/);
+  assert.match(nativeLearningApp, /Reset your study progress\?/);
+  assert.match(nativeLearningApp, /Progress could not be reset/);
+  assert.match(nativeLearningApp, /Bookmarks and your account will remain/);
+
+  const progressRuleStart = firestoreRules.indexOf('match /nativeLearningProgress/{userId}');
+  const progressRuleEnd = firestoreRules.indexOf('// --- Collection: Website Study Toolkit', progressRuleStart);
+  const progressRule = firestoreRules.slice(progressRuleStart, progressRuleEnd);
+  assert.match(progressRule, /allow get: if isOwner\(userId\)/);
+  assert.match(progressRule, /allow list: if false/);
+  assert.match(progressRule, /allow create, update: if isOwner\(userId\) && isValidNativeLearningProgress/);
+  assert.match(progressRule, /allow delete: if false/);
+});
+
+test('account-enabled native progress disclosure documents synced fields and sign-out limits', () => {
+  assert.match(privacyPolicy, /Capacitor-based app shell/);
+  assert.match(privacyPolicy, /quiz subject\/date\/scores/);
+  assert.match(privacyPolicy, /reset the synced progress from the Progress screen/);
+  assert.match(privacyPolicy, /Signing out stops subsequent sync but does not itself delete previously synced progress/);
+  assert.match(controls, /sync is serialized with background sync/i);
+  assert.match(controls, /Bookmarks are deliberately retained/);
 });
 
 test('native Android does not register the website service worker', () => {
