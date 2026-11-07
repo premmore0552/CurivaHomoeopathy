@@ -83,3 +83,20 @@ test('build and development commands generate disease JSON assets before serving
   assert.match(packageJson.scripts.predev, /generate-disease-hub-assets/);
   assert.match(packageJson.scripts['test:disease-assets'], /disease-hub-assets\.test/);
 });
+
+
+test('lazy disease catalog and detail failures expose retry actions', () => {
+  const hub = read('../src/pages/DiseaseHub.tsx');
+  const directory = read('../src/pages/DiseaseDirectory.tsx');
+  const category = read('../src/pages/DiseaseCategoryPage.tsx');
+  const detail = read('../src/pages/DiseasePage.tsx');
+  for (const source of [hub, directory]) {
+    assert.match(source, /catalogAttempt/);
+    assert.match(source, /setCatalogAttempt\(\(attempt\) => attempt \+ 1\)/);
+    assert.match(source, /Retry disease index/);
+  }
+  assert.match(category, /Retry loading this system/);
+  assert.match(category, /\[systemSlug, loadAttempt\]/);
+  assert.match(detail, /Retry loading this disease/);
+  assert.match(detail, /\[systemSlug, diseaseSlug, loadAttempt\]/);
+});
