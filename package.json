@@ -22,7 +22,8 @@
     "test:study-toolkit-sync": "tsx --test tests/study-toolkit-sync.test.ts",
     "test:chauhan-question-bank": "tsx --test tests/chauhan-question-bank.test.ts",
     "export:native-content": "tsx scripts/export-native-content.ts",
-    "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts"
+    "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts",
+    "verify:deploy-preview": "node scripts/verify-deploy-preview.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
