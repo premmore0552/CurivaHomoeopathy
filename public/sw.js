@@ -1,12 +1,10 @@
 const CACHE_NAME = 'curiva-public-static-v7';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
   '/app_icon.png.png',
   '/manifest.json'
 ];
 
-const SENSITIVE_PATH = /^\/(?:api(?:\/|$)|auth(?:\/|$)|account(?:\/|$)|appointments?(?:\/|$)|private(?:\/|$)|downloads?(?:\/|$)|resources?\/private(?:\/|$))/i;
+const SENSITIVE_PATH = /^\/(?:api(?:\/|$)|\.netlify\/functions\/api(?:\/|$)|auth(?:\/|$)|account(?:\/|$)|appointments?(?:\/|$)|private(?:\/|$)|downloads?(?:\/|$)|resources?\/private(?:\/|$)|profile(?:\/|$)|admin(?:\/|$))/i;
 const STATIC_DESTINATIONS = new Set(['script', 'style', 'image', 'font']);
 
 function mayStoreResponse(request, response) {
@@ -18,7 +16,7 @@ function mayStoreResponse(request, response) {
   if (/\b(?:private|no-store|no-cache)\b/i.test(cacheControl)) return false;
   if (response.headers.has('set-cookie')) return false;
   const vary = response.headers.get('vary') || '';
-  if (vary === '*' || /\\b(?:cookie|authorization)\\b/i.test(vary)) return false;
+  if (vary === '*' || /\b(?:cookie|authorization)\b/i.test(vary)) return false;
   return true;
 }
 
