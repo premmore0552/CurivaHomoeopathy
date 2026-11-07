@@ -380,6 +380,7 @@ export default function MateriaMedicaCanvas() {
   const [chatMessages, setChatMessages] = useState<Message[]>([]);
   const [chatInput, setChatInput] = useState('');
   const [isGenerating, setIsGenerating] = useState(false);
+  const [aiConsent, setAiConsent] = useState(hasCurrentAiAcademicConsent);
   const chatScrollRef = useRef<HTMLDivElement>(null);
 
   // Student Notes State
@@ -582,6 +583,15 @@ You can click any ready-to-study suggestion below to load insights. If you like 
   // General prompt executor
   const handleSendPrompt = async (text: string) => {
     if (!text.trim() || isGenerating) return;
+    const validated = validateAcademicAiText(text, 4000);
+    if (!aiConsent || !hasCurrentAiAcademicConsent()) {
+      setChatMessages(prev => [...prev, { role: 'assistant', content: 'Please review the AI privacy notice and acknowledge external processing before sending an academic-only prompt.' }]);
+      return;
+    }
+    if (!validated.ok) {
+      setChatMessages(prev => [...prev, { role: 'assistant', content: 'This text may include personal, identifying or health information. It has not been sent. Please remove patient or personal details and submit an academic-only question.' }]);
+      return;
+    }
     
     const userPrompt = text.trim();
     setChatMessages(prev => [...prev, { role: 'user', content: userPrompt }]);
@@ -591,7 +601,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
     try {
       const response = await fetch('/api/gemini/curiva-care', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Curiva-AI-Consent': AI_ACADEMIC_CONSENT_VERSION },
         body: JSON.stringify({
           prompt: `Regarding the Homoeopathic remedy "${selectedRemedy?.name}" (${selectedRemedy?.origin}), please address: ${userPrompt}`,
           conversationHistory: chatMessages.slice(1).map(m => ({
@@ -651,13 +661,26 @@ You can click any ready-to-study suggestion below to load insights. If you like 
 
   const handleAnalyzeWithAi = async (customPrompt: string) => {
     if (isAiGenerating) return;
+    if (['find-remedy', 'clinical-cases', 'keynotes-search', 'kent-repertory'].includes(aiSuiteMode || '')) {
+      setAiOutputText('Symptom descriptions, patient narratives and case-based analysis are disabled here. Do not submit clinical narratives to an external AI service.');
+      return;
+    }
+    const validated = validateAcademicAiText(customPrompt, 4000);
+    if (!aiConsent || !hasCurrentAiAcademicConsent()) {
+      setAiOutputText('Please review and acknowledge the AI data-sharing notice before submitting an academic-only prompt.');
+      return;
+    }
+    if (!validated.ok) {
+      setAiOutputText('This prompt may include personal, identifying or health information. It has not been sent. Remove patient or personal details and retry with an academic-only question.');
+      return;
+    }
     setIsAiGenerating(true);
     setAiOutputText('');
 
     try {
       const response = await fetch('/api/gemini/curiva-care', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'X-Curiva-AI-Consent': AI_ACADEMIC_CONSENT_VERSION },
         body: JSON.stringify({
           prompt: customPrompt,
           conversationHistory: []
@@ -1152,15 +1175,15 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                   </div>
                 </div>
 
+                <div className="mb-5">
+                  <AiPrivacyNotice onChange={setAiConsent} />
+                </div>
+
                 {/* 10 Mode Selection Quick Action Cards Grid */}
                 <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
                   {[
-                    { id: 'find-remedy', title: 'Find Remedy', desc: 'Weighted Symptom Matcher', icon: Sparkles, color: 'hover:border-purple-400' },
                     { id: 'compare-remedies', title: 'Compare Remedies', desc: 'Side-by-side comparative', icon: TableProperties, color: 'hover:border-blue-400' },
                     { id: 'remedy-personality', title: 'Remedy Personality', desc: 'Constitutional profiles', icon: Activity, color: 'hover:border-rose-400' },
-                    { id: 'keynotes-search', title: 'Keynotes Search', desc: 'Allen Keynotes checker', icon: Search, color: 'hover:border-amber-400' },
-                    { id: 'clinical-cases', title: 'Clinical Cases', desc: 'Deep case sheet analyzer', icon: Network, color: 'hover:border-emerald-400' },
-                    { id: 'kent-repertory', title: 'Kent Repertory', desc: 'Rubric extractor & weighting', icon: Layers, color: 'hover:border-cyan-400' },
                     { id: 'aiapget-mode', title: 'AIAPGET Mode', desc: 'Board review exam prep', icon: Star, color: 'hover:border-indigo-400' },
                     { id: 'study-notes', title: 'Study Notes', desc: 'BHMS quick syllabus draft', icon: FileText, color: 'hover:border-teal-400' },
                     { id: 'viva-questions', title: 'Viva Questions', desc: 'Orals & medical examinations', icon: HelpCircle, color: 'hover:border-violet-400' },
