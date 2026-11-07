@@ -32,6 +32,33 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Report locked dependency security advisories
+        shell: bash
+        run: |
+          npm audit --json > "$RUNNER_TEMP/npm-audit.json" || true
+          node - "$RUNNER_TEMP/npm-audit.json" <<'NODE'
+          const fs = require('node:fs');
+          let report = {};
+          try {
+            report = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          } catch (error) {
+            console.log('npm audit report could not be parsed:', error.message);
+            process.exit(0);
+          }
+          const entries = Object.entries(report.vulnerabilities || {});
+          console.log('NPM_AUDIT_COUNTS', JSON.stringify(report.metadata?.vulnerabilities || {}));
+          for (const [name, item] of entries) {
+            const advisories = (item.via || [])
+              .filter((entry) => typeof entry === 'object')
+              .map((entry) => [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
+              .join('; ');
+            console.log(
+              `NPM_AUDIT ${String(item.severity).toUpperCase()} ${name} range=${item.range} direct=${item.isDirect} fix=${JSON.stringify(item.fixAvailable)} advisories=${advisories}`,
+            );
+          }
+          if (report.error) console.log('NPM_AUDIT_ERROR', JSON.stringify(report.error));
+          NODE
       - name: Verify Boericke source reconciliation and importer
         run: npm run test:boericke
       - name: Test native study-plan validation
@@ -46,6 +73,12 @@ jobs:
 
       - name: Build website and self-hosted app update bundle
         run: npm run build
+
+      - name: Verify disease asset partition fidelity
+        run: npm run test:disease-assets
+
+      - name: Enforce client bundle budgets
+        run: node scripts/check-bundle-budgets.mjs
 
       - name: Validate OTA ZIP and manifest
         shell: bash
@@ -84,6 +117,9 @@ jobs:
 
       - name: Verify compact initial medical disclaimer banner
         run: node --test tests/medical-disclaimer-banner.test.mjs
+
+      - name: Verify deferred-data loading boundaries
+        run: node --test tests/performance-loading.test.mjs
 
       - name: Verify public-health content, privacy disclosure, and branding
         run: node --test tests/public-health-content.test.mjs
