@@ -17,6 +17,7 @@ import { auth } from '../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import SEO from '../components/SEO';
 import AiPrivacyNotice, { hasCurrentAiAcademicConsent } from '../components/AiPrivacyNotice';
+import { validateAcademicAiText } from '../server/aiPrivacyGuard';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessage {
@@ -77,6 +78,14 @@ Please use this as an academic learning aid, not as a consultation or source of 
       return;
     }
 
+    const validatedPrompt = validateAcademicAiText(userQuery, 4000);
+    const recentHistory = messages.slice(-12);
+    const historyHasSensitiveText = recentHistory.some(message => !validateAcademicAiText(message.text, 3000).ok);
+    if (!validatedPrompt.ok || historyHasSensitiveText) {
+      setErrorText('This message or recent conversation may contain personal, identifying or health information. Nothing was sent. Please start a new conversation and use only generic academic study text.');
+      return;
+    }
+
     const userMsg: ChatMessage = {
       id: `usr_${Date.now()}`,
       role: 'user',
@@ -91,7 +100,7 @@ Please use this as an academic learning aid, not as a consultation or source of 
 
     try {
       // Map stateful message arrays for API consistency
-      const conversationHistory = messages.slice(-12).map(msg => ({
+      const conversationHistory = recentHistory.map(msg => ({
         role: msg.role === 'model' ? 'model' : 'user',
         text: msg.text
       }));
@@ -103,7 +112,7 @@ Please use this as an academic learning aid, not as a consultation or source of 
           'X-Curiva-AI-Consent': 'academic-only-v1'
         },
         body: JSON.stringify({
-          prompt: userQuery,
+          prompt: validatedPrompt.text,
           conversationHistory
         })
       });
