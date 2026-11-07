@@ -30,9 +30,9 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Refresh lockfile for Phase 2 security pins
-        if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-final'
-        run: npm install --package-lock-only --ignore-scripts
+      - name: Regenerate lockfile from package manifest
+        if: github.event_name == 'pull_request' && github.head_ref == 'security/issue-46-netlify-deploy-fix'
+        run: rm -f package-lock.json && npm install --package-lock-only --ignore-scripts
 
       - name: Install locked dependencies
         run: npm ci
@@ -144,7 +144,7 @@ jobs:
         run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
 
   safe-dependency-fix:
-    if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-final'
+    if: github.event_name == 'pull_request' && github.head_ref == 'security/issue-46-netlify-deploy-fix'
     name: Apply available non-forced npm security updates
     runs-on: ubuntu-latest
     permissions:
@@ -163,7 +163,7 @@ jobs:
           cache: npm
 
       - name: Refresh package lock for selected safe versions
-        run: npm install --package-lock-only --ignore-scripts
+        run: rm -f package-lock.json && npm install --package-lock-only --ignore-scripts
 
       - name: Install locked dependencies
         run: npm ci
