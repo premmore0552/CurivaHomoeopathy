@@ -1,4 +1,6 @@
 import { initializeApp } from 'firebase/app';
+import { initializeAppCheck, ReCaptchaV3Provider } from 'firebase/app-check';
+import { Capacitor } from '@capacitor/core';
 import { 
   getAuth, 
   signInWithPopup, 
@@ -36,6 +38,26 @@ import {
 import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = initializeApp(firebaseConfig);
+
+// App Check starts when a site key has been configured in the hosting
+// environment and the web app has been registered in Firebase Console.
+// Enforcement is enabled separately in Firebase Console after monitoring.
+const appCheckSiteKey = import.meta.env.VITE_FIREBASE_APPCHECK_SITE_KEY?.trim();
+export const firebaseAppCheckConfigured = Boolean(
+  appCheckSiteKey && !import.meta.env.DEV && !Capacitor.isNativePlatform()
+);
+if (firebaseAppCheckConfigured && appCheckSiteKey) {
+  try {
+    initializeAppCheck(app, {
+      provider: new ReCaptchaV3Provider(appCheckSiteKey),
+      isTokenAutoRefreshEnabled: true,
+    });
+  } catch {
+    // Avoid exposing provider diagnostics or identifiers in client logs.
+    // Firebase product enforcement must be enabled only after deployment checks.
+  }
+}
+
 export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId); /* CRITICAL: The app will break without this line */
 export const auth = getAuth(app);
 export const googleProvider = new GoogleAuthProvider();
