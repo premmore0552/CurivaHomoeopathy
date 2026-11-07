@@ -235,11 +235,14 @@ async function startServer() {
     if (!authorization.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, error: 'Sign in to notify the clinic about an appointment request.' });
     }
-    let identity: { uid: string; email: string | null };
+    let identity: { uid: string; email: string | null; emailVerified: boolean };
     try {
       identity = await verifyFirebaseIdToken(authorization.slice(7).trim());
     } catch {
       return res.status(401).json({ success: false, error: 'Your Curiva account session could not be verified.' });
+    }
+    if (!identity.emailVerified) {
+      return res.status(403).json({ success: false, error: 'Verify your account email before sending a clinic notification.' });
     }
     const requestId = typeof req.body?.requestId === 'string' ? req.body.requestId : '';
     if (!requestId || requestId.length > 128 || requestId.includes('/')) {
@@ -278,13 +281,13 @@ async function startServer() {
     if (!authorization.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, error: 'Sign in as a clinic administrator to update requests.' });
     }
-    let identity: { uid: string; email: string | null };
+    let identity: { uid: string; email: string | null; emailVerified: boolean };
     try {
       identity = await verifyFirebaseIdToken(authorization.slice(7).trim());
     } catch {
       return res.status(401).json({ success: false, error: 'Your Curiva account session could not be verified.' });
     }
-    if (!appointmentAdminUids().includes(identity.uid)) {
+    if (!identity.emailVerified || !appointmentAdminUids().includes(identity.uid)) {
       return res.status(403).json({ success: false, error: 'This account is not configured as an appointment administrator.' });
     }
 
@@ -421,7 +424,7 @@ async function startServer() {
     const resourceId = typeof req.body?.resourceId === "string" ? req.body.resourceId : "";
     const customerEmail = typeof req.body?.email === "string" ? req.body.email.trim() : "";
     const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
-    let verifiedOrderUser: { uid: string; email: string | null } | null = null;
+    let verifiedOrderUser: { uid: string; email: string | null; emailVerified: boolean } | null = null;
     if (authorization.startsWith("Bearer ")) {
       try {
         verifiedOrderUser = await verifyFirebaseIdToken(authorization.slice(7).trim());
@@ -645,7 +648,7 @@ async function startServer() {
       // The browser is never allowed to mark an order as paid.
       const orderedUserId = typeof order.notes?.customer_uid === "string" ? order.notes.customer_uid : "guest";
       const authorization = typeof req.headers.authorization === "string" ? req.headers.authorization : "";
-      let verifiedUser: { uid: string; email: string | null } | null = null;
+      let verifiedUser: { uid: string; email: string | null; emailVerified: boolean } | null = null;
       if (authorization.startsWith("Bearer ")) {
         try {
           verifiedUser = await verifyFirebaseIdToken(authorization.slice(7).trim());
@@ -659,7 +662,7 @@ async function startServer() {
         }
       }
 
-      if (orderedUserId !== "guest" && (!verifiedUser || verifiedUser.uid !== orderedUserId)) {
+      if (orderedUserId !== "guest" && (!verifiedUser || !verifiedUser.emailVerified || verifiedUser.uid !== orderedUserId)) {
         return res.status(401).json({
           success: false,
           paymentVerified: true,
