@@ -30,7 +30,7 @@ import {
   BadgeAlert,
   Database
 } from 'lucide-react';
-import { auth, db, doc, setDoc, query, collection, where, onSnapshot, signOut, handleFirestoreError, OperationType } from '../lib/firebase';
+import { auth, db, doc, setDoc, deleteDoc, query, collection, where, onSnapshot, signOut, handleFirestoreError, OperationType } from '../lib/firebase';
 import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import SEO from '../components/SEO';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
@@ -232,18 +232,26 @@ export default function Profile() {
     }
 
     setIsSubmitting(true);
-    const newLogId = `CASE-${Math.floor(10000 + Math.random() * 90000)}`;
+      const cleanClinicName = clinicName.trim();
+    const cleanPhysicianName = physicianName.trim();
+    const cleanNotes = notes.trim();
+    if (cleanClinicName.length > 120 || cleanPhysicianName.length > 120 || cleanNotes.length > 1200 || !/^\d{4}-\d{2}-\d{2}$/.test(testDate)) {
+      alert('Please check the date and keep each field within its stated length.');
+      setIsSubmitting(false);
+      return;
+    }
+    const newLogId = `CASE-${window.crypto.randomUUID()}`;
     const newLog = {
       id: newLogId,
       userId: user ? user.uid : 'guest_user',
       userEmail: user ? (user.email || 'guest@curiva.co') : 'guest@curiva.co',
       testType,
       testDate,
-      clinicName,
-      physicianName,
+      clinicName: cleanClinicName,
+      physicianName: cleanPhysicianName,
       resultStatus,
       hpvResult,
-      notes,
+      notes: cleanNotes,
       createdAt: new Date().toISOString()
     };
 
@@ -270,18 +278,23 @@ export default function Profile() {
     setIsSubmitting(false);
   };
 
-  // Delete log helper
+  // Delete the actual owner-bound cloud record before removing it from the UI.
   const handleDeleteLog = async (logId: string) => {
-    if (!confirm("Are you sure you want to delete this clinical case log?")) return;
-    
-    const updated = kits.filter(k => k.id !== logId);
-    setKits(updated);
+    if (!confirm("Permanently delete this simulated study log from this account?")) return;
+
     if (!user) {
+      const updated = kits.filter((item) => item.id !== logId);
+      setKits(updated);
       localStorage.setItem('curiva_demo_kits', JSON.stringify(updated));
-    } else {
-      // Since delete on doc isn't direct for kits, we can do it via firebase delete or keep local filtering
-      // For academic safety sandbox we filter local state; actual cloud deletion is restricted to Admin
-      await userService.trackActivity('profile_update', `Filtered case log out of display view: ${logId}`);
+      return;
+    }
+
+    try {
+      await deleteDoc(doc(db, 'kits', logId));
+      setKits((previous) => previous.filter((item) => item.id !== logId));
+    } catch (error) {
+      console.error('Could not delete simulated study log:', (error as any)?.code || 'unknown');
+      alert('The study log could not be deleted. Please try again.');
     }
   };
 
@@ -457,7 +470,7 @@ export default function Profile() {
                     >
                       <div className="flex justify-between items-center pb-3 border-b border-border/60">
                         <h3 className="text-xs font-bold text-primary uppercase tracking-wide flex items-center gap-2">
-                          <Stethoscope className="w-4 h-4 text-accent" /> Log Clinical Case Findings
+                          <Stethoscope className="w-4 h-4 text-accent" /> Log a Simulated Case Exercise
                         </h3>
                         <button 
                           onClick={() => setIsAddingLog(false)}
@@ -465,6 +478,11 @@ export default function Profile() {
                         >
                           Cancel
                         </button>
+                      </div>
+
+                      <div role="note" className="rounded-xl border border-amber-500/30 bg-amber-500/10 px-4 py-3 text-xs leading-6 text-text-primary">
+                        <strong>Practice data only — never enter real patient information.</strong>
+                        Do not enter patient names, contact details, addresses, dates of birth, health/record numbers, photographs, actual test results, or identifiable clinical details. These simulated entries are stored in your Curiva account and are visible to your account and authorized administrators. Use fictional textbook scenarios only.
                       </div>
 
                       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -495,7 +513,7 @@ export default function Profile() {
                           <label className="text-xs font-bold text-text-secondary">Institution / College / Clinic</label>
                           <input 
                             type="text"
-                            placeholder="e.g. Government Homoeopathic Medical College" 
+                            placeholder="e.g. BHMS classroom exercise" 
                             value={clinicName}
                             onChange={(e) => setClinicName(e.target.value)}
                             className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
@@ -508,7 +526,7 @@ export default function Profile() {
                           <label className="text-xs font-bold text-text-secondary">Attending Practitioner / Student</label>
                           <input 
                             type="text"
-                            placeholder="e.g. John More" 
+                            placeholder="e.g. Student author (fictional)" 
                             value={physicianName}
                             onChange={(e) => setPhysicianName(e.target.value)}
                             className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
@@ -551,7 +569,8 @@ export default function Profile() {
                         <label className="text-xs font-bold text-text-secondary">Case Repertorial Notes &amp; Totality Symptoms</label>
                         <textarea 
                           rows={3}
-                          placeholder="e.g. Patient presents with gastric flatulence aggravated 4 PM to 8 PM, right-sided symptoms moving to left. Strongly matches Lycopodium." 
+                          maxLength={1200}
+                          placeholder="Fictional textbook scenario only. Never include details from a real patient. (Maximum 1,200 characters)" 
                           value={notes}
                           onChange={(e) => setNotes(e.target.value)}
                           className="w-full px-4 py-3 rounded-xl border border-border bg-bg-primary text-xs focus:outline-none focus:border-primary font-medium"
