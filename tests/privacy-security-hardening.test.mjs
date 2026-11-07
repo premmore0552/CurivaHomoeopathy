@@ -43,8 +43,10 @@ test('HTML has no inline scripts or embedded styles; boot assets are same-origin
 test('production CSP blocks inline JavaScript and unsafe embedding', () => {
   const policy = netlify.split('\n').find(line => line.includes('Content-Security-Policy ='));
   assert.ok(policy);
-  assert.match(policy, /script-src 'self' https:\/\/checkout\.razorpay\.com/);
-  assert.doesNotMatch(policy, /script-src[^"]*unsafe-inline/);
+  const scriptDirective = policy.match(/script-src\\s+([^;"]+)/)?.[1] || '';
+  assert.match(scriptDirective, /'self'/);
+  assert.match(scriptDirective, /https:\\/\\/checkout\\.razorpay\\.com/);
+  assert.doesNotMatch(scriptDirective, /unsafe-inline/);
   assert.match(policy, /script-src-attr 'none'/);
   assert.match(policy, /object-src 'none'/);
   assert.match(policy, /frame-ancestors 'none'/);
