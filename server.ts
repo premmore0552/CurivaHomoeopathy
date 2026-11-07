@@ -13,6 +13,7 @@ import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import { GoogleGenAI, Type } from "@google/genai";
+import { AI_ACADEMIC_CONSENT_HEADER, hasAiAcademicConsent, validateAcademicAiText } from "./src/server/aiPrivacyGuard";
 
 // Safe path resolution for both ES modules and CommonJS
 const getDirNameAndFileName = () => {
@@ -118,10 +119,25 @@ async function startServer() {
   console.log("Database seeded with", postsDb.length, "posts in-memory.");
 
   app.use(express.json({
+    limit: "128kb",
     verify: (req: any, _res, buffer: Buffer) => {
-      req.rawBody = Buffer.from(buffer);
+      // Preserve exact bytes only for Razorpay's signed webhook. Request bodies
+      // for ordinary API/AI calls are not duplicated into req.rawBody.
+      const requestPath = String(req.originalUrl || req.url || "").split("?")[0];
+      if (requestPath === "/api/razorpay-webhook") {
+        req.rawBody = Buffer.from(buffer);
+      }
     },
   }));
+
+  // API responses can contain account, appointment, order or AI-generated data.
+  // They must never be stored by browsers, service workers, or shared proxies.
+  app.use("/api", (_req, res, next) => {
+    res.setHeader("Cache-Control", "private, no-store, max-age=0, must-revalidate");
+    res.setHeader("Pragma", "no-cache");
+    res.setHeader("Expires", "0");
+    next();
+  });
   
   async function emailPaidResourceIfConfigured(order: any, payment: any, resource: any, orderOwnerId: string, userEmail: string): Promise<'sent' | 'not-configured' | 'failed' | 'expired'> {
     if (!isResourceEmailConfigured()) return 'not-configured';
@@ -1109,10 +1125,44 @@ async function startServer() {
     message: { success: false, error: 'Too many AI requests. Please try again later.' },
   });
 
+  function requireAcademicAiConsent(req: express.Request, res: express.Response): boolean {
+    if (!hasAiAcademicConsent(req.get(AI_ACADEMIC_CONSENT_HEADER))) {
+      res.status(428).json({
+        error: "Explicit acknowledgement is required before sending academic text to the external AI provider.",
+        noticeVersion: "academic-only-v1"
+      });
+      return false;
+    }
+    return true;
+  }
+
+  function validateExternalAcademicText(
+    value: unknown,
+    maxLength: number,
+    res: express.Response,
+    label: string
+  ): string | null {
+    const result = validateAcademicAiText(value, maxLength);
+    if (result.ok) return result.text;
+    if (result.reason === "too-long") {
+      res.status(413).json({ error: `${label} is too long.` });
+    } else if (result.reason === "sensitive") {
+      res.status(400).json({
+        error: `${label} appears to contain personal, identifying or health information. It was not sent. Remove those details and use academic-only text.`
+      });
+    } else {
+      res.status(400).json({ error: `${label} must be a non-empty text value.` });
+    }
+    return null;
+  }
+
   app.post("/api/gemini/curiva-care", aiApiRateLimiter, async (req, res) => {
     try {
       const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
       const { prompt, conversationHistory } = body;
+      if (!requireAcademicAiConsent(req, res)) return;
+      const validatedPrompt = validateExternalAcademicText(prompt, 4000, res, "Prompt");
+      if (!validatedPrompt) return;
       if (typeof prompt !== "string" || !prompt.trim()) {
         return res.status(400).json({ error: "A non-empty prompt is required" });
       }
@@ -1134,6 +1184,11 @@ async function startServer() {
         return res.status(400).json({ error: "Conversation history is invalid or too large." });
       }
       const safeHistory = Array.isArray(conversationHistory) ? conversationHistory : [];
+      for (const message of safeHistory) {
+        if (typeof message.text !== "string" || !validateExternalAcademicText(message.text, 3000, res, "Conversation message")) {
+          return;
+        }
+      }
       const historyCharacters = safeHistory.reduce((total: number, message: any) => total + message.text.length, 0);
       if (historyCharacters > 12000) {
         return res.status(413).json({ error: "Conversation history is too long. Start a new study conversation." });
@@ -1232,104 +1287,11 @@ async function startServer() {
     }
   });
 
-  app.post("/api/gemini/hair-loss-coach", aiApiRateLimiter, async (req, res) => {
-    try {
-      const body = req.body && typeof req.body === "object" && !Array.isArray(req.body) ? req.body : {};
-      const { prompt, type = "coach", conversationHistory } = body;
-
-      if (typeof prompt !== "string" || !prompt.trim()) {
-        return res.status(400).json({ error: "A non-empty study prompt is required." });
-      }
-      if (prompt.length > 4000) {
-        return res.status(413).json({ error: "Prompt is too long. Please keep it under 4,000 characters." });
-      }
-      if (!["coach", "blueprint"].includes(type)) {
-        return res.status(400).json({ error: "Unsupported study assistant mode." });
-      }
-      if (
-        conversationHistory !== undefined &&
-        (!Array.isArray(conversationHistory) ||
-          conversationHistory.length > 5 ||
-          conversationHistory.some((message: any) =>
-            !message ||
-            typeof message !== "object" ||
-            !["user", "coach"].includes(message.sender) ||
-            typeof message.text !== "string" ||
-            message.text.length > 2000
-          ))
-      ) {
-        return res.status(400).json({ error: "Conversation history is invalid or too large." });
-      }
-
-      const safeHistory = Array.isArray(conversationHistory) ? conversationHistory : [];
-      const historyCharacters = safeHistory.reduce((total: number, message: any) => total + message.text.length, 0);
-      if (historyCharacters > 8000) {
-        return res.status(413).json({ error: "Conversation history is too long. Start a new study conversation." });
-      }
-
-      // Keyword matches are navigation aids only, not clinical review or validation.
-      const matchedContent = getInstantResponseForKeyword(prompt);
-      if (matchedContent.length > 0) {
-        let text = `### 📚 Related hair-health study pages:\nThese pages matched words in your prompt. A keyword match is not a diagnosis, a review of your circumstances, or evidence that a treatment works.\n\n`;
-        matchedContent.forEach(item => {
-          text += `- **[${item.title}](${item.path})** (${item.category})\n  *${item.description}*\n\n`;
-        });
-        text += `\nFor personal health decisions, consult a qualified registered medical practitioner or dermatologist. Do not use these links to delay assessment or change prescribed care.`;
-        return res.json({ text });
-      }
-
-      const coachSystemInstruction = `
-        You are Curiva's AI Hair-Health Study Assistant. You are an educational tool, not a doctor, dermatologist, or personal health coach.
-        Explain general hair biology, common terminology, and how to critically read health information in clear language.
-        Do not diagnose the user's hair loss or infer its cause. Do not create individualized recovery or treatment plans, interpret personal symptoms or test results, or recommend medicines, supplements, tests, dosages, homoeopathic remedies, potencies, or schedules.
-        Do not claim that sleep, nutrition, scalp massage, hydration, or homoeopathy will treat a particular user's hair loss. Do not tell users to stop, delay, or change prescribed treatment.
-        Explain that hair loss has many possible causes and that an individual assessment belongs with a qualified registered medical practitioner or dermatologist. Encourage timely professional assessment for sudden, patchy, painful, inflamed, rapidly worsening, or otherwise concerning hair loss.
-        Do not ask for names, contact details, photographs, medical records, or identifying patient information. Treat user-provided health details as unverified and avoid repeating sensitive details.
-        Present traditional homoeopathic ideas only as historical/academic material and clearly state that this does not establish clinical effectiveness.
-        Keep answers concise, neutral, non-alarmist, and educational.
-      `;
-
-      const blueprintSystemInstruction = `
-        You are Curiva's AI Hair-Health Study Checklist Generator.
-        Generate a general educational checklist about reading reliable hair-health information and preparing questions for a qualified clinician. Do not call it a personalized recovery plan.
-        Do not infer a diagnosis or cause, interpret symptoms or test results, or suggest specific investigations, medicines, supplements, diets, doses, homeopathic remedies, potencies, or treatment schedules.
-        Do not make promises about regrowth or recovery. Include a short note that hair loss has many possible causes and personal care requires assessment by a qualified registered medical practitioner or dermatologist.
-        Use simple headings and brief bullet points. Avoid requesting or repeating identifying or sensitive information.
-      `;
-
-      const contents: any[] = [];
-      safeHistory.forEach((message: any) => {
-        contents.push({
-          role: message.sender === "user" ? "user" : "model",
-          parts: [{ text: message.text }]
-        });
-      });
-      contents.push({ role: "user", parts: [{ text: prompt }] });
-
-      const response = await safeGenerateContent({
-        model: "gemini-3.5-flash",
-        contents,
-        config: {
-          systemInstruction: type === "blueprint" ? blueprintSystemInstruction : coachSystemInstruction
-        },
-        fallback: type === "blueprint"
-          ? `## General hair-health study checklist
-
-- Note the questions you would like to ask a qualified registered medical practitioner or dermatologist.
-- Record reliable sources and the date of any health information you read.
-- Be cautious about products or online claims promising guaranteed regrowth.
-- Do not start supplements, medicines, or homoeopathic products—or change prescribed care—based on an AI-generated checklist.
-
-Hair loss has many possible causes. This educational checklist cannot assess your situation or replace a clinical evaluation.`
-          : `I can explain general hair biology and help you study reliable health information. Hair loss has many possible causes, so an AI chat cannot identify the cause or choose treatment. For personal concerns, discuss them with a qualified registered medical practitioner or dermatologist. Please do not share identifying or sensitive patient information here.`
-      });
-
-      const rawText = response?.text || "";
-      res.json({ text: rawText || "The study assistant did not return a response. Please try again later." });
-    } catch (error: any) {
-      console.error("Gemini Hair Health Study Assistant Error:", error);
-      res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
-    }
+  app.post("/api/gemini/hair-loss-coach", aiApiRateLimiter, (_req, res) => {
+    return res.status(410).json({
+      error: "Personalized hair-health AI coaching is disabled to protect personal health information.",
+      message: "Use the public educational chapters and consult a qualified registered medical practitioner or dermatologist for personal concerns."
+    });
   });
 
   app.post("/api/gemini/search", aiApiRateLimiter, async (req, res) => {
@@ -1399,78 +1361,10 @@ Hair loss has many possible causes. This educational checklist cannot assess you
         }
       });
 
-      // If we found any local results, return them immediately (up to 5)!
-      if (localResults.length > 0) {
-        return res.json(localResults.slice(0, 5));
-      }
-      
-      const response = await safeGenerateContent({
-        model: "gemini-3.5-flash",
-        contents: `Search the homeopathic database for: "${query}". 
-        Return a JSON array of up to 5 suggested remedies or articles.
-        Include a "reason" field explaining why it matches.
-        
-        Format: [ { "title": "Remedy Name", "type": "remedy", "link": "/remedy/remedy-id", "reason": "Match reason" } ]`,
-        config: {
-          responseMimeType: "application/json",
-          responseSchema: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                title: { type: Type.STRING },
-                type: { type: Type.STRING },
-                link: { type: Type.STRING },
-                reason: { type: Type.STRING }
-              }
-            }
-          }
-        },
-        fallback: () => {
-          const q = query.toLowerCase().trim();
-          const results: any[] = [];
-          
-          if (q.includes("lyc") || q.includes("club") || q.includes("confid")) {
-            results.push({
-              title: "Lycopodium Clavatum",
-              type: "remedy",
-              link: "/remedy/lycopodium",
-              reason: "Constitutional profile for digestive complaints and confidence issues."
-            });
-          }
-          if (q.includes("puls") || q.includes("weep") || q.includes("hormon")) {
-            results.push({
-              title: "Pulsatilla Nigricans",
-              type: "remedy",
-              link: "/remedy/pulsatilla",
-              reason: "Remedy with changeable symptoms, emotional weeping, and hormonal ties."
-            });
-          }
-          if (q.includes("ars") || q.includes("anx") || q.includes("chil")) {
-            results.push({
-              title: "Arsenicum Album",
-              type: "remedy",
-              link: "/remedy/arsenicum",
-              reason: "Indicated for deep anxiety, restlessness, and chilly temperaments."
-            });
-          }
-          
-          if (results.length === 0) {
-            results.push({
-              title: "Homeopathic Materia Medica",
-              type: "article",
-              link: "/materia-medica",
-              reason: "Explore related Materia Medica pages for academic study; this search does not recommend treatment."
-            });
-          }
-          return { text: JSON.stringify(results) };
-        }
-      });
+      // Search remains inside the Curiva public catalogue. No unmatched query
+      // is sent to Gemini or another third-party search provider.
+      return res.json(localResults.slice(0, 5));
 
-      if (response && response.text) {
-        return res.json(JSON.parse(response.text));
-      }
-      return res.json([]);
     } catch (error: any) {
       console.error("Gemini Search Proxy Error:", error);
       res.status(500).json({ error: error.message || "Failed to process search" });
@@ -1594,310 +1488,18 @@ Hair loss has many possible causes. This educational checklist cannot assess you
     });
   });
 
-  app.post("/api/gemini/generate-ebook", aiApiRateLimiter, async (req, res) => {
-    try {
-      const { title, condition, audience = "General Public, Patients, Caregivers", section = "full", customNotes = "" } = req.body;
-      if (!title && !condition) {
-        return res.status(400).json({ error: "Title or health condition is required" });
-      }
-
-      const bookTitle = title || `${condition} Explained Simply`;
-      const ai = getGeminiClient();
-
-      const masterSystemInstruction = `
-You are an expert medical writer, public health educator, patient education specialist, editor, and book designer for Curiva Homoeopathy.
-Your mission is to generate a premium-quality, publication-ready Public Health eBook for the general public, patients, caregivers, students, and families.
-
-BOOK DETAILS:
-- Brand: Curiva Homoeopathy
-- Book Title: ${bookTitle}
-- Target Condition/Topic: ${condition || bookTitle}
-- Target Audience: ${audience}
-- Reading Level: 8th–10th standard English (easy to read, conversational, reassuring, non-technical)
-- Writing Style: Natural Indian English. Clear, engaging, evidence-based, warm, professional, compassionate. Never robotic, no generic AI filler.
-- Medical & Safety Standards: Follow WHO, Ministry of Health & Family Welfare (India), CDC, NHS, NIH, NICE, and standard medical textbooks.
-- ABSOLUTE SAFETY RULES: Never guarantee cures, never promise magical results, never advise stopping prescribed medications or medical care. Always emphasize consulting a qualified physician.
-
-DESIGN & SPECIAL SECTIONS TO INCLUDE IN MARKDOWN:
-Use custom markdown blocks and callouts:
-- 🩺 **Curiva Health Tip:** [Practical actionable advice]
-- 📌 **Quick Fact:** [High-yield statistical or biological fact]
-- ⚠ **Warning Sign:** [Red flag symptom requiring immediate care]
-- 🍎 **Diet Corner:** [Nutritional guidelines, foods to include/limit]
-- 🏃 **Exercise Corner:** [Safe physical activity recommendations]
-- 🧠 **Did You Know?:** [Surprising or interesting medical trivia]
-- ❓ **FAQ:** [Common patient questions and clear answers]
-- 📖 **Myth vs Fact:** [Clearing misconceptions]
-- 💡 **Lifestyle Tip:** [Habit and daily routine modification]
-- 📋 **Doctor Visit Checklist:** [Questions to ask a doctor]
-
-VISUAL & DIAGRAM SUGGESTIONS:
-Include Markdown code blocks or blockquotes with visual/infographic suggestions like:
-> 🎨 **[VISUAL DIAGRAM SUGGESTION]:** *Anatomy flowchart showing...*
-
-STRUCTURE OF THE EBOOK:
-1. Cover Page (Title, Subtitle, Author: Prem More, Brand: Curiva Homoeopathy, Tagline)
-2. Copyright Page (Copyright Notice, Educational Disclaimer, Medical Disclaimer, Distribution Rights, Version 1.0)
-3. Welcome Note (Warm 1-page introduction from Curiva Homoeopathy)
-4. Clickable Table of Contents
-5. Core Chapters:
-   - What is the condition?
-   - Normal anatomy and physiology
-   - Why it happens & Causes
-   - Risk factors & Signs/symptoms
-   - When symptoms become serious (Red flags)
-   - Diagnosis & Common medical tests (Understanding lab reports)
-   - Possible complications
-   - Lifestyle changes & Diet recommendations (Foods to include & limit)
-   - Exercise, stress management, sleep & recovery
-   - Prevention & Daily routine
-   - Frequently Asked Questions & Myths vs Facts
-   - Practical real-life examples & When to seek immediate care
-   - Classical Homoeopathic Perspective & Holistic Management
-6. Ending (Final Health Checklist, Healthy Habit Tracker, Emergency Contact Template, References, About Curiva Homoeopathy, About Author Prem More, Thank You Note).
-`;
-
-      let prompt = "";
-      if (section === "outline") {
-        prompt = `Generate a detailed Table of Contents and Chapter Outline for the eBook "${bookTitle}" regarding ${condition || bookTitle}. ${customNotes}`;
-      } else if (section && section.startsWith("chapter_")) {
-        const chapterName = section.replace("chapter_", "").replace(/_/g, " ");
-        prompt = `Write a full, comprehensive, publication-ready chapter titled "${chapterName}" for the eBook "${bookTitle}". Include Learning Objectives, Main Content, Curiva Callout Boxes, Practical Tips, Myth vs Fact, Quick Recap, and Self-Assessment Questions. ${customNotes}`;
-      } else {
-        prompt = `Generate a comprehensive, beautifully structured, publication-ready eBook manuscript titled "${bookTitle}" covering ${condition || bookTitle}. Include Cover, Copyright, Welcome Note, Table of Contents, all core chapters, Curiva special callouts, diet/exercise corners, FAQs, red flags, homoeopathic perspective, references, and ending checklists. ${customNotes}`;
-      }
-
-      const response = await safeGenerateContent({
-        model: "gemini-3.6-flash",
-        contents: prompt,
-        config: {
-          systemInstruction: masterSystemInstruction,
-          temperature: 0.7,
-        },
-        fallback: `
-# 📖 ${bookTitle}
-
-*Offline Curiva Public Health eBook Edition*
-*Author: Prem More, Curiva Homoeopathy*
-
----
-
-## ⚖ DISCLAIMER
-This eBook is for educational and public health awareness purposes only. It is NOT a substitute for professional medical advice, diagnosis, or treatment. Always consult a qualified physician or registered classical homeopath.
-
----
-
-## 📂 TABLE OF CONTENTS
-1. Welcome to Curiva Patient Care
-2. Understanding the Condition: ${condition || bookTitle}
-3. Normal Anatomy & Physiology
-4. Holistic Homeopathic Management & Lifestyle Tips
-5. FAQs & Myths vs. Facts
-
----
-
-## 🌸 WELCOME NOTE
-Welcome to the Curiva Family. Our goal is to educate and demystify standard ailments so that you can make informed health decisions. This educational handbook provides a starting point for your wellness journey.
-
----
-
-## 📋 CHAPTER 1: WHAT IS THE CONDITION?
-${condition || bookTitle} is a clinical manifestation of physiological imbalances. Under normal states, the body maintains cellular and tissue homeostasis. When this balance is disrupted (by stress, genetic predisposition, poor nutrition, or environmental factors), clinical symptoms emerge.
-
-📌 **Quick Fact:** Holistic recovery is up to 3x more sustainable when paired with proactive diet and stress management.
-
----
-
-## 🍎 CHAPTER 2: DIET & LIFESTYLE CORNER
-- **Hydration**: Drink 8-10 glasses of clean, filtered water.
-- **Nutrition**: Incorporate seasonal green leafy vegetables, antioxidants, and a balanced protein index. Limit refined sugars, trans fats, and excess stimulants (coffee/tea).
-- **Physical movement**: Engage in 20-30 minutes of low-impact cardiovascular activity (brisk walking, swimming, or yoga).
-
-🩺 **Curiva Health Tip:** Chronic stress raises serum cortisol levels, which impairs digestion, sleep, and hair growth. Allocate 10 minutes daily for deep breathing exercises.
-
----
-
-## 🌿 CHAPTER 3: CLASSICAL HOMOEOPATHIC PERSPECTIVE
-In classical homoeopathy, we do not treat the disease; we treat the *patient in disease*. By studying the unique mental traits, physical generalities, and modalities (what makes symptoms better or worse), the homeopath selects a highly individualized constitutional remedy (like **Lycopodium**, **Pulsatilla**, or **Arsenicum**).
-
----
-
-## ❓ FREQUENTLY ASKED QUESTIONS
-**Q: Can I take homeopathic remedies alongside my standard prescriptions?**
-*A: Yes. Homeopathic remedies are highly diluted micro-doses that do not interfere biochemically with conventional pharmaceutical treatments. Always inform your doctor of all supplements you are taking.*
-
-**Q: How long does constitutional recovery take?**
-*A: It varies based on chronicity, age, lifestyle, and vital force. Acute states respond rapidly, while long-standing chronic states require patient, steady constitutional management.*
-        `
-      });
-
-      const text = response.text || "";
-      const textWithLinks = appendReferenceLinks(text, `${bookTitle} ${condition}`);
-      res.json({ title: bookTitle, section, content: textWithLinks });
-
-    } catch (error: any) {
-      console.error("Gemini EBook Generation Error:", error);
-      res.status(500).json({ error: error.message || "Failed to generate eBook" });
-    }
+  app.post("/api/gemini/generate-ebook", aiApiRateLimiter, (_req, res) => {
+    return res.status(410).json({
+      error: "Public health eBook generation from arbitrary prompts is disabled.",
+      message: "Health content must pass the Curiva editorial, source, licensing and qualified review workflow before publication."
+    });
   });
 
-  // Google Custom Search Proxy API
-  app.post("/api/custom-search", aiApiRateLimiter, async (req, res) => {
-    const { query } = req.body;
-    if (!query) {
-      return res.status(400).json({ error: "Query is required" });
-    }
-
-    // Helper to generate high-quality fallback results using Gemini or static records
-    async function getFallbackSearch(q: string) {
-      try {
-        const fallbackResponse = await safeGenerateContent({
-          model: "gemini-3.5-flash",
-          contents: `The user searched for: "${q}". 
-          We need to provide realistic, high-quality search results representing actual clinical guides, trials, and research papers for this topic.
-          Generate a JSON array of 5 highly authentic-looking research papers, clinical guides, or studies.
-          Each item must have:
-          - "title": Title of the study, clinical guide or research paper.
-          - "link": A realistic URL (e.g. from NCBI PubMed, Homeopathy Journal, ResearchGate, or WHO). Make these URLs real or highly plausible.
-          - "snippet": A brief abstract or summary sentence of the findings/guide (2-3 sentences).
-          - "displayLink": E.g. "pubmed.ncbi.nlm.nih.gov", "journalofhomeopathy.com", "researchgate.net".
-          - "source": Journal name or publisher, e.g. "International Journal of High Dilution Research (IJHDR)" or "Homeopathy Journal".
-          - "date": Year or date of publication, e.g. "2023", "May 2024".
-          - "isFallback": true
-          
-          Return ONLY the raw JSON array.`,
-          config: {
-            responseMimeType: "application/json",
-            responseSchema: {
-              type: Type.ARRAY,
-              items: {
-                type: Type.OBJECT,
-                properties: {
-                  title: { type: Type.STRING },
-                  link: { type: Type.STRING },
-                  snippet: { type: Type.STRING },
-                  displayLink: { type: Type.STRING },
-                  source: { type: Type.STRING },
-                  date: { type: Type.STRING },
-                  isFallback: { type: Type.BOOLEAN }
-                },
-                required: ["title", "link", "snippet", "displayLink", "source", "date", "isFallback"]
-              }
-            }
-          },
-          fallback: () => {
-            return { text: JSON.stringify([]) };
-          }
-        });
-
-        if (fallbackResponse && fallbackResponse.text) {
-          const parsed = JSON.parse(fallbackResponse.text);
-          if (Array.isArray(parsed) && parsed.length > 0) {
-            return {
-              items: parsed,
-              usingFallback: true
-            };
-          }
-        }
-      } catch (geminiError) {
-        console.warn("Gemini fallback search error (Using static default papers fallback):", geminiError);
-      }
-
-      const hardcodedFallback = [
-        {
-          title: "Efficacy of Homeopathic Treatment in Chronic Diseases: A Systematic Review",
-          link: "https://pubmed.ncbi.nlm.nih.gov/30012345",
-          snippet: "A comprehensive review analyzing randomized controlled trials of homeopathy for chronic conditions. Results demonstrate statistically significant clinical improvements compared to placebo across multiple cohorts.",
-          displayLink: "pubmed.ncbi.nlm.nih.gov",
-          source: "Journal of Clinical Medicine",
-          date: "2023",
-          isFallback: true
-        },
-        {
-          title: "Nanoparticles in Ultra-High Dilution Remedies: Physicochemical Characterization",
-          link: "https://www.researchgate.net/publication/4567890",
-          snippet: "This paper explores the existence of nanoscale starting material in high-dilution remedies using transmission electron microscopy (TEM) and dynamic light scattering. Confirms the presence of nanoparticles in 30C and 200C potencies.",
-          displayLink: "researchgate.net",
-          source: "International Journal of High Dilution Research (IJHDR)",
-          date: "2022",
-          isFallback: true
-        }
-      ];
-      return {
-        items: hardcodedFallback,
-        usingFallback: true
-      };
-    }
-
-    try {
-      const apiKey = process.env.GOOGLE_CUSTOM_SEARCH_API_KEY;
-      const cx = process.env.GOOGLE_CUSTOM_SEARCH_CX;
-
-      const isKeyMissingOrPlaceholder = !apiKey || !cx || 
-        apiKey.includes("YOUR_API_KEY") || cx.includes("YOUR_CX") || 
-        apiKey.trim() === "" || cx.trim() === "";
-
-      if (isKeyMissingOrPlaceholder) {
-        console.warn("Google Custom Search API Key or CX is missing or set to a placeholder. Using Gemini fallback search results.");
-        const fallback = await getFallbackSearch(query);
-        return res.json(fallback);
-      }
-
-      // Try live custom search API
-      try {
-        const searchUrl = `https://www.googleapis.com/customsearch/v1?key=${apiKey}&cx=${cx}&q=${encodeURIComponent(query + " homeopathy clinical research study")}`;
-        const response = await fetch(searchUrl);
-        
-        if (!response.ok) {
-          const errText = await response.text();
-          console.warn(`Google Custom Search API returned status ${response.status}. Falling back gracefully to Gemini search:`, errText);
-          const fallback = await getFallbackSearch(query);
-          return res.json(fallback);
-        }
-
-        const data = await response.json();
-        const items = (data.items || []).map((item: any) => {
-          let date = "";
-          try {
-            if (item.pagemap?.metatags?.[0]?.["article:published_time"]) {
-              date = new Date(item.pagemap.metatags[0]["article:published_time"]).getFullYear().toString();
-            } else if (item.pagemap?.metatags?.[0]?.["pubdate"]) {
-              date = item.pagemap.metatags[0]["pubdate"].substring(0, 4);
-            }
-          } catch (e) {}
-
-          return {
-            title: item.title,
-            link: item.link,
-            snippet: item.snippet,
-            displayLink: item.displayLink,
-            source: item.pagemap?.metatags?.[0]?.["og:site_name"] || item.displayLink,
-            date: date || "N/A",
-            isFallback: false
-          };
-        });
-
-        return res.json({
-          items,
-          usingFallback: false
-        });
-
-      } catch (fetchError: any) {
-        console.warn("Network or connection error while calling Google Custom Search. Falling back gracefully to Gemini search:", fetchError);
-        const fallback = await getFallbackSearch(query);
-        return res.json(fallback);
-      }
-
-    } catch (error: any) {
-      console.error("Custom Search Route Error:", error);
-      // Even in high-level errors, fallback to avoid breaking the client experience
-      try {
-        const fallback = await getFallbackSearch(query);
-        return res.json(fallback);
-      } catch (innerError) {
-        res.status(500).json({ error: "Failed to process search query" });
-      }
-    }
+  app.post("/api/custom-search", aiApiRateLimiter, (_req, res) => {
+    return res.status(410).json({
+      error: "External research search is temporarily disabled.",
+      message: "Use the cited public-health sources and verified repository links. Queries are not forwarded to a third-party search provider."
+    });
   });
 
   // Curiva Personalization Engine Endpoint
