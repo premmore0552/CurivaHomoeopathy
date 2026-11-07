@@ -287,7 +287,7 @@ export default function SearchAutocomplete() {
     if (query.trim()) {
       const updatedHistory = [query.trim(), ...searchHistory.filter(item => item !== query.trim())].slice(0, 5);
       setSearchHistory(updatedHistory);
-      localStorage.setItem('curiva_global_search_history', JSON.stringify(updatedHistory));
+      persistSearchHistory(updatedHistory);
 
       setIsModalOpen(false);
       navigate(`/clinical-guides?search=${encodeURIComponent(query.trim())}`);
