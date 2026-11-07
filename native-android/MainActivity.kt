@@ -178,6 +178,31 @@ private fun CurivaApp(data: LearningLibrary, prefs: SharedPreferences) {
         prefs.edit().putStringSet(key, next).apply()
         return next
     }
+    fun resetLocalStudyData() {
+        prefs.edit().clear().apply()
+        learner = "Learner"
+        completed = emptySet()
+        known = emptySet()
+        saved = emptySet()
+        planDone = emptySet()
+        dailyGoal = 30
+        attempts = 0
+        lastPercent = 0
+        flashIndex = 0
+        flashFlipped = false
+        flashFilter = "All types"
+        quizSubject = "All subjects"
+        timed = false
+        quiz = emptyList()
+        quizIndex = 0
+        answers = emptyMap()
+        seconds = 0
+        finished = false
+        screen = ""
+        query = ""
+        year = "All years"
+        libraryMode = "Materia Medica"
+    }
     fun finishQuiz() {
         val correct = quiz.count { answers[it.id] == it.answer }
         lastPercent = if (quiz.isEmpty()) 0 else (correct * 100f / quiz.size).roundToInt()
@@ -310,7 +335,9 @@ private fun CurivaApp(data: LearningLibrary, prefs: SharedPreferences) {
                             onRepertory = { selectedRepertoryId = it.id; screen = "repertory" })
                         Tab.Progress -> ProgressScreen(learner, completed.size, data.lessons.size, known.size,
                             data.cards.size, attempts, lastPercent, saved.size,
-                            onName = { learner = it }, onSave = { prefs.edit().putString("learner", learner).apply() })
+                            onName = { value -> learner = value.filter { character -> !Character.isISOControl(character) }.take(40) },
+                            onSave = { prefs.edit().putString("learner", learner).apply() },
+                            onReset = { resetLocalStudyData() })
                     }
                 }
             }
@@ -766,12 +793,14 @@ private fun RepertoryScreen(chapter: RepertoryChapter) {
 @Composable
 private fun ProgressScreen(
     name: String, completed: Int, lessons: Int, known: Int, cards: Int,
-    attempts: Int, lastPercent: Int, saved: Int, onName: (String) -> Unit, onSave: () -> Unit
+    attempts: Int, lastPercent: Int, saved: Int, onName: (String) -> Unit, onSave: () -> Unit,
+    onReset: () -> Unit
 ) {
+    var showResetConfirmation by rememberSaveable { mutableStateOf(false) }
     LazyColumn(Modifier.fillMaxSize(), contentPadding = PaddingValues(17.dp), verticalArrangement = Arrangement.spacedBy(11.dp)) {
         item {
             Text("Your learning profile", color = Muted, fontSize = 12.sp)
-            OutlinedTextField(name, onName, modifier = Modifier.fillMaxWidth(), label = { Text("Display name") }, singleLine = true)
+            OutlinedTextField(name, onName, modifier = Modifier.fillMaxWidth(), label = { Text("Display name · device only") }, singleLine = true)
             OutlinedButton(onClick = onSave, modifier = Modifier.fillMaxWidth()) { Text("Save profile") }
         }
         item { Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
@@ -783,8 +812,30 @@ private fun ProgressScreen(
             Metric("Last score", lastPercent.toString() + "%", Icons.Filled.TrendingUp, Modifier.weight(1f))
         } }
         item { Info("Saved library", saved.toString() + " Materia Medica profiles saved on this device.") }
-        item { Info("Offline by design", "Lesson progress, saved profiles, flashcard status, and your study plan are stored locally on this device. They are not uploaded to Curiva.") }
+        item { Info("Device-only privacy", "Your display name and study progress stay on this device. They are not uploaded to Curiva and are excluded from cloud backup and device-to-device transfer. Clearing app data or uninstalling the app permanently removes them. Never enter real patient information.") }
         item { Info("Academic-use notice", "Curiva is a medical learning app. It does not provide diagnosis, clinical decision support, prescriptions, or emergency care. Follow qualified supervision and current evidence-based guidance for clinical decisions.") }
+        item {
+            OutlinedButton(onClick = { showResetConfirmation = true }, modifier = Modifier.fillMaxWidth()) {
+                Icon(Icons.Filled.DeleteForever, null)
+                Spacer(Modifier.width(7.dp))
+                Text("Erase all local study data")
+            }
+        }
+    }
+    if (showResetConfirmation) {
+        AlertDialog(
+            onDismissRequest = { showResetConfirmation = false },
+            title = { Text("Erase local study data?") },
+            text = { Text("This permanently removes your display name, lesson progress, quiz scores, saved profiles, flashcard status and study-plan checkmarks from this device. This cannot be undone.") },
+            confirmButton = {
+                TextButton(onClick = { showResetConfirmation = false; onReset() }) {
+                    Text("Erase data", color = MaterialTheme.colorScheme.error)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showResetConfirmation = false }) { Text("Cancel") }
+            }
+        )
     }
 }
 
