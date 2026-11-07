@@ -1335,7 +1335,7 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Trusted public information\n\n- [World Health Organization — Stroke fact sheet](https://www.who.int/news-room/fact-sheets/detail/stroke)\n- [US Centers for Disease Control and Prevention — Stroke signs and symptoms](https://www.cdc.gov/stroke/signs-symptoms/index.html)\n- [Government of India — Emergency Response Support System (112)](https://112.gov.in/)\n\n**Editorial note:** This guide is general education, not a substitute for clinical assessment. Source pages and recommendations can change; check the linked organisations for the latest guidance."
       }
     ]
-  }
+  },
   {
     id: "pCOS-and-women-menstrual-health",
     title: "Menstrual Health & Cycle Care Handbook",
@@ -1395,7 +1395,7 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Trusted public information\n\n- [NHS — Periods and cycle overview](https://www.nhs.uk/conditions/periods/)\n- [NHS — Period problems and heavy bleeding](https://www.nhs.uk/conditions/periods/period-problems/)\n- [NHS — Period pain](https://www.nhs.uk/symptoms/period-pain/)\n- [NHS — Bleeding between periods or after sex](https://www.nhs.uk/symptoms/vaginal-bleeding-between-periods-or-after-sex/)\n\nThis guide does not replace assessment. If you have a concern, take your symptom notes to a qualified healthcare professional."
       }
     ]
-  }
+  },
   {
     id: "childhood-fever-guide",
     title: "Childhood Fever & Immunity Handbook",
@@ -1450,7 +1450,7 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Trusted public information\n\n- [NHS — High temperature (fever) in children](https://www.nhs.uk/symptoms/fever-in-children/)\n- [NHS — Urgent medical help for babies and children under 5](https://www.nhs.uk/baby/health/when-to-get-urgent-medical-help-for-babies-and-children-under-5/)\n- [Government of India — Emergency Response Support System (112)](https://112.gov.in/)\n\nChildren's guidance differs by age and country. Follow your child's clinician and local emergency service when their advice differs from this general guide."
       }
     ]
-  }
+  },
   {
     id: "asthma-and-allergy-survival-guide",
     title: "Asthma & Allergy Survival Guide",
@@ -1505,7 +1505,7 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Trusted public information\n\n- [NHS — Asthma](https://www.nhs.uk/conditions/asthma/)\n- [NHS — Anaphylaxis](https://www.nhs.uk/conditions/anaphylaxis/)\n- [Global Initiative for Asthma — Strategy reports and patient resources](https://ginasthma.org/)\n\nTreatment plans are individual. Follow the most recent plan prepared by your healthcare team."
       }
     ]
-  }
+  },
   {
     id: "acidity-and-gerd-handbook",
     title: "Acidity, GERD & Digestive Relief Handbook",
@@ -1555,7 +1555,7 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Trusted public information\n\n- [NHS — Heartburn and acid reflux](https://www.nhs.uk/conditions/heartburn-and-acid-reflux/)\n- [National Institute of Diabetes and Digestive and Kidney Diseases — GER and GERD in adults](https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults)\n\nThese resources provide general information. A clinician can help assess persistent, severe, or unusual symptoms."
       }
     ]
-  }
+  },
   {
     id: "arthritis-and-joint-care-guide",
     title: "Arthritis & Joint Care Handbook",
@@ -1610,7 +1610,7 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Trusted public information\n\n- [NICE — Osteoarthritis in over 16s: diagnosis and management](https://www.nice.org.uk/guidance/ng226)\n- [NICE — Rheumatoid arthritis in adults: management](https://www.nice.org.uk/guidance/ng100)\n- [NHS — Osteoarthritis](https://www.nhs.uk/conditions/osteoarthritis/)\n\nGuidelines may be updated. Ask your healthcare team about the current recommendations for your diagnosis."
       }
     ]
-  }
+  },
   {
     id: "stress-and-anxiety-self-help",
     title: "Understanding Stress & Anxiety Self-Help Guide",
