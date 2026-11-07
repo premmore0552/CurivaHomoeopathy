@@ -98,7 +98,9 @@ test('Firebase App Check is supported for web when an environment site key is co
   assert.match(firebaseClient, /VITE_FIREBASE_APPCHECK_SITE_KEY/);
   assert.match(firebaseClient, /isTokenAutoRefreshEnabled: true/);
   assert.match(firebaseClient, /!Capacitor\.isNativePlatform\(\)/);
-  assert.match(firebaseClient, /firebaseAppCheckConfigured/);
+  assert.match(firebaseClient, /firebaseAppCheckConfigured = false/);
+  assert.match(firebaseClient, /firebaseAppCheckConfigured = true/);
+  assert.doesNotMatch(firebaseClient, /export const firebaseAppCheckConfigured = Boolean/);
 });
 
 test('privacy policy distinguishes the offline Android APK from website account sync', () => {
