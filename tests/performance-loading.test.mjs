@@ -44,7 +44,7 @@ test('browser disease pages consume lightweight catalog and per-system JSON asse
     assert.doesNotMatch(source, /from ['"][^'"]*\/data\/diseaseHubData['"]/);
   }
   assert.match(diseaseAssets, /\/data\/disease-hub\/catalog\.json/);
-  assert.match(diseaseAssets, /\/data\/disease-hub\/systems\//);
+  assert.ok(diseaseAssets.includes("const SYSTEMS_URL = '/data/disease-hub/systems';"));
   assert.match(diseaseAssets, /new Map<string, Promise<Disease\[\]>>/);
   assert.match(diseaseAssets, /systemRequests\.set\(safeId, request\)/);
   assert.match(diseaseGenerator, /diseaseHubData\.filter\(disease => disease\.system === system\.id\)/);
@@ -66,7 +66,8 @@ test('disease navigation uses system and slug instead of globally reused IDs', (
   const detail = read('../src/pages/DiseasePage.tsx');
   assert.match(card, /onClick: \(system: string, slug: string\) => void/);
   assert.match(card, /onClick\(disease\.system, disease\.slug\)/);
-  assert.match(list, /onSelectDisease\(system: string, slug: string\)/);
+  assert.ok(list.includes("onSelectDisease: (system: string, slug: string) => void"));
+  assert.ok(list.includes("onSelectDisease(disease.system, disease.slug)"));
   assert.match(hub, /handleSelectDisease = \(system: string, slug: string\)/);
   assert.doesNotMatch(hub, /diseaseCatalog\.find\(d => d\.id === id\)/);
   assert.match(detail, /trackView\(\`\$\{disease\.system\}\/\$\{disease\.slug\}\`/);
