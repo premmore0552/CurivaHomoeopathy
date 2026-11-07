@@ -30,6 +30,7 @@ import {
   Hash
 } from "lucide-react";
 import SEO from "../components/SEO";
+import SafeHtmlContent from "../components/SafeHtmlContent";
 
 // Define Types
 interface Chapter {
@@ -1099,43 +1100,43 @@ export default function HairFallGuide() {
 
   // Parse custom markdown tags
   const renderFormattedMarkdown = (text: string) => {
-    // Simple fast safe transformer
-    return text
-      .split("\n\n")
-      .map((para, i) => {
-        let content = para;
-        // Headings
-        if (content.startsWith("### ")) {
-          return <h4 key={i} className="font-bold text-slate-900 dark:text-white mt-4 mb-2 text-base">{content.replace("### ", "")}</h4>;
-        }
-        if (content.startsWith("## ")) {
-          return <h3 key={i} className="font-serif font-bold text-slate-900 dark:text-white mt-6 mb-3 text-lg">{content.replace("## ", "")}</h3>;
-        }
-        if (content.startsWith("- ")) {
-          const listItems = para.split("\n").map((li, j) => {
-            const cleanLi = li.replace("- ", "").trim();
-            return (
-              <li key={j} className="flex items-start gap-2.5 my-1.5 text-sm text-slate-700 dark:text-slate-300">
-                <CheckCircle className="w-4 h-4 text-emerald-600 mt-1 shrink-0" />
-                <span>{cleanLi}</span>
-              </li>
-            );
-          });
-          return <ul key={i} className="my-3 space-y-1">{listItems}</ul>;
-        }
-
-        // Bold and italics
-        content = content.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-        content = content.replace(/\*(.*?)\*/g, "<em>$1</em>");
-
+    return text.split("\n\n").map((paragraph, index) => {
+      const lines = paragraph.split("\n");
+      const first = lines[0] || "";
+      if (first.startsWith("### ")) {
+        return <h4 key={index} className="mb-2 mt-4 text-base font-bold text-slate-900 dark:text-white">{first.slice(4)}</h4>;
+      }
+      if (first.startsWith("## ")) {
+        return <h3 key={index} className="mb-3 mt-6 font-serif text-lg font-bold text-slate-900 dark:text-white">{first.slice(3)}</h3>;
+      }
+      if (first.startsWith("- ")) {
         return (
-          <p 
-            key={i} 
-            className="mb-4 leading-relaxed text-sm text-slate-700 dark:text-slate-350"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+          <ul key={index} className="my-3 space-y-1">
+            {lines.map((line, lineIndex) => (
+              <li key={lineIndex} className="my-1.5 flex items-start gap-2.5 text-sm text-slate-700 dark:text-slate-300">
+                <CheckCircle className="mt-1 h-4 w-4 shrink-0 text-emerald-600" />
+                <span>{line.replace(/^\-\s*/, "").trim()}</span>
+              </li>
+            ))}
+          </ul>
         );
-      });
+      }
+
+      const parts = paragraph.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+      return (
+        <p key={index} className="mb-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          {parts.map((part, partIndex) => {
+            if (part.startsWith("**") && part.endsWith("**")) {
+              return <strong key={partIndex}>{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith("*") && part.endsWith("*")) {
+              return <em key={partIndex}>{part.slice(1, -1)}</em>;
+            }
+            return <React.Fragment key={partIndex}>{part}</React.Fragment>;
+          })}
+        </p>
+      );
+    });
   };
 
   // Define focus goals array for Chapter 24
@@ -1383,7 +1384,7 @@ export default function HairFallGuide() {
                   className={`max-w-none transition-all duration-200 prose ${getProseThemeClasses()}`}
                   style={{ fontSize: `${18 + fontSizeMultiplier * 2}px`, lineHeight: "1.85" }}
                 >
-                  <div dangerouslySetInnerHTML={{ __html: getSanitizedContent(currentChapter.content) }} />
+                  <SafeHtmlContent html={currentChapter.content} className="max-w-none" />
                 </motion.div>
               </AnimatePresence>
 
