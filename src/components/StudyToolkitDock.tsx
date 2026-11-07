@@ -16,7 +16,7 @@ export default function StudyToolkitDock() {
   const [noteContent, setNoteContent] = useState('');
   const [topic, setTopic] = useState(state.timer.topic);
   const timer = state.timer;
-  const syncLabel = !signedIn ? 'Saved on this device' : syncStatus === 'synced' ? 'Synced to your account' : syncStatus === 'syncing' ? 'Syncing study data…' : syncStatus === 'pending' ? 'Changes waiting to sync' : syncStatus === 'offline' ? 'Offline · saved on this device' : 'Account workspace';
+  const syncLabel = 'Private to this browser tab · not uploaded';
   const remaining = timer.running && timer.deadlineAt
     ? Math.max(0, Math.ceil((timer.deadlineAt - Date.now()) / 1000))
     : timer.remainingSeconds;
@@ -37,8 +37,9 @@ export default function StudyToolkitDock() {
             <div className="flex items-center justify-between">
               <div>
                 <p className="text-[10px] font-black uppercase tracking-widest text-primary">Curiva Study Controls</p>
-                <p className="text-xs text-text-secondary">Timer stays active as you move around the site.</p>
+                <p className="text-xs text-text-secondary">Quick notes and study logs stay in this browser tab and clear when it closes.</p>
                 <p className="mt-1 text-[10px] font-semibold text-text-tertiary" role="status" aria-live="polite">{syncLabel}</p>
+                <p className="text-[10px] leading-relaxed text-amber-700 dark:text-amber-300">Academic material only. Never enter patient names, identifiable case notes, reports, or health records.</p>
               </div>
               <button type="button" onClick={() => setOpen(false)} className="rounded-lg p-1.5 hover:bg-bg-primary" aria-label="Close study controls"><X size={16}/></button>
             </div>
@@ -113,7 +114,7 @@ export default function StudyToolkitDock() {
             <button type="button" onClick={() => timer.running ? pauseTimer() : startTimer()} className="inline-flex items-center gap-2 rounded-xl bg-white px-5 py-3 font-bold text-slate-950">{timer.running ? <Pause size={17}/> : <Play size={17}/>} {timer.running ? 'Pause timer' : 'Resume timer'}</button>
             <button type="button" onClick={() => setFocusMode(false)} className="rounded-xl border border-white/30 px-5 py-3 font-bold text-white">Exit focus mode</button>
           </div>
-          <p className="mt-10 text-xs text-slate-400">Your study data is saved to your current guest or account workspace.</p>
+          <p className="mt-10 text-xs text-slate-400">This study workspace is held only in this browser tab. Never enter identifiable patient information.</p>
         </div>
       )}
     </>
