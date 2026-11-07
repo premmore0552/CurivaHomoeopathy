@@ -28,12 +28,14 @@
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
+    X-XSS-Protection = "0"
     X-Content-Type-Options = "nosniff"
+    X-Permitted-Cross-Domain-Policies = "none"
     Referrer-Policy = "strict-origin-when-cross-origin"
     Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    # Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://picsum.photos https://images.unsplash.com https://curivahomoeopathy.netlify.app; connect-src 'self' https://lumberjack-cx.razorpay.com; frame-src https://api.razorpay.com;"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://api.razorpay.com https://checkout.razorpay.com; script-src 'self' https://checkout.razorpay.com https://checkout-static.razorpay.com https://www.google.com https://www.gstatic.com; script-src-attr 'none'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://checkout.razorpay.com; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https:; connect-src 'self' https://*.googleapis.com wss://*.googleapis.com https://*.firebaseio.com wss://*.firebaseio.com https://*.razorpay.com https://www.google.com https://www.gstatic.com; frame-src 'self' https://api.razorpay.com https://checkout.razorpay.com https://checkout-static.razorpay.com https://accounts.google.com https://www.google.com https://www.gstatic.com https://www.recaptcha.net https://*.firebaseapp.com; worker-src 'self' blob:; manifest-src 'self'; media-src 'self' blob:; upgrade-insecure-requests"
 
 
 # Allow the native Capacitor WebView to fetch self-hosted live-update metadata and bundles.
