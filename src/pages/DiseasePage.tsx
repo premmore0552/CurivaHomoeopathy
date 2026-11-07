@@ -1,9 +1,11 @@
-import React, { useMemo, useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Navigate, Link, useLocation } from 'react-router-dom';
 import { motion } from 'motion/react';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { diseaseHubData, DISEASE_SYSTEMS } from '../data/diseaseHubData';
+import type { Disease } from '../data/diseaseHubTypes';
+import { DISEASE_SYSTEMS } from '../data/diseaseHubSystems';
+import { loadDiseaseSystem } from '../data/diseaseHubAssets';
 import { DiseaseHero } from '../components/disease-page/DiseaseHero';
 import { DiseaseTOC } from '../components/disease-page/DiseaseTOC';
 import { AtAGlance } from '../components/disease-page/AtAGlance';
@@ -25,10 +27,34 @@ import { trackView } from '../lib/history';
 const DiseasePage: React.FC = () => {
   const { systemSlug, diseaseSlug } = useParams();
   const location = useLocation();
-  
-  const disease = useMemo(() => {
-    return diseaseHubData.find(d => d.slug === diseaseSlug);
-  }, [diseaseSlug]);
+  const [disease, setDisease] = useState<Disease | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [loadError, setLoadError] = useState('');
+  const system = DISEASE_SYSTEMS.find((item) => item.id === systemSlug);
+
+  useEffect(() => {
+    if (!systemSlug || !diseaseSlug) {
+      setDisease(null);
+      setLoading(false);
+      return;
+    }
+
+    let active = true;
+    setLoading(true);
+    setLoadError('');
+    loadDiseaseSystem(systemSlug)
+      .then((items) => {
+        if (active) setDisease(items.find((item) => item.slug === diseaseSlug) || null);
+      })
+      .catch((error: unknown) => {
+        if (active) setLoadError(error instanceof Error ? error.message : 'This disease record could not be loaded.');
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+
+    return () => { active = false; };
+  }, [systemSlug, diseaseSlug]);
 
   useEffect(() => {
     if (disease) {
@@ -36,9 +62,13 @@ const DiseasePage: React.FC = () => {
     }
   }, [disease, location.pathname]);
 
-  const system = useMemo(() => {
-    return DISEASE_SYSTEMS.find(s => s.id === systemSlug);
-  }, [systemSlug]);
+  if (loading) {
+    return <div className="mx-auto max-w-3xl p-10 text-center text-sm text-text-secondary" role="status">Loading detailed disease study guide…</div>;
+  }
+
+  if (loadError) {
+    return <div className="mx-auto max-w-3xl p-10 text-center text-sm text-red-600" role="alert">{loadError}</div>;
+  }
 
   if (!disease) {
     return <Navigate to="/disease-hub" replace />;
