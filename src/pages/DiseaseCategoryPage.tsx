@@ -117,7 +117,7 @@ const DiseaseCategoryPage: React.FC = () => {
                   </div>
                   <div className="grid gap-4">
                     {emergency.map(d => (
-                      <DiseaseCard key={d.id} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
+                      <DiseaseCard key={`${d.system}/${d.slug}`} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
                     ))}
                   </div>
                 </div>
@@ -132,7 +132,7 @@ const DiseaseCategoryPage: React.FC = () => {
                 <h3 className="text-lg font-black uppercase tracking-widest text-blue-600 border-b border-blue-100 pb-2">BHMS Exam Priority</h3>
                 <div className="grid gap-4">
                   {examPriority.map(d => (
-                    <DiseaseCard key={d.id} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
+                    <DiseaseCard key={`${d.system}/${d.slug}`} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
                   ))}
                 </div>
               </div>
@@ -142,7 +142,7 @@ const DiseaseCategoryPage: React.FC = () => {
                 <h3 className="text-lg font-black uppercase tracking-widest text-emerald-600 border-b border-emerald-100 pb-2">Clinical Priority</h3>
                 <div className="grid gap-4">
                   {clinicalPriority.map(d => (
-                    <DiseaseCard key={d.id} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
+                    <DiseaseCard key={`${d.system}/${d.slug}`} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
                   ))}
                 </div>
               </div>
@@ -154,7 +154,7 @@ const DiseaseCategoryPage: React.FC = () => {
             <h2 className="text-3xl font-display font-black uppercase tracking-tight">All {system.name}</h2>
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {diseases.map(d => (
-                <DiseaseCard key={d.id} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
+                <DiseaseCard key={`${d.system}/${d.slug}`} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
               ))}
             </div>
           </div>
