@@ -1,9 +1,29 @@
 import assert from 'node:assert/strict';
+import { existsSync, readFileSync } from 'node:fs';
 import { test } from 'node:test';
 
 // Netlify Functions must reuse the existing Express routes, not return the SPA shell for /api/*.
 process.env.NETLIFY = 'true';
 process.env.RAZORPAY_WEBHOOK_SECRET = 'ci-only-webhook-secret';
+
+test('Netlify API rewrites are not shadowed by a public-directory SPA fallback', () => {
+  const publicFallback = new URL('../public/_redirects', import.meta.url);
+  assert.equal(
+    existsSync(publicFallback),
+    false,
+    'Do not ship an early public/_redirects catch-all; Netlify processes it before netlify.toml API rewrites',
+  );
+
+  const config = readFileSync(new URL('../netlify.toml', import.meta.url), 'utf8');
+  const geminiRewrite = config.indexOf('from = "/api/gemini/*"');
+  const apiRewrite = config.indexOf('from = "/api/*"');
+  const spaFallback = config.indexOf('from = "/*"');
+  assert.ok(geminiRewrite >= 0 && apiRewrite > geminiRewrite, 'Gemini API rewrite must precede the general API rewrite');
+  assert.ok(spaFallback > apiRewrite, 'SPA fallback must come after both API rewrites in netlify.toml');
+  assert.match(config.slice(geminiRewrite, apiRewrite), /window_limit = 12/);
+  assert.match(config.slice(apiRewrite, spaFallback), /window_limit = 120/);
+});
+
 
 test('Netlify API adapter forwards /api/posts to the existing Express route', async () => {
   const { handler } = await import('../.netlify-build/functions/api.mjs');
