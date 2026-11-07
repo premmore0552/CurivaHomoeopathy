@@ -128,7 +128,7 @@ export default function MateriaMedicaSearch() {
       {/* Search Trigger Button */}
       <button 
         onClick={() => setIsOpen(true)}
-        className="fixed bottom-8 left-8 z-[60] p-4 bg-primary text-white rounded-full shadow-2xl hover:scale-110 transition-all group lg:left-auto lg:right-32"
+        className="fixed z-[60] p-4 rounded-full bg-primary text-white shadow-2xl transition-all hover:scale-110 group curiva-materia-search-position"
         title="Search Materia Medica (/)"
       >
         <Search className="w-6 h-6" />

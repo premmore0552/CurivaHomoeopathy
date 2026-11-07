@@ -9,10 +9,10 @@ const banner = readFileSync(
 const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 
 test('initial disclaimer is a compact responsive bottom banner, not a full-screen modal', () => {
-  assert.match(banner, /fixed inset-x-3 bottom-\[calc\(env\(safe-area-inset-bottom\)\+5\.5rem\)\]/);
-  assert.match(banner, /sm:w-\[min\(30rem,calc\(100vw-2rem\)\)\]/);
-  assert.match(banner, /xl:bottom-4 xl:left-auto xl:right-4/);
-  assert.match(banner, /max-h-\[min\(70dvh,32rem\)\]/);
+  assert.match(banner, /curiva-disclaimer-position/);
+  assert.match(layout, /width:\s*min\(30rem, calc\(100vw - 2rem\)\)/);
+  assert.match(layout, /width:\s*min\(28rem, calc\(100vw - 2rem\)\)/);
+  assert.match(banner, /max-h-\[min\(55dvh,26rem\)\]/);
   assert.doesNotMatch(banner, /fixed inset-0|bg-black\/60|backdrop-blur|aria-modal|role="dialog"/);
 });
 
