@@ -14,6 +14,7 @@ import ReadingProgressBar from './components/ReadingProgressBar';
 import Header from './components/Header';
 import Newsletter from './components/Newsletter';
 import Footer from './components/Footer';
+import CookieConsent from './components/CookieConsent';
 import RouteScrollToTop from './components/RouteScrollToTop';
 import ScrollToTop from './components/ScrollToTop';
 import Breadcrumbs from './components/Breadcrumbs';
@@ -656,7 +657,10 @@ export default function App() {
             </div>
           </motion.div>
         ) : (
-          <AppRoutes key="app-main" />
+          <>
+            <AppRoutes key="app-main" />
+            <CookieConsent />
+          </>
         )}
       </AnimatePresence>
     </Router>
