@@ -59,3 +59,10 @@ test('overlay layers cover floating triggers when expanded', () => {
   assert.match(studyDock, /fixed inset-0 z-\[95\].*role="dialog"/);
   assert.match(studyDock, /fixed inset-0 z-\[110\]/);
 });
+
+
+test('the acknowledgement banner yields while the study controls panel is expanded', () => {
+  assert.match(studyDock, /data\.curivaStudyPanelOpen = 'true'/);
+  assert.match(studyDock, /delete document\.body\.dataset\.curivaStudyPanelOpen/);
+  assert.match(styles, /body\[data-curiva-study-panel-open="true"\] \.curiva-disclaimer-position\s*\{[^}]*visibility:\s*hidden;[^}]*pointer-events:\s*none;/s);
+});
