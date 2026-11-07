@@ -8,6 +8,7 @@ export const DiseaseSearch: React.FC = () => {
   const [query, setQuery] = useState('');
   const [results, setResults] = useState<DiseaseSummary[]>([]);
   const [searchError, setSearchError] = useState('');
+  const [searchAttempt, setSearchAttempt] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -37,7 +38,7 @@ export const DiseaseSearch: React.FC = () => {
       });
 
     return () => { active = false; };
-  }, [query]);
+  }, [query, searchAttempt]);
 
   return (
     <div className="relative max-w-2xl mx-auto z-50">
@@ -62,7 +63,12 @@ export const DiseaseSearch: React.FC = () => {
         )}
       </div>
 
-      {searchError && <p role="alert" className="mt-2 text-xs text-red-600">{searchError}</p>}
+      {searchError && (
+        <div role="alert" className="mt-2 flex flex-wrap items-center justify-between gap-2 rounded-xl border border-red-500/25 bg-red-500/5 p-3 text-xs text-red-600">
+          <span>{searchError}</span>
+          <button type="button" onClick={() => setSearchAttempt((attempt) => attempt + 1)} className="font-bold underline underline-offset-2">Retry search</button>
+        </div>
+      )}
 
       {results.length > 0 && (
         <div className="absolute top-full left-0 right-0 mt-2 bg-white dark:bg-zinc-900 border border-border rounded-[2rem] shadow-2xl overflow-hidden animate-in fade-in slide-in-from-top-2">
