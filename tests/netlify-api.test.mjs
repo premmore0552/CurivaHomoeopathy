@@ -18,8 +18,23 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   }, {});
 
   assert.equal(response.statusCode, 200);
-  assert.match(response.headers['content-type'] || response.headers['Content-Type'] || '', /application\/json/i);
+  const header = (name) => Object.entries(response.headers || {}).find(([key]) => key.toLowerCase() === name.toLowerCase())?.[1];
+  assert.match(header('content-type') || '', /application\/json/i);
+  assert.match(header('cache-control') || '', /no-store/i);
+  assert.equal(header('x-content-type-options'), 'nosniff');
+  assert.equal(header('x-frame-options'), 'DENY');
   assert.ok(Array.isArray(JSON.parse(response.body)));
+
+  const oversizedBodyResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'x'.repeat(70_000) }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(oversizedBodyResponse.statusCode, 413, 'global body parser must reject payloads above 64 KB');
 
   const invalidEmailResponse = await handler({
     httpMethod: 'POST',
