@@ -1144,10 +1144,10 @@ async function startServer() {
     label: string
   ): string | null {
     const result = validateAcademicAiText(value, maxLength);
-    if (result.ok) return result.text;
-    if (result.reason === "too-long") {
+    if (result.ok === true) return result.text;
+    if (result.ok === false && result.reason === "too-long") {
       res.status(413).json({ error: `${label} is too long.` });
-    } else if (result.reason === "sensitive") {
+    } else if (result.ok === false && result.reason === "sensitive") {
       res.status(400).json({
         error: `${label} appears to contain personal, identifying or health information. It was not sent. Remove those details and use academic-only text.`
       });
