@@ -24,7 +24,7 @@ test('persistent floating controls use shared safe-area-aware position tokens', 
 });
 
 test('desktop timer, quick actions and disclaimer occupy distinct vertical rails', () => {
-  const desktopRules = styles.slice(styles.indexOf('@media (min-width: 1280px)'));
+  const desktopRules = styles.slice(styles.lastIndexOf('@media (min-width: 1280px)'));
   assert.match(desktopRules, /--curiva-study-dock-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 1\.5rem\)/);
   assert.match(desktopRules, /--curiva-quick-actions-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 6rem\)/);
   assert.match(desktopRules, /--curiva-disclaimer-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 10rem\)/);
@@ -33,10 +33,8 @@ test('desktop timer, quick actions and disclaimer occupy distinct vertical rails
 });
 
 test('tablet disclaimer is centered while the study timer remains in a separate corner', () => {
-  const tabletRules = styles.slice(
-    styles.indexOf('@media (min-width: 640px) and (max-width: 1279px)'),
-    styles.indexOf('@media (min-width: 1280px)'),
-  );
+  const tabletStart = styles.lastIndexOf('@media (min-width: 640px) and (max-width: 1279px)');
+  const tabletRules = styles.slice(tabletStart, styles.indexOf('@media (min-width: 1280px)', tabletStart));
   assert.match(tabletRules, /left:\s*50%/);
   assert.match(tabletRules, /transform:\s*translateX\(-50%\)/);
   assert.match(tabletRules, /width:\s*min\(30rem, calc\(100vw - 2rem\)\)/);
