@@ -1031,6 +1031,12 @@ svg.lucide { flex-shrink: 0; }
   margin-inline: auto;
 }
 
+/* Expanded study controls take priority over the non-blocking acknowledgement banner. */
+body[data-curiva-study-panel-open="true"] .curiva-disclaimer-position {
+  visibility: hidden;
+  pointer-events: none;
+}
+
 @media (min-width: 640px) and (max-width: 1279px) {
   .curiva-disclaimer-position {
     left: 50%;
