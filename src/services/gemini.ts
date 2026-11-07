@@ -48,7 +48,8 @@ export async function runCaseSimulationTurn(messages: any[], targetRemedy: strin
 }
 
 export async function getSimulationFeedback(targetRemedy: string, userPrescription: string, sessionSummary: string) {
-  if (!validateAcademicAiText(userPrescription, 500).ok || !validateAcademicAiText(sessionSummary, 3000).ok) {
+  if (!validateAcademicAiText(userPrescription, 500).ok ||
+      (sessionSummary.trim().length > 0 && !validateAcademicAiText(sessionSummary, 3000).ok)) {
     return { score: 0, strengths: [], weaknesses: [], lesson: "Feedback is disabled for personal or clinical records. Use only fictional academic exercise text." };
   }
   try {
