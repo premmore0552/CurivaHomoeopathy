@@ -29,12 +29,13 @@ This document records controls present in the source branch and actions still re
 
 ### API and browser protections
 
-- Express JSON input has a 128 KiB body limit.
+- Express JSON input has a 128 KiB body limit. Netlify's `/api/*` rewrite also applies a provider-edge rate limit of 120 requests per 60 seconds, aggregated by client IP and domain. This complements the in-process route limits; it is not a shared absolute limit across all visitors.
 - Raw request bytes are retained only for the Razorpay webhook signature-verification route; ordinary API/AI requests are not duplicated into `req.rawBody`.
 - API responses receive private/no-store headers in Express and Netlify configuration.
 - Existing sensitive/private download routes retain server-side access checks and short-lived resource delivery. Public browser bundles are never treated as private.
 - Service-worker caching is limited to same-origin static script/style/image/font resources. HTML, API, authenticated/cookie-bearing, account, appointment, profile, admin, and private download paths are network-only.
 - The service worker refuses to store responses marked private/no-store/no-cache, with Set-Cookie, or with a sensitive Vary header.
+- The web Firebase client supports App Check with reCAPTCHA v3 when `VITE_FIREBASE_APPCHECK_SITE_KEY` is configured. Provider registration and enforcement must still be completed in Firebase Console; do not describe App Check as active until request metrics show attested traffic and enforcement is enabled. Native Android uses a different attestation provider and is not covered by the web integration.
 - The website HTML contains no inline JavaScript. Theme initialization and version/service-worker bootstrapping are same-origin files/modules.
 - CSP blocks inline scripts, inline script attributes, objects and framing. Style attributes remain allowed for current React/motion presentation. Razorpay, Firebase, Google authentication and font origins are explicitly allowlisted.
 - Security headers include frame denial, MIME sniffing protection, strict referrer policy, HSTS, COOP, and a restrictive Permissions Policy.
