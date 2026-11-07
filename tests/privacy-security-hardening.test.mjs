@@ -106,6 +106,7 @@ test('Firestore denies all client reads and writes to legacy patient-like collec
     assert.match(block, /allow read, write: if false/);
   }
   assert.match(firestoreRules, /function isAdmin\(\)[\s\S]*?exists\(\/databases\/\$\(database\)\/documents\/admins\/\$\(request\.auth\.uid\)\)/);
+  assert.match(firestoreRules, /data\\.active == true/);
   assert.doesNotMatch(firestoreRules, /premmore0552@gmail\.com/);
   assert.match(firestoreRules, /match \/admins\/{adminId}[\s\S]*?allow create, update, delete: if false/);
 });
@@ -182,6 +183,13 @@ test('dynamic content is rendered through a strict HTML allowlist, never raw inn
   assert.match(safeHtml, /safeHref/);
   assert.match(safeHtml, /noopener noreferrer nofollow/);
   assert.doesNotMatch(safeHtml, /dangerouslySetInnerHTML/);
+});
+
+test('privileged appointment and account-linked payment actions require verified email', () => {
+  assert.match(server, /if \(!identity\.emailVerified\)/);
+  assert.match(server, /if \(!identity\.emailVerified \|\| !appointmentAdminUids\(\)\.includes\(identity\.uid\)\)/);
+  assert.match(server, /if \(!verifiedOrderUser\.emailVerified\)/);
+  assert.match(server, /!verifiedUser\.emailVerified/);
 });
 
 test('privacy and security notices document implemented controls and known gaps', () => {
