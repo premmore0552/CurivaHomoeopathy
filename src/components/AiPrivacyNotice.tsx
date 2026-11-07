@@ -5,7 +5,7 @@ import {
   hasAiAcademicConsent
 } from '../server/aiPrivacyGuard';
 
-type Props = { compact?: boolean };
+type Props = { compact?: boolean; onChange?: (allowed: boolean) => void };
 
 export function hasCurrentAiAcademicConsent(): boolean {
   try {
@@ -16,7 +16,7 @@ export function hasCurrentAiAcademicConsent(): boolean {
   }
 }
 
-export default function AiPrivacyNotice({ compact = false }: Props) {
+export default function AiPrivacyNotice({ compact = false, onChange }: Props) {
   const [allowed, setAllowed] = useState(() => {
     try {
       return typeof sessionStorage !== 'undefined' &&
@@ -28,6 +28,7 @@ export default function AiPrivacyNotice({ compact = false }: Props) {
 
   const update = (checked: boolean) => {
     setAllowed(checked);
+    onChange?.(checked);
     try {
       if (typeof sessionStorage !== 'undefined') {
         if (checked) sessionStorage.setItem('curiva-ai-academic-consent', AI_ACADEMIC_CONSENT_VERSION);
