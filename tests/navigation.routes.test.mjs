@@ -39,7 +39,7 @@ test('desktop dropdown panels size to content and adapt their list columns', () 
   assert.ok(header.includes("minWidth: 'min(32rem, calc(100vw - 2rem))'"));
   assert.ok(header.includes("maxWidth: 'min(40rem, calc(100vw - 2rem))'"));
   assert.ok(header.includes("repeat(auto-fit, minmax(min(100%, 14rem), 1fr))"));
-  assert.equal(header.includes('<section' + '\\n' + '                      id={panelId}'), false);
+  assert.equal(header.includes('w-[min(42rem,calc(100vw-2rem))]'), false);
   assert.doesNotMatch(header, /grid grid-cols-2 gap-2/);
 });
 
