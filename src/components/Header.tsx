@@ -32,6 +32,7 @@ export default function Header() {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileGroup, setMobileGroup] = useState('Learn');
   const [scrolled, setScrolled] = useState(false);
+  const desktopNavRef = useRef<HTMLElement>(null);
   const drawerRef = useRef<HTMLDivElement>(null);
   const closeButtonRef = useRef<HTMLButtonElement>(null);
   const menuTriggerRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -61,8 +62,15 @@ export default function Header() {
         menuTriggerRefs.current[openMenu]?.focus();
       }
     };
+    const onPointerDown = (event: PointerEvent) => {
+      if (!desktopNavRef.current?.contains(event.target as Node)) setOpenMenu(null);
+    };
     document.addEventListener('keydown', onKeyDown);
-    return () => document.removeEventListener('keydown', onKeyDown);
+    document.addEventListener('pointerdown', onPointerDown);
+    return () => {
+      document.removeEventListener('keydown', onKeyDown);
+      document.removeEventListener('pointerdown', onPointerDown);
+    };
   }, [openMenu]);
 
   useEffect(() => {
@@ -116,7 +124,7 @@ export default function Header() {
             <Logo size="sm" />
           </Link>
 
-          <nav className="ml-2 hidden items-center gap-1 xl:flex" aria-label="Primary navigation">
+          <nav ref={desktopNavRef} className="ml-2 hidden items-center gap-1 xl:flex" aria-label="Primary navigation">
             {navigationGroups.map(group => {
               const Icon = groupIcons[group.label];
               const expanded = openMenu === group.label;
