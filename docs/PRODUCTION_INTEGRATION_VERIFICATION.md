@@ -25,7 +25,7 @@ Server-side variables used by the current application:
 | `CURIVA_APPOINTMENT_ADMIN_UIDS` | Comma-separated Firebase UIDs authorized for appointment administration |
 | `CURIVA_APPOINTMENT_DURATION_MINUTES` | Optional appointment event duration |
 
-The browser build may receive `VITE_RAZORPAY_KEY_ID`, which is the public checkout key only. Never place service-account JSON, Razorpay secrets, webhook secrets, Gemini keys, Resend keys, or private signing keys in `VITE_*` variables or source control.
+The browser build may receive `VITE_RAZORPAY_KEY_ID`, which is the public checkout key only, and the public Firebase App Check site key (`VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` or the v3 fallback `VITE_FIREBASE_APPCHECK_SITE_KEY`). Never place service-account JSON, Razorpay secrets, webhook secrets, Gemini keys, Resend keys, or private signing keys in `VITE_*` variables or source control.
 
 ## 2. Automated repository checks
 
@@ -103,6 +103,7 @@ Before enabling the provider-backed production routes, record the preview URL, b
 - The production deployment must list the `api` function; a successful static-only deploy is not sufficient for `/api/*`.
 - Confirm server-side environment variables exist in the **production** context and have the correct function/runtime scopes. Inspect names, context, and secret flags only; do not print secret values into logs or tickets.
 - Compare deployed Firestore rules with the reviewed file and verify the named database.
+- Configure the intended Firebase App Check provider for web and native separately. Observe metrics before enforcement, then confirm enforcement in Firebase Console; a configured site key alone is not proof that App Check is enforcing requests.
 - Check CSP, redirects, cache headers, payment/webhook logs, Firebase App Check configuration/enforcement, backups, and provider retention settings.
 - Keep payments in test mode until the release owner explicitly approves a separate live-payment enablement.
 
