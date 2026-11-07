@@ -32,6 +32,31 @@ jobs:
 
       - name: Install locked dependencies
         run: npm ci
+
+      - name: Report full and production dependency audit
+        shell: bash
+        run: |
+          npm audit --json > /tmp/curiva-audit-full.json || true
+          npm audit --omit=dev --json > /tmp/curiva-audit-production.json || true
+          node --input-type=module <<'NODE'
+          import fs from 'node:fs';
+
+          function readAudit(path, label) {
+            try {
+              const report = JSON.parse(fs.readFileSync(path, 'utf8'));
+              const counts = report.metadata?.vulnerabilities || {};
+              console.log(`[dependency-audit] ${label}: total=${counts.total ?? 'unknown'} info=${counts.info ?? 0} low=${counts.low ?? 0} moderate=${counts.moderate ?? 0} high=${counts.high ?? 0} critical=${counts.critical ?? 0}`);
+              for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+                console.log(`[dependency-audit] ${label} ${item.severity} ${name} direct=${item.isDirect} fixAvailable=${JSON.stringify(item.fixAvailable ?? false)}`);
+              }
+            } catch {
+              console.log(`[dependency-audit] ${label}: npm audit did not return a parseable JSON report; check registry/network output.`);
+            }
+          }
+
+          readAudit('/tmp/curiva-audit-full.json', 'full-tree');
+          readAudit('/tmp/curiva-audit-production.json', 'production-only');
+          NODE
       - name: Verify Boericke source reconciliation and importer
         run: npm run test:boericke
       - name: Test native study-plan validation
