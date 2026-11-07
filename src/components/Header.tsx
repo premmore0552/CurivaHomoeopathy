@@ -191,8 +191,8 @@ export default function Header() {
             })}
           </nav>
 
-          <div className="ml-auto hidden w-[min(30vw,15rem)] min-w-0 md:block xl:max-w-xs [&>button]:!w-full">
-            <SearchAutocomplete />
+          <div className="ml-auto relative w-0 min-w-0 overflow-visible md:w-[min(30vw,15rem)] xl:max-w-xs">
+            <SearchAutocomplete triggerClassName="hidden md:block !w-full" />
           </div>
 
           <div className="hidden items-center gap-2 xl:flex">
