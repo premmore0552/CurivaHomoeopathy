@@ -47,7 +47,9 @@ test('browser disease pages consume lightweight catalog and per-system JSON asse
   assert.ok(diseaseAssets.includes("const SYSTEMS_URL = '/data/disease-hub/systems';"));
   assert.match(diseaseAssets, /new Map<string, Promise<Disease\[\]>>/);
   assert.match(diseaseAssets, /systemRequests\.set\(safeId, request\)/);
-  assert.match(diseaseGenerator, /diseaseHubData\.filter\(disease => disease\.system === system\.id\)/);
+  assert.match(diseaseGenerator, /new Map<string, typeof diseaseHubData>/);
+  assert.match(diseaseGenerator, /diseasesBySystem\.get\(disease\.system\)/);
+  assert.match(diseaseGenerator, /diseasesBySystem\.get\(system\.id\) \|\| \[\]/);
 });
 
 test('disease detail views load the selected system rather than the complete dataset', () => {
