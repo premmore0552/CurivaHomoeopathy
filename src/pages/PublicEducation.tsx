@@ -37,19 +37,19 @@ interface DiseaseEdu {
 const PUBLIC_FAQS = [
   {
     q: "What is Homoeopathy?",
-    a: "Homoeopathy is a system of alternative medicine founded in 1796 by German physician Samuel Hahnemann. It is based on the principle of 'like cures like' (Similia Similibus Curentur), meaning that a substance that causes symptoms in a healthy person can, when prepared in extremely micro-diluted doses, stimulate the body's natural defense systems to resolve similar symptoms in a sick person."
+    a: "Homoeopathy is a complementary system of healthcare that developed in Europe in the late 1700s. It includes ideas such as 'like cures like' and the use of specially prepared products. These are features of the tradition, not proof that the products treat disease. Good-quality evidence has not shown reliable benefit for any health condition. Do not delay medical care or stop a treatment that has been prescribed to you."
   },
   {
     q: "How are homoeopathic remedies made?",
-    a: "Remedies are prepared from natural sources, including plants, minerals, and organic substances. They undergo a specialized process of serial dilution and vigorous shaking (potentization or succussion). This process is believed by practitioners to minimize toxicity while maximizing the healing properties of the raw substance."
+    a: "Traditional homoeopathic products may begin with plant, mineral, or other source materials. They are often prepared through repeated dilution and shaking, a process called potentisation or succussion. The amount of starting material can vary greatly between products. This process does not prove that a product works, remove every possible risk, or guarantee its quality."
   },
   {
     q: "Is homoeopathy safe for children and pregnant individuals?",
-    a: "Homoeopathic remedies are generally considered safe and non-toxic because of their highly diluted nature. However, it is essential to consult with a qualified professional before starting any treatment. Self-prescribing without proper diagnosis can lead to delayed medical attention for serious conditions."
+    a: "No product should be assumed safe just because it is labelled homoeopathic or highly diluted. Some products may contain measurable active ingredients, contaminants, or alcohol, and may interact with medicines. Children, pregnant people, older adults, and people with long-term conditions should speak with a qualified healthcare professional before using a complementary product. Never stop prescribed treatment or delay urgent care."
   },
   {
     q: "What are 'Modalities' in Homoeopathic selection?",
-    a: "Modalities are factors that make a patient's symptoms feel better or worse. Examples include temperature (feeling better from warm wraps), time (worse at 3 AM), posture (better sitting upright), and weather (worse in damp humidity). Modalities help the Homoeopathic practitioner individualize the prescription to the unique presentation of the patient."
+    a: "In homoeopathic practice, a modality is a reported factor that seems to make a symptom better or worse, such as movement, temperature, time, or posture. It is part of the traditional case-taking method. It is not a diagnostic test and has not been shown to predict whether a homoeopathic product will work."
   }
 ];
 
@@ -138,7 +138,7 @@ export default function PublicEducation() {
     <div className="min-h-screen bg-bg-primary pb-20">
       <SEO 
         title="Public Education & Wellness Center | Curiva Homoeopathy"
-        description="Learn the basics of homoeopathy, its core principles, FAQs, and read safe, evidence-based disease education guides."
+        description="Read plain-language health guides that separate established medical information from traditional homoeopathic concepts and explain when professional care is needed."
       />
 
       {/* Hero Header */}
@@ -153,7 +153,7 @@ export default function PublicEducation() {
             Understanding <span className="text-primary italic">Homoeopathy</span>
           </h1>
           <p className="text-sm md:text-base text-text-secondary max-w-2xl mx-auto leading-relaxed">
-            Welcome to Curiva’s Public Education Hub. Explore how classical homoeopathy works, read disease education guides, and find answers to common questions about holistic natural health.
+            Welcome to Curiva’s Public Education Hub. Explore everyday health topics in clear language, understand common medical terms, and compare traditional homoeopathic ideas with current medical evidence.
           </p>
         </div>
       </header>
@@ -174,7 +174,7 @@ export default function PublicEducation() {
                 Public Health eBook Reader
               </h3>
               <p className="text-xs text-text-secondary mt-0.5">
-                Read comprehensive evidence-based medical eBooks on PCOS, Diabetes, High Blood Pressure, and Hair Loss.
+                Read plain-language public health guides on topics such as PCOS, diabetes, blood pressure, sleep, heart health, and hair care.
               </p>
             </div>
           </div>
@@ -198,12 +198,21 @@ export default function PublicEducation() {
         </div>
       </div>
 
+      <div className="max-w-4xl mx-auto px-4 -mt-8 mb-16">
+        <div className="rounded-2xl border border-sky-200 bg-sky-50 p-5 text-xs leading-relaxed text-sky-950">
+          <strong>Evidence note:</strong> Homoeopathy is a traditional complementary approach. Current evidence does not show reliable effectiveness for treating health conditions. This site explains historical ideas without presenting them as proven therapies. For independent information, see the
+          <a className="ml-1 font-bold underline" href="https://www.nhsinform.scot/tests-and-treatments/medicines-and-medical-aids/complementary-medicine/homeopathy/" target="_blank" rel="noopener noreferrer">NHS homeopathy information</a>
+          and the
+          <a className="ml-1 font-bold underline" href="https://www.nccih.nih.gov/health/homeopathy" target="_blank" rel="noopener noreferrer">US National Center for Complementary and Integrative Health</a>.
+        </div>
+      </div>
+
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-24">
         {/* Core Pillars / Principles */}
         <section className="space-y-12">
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-[10px] font-black uppercase tracking-widest text-primary">Foundation Pillars</span>
-            <h2 className="text-3xl font-display font-medium text-text-primary">Three Core Laws of Healing</h2>
+            <h2 className="text-3xl font-display font-medium text-text-primary">Three Ideas in Classical Homoeopathy</h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
@@ -213,7 +222,7 @@ export default function PublicEducation() {
               </div>
               <h3 className="text-xl font-bold text-primary">1. Law of Similars</h3>
               <p className="text-xs text-text-secondary leading-relaxed font-medium">
-                The cornerstone concept of <em>"Like Cures Like"</em> (Similia Similibus Curentur). A substance that causes a specific set of symptoms in healthy testers can stimulate recovery in a sick person displaying identical patterns.
+                This is a historical homoeopathic principle: a substance said to produce certain symptoms in healthy people is selected when a sick person has a similar symptom picture. It describes the tradition’s theory; it is not an established explanation of how disease is cured, and clinical evidence has not shown reliable benefit for specific conditions.
               </p>
             </div>
 
@@ -223,7 +232,7 @@ export default function PublicEducation() {
               </div>
               <h3 className="text-xl font-bold text-accent">2. Individualization</h3>
               <p className="text-xs text-text-secondary leading-relaxed font-medium">
-                No two prescriptions are the same. Homoeopaths treat the entire individual, assessing mental characteristics, emotional reactions, food preferences, and temperature responses alongside physical complaints.
+                Some homoeopathic practitioners use an individualized interview and consider a person’s reported symptoms, habits, and preferences. This describes a consultation style; it does not establish that the treatment is effective or replace a medical assessment.
               </p>
             </div>
 
@@ -233,7 +242,7 @@ export default function PublicEducation() {
               </div>
               <h3 className="text-xl font-bold text-emerald-600">3. The Minimum Dose</h3>
               <p className="text-xs text-text-secondary leading-relaxed font-medium">
-                Remedies are prepared in highly diluted micro-doses through a precise serial potentization process. This maximizes natural restorative energy while ensuring safe, non-toxic outcomes without common chemical side effects.
+                Many products labelled homoeopathic are prepared by repeated dilution and shaking. Very high dilution does not prove a health benefit or guarantee safety. Products can vary, may contain measurable ingredients, and should not be assumed to be harmless or used instead of proven care.
               </p>
             </div>
           </div>
@@ -244,7 +253,7 @@ export default function PublicEducation() {
           <div className="text-center max-w-2xl mx-auto space-y-2">
             <span className="text-[10px] font-black uppercase tracking-widest text-accent">Clinical Ailments</span>
             <h2 className="text-3xl font-display font-medium text-text-primary">Condition Education Guides</h2>
-            <p className="text-xs text-text-secondary">Learn about common conditions, their physical causes, prevention steps, and the classical homoeopathic perspective.</p>
+            <p className="text-xs text-text-secondary">Learn about common conditions, what is known about them, practical prevention, and warning signs. Traditional homoeopathic views are identified separately from established medical evidence.</p>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
@@ -330,7 +339,7 @@ export default function PublicEducation() {
 
                 <div className="space-y-4">
                   <h4 className="text-xs font-black text-primary uppercase tracking-wider flex items-center gap-1.5">
-                    <Compass className="w-4 h-4 text-[#159A72]" /> Common Homoeopathic Remedies
+                    <Compass className="w-4 h-4 text-[#159A72]" /> Traditional remedy names in historical texts
                   </h4>
                   <div className="flex flex-wrap gap-2 pt-1">
                     {selectedDisease.remedies.map((r, i) => (
@@ -339,6 +348,9 @@ export default function PublicEducation() {
                       </span>
                     ))}
                   </div>
+                  <p className="text-[11px] leading-relaxed text-text-secondary">
+                    These names are shown as historical examples only. They are not treatment recommendations, and no remedy should replace diagnosis, vaccination, prescribed medicine, or urgent medical care.
+                  </p>
                 </div>
               </div>
 
