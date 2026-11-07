@@ -6,6 +6,7 @@ const banner = readFileSync(
   new URL('../src/components/MedicalDisclaimerModal.tsx', import.meta.url),
   'utf8',
 );
+const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 
 test('initial disclaimer is a compact responsive bottom banner, not a full-screen modal', () => {
   assert.match(banner, /fixed inset-x-3 bottom-\[calc\(env\(safe-area-inset-bottom\)\+5\.5rem\)\]/);
