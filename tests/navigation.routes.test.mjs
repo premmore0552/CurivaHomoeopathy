@@ -7,6 +7,7 @@ const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const navigation = readFileSync(new URL('../src/navigation/navigationConfig.ts', import.meta.url), 'utf8');
 const breadcrumbs = readFileSync(new URL('../src/components/Breadcrumbs.tsx', import.meta.url), 'utf8');
 const loaders = readFileSync(new URL('../src/components/LoadingStates.tsx', import.meta.url), 'utf8');
+const fmtNavigation = readFileSync(new URL('../src/components/FmtBottomNav.tsx', import.meta.url), 'utf8');
 const catalogue = readFileSync(new URL('../src/data/resources.ts', import.meta.url), 'utf8');
 
 const routePaths = new Set(
@@ -67,6 +68,22 @@ test('route fallback is an accessible skeleton without simulated progress', () =
   assert.doesNotMatch(loaders, /[0-9]{1,3}%|estimated time/i);
   assert.match(app, /RouteLoadingScreen/);
   assert.doesNotMatch(app, /initiallyLoading|setInitiallyLoading/);
+});
+
+test('desktop and mobile retain profile switching, account access and the remedy finder', () => {
+  assert.match(header, /ProfileSwitch/);
+  assert.match(header, /<AuthButton/);
+  assert.match(header, /\/find-your-remedy/);
+});
+
+test('FMT More opens a working accessible panel with existing destinations', () => {
+  assert.match(fmtNavigation, /onClick=\{\(\) => setMoreOpen\(true\)\}/);
+  assert.match(fmtNavigation, /role="dialog"/);
+  assert.match(fmtNavigation, /aria-modal="true"/);
+  assert.match(fmtNavigation, /event\.key === 'Escape'/);
+  for (const destination of ['/fmt/viva', '/fmt/mcq', '/student-resources', '/library']) {
+    assert.ok(fmtNavigation.includes(destination), 'missing FMT More destination: ' + destination);
+  }
 });
 
 test('download URLs do not leak into the public resource catalogue', () => {
