@@ -46,6 +46,8 @@ test('browser disease pages consume lightweight catalog and per-system JSON asse
   assert.match(diseaseAssets, /\/data\/disease-hub\/catalog\.json/);
   assert.ok(diseaseAssets.includes("const SYSTEMS_URL = '/data/disease-hub/systems';"));
   assert.match(diseaseAssets, /new Map<string, Promise<Disease\[\]>>/);
+  const diseaseSearch = read('../src/components/disease-hub/DiseaseSearch.tsx');
+  assert.match(diseaseSearch, /key=\{`\$\{disease\.system\}\/\$\{disease\.slug\}`\}/);
   assert.match(diseaseAssets, /systemRequests\.set\(safeId, request\)/);
   assert.match(diseaseGenerator, /new Map<string, typeof diseaseHubData>/);
   assert.match(diseaseGenerator, /diseasesBySystem\.get\(disease\.system\)/);
