@@ -1,11 +1,11 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ChevronRight, ArrowLeft } from 'lucide-react';
-import { Disease } from '../../data/diseaseHubData';
+import type { DiseaseSummary } from '../../data/diseaseHubTypes';
 
 interface DiseaseListProps {
   system: string;
-  diseases: Disease[];
+  diseases: DiseaseSummary[];
   onSelectDisease: (id: string) => void;
   onBack: () => void;
 }
