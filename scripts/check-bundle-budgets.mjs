@@ -44,7 +44,12 @@ const catalogPath = path.join(publicDataDir, 'catalog.json');
 await access(catalogPath);
 const catalog = JSON.parse(await (await import('node:fs/promises')).readFile(catalogPath, 'utf8'));
 assert.ok(Array.isArray(catalog.systems) && catalog.systems.length >= 20, 'Disease catalog is missing its system index');
-assert.ok(Array.isArray(catalog.diseases) && catalog.diseases.length > 300, 'Disease catalog records are missing');
+assert.ok(
+  Array.isArray(catalog.diseases) &&
+  catalog.diseases.length === catalog.totalDiseases &&
+  catalog.diseases.length > 0,
+  'Disease catalog records do not match the generated total',
+);
 
 for (const system of catalog.systems) {
   const filePath = path.join(publicDataDir, 'systems', `${system.id}.json`);
