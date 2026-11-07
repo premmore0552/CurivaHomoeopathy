@@ -7,6 +7,7 @@ import { validateAcademicAiText } from "../server/aiPrivacyGuard";
  */
 
 export async function aiSearch(query: string) {
+  if (!validateAcademicAiText(query, 500).ok) return [];
   try {
     const res = await fetch("/api/gemini/search", {
       method: "POST",
@@ -29,7 +30,7 @@ export async function analyzeSymptoms(_symptoms: string) {
 
 export async function runCaseSimulationTurn(messages: any[], targetRemedy: string) {
   const latestText = messages.map(message => typeof message?.content === 'string' ? message.content : '').join('\n');
-  if (!validateAcademicAiText(latestText, 6000).ok) {
+  if (!validateAcademicAiText(targetRemedy, 120).ok || !validateAcademicAiText(latestText, 6000).ok) {
     return "This fictional study simulator does not accept personal, identifying or health information. Your text was not sent. Use only generic academic exercise prompts.";
   }
   try {
@@ -48,7 +49,8 @@ export async function runCaseSimulationTurn(messages: any[], targetRemedy: strin
 }
 
 export async function getSimulationFeedback(targetRemedy: string, userPrescription: string, sessionSummary: string) {
-  if (!validateAcademicAiText(userPrescription, 500).ok ||
+  if (!validateAcademicAiText(targetRemedy, 120).ok ||
+      !validateAcademicAiText(userPrescription, 500).ok ||
       (sessionSummary.trim().length > 0 && !validateAcademicAiText(sessionSummary, 3000).ok)) {
     return { score: 0, strengths: [], weaknesses: [], lesson: "Feedback is disabled for personal or clinical records. Use only fictional academic exercise text." };
   }
