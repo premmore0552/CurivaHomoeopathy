@@ -313,6 +313,7 @@ export default function DiseaseHub() {
   const [diseaseCatalog, setDiseaseCatalog] = useState<DiseaseSummary[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState('');
+  const [catalogAttempt, setCatalogAttempt] = useState(0);
 
   // Lightweight catalog data powers navigation and featured cards. Full records
   // are fetched only when a learner opens a specific system or disease page.
@@ -330,7 +331,7 @@ export default function DiseaseHub() {
         if (active) setCatalogLoading(false);
       });
     return () => { active = false; };
-  }, []);
+  }, [catalogAttempt]);
 
   // Derived data
   const diseasesInSystem = diseaseCatalog.filter(d => d.system === selectedSystem);
@@ -576,7 +577,12 @@ export default function DiseaseHub() {
                       </button>
                     </div>
                     {catalogLoading && <p className="text-xs text-text-secondary" role="status">Loading featured disease index…</p>}
-                    {catalogError && <p className="text-xs text-red-600" role="alert">{catalogError}</p>}
+                    {catalogError && (
+                      <div role="alert" className="flex flex-wrap items-center justify-between gap-2 text-xs text-red-600">
+                        <span>{catalogError}</span>
+                        <button type="button" onClick={() => setCatalogAttempt((attempt) => attempt + 1)} className="font-bold underline underline-offset-2">Retry disease index</button>
+                      </div>
+                    )}
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                       {diseaseCatalog.slice(0, 3).map((disease) => (
                         <DiseaseCard 
