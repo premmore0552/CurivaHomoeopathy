@@ -1381,11 +1381,18 @@ async function startServer() {
   app.post("/api/gemini/case-simulation", aiApiRateLimiter, async (req, res) => {
     try {
       const { messages, targetRemedy } = req.body;
-      if (!targetRemedy) {
-        return res.status(400).json({ error: "Target remedy is required" });
+      if (typeof targetRemedy !== "string" || targetRemedy.length > 120 || !Array.isArray(messages) || messages.length > 30) {
+        return res.status(400).json({ error: "A valid fictional study simulation is required." });
+      }
+      for (const message of messages) {
+        if (!message || typeof message !== "object" || typeof message.content !== "string" ||
+            !validateExternalAcademicText(message.content, 1500, res, "Simulation message")) {
+          return;
+        }
       }
 
-      // 100% Local Non-AI Simulator as preferred by the user!
+      // Local fictional simulator only. User-entered text is validated and is
+      // not forwarded to any external model or stored by this route.
       const userMessages = messages || [];
       const latestMsg = userMessages.length > 0 ? userMessages[userMessages.length - 1] : { role: "user", content: "" };
       const userMessageText = latestMsg.content || "";
@@ -1451,12 +1458,14 @@ async function startServer() {
 
   app.post("/api/gemini/simulation-feedback", aiApiRateLimiter, async (req, res) => {
     try {
-      const { targetRemedy, userPrescription } = req.body;
-      if (!targetRemedy || !userPrescription) {
-        return res.status(400).json({ error: "Target remedy and user prescription are required" });
+      const { targetRemedy, userPrescription, sessionSummary } = req.body;
+      if (typeof targetRemedy !== "string" || targetRemedy.length > 120 ||
+          !validateExternalAcademicText(userPrescription, 500, res, "Study answer") ||
+          (sessionSummary !== undefined && !validateExternalAcademicText(sessionSummary, 3000, res, "Session summary"))) {
+        return;
       }
 
-      // 100% Local Non-AI Feedback evaluator!
+      // Local fictional-exercise evaluator only; never use it for real prescriptions.
       const targetLower = targetRemedy.toLowerCase().trim();
       const userPrescLower = userPrescription.toLowerCase().trim();
       
