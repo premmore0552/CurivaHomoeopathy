@@ -179,7 +179,10 @@ function loadGuestState(): StudyToolkitState {
   // Migrate the previous guest workspace once into tab-scoped storage, then
   // remove its persistent localStorage copy from this browser.
   const previous = readLegacyPersistentState('guest');
-  if (previous) return previous;
+  if (previous) {
+    clearLegacyPersistentWorkspace('guest');
+    return previous;
+  }
 
   const legacyRead = <T,>(key: string, fallback: T): T => {
     try {
