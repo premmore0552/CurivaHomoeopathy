@@ -1,6 +1,6 @@
 import React from 'react';
 import { ArrowDown, AlertCircle, ShieldAlert, Stethoscope, Beaker, Pill, Activity, ChevronRight, Zap } from 'lucide-react';
-import { Disease, InvestigationItem } from '../../data/diseaseHubData';
+import type { Disease, InvestigationItem } from '../../data/diseaseHubTypes';
 import { Link } from 'react-router-dom';
 
 interface SectionProps {
