@@ -109,7 +109,7 @@ test('Firebase App Check is supported for web when an environment site key is co
 test('privacy policy distinguishes the offline Android APK from website account sync', () => {
   assert.match(privacyPolicy, /standalone Jetpack Compose Android APK has no account sign-in or cloud sync/);
   assert.match(privacyPolicy, /excluded from Android cloud backup and device-to-device transfer/);
-  assert.match(privacyPolicy, /signed-in website learning workspace may sync a limited study-progress document/);
+  assert.match(privacyPolicy, /Account-enabled learning workspace.*may sync a limited study-progress snapshot/);
 });
 
 test('Netlify build configuration contains no unused dummy provider credentials', () => {
