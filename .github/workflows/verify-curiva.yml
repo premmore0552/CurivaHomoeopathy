@@ -140,7 +140,7 @@ jobs:
         run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
 
   safe-dependency-fix:
-    if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-optimization'
+    if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-gated'
     name: Apply available non-forced npm security updates
     runs-on: ubuntu-latest
     permissions:
