@@ -1,73 +1,119 @@
-import React, { useState, useEffect } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { Cookie, X, CheckCircle } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { Cookie, Settings2, X } from 'lucide-react';
+
+const CONSENT_KEY = 'curiva-analytics-consent';
+
+type ConsentChoice = 'accepted' | 'declined' | null;
+
+function readConsent(): ConsentChoice {
+  try {
+    const value = window.localStorage.getItem(CONSENT_KEY);
+    return value === 'accepted' || value === 'declined' ? value : null;
+  } catch {
+    return 'declined';
+  }
+}
 
 const CookieConsent: React.FC = () => {
-  const [isVisible, setIsVisible] = useState(false);
+  const [choice, setChoice] = useState<ConsentChoice>(null);
+  const [open, setOpen] = useState(false);
 
   useEffect(() => {
-    const consent = localStorage.getItem('curiva-cookie-consent');
-    if (!consent) {
-      const timer = setTimeout(() => setIsVisible(true), 1500);
-      return () => clearTimeout(timer);
-    }
+    setChoice(readConsent());
   }, []);
 
-  const handleAccept = () => {
-    localStorage.setItem('curiva-cookie-consent', 'true');
-    setIsVisible(false);
+  const saveChoice = (next: Exclude<ConsentChoice, null>) => {
+    try {
+      window.localStorage.setItem(CONSENT_KEY, next);
+    } catch {
+      // A blocked storage API must fail closed: analytics stays disabled.
+      next = 'declined';
+    }
+    setChoice(next);
+    setOpen(false);
   };
 
-  const handleDecline = () => {
-    localStorage.setItem('curiva-cookie-consent', 'false');
-    setIsVisible(false);
-  };
+  const showPanel = choice === null || open;
 
   return (
-    <AnimatePresence>
-      {isVisible && (
-        <motion.div
-          initial={{ y: 100, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: 100, opacity: 0 }}
-          className="fixed bottom-6 left-6 right-6 z-[60] flex flex-col md:flex-row items-center justify-between gap-6 p-6 bg-white dark:bg-gray-900 border border-border rounded-2xl shadow-2xl max-w-4xl mx-auto"
-        >
-          <div className="flex items-start gap-4">
-            <div className="w-12 h-12 bg-primary/10 rounded-xl flex-shrink-0 flex items-center justify-center text-primary">
-              <Cookie className="w-6 h-6" />
+    <>
+      <button
+        type="button"
+        onClick={() => setOpen(true)}
+        aria-label="Open privacy and analytics settings"
+        className="fixed bottom-4 right-4 z-[58] inline-flex min-h-11 items-center gap-2 rounded-full border border-border bg-bg-secondary/95 px-4 py-2 text-xs font-bold text-text-primary shadow-xl backdrop-blur transition hover:border-primary/40"
+      >
+        <Settings2 className="h-4 w-4 text-primary" />
+        Privacy settings
+      </button>
+
+      <AnimatePresence>
+        {showPanel && (
+          <motion.div
+            role="dialog"
+            aria-modal="true"
+            aria-labelledby="curiva-privacy-settings-title"
+            initial={{ y: 24, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: 24, opacity: 0 }}
+            className="fixed bottom-20 left-4 right-4 z-[59] mx-auto max-w-2xl rounded-2xl border border-border bg-bg-secondary p-5 shadow-2xl sm:p-6"
+          >
+            <div className="flex items-start gap-3">
+              <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
+                <Cookie className="h-5 w-5" />
+              </div>
+              <div className="min-w-0 flex-1">
+                <div className="flex items-start justify-between gap-3">
+                  <div>
+                    <h2 id="curiva-privacy-settings-title" className="font-display text-base font-bold text-text-primary">
+                      Privacy and analytics preferences
+                    </h2>
+                    <p className="mt-1 text-xs leading-5 text-text-secondary">
+                      Essential storage supports sign-in, security and app features. Optional analytics are disabled unless you explicitly allow them.
+                    </p>
+                  </div>
+                  {choice !== null && (
+                    <button
+                      type="button"
+                      onClick={() => setOpen(false)}
+                      aria-label="Close privacy settings"
+                      className="rounded-lg p-2 text-text-tertiary hover:bg-bg-primary hover:text-text-primary"
+                    >
+                      <X className="h-4 w-4" />
+                    </button>
+                  )}
+                </div>
+
+                <p className="mt-3 text-xs leading-5 text-text-secondary">
+                  If enabled and an analytics provider is configured, Curiva may send a small allowlist of general feature events. The analytics adapter excludes names, contact details, account IDs, search text, prompts, messages and clinical information. Reading bookmarks and chapter progress remain in your browser and are not analytics events.
+                </p>
+
+                <div className="mt-4 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                  <button
+                    type="button"
+                    onClick={() => saveChoice('declined')}
+                    className="min-h-10 rounded-xl border border-border px-4 py-2 text-xs font-bold text-text-secondary transition hover:bg-bg-primary"
+                  >
+                    Only necessary storage
+                  </button>
+                  <button
+                    type="button"
+                    onClick={() => saveChoice('accepted')}
+                    className="min-h-10 rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white transition hover:bg-primary-dark"
+                  >
+                    Allow optional analytics
+                  </button>
+                </div>
+                <p className="mt-3 text-[10px] leading-4 text-text-tertiary">
+                  You can change this choice later using Privacy settings. Choosing only necessary storage does not prevent access to the learning library.
+                </p>
+              </div>
             </div>
-            <div className="space-y-1">
-              <h4 className="font-display font-bold text-text-primary">Cookies & Privacy</h4>
-              <p className="text-sm text-text-secondary leading-relaxed">
-                We use cookies to enhance your browsing experience, serve personalized educational content, and analyze our traffic. By clicking "Accept All", you consent to our use of cookies.
-              </p>
-            </div>
-          </div>
-          
-          <div className="flex items-center gap-3 w-full md:w-auto">
-            <button
-              onClick={handleDecline}
-              className="flex-1 md:flex-none px-6 py-2.5 text-sm font-semibold text-text-secondary hover:text-text-primary transition-colors border border-transparent"
-            >
-              Decline
-            </button>
-            <button
-              onClick={handleAccept}
-              className="flex-1 md:flex-none px-8 py-2.5 bg-primary text-white text-sm font-bold rounded-xl shadow-lg shadow-primary/20 hover:bg-primary/90 hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2"
-            >
-              <CheckCircle className="w-4 h-4" />
-              Accept All
-            </button>
-            <button
-              onClick={() => setIsVisible(false)}
-              className="p-2 text-text-secondary hover:text-text-primary md:hidden"
-            >
-              <X className="w-5 h-5" />
-            </button>
-          </div>
-        </motion.div>
-      )}
-    </AnimatePresence>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </>
   );
 };
 
