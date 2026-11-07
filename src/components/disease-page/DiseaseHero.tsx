@@ -1,7 +1,8 @@
 import React from 'react';
 import { motion } from 'motion/react';
 import { ShieldAlert, Star, Activity, AlertTriangle, ChevronRight } from 'lucide-react';
-import { Disease, DISEASE_SYSTEMS } from '../../data/diseaseHubData';
+import type { Disease } from '../../data/diseaseHubTypes';
+import { DISEASE_SYSTEMS } from '../../data/diseaseHubSystems';
 
 interface DiseaseHeroProps {
   disease: Disease;
