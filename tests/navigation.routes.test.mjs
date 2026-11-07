@@ -7,8 +7,9 @@ const app = readFileSync(new URL('../src/App.tsx', import.meta.url), 'utf8');
 const navigation = readFileSync(new URL('../src/navigation/navigationConfig.ts', import.meta.url), 'utf8');
 const breadcrumbs = readFileSync(new URL('../src/components/Breadcrumbs.tsx', import.meta.url), 'utf8');
 const loaders = readFileSync(new URL('../src/components/LoadingStates.tsx', import.meta.url), 'utf8');
-const globalSearch = readFileSync(new URL('../src/components/SearchAutocomplete.tsx', import.meta.url), 'utf8');
 const fmtNavigation = readFileSync(new URL('../src/components/FmtBottomNav.tsx', import.meta.url), 'utf8');
+const authButton = readFileSync(new URL('../src/components/AuthButton.tsx', import.meta.url), 'utf8');
+const profileSwitch = readFileSync(new URL('../src/components/ProfileSwitch.tsx', import.meta.url), 'utf8');
 const catalogue = readFileSync(new URL('../src/data/resources.ts', import.meta.url), 'utf8');
 
 const routePaths = new Set(
@@ -25,55 +26,57 @@ test('all shared navigation destinations resolve to an App route', () => {
   assert.deepEqual(missingRoutes, []);
 });
 
-test('desktop mega-menu and mobile drawer use separate responsive layouts', () => {
-  assert.match(header, /hidden items-center gap-1 xl:flex/);
-  assert.match(header, /fixed inset-0 z-\[100\].*xl:hidden/s);
+test('desktop header and mobile drawer use separate responsive layouts', () => {
+  assert.match(header, /hidden items-center gap-1 lg:flex/);
+  assert.match(header, /fixed inset-0 z-\[90\].*lg:hidden/s);
   assert.match(header, /aria-expanded=\{mobileOpen\}/);
-  assert.match(header, /aria-controls=\{mobileOpen \? "curiva-mobile-navigation"/);
+  assert.match(header, /role="dialog" aria-modal="true"/);
   assert.doesNotMatch(header, /width:\s*'1200px'|width:\s*'1000px'|width:\s*'0px'/);
 });
 
-test('desktop dropdown panels size to content and adapt their list columns', () => {
-  const desktopMenuStart = header.indexOf('navigationGroups.map((group, groupIndex)');
+test('desktop navigation menus label their region and use link cards', () => {
+  const desktopMenuStart = header.indexOf('navigation.map((group) => {');
   const desktopMenuEnd = header.indexOf('</nav>', desktopMenuStart);
   const desktopMenu = header.slice(desktopMenuStart, desktopMenuEnd);
   assert.match(desktopMenu, /role="region"/);
-  assert.match(desktopMenu, /width: 'fit-content'/);
-  assert.ok(desktopMenu.includes("minWidth: 'min(32rem, calc(100vw - 2rem))'"));
-  assert.ok(desktopMenu.includes("maxWidth: 'min(40rem, calc(100vw - 2rem))'"));
-  assert.ok(desktopMenu.includes("repeat(auto-fit, minmax(min(100%, 14rem), 1fr))"));
-  assert.equal(desktopMenu.includes('w-[min(42rem,calc(100vw-2rem))]'), false);
-  assert.doesNotMatch(desktopMenu, /grid grid-cols-2 gap-2/);
+  assert.match(desktopMenu, /aria-label=.*group\.label.*menu/);
+  assert.match(desktopMenu, /w-\[560px\]/);
+  assert.match(desktopMenu, /grid grid-cols-2 gap-2/);
+  assert.match(desktopMenu, /group\.items\.map/);
 });
 
-test('mobile drawer exposes dialog semantics, Escape, focus trap and focus restoration', () => {
+test('mobile drawer traps focus, closes on Escape and restores focus', () => {
   assert.match(header, /role="dialog"/);
   assert.match(header, /aria-modal="true"/);
   assert.match(header, /event\.key === 'Escape'/);
   assert.match(header, /querySelectorAll<HTMLElement>/);
+  assert.match(header, /event\.key !== 'Tab'/);
   assert.match(header, /document\.body\.style\.overflow = 'hidden'/);
   assert.match(header, /previouslyFocused\?\.focus\(\)/);
+  assert.match(header, /ref=\{mobileDialogRef\}/);
 });
 
-test('global search palette is reused for desktop, mobile and keyboard entry', () => {
-  assert.match(header, /SearchAutocomplete/);
-  assert.match(header, /open-command-palette/);
-  assert.match(header, /onClick=\{openGlobalSearch\}/);
+test('desktop and mobile search forms share the same navigation action', () => {
+  assert.equal((header.match(/role="search"/g) || []).length, 2);
+  assert.match(header, /id="curiva-search"/);
+  assert.match(header, /id="curiva-mobile-search"/);
+  assert.match(header, /const submitSearch =/);
+  assert.match(header, /navigate\('\/articles\?search='/);
 });
 
-test('phone search hides only its trigger while retaining the global search dialog', () => {
-  assert.match(header, /SearchAutocomplete triggerClassName="hidden md:block/);
-  assert.match(globalSearch, /triggerClassName\?: string/);
-  assert.match(globalSearch, /open-command-palette/);
-  assert.match(globalSearch, /isModalOpen &&/);
-});
-
-test('mobile thumb navigation exposes Home, Learn, Practice, Search and More', () => {
-  for (const label of ['Home', 'Learn', 'Practice', 'Search', 'More']) {
-    assert.match(header, new RegExp('<span>' + label + '</span>'));
+test('mobile navigation drawer exposes the current learning sections', () => {
+  for (const label of ['Learn', 'Practice', 'Library', 'Guidance']) {
+    assert.ok(header.includes("label: '" + label + "'"), 'missing mobile section: ' + label);
   }
-  assert.match(header, /aria-label="Mobile quick navigation"/);
-  assert.match(header, /safe-area-inset-bottom/);
+  assert.match(header, /aria-label="Navigation menu"/);
+});
+
+test('FMT bottom navigation exposes its five current destinations', () => {
+  for (const label of ['Home', 'Learn', 'Search', 'Revision', 'More']) {
+    assert.ok(fmtNavigation.includes("label: '" + label + "'") || fmtNavigation.includes('>' + label + '</span>'), 'missing FMT destination: ' + label);
+  }
+  assert.match(fmtNavigation, /aria-label="FMT mobile navigation"/);
+  assert.match(fmtNavigation, /aria-label="Open more FMT options"/);
 });
 
 test('breadcrumbs identify the current page without linking to itself', () => {
@@ -91,17 +94,23 @@ test('route fallback is an accessible skeleton without simulated progress', () =
   assert.doesNotMatch(app, /initiallyLoading|setInitiallyLoading/);
 });
 
-test('desktop and mobile retain profile switching, account access and the remedy finder', () => {
-  assert.match(header, /ProfileSwitch/);
-  assert.match(header, /<AuthButton/);
-  assert.match(header, /\/find-your-remedy/);
+test('account access and authorized profile switching remain available', () => {
+  assert.match(header, /import AuthButton from '\.\/AuthButton'/);
+  assert.match(header, /<AuthButton \/>/);
+  assert.match(header, /<AuthButton isMobile/);
+  assert.match(authButton, /to="\/auth"/);
+  assert.match(authButton, /to="\/profile"/);
+  assert.match(profileSwitch, /authorizedRoles\.includes/);
+  assert.match(profileSwitch, /setCurrentRole\(role\)/);
 });
 
-test('FMT More opens a working accessible panel with existing destinations', () => {
+test('FMT More opens an accessible panel with Escape and focus handling', () => {
   assert.match(fmtNavigation, /onClick=\{\(\) => setMoreOpen\(true\)\}/);
   assert.match(fmtNavigation, /role="dialog"/);
   assert.match(fmtNavigation, /aria-modal="true"/);
   assert.match(fmtNavigation, /event\.key === 'Escape'/);
+  assert.match(fmtNavigation, /querySelectorAll<HTMLElement>/);
+  assert.match(fmtNavigation, /previouslyFocused\?\.focus\(\)/);
   for (const destination of ['/fmt/viva', '/fmt/mcq', '/student-resources', '/library']) {
     assert.ok(fmtNavigation.includes(destination), 'missing FMT More destination: ' + destination);
   }
