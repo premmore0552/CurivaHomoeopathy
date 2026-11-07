@@ -53,7 +53,6 @@ export default function LearningPath({ profile }: LearningPathProps) {
     studyStats: {},
     bookmarks: [],
     readingHistory: [],
-    activities: [],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };
