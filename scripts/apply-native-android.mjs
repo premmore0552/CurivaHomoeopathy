@@ -117,8 +117,45 @@ await rm(path.join(project, 'capacitor-cordova-android-plugins'), { recursive: t
 let manifest = await readFile(manifestPath, 'utf8');
 manifest = manifest
   .replace(/^\s*<uses-permission android:name="android\.permission\.(?:INTERNET|ACCESS_NETWORK_STATE)"\s*\/>\s*$/gm, '')
-  .replace(/android:usesCleartextTraffic="true"/, 'android:usesCleartextTraffic="false"');
+  .replace(/android:usesCleartextTraffic="true"/, 'android:usesCleartextTraffic="false"')
+  .replace(/<application[^>]*>/s, (tag) => {
+    const setAttribute = (source, name, value) => {
+      const attribute = name + '="' + value + '"';
+      const pattern = new RegExp(name + '="[^"]*"');
+      return pattern.test(source)
+        ? source.replace(pattern, attribute)
+        : source.replace(/>$/, ' ' + attribute + '>');
+    };
+    let next = setAttribute(tag, 'android:allowBackup', 'false');
+    next = setAttribute(next, 'android:fullBackupContent', '@xml/curiva_backup_rules');
+    next = setAttribute(next, 'android:dataExtractionRules', '@xml/curiva_data_extraction_rules');
+    next = setAttribute(next, 'android:usesCleartextTraffic', 'false');
+    return next;
+  });
 await writeFile(manifestPath, manifest, 'utf8');
+
+// Study progress and display-name preferences are local-only. Explicitly exclude
+// all application data from both legacy backup and Android 12+ cloud/D2D restore.
+const xmlResourceDir = path.join(project, 'app', 'src', 'main', 'res', 'xml');
+await mkdir(xmlResourceDir, { recursive: true });
+const excludedDomains = [
+  'root', 'file', 'database', 'sharedpref', 'external',
+  'device_root', 'device_file', 'device_database', 'device_sharedpref', 'device_external'
+];
+const excludeRules = excludedDomains
+  .map((domain) => '    <exclude domain="' + domain + '" path="." />')
+  .join('\\n');
+const legacyBackupRules = '<?xml version="1.0" encoding="utf-8"?>\\n' +
+  '<full-backup-content>\\n' + excludeRules + '\\n</full-backup-content>\\n';
+const extractionBlock = (name) =>
+  '  <' + name + '>\\n' + excludeRules + '\\n  </' + name + '>';
+const dataExtractionRules = '<?xml version="1.0" encoding="utf-8"?>\\n' +
+  '<data-extraction-rules>\\n' +
+  extractionBlock('cloud-backup') + '\\n' +
+  extractionBlock('device-transfer') + '\\n' +
+  '</data-extraction-rules>\\n';
+await writeFile(path.join(xmlResourceDir, 'curiva_backup_rules.xml'), legacyBackupRules, 'utf8');
+await writeFile(path.join(xmlResourceDir, 'curiva_data_extraction_rules.xml'), dataExtractionRules, 'utf8');
 
 const valuesDir = path.join(project, 'app', 'src', 'main', 'res', 'values');
 await mkdir(valuesDir, { recursive: true });
