@@ -57,7 +57,7 @@ self.addEventListener('fetch', (event) => {
   // Never cache document responses: a route may render account-specific data.
   const acceptsHtml = request.headers.get('accept')?.includes('text/html');
   if (acceptsHtml) {
-    event.respondWith(fetch(request).catch(() => caches.match('/') ));
+    event.respondWith(fetch(request));
     return;
   }
 
