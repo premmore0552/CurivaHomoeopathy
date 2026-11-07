@@ -9,11 +9,16 @@ import {
   initializeTestEnvironment,
 } from '@firebase/rules-unit-testing';
 import {
+  collection,
+  deleteDoc,
   doc,
   getDoc,
+  getDocs,
+  query,
   serverTimestamp,
   setDoc,
   updateDoc,
+  where,
 } from 'firebase/firestore';
 
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
@@ -78,6 +83,118 @@ function orderRecord(userId, status = 'pending') {
     createdAt: serverTimestamp(),
   };
 }
+
+
+function practiceCaseLog(userId = 'alice', id = 'CASE-00001') {
+  return {
+    id,
+    userId,
+    userEmail: userId + '@example.test',
+    testType: 'repertory_check',
+    testDate: '2026-11-07',
+    clinicName: 'BHMS classroom exercise',
+    physicianName: 'Fictional student author',
+    resultStatus: 'Nux Vomica',
+    hpvResult: 'not-detected',
+    notes: 'Fictional textbook practice only.',
+    createdAt: '2026-11-07T01:00:00.000Z',
+  };
+}
+
+test('simulated case logs are private, owner-bound, immutable to clients and owner-deletable', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const signedOut = testEnv.unauthenticatedContext().firestore();
+  const record = practiceCaseLog();
+  const aliceRef = doc(alice, 'kits', record.id);
+
+  await assertSucceeds(setDoc(aliceRef, record));
+  await assertSucceeds(getDoc(aliceRef));
+
+  const aliceList = await assertSucceeds(getDocs(query(
+    collection(alice, 'kits'),
+    where('userId', '==', 'alice'),
+  )));
+  assert.equal(aliceList.size, 1);
+
+  await assertFails(getDoc(doc(bob, 'kits', record.id)));
+  await assertFails(getDocs(query(collection(bob, 'kits'), where('userId', '==', 'alice'))));
+  await assertFails(getDoc(doc(signedOut, 'kits', record.id)));
+  await assertFails(setDoc(doc(bob, 'kits', 'CASE-CROSS-USER'), practiceCaseLog('alice', 'CASE-CROSS-USER')));
+
+  await assertFails(updateDoc(aliceRef, {
+    notes: 'Client must not modify a saved case log.',
+  }));
+
+  const injected = practiceCaseLog('alice', 'CASE-INJECTED');
+  injected.admin = true;
+  await assertFails(setDoc(doc(alice, 'kits', injected.id), injected));
+
+  const oversized = practiceCaseLog('alice', 'CASE-OVERSIZED');
+  oversized.notes = 'x'.repeat(1201);
+  await assertFails(setDoc(doc(alice, 'kits', oversized.id), oversized));
+
+  const wrongDocumentId = practiceCaseLog('alice', 'CASE-DIFFERENT');
+  await assertFails(setDoc(doc(alice, 'kits', 'CASE-OTHER'), wrongDocumentId));
+
+  await assertFails(deleteDoc(doc(bob, 'kits', record.id)));
+  await assertSucceeds(deleteDoc(aliceRef));
+  await assertFails(getDoc(aliceRef));
+});
+
+test('admin memberships with active false do not grant administrator access', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test', email_verified: true }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  await assertSucceeds(setDoc(doc(alice, 'admins', 'alice'), {
+    active: false,
+    createdAt: serverTimestamp(),
+  }));
+  await assertFails(setDoc(doc(alice, 'admins', 'bob'), {
+    active: true,
+    createdAt: serverTimestamp(),
+  }));
+  await assertFails(setDoc(doc(bob, 'questions', 'admin-attempt'), {
+    userId: 'bob',
+    subject: 'Test',
+    content: 'Test content that is sufficiently long.',
+    status: 'featured',
+    createdAt: serverTimestamp(),
+  }));
+});
+
+test('user profiles use a closed schema and bounded fields', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const valid = {
+    uid: 'alice',
+    email: 'alice@example.test',
+    displayName: 'Alice',
+    profession: 'BHMS Student',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  };
+  await assertSucceeds(setDoc(doc(alice, 'users', 'alice'), valid));
+
+  const injected = {
+    uid: 'alice',
+    email: 'alice@example.test',
+    displayName: 'Alice',
+    profession: 'BHMS Student',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+    isAdmin: true,
+  };
+  await assertFails(setDoc(doc(alice, 'users', 'injected'), injected));
+
+  await assertFails(updateDoc(doc(alice, 'users', 'alice'), {
+    displayName: 'x'.repeat(101),
+    updatedAt: serverTimestamp(),
+  }));
+
+  await assertFails(updateDoc(doc(alice, 'users', 'alice'), {
+    phoneNumber: '9'.repeat(41),
+    updatedAt: serverTimestamp(),
+  }));
+});
 
 test('appointment requests cannot be created while signed out', async () => {
   const db = testEnv.unauthenticatedContext().firestore();
@@ -179,6 +296,7 @@ test('users cannot self-assign administrator status through profiles or admin me
     email: 'alice@example.test',
     profession: 'BHMS Student',
     createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   };
   const aliceProfile = doc(alice, 'users', 'alice');
   await assertSucceeds(setDoc(aliceProfile, safeProfile));
