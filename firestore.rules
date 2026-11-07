@@ -36,7 +36,8 @@ service cloud.firestore {
     // and the historic bootstrap email are not administrator credentials.
     function isAdmin() {
       return isSignedIn() &&
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
     // --- Validation Helpers ---
