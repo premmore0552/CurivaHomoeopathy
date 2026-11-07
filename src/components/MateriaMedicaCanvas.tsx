@@ -10,6 +10,8 @@ import {
   Bookmark, BookmarkCheck, ArrowUpDown, SlidersHorizontal
 } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
+import AiPrivacyNotice, { hasCurrentAiAcademicConsent } from './AiPrivacyNotice';
+import { AI_ACADEMIC_CONSENT_VERSION, validateAcademicAiText } from '../server/aiPrivacyGuard';
 import { enhancedRemedies, RemedyDetailData } from '../data/enhancedRemedies';
 import { materiaMedicaData, RemedyDetail } from '../data/materiaMedica';
 import { 
