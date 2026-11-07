@@ -87,7 +87,8 @@ async function generateSitemap() {
 
   // Dynamic Routes - Diseases
   try {
-    const { diseaseHubData, DISEASE_SYSTEMS } = await import('../src/data/diseaseHubData.ts');
+    const { diseaseHubData } = await import('../src/data/diseaseHubData.ts');
+    const { DISEASE_SYSTEMS } = await import('../src/data/diseaseHubSystems.ts');
     
     // Systems
     DISEASE_SYSTEMS.forEach((system: any) => {
