@@ -6,7 +6,7 @@ import type { DiseaseSummary } from '../../data/diseaseHubTypes';
 interface DiseaseListProps {
   system: string;
   diseases: DiseaseSummary[];
-  onSelectDisease: (id: string) => void;
+  onSelectDisease: (system: string, slug: string) => void;
   onBack: () => void;
 }
 
