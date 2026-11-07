@@ -1,8 +1,10 @@
-import React, { useMemo } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import SEO from '../components/SEO';
 import Breadcrumbs from '../components/Breadcrumbs';
-import { diseaseHubData, DISEASE_SYSTEMS } from '../data/diseaseHubData';
+import type { Disease } from '../data/diseaseHubTypes';
+import { DISEASE_SYSTEMS } from '../data/diseaseHubSystems';
+import { loadDiseaseSystem } from '../data/diseaseHubAssets';
 import { DiseaseCard } from '../components/disease-hub/DiseaseCard';
 import { motion } from 'motion/react';
 import { AlertCircle, GraduationCap, Stethoscope, ArrowLeft } from 'lucide-react';
@@ -11,15 +13,33 @@ const DiseaseCategoryPage: React.FC = () => {
   const { systemSlug } = useParams<{ systemSlug: string }>();
   const navigate = useNavigate();
 
-  const system = useMemo(() => 
-    DISEASE_SYSTEMS.find(s => s.id === systemSlug), 
-    [systemSlug]
-  );
+  const system = DISEASE_SYSTEMS.find((item) => item.id === systemSlug);
+  const [diseases, setDiseases] = useState<Disease[]>([]);
+  const [loading, setLoading] = useState(Boolean(systemSlug));
+  const [loadError, setLoadError] = useState('');
+  const [loadAttempt, setLoadAttempt] = useState(0);
 
-  const diseases = useMemo(() => 
-    diseaseHubData.filter(d => d.system === systemSlug),
-    [systemSlug]
-  );
+  useEffect(() => {
+    if (!systemSlug) {
+      setDiseases([]);
+      setLoading(false);
+      return;
+    }
+    let active = true;
+    setLoading(true);
+    setLoadError('');
+    loadDiseaseSystem(systemSlug)
+      .then((items) => {
+        if (active) setDiseases(items);
+      })
+      .catch((error: unknown) => {
+        if (active) setLoadError(error instanceof Error ? error.message : 'This disease system could not be loaded.');
+      })
+      .finally(() => {
+        if (active) setLoading(false);
+      });
+    return () => { active = false; };
+  }, [systemSlug, loadAttempt]);
 
   if (!system) {
     return (
@@ -36,6 +56,19 @@ const DiseaseCategoryPage: React.FC = () => {
   const examPriority = diseases.filter(d => d.examPriority === 'High' && d.clinicalPriority !== 'High');
   const clinicalPriority = diseases.filter(d => d.clinicalPriority === 'High' && d.examPriority !== 'High');
   const emergency = diseases.filter(d => d.emergencyLevel !== 'None');
+
+  if (loading) {
+    return <div className="mx-auto max-w-3xl p-10 text-center text-sm text-text-secondary" role="status">Loading detailed disease modules for this system…</div>;
+  }
+
+  if (loadError) {
+    return (
+      <div className="mx-auto max-w-3xl space-y-4 p-10 text-center" role="alert">
+        <p className="text-sm text-red-600">{loadError}</p>
+        <button type="button" onClick={() => setLoadAttempt((attempt) => attempt + 1)} className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white">Retry loading this system</button>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -70,7 +103,7 @@ const DiseaseCategoryPage: React.FC = () => {
                   </div>
                   <div className="grid gap-4">
                     {highPriority.map(d => (
-                      <DiseaseCard key={d.id} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
+                      <DiseaseCard key={`${d.system}/${d.slug}`} disease={d} onClick={(systemId, slug) => navigate(`/disease-hub/${systemId}/${slug}`)} />
                     ))}
                   </div>
                 </div>
