@@ -125,7 +125,7 @@ export default function Header() {
           </Link>
 
           <nav ref={desktopNavRef} className="ml-2 hidden items-center gap-1 xl:flex" aria-label="Primary navigation">
-            {navigationGroups.map(group => {
+            {navigationGroups.map((group, groupIndex) => {
               const Icon = groupIcons[group.label];
               const expanded = openMenu === group.label;
               const active = isActiveRoute(location.pathname, group.to) ||
@@ -164,10 +164,16 @@ export default function Header() {
                   </button>
 
                   {expanded && (
-                    <section
+                    <div
                       id={panelId}
+                      role="region"
                       aria-label={group.label + ' navigation'}
-                      className="absolute left-0 top-full z-[80] mt-2 max-h-[min(75vh,42rem)] w-[min(42rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl"
+                      className={'absolute ' + (groupIndex === navigationGroups.length - 1 ? 'right-0' : 'left-0') + ' top-full z-[80] mt-2 max-h-[min(75vh,42rem)] overflow-y-auto rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl'}
+                      style={{
+                        width: 'fit-content',
+                        minWidth: 'min(32rem, calc(100vw - 2rem))',
+                        maxWidth: 'min(40rem, calc(100vw - 2rem))',
+                      }}
                     >
                       <div className="mb-4 flex items-start gap-3 border-b border-border pb-4">
                         <span className="rounded-xl bg-primary/10 p-2.5 text-primary">
@@ -181,27 +187,30 @@ export default function Header() {
                           View all <ChevronRight className="h-3.5 w-3.5" aria-hidden="true" />
                         </Link>
                       </div>
-                      <div className="grid grid-cols-2 gap-2">
+                      <div
+                        className="grid gap-2"
+                        style={{ gridTemplateColumns: 'repeat(auto-fit, minmax(min(100%, 14rem), 1fr))' }}
+                      >
                         {group.items.map(item => (
                           <Link
                             key={item.to}
                             to={item.to}
                             onClick={() => setOpenMenu(null)}
                             aria-current={isActiveRoute(location.pathname, item.to) ? 'page' : undefined}
-                            className="group min-h-[76px] rounded-xl p-3 transition-colors hover:bg-bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+                            className="group flex h-full min-w-0 flex-col rounded-xl p-3 transition-colors hover:bg-bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
                           >
-                            <span className="flex items-center justify-between gap-2 text-sm font-semibold text-text-primary">
+                            <span className="flex items-start justify-between gap-2 break-words text-sm font-semibold text-text-primary">
                               {item.label}
                               <ChevronRight className="h-4 w-4 shrink-0 text-text-tertiary transition-transform group-hover:translate-x-0.5 group-hover:text-primary" aria-hidden="true" />
                             </span>
-                            <span className="mt-1 block text-xs leading-relaxed text-text-secondary">{item.description}</span>
+                            <span className="mt-1 block break-words text-xs leading-relaxed text-text-secondary">{item.description}</span>
                           </Link>
                         ))}
                       </div>
                       <Link to="/profile" onClick={() => setOpenMenu(null)} className="mt-4 flex min-h-11 items-center justify-between rounded-xl bg-primary px-4 py-3 text-sm font-bold text-white transition-opacity hover:opacity-90">
                         Continue learning <Sparkles className="h-4 w-4" aria-hidden="true" />
                       </Link>
-                    </section>
+                    </div>
                   )}
                 </div>
               );
