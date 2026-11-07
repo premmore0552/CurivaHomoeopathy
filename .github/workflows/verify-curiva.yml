@@ -158,12 +158,43 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Refresh package lock for selected safe versions
+        run: npm install --package-lock-only --ignore-scripts
+
       - name: Install locked dependencies
         run: npm ci
 
       - name: Apply npm audit fixes without forcing major upgrades
         continue-on-error: true
         run: npm audit fix
+
+      - name: Report remaining dependency advisories
+        shell: bash
+        run: |
+          npm audit --json > "$RUNNER_TEMP/npm-audit-after-fix.json" || true
+          node - "$RUNNER_TEMP/npm-audit-after-fix.json" <<'NODE'
+          const fs = require('node:fs');
+          let report = {};
+          try {
+            report = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          } catch (error) {
+            console.log('Post-fix npm audit report could not be parsed:', error.message);
+            process.exit(0);
+          }
+          console.log('POST_FIX_NPM_AUDIT_COUNTS', JSON.stringify(report.metadata?.vulnerabilities || {}));
+          for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+            const advisories = (item.via || [])
+              .filter((entry) => typeof entry === 'object')
+              .map((entry) => [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
+              .join('; ');
+            console.log(
+              `POST_FIX_NPM_AUDIT ${String(item.severity).toUpperCase()} ${name} range=${item.range} fix=${JSON.stringify(item.fixAvailable)} advisories=${advisories}`,
+            );
+          }
+          NODE
+
+      - name: Block critical npm advisories
+        run: npm audit --audit-level=critical
 
       - name: Commit safe dependency lockfile updates
         env:
