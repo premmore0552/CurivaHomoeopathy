@@ -19,7 +19,7 @@ export const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease, onClick }) =>
   return (
     <motion.button
       whileHover={{ y: -5 }}
-      onClick={() => onClick(disease.id)}
+      onClick={() => onClick(disease.system, disease.slug)}
       className="group p-6 bg-white dark:bg-zinc-900 border border-border rounded-[2rem] text-left hover:border-primary hover:shadow-xl transition-all duration-300 flex flex-col h-full"
     >
       <div className="flex flex-wrap gap-2 mb-4">
