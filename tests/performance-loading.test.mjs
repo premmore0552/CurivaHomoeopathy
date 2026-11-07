@@ -100,3 +100,13 @@ test('lazy disease catalog and detail failures expose retry actions', () => {
   assert.match(detail, /Retry loading this disease/);
   assert.match(detail, /\[systemSlug, diseaseSlug, loadAttempt\]/);
 });
+
+
+test('retrying catalog and search loads clears stale error states before refetch', () => {
+  const hub = read('../src/pages/DiseaseHub.tsx');
+  const directory = read('../src/pages/DiseaseDirectory.tsx');
+  const search = read('../src/components/disease-hub/DiseaseSearch.tsx');
+  assert.match(hub, /setCatalogLoading\(true\);\s*setCatalogError\(''\);\s*loadDiseaseHubCatalog\(\)/);
+  assert.match(directory, /setCatalogError\(''\);\s*setCatalogLoading\(true\);\s*loadDiseaseHubCatalog\(\)/);
+  assert.match(search, /setSearchError\(''\);\s*loadDiseaseHubCatalog\(\)/);
+});
