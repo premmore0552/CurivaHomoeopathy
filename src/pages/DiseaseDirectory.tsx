@@ -21,6 +21,8 @@ const DiseaseDirectory: React.FC = () => {
 
   useEffect(() => {
     let active = true;
+    setCatalogError('');
+    setCatalogLoading(true);
     loadDiseaseHubCatalog()
       .then((catalog) => {
         if (active) setDiseases(catalog.diseases);
