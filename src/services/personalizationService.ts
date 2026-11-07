@@ -69,10 +69,9 @@ export async function getPersonalizedView(params: {
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        role: params.role,
-        edge_all_open_tabs: params.tabs || [],
-        userProfile: params.userProfile,
-        userQuery: params.userQuery
+        role: ['student', 'intern', 'practitioner', 'public'].includes((params.role || '').toLowerCase())
+          ? (params.role || '').toLowerCase()
+          : 'student'
       }),
     });
 
@@ -83,7 +82,7 @@ export async function getPersonalizedView(params: {
     return await response.ok ? response.json() : getFallbackPersonalization(params.role || 'student');
   } catch (error) {
     console.error('Failed to fetch from personalization API, falling back to client-side rule engine:', error);
-    return getFallbackPersonalization(params.role || 'student', params.tabs);
+    return getFallbackPersonalization(params.role || 'student');
   }
 }
 
