@@ -5,15 +5,15 @@ import { Link } from 'react-router-dom';
 
 const HighImpactHero: React.FC = () => {
   return (
-    <section 
-      className="relative overflow-hidden pt-16 pb-24"
-      style={{ height: '700px', width: '1200px', paddingBottom: '0px', paddingTop: '0px', marginRight: '0px', marginTop: '64px', marginLeft: '0px', paddingRight: '0px', paddingLeft: '0px' }}
+    <section
+      className="relative w-full overflow-hidden py-14 md:py-20"
+      aria-labelledby="curiva-home-introduction"
     >
       {/* Background Orbs */}
       <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] pointer-events-none" />
       <div className="absolute bottom-0 left-0 translate-y-1/4 -translate-x-1/4 w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px] pointer-events-none" />
 
-      <div className="relative z-10 max-w-4xl">
+      <div className="relative z-10 mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
@@ -25,7 +25,7 @@ const HighImpactHero: React.FC = () => {
             <span className="text-[10px] font-black uppercase tracking-[0.2em]">Medical Excellence Refined</span>
           </div>
 
-          <h1 className="text-5xl md:text-7xl font-display font-black text-text-primary leading-[1.1] tracking-tight">
+          <h1 id="curiva-home-introduction" className="text-4xl md:text-7xl font-display font-black text-text-primary leading-[1.1] tracking-tight">
             The Digital Heart of <br />
             <span className="text-primary italic">Homoeopathic</span> <br />
             Education.
