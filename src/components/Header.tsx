@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   BookOpen, Brain, ChevronDown, ChevronRight, GraduationCap, Library,
   Menu, Search, ShieldCheck, Sparkles, Stethoscope, X
@@ -80,6 +80,7 @@ export default function Header() {
   const [mobileGroup, setMobileGroup] = useState<string | null>('Learn');
   const [query, setQuery] = useState('');
   const [scrolled, setScrolled] = useState(false);
+  const mobileDialogRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 12);
@@ -98,13 +99,38 @@ export default function Header() {
     const previousOverflow = document.body.style.overflow;
     const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = 'hidden';
+    const focusTimer = window.setTimeout(() => {
+      const focusable = mobileDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      focusable?.[0]?.focus();
+    }, 0);
     const onKeyDown = (event: KeyboardEvent) => {
-      if (event.key === 'Escape') setMobileOpen(false);
+      if (event.key === 'Escape') {
+        setMobileOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = mobileDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), input:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
     };
     window.addEventListener('keydown', onKeyDown);
     return () => {
+      window.clearTimeout(focusTimer);
       document.body.style.overflow = previousOverflow;
       window.removeEventListener('keydown', onKeyDown);
+      previouslyFocused?.focus();
     };
   }, [mobileOpen]);
 
@@ -152,7 +178,7 @@ export default function Header() {
                 </Link>
 
                 {expanded && (
-                  <div className="absolute left-0 top-full mt-2 w-[560px] rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl">
+                  <div role="region" aria-label={`${group.label} menu`} className="absolute left-0 top-full mt-2 w-[560px] rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl">
                     <div className="mb-4 flex items-start gap-3 border-b border-border pb-4">
                       <div className="rounded-xl bg-primary/10 p-2.5 text-primary"><Icon className="h-5 w-5" /></div>
                       <div>
@@ -211,7 +237,7 @@ export default function Header() {
       </div>
 
       {mobileOpen && (
-        <div className="fixed inset-0 z-[90] bg-bg-primary lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
+        <div ref={mobileDialogRef} className="fixed inset-0 z-[90] bg-bg-primary lg:hidden" role="dialog" aria-modal="true" aria-label="Navigation menu">
           <div className="flex h-full flex-col">
             <div className="flex items-center justify-between border-b border-border px-4 py-3">
               <Logo size="sm" />
