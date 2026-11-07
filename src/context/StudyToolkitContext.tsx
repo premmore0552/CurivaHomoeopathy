@@ -139,14 +139,20 @@ function writeStoredState(key: string, value: StudyToolkitState): void {
 
 function clearLegacyPersistentWorkspace(scope: string): void {
   if (typeof localStorage === 'undefined') return;
+  // Legacy unscoped keys belong to the old guest workspace. Never delete them
+  // merely because a different account signs in.
   const exactKeys = [
-    'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
-    'curiva-toolkit-notes', 'curiva-toolkit-reading-log', 'curiva-toolkit-reflection',
-    'curiva-toolkit-goal', 'curiva-toolkit-weekly-target', 'curiva-toolkit-exam-date',
-    'curiva-study-toolkit-v1:guest',
     `curiva-study-toolkit-v1:${scope}`,
     `curiva-study-toolkit-v1:${scope}:synced-base`
   ];
+  if (scope === 'guest') {
+    exactKeys.push(
+      'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
+      'curiva-toolkit-notes', 'curiva-toolkit-reading-log', 'curiva-toolkit-reflection',
+      'curiva-toolkit-goal', 'curiva-toolkit-weekly-target', 'curiva-toolkit-exam-date',
+      'curiva-study-toolkit-v1:guest'
+    );
+  }
   try {
     exactKeys.forEach(key => localStorage.removeItem(key));
   } catch {
