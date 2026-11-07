@@ -164,6 +164,10 @@ jobs:
       - name: Test Firestore security rules in the emulator
         run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
 
+      - name: Smoke-test the live Netlify Deploy Preview
+        if: github.event_name == 'pull_request'
+        run: npm run verify:deploy-preview -- "https://deploy-preview-${{ github.event.pull_request.number }}--curivahomoeopathy.netlify.app"
+
   safe-dependency-fix:
     if: github.event_name == 'pull_request' && github.head_ref == 'security/issue-46-netlify-deploy-fix'
     name: Apply available non-forced npm security updates
