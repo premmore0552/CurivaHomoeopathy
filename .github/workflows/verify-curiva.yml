@@ -138,3 +138,43 @@ jobs:
 
       - name: Test Firestore security rules in the emulator
         run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
+
+  safe-dependency-fix:
+    if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-optimization'
+    name: Apply available non-forced npm security updates
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - name: Check out the Phase 2 pull-request branch
+        uses: actions/checkout@v7
+        with:
+          ref: ${{ github.head_ref }}
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install locked dependencies
+        run: npm ci
+
+      - name: Apply npm audit fixes without forcing major upgrades
+        continue-on-error: true
+        run: npm audit fix
+
+      - name: Commit safe dependency lockfile updates
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+        run: |
+          if git diff --quiet -- package.json package-lock.json; then
+            echo "npm audit fix produced no lockfile changes."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package.json package-lock.json
+          git commit -m "fix: update vulnerable npm dependency versions"
+          git push origin "HEAD:${HEAD_REF}"
