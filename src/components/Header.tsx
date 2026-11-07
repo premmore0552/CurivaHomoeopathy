@@ -96,6 +96,7 @@ export default function Header() {
   useEffect(() => {
     if (!mobileOpen) return;
     const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
     document.body.style.overflow = 'hidden';
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') setMobileOpen(false);

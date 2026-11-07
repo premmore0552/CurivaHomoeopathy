@@ -22,17 +22,18 @@
     "test:study-toolkit-sync": "tsx --test tests/study-toolkit-sync.test.ts",
     "test:chauhan-question-bank": "tsx --test tests/chauhan-question-bank.test.ts",
     "export:native-content": "tsx scripts/export-native-content.ts",
-    "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts"
+    "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts",
+    "verify:deploy-preview": "node scripts/verify-deploy-preview.mjs"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
     "@capacitor/core": "^8.4.1",
     "@google/genai": "^1.29.0",
-    "@tailwindcss/vite": "^4.1.14",
+    "@tailwindcss/vite": "^4.3.4",
     "@types/d3": "^7.4.3",
     "@vitejs/plugin-react": "^5.0.4",
     "d3": "^7.9.0",
-    "dotenv": "^17.2.3",
+    "dotenv": "^18.0.9",
     "express": "^4.21.2",
     "firebase": "^12.12.1",
     "lucide-react": "^0.546.0",
@@ -53,9 +54,9 @@
     "@capacitor/cli": "^8.4.1",
     "@types/express": "^4.17.21",
     "@types/node": "^22.14.0",
-    "autoprefixer": "^10.4.21",
+    "autoprefixer": "^10.6.2",
     "esbuild": "^0.28.2",
-    "tailwindcss": "^4.1.14",
+    "tailwindcss": "^4.3.4",
     "terser": "^5.46.1",
     "typescript": "~5.8.2",
     "vite": "^6.4.5"
