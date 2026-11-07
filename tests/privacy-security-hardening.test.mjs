@@ -217,8 +217,8 @@ test('server disables health-specific AI and arbitrary content-generation endpoi
 
 test('analytics and fake collection forms stay disabled', () => {
   assert.match(analytics, /Deliberately disabled/);
-  assert.doesNotMatch(analytics, /^\\s*(?:window\\.)?gtag\\s*\\(/m);
-  assert.doesNotMatch(analytics, /^\\s*console\\.log\\s*\\(/m);
+  assert.doesNotMatch(analytics, /^\s*(?:window\.)?gtag\s*\(/m);
+  assert.doesNotMatch(analytics, /^\s*console\.log\s*\(/m);
   assert.match(contactPage, /does not currently operate a verified online feedback inbox/);
   assert.doesNotMatch(contactPage, /wa\.me\/|onSubmit=/);
   assert.match(newsletter, /Newsletter subscriptions are not currently enabled/);
