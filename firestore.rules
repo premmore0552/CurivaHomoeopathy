@@ -45,19 +45,15 @@ service cloud.firestore {
       return !data.keys().hasAny(['profession']) ||
         data.profession in [
           'Guest', 'Public', 'General Public', 'BHMS Student', '1st BHMS',
-          '2nd BHMS', '3rd BHMS', '4th BHMS', 'Internship Student',
-          'Intern', 'Practitioner', 'Faculty', 'Researcher', 'user'
+          '2nd BHMS', '3rd BHMS', '4th BHMS', '1st Year Student',
+          '2nd Year Student', '3rd Year Student', '4th Year Student',
+          'Internship Student', 'Intern', 'Practitioner', 'Faculty',
+          'Researcher', 'user'
         ];
     }
 
-    function isValidUser(data) {
-      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
-             data.keys().hasOnly([
-               'uid', 'email', 'displayName', 'photoURL', 'profession',
-               'bio', 'qualifications', 'interests', 'bookmarks',
-               'readingHistory', 'createdAt', 'updatedAt'
-             ]) &&
-             data.uid == request.auth.uid &&
+    function hasSafeUserFields(data) {
+      return data.uid == request.auth.uid &&
              data.email is string && data.email.size() <= 200 &&
              data.email == request.auth.token.get('email', '') &&
              hasSafeProfession(data) &&
@@ -71,11 +67,29 @@ service cloud.firestore {
              (!data.keys().hasAny(['qualifications']) ||
                (data.qualifications is string && data.qualifications.size() <= 160)) &&
              (!data.keys().hasAny(['interests']) ||
-               (data.interests is list && data.interests.size() <= 20)) &&
-             (!data.keys().hasAny(['bookmarks']) ||
-               (data.bookmarks is list && data.bookmarks.size() <= 500)) &&
-             (!data.keys().hasAny(['readingHistory']) ||
-               (data.readingHistory is list && data.readingHistory.size() <= 100));
+               (data.interests is list && data.interests.size() <= 20));
+    }
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
+             data.keys().hasOnly([
+               'uid', 'email', 'displayName', 'photoURL', 'profession',
+               'bio', 'qualifications', 'interests', 'createdAt', 'updatedAt'
+             ]) &&
+             hasSafeUserFields(data);
+    }
+
+    function isValidUserUpdate(data, previous) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt']) &&
+             data.uid == previous.uid &&
+             data.email == previous.email &&
+             data.createdAt == previous.createdAt &&
+             data.diff(previous).affectedKeys().hasOnly([
+               'displayName', 'photoURL', 'profession', 'bio',
+               'qualifications', 'interests', 'updatedAt'
+             ]) &&
+             data.updatedAt == request.time &&
+             hasSafeUserFields(data);
     }
 
     function isValidQuestion(data) {
@@ -168,16 +182,7 @@ service cloud.firestore {
                     incoming().createdAt == request.time;
 
       allow update: if isOwner(userId) &&
-                    isValidUser(incoming()) &&
-                    incoming().uid == existing().uid &&
-                    incoming().email == existing().email &&
-                    incoming().createdAt == existing().createdAt &&
-                    incoming().diff(existing()).affectedKeys().hasOnly([
-                      'displayName', 'photoURL', 'profession', 'bio',
-                      'qualifications', 'interests', 'bookmarks',
-                      'readingHistory', 'updatedAt'
-                    ]) &&
-                    incoming().updatedAt == request.time;
+                    isValidUserUpdate(incoming(), existing());
 
       // Account deletion and staff corrections run through a privileged,
       // audited server-side process; clients cannot erase/alter whole profiles.
