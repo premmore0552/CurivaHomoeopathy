@@ -75,6 +75,25 @@ test('service worker caches only public static resources and excludes sensitive 
   assert.doesNotMatch(serviceWorker, /cache\.put\(event\.request/);
 });
 
+test('API redirect applies a Netlify edge rate limit by client IP and domain', () => {
+  const apiStart = netlify.indexOf('from = "/api/*"');
+  assert.ok(apiStart >= 0);
+  const nextRedirect = netlify.indexOf('[[redirects]]', apiStart + 1);
+  const apiRule = netlify.slice(apiStart, nextRedirect === -1 ? netlify.length : nextRedirect);
+  assert.match(apiRule, /window_limit = 120/);
+  assert.match(apiRule, /window_size = 60/);
+  assert.match(apiRule, /aggregate_by = \["ip", "domain"\]/);
+});
+
+test('Firebase App Check is supported for web when an environment site key is configured', () => {
+  assert.match(firebaseClient, /initializeAppCheck/);
+  assert.match(firebaseClient, /ReCaptchaV3Provider/);
+  assert.match(firebaseClient, /VITE_FIREBASE_APPCHECK_SITE_KEY/);
+  assert.match(firebaseClient, /isTokenAutoRefreshEnabled: true/);
+  assert.match(firebaseClient, /!Capacitor\.isNativePlatform\(\)/);
+  assert.match(firebaseClient, /firebaseAppCheckConfigured/);
+});
+
 test('native Android does not register the website service worker', () => {
   assert.match(appBootstrap, /Capacitor\.isNativePlatform\(\)/);
   assert.match(appBootstrap, /registerPublicStaticServiceWorker/);
