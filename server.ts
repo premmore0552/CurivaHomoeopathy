@@ -772,8 +772,8 @@ async function startServer() {
         if (msg.includes("429") || msg.includes("quota") || msg.includes("RESOURCE_EXHAUSTED") || msg.includes("limit") || msg.includes("Quota")) {
           console.log(`[Gemini Status] ${currentModel} rate-limited or quota reached.`);
         } else {
-          const sanitizedMsg = msg.slice(0, 100).replace(/error/gi, 'err');
-          console.log(`[Gemini Status] ${currentModel} temporarily unavailable: ${sanitizedMsg}`);
+          // Never log provider error bodies or request-derived content.
+          console.log(`[Gemini Status] ${currentModel} temporarily unavailable (${error?.name || 'ProviderError'}).`);
         }
         if (msg.includes("API key") || msg.includes("is required") || msg.includes("not found")) {
           break;
@@ -1369,7 +1369,7 @@ async function startServer() {
 
     } catch (error: any) {
       console.error("Gemini local catalogue search failed:", error?.name || "SearchError");
-      res.status(500).json({ error: error.message || "Failed to process search" });
+      res.status(500).json({ error: "Unable to search the Curiva catalogue right now. Please try again later." });
     }
   });
 
@@ -1455,7 +1455,7 @@ async function startServer() {
       return res.json({ text: responseText });
     } catch (error: any) {
       console.error("Local case simulation failed:", error?.name || "SimulationError");
-      res.status(500).json({ error: error.message || "Failed to prompt simulation" });
+      res.status(500).json({ error: "The study simulation could not be completed. Please try again." });
     }
   });
 
@@ -1490,7 +1490,7 @@ async function startServer() {
       return res.json({ score, strengths, weaknesses, lesson });
     } catch (error: any) {
       console.error("Local study feedback failed:", error?.name || "SimulationError");
-      res.status(500).json({ error: error.message || "Failed to evaluate prescription" });
+      res.status(500).json({ error: "The study feedback could not be completed. Please try again." });
     }
   });
 
