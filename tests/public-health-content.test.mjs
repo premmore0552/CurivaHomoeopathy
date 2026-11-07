@@ -11,6 +11,7 @@ const manifest = JSON.parse(read('../public/manifest.json'));
 const home = read('../src/pages/Home.tsx');
 const homeHero = read('../src/components/home/HighImpactHero.tsx');
 const app = read('../src/App.tsx');
+const serviceWorker = read('../public/sw.js');
 
 const expandedGuides = [
   'understanding-stroke-guide',
@@ -63,4 +64,12 @@ test('homepage intro is after the study content and has no fixed desktop canvas'
   assert.ok(home.lastIndexOf('<HighImpactHero />') > home.lastIndexOf('<StudyQuickReferenceModal'));
   assert.doesNotMatch(homeHero, /width:\s*'1200px'|height:\s*'700px'/);
   assert.match(homeHero, /w-full overflow-hidden/);
+});
+
+test('service worker never stores account, API, or private download responses', () => {
+  assert.match(serviceWorker, /SENSITIVE_PATH/);
+  assert.match(serviceWorker, /request\.headers\.has\('authorization'\)/);
+  assert.match(serviceWorker, /request\.destination/);
+  assert.match(serviceWorker, /response\.headers\.get\('cache-control'\)/);
+  assert.doesNotMatch(serviceWorker, /cache\.put\(event\.request/);
 });
