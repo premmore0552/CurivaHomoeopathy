@@ -24,7 +24,7 @@ test('persistent floating controls use shared safe-area-aware position tokens', 
 });
 
 test('desktop timer, quick actions and disclaimer occupy distinct vertical rails', () => {
-  const desktopRules = styles.slice(styles.lastIndexOf('@media (min-width: 1280px)'));
+  const desktopRules = styles.slice(styles.indexOf('@media (min-width: 1280px) {\n  :root {'));
   assert.match(desktopRules, /--curiva-study-dock-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 1\.5rem\)/);
   assert.match(desktopRules, /--curiva-quick-actions-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 6rem\)/);
   assert.match(desktopRules, /--curiva-disclaimer-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 10rem\)/);
