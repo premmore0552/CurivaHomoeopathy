@@ -171,34 +171,29 @@ export enum OperationType {
 }
 
 export function handleFirestoreError(error: unknown, operationType: OperationType, path: string | null) {
-  const errCode = (error as any)?.code || '';
-  const errMsg = error instanceof Error ? error.message : String(error);
-
-  const errInfo = {
-    error: errMsg,
-    code: errCode,
-    authInfo: {
-      userId: auth.currentUser?.uid,
-      email: auth.currentUser?.email,
-      emailVerified: auth.currentUser?.emailVerified,
-      isAnonymous: auth.currentUser?.isAnonymous,
-      tenantId: auth.currentUser?.tenantId,
-      providerInfo: auth.currentUser?.providerData?.map(provider => ({
-        providerId: provider.providerId,
-        email: provider.email,
-      })) || []
-    },
+  // Firebase error messages and request paths can contain account identifiers.
+  // Keep client logs deliberately low-detail: no UID, email, tokens or raw payloads.
+  const errCode = typeof (error as any)?.code === 'string'
+    ? (error as any).code.slice(0, 80)
+    : 'unknown';
+  const errMsg = error instanceof Error ? error.message : '';
+  const collectionPath = typeof path === 'string' ? path.split('/')[0].slice(0, 64) : null;
+  const safeInfo = {
+    code: errCode || 'unknown',
     operationType,
-    path
+    collection: collectionPath,
   };
 
-  if (errCode === 'unavailable' || errMsg.includes('unavailable') || errMsg.includes('offline')) {
-    console.warn('Firestore is temporarily offline or unreachable; using local cached state.', JSON.stringify(errInfo));
+  if (errCode === 'unavailable' || errMsg.toLowerCase().includes('unavailable') || errMsg.toLowerCase().includes('offline')) {
+    console.warn('Cloud data is temporarily unavailable. Local features may remain available.', safeInfo);
     return;
   }
 
-  console.error('Firestore Error: ', JSON.stringify(errInfo));
-  throw new Error(JSON.stringify(errInfo));
+  console.error('Cloud data operation failed.', safeInfo);
+  throw new Error(JSON.stringify({
+    ...safeInfo,
+    error: 'Cloud data operation failed. Please retry. If the problem continues, contact support.'
+  }));
 }
 
 // Safe connection check for Firestore
