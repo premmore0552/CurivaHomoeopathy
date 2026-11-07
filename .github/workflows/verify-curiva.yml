@@ -198,7 +198,7 @@ jobs:
           NODE
 
       - name: Block critical npm advisories
-        run: npm audit --audit-level=critical
+        run: npm audit --audit-level=high
 
       - name: Commit safe dependency lockfile updates
         env:
