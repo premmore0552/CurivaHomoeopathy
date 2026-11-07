@@ -18,6 +18,7 @@ test('persistent floating controls use shared safe-area-aware position tokens', 
   assert.match(studyDock, /curiva-study-dock-position/);
   assert.match(disclaimer, /curiva-disclaimer-position/);
   assert.match(materiaSearch, /curiva-materia-search-position/);
+  assert.match(styles, /right: max\(11rem, calc\(var\(--curiva-floating-safe-right\) \+ 10rem\)\)/);
   assert.doesNotMatch(studyDock, /bottom-24 right-3 sm:bottom-6/);
   assert.doesNotMatch(disclaimer, /bottom-\[calc\(env\(safe-area-inset-bottom\)\+5\.5rem\)\]/);
   assert.doesNotMatch(materiaSearch, /fixed bottom-8 left-8/);
