@@ -17,6 +17,7 @@ const DiseaseCategoryPage: React.FC = () => {
   const [diseases, setDiseases] = useState<Disease[]>([]);
   const [loading, setLoading] = useState(Boolean(systemSlug));
   const [loadError, setLoadError] = useState('');
+  const [loadAttempt, setLoadAttempt] = useState(0);
 
   useEffect(() => {
     if (!systemSlug) {
@@ -38,7 +39,7 @@ const DiseaseCategoryPage: React.FC = () => {
         if (active) setLoading(false);
       });
     return () => { active = false; };
-  }, [systemSlug]);
+  }, [systemSlug, loadAttempt]);
 
   if (!system) {
     return (
@@ -61,7 +62,12 @@ const DiseaseCategoryPage: React.FC = () => {
   }
 
   if (loadError) {
-    return <div className="mx-auto max-w-3xl p-10 text-center text-sm text-red-600" role="alert">{loadError}</div>;
+    return (
+      <div className="mx-auto max-w-3xl space-y-4 p-10 text-center" role="alert">
+        <p className="text-sm text-red-600">{loadError}</p>
+        <button type="button" onClick={() => setLoadAttempt((attempt) => attempt + 1)} className="rounded-xl bg-primary px-4 py-2 text-xs font-bold text-white">Retry loading this system</button>
+      </div>
+    );
   }
 
   return (
