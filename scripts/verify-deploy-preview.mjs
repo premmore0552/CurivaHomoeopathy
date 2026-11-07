@@ -21,8 +21,12 @@ try {
   console.error('Provide a valid deploy-preview URL.');
   process.exit(2);
 }
-if (!['https:', 'http:'].includes(baseUrl.protocol)) {
-  console.error('Deploy-preview URL must use HTTP or HTTPS.');
+if (baseUrl.protocol !== 'https:') {
+  console.error('Deploy-preview URL must use HTTPS.');
+  process.exit(2);
+}
+if (!baseUrl.hostname.endsWith('--curivahomoeopathy.netlify.app')) {
+  console.error('Use a Curiva Netlify deploy permalink or deploy-preview URL; the production site alias is intentionally rejected.');
   process.exit(2);
 }
 
