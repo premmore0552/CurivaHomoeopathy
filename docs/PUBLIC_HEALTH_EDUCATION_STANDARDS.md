@@ -1,5 +1,31 @@
 # Public Health Education: Content, Reader, Privacy and Security Roadmap
 
+## Security hardening implemented on the security feature branch
+
+The following changes are implemented in the security-hardening branch and must pass the website build, Firestore emulator, API tests and CodeQL before release. They are not active in production merely because this branch exists.
+
+- Firestore user profiles use a closed field allowlist with bounded values; clients cannot add privilege fields or alter immutable account identifiers.
+- Administrator membership requires an active membership document or the verified bootstrap account. Inactive memberships do not grant access.
+- Simulated case logs are owner-readable, schema-bounded, immutable to clients after creation, and owner-deletable. New records no longer duplicate the account email. The form says to use fictional exercises only; the system does not automatically detect patient identifiers.
+- Firebase client error logs exclude account IDs, email addresses, provider identity and raw error messages.
+- Optional analytics are disabled unless a user explicitly accepts. Only allowlisted generic event names and safe primitive properties are eligible; high-risk/free-text property names are dropped.
+- The API has a global per-process rate limit, a 64 KB JSON body limit, no-store headers on API responses, and verified-email checks on clinic notification and administration endpoints.
+- Netlify sends an enforced CSP. Inline JavaScript and eval are not permitted; the app boot/theme/runtime logic has been moved into same-origin scripts. Inline styles remain allowed because the current motion-based UI applies dynamic style attributes; scripts are not granted unsafe-inline or unsafe-eval.
+- The service worker caches eligible public static assets only. HTML routes, authenticated requests, API calls and private download paths remain network-only.
+- The Privacy Policy now identifies simulated case logs and mock screening assessments, including that screening entries may contain sensitive personal health information.
+
+### Operational controls still required before a high-assurance production claim
+
+- The Express rate limiter uses an in-process store. Netlify serverless instances do not share that counter, so it is a first layer—not a distributed abuse shield. Configure platform/WAF rate limits for authentication, AI, appointment, payment and download endpoints.
+- The verified bootstrap administrator is currently identified by a verified email in Firestore rules. Migrate to a server-managed custom claim or tightly governed administrator registry, review every existing admins/{uid} document, and enforce MFA/passkeys for privileged accounts before calling admin access high-assurance.
+- No self-service full-account deletion workflow has been implemented. A support request is still needed for account-wide deletion and associated retention/backups.
+- Do a fresh npm audit and remediate production and development dependency findings. The previous dependency-install report showed 33 findings (including 5 critical); it is not acceptable to assume those are fixed.
+- Review the CSP in a real deploy preview with Firebase Google/phone authentication, reCAPTCHA, Razorpay checkout, Google Gemini, fonts, remote images, and the native app's self-hosted update bundle. Add only specific required origins; do not add unsafe inline script or broad wildcard script sources to silence breakage.
+- Configure hosting/WAF bot and DDoS controls, alerting, secret scanning, backup encryption and tested restore processes in the provider consoles.
+- Review service-account permissions and rotate credentials if any secret has ever been committed or shared. Keep production credentials out of VITE_* variables and Git history.
+- Public eBook text and images shipped to the website remain publicly accessible and can be copied. Browser controls cannot prevent that. Use licensing, attribution and takedown procedures for public content; only paid/private files in private storage with server-side entitlement checks and expiring signed URLs can be access-controlled.
+- Have qualified privacy/legal reviewers validate the actual data map, processor contracts, retention, breach workflow and applicable Indian legal obligations. Technical tests do not certify legal compliance.
+
 _Last reviewed: 7 November 2026_
 
 This plan covers the public website and its educational reading experiences. It is an engineering and editorial checklist, not a certification that any live deployment, legal compliance programme, or security control has already been independently audited.
