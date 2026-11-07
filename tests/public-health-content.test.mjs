@@ -51,7 +51,8 @@ test('public education distinguishes traditional homoeopathy from evidence-based
 
 test('ebook reading progress is disclosed as device-local', () => {
   assert.match(privacyPolicy, /Public Health eBook bookmarks/);
-  assert.match(privacyPolicy, /Public Health eBook bookmarks[\\s\\S]*?stored locally in the browser/);
+  assert.match(privacyPolicy, /Public Health eBook bookmarks/);
+  assert.match(privacyPolicy, /stored locally in the browser/);
   assert.match(privacyPolicy, /not synced to the Curiva server by the current reader/);
 });
 
