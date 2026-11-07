@@ -81,7 +81,7 @@ export default function FmtBottomNav() {
             <span className="text-[10px] font-black uppercase tracking-tighter">{item.label}</span>
           </NavLink>
         ))}
-        <button type="button" onClick={() => setMoreOpen(true)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl px-3 py-1 text-text-tertiary transition-colors hover:text-text-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary" aria-label="Open more FMT options" aria-expanded={moreOpen}>
+        <button type="button" onClick={() => setMoreOpen(true)} className="flex min-h-12 flex-col items-center justify-center gap-1 rounded-xl px-3 py-1 text-text-tertiary transition-colors hover:text-text-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary" aria-label="Open more FMT options" aria-expanded={moreOpen} aria-controls={moreOpen ? "fmt-more-options" : undefined}>
           <Menu className="h-5 w-5" aria-hidden="true" />
           <span className="text-[10px] font-black uppercase tracking-tighter">More</span>
         </button>
@@ -94,6 +94,7 @@ export default function FmtBottomNav() {
           onMouseDown={event => { if (event.target === event.currentTarget) setMoreOpen(false); }}
         >
           <section
+            id="fmt-more-options"
             ref={panelRef}
             className="w-full rounded-t-3xl border border-border bg-bg-primary p-5 pb-[calc(1.5rem+env(safe-area-inset-bottom))] shadow-2xl"
             role="dialog"
