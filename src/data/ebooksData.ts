@@ -1550,6 +1550,11 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
         content: "## Arrange prompt medical review\n\nSeek a medical review if heartburn happens most days, does not improve with suitable self-care, or is accompanied by repeated vomiting, unexplained weight loss, or food sticking when you swallow.\n\nBlood in vomit, black tar-like stools, fainting, or severe weakness needs urgent medical assessment.\n\n**Call emergency services** for new or severe chest pressure/pain, especially with breathlessness, sweating, faintness, nausea, or pain spreading to the arm, jaw, back, or neck. Do not try to diagnose this as reflux yourself."
       },
       {
+        id: "preparing-for-appointment",
+        title: "Preparing for a Reflux Appointment",
+        content: "## Make the conversation easier\n\nBefore an appointment, note when symptoms began, how often they happen, what they feel like, whether they wake you at night, and what seems to trigger or ease them. Bring a list of medicines, supplements, and any allergies.\n\nTell the clinician about difficulty or pain when swallowing, vomiting, weight change, bleeding, chest pain, pregnancy, and any heart or lung conditions. Ask what symptoms should prompt urgent care, how long a treatment trial should last, and when a review is needed.\n\nIf you have chest pressure, breathlessness, sweating, faintness, or pain spreading to the arm, jaw, back, or neck, do not wait for a routine appointment—use emergency services."
+      },
+      {
         id: "sources",
         title: "Sources & Further Reading",
         content: "## Trusted public information\n\n- [NHS — Heartburn and acid reflux](https://www.nhs.uk/conditions/heartburn-and-acid-reflux/)\n- [National Institute of Diabetes and Digestive and Kidney Diseases — GER and GERD in adults](https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults)\n\nThese resources provide general information. A clinician can help assess persistent, severe, or unusual symptoms."
