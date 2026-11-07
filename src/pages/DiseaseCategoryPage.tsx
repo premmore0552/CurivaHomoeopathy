@@ -97,7 +97,7 @@ const DiseaseCategoryPage: React.FC = () => {
                   </div>
                   <div className="grid gap-4">
                     {highPriority.map(d => (
-                      <DiseaseCard key={d.id} disease={d} onClick={() => navigate(`/disease-hub/${d.system}/${d.slug}`)} />
+                      <DiseaseCard key={`${d.system}/${d.slug}`} disease={d} onClick={(systemId, slug) => navigate(`/disease-hub/${systemId}/${slug}`)} />
                     ))}
                   </div>
                 </div>
