@@ -97,7 +97,7 @@ service cloud.firestore {
     // a record after creation or change its ownership.
     function isValidKit(data, kitId) {
       return data.keys().hasAll([
-               'id', 'userId', 'userEmail', 'testType', 'testDate', 'clinicName',
+               'id', 'userId', 'testType', 'testDate', 'clinicName',
                'physicianName', 'resultStatus', 'hpvResult', 'createdAt'
              ]) &&
              data.keys().hasOnly([
@@ -106,7 +106,7 @@ service cloud.firestore {
              ]) &&
              data.id == kitId && data.id is string && data.id.size() >= 1 && data.id.size() <= 100 &&
              data.userId == request.auth.uid &&
-             data.userEmail is string && data.userEmail.size() <= 200 &&
+             (!data.keys().hasAny(['userEmail']) || (data.userEmail is string && data.userEmail.size() <= 200)) &&
              data.testType in ['repertory_check', 'materia_medica', 'organon'] &&
              data.testDate is string && data.testDate.matches('^[0-9]{4}-[0-9]{2}-[0-9]{2}
 
