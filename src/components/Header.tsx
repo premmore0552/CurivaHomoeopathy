@@ -224,7 +224,7 @@ export default function Header() {
         </div>
       </header>
 
-      {!isFmtExperience && (
+      {!isFmtExperience && !location.pathname.startsWith('/admin/') && (
         <nav aria-label="Mobile quick navigation" className="fixed inset-x-0 bottom-0 z-[60] grid grid-cols-5 border-t border-border bg-bg-primary/95 px-1 pt-1 shadow-[0_-8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl pb-[env(safe-area-inset-bottom)] xl:hidden">
           <Link to="/" aria-current={location.pathname === '/' ? 'page' : undefined} className={"flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold " + (location.pathname === '/' ? 'text-primary' : 'text-text-secondary hover:text-primary')}>
             <Home className="h-5 w-5" aria-hidden="true" /><span>Home</span>
