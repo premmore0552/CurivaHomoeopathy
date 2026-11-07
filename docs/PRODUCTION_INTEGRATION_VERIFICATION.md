@@ -38,6 +38,7 @@ npm run build
 npm run test:privacy-security
 npm install --no-save --package-lock=false firebase-tools @firebase/rules-unit-testing
 npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
+mkdir -p .netlify-build/functions
 npx esbuild netlify/functions/api.ts --bundle --platform=node --format=esm --packages=external --outfile=.netlify-build/functions/api.mjs
 node --test tests/netlify-api.test.mjs
 ```
