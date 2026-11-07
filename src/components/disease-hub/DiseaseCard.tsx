@@ -12,7 +12,7 @@ import type { Disease, DiseaseSummary } from '../../data/diseaseHubTypes';
 
 interface DiseaseCardProps {
   disease: Disease | DiseaseSummary;
-  onClick: (id: string) => void;
+  onClick: (system: string, slug: string) => void;
 }
 
 export const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease, onClick }) => {
