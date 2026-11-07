@@ -71,6 +71,34 @@ async function startServer() {
     app.set('trust proxy', 1);
   }
 
+  app.disable('x-powered-by');
+
+  // Defense-in-depth response headers for the Express/API surface. Netlify
+  // repeats the static-site equivalents in netlify.toml.
+  app.use((req, res, next) => {
+    res.setHeader('X-Content-Type-Options', 'nosniff');
+    res.setHeader('X-Frame-Options', 'DENY');
+    res.setHeader('Referrer-Policy', 'strict-origin-when-cross-origin');
+    res.setHeader('Permissions-Policy', 'camera=(), microphone=(), geolocation=()');
+    res.setHeader('X-Permitted-Cross-Domain-Policies', 'none');
+    if (req.path.startsWith('/api/')) {
+      res.setHeader('Cache-Control', 'no-store, max-age=0, must-revalidate');
+      res.setHeader('Pragma', 'no-cache');
+    }
+    next();
+  });
+
+  // A coarse platform-side limit protects expensive and public API routes;
+  // sensitive endpoints also retain their own stricter route-specific limits.
+  const globalApiRateLimiter = rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 240,
+    standardHeaders: true,
+    legacyHeaders: false,
+    message: { success: false, error: 'Too many requests. Please try again later.' },
+  });
+  app.use('/api', globalApiRateLimiter);
+
   // Database setup (Pure JS In-Memory representation)
   // Helper to generate slug
   const generateSlug = (title: string, id: string) => {
@@ -118,6 +146,7 @@ async function startServer() {
   console.log("Database seeded with", postsDb.length, "posts in-memory.");
 
   app.use(express.json({
+    limit: '64kb',
     verify: (req: any, _res, buffer: Buffer) => {
       req.rawBody = Buffer.from(buffer);
     },
@@ -218,11 +247,14 @@ async function startServer() {
     if (!authorization.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, error: 'Sign in to notify the clinic about an appointment request.' });
     }
-    let identity: { uid: string; email: string | null };
+    let identity: { uid: string; email: string | null; emailVerified: boolean };
     try {
       identity = await verifyFirebaseIdToken(authorization.slice(7).trim());
     } catch {
       return res.status(401).json({ success: false, error: 'Your Curiva account session could not be verified.' });
+    }
+    if (!identity.emailVerified) {
+      return res.status(403).json({ success: false, error: 'Verify the email address on your Curiva account before notifying the clinic.' });
     }
     const requestId = typeof req.body?.requestId === 'string' ? req.body.requestId : '';
     if (!requestId || requestId.length > 128 || requestId.includes('/')) {
@@ -261,13 +293,13 @@ async function startServer() {
     if (!authorization.startsWith('Bearer ')) {
       return res.status(401).json({ success: false, error: 'Sign in as a clinic administrator to update requests.' });
     }
-    let identity: { uid: string; email: string | null };
+    let identity: { uid: string; email: string | null; emailVerified: boolean };
     try {
       identity = await verifyFirebaseIdToken(authorization.slice(7).trim());
     } catch {
       return res.status(401).json({ success: false, error: 'Your Curiva account session could not be verified.' });
     }
-    if (!appointmentAdminUids().includes(identity.uid)) {
+    if (!identity.emailVerified || !appointmentAdminUids().includes(identity.uid)) {
       return res.status(403).json({ success: false, error: 'This account is not configured as an appointment administrator.' });
     }
 
@@ -376,7 +408,7 @@ async function startServer() {
         errorMessage.includes('overlaps an existing clinic calendar event');
       return res.status(conflict ? 409 : 503).json({
         success: false,
-        error: conflict ? 'Another administrator changed this request; refresh before trying again.' : error?.message || 'The request could not be updated safely.',
+        error: conflict ? 'Another administrator changed this request; refresh before trying again.' : 'The request could not be updated safely. Please retry or contact support.',
       });
     }
   });
