@@ -143,9 +143,14 @@ test('simulated case logs are private, owner-bound, immutable to clients and own
 });
 
 test('admin memberships with active false do not grant administrator access', async () => {
-  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test', email_verified: true }).firestore();
+  const bootstrap = testEnv.authenticatedContext('clinic-admin', {
+    email: 'premmore0552@gmail.com',
+    email_verified: true,
+  }).firestore();
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
   const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
-  await assertSucceeds(setDoc(doc(alice, 'admins', 'alice'), {
+
+  await assertSucceeds(setDoc(doc(bootstrap, 'admins', 'alice'), {
     active: false,
     createdAt: serverTimestamp(),
   }));
@@ -153,12 +158,20 @@ test('admin memberships with active false do not grant administrator access', as
     active: true,
     createdAt: serverTimestamp(),
   }));
-  await assertFails(setDoc(doc(bob, 'questions', 'admin-attempt'), {
+
+  await assertSucceeds(setDoc(doc(bob, 'questions', 'admin-attempt'), {
     userId: 'bob',
     subject: 'Test',
     content: 'Test content that is sufficiently long.',
-    status: 'featured',
+    status: 'pending',
     createdAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(doc(alice, 'questions', 'admin-attempt'), {
+    status: 'answered',
+    answer: 'Unauthorized response',
+    answeredBy: 'alice',
+    answeredAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
   }));
 });
 
@@ -174,16 +187,10 @@ test('user profiles use a closed schema and bounded fields', async () => {
   };
   await assertSucceeds(setDoc(doc(alice, 'users', 'alice'), valid));
 
-  const injected = {
-    uid: 'alice',
-    email: 'alice@example.test',
-    displayName: 'Alice',
-    profession: 'BHMS Student',
-    createdAt: serverTimestamp(),
-    updatedAt: serverTimestamp(),
+  await assertFails(updateDoc(doc(alice, 'users', 'alice'), {
     isAdmin: true,
-  };
-  await assertFails(setDoc(doc(alice, 'users', 'injected'), injected));
+    updatedAt: serverTimestamp(),
+  }));
 
   await assertFails(updateDoc(doc(alice, 'users', 'alice'), {
     displayName: 'x'.repeat(101),
