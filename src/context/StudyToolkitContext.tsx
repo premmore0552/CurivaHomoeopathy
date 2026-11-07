@@ -137,23 +137,13 @@ function writeStoredState(key: string, value: StudyToolkitState): void {
   }
 }
 
-function clearLegacyPersistentWorkspace(scope: string): void {
+function clearLegacyPersistentWorkspace(scope: string, includeLegacyGuestKeys = false): void {
   if (typeof localStorage === 'undefined') return;
-  // Legacy unscoped keys belong to the old guest workspace. Never delete them
-  // merely because a different account signs in.
   const exactKeys = [
-    \`curiva-study-toolkit-v1:\${scope}\`,
-    \`curiva-study-toolkit-v1:\${scope}:synced-base\`
+    'curiva-study-toolkit-v1:' + scope,
+    'curiva-study-toolkit-v1:' + scope + ':synced-base'
   ];
-  if (scope === 'guest') {
-    exactKeys.push(
-      'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
-      'curiva-toolkit-notes', 'curiva-toolkit-reading-log', 'curiva-toolkit-reflection',
-      'curiva-toolkit-goal', 'curiva-toolkit-weekly-target', 'curiva-toolkit-exam-date',
-      'curiva-study-toolkit-v1:guest'
-    );
-  };
-  if (scope === 'guest') {
+  if (includeLegacyGuestKeys && scope === 'guest') {
     exactKeys.push(
       'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
       'curiva-toolkit-notes', 'curiva-toolkit-reading-log', 'curiva-toolkit-reflection',
@@ -170,31 +160,37 @@ function clearLegacyPersistentWorkspace(scope: string): void {
 
 function readLegacyPersistentState(scope: string): StudyToolkitState | null {
   try {
-    const raw = localStorage.getItem(`curiva-study-toolkit-v1:${scope}`);
+    const raw = localStorage.getItem('curiva-study-toolkit-v1:' + scope);
     return raw ? normalizeState(JSON.parse(raw)) : null;
   } catch {
     return null;
   } finally {
+    // Clear only this scope's legacy data. Guest-global keys are migrated separately.
     clearLegacyPersistentWorkspace(scope);
   }
 }
 
 function loadScopedState(scope: string): StudyToolkitState {
-  return readStoredState(scopedStorageKey(scope)) || readLegacyPersistentState(scope) || emptyState();
+  const current = readStoredState(scopedStorageKey(scope));
+  if (current) {
+    clearLegacyPersistentWorkspace(scope);
+    return current;
+  }
+  return readLegacyPersistentState(scope) || emptyState();
 }
 
 function loadGuestState(): StudyToolkitState {
   const current = readStoredState(scopedStorageKey('guest'));
   if (current) {
-    clearLegacyPersistentWorkspace('guest');
+    clearLegacyPersistentWorkspace('guest', true);
     return current;
   }
 
   // Migrate the previous guest workspace once into tab-scoped storage, then
-  // remove its persistent localStorage copy from this browser.
+  // remove the persistent copy from this browser.
   const previous = readLegacyPersistentState('guest');
   if (previous) {
-    clearLegacyPersistentWorkspace('guest');
+    clearLegacyPersistentWorkspace('guest', true);
     return previous;
   }
 
@@ -212,19 +208,19 @@ function loadGuestState(): StudyToolkitState {
   const oldCards = legacyRead<any[]>('curiva-toolkit-cards', []);
   const oldSessions = legacyRead<any[]>('curiva-toolkit-sessions', []);
   state.tasks = oldTasks.map((task, index) => ({
-    id: boundedString(task.id, 100, `legacy-task-${index}`),
+    id: boundedString(task.id, 100, 'legacy-task-' + index),
     title: boundedString(task.title, 180),
     done: task.done === true,
     date: boundedString(task.date, 10, studyDateKey())
   })).filter(task => task.title);
   state.cards = oldCards.map((card, index) => ({
-    id: boundedString(card.id, 100, `legacy-card-${index}`),
+    id: boundedString(card.id, 100, 'legacy-card-' + index),
     front: boundedString(card.front, 300),
     back: boundedString(card.back, 800),
     createdAt: new Date().toISOString()
   })).filter(card => card.front && card.back);
   state.sessions = oldSessions.map((session, index) => ({
-    id: `legacy-session-${index}`,
+    id: 'legacy-session-' + index,
     date: boundedString(session.date, 10, studyDateKey()),
     minutes: Number.isFinite(session.minutes) ? Math.max(0, session.minutes) : 0,
     topic: boundedString(session.topic, 180)
@@ -244,7 +240,7 @@ function loadGuestState(): StudyToolkitState {
   state.dailyGoal = Number(legacyRead('curiva-toolkit-goal', 60)) || 60;
   state.weeklyGoal = Number(legacyRead('curiva-toolkit-weekly-target', 300)) || 300;
   state.examDate = boundedString(legacyRead('curiva-toolkit-exam-date', ''), 10);
-  clearLegacyPersistentWorkspace('guest');
+  clearLegacyPersistentWorkspace('guest', true);
   return normalizeState(state);
 }
 
@@ -297,7 +293,7 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
       setSignedIn(Boolean(user));
       setState(emptyState());
 
-      const nextState = loadScopedState(nextScope);
+      const nextState = nextScope === 'guest' ? loadGuestState() : loadScopedState(nextScope);
       if (!active || requestId !== authRequest.current) return;
       setState(nextState);
       setScope(nextScope);
