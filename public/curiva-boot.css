@@ -1,0 +1,9 @@
+#curiva-boot-screen{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#f7f7f2;color:#123b32;font-family:system-ui,sans-serif}
+.curiva-boot-mark{width:104px;height:104px;position:relative;display:grid;place-items:center}
+.curiva-boot-orbit{position:absolute;inset:0;border:2px solid rgba(18,59,50,.12);border-top-color:#b51e70;border-radius:999px;animation:curiva-boot-spin 1.8s linear infinite}
+.curiva-boot-mark img{width:76px;height:76px;object-fit:cover;border-radius:22px;box-shadow:0 12px 28px rgba(18,59,50,.16);animation:curiva-boot-float 2.4s ease-in-out infinite}
+#curiva-boot-screen strong{font-family:Georgia,serif;font-size:21px;letter-spacing:.04em}
+#curiva-boot-screen span:last-child{font-size:12px;color:#64736e}
+@keyframes curiva-boot-spin{to{transform:rotate(360deg)}}
+@keyframes curiva-boot-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.035)}}
+@media(prefers-reduced-motion:reduce){.curiva-boot-orbit,.curiva-boot-mark img{animation:none}}
