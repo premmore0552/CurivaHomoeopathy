@@ -106,6 +106,11 @@ Use this checklist for every new or revised eBook and health article.
 
 ## 6. Monitoring and release gates
 
+### Dependency audit follow-up
+A GitHub Actions dependency-install log for this change reported **33 npm audit findings (2 low, 9 moderate, 17 high, and 5 critical)**. This is a package-audit report, not proof that the live site is exploitable, but the high and critical findings need triage before a production release. Generate a fresh `npm audit --json`, identify direct versus transitive paths and whether affected code ships to browsers or servers, update the owning dependencies, and rerun the full test suite. Do not apply a blanket force-upgrade without reviewing breaking changes.
+
+
+
 Before a public release, verify:
 - Typecheck, production build, unit tests, Firestore rules emulator tests, and CodeQL complete successfully.
 - A manual review covers mobile, desktop, screen reader/keyboard use, slow networks, offline state, and reduced-motion preferences.
