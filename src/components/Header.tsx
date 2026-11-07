@@ -136,7 +136,16 @@ export default function Header() {
                   key={group.label}
                   className="relative"
                   onMouseEnter={() => setOpenMenu(group.label)}
-                  onMouseLeave={() => setOpenMenu(current => current === group.label ? null : current)}
+                  onMouseLeave={event => {
+                    if (!event.currentTarget.contains(document.activeElement)) {
+                      setOpenMenu(current => current === group.label ? null : current);
+                    }
+                  }}
+                  onBlur={event => {
+                    if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                      setOpenMenu(current => current === group.label ? null : current);
+                    }
+                  }}
                 >
                   <button
                     ref={node => { menuTriggerRefs.current[group.label] = node; }}
