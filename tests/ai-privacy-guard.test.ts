@@ -18,10 +18,13 @@ test('privacy guard rejects common contact and identifier patterns', () => {
   assert.equal(containsPotentialPrivateHealthInformation('Call +91 9876543210'), true);
   assert.equal(containsPotentialPrivateHealthInformation('ABHA: 1234-5678-9012'), true);
   assert.equal(containsPotentialPrivateHealthInformation('MRN: ABCD-12345'), true);
+  assert.equal(containsPotentialPrivateHealthInformation('PAN: ABCDE1234F'), true);
+  assert.equal(containsPotentialPrivateHealthInformation('Passport: A1234567'), true);
 });
 
 test('privacy guard rejects first-person and record-like health narratives', () => {
   assert.equal(containsPotentialPrivateHealthInformation('My symptoms started yesterday.'), true);
+  assert.equal(containsPotentialPrivateHealthInformation('I have diabetes.'), true);
   assert.equal(containsPotentialPrivateHealthInformation('Patient name: Example Person'), true);
   assert.equal(containsPotentialPrivateHealthInformation('Please interpret this lab report.'), true);
   assert.equal(containsPotentialPrivateHealthInformation('Explain the history of homoeopathic philosophy.'), false);
