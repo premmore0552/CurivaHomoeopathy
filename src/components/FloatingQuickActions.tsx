@@ -207,7 +207,7 @@ export default function FloatingQuickActions() {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 26, stiffness: 210 }}
-              className="fixed inset-y-0 right-0 h-[100dvh] w-[min(100vw,24rem)] sm:w-100 bg-white dark:bg-gray-950 border-l border-border shadow-2xl z-50 flex flex-col"
+              className="fixed inset-y-0 right-0 z-[120] flex h-[100dvh] w-[min(100vw,24rem)] flex-col border-l border-border bg-white shadow-2xl dark:bg-gray-950 sm:w-100"
               id="fab-drawer-panel"
             >
               {/* Header */}
