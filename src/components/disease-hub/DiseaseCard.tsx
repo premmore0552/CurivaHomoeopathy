@@ -8,10 +8,10 @@ import {
   Stethoscope, 
   Leaf 
 } from 'lucide-react';
-import { Disease } from '../../data/diseaseHubData';
+import type { Disease, DiseaseSummary } from '../../data/diseaseHubTypes';
 
 interface DiseaseCardProps {
-  disease: Disease;
+  disease: Disease | DiseaseSummary;
   onClick: (id: string) => void;
 }
 
@@ -53,7 +53,7 @@ export const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease, onClick }) =>
           </div>
           <div className="flex flex-col items-center gap-1">
             <Leaf className="w-3.5 h-3.5 text-green-500" />
-            <span className="text-[8px] font-black text-green-500 uppercase">{disease.relatedRemedies.length} Remedies</span>
+            <span className="text-[8px] font-black text-green-500 uppercase">{'relatedRemedyCount' in disease ? disease.relatedRemedyCount : disease.relatedRemedies.length} Remedies</span>
           </div>
         </div>
         <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
