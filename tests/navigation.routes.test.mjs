@@ -10,10 +10,10 @@ const loaders = readFileSync(new URL('../src/components/LoadingStates.tsx', impo
 const catalogue = readFileSync(new URL('../src/data/resources.ts', import.meta.url), 'utf8');
 
 const routePaths = new Set(
-  [...app.matchAll(/<Route\\s+path=["']([^"']+)["']/g)].map(match => match[1]),
+  [...app.matchAll(/<Route\s+path=["']([^"']+)["']/g)].map(match => match[1]),
 );
 const navigationTargets = [
-  ...navigation.matchAll(/\\bto:\\s*['"]([^'"]+)['"]/g),
+  ...navigation.matchAll(/\bto:\s*['"]([^'"]+)['"]/g),
 ]
   .map(match => match[1])
   .filter(target => target.startsWith('/') && !target.includes(':') && !target.includes('#'));
@@ -25,25 +25,25 @@ test('all shared navigation destinations resolve to an App route', () => {
 
 test('desktop mega-menu and mobile drawer use separate responsive layouts', () => {
   assert.match(header, /hidden items-center gap-1 xl:flex/);
-  assert.match(header, /fixed inset-0 z-\\[100\\].*xl:hidden/s);
-  assert.match(header, /aria-expanded=\\{mobileOpen\\}/);
+  assert.match(header, /fixed inset-0 z-\[100\].*xl:hidden/s);
+  assert.match(header, /aria-expanded=\{mobileOpen\}/);
   assert.match(header, /aria-controls="curiva-mobile-navigation"/);
-  assert.doesNotMatch(header, /width:\\s*'1200px'|width:\\s*'1000px'|width:\\s*'0px'/);
+  assert.doesNotMatch(header, /width:\s*'1200px'|width:\s*'1000px'|width:\s*'0px'/);
 });
 
 test('mobile drawer exposes dialog semantics, Escape, focus trap and focus restoration', () => {
   assert.match(header, /role="dialog"/);
   assert.match(header, /aria-modal="true"/);
-  assert.match(header, /event\\.key === 'Escape'/);
+  assert.match(header, /event\.key === 'Escape'/);
   assert.match(header, /querySelectorAll<HTMLElement>/);
-  assert.match(header, /document\\.body\\.style\\.overflow = 'hidden'/);
-  assert.match(header, /previouslyFocused\\?\\.focus\\(\\)/);
+  assert.match(header, /document\.body\.style\.overflow = 'hidden'/);
+  assert.match(header, /previouslyFocused\?\.focus\(\)/);
 });
 
 test('global search palette is reused for desktop, mobile and keyboard entry', () => {
   assert.match(header, /SearchAutocomplete/);
   assert.match(header, /open-command-palette/);
-  assert.match(header, /onClick=\\{openGlobalSearch\\}/);
+  assert.match(header, /onClick=\{openGlobalSearch\}/);
 });
 
 test('mobile thumb navigation exposes Home, Learn, Practice, Search and More', () => {
@@ -56,7 +56,7 @@ test('mobile thumb navigation exposes Home, Learn, Practice, Search and More', (
 
 test('breadcrumbs identify the current page without linking to itself', () => {
   assert.match(breadcrumbs, /aria-current="page"/);
-  assert.match(breadcrumbs, /\\{last \\? \\(/);
+  assert.match(breadcrumbs, /\{last \? \(/);
 });
 
 test('route fallback is an accessible skeleton without simulated progress', () => {
@@ -70,5 +70,5 @@ test('route fallback is an accessible skeleton without simulated progress', () =
 });
 
 test('download URLs do not leak into the public resource catalogue', () => {
-  assert.doesNotMatch(catalogue, /drive\\.google\\.com|fileUrl\\s*:/);
+  assert.doesNotMatch(catalogue, /drive\.google\.com|fileUrl\s*:/);
 });
