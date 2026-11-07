@@ -127,7 +127,7 @@ const DiseaseDirectory: React.FC = () => {
               <DiseaseCard 
                 key={`${disease.system}/${disease.slug}`} 
                 disease={disease} 
-                onClick={() => navigate(`/disease-hub/${disease.system}/${disease.slug}`)}
+                onClick={(system, slug) => navigate(`/disease-hub/${system}/${slug}`)}
               />
             ))}
           </div>
