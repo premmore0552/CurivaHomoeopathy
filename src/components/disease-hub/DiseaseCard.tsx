@@ -8,18 +8,18 @@ import {
   Stethoscope, 
   Leaf 
 } from 'lucide-react';
-import { Disease } from '../../data/diseaseHubData';
+import type { Disease, DiseaseSummary } from '../../data/diseaseHubTypes';
 
 interface DiseaseCardProps {
-  disease: Disease;
-  onClick: (id: string) => void;
+  disease: Disease | DiseaseSummary;
+  onClick: (system: string, slug: string) => void;
 }
 
 export const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease, onClick }) => {
   return (
     <motion.button
       whileHover={{ y: -5 }}
-      onClick={() => onClick(disease.id)}
+      onClick={() => onClick(disease.system, disease.slug)}
       className="group p-6 bg-white dark:bg-zinc-900 border border-border rounded-[2rem] text-left hover:border-primary hover:shadow-xl transition-all duration-300 flex flex-col h-full"
     >
       <div className="flex flex-wrap gap-2 mb-4">
@@ -53,7 +53,7 @@ export const DiseaseCard: React.FC<DiseaseCardProps> = ({ disease, onClick }) =>
           </div>
           <div className="flex flex-col items-center gap-1">
             <Leaf className="w-3.5 h-3.5 text-green-500" />
-            <span className="text-[8px] font-black text-green-500 uppercase">{disease.relatedRemedies.length} Remedies</span>
+            <span className="text-[8px] font-black text-green-500 uppercase">{'relatedRemedyCount' in disease ? disease.relatedRemedyCount : disease.relatedRemedies.length} Remedies</span>
           </div>
         </div>
         <ArrowRight className="w-5 h-5 text-primary group-hover:translate-x-1 transition-transform" />
