@@ -59,9 +59,5 @@
     "terser": "^5.46.1",
     "typescript": "~5.8.2",
     "vite": "^6.2.0"
-  },
-  "overrides": {
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0"
   }
 }
