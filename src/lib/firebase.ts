@@ -45,10 +45,8 @@ const app = initializeApp(firebaseConfig);
 const appCheckEnterpriseSiteKey = import.meta.env.VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY?.trim();
 const appCheckV3SiteKey = import.meta.env.VITE_FIREBASE_APPCHECK_SITE_KEY?.trim();
 const appCheckSiteKey = appCheckEnterpriseSiteKey || appCheckV3SiteKey;
-export const firebaseAppCheckConfigured = Boolean(
-  appCheckSiteKey && !import.meta.env.DEV && !Capacitor.isNativePlatform()
-);
-if (firebaseAppCheckConfigured && appCheckSiteKey) {
+export let firebaseAppCheckConfigured = false;
+if (appCheckSiteKey && !import.meta.env.DEV && !Capacitor.isNativePlatform()) {
   try {
     initializeAppCheck(app, {
       // Prefer Enterprise for new deployments; retain v3 as an explicit fallback.
@@ -57,9 +55,12 @@ if (firebaseAppCheckConfigured && appCheckSiteKey) {
         : new ReCaptchaV3Provider(appCheckV3SiteKey!),
       isTokenAutoRefreshEnabled: true,
     });
+    // Reflect successful SDK initialization, not only the presence of a site key.
+    firebaseAppCheckConfigured = true;
   } catch {
     // Avoid exposing provider diagnostics or identifiers in client logs.
     // Firebase product enforcement must be enabled only after deployment checks.
+    firebaseAppCheckConfigured = false;
   }
 }
 

@@ -124,9 +124,10 @@ interface NativeLearningAppProps {
   account?: NativeAccountInfo | null;
   onManageAccount?: () => void;
   onSignOut?: () => Promise<void> | void;
+  onResetProgress?: () => Promise<void>;
 }
 
-export default function NativeLearningApp({ account = null, onManageAccount, onSignOut }: NativeLearningAppProps = {}) {
+export default function NativeLearningApp({ account = null, onManageAccount, onSignOut, onResetProgress }: NativeLearningAppProps = {}) {
   const [activeTab, setActiveTab] = useState<Tab>('home');
   const [screen, setScreen] = useState<Screen>('main');
   useEffect(() => {
@@ -156,6 +157,10 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
   const [quizScore, setQuizScore] = useState(0);
   const [splashVisible, setSplashVisible] = useState(true);
   const [showAllArticles, setShowAllArticles] = useState(false);
+  const [showProgressResetConfirmation, setShowProgressResetConfirmation] = useState(false);
+  const [isResettingProgress, setIsResettingProgress] = useState(false);
+  const [progressResetError, setProgressResetError] = useState('');
+  const [progressResetMessage, setProgressResetMessage] = useState('');
   const [completedLessons, setCompletedLessons] = useStoredState<string[]>('curiva-native-completed-lessons', []);
   const [bookmarks, setBookmarks] = useStoredState<string[]>('curiva-native-bookmarks', []);
   const [quizHistory, setQuizHistory] = useStoredState<StoredQuizResult[]>('curiva-native-quiz-history', []);
@@ -462,8 +467,7 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
         </>}
 
         {activeTab === 'profile' && <>
-          <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>Your progress and bookmarks stay on this device.</p></div>
-          <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>{account ? 'Study progress syncs to your account when online. Bookmarks stay on this device.' : 'Your study progress and bookmarks stay on this device.'}</p></div>
+          <div className="native-page-intro"><span className="native-eyebrow">YOUR LEARNING JOURNEY</span><h1>Look how far <em>you've come.</em></h1><p>{account ? 'Completed lessons, quiz history, mastered cards, study days, your last lesson and daily checklist sync to your Curiva account when online. Bookmarks remain on this device.' : 'Your study progress, daily checklist and bookmarks stay on this device.'}</p></div>
           <section className="native-account-card">
             <div className="native-account-icon"><UserRound size={20} /></div>
             <div className="native-account-copy">
@@ -479,7 +483,40 @@ export default function NativeLearningApp({ account = null, onManageAccount, onS
             {bookmarks.length === 0 ? <div className="native-empty-inline"><Bookmark size={20} /><span>Save articles, subjects, remedy profiles or repertory chapters to keep them close.</span></div> : <div className="native-history-list">{bookmarks.map((item) => { const parts = item.split(':'); const kind = parts[0]; const id = parts.slice(1).join(':'); if (kind === 'article') { const post = allBlogPosts.find((article) => article.slug === id || article.id === id); return post ? <button className="native-history-row native-history-row-button" key={item} onClick={() => openArticle(id)}><span className="native-history-badge"><BookOpen size={17} /></span><div><strong>{post.title}</strong><small>Reading room · saved</small></div><ChevronRight size={17} /></button> : null; } if (kind === 'remedy') { const remedy = materiaMedicaData.find((entry) => entry.id === id); return remedy ? <button className="native-history-row native-history-row-button" key={item} onClick={() => openRemedy(id)}><span className="native-history-badge"><BookMarked size={17} /></span><div><strong>{remedy.name}</strong><small>Materia Medica · saved profile</small></div><ChevronRight size={17} /></button> : null; } if (kind === 'repertory') { const chapter = repertoryDatabase.find((entry) => entry.id === id); return chapter ? <button className="native-history-row native-history-row-button" key={item} onClick={() => openRepertory(id)}><span className="native-history-badge"><Compass size={17} /></span><div><strong>{chapter.name}</strong><small>Repertory · saved chapter</small></div><ChevronRight size={17} /></button> : null; } const subject = allBhmsSubjects.find((entry) => entry.id === id); return subject ? <button className="native-history-row native-history-row-button" key={item} onClick={() => openSubject(id)}><span className="native-history-badge"><GraduationCap size={17} /></span><div><strong>{subject.title}</strong><small>{subject.year} · saved subject</small></div><ChevronRight size={17} /></button> : null; })}</div>}
           </section>
           <section className="native-section"><div className="native-section-heading"><div><span className="native-eyebrow">RECENT QUIZZES</span><h2>Performance review</h2></div></div>{quizHistory.length === 0 ? <div className="native-empty-inline"><Brain size={20} /><span>Complete a practice session to see results here.</span></div> : <div className="native-history-list">{quizHistory.slice(0, 5).map((result, index) => <div className="native-history-row" key={result.date + '-profile-' + index}><span className="native-history-badge"><Award size={17} /></span><div><strong>{result.subject}</strong><small>{result.date} · {result.score}/{result.total} correct</small></div><b>{result.percent}%</b></div>)}</div>}</section>
-          <button className="native-secondary-button" onClick={() => { setCompletedLessons([]); setQuizHistory([]); setStudyDays([]); setKnownFlashcards([]); setLastLesson(null); }}>Reset study progress <RotateCcw size={16} /></button><p className="native-reset-note">Reset clears completed topics, streak, quiz history, mastered-card count and continue-learning state on this device. It keeps your bookmarks and does not delete website content.</p>
+          {account && <div className="native-disclaimer"><ShieldCheck size={16} /><span>Cloud sync contains academic progress only: completed lesson IDs, quiz subject/date/scores, mastered card IDs, study dates, the last lesson reference and daily checklist. Bookmarks stay on this device. Do not enter or sync patient information.</span></div>}
+          <button type="button" className="native-secondary-button" disabled={isResettingProgress} onClick={() => { setProgressResetError(''); setProgressResetMessage(''); setShowProgressResetConfirmation(true); }}>{isResettingProgress ? 'Resetting progress…' : 'Reset study progress'} <RotateCcw size={16} /></button>
+          <p className="native-reset-note">{account ? 'This clears the study-progress snapshot from your Curiva account and this device. Bookmarks and your account remain.' : 'This clears study progress and the daily checklist from this device. Bookmarks remain.'}</p>
+          {progressResetMessage && <p className="native-reset-note" role="status">{progressResetMessage}</p>}
+          {progressResetError && <p className="native-reset-note" role="alert">{progressResetError}</p>}
+          {showProgressResetConfirmation && <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/60 p-4">
+            <section role="dialog" aria-modal="true" aria-labelledby="native-reset-title" className="w-full max-w-md rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl">
+              <h2 id="native-reset-title" className="text-lg font-bold text-text-primary">Reset your study progress?</h2>
+              <p className="mt-2 text-sm leading-6 text-text-secondary">{account ? 'Curiva will replace the synced progress record for your signed-in account with an empty study record and clear the progress stored on this device.' : 'Curiva will clear study progress stored on this device.'} Your bookmarks and account will remain. This action cannot be undone.</p>
+              <div className="mt-5 flex flex-col-reverse gap-2 sm:flex-row sm:justify-end">
+                <button type="button" className="native-secondary-button" disabled={isResettingProgress} onClick={() => setShowProgressResetConfirmation(false)}>Cancel</button>
+                <button type="button" className="native-primary-button" disabled={isResettingProgress} onClick={() => { void (async () => {
+                  setIsResettingProgress(true);
+                  setProgressResetError('');
+                  setProgressResetMessage('');
+                  try {
+                    if (account && !onResetProgress) throw new Error('Secure account reset is unavailable. Your progress has not been changed.');
+                    await onResetProgress?.();
+                    setCompletedLessons([]);
+                    setQuizHistory([]);
+                    setStudyDays([]);
+                    setKnownFlashcards([]);
+                    setLastLesson(null);
+                    setShowProgressResetConfirmation(false);
+                    setProgressResetMessage(account ? 'Your synced and on-device study progress has been reset.' : 'Your on-device study progress has been reset.');
+                  } catch {
+                    setProgressResetError('Progress could not be reset. No success was recorded; please retry when online.');
+                  } finally {
+                    setIsResettingProgress(false);
+                  }
+                })(); }}>Erase progress</button>
+              </div>
+            </section>
+          </div>}
         </>}
       </motion.main>}
 

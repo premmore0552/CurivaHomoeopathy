@@ -22,6 +22,24 @@ const EMPTY_PROGRESS: NativeProgressSnapshot = {
   lastLesson: null, studyPlan: null
 };
 
+// Serialize background sync and explicit reset for each UID. Without this lock, a
+// sync that read an old snapshot could finish after a reset and restore deleted data.
+const accountLocks = new Map<string, Promise<void>>();
+
+async function withAccountLock<T>(uid: string, operation: () => Promise<T>): Promise<T> {
+  const previous = accountLocks.get(uid) ?? Promise.resolve();
+  let release!: () => void;
+  const current = new Promise<void>((resolve) => { release = resolve; });
+  accountLocks.set(uid, current);
+  await previous.catch(() => undefined);
+  try {
+    return await operation();
+  } finally {
+    release();
+    if (accountLocks.get(uid) === current) accountLocks.delete(uid);
+  }
+}
+
 function parseStored<T>(key: string, fallback: T): T {
   try {
     const raw = localStorage.getItem(key);
@@ -155,22 +173,50 @@ export function prepareNativeAccountProgress(uid: string) {
 }
 
 async function syncOnce(uid: string): Promise<void> {
-  prepareLocalOwner(uid);
-  const local = readLocalProgress();
-  const progressRef = doc(db, 'nativeLearningProgress', uid);
-  const snapshot = await getDoc(progressRef);
-  const remote = snapshot.exists() ? snapshot.data() as Partial<NativeProgressSnapshot> : EMPTY_PROGRESS;
-  const merged = mergeProgress(local, {
-    completedLessons: safeStrings(remote.completedLessons, 3000),
-    quizHistory: safeQuizHistory(remote.quizHistory),
-    knownFlashcards: safeStrings(remote.knownFlashcards, 5000),
-    studyDays: safeStrings(remote.studyDays, 800),
-    lastLesson: safeLastLesson(remote.lastLesson),
-    studyPlan: safeStudyPlan(remote.studyPlan)
+  await withAccountLock(uid, async () => {
+    prepareLocalOwner(uid);
+    const local = readLocalProgress();
+    const progressRef = doc(db, 'nativeLearningProgress', uid);
+    const snapshot = await getDoc(progressRef);
+    const remote = snapshot.exists() ? snapshot.data() as Partial<NativeProgressSnapshot> : EMPTY_PROGRESS;
+    const merged = mergeProgress(local, {
+      completedLessons: safeStrings(remote.completedLessons, 3000),
+      quizHistory: safeQuizHistory(remote.quizHistory),
+      knownFlashcards: safeStrings(remote.knownFlashcards, 5000),
+      studyDays: safeStrings(remote.studyDays, 800),
+      lastLesson: safeLastLesson(remote.lastLesson),
+      studyPlan: safeStudyPlan(remote.studyPlan)
+    });
+    await setDoc(progressRef, { uid, version: 1, ...merged, updatedAt: serverTimestamp() });
+    writeLocalProgress(merged);
+    localStorage.setItem(OWNER_KEY, uid);
   });
-  await setDoc(progressRef, { uid, version: 1, ...merged, updatedAt: serverTimestamp() });
-  writeLocalProgress(merged);
-  localStorage.setItem(OWNER_KEY, uid);
+}
+
+/**
+ * Reset the active owner's study progress locally and remotely (when signed in).
+ * The empty Firestore document is retained to satisfy the no-client-delete rule,
+ * but all study fields are replaced with empty values. Bookmarks are deliberately
+ * not included in the progress schema and remain on this device.
+ */
+export async function clearNativeProgress(uid: string | null): Promise<void> {
+  const owner = uid || 'guest';
+  await withAccountLock(owner, async () => {
+    prepareLocalOwner(owner);
+    if (uid) {
+      const progressRef = doc(db, 'nativeLearningProgress', uid);
+      await setDoc(progressRef, {
+        uid,
+        version: 1,
+        ...EMPTY_PROGRESS,
+        updatedAt: serverTimestamp(),
+      });
+    }
+    writeLocalProgress(EMPTY_PROGRESS);
+    localStorage.removeItem(CACHE_PREFIX + owner);
+    localStorage.setItem(OWNER_KEY, owner);
+    window.dispatchEvent(new Event('curiva-native-progress-restored'));
+  });
 }
 
 export function startNativeProgressSync(uid: string, onStatus: (status: NativeProgressSyncStatus) => void): () => void {
