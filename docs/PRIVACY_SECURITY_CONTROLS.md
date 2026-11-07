@@ -49,6 +49,27 @@ This document records controls present in the source branch and actions still re
 - The Progress screen provides a confirmed **Erase all local study data** action. Clearing app data or uninstalling the app removes this state; it cannot be restored from Curiva.
 - The display name is capped at 40 characters and strips control characters. The screen warns users not to enter real patient information.
 
+## Account-enabled Capacitor learning workspace and cloud-progress reset
+
+The repository contains two separate Android experiences. The standalone Jetpack Compose APK is offline-only as described above. A separate account-enabled learning experience (also used by the Capacitor shell when that shell is present) has optional Firebase sign-in and syncs a limited academic progress snapshot to `nativeLearningProgress/{uid}`.
+
+- The snapshot currently contains completed lesson identifiers, quiz subject/date/score summaries, mastered flashcard identifiers, study-day dates, a last-lesson reference and a bounded daily checklist. It does not contain bookmarks or free-text Study Toolkit notes.
+- Firestore rules restrict this collection to owner-only document get/create/update, deny list access and deny client document deletion. Writes are field-allowlisted and size-bounded. The account UID is the document ID and is checked by the rule.
+- The signed-in experience keeps an owner-scoped local cache in browser/app storage to support offline learning and account switching. Browser/app local storage is not encrypted by Curiva. Clearing only local site/app data does not delete the Firestore snapshot.
+- The Progress screen's reset action now asks for confirmation and replaces the signed-in account's progress fields with an empty snapshot as well as clearing the active device cache. The write is serialized with background sync so an older in-flight sync cannot repopulate the cleared data. Bookmarks are deliberately retained. Guest/offline mode clears only the guest device namespace.
+- Signing out stops further sync but does not delete previously synced progress. Users must use the confirmed reset action while signed in to clear that progress. This reset does not delete the account, appointment, payment or other Firestore records.
+- The reset path must pass the website TypeScript build and the Firestore emulator tests before release. It is not a full account deletion feature or a general clinical-record deletion workflow.
+
+## Production deployment and configuration audit — 7 November 2026
+
+This is a point-in-time operational audit, separate from GitHub CI results.
+
+- **The source is ahead of production.** The current Netlify project metadata reports a production deployment published on 23 October 2026, while the privacy/security changes were merged into `main` on 7 November 2026. The published deployment summary reports no serverless functions deployed. Therefore, do not claim that the new Express API protections, Firestore-backed workflows or `/api/*` edge rate-limit rule are active on the public site until a new production deployment is published and verified. The Netlify deployment summary must show the expected API function and the new redirect/header rules.
+- **Web App Check is not configured in the current Netlify environment.** The client supports reCAPTCHA Enterprise (preferred) and reCAPTCHA v3 fall-back, but the current environment-variable inventory did not contain either `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` or `VITE_FIREBASE_APPCHECK_SITE_KEY`. App Check is therefore not active for the current production build. Register the provider in Firebase Console, add the public site key as a build-scoped variable, deploy, monitor attested traffic, and only then enable Firebase enforcement. Android needs a separate native attestation provider.
+- **Database connection variables need secret treatment.** The Netlify inventory showed `NETLIFY_DATABASE_URL` and `NETLIFY_DATABASE_URL_UNPOOLED` as non-secret values with build access. Repository search found no direct references to either name. Confirm whether the Netlify database integration still needs them; remove unused values. If still required, rotate the database password/connection strings at the database provider, recreate the Netlify variables as secrets, and restrict access to the function/runtime scopes that actually need them.
+- **The development live-update signing key needs rotation.** A development-context value for `CURIVA_LIVE_UPDATE_PRIVATE_KEY_BASE64` was returned unmasked during the environment audit. Treat that development signing key as exposed. Generate a replacement key pair, update the corresponding verification public key in the mobile/update verifier, replace the development Netlify value, and test OTA signing and verification before publishing a bundle. Do not paste private keys or connection strings into issues, pull requests, chats or logs.
+- **The Netlify deploy history contains queued branch previews.** A preview being queued or ready does not publish the same code to the production alias. Confirm the published production deploy's commit SHA and deploy summary after every security release.
+
 ## Required production configuration and operator actions
 
 These cannot safely be completed by editing client source alone:
@@ -76,7 +97,7 @@ These cannot safely be completed by editing client source alone:
 
 ## Known release risks
 
-- The last recorded dependency-install log reported 33 npm audit findings (2 low, 9 moderate, 17 high and 5 critical). This is not proof of exploitability, but it is a release blocker until a fresh audit identifies affected production paths and maintainers remediate or formally accept each risk.
+- The last recorded dependency-install log reported 33 npm audit findings (2 low, 9 moderate, 17 high and 5 critical). This is not proof of exploitability. CI now reports both the full dependency tree and production-only audit results on each verification run; that report is currently non-blocking so findings can be triaged without hiding the build result. Treat any unremediated high/critical production-path finding as a release blocker until it is fixed or formally accepted with a documented risk decision.
 - Firestore records from earlier versions may still exist. Denying client access is not deletion.
 - Browser session storage is not encrypted by Curiva; it is appropriate only for ordinary study notes, never for confidential records.
 - The AI PII filter is heuristic and not a de-identification system.
