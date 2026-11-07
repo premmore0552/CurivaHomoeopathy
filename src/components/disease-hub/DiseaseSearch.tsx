@@ -20,6 +20,7 @@ export const DiseaseSearch: React.FC = () => {
     }
 
     let active = true;
+    setSearchError('');
     loadDiseaseHubCatalog()
       .then((catalog) => {
         if (!active) return;
