@@ -10,6 +10,7 @@ import Logo from './Logo';
 import SearchAutocomplete from './SearchAutocomplete';
 import ThemeToggle from './ThemeToggle';
 import ProfileSwitch from './ProfileSwitch';
+import { useRole } from '../context/RoleContext';
 import { navigationGroups, type NavigationGroup } from '../navigation/navigationConfig';
 
 const groupIcons: Record<NavigationGroup['label'], LucideIcon> = {
@@ -26,6 +27,7 @@ const openGlobalSearch = () => window.dispatchEvent(new Event('open-command-pale
 
 export default function Header() {
   const location = useLocation();
+  const { currentRole, setCurrentRole, authorizedRoles } = useRole();
   const [openMenu, setOpenMenu] = useState<string | null>(null);
   const [mobileOpen, setMobileOpen] = useState(false);
   const [mobileGroup, setMobileGroup] = useState('Learn');
@@ -314,12 +316,30 @@ export default function Header() {
                 <Activity className="h-4 w-4" aria-hidden="true" /> Clinical learning guides
               </Link>
 
+              <section className="mt-3 rounded-2xl border border-border p-3" aria-label="Active workspace profile">
+                <h3 className="px-1 text-xs font-bold text-text-secondary">Active workspace profile</h3>
+                <div className="mt-3 grid grid-cols-2 gap-2">
+                  {authorizedRoles.map(role => (
+                    <button
+                      key={role}
+                      type="button"
+                      onClick={() => setCurrentRole(role)}
+                      aria-pressed={currentRole === role}
+                      className={'min-h-10 rounded-xl border px-2 py-2 text-[11px] font-bold transition-colors ' + (currentRole === role
+                        ? 'border-primary bg-primary text-white'
+                        : 'border-border bg-bg-secondary text-text-secondary hover:border-primary/40')}
+                    >
+                      {role}
+                    </button>
+                  ))}
+                </div>
+              </section>
+
             </div>
 
             <div className="border-t border-border p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
               <div className="flex items-center justify-between gap-3">
                 <ThemeToggle />
-                <ProfileSwitch />
               </div>
               <div className="mt-3">
                 <AuthButton isMobile onCloseMenu={closeMobileNavigation} />
