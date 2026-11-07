@@ -57,6 +57,15 @@ test('API middleware limits request bodies, rate limits API traffic and disables
   assert.match(server, /Cache-Control', 'no-store, max-age=0, must-revalidate'/);
 });
 
+test('server-side diagnostics never emit raw provider exceptions', () => {
+  assert.match(server, /function logSafeServerError/);
+  assert.match(server, /safeServerErrorCode/);
+  assert.doesNotMatch(server, /console\.error\([^\n]*, error\)/);
+  assert.doesNotMatch(server, /console\.error\([^\n]*\.message/);
+  assert.doesNotMatch(server, /console\.warn\([^\n]*errText/);
+  assert.doesNotMatch(server, /console\.log\([^\n]*sanitizedMsg/);
+});
+
 test('simulated case logs warn against patient data and support real owner deletion', () => {
   assert.match(profile, /never enter real patient information/i);
   assert.match(profile, /Never include details from a real patient/i);
