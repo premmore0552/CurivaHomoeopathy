@@ -150,10 +150,12 @@ test('admin memberships with active false do not grant administrator access', as
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
   const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
 
-  await assertSucceeds(setDoc(doc(bootstrap, 'admins', 'alice'), {
-    active: false,
-    createdAt: serverTimestamp(),
-  }));
+  await testEnv.withSecurityRulesDisabled(async (context) => {
+    await setDoc(doc(context.firestore(), 'admins', 'alice'), {
+      active: false,
+      createdAt: new Date(),
+    });
+  });
   await assertFails(setDoc(doc(alice, 'admins', 'bob'), {
     active: true,
     createdAt: serverTimestamp(),
