@@ -1,6 +1,6 @@
 import React from 'react';
 import { Info, Users, AlertCircle, HeartPulse, Microscope, ShieldAlert, Zap } from 'lucide-react';
-import { Disease } from '../../data/diseaseHubData';
+import type { Disease } from '../../data/diseaseHubTypes';
 
 interface AtAGlanceProps {
   disease: Disease;
