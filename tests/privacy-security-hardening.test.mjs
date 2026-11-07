@@ -27,6 +27,9 @@ const safeHtml = read('../src/components/SafeHtmlContent.tsx');
 const hairGuide = read('../src/pages/HairFallGuide.tsx');
 const cbcGuide = read('../src/pages/CbcHandbook.tsx');
 const adminLinkAudit = read('../src/pages/AdminLinkAudit.tsx');
+const nativeAndroidScript = read('../scripts/apply-native-android.mjs');
+const nativeAndroidVerifier = read('../scripts/verify-native-android.mjs');
+const nativeMainActivity = read('../native-android/MainActivity.kt');
 
 test('HTML has no inline scripts or embedded styles; boot assets are same-origin', () => {
   const scriptTags = [...indexHtml.matchAll(/<script\b([^>]*)>/gi)].map(match => match[1]);
@@ -106,6 +109,24 @@ test('free-text study toolkit is session-local and no longer syncs to Firestore'
   assert.doesNotMatch(studyToolkit, /studyToolkitProgress|runTransaction|onSnapshot|setDoc|updateDoc/);
   assert.match(studyToolkit, /clearLegacyPersistentWorkspace/);
   assert.match(studyToolkit, /includeLegacyGuestKeys/);
+});
+
+test('native Android preferences are excluded from cloud backup and device transfer', () => {
+  assert.match(nativeAndroidScript, /android:allowBackup/);
+  assert.match(nativeAndroidScript, /android:fullBackupContent/);
+  assert.match(nativeAndroidScript, /android:dataExtractionRules/);
+  assert.match(nativeAndroidScript, /curiva_backup_rules\.xml/);
+  assert.match(nativeAndroidScript, /curiva_data_extraction_rules\.xml/);
+  assert.match(nativeAndroidScript, /device-transfer/);
+  assert.match(nativeAndroidVerifier, /android:allowBackup="false"/);
+  assert.match(nativeAndroidVerifier, /Android 12\+ cloud backup and device-transfer rules are missing/);
+});
+
+test('native Android exposes an explicit local-data reset and warns against patient data', () => {
+  assert.match(nativeMainActivity, /Erase all local study data/);
+  assert.match(nativeMainActivity, /prefs\.edit\(\)\.clear\(\)\.apply\(\)/);
+  assert.match(nativeMainActivity, /Never enter real patient information/);
+  assert.match(nativeMainActivity, /filter \{ character -> !Character\.isISOControl\(character\) \}\.take\(40\)/);
 });
 
 test('profile and bookmarks do not persist browsing or free-text study data to Firestore', () => {
