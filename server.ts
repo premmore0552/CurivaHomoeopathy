@@ -164,9 +164,9 @@ async function startServer() {
       return 'sent';
     } catch (emailError: any) {
       const expired = String(emailError?.message || '').includes('expired');
-      console.error('Paid resource email attempt failed:', emailError?.message || 'Unknown delivery error');
+      console.error('Paid resource email delivery failed:', emailError?.name || 'ProviderError');
       await updatePaidOrderEmailStatus(order.id, expired ? 'expired' : 'failed').catch((statusError) => {
-        console.error('Unable to persist resource email status:', statusError);
+        console.error('Unable to persist resource email status:', statusError?.name || 'StorageError');
       });
       return expired ? 'expired' : 'failed';
     }
@@ -268,7 +268,7 @@ async function startServer() {
       });
       return res.status(200).json({ success: true, notification: 'sent' });
     } catch (error: any) {
-      console.error('Appointment request notification failed:', error?.message || 'Unknown error');
+      console.error('Appointment request notification failed:', error?.name || 'ProviderError');
       return res.status(502).json({ success: false, notification: 'failed', error: 'Your request is saved, but the clinic email notification failed.' });
     }
   });
@@ -354,7 +354,7 @@ async function startServer() {
           try {
             await rollbackCalendar();
           } catch (rollbackError: any) {
-            console.error('Calendar rollback failed and requires manual reconciliation:', rollbackError?.message || 'Unknown rollback error');
+            console.error('Calendar rollback failed and requires manual reconciliation:', rollbackError?.name || 'CalendarError');
           }
         }
         throw writeError;
@@ -374,7 +374,7 @@ async function startServer() {
           });
           emailDelivery = 'sent';
         } catch (emailError: any) {
-          console.error('Appointment status email failed:', emailError?.message || 'Unknown error');
+          console.error('Appointment status email failed:', emailError?.name || 'ProviderError');
           emailDelivery = 'failed';
         }
       }
@@ -386,7 +386,7 @@ async function startServer() {
         emailDelivery,
       });
     } catch (error: any) {
-      console.error('Appointment review update failed:', error?.message || 'Unknown error');
+      console.error('Appointment review update failed:', error?.name || 'StorageError');
       const errorMessage = String(error?.message || '');
       const conflict = errorMessage.includes('HTTP 409') ||
         errorMessage.includes('HTTP 412') ||
@@ -454,7 +454,7 @@ async function startServer() {
     try {
       await assertPrivateDownloadAvailable(resource.storageObject);
     } catch (storageError: any) {
-      console.error("Private resource availability check failed:", storageError?.message || "Unknown storage error");
+      console.error("Private resource availability check failed:", storageError?.name || "StorageError");
       return res.status(503).json({
         error: "Secure resource storage is not configured or the PDF is not uploaded yet. No payment has been taken.",
       });
@@ -478,7 +478,7 @@ async function startServer() {
       res.json(order);
     } catch (error: any) {
       // Keep provider diagnostics in server logs; do not expose internal error details to clients.
-      console.error("Razorpay order creation failed:", error?.message || "Unknown provider error");
+      console.error("Razorpay order creation failed:", error?.name || "ProviderError");
       res.status(502).json({
         error: "Unable to create a payment order right now. Please try again later."
       });
@@ -571,7 +571,7 @@ async function startServer() {
       }
       return res.status(200).json({ received: true, recorded: true, emailDelivery });
     } catch (error: any) {
-      console.error("Razorpay webhook processing failed:", error?.message || "Unknown error");
+      console.error("Razorpay webhook processing failed:", error?.name || "WebhookError");
       return res.status(503).json({ received: false, error: "Webhook processing failed; Razorpay may retry." });
     }
   });
@@ -684,7 +684,7 @@ async function startServer() {
         // The object was checked before checkout, but signed URLs are created only after capture.
         downloadUrl = createSignedDownloadUrl(resource.storageObject, 3600);
       } catch (downloadError: any) {
-        console.error("Private download signing failed:", downloadError?.message || "Unknown signing error");
+        console.error("Private download signing failed:", downloadError?.name || "SigningError");
         return res.status(503).json({
           success: false,
           paymentVerified: true,
@@ -706,7 +706,7 @@ async function startServer() {
         });
       } catch (recordError: any) {
         const configured = isPaidOrderStoreConfigured();
-        console.error("Captured payment could not be persisted:", recordError?.message || "Unknown Firestore error");
+        console.error("Captured payment could not be persisted:", recordError?.name || "StorageError");
         return res.status(503).json({
           success: false,
           paymentVerified: true,
@@ -729,7 +729,7 @@ async function startServer() {
         currency: payment.currency,
       });
     } catch (error: any) {
-      console.error("Razorpay verification lookup failed:", error?.message || "Unknown error");
+      console.error("Razorpay verification lookup failed:", error?.name || "ProviderError");
       return res.status(502).json({ success: false, error: "Could not confirm payment status with Razorpay. Please contact support before retrying." });
     }
   });
@@ -1283,7 +1283,7 @@ async function startServer() {
       const textWithLinks = rawText ? appendReferenceLinks(rawText, prompt) : "No response received from the study assistant.";
       res.json({ text: textWithLinks });
     } catch (error: any) {
-      console.error("Gemini Curiva Care Proxy Error:", error);
+      console.error("Gemini Curiva Care proxy failed:", error?.name || "ProviderError");
       res.status(500).json({ error: "Unable to process the study question right now. Please try again later." });
     }
   });
@@ -1368,7 +1368,7 @@ async function startServer() {
       return res.json(localResults.slice(0, 5));
 
     } catch (error: any) {
-      console.error("Gemini Search Proxy Error:", error);
+      console.error("Gemini local catalogue search failed:", error?.name || "SearchError");
       res.status(500).json({ error: error.message || "Failed to process search" });
     }
   });
@@ -1454,7 +1454,7 @@ async function startServer() {
 
       return res.json({ text: responseText });
     } catch (error: any) {
-      console.error("Gemini Case Simulation Proxy Error:", error);
+      console.error("Local case simulation failed:", error?.name || "SimulationError");
       res.status(500).json({ error: error.message || "Failed to prompt simulation" });
     }
   });
@@ -1489,7 +1489,7 @@ async function startServer() {
 
       return res.json({ score, strengths, weaknesses, lesson });
     } catch (error: any) {
-      console.error("Gemini Feedback Proxy Error:", error);
+      console.error("Local study feedback failed:", error?.name || "SimulationError");
       res.status(500).json({ error: error.message || "Failed to evaluate prescription" });
     }
   });
@@ -1648,7 +1648,7 @@ async function startServer() {
         res.status(404).json({ error: "Post not found" });
       }
     } catch (error) {
-      console.error(`[API] Error fetching post by slug: ${req.params.slug}`, error);
+      console.error("[API] Public article lookup failed:", error?.name || "StorageError");
       res.status(500).json({ error: "Failed to fetch post" });
     }
   });
