@@ -4,6 +4,7 @@ import { auth, onAuthStateChanged, signOut } from '../lib/firebase';
 import NativeLearningApp, { type NativeAccountInfo, type NativeAudience } from './NativeLearningApp';
 import NativeAuthScreen from './NativeAuthScreen';
 import {
+  clearNativeProgress,
   prepareNativeAccountProgress,
   prepareNativeGuestProgress,
   startNativeProgressSync,
@@ -106,6 +107,12 @@ export default function NativeAppEntry() {
     setShowAuth(true);
   };
 
+  const handleResetProgress = async () => {
+    // Signed-in users clear the Firestore snapshot as well as their device cache.
+    // Guest/offline users clear only the guest namespace on this device.
+    await clearNativeProgress(user?.uid || null);
+  };
+
   if (!authReady) {
     return (
       <div className="native-entry-loading">
@@ -123,11 +130,11 @@ export default function NativeAppEntry() {
       audience,
       progressSyncStatus,
     };
-    return <NativeLearningApp account={account} onSignOut={handleSignOut} />;
+    return <NativeLearningApp account={account} onSignOut={handleSignOut} onResetProgress={handleResetProgress} />;
   }
 
   if (offlineMode && !showAuth) {
-    return <NativeLearningApp onManageAccount={() => setShowAuth(true)} />;
+    return <NativeLearningApp onManageAccount={() => setShowAuth(true)} onResetProgress={handleResetProgress} />;
   }
 
   return (

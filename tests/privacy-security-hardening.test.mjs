@@ -30,6 +30,10 @@ const adminLinkAudit = read('../src/pages/AdminLinkAudit.tsx');
 const nativeAndroidScript = read('../scripts/apply-native-android.mjs');
 const nativeAndroidVerifier = read('../scripts/verify-native-android.mjs');
 const nativeMainActivity = read('../native-android/MainActivity.kt');
+const nativeProgressSync = read('../src/native-app/nativeProgressSync.ts');
+const nativeAppEntry = read('../src/native-app/NativeAppEntry.tsx');
+const nativeLearningApp = read('../src/native-app/NativeLearningApp.tsx');
+const verifyWorkflow = read('../.github/workflows/verify-curiva.yml');
 
 test('HTML has no inline scripts or embedded styles; boot assets are same-origin', () => {
   const scriptTags = [...indexHtml.matchAll(/<script\b([^>]*)>/gi)].map(match => match[1]);
@@ -107,7 +111,59 @@ test('Firebase App Check is supported for web when an environment site key is co
   assert.match(firebaseClient, /VITE_FIREBASE_APPCHECK_SITE_KEY/);
   assert.match(firebaseClient, /isTokenAutoRefreshEnabled: true/);
   assert.match(firebaseClient, /!Capacitor\.isNativePlatform\(\)/);
-  assert.match(firebaseClient, /firebaseAppCheckConfigured/);
+  assert.match(firebaseClient, /firebaseAppCheckConfigured = false/);
+  assert.match(firebaseClient, /firebaseAppCheckConfigured = true/);
+  assert.doesNotMatch(firebaseClient, /export const firebaseAppCheckConfigured = Boolean/);
+});
+
+test('privacy policy distinguishes the offline Android APK from website account sync', () => {
+  assert.match(privacyPolicy, /standalone Jetpack Compose Android APK has no account sign-in or cloud sync/);
+  assert.match(privacyPolicy, /excluded from Android cloud backup and device-to-device transfer/);
+  assert.match(privacyPolicy, /Account-enabled learning workspace.*may sync a limited study-progress snapshot/);
+});
+
+test('Netlify build configuration contains no unused dummy provider credentials', () => {
+  assert.doesNotMatch(netlify, /CLOUDFLARE_(?:ZONE_ID|API_KEY|EMAIL|API_TOKEN)/);
+  assert.doesNotMatch(netlify, /dummy_(?:zone_id|api_key|email|api_token)/i);
+});
+
+test('CI reports fresh full-tree and production-only npm audit results', () => {
+  assert.match(verifyWorkflow, /npm audit --json/);
+  assert.match(verifyWorkflow, /npm audit --omit=dev --json/);
+  assert.match(verifyWorkflow, /production-only/);
+  assert.match(verifyWorkflow, /fixAvailable/);
+});
+
+test('account-enabled native progress reset clears Firestore and local cache without sync races', () => {
+  assert.match(nativeProgressSync, /const accountLocks = new Map<string, Promise<void>>\(\)/);
+  assert.match(nativeProgressSync, /async function withAccountLock/);
+  assert.match(nativeProgressSync, /await withAccountLock\(uid, async \(\) =>/);
+  assert.match(nativeProgressSync, /export async function clearNativeProgress\(uid: string \| null\)/);
+  assert.match(nativeProgressSync, /\.\.\.EMPTY_PROGRESS/);
+  assert.match(nativeProgressSync, /localStorage\.removeItem\(CACHE_PREFIX \+ owner\)/);
+  assert.match(nativeProgressSync, /curiva-native-progress-restored/);
+  assert.match(nativeAppEntry, /await clearNativeProgress\(user\?\.uid \|\| null\)/);
+  assert.match(nativeAppEntry, /onResetProgress=\{handleResetProgress\}/);
+  assert.match(nativeLearningApp, /Reset your study progress\?/);
+  assert.match(nativeLearningApp, /Progress could not be reset/);
+  assert.match(nativeLearningApp, /bookmarks and (?:your )?account will remain/i);
+
+  const progressRuleStart = firestoreRules.indexOf('match /nativeLearningProgress/{userId}');
+  const progressRuleEnd = firestoreRules.indexOf('// --- Collection: Website Study Toolkit', progressRuleStart);
+  const progressRule = firestoreRules.slice(progressRuleStart, progressRuleEnd);
+  assert.match(progressRule, /allow get: if isOwner\(userId\)/);
+  assert.match(progressRule, /allow list: if false/);
+  assert.match(progressRule, /allow create, update: if isOwner\(userId\) && isValidNativeLearningProgress/);
+  assert.match(progressRule, /allow delete: if false/);
+});
+
+test('account-enabled native progress disclosure documents synced fields and sign-out limits', () => {
+  assert.match(privacyPolicy, /Capacitor-based app shell/);
+  assert.match(privacyPolicy, /quiz subject\/date\/scores/);
+  assert.match(privacyPolicy, /reset the synced progress from the Progress screen/);
+  assert.match(privacyPolicy, /Signing out stops subsequent sync but does not itself delete previously synced progress/);
+  assert.match(controls, /write is serialized with background sync/i);
+  assert.match(controls, /Bookmarks are deliberately retained/);
 });
 
 test('native Android does not register the website service worker', () => {
