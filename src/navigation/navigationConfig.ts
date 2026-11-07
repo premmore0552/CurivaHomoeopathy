@@ -33,7 +33,7 @@ export const navigationGroups: NavigationGroup[] = [
     { label: 'About Curiva', description: 'Understand the platform', to: '/about' },
     { label: 'Learning support', description: 'Find answers and study guidance', to: '/faq' },
     { label: 'Research', description: 'Browse academic research resources', to: '/research' },
-    { label: 'Contact and feedback', description: 'Send feedback or contact the team', to: '/feedback' },
+    { label: 'Contact and feedback', description: 'Send feedback or contact the team', to: '/contact' },
     { label: 'Privacy', description: 'Review account and data controls', to: '/privacy-policy' },
     { label: 'Medical disclaimer', description: 'Understand the educational-use boundary', to: '/disclaimer' },
     { label: 'Terms of service', description: 'Review platform terms', to: '/terms-of-service' }
