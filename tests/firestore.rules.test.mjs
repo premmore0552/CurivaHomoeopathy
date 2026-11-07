@@ -7,7 +7,6 @@ import {
   assertFails,
   assertSucceeds,
   initializeTestEnvironment,
-  withSecurityRulesDisabled,
 } from '@firebase/rules-unit-testing';
 import {
   doc,
@@ -154,7 +153,7 @@ test('inactive administrator memberships never grant privileged access', async (
     createdAt: serverTimestamp(),
   }));
 
-  await withSecurityRulesDisabled(testEnv, async context => {
+  await testEnv.withSecurityRulesDisabled( async context => {
     await setDoc(doc(context.firestore(), 'admins', 'inactive-admin'), {
       active: false,
       createdAt: new Date().toISOString(),
@@ -182,7 +181,7 @@ test('administrator grants are privileged-only and profiles cannot grant roles',
 
   // Seed a legitimate membership through the emulator's privileged context,
   // representing an audited Admin SDK / Firebase Console operation.
-  await withSecurityRulesDisabled(testEnv, async context => {
+  await testEnv.withSecurityRulesDisabled( async context => {
     await setDoc(doc(context.firestore(), 'admins', 'trusted-admin'), {
       active: true,
       createdAt: new Date().toISOString(),
@@ -276,7 +275,7 @@ function studyToolkitProgress(uid = 'alice') {
 }
 
 test('legacy kits, reproductive screenings and free-text workspace are denied to every client', async () => {
-  await withSecurityRulesDisabled(testEnv, async context => {
+  await testEnv.withSecurityRulesDisabled( async context => {
     const privilegedDb = context.firestore();
     await setDoc(doc(privilegedDb, 'kits', 'legacy-case'), {
       userId: 'alice',
@@ -361,7 +360,7 @@ test('question submissions contain no submitter contact fields and stay private 
   }));
   await assertFails(deleteDoc(questionRef));
 
-  await withSecurityRulesDisabled(testEnv, async context => {
+  await testEnv.withSecurityRulesDisabled( async context => {
     await setDoc(doc(context.firestore(), 'admins', 'trusted-admin'), { active: true });
   });
   const trustedAdmin = testEnv.authenticatedContext('trusted-admin', { email: 'admin@example.test' }).firestore();
