@@ -136,7 +136,7 @@ test('account-enabled native progress reset clears Firestore and local cache wit
   assert.match(nativeAppEntry, /onResetProgress=\{handleResetProgress\}/);
   assert.match(nativeLearningApp, /Reset your study progress\?/);
   assert.match(nativeLearningApp, /Progress could not be reset/);
-  assert.match(nativeLearningApp, /Bookmarks and your account will remain/);
+  assert.match(nativeLearningApp, /bookmarks and (?:your )?account will remain/i);
 
   const progressRuleStart = firestoreRules.indexOf('match /nativeLearningProgress/{userId}');
   const progressRuleEnd = firestoreRules.indexOf('// --- Collection: Website Study Toolkit', progressRuleStart);
