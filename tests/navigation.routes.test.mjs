@@ -33,6 +33,16 @@ test('desktop mega-menu and mobile drawer use separate responsive layouts', () =
   assert.doesNotMatch(header, /width:\s*'1200px'|width:\s*'1000px'|width:\s*'0px'/);
 });
 
+test('desktop dropdown panels size to content and adapt their list columns', () => {
+  assert.match(header, /role="region"/);
+  assert.match(header, /width: 'fit-content'/);
+  assert.match(header, /minWidth: 'min\\(32rem, calc\\(100vw - 2rem\\)\\)'/);
+  assert.match(header, /maxWidth: 'min\\(40rem, calc\\(100vw - 2rem\\)\\)'/);
+  assert.match(header, /repeat\\(auto-fit, minmax\\(min\\(100%, 14rem\\), 1fr\\)\\)/);
+  assert.doesNotMatch(header, /<section\\s+id=\\{panelId\\}/);
+  assert.doesNotMatch(header, /grid grid-cols-2 gap-2/);
+});
+
 test('mobile drawer exposes dialog semantics, Escape, focus trap and focus restoration', () => {
   assert.match(header, /role="dialog"/);
   assert.match(header, /aria-modal="true"/);
