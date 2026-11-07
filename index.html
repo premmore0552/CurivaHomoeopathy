@@ -12,31 +12,13 @@
     <link rel="icon" type="image/jpeg" href="/curiva_logo.jpg" />
     <link rel="manifest" href="/manifest.json" />
     <meta name="theme-color" content="#123B32" />
+    <script src="/theme-init.js"></script>
+    <link rel="stylesheet" href="/boot.css" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="default" />
     <meta name="apple-mobile-web-app-title" content="Curiva Homoeopathy" />
     <link rel="apple-touch-icon" href="/app_icon.png" />
 
-    <!-- Performance Optimizations -->
-    <script>
-      (function() {
-        var saved = localStorage.getItem('theme');
-        var theme = 'light';
-        if (saved === 'light' || saved === 'dark') {
-          theme = saved;
-        } else {
-          var hour = new Date().getHours();
-          theme = (hour >= 6 && hour < 18) ? 'light' : 'dark';
-        }
-        if (theme === 'dark') {
-          document.documentElement.classList.add('dark');
-          document.documentElement.setAttribute('data-theme', 'dark');
-        } else {
-          document.documentElement.classList.remove('dark');
-          document.documentElement.setAttribute('data-theme', 'light');
-        }
-      })();
-    </script>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;0,6..72,700;1,6..72,400;1,6..72,600&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:wght@700&display=swap" rel="stylesheet">
@@ -55,77 +37,9 @@
         <span>Preparing your learning space…</span>
       </div>
     </div>
-    <style>
-      #curiva-boot-screen{min-height:100dvh;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;background:#f7f7f2;color:#123b32;font-family:system-ui,sans-serif}
-      .curiva-boot-mark{width:104px;height:104px;position:relative;display:grid;place-items:center}
-      .curiva-boot-orbit{position:absolute;inset:0;border:2px solid rgba(18,59,50,.12);border-top-color:#b51e70;border-radius:999px;animation:curiva-boot-spin 1.8s linear infinite}
-      .curiva-boot-mark img{width:76px;height:76px;object-fit:cover;border-radius:22px;box-shadow:0 12px 28px rgba(18,59,50,.16);animation:curiva-boot-float 2.4s ease-in-out infinite}
-      #curiva-boot-screen strong{font-family:Georgia,serif;font-size:21px;letter-spacing:.04em}
-      #curiva-boot-screen span:last-child{font-size:12px;color:#64736e}
-      @keyframes curiva-boot-spin{to{transform:rotate(360deg)}}
-      @keyframes curiva-boot-float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-4px) scale(1.035)}}
-      @media(prefers-reduced-motion:reduce){.curiva-boot-orbit,.curiva-boot-mark img{animation:none}}
-    </style>
-    <script type="module" src="/src/main.tsx"></script>
-    <script>
-      // Clear old caches and unregister service workers on version change to avoid blank screen / stale chunk assets
-      const APP_VERSION = '__CURIVA_BUILD_VERSION__';
-      const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('ais-dev') || window.location.hostname.includes('ais-pre');
 
-      if (isDev) {
-        // In development/preview sandbox, we strictly unregister the service worker to prevent source file caching
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for (let reg of registrations) {
-              reg.unregister().then(() => {
-                console.log('Unregistered service worker for development environment.');
-              });
-            }
-          });
-        }
-        if ('caches' in window) {
-          caches.keys().then(function(keys) {
-            keys.forEach(key => caches.delete(key));
-          });
-        }
-        localStorage.setItem('app_version', APP_VERSION);
-      } else if (localStorage.getItem('app_version') !== APP_VERSION) {
-        if ('serviceWorker' in navigator) {
-          navigator.serviceWorker.getRegistrations().then(function(registrations) {
-            for (let reg of registrations) {
-              reg.unregister().then(() => {
-                console.log('Unregistered active service worker to clear cache.');
-              });
-            }
-          });
-        }
-        if ('caches' in window) {
-          caches.keys().then(function(keys) {
-            keys.forEach(key => caches.delete(key));
-          });
-        }
-        localStorage.setItem('app_version', APP_VERSION);
-        console.log('System cache busted to version: ' + APP_VERSION);
-        
-        // Short delay to allow cleanup, then reload to guarantee completely fresh assets
-        setTimeout(function() {
-          window.location.reload();
-        }, 300);
-      } else {
-        // Register service worker if supported
-        if ('serviceWorker' in navigator) {
-          window.addEventListener('load', function() {
-            navigator.serviceWorker.register('/sw.js')
-              .then(function(reg) {
-                console.log('Service Worker registered with scope:', reg.scope);
-              })
-              .catch(function(err) {
-                console.error('Service Worker registration failed:', err);
-              });
-          });
-        }
-      }
-    </script>
+    <script type="module" src="/src/main.tsx"></script>
+
   </body>
 </html>
 
