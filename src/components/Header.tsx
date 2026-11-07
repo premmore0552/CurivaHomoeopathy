@@ -189,11 +189,11 @@ export default function Header() {
             })}
           </nav>
 
-          <div className="ml-auto hidden w-[min(30vw,15rem)] min-w-0 sm:block xl:max-w-xs [&>button]:!w-full">
+          <div className="ml-auto hidden w-[min(30vw,15rem)] min-w-0 md:block xl:max-w-xs [&>button]:!w-full">
             <SearchAutocomplete />
           </div>
 
-          <div className="hidden items-center gap-2 sm:flex">
+          <div className="hidden items-center gap-2 xl:flex">
             <Link
               to="/find-your-remedy"
               className="hidden min-h-10 items-center gap-2 rounded-full bg-primary px-3 text-xs font-bold text-white transition-opacity hover:opacity-90 2xl:inline-flex"
@@ -206,16 +206,19 @@ export default function Header() {
             <AuthButton />
           </div>
 
-          <button
-            type="button"
-            onClick={() => setMobileOpen(true)}
-            aria-label="Open navigation menu"
-            aria-expanded={mobileOpen}
-            aria-controls="curiva-mobile-navigation"
-            className="ml-auto inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-text-primary hover:bg-bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary xl:hidden"
-          >
-            <Menu className="h-6 w-6" aria-hidden="true" />
-          </button>
+          <div className="ml-auto flex items-center gap-2 xl:hidden">
+            <ThemeToggle />
+            <button
+              type="button"
+              onClick={() => setMobileOpen(true)}
+              aria-label="Open navigation menu"
+              aria-expanded={mobileOpen}
+              aria-controls="curiva-mobile-navigation"
+              className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-text-primary hover:bg-bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
+            >
+              <Menu className="h-6 w-6" aria-hidden="true" />
+            </button>
+          </div>
         </div>
       </header>
 
