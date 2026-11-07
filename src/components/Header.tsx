@@ -215,7 +215,7 @@ export default function Header() {
               onClick={() => setMobileOpen(true)}
               aria-label="Open navigation menu"
               aria-expanded={mobileOpen}
-              aria-controls="curiva-mobile-navigation"
+              aria-controls={mobileOpen ? "curiva-mobile-navigation" : undefined}
               className="inline-flex min-h-11 min-w-11 items-center justify-center rounded-xl text-text-primary hover:bg-bg-secondary focus-visible:outline focus-visible:outline-2 focus-visible:outline-primary"
             >
               <Menu className="h-6 w-6" aria-hidden="true" />
