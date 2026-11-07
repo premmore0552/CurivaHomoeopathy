@@ -42,7 +42,6 @@ import { userService } from '../services/userService';
 interface CaseLog {
   id: string; // e.g. "CASE-81204"
   userId: string;
-  userEmail: string;
   testType: string; // mapped from db: e.g. 'materia_medica' | 'organon' | 'repertory_check'
   testDate: string; // e.g. "2026-06-23"
   clinicName: string; // mapped from db: e.g. "BHMS College Clinic" / "City Homoeopathy Center"
@@ -244,7 +243,6 @@ export default function Profile() {
     const newLog = {
       id: newLogId,
       userId: user ? user.uid : 'guest_user',
-      userEmail: user ? (user.email || 'guest@curiva.co') : 'guest@curiva.co',
       testType,
       testDate,
       clinicName: cleanClinicName,
