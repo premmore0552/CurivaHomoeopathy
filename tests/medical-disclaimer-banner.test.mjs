@@ -31,3 +31,11 @@ test('banner exposes accessible text, reduced-motion behavior, and a full discla
   assert.match(banner, /min-h-11/);
   assert.match(banner, /I Understand &amp; Agree/);
 });
+
+test('disclaimer banner is mounted once outside the keyed route tree', () => {
+  const mountIndex = app.indexOf('<MedicalDisclaimerModal />');
+  const routeTreeIndex = app.indexOf('<Routes location={location}');
+  assert.notEqual(mountIndex, -1);
+  assert.ok(routeTreeIndex > mountIndex);
+  assert.equal([...app.matchAll(/<MedicalDisclaimerModal \/>/g)].length, 1);
+});
