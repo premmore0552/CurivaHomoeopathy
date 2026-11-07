@@ -1,6 +1,5 @@
 import React, { createContext, useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { auth, db, doc, getDoc, onAuthStateChanged, onSnapshot, runTransaction, serverTimestamp } from '../lib/firebase';
-import { mergeStudyToolkitStates } from '../utils/studyToolkitSync';
+import { auth, onAuthStateChanged } from '../lib/firebase';
 
 export type StudyTask = { id: string; title: string; done: boolean; date: string; updatedAt?: string; subject?: string; chapter?: string };
 export type StudyNote = { id: string; title: string; content: string; subject?: string; chapter?: string; updatedAt: string };
@@ -26,7 +25,7 @@ export type StudyToolkitState = {
   timer: StudyTimer;
 };
 
-const STORAGE_VERSION = 'curiva-study-toolkit-v1';
+const STORAGE_VERSION = 'curiva-study-toolkit-v2-session';
 const emptyState = (): StudyToolkitState => ({
   version: 1, tasks: [], notes: [], cards: [], sessions: [], readingLogs: [], reflections: [],
   dailyGoal: 60, weeklyGoal: 300, examDate: '', focusMode: false,
@@ -119,11 +118,11 @@ function normalizeState(value: unknown): StudyToolkitState {
 }
 
 
-const baseStorageKey = (scope: string) => `${STORAGE_VERSION}:${scope}:synced-base`;
+const scopedStorageKey = (scope: string) => \`\${STORAGE_VERSION}:\${scope}\`;
 
 function readStoredState(key: string): StudyToolkitState | null {
   try {
-    const saved = localStorage.getItem(key);
+    const saved = typeof sessionStorage === 'undefined' ? null : sessionStorage.getItem(key);
     return saved ? normalizeState(JSON.parse(saved)) : null;
   } catch {
     return null;
@@ -132,76 +131,107 @@ function readStoredState(key: string): StudyToolkitState | null {
 
 function writeStoredState(key: string, value: StudyToolkitState): void {
   try {
-    localStorage.setItem(key, JSON.stringify(value));
-  } catch (error) {
-    console.warn('Curiva study workspace cache could not be updated in this browser.', error);
+    if (typeof sessionStorage !== 'undefined') sessionStorage.setItem(key, JSON.stringify(normalizeState(value)));
+  } catch {
+    // The workspace remains available in memory if browser storage is unavailable.
   }
 }
 
-function persistableState(value: StudyToolkitState): StudyToolkitState {
-  const snapshot = normalizeState(value);
-  // Running timers are synchronized by their absolute deadline, not every tick.
-  return snapshot.timer.running
-    ? { ...snapshot, timer: { ...snapshot.timer, remainingSeconds: 0 } }
-    : snapshot;
+function clearLegacyPersistentWorkspace(scope: string): void {
+  if (typeof localStorage === 'undefined') return;
+  const exactKeys = [
+    'curiva-toolkit-tasks', 'curiva-toolkit-cards', 'curiva-toolkit-sessions',
+    'curiva-toolkit-notes', 'curiva-toolkit-reading-log', 'curiva-toolkit-reflection',
+    'curiva-toolkit-goal', 'curiva-toolkit-weekly-target', 'curiva-toolkit-exam-date',
+    'curiva-study-toolkit-v1:guest',
+    \`curiva-study-toolkit-v1:\${scope}\`,
+    \`curiva-study-toolkit-v1:\${scope}:synced-base\`
+  ];
+  try {
+    exactKeys.forEach(key => localStorage.removeItem(key));
+  } catch {
+    // Browser storage may be disabled by policy.
+  }
 }
 
-function sameWorkspace(left: StudyToolkitState, right: StudyToolkitState): boolean {
-  return JSON.stringify(left) === JSON.stringify(right);
+function readLegacyPersistentState(scope: string): StudyToolkitState | null {
+  try {
+    const raw = localStorage.getItem(\`curiva-study-toolkit-v1:\${scope}\`);
+    return raw ? normalizeState(JSON.parse(raw)) : null;
+  } catch {
+    return null;
+  } finally {
+    clearLegacyPersistentWorkspace(scope);
+  }
+}
+
+function loadScopedState(scope: string): StudyToolkitState {
+  return readStoredState(scopedStorageKey(scope)) || readLegacyPersistentState(scope) || emptyState();
 }
 
 function loadGuestState(): StudyToolkitState {
-  try {
-    const saved = localStorage.getItem(`${STORAGE_VERSION}:guest`);
-    if (saved) return normalizeState(JSON.parse(saved));
-  } catch { /* Start a fresh guest workspace when local data is unreadable. */ }
+  const current = readStoredState(scopedStorageKey('guest'));
+  if (current) {
+    clearLegacyPersistentWorkspace('guest');
+    return current;
+  }
 
-  // One-time-compatible read of the original single-page toolkit. This is guest-only:
-  // signing in never imports this data into an account workspace.
+  // Migrate the previous guest workspace once into tab-scoped storage, then
+  // remove its persistent localStorage copy from this browser.
+  const previous = readLegacyPersistentState('guest');
+  if (previous) return previous;
+
   const legacyRead = <T,>(key: string, fallback: T): T => {
-    try { const raw = localStorage.getItem(key); return raw ? JSON.parse(raw) as T : fallback; }
-    catch { return fallback; }
+    try {
+      const raw = localStorage.getItem(key);
+      return raw ? JSON.parse(raw) as T : fallback;
+    } catch {
+      return fallback;
+    }
   };
+
   const state = emptyState();
   const oldTasks = legacyRead<any[]>('curiva-toolkit-tasks', []);
   const oldCards = legacyRead<any[]>('curiva-toolkit-cards', []);
   const oldSessions = legacyRead<any[]>('curiva-toolkit-sessions', []);
   state.tasks = oldTasks.map((task, index) => ({
-    id: boundedString(task.id, 100, `legacy-task-${index}`),
+    id: boundedString(task.id, 100, \`legacy-task-\${index}\`),
     title: boundedString(task.title, 180),
     done: task.done === true,
     date: boundedString(task.date, 10, studyDateKey())
   })).filter(task => task.title);
   state.cards = oldCards.map((card, index) => ({
-    id: boundedString(card.id, 100, `legacy-card-${index}`),
-    front: boundedString(card.front, 500),
-    back: boundedString(card.back, 2000),
+    id: boundedString(card.id, 100, \`legacy-card-\${index}\`),
+    front: boundedString(card.front, 300),
+    back: boundedString(card.back, 800),
     createdAt: new Date().toISOString()
   })).filter(card => card.front && card.back);
   state.sessions = oldSessions.map((session, index) => ({
-    id: `legacy-session-${index}`, date: boundedString(session.date, 10, studyDateKey()),
+    id: \`legacy-session-\${index}\`,
+    date: boundedString(session.date, 10, studyDateKey()),
     minutes: Number.isFinite(session.minutes) ? Math.max(0, session.minutes) : 0,
-    topic: boundedString(session.topic, 180, 'Study session')
+    topic: boundedString(session.topic, 180)
   })).filter(session => session.minutes > 0);
   const oldNotes = legacyRead('curiva-toolkit-notes', '');
   if (typeof oldNotes === 'string' && oldNotes.trim()) {
-    state.notes.push({ id: id(), title: 'Imported quick notes', content: oldNotes.slice(0, 12000), updatedAt: new Date().toISOString() });
+    state.notes.push({ id: id(), title: 'Imported quick notes', content: oldNotes.slice(0, 4000), updatedAt: new Date().toISOString() });
   }
   const oldReading = legacyRead('curiva-toolkit-reading-log', '');
   if (typeof oldReading === 'string' && oldReading.trim()) {
-    state.readingLogs.push({ id: id(), date: studyDateKey(), subject: 'General', chapter: oldReading.slice(0, 180), notes: '' });
+    state.readingLogs.push({ id: id(), date: studyDateKey(), subject: 'General', chapter: oldReading.slice(0, 180) });
   }
   const oldReflection = legacyRead('curiva-toolkit-reflection', '');
   if (typeof oldReflection === 'string' && oldReflection.trim()) {
-    state.reflections.push({ id: id(), date: studyDateKey(), learned: oldReflection.slice(0, 2000), improve: '' });
+    state.reflections.push({ id: id(), date: studyDateKey(), learned: oldReflection.slice(0, 1000), improve: '' });
   }
   state.dailyGoal = Number(legacyRead('curiva-toolkit-goal', 60)) || 60;
   state.weeklyGoal = Number(legacyRead('curiva-toolkit-weekly-target', 300)) || 300;
   state.examDate = boundedString(legacyRead('curiva-toolkit-exam-date', ''), 10);
+  clearLegacyPersistentWorkspace('guest');
   return normalizeState(state);
 }
 
-type StudyToolkitSyncStatus = 'local' | 'synced' | 'pending' | 'syncing' | 'offline';
+type StudyToolkitSyncStatus = 'local';
 
 type StudyToolkitContextValue = {
   state: StudyToolkitState;
@@ -236,277 +266,41 @@ export function StudyToolkitProvider({ children }: { children: React.ReactNode }
   const [ready, setReady] = useState(false);
   const [scope, setScope] = useState<string | null>(null);
   const [signedIn, setSignedIn] = useState(false);
-  const [syncStatus, setSyncStatus] = useState<StudyToolkitSyncStatus>('local');
-  const saveTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const retryTimeout = useRef<ReturnType<typeof setTimeout> | null>(null);
-  const baseState = useRef<StudyToolkitState | null>(null);
-  const stateRef = useRef(state);
-  const scopeRef = useRef(scope);
-  const syncRunning = useRef(false);
-  const syncQueued = useRef(false);
-  const retryCount = useRef(0);
-  const cacheSignature = useRef('');
-  const preferLocalScalarConflicts = useRef(true);
+  const syncStatus: StudyToolkitSyncStatus = 'local';
   const authRequest = useRef(0);
   const completedDeadline = useRef<number | null>(null);
 
-  stateRef.current = state;
-  scopeRef.current = scope;
-
-  const syncAccountWorkspace = useCallback(async (uid: string) => {
-    if (syncRunning.current) {
-      syncQueued.current = true;
-      return;
-    }
-
-    syncRunning.current = true;
-    const accountScope = `account:${uid}`;
-    setSyncStatus('syncing');
-    const localSnapshot = persistableState(stateRef.current);
-    const baseSnapshot = baseState.current || emptyState();
-    const reference = doc(db, 'studyToolkitProgress', uid);
-
-    try {
-      const merged = await runTransaction(db, async transaction => {
-        const remoteSnapshot = await transaction.get(reference);
-        const remote = remoteSnapshot.exists()
-          ? normalizeState(remoteSnapshot.data())
-          : emptyState();
-        const reconciled = mergeStudyToolkitStates(
-          baseSnapshot,
-          localSnapshot,
-          remote,
-          preferLocalScalarConflicts.current
-        );
-        transaction.set(reference, {
-          uid,
-          ...reconciled,
-          updatedAt: serverTimestamp()
-        });
-        return reconciled;
-      });
-
-      if (scopeRef.current === accountScope) {
-        baseState.current = merged;
-        preferLocalScalarConflicts.current = true;
-        retryCount.current = 0;
-        if (retryTimeout.current) clearTimeout(retryTimeout.current);
-        retryTimeout.current = null;
-        writeStoredState(baseStorageKey(accountScope), merged);
-
-        // Rebase edits made while the transaction was in flight instead of
-        // replacing them with the older snapshot that was just committed.
-        const latestLocal = persistableState(stateRef.current);
-        const rebased = mergeStudyToolkitStates(localSnapshot, latestLocal, merged);
-        if (!sameWorkspace(rebased, latestLocal)) setState(rebased);
-        writeStoredState(`${STORAGE_VERSION}:${accountScope}`, rebased);
-        setSyncStatus(sameWorkspace(rebased, merged) ? 'synced' : 'pending');
-      }
-    } catch (error) {
-      if (scopeRef.current === accountScope) {
-        setSyncStatus('offline');
-        console.warn('Curiva study workspace sync was deferred; the account-specific local cache is preserved.', error);
-        if (retryTimeout.current) clearTimeout(retryTimeout.current);
-        const delay = Math.min(60_000, 2_000 * (2 ** Math.min(retryCount.current, 5)));
-        retryCount.current += 1;
-        retryTimeout.current = setTimeout(() => {
-          retryTimeout.current = null;
-          void syncAccountWorkspace(uid);
-        }, delay);
-      }
-    } finally {
-      syncRunning.current = false;
-      if (syncQueued.current) {
-        syncQueued.current = false;
-        const activeScope = scopeRef.current;
-        if (activeScope?.startsWith('account:')) {
-          if (saveTimeout.current) clearTimeout(saveTimeout.current);
-          saveTimeout.current = setTimeout(() => {
-            saveTimeout.current = null;
-            void syncAccountWorkspace(activeScope.slice('account:'.length));
-          }, 100);
-        }
-      }
-    }
-  }, []);
-
-  const scheduleSync = useCallback((uid: string, delay = 650) => {
-    if (saveTimeout.current) clearTimeout(saveTimeout.current);
-    if (retryTimeout.current) clearTimeout(retryTimeout.current);
-    retryTimeout.current = null;
-    saveTimeout.current = setTimeout(() => {
-      saveTimeout.current = null;
-      void syncAccountWorkspace(uid);
-    }, delay);
-  }, [syncAccountWorkspace]);
-
   useEffect(() => {
     let active = true;
-    const unsubscribe = onAuthStateChanged(auth, async user => {
+    const unsubscribe = onAuthStateChanged(auth, user => {
       const requestId = ++authRequest.current;
-      const nextScope = user ? `account:${user.uid}` : 'guest';
-      if (saveTimeout.current) clearTimeout(saveTimeout.current);
-      if (retryTimeout.current) clearTimeout(retryTimeout.current);
-      saveTimeout.current = null;
-      retryTimeout.current = null;
-      cacheSignature.current = '';
+      const nextScope = user ? \`account:\${user.uid}\` : 'guest';
       setReady(false);
       setScope(null);
       setSignedIn(Boolean(user));
-      setSyncStatus(user ? 'syncing' : 'local');
+      setState(emptyState());
 
-      let nextState = emptyState();
-      let nextBase = emptyState();
-      let cloudAvailable = !user;
-      let hasKnownBase = false;
-
-      if (!user) {
-        nextState = loadGuestState();
-        nextBase = nextState;
-      } else {
-        const cached = readStoredState(`${STORAGE_VERSION}:${nextScope}`);
-        const cachedBase = readStoredState(baseStorageKey(nextScope));
-        hasKnownBase = Boolean(cachedBase);
-
-        try {
-          const snapshot = await getDoc(doc(db, 'studyToolkitProgress', user.uid));
-          const remote = snapshot.exists() ? normalizeState(snapshot.data()) : emptyState();
-          cloudAvailable = true;
-          nextBase = remote;
-
-          if (!cached) {
-            nextState = remote;
-          } else if (cachedBase) {
-            nextState = mergeStudyToolkitStates(cachedBase, cached, remote);
-          } else {
-            // Older app versions did not store a last-synced baseline. Preserve
-            // any unique cached entries, but prefer cloud scalar settings.
-            nextState = mergeStudyToolkitStates(emptyState(), cached, remote, false);
-          }
-        } catch (error) {
-          nextState = cached || emptyState();
-          nextBase = cachedBase || emptyState();
-          console.warn('Curiva study workspace is using its account-specific local cache while cloud sync is unavailable.', error);
-        }
-      }
-
+      const nextState = loadScopedState(nextScope);
       if (!active || requestId !== authRequest.current) return;
-      baseState.current = nextBase;
-      preferLocalScalarConflicts.current = cloudAvailable || hasKnownBase;
-      if (user && cloudAvailable) writeStoredState(baseStorageKey(nextScope), nextBase);
       setState(nextState);
       setScope(nextScope);
       setReady(true);
-      setSyncStatus(!user ? 'local' : cloudAvailable
-        ? (sameWorkspace(persistableState(nextState), persistableState(nextBase)) ? 'synced' : 'pending')
-        : 'offline');
     });
 
     return () => {
       active = false;
+      authRequest.current += 1;
       unsubscribe();
-      if (saveTimeout.current) clearTimeout(saveTimeout.current);
-      if (retryTimeout.current) clearTimeout(retryTimeout.current);
     };
   }, []);
 
-  // Keep each signed-in device live with remote workspace changes. Three-way
-  // reconciliation retains pending local edits while adopting untouched remote
-  // changes; deletes win conflicts to prevent stale offline data reappearing.
-  useEffect(() => {
-    if (!ready || !scope?.startsWith('account:')) return;
-    let active = true;
-    const uid = scope.slice('account:'.length);
-    const unsubscribe = onSnapshot(doc(db, 'studyToolkitProgress', uid), snapshot => {
-      if (!active) return;
-      const remote = snapshot.exists() ? normalizeState(snapshot.data()) : emptyState();
-      const base = baseState.current || remote;
-      const local = persistableState(stateRef.current);
-      const reconciled = mergeStudyToolkitStates(
-        base,
-        local,
-        remote,
-        preferLocalScalarConflicts.current
-      );
-      baseState.current = remote;
-      writeStoredState(baseStorageKey(scope), remote);
-      if (!sameWorkspace(reconciled, local)) setState(reconciled);
-      setSyncStatus(sameWorkspace(reconciled, remote) ? 'synced' : 'pending');
-    }, error => {
-      if (!active) return;
-      setSyncStatus('offline');
-      console.warn('Live Curiva study workspace updates are temporarily unavailable; local changes are retained.', error);
-    });
-
-    return () => {
-      active = false;
-      unsubscribe();
-    };
-  }, [ready, scope]);
-
+  // Free-text study material is intentionally not sent to Firestore or any
+  // other service. It is kept in tab-scoped sessionStorage and is cleared when
+  // the tab/session ends. A signed-in account uses a separate local namespace.
   useEffect(() => {
     if (!ready || !scope) return;
-    const snapshot = persistableState(state);
-    const serialized = JSON.stringify(snapshot);
-    const signature = `${scope}:${serialized}`;
-
-    if (cacheSignature.current !== signature) {
-      writeStoredState(`${STORAGE_VERSION}:${scope}`, snapshot);
-      cacheSignature.current = signature;
-    }
-
-    if (!scope.startsWith('account:')) {
-      setSyncStatus('local');
-      return;
-    }
-
-    const baseline = baseState.current || emptyState();
-    if (sameWorkspace(snapshot, baseline)) {
-      setSyncStatus(current => current === 'syncing' ? current : 'synced');
-      return;
-    }
-
-    setSyncStatus(current => current === 'syncing' ? current : 'pending');
-    scheduleSync(scope.slice('account:'.length));
-  }, [state, ready, scope, scheduleSync]);
-
-  useEffect(() => {
-    if (!state.timer.running || !state.timer.deadlineAt) return;
-    const refresh = () => {
-      const remaining = Math.max(0, Math.ceil((state.timer.deadlineAt! - Date.now()) / 1000));
-      if (remaining > 0) {
-        setState(current => current.timer.remainingSeconds === remaining ? current : ({
-          ...current, timer: { ...current.timer, remainingSeconds: remaining }
-        }));
-        return;
-      }
-      const deadline = state.timer.deadlineAt!;
-      if (completedDeadline.current === deadline) return;
-      completedDeadline.current = deadline;
-      setState(current => {
-        if (!current.timer.running || current.timer.deadlineAt !== deadline) return current;
-        const sessions = current.timer.mode === 'focus'
-          ? [{ id: id(), date: studyDateKey(), minutes: current.timer.durationMinutes, topic: current.timer.topic }, ...current.sessions] .slice(0, 500)
-          : current.sessions;
-        return {
-          ...current,
-          sessions,
-          timer: { ...current.timer, running: false, remainingSeconds: 0, deadlineAt: null }
-        };
-      });
-    };
-    refresh();
-    const timerId = window.setInterval(refresh, 1000);
-    window.addEventListener('focus', refresh);
-    window.addEventListener('pageshow', refresh);
-    document.addEventListener('visibilitychange', refresh);
-    return () => {
-      window.clearInterval(timerId);
-      window.removeEventListener('focus', refresh);
-      window.removeEventListener('pageshow', refresh);
-      document.removeEventListener('visibilitychange', refresh);
-    };
-  }, [state.timer.running, state.timer.deadlineAt, state.timer.mode, state.timer.durationMinutes, state.timer.topic]);
+    writeStoredState(scopedStorageKey(scope), state);
+  }, [state, ready, scope]);
 
   const addTask = useCallback((title: string, subject?: string, chapter?: string) => {
     const clean = title.trim();
