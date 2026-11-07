@@ -85,6 +85,9 @@ jobs:
       - name: Verify public-health content, privacy disclosure, and branding
         run: node --test tests/public-health-content.test.mjs
 
+      - name: Verify privacy, security headers, and content protections
+        run: node --test tests/security-hardening.test.mjs
+
       - name: Set up Java for the Firestore emulator
         uses: actions/setup-java@v6
         with:
