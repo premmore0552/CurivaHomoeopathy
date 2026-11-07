@@ -41,8 +41,9 @@ type LocalProfileData = {
 const LOCAL_PROFILE_PREFIX = 'curiva-profile-session-v1:';
 const allowedProfessions = new Set([
   'Guest', 'Public', 'General Public', 'BHMS Student', '1st BHMS',
-  '2nd BHMS', '3rd BHMS', '4th BHMS', 'Internship Student',
-  'Intern', 'Practitioner', 'Faculty', 'Researcher', 'user'
+  '2nd BHMS', '3rd BHMS', '4th BHMS', '1st Year Student',
+  '2nd Year Student', '3rd Year Student', '4th Year Student',
+  'Internship Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'user'
 ]);
 
 function safeProfileProfession(value?: string): string {
@@ -141,7 +142,7 @@ export const userService = {
           uid: user.uid,
           email: user.email || '',
           displayName: (user.displayName || user.email?.split('@')[0] || 'Curiva learner').slice(0, 80),
-          photoURL: user.photoURL || '',
+          photoURL: user.photoURL?.startsWith('https://') ? user.photoURL : '',
           profession: safeProfession,
           interests: [],
           createdAt: serverTimestamp(),
@@ -153,7 +154,7 @@ export const userService = {
       const current = snapshot.data() || {};
       const update: Record<string, unknown> = {
         displayName: (user.displayName || current.displayName || '').toString().slice(0, 80),
-        photoURL: user.photoURL || current.photoURL || '',
+        photoURL: user.photoURL?.startsWith('https://') ? user.photoURL : (current.photoURL || ''),
         updatedAt: serverTimestamp()
       };
       if (profession) update.profession = safeProfession;
