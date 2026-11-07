@@ -144,16 +144,16 @@ const excludedDomains = [
 ];
 const excludeRules = excludedDomains
   .map((domain) => '    <exclude domain="' + domain + '" path="." />')
-  .join('\\n');
-const legacyBackupRules = '<?xml version="1.0" encoding="utf-8"?>\\n' +
-  '<full-backup-content>\\n' + excludeRules + '\\n</full-backup-content>\\n';
+  .join('\n');
+const legacyBackupRules = '<?xml version="1.0" encoding="utf-8"?>\n' +
+  '<full-backup-content>\n' + excludeRules + '\n</full-backup-content>\n';
 const extractionBlock = (name) =>
-  '  <' + name + '>\\n' + excludeRules + '\\n  </' + name + '>';
-const dataExtractionRules = '<?xml version="1.0" encoding="utf-8"?>\\n' +
-  '<data-extraction-rules>\\n' +
-  extractionBlock('cloud-backup') + '\\n' +
-  extractionBlock('device-transfer') + '\\n' +
-  '</data-extraction-rules>\\n';
+  '  <' + name + '>\n' + excludeRules + '\n  </' + name + '>';
+const dataExtractionRules = '<?xml version="1.0" encoding="utf-8"?>\n' +
+  '<data-extraction-rules>\n' +
+  extractionBlock('cloud-backup') + '\n' +
+  extractionBlock('device-transfer') + '\n' +
+  '</data-extraction-rules>\n';
 await writeFile(path.join(xmlResourceDir, 'curiva_backup_rules.xml'), legacyBackupRules, 'utf8');
 await writeFile(path.join(xmlResourceDir, 'curiva_data_extraction_rules.xml'), dataExtractionRules, 'utf8');
 
