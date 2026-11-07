@@ -51,6 +51,15 @@ test('every disease-system asset exactly matches its source records', async () =
   assert.equal(new Set(routeKeys).size, diseaseHubData.length);
 });
 
+test('system and slug form a unique identity even when the source reuses disease IDs', () => {
+  const routeKeys = diseaseHubData.map((disease) => `${disease.system}/${disease.slug}`);
+  assert.equal(new Set(routeKeys).size, diseaseHubData.length);
+  assert.ok(
+    new Set(diseaseHubData.map((disease) => disease.id)).size < diseaseHubData.length,
+    'The source fixture should preserve known reused IDs and guard against global-ID assumptions',
+  );
+});
+
 test('every source disease system has metadata and a generated asset, including empty route aliases', async () => {
   const metadata = new Set(DISEASE_SYSTEMS.map((system) => system.id));
   const sourceIds = new Set(diseaseHubData.map((disease) => disease.system));
