@@ -57,6 +57,6 @@ test('overlay layers cover floating triggers when expanded', () => {
   assert.match(studyDock, /z-\[80\]/);
   assert.match(quickActions, /z-40/);
   assert.match(studyDock, /z-\[80\]/);
-  assert.match(studyDock, /z-\[95\].*role="dialog"/);
-  assert.match(studyDock, /z-\[110\].*fixed inset-0/);
+  assert.match(studyDock, /fixed inset-0 z-\[95\].*role="dialog"/);
+  assert.match(studyDock, /fixed inset-0 z-\[110\]/);
 });
