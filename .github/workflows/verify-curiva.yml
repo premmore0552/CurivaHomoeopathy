@@ -63,6 +63,27 @@ jobs:
           }
           if (report.error) console.log('NPM_AUDIT_ERROR', JSON.stringify(report.error));
           NODE
+
+      - name: Report production-only npm security advisories
+        shell: bash
+        run: |
+          npm audit --omit=dev --json > "$RUNNER_TEMP/npm-audit-production.json" || true
+          node - "$RUNNER_TEMP/npm-audit-production.json" <<'NODE'
+          const fs = require('node:fs');
+          let report = {};
+          try {
+            report = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          } catch (error) {
+            console.log('Production-only npm audit report could not be parsed:', error.message);
+            process.exit(0);
+          }
+          console.log('NPM_AUDIT_PRODUCTION_COUNTS', JSON.stringify(report.metadata?.vulnerabilities || {}));
+          for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+            console.log(
+              `NPM_AUDIT_PRODUCTION ${String(item.severity).toUpperCase()} ${name} range=${item.range} fix=${JSON.stringify(item.fixAvailable)}`,
+            );
+          }
+          NODE
       - name: Verify Boericke source reconciliation and importer
         run: npm run test:boericke
       - name: Test native study-plan validation
