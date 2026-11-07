@@ -30,6 +30,10 @@ jobs:
           node-version: 22
           cache: npm
 
+      - name: Refresh lockfile for Phase 2 security pins
+        if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-gated'
+        run: npm install --package-lock-only --ignore-scripts
+
       - name: Install locked dependencies
         run: npm ci
 
