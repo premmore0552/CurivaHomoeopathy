@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { auth, onAuthStateChanged, onSnapshot, doc, db, handleFirestoreError, OperationType } from '../lib/firebase';
+import { auth, onAuthStateChanged, onSnapshot, doc, db } from '../lib/firebase';
 import { userService, UserProfile } from '../services/userService';
 
 export function useUser() {
@@ -7,50 +7,42 @@ export function useUser() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
+    let activeUid: string | null = null;
     let unsubscribeSnapshot: (() => void) | null = null;
 
-    const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
-      if (unsubscribeSnapshot) {
-        unsubscribeSnapshot();
-        unsubscribeSnapshot = null;
+    const unsubscribeAuth = onAuthStateChanged(auth, user => {
+      unsubscribeSnapshot?.();
+      unsubscribeSnapshot = null;
+      activeUid = user?.uid || null;
+      setProfile(null);
+
+      if (!user) {
+        setLoading(false);
+        return;
       }
 
-      if (user) {
-        // Subscribe to live profile changes
-        unsubscribeSnapshot = onSnapshot(
-          doc(db, 'users', user.uid),
-          (snapshot) => {
-            if (snapshot.exists()) {
-              const data = snapshot.data();
-              setProfile({
-                ...data,
-                bookmarks: data.bookmarks || [],
-                readingHistory: data.readingHistory || [],
-                activities: data.activities || [],
-                interests: data.interests || [],
-                profession: data.profession || 'user',
-              } as UserProfile);
-            } else {
-              setProfile(null);
-            }
+      setLoading(true);
+      unsubscribeSnapshot = onSnapshot(
+        doc(db, 'users', user.uid),
+        () => {
+          void userService.getProfile(user.uid).then(nextProfile => {
+            if (auth.currentUser?.uid !== user.uid || activeUid !== user.uid) return;
+            setProfile(nextProfile);
             setLoading(false);
-          },
-          (error) => {
-            handleFirestoreError(error, OperationType.GET, 'users/' + user.uid);
-            setLoading(false);
-          }
-        );
-      } else {
-        setProfile(null);
-        setLoading(false);
-      }
+          });
+        },
+        () => {
+          if (auth.currentUser?.uid !== user.uid || activeUid !== user.uid) return;
+          setProfile(null);
+          setLoading(false);
+        }
+      );
     });
 
     return () => {
+      activeUid = null;
       unsubscribeAuth();
-      if (unsubscribeSnapshot) {
-        unsubscribeSnapshot();
-      }
+      unsubscribeSnapshot?.();
     };
   }, []);
 
