@@ -1,73 +1,128 @@
-import { 
-  db, 
-  auth, 
-  handleFirestoreError, 
+import {
+  db,
+  auth,
+  handleFirestoreError,
   OperationType,
-  doc, 
-  getDoc, 
-  setDoc, 
-  updateDoc, 
-  arrayUnion, 
-  arrayRemove,
-  serverTimestamp,
-  collection,
-  getDocs
+  doc,
+  getDoc,
+  setDoc,
+  updateDoc,
+  serverTimestamp
 } from '../lib/firebase';
-
-export interface UserActivity {
-  id: string;
-  type: 'login' | 'bookmark_add' | 'bookmark_remove' | 'read_post' | 'change_profession' | 'ask_question' | 'mcq_practice' | 'profile_update' | 'study_tool';
-  details: string;
-  timestamp: string;
-}
 
 export interface UserProfile {
   uid: string;
   email: string;
   displayName?: string;
   photoURL?: string;
-  profession?: string; // 'doctor' | 'practitioner' | 'student' | 'user'
+  profession?: string;
   bio?: string;
   qualifications?: string;
-  clinicAddress?: string;
   interests?: string[];
+  // Bookmarks, reading history and performance data are session-local only.
   bookmarks: string[];
-  readingHistory: { postId: string; timestamp: any }[];
-  activities?: UserActivity[];
+  readingHistory: { postId: string; timestamp: string }[];
   studyStats?: Record<string, {
     correct: number;
     total: number;
     lastDifficulty: string;
     updatedAt: string;
   }>;
-  streakCount?: number;
-  lastActiveDate?: string;
   createdAt: any;
   updatedAt: any;
 }
 
+type LocalProfileData = {
+  bookmarks: string[];
+  readingHistory: { postId: string; timestamp: string }[];
+  studyStats: Record<string, { correct: number; total: number; lastDifficulty: string; updatedAt: string }>;
+};
+
+const LOCAL_PROFILE_PREFIX = 'curiva-profile-session-v1:';
+const allowedProfessions = new Set([
+  'Guest', 'Public', 'General Public', 'BHMS Student', '1st BHMS',
+  '2nd BHMS', '3rd BHMS', '4th BHMS', '1st Year Student',
+  '2nd Year Student', '3rd Year Student', '4th Year Student',
+  'Internship Student', 'Intern', 'Practitioner', 'Faculty', 'Researcher', 'user'
+]);
+
 function safeProfileProfession(value?: string): string {
   const clean = (value || 'user').trim().slice(0, 80);
-  return /admin/i.test(clean) ? 'user' : clean;
+  return allowedProfessions.has(clean) ? clean : 'user';
+}
+
+function emptyLocalProfile(): LocalProfileData {
+  return { bookmarks: [], readingHistory: [], studyStats: {} };
+}
+
+function localProfileKey(uid: string): string {
+  return LOCAL_PROFILE_PREFIX + uid;
+}
+
+function readLocalProfile(uid: string, legacy?: Record<string, any>): LocalProfileData {
+  try {
+    if (typeof sessionStorage !== 'undefined') {
+      const raw = sessionStorage.getItem(localProfileKey(uid));
+      if (raw) {
+        const parsed = JSON.parse(raw) as Partial<LocalProfileData>;
+        return {
+          bookmarks: Array.isArray(parsed.bookmarks) ? parsed.bookmarks.filter((v): v is string => typeof v === 'string').slice(0, 500) : [],
+          readingHistory: Array.isArray(parsed.readingHistory)
+            ? parsed.readingHistory.filter((v: any) => v && typeof v.postId === 'string').slice(0, 100)
+            : [],
+          studyStats: parsed.studyStats && typeof parsed.studyStats === 'object' ? parsed.studyStats : {}
+        };
+      }
+    }
+  } catch {
+    // Corrupt local data is ignored; the academic workspace remains usable.
+  }
+
+  // Migrate only the owner's legacy reading metadata into the current tab.
+  const migrated: LocalProfileData = {
+    bookmarks: Array.isArray(legacy?.bookmarks) ? legacy.bookmarks.filter((v: unknown) => typeof v === 'string').slice(0, 500) : [],
+    readingHistory: Array.isArray(legacy?.readingHistory)
+      ? legacy.readingHistory.filter((v: any) => v && typeof v.postId === 'string').slice(-100)
+      : [],
+    studyStats: legacy?.studyStats && typeof legacy.studyStats === 'object' ? legacy.studyStats : {}
+  };
+  writeLocalProfile(uid, migrated);
+  return migrated;
+}
+
+function writeLocalProfile(uid: string, data: LocalProfileData): void {
+  try {
+    if (typeof sessionStorage === 'undefined') return;
+    sessionStorage.setItem(localProfileKey(uid), JSON.stringify({
+      bookmarks: data.bookmarks.slice(0, 500),
+      readingHistory: data.readingHistory.slice(-100),
+      studyStats: data.studyStats
+    }));
+  } catch {
+    // Privacy-first local features may be unavailable if browser storage is blocked.
+  }
 }
 
 export const userService = {
   async getProfile(uid: string): Promise<UserProfile | null> {
-    const docRef = doc(db, 'users', uid);
     try {
-      const docSnap = await getDoc(docRef);
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        return {
-          ...data,
-          bookmarks: data.bookmarks || [],
-          readingHistory: data.readingHistory || [],
-          activities: data.activities || [],
-          interests: data.interests || [],
-          profession: data.profession || 'user',
-        } as UserProfile;
-      }
-      return null;
+      const snapshot = await getDoc(doc(db, 'users', uid));
+      if (!snapshot.exists()) return null;
+      const data = snapshot.data() || {};
+      const local = readLocalProfile(uid, data);
+      return {
+        uid,
+        email: typeof data.email === 'string' ? data.email : '',
+        displayName: typeof data.displayName === 'string' ? data.displayName : '',
+        photoURL: typeof data.photoURL === 'string' ? data.photoURL : '',
+        profession: safeProfileProfession(data.profession),
+        bio: typeof data.bio === 'string' ? data.bio : '',
+        qualifications: typeof data.qualifications === 'string' ? data.qualifications : '',
+        interests: Array.isArray(data.interests) ? data.interests.filter((v: unknown) => typeof v === 'string').slice(0, 20) : [],
+        ...local,
+        createdAt: data.createdAt,
+        updatedAt: data.updatedAt
+      };
     } catch (error) {
       handleFirestoreError(error, OperationType.GET, `users/${uid}`);
       return null;
@@ -80,256 +135,128 @@ export const userService = {
     const safeProfession = safeProfileProfession(profession);
 
     try {
-      const docRef = doc(db, 'users', user.uid);
-      const docSnap = await getDoc(docRef);
-      const isNewUser = !docSnap.exists();
-
-      const loginAct = {
-        id: Math.random().toString(36).substring(2, 11),
-        type: 'login' as const,
-        details: isNewUser 
-          ? `Created account under workspace: ${safeProfession}`
-          : `Authenticated with portal session. Welcome back!`,
-        timestamp: new Date().toISOString()
-      };
-
-      const todayStr = new Date().toISOString().split('T')[0];
-
-      if (isNewUser) {
-        const initialData: any = {
+      const reference = doc(db, 'users', user.uid);
+      const snapshot = await getDoc(reference);
+      if (!snapshot.exists()) {
+        await setDoc(reference, {
           uid: user.uid,
-          email: user.email || user.phoneNumber || '',
-          phoneNumber: user.phoneNumber || '',
-          displayName: user.displayName || user.email?.split('@')[0] || user.phoneNumber || 'Scholar Homoeopath',
-          photoURL: user.photoURL || '',
+          email: user.email || '',
+          displayName: (user.displayName || user.email?.split('@')[0] || 'Curiva learner').slice(0, 80),
+          photoURL: user.photoURL?.startsWith('https://') ? user.photoURL : '',
           profession: safeProfession,
-          bookmarks: [],
-          readingHistory: [],
-          activities: [loginAct],
-          streakCount: 1,
-          lastActiveDate: todayStr,
+          interests: [],
           createdAt: serverTimestamp(),
           updatedAt: serverTimestamp()
-        };
-        await setDoc(docRef, initialData);
+        });
         return safeProfession;
-      } else {
-        const currentData = docSnap.data() || {};
-        
-        // Calculate daily study streak
-        let newStreakCount = currentData.streakCount || 0;
-        let lastActive = currentData.lastActiveDate || '';
-
-        if (!lastActive) {
-          newStreakCount = 1;
-          lastActive = todayStr;
-        } else if (lastActive !== todayStr) {
-          const lastActiveDateObj = new Date(lastActive);
-          const todayDateObj = new Date(todayStr);
-          const diffTime = Math.abs(todayDateObj.getTime() - lastActiveDateObj.getTime());
-          const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-
-          if (diffDays === 1) {
-            newStreakCount += 1;
-          } else if (diffDays > 1) {
-            newStreakCount = 1;
-          }
-          lastActive = todayStr;
-        } else {
-          if (newStreakCount === 0) {
-            newStreakCount = 1;
-          }
-        }
-
-        let bookmarksToMerge = [...(currentData.bookmarks || [])];
-        let readingHistoryToMerge = [...(currentData.readingHistory || [])];
-        let interestsToMerge = [...(currentData.interests || [])];
-        let activitiesToMerge = [...(currentData.activities || []), loginAct];
-        let studyStatsToMerge = { ...(currentData.studyStats || {}) };
-
-        const updateData: any = {
-          displayName: user.displayName || currentData.displayName || '',
-          photoURL: user.photoURL || currentData.photoURL || '',
-          bookmarks: bookmarksToMerge,
-          readingHistory: readingHistoryToMerge,
-          interests: interestsToMerge,
-          activities: activitiesToMerge,
-          studyStats: studyStatsToMerge,
-          streakCount: newStreakCount,
-          lastActiveDate: lastActive,
-          updatedAt: serverTimestamp()
-        };
-
-        if (user.phoneNumber) {
-          updateData.phoneNumber = user.phoneNumber;
-        }
-
-        if (profession) {
-          updateData.profession = safeProfession;
-        }
-
-        await updateDoc(docRef, updateData);
-        return profession ? safeProfession : currentData.profession || 'user';
       }
+
+      const current = snapshot.data() || {};
+      const update: Record<string, unknown> = {
+        displayName: (user.displayName || current.displayName || '').toString().slice(0, 80),
+        photoURL: user.photoURL?.startsWith('https://') ? user.photoURL : (current.photoURL || ''),
+        updatedAt: serverTimestamp()
+      };
+      if (profession) update.profession = safeProfession;
+      await updateDoc(reference, update);
+      return profession ? safeProfession : safeProfileProfession(current.profession);
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
     }
   },
 
-  async trackActivity(type: 'login' | 'bookmark_add' | 'bookmark_remove' | 'read_post' | 'change_profession' | 'ask_question' | 'mcq_practice' | 'profile_update' | 'study_tool', details: string) {
-    const user = auth.currentUser;
-    if (!user) return;
-
-    const docRef = doc(db, 'users', user.uid);
-    try {
-      const act = {
-        id: Math.random().toString(36).substring(2, 11),
-        type,
-        details,
-        timestamp: new Date().toISOString()
-      };
-      await updateDoc(docRef, {
-        activities: arrayUnion(act),
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      console.error("Failed to track user activity:", error);
-    }
+  // Activity streams are intentionally not persisted. Do not send free text,
+  // clinical context, search queries or study details to an analytics timeline.
+  async trackActivity(_type: string, _details: string) {
+    return;
   },
 
-  async updateProfileSettings(data: { displayName?: string; bio?: string; qualifications?: string; profession?: string; photoURL?: string; clinicAddress?: string; interests?: string[] }) {
+  async updateProfileSettings(data: {
+    displayName?: string;
+    bio?: string;
+    qualifications?: string;
+    profession?: string;
+    photoURL?: string;
+    interests?: string[];
+  }) {
     const user = auth.currentUser;
     if (!user) throw new Error('Auth required');
+    const update: Record<string, unknown> = { updatedAt: serverTimestamp() };
 
-    const docRef = doc(db, 'users', user.uid);
+    if (data.displayName !== undefined) update.displayName = data.displayName.trim().slice(0, 80);
+    if (data.bio !== undefined) update.bio = data.bio.trim().slice(0, 500);
+    if (data.qualifications !== undefined) update.qualifications = data.qualifications.trim().slice(0, 160);
+    if (data.photoURL !== undefined) {
+      const value = data.photoURL.trim().slice(0, 2048);
+      if (value && !value.startsWith('https://')) throw new Error('Profile images must use HTTPS.');
+      update.photoURL = value;
+    }
+    if (data.profession !== undefined) update.profession = safeProfileProfession(data.profession);
+    if (data.interests !== undefined) update.interests = data.interests.filter(value => typeof value === 'string').slice(0, 20).map(value => value.slice(0, 80));
     try {
-      const safeData = {
-        ...data,
-        ...(data.profession !== undefined ? { profession: safeProfileProfession(data.profession) } : {})
-      };
-      const details = `Updated fields: ${Object.keys(safeData).filter(k => safeData[k as keyof typeof safeData] !== undefined).join(', ')}`;
-      const act = {
-        id: Math.random().toString(36).substring(2, 11),
-        type: 'profile_update' as const,
-        details,
-        timestamp: new Date().toISOString()
-      };
-      const updateData: any = {
-        ...safeData,
-        activities: arrayUnion(act),
-        updatedAt: serverTimestamp()
-      };
-      await updateDoc(docRef, updateData);
+      await updateDoc(doc(db, 'users', user.uid), update);
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
+      throw error;
     }
   },
 
   async updateProfession(profession: string) {
-    if (/admin/i.test(profession)) throw new Error('Administrator access must be granted by a trusted administrator.');
     const user = auth.currentUser;
     if (!user) throw new Error('Auth required');
-
-    const docRef = doc(db, 'users', user.uid);
+    if (profession === 'Administrator' || !allowedProfessions.has(profession)) {
+      throw new Error('This workspace role is not permitted.');
+    }
     try {
-      const act = {
-        id: Math.random().toString(36).substring(2, 11),
-        type: 'change_profession' as const,
-        details: `Workspace role updated to: ${profession}`,
-        timestamp: new Date().toISOString()
-      };
-      await updateDoc(docRef, {
+      await updateDoc(doc(db, 'users', user.uid), {
         profession,
-        activities: arrayUnion(act),
         updatedAt: serverTimestamp()
       });
     } catch (error) {
       handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
+      throw error;
     }
   },
 
   async toggleBookmark(postId: string) {
     const user = auth.currentUser;
     if (!user) throw new Error('Auth required');
-
-    const profile = await this.getProfile(user.uid);
-    if (!profile) return;
-
-    const isBookmarked = profile.bookmarks.includes(postId);
-    const docRef = doc(db, 'users', user.uid);
-
-    try {
-      const act = {
-        id: Math.random().toString(36).substring(2, 11),
-        type: (isBookmarked ? 'bookmark_remove' : 'bookmark_add') as 'bookmark_remove' | 'bookmark_add',
-        details: `${isBookmarked ? 'Removed' : 'Added'} bookmark for inquiry/remedy: ${postId}`,
-        timestamp: new Date().toISOString()
-      };
-      await updateDoc(docRef, {
-        bookmarks: isBookmarked ? arrayRemove(postId) : arrayUnion(postId),
-        activities: arrayUnion(act),
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
+    if (typeof postId !== 'string' || !/^[a-zA-Z0-9_-]{1,120}$/.test(postId)) {
+      throw new Error('Invalid bookmark identifier.');
     }
+    const local = readLocalProfile(user.uid);
+    const exists = local.bookmarks.includes(postId);
+    local.bookmarks = exists
+      ? local.bookmarks.filter(value => value !== postId)
+      : [postId, ...local.bookmarks].slice(0, 500);
+    writeLocalProfile(user.uid, local);
   },
 
   async addToHistory(postId: string) {
     const user = auth.currentUser;
-    if (!user) return;
-
-    const docRef = doc(db, 'users', user.uid);
-    try {
-      const act = {
-        id: Math.random().toString(36).substring(2, 11),
-        type: 'read_post' as const,
-        details: `Reviewed clinical detail / Materia Medica: ${postId}`,
-        timestamp: new Date().toISOString()
-      };
-      await updateDoc(docRef, {
-        readingHistory: arrayUnion({
-          postId,
-          timestamp: new Date().toISOString()
-        }),
-        activities: arrayUnion(act),
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
-    }
+    if (!user || typeof postId !== 'string' || !/^[a-zA-Z0-9_-]{1,120}$/.test(postId)) return;
+    const local = readLocalProfile(user.uid);
+    local.readingHistory = [
+      { postId, timestamp: new Date().toISOString() },
+      ...local.readingHistory.filter(item => item.postId !== postId)
+    ].slice(0, 100);
+    writeLocalProfile(user.uid, local);
   },
 
   async updateStudyStats(remedyId: string, correct: boolean, difficulty: string) {
     const user = auth.currentUser;
-    if (!user) return;
-
-    const docRef = doc(db, 'users', user.uid);
-    try {
-      const profile = await this.getProfile(user.uid);
-      const currentStats = profile?.studyStats?.[remedyId] || { correct: 0, total: 0, lastDifficulty: difficulty, updatedAt: '' };
-      
-      const newStats = {
-        correct: currentStats.correct + (correct ? 1 : 0),
-        total: currentStats.total + 1,
-        lastDifficulty: difficulty,
+    if (!user || typeof remedyId !== 'string' || !/^[a-zA-Z0-9_-]{1,120}$/.test(remedyId)) return;
+    const local = readLocalProfile(user.uid);
+    const previous = local.studyStats[remedyId] || { correct: 0, total: 0, lastDifficulty: 'normal', updatedAt: '' };
+    local.studyStats = {
+      ...local.studyStats,
+      [remedyId]: {
+        correct: previous.correct + (correct ? 1 : 0),
+        total: previous.total + 1,
+        lastDifficulty: difficulty.slice(0, 40),
         updatedAt: new Date().toISOString()
-      };
-
-      const act = {
-        id: Math.random().toString(36).substring(2, 11),
-        type: 'mcq_practice' as const,
-        details: `Practiced COMPETITIVE MCQ for ${remedyId}. Result: ${correct ? 'CORRECT' : 'INCORRECT'} (${difficulty})`,
-        timestamp: new Date().toISOString()
-      };
-
-      await updateDoc(docRef, {
-        [`studyStats.${remedyId}`]: newStats,
-        activities: arrayUnion(act),
-        updatedAt: serverTimestamp()
-      });
-    } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
-    }
+      }
+    };
+    writeLocalProfile(user.uid, local);
   }
 };

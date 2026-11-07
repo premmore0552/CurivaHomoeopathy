@@ -1,3 +1,4 @@
+import { validateAcademicAiText } from '../server/aiPrivacyGuard';
 import { 
   db, 
   auth, 
@@ -25,7 +26,7 @@ export interface Question {
   id: string;
   userId: string;
   userName?: string;
-  userEmail: string;
+  userEmail?: string;
   subject: string;
   content: string;
   status: QuestionStatus;
@@ -56,14 +57,20 @@ function sortCreatedDesc(questions: Question[]): Question[] {
 export const questionService = {
   async submitQuestion(subject: string, content: string, isAnonymous: boolean) {
     if (!auth.currentUser) throw new Error('User must be signed in to ask a question');
+    const safeSubject = validateAcademicAiText(subject, 200);
+    const safeContent = validateAcademicAiText(content, 2000);
+    if (!safeSubject.ok || safeSubject.text.length < 5) {
+      throw new Error('Please enter an academic question title between 5 and 200 characters.');
+    }
+    if (!safeContent.ok || safeContent.text.length < 10) {
+      throw new Error('Please enter an academic question between 10 and 2,000 characters. Do not include patient or identifying information.');
+    }
 
     const questionData = {
       userId: auth.currentUser.uid,
-      userName: auth.currentUser.displayName || 'Anonymous User',
-      userEmail: auth.currentUser.email || '',
-      subject,
-      content,
-      isAnonymous,
+      subject: safeSubject.text,
+      content: safeContent.text,
+      isAnonymous: isAnonymous === true,
       status: QuestionStatus.PENDING,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp()

@@ -7,6 +7,7 @@ const ebooks = read('../src/data/ebooksData.ts');
 const publicEducation = read('../src/pages/PublicEducation.tsx');
 const privacyPolicy = read('../src/pages/PrivacyPolicy.tsx');
 const splash = read('../index.html');
+const bootCss = read('../public/boot.css');
 const manifest = JSON.parse(read('../public/manifest.json'));
 const home = read('../src/pages/Home.tsx');
 const homeHero = read('../src/components/home/HighImpactHero.tsx');
@@ -50,14 +51,16 @@ test('public education distinguishes traditional homoeopathy from evidence-based
 
 test('ebook reading progress is disclosed as device-local', () => {
   assert.match(privacyPolicy, /Public Health eBook bookmarks/);
-  assert.match(privacyPolicy, /does not upload that reading history/);
+  assert.match(privacyPolicy, /Public Health eBook bookmarks/);
+  assert.match(privacyPolicy, /stored locally in the browser/);
+  assert.match(privacyPolicy, /not synced to the Curiva server by the current reader/);
 });
 
 test('latest Curiva mark is used in boot, app loaders and PWA manifest', () => {
   assert.match(splash, /src="\/app_icon\.png\.png"/);
   assert.match(app, /src="\/app_icon\.png\.png"/);
   assert.ok(manifest.icons.every((icon) => icon.src === '/app_icon.png.png' && icon.type === 'image/jpeg'));
-  assert.match(splash, /prefers-reduced-motion/);
+  assert.match(bootCss, /prefers-reduced-motion/);
 });
 
 test('homepage intro is after the study content and has no fixed desktop canvas', () => {

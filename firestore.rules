@@ -31,34 +31,78 @@ service cloud.firestore {
     }
 
     // Checking if user is admin
+    // Admin status is granted only by a privileged Firebase Admin/Console
+    // operator writing the membership document. Client claims/profile fields
+    // and the historic bootstrap email are not administrator credentials.
     function isAdmin() {
-      return isSignedIn() && (
-        (request.auth.token.email_verified == true && request.auth.token.email == 'premmore0552@gmail.com') ||
-        exists(/databases/$(database)/documents/admins/$(request.auth.uid))
-      );
+      return isSignedIn() &&
+        exists(/databases/$(database)/documents/admins/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/admins/$(request.auth.uid)).data.active == true;
     }
 
     // --- Validation Helpers ---
 
     function hasSafeProfession(data) {
       return !data.keys().hasAny(['profession']) ||
-        (data.profession is string && data.profession.size() <= 80 &&
-         !data.profession.matches('.*[Aa][Dd][Mm][Ii][Nn].*'));
+        data.profession in [
+          'Guest', 'Public', 'General Public', 'BHMS Student', '1st BHMS',
+          '2nd BHMS', '3rd BHMS', '4th BHMS', '1st Year Student',
+          '2nd Year Student', '3rd Year Student', '4th Year Student',
+          'Internship Student', 'Intern', 'Practitioner', 'Faculty',
+          'Researcher', 'user'
+        ];
+    }
+
+    function hasSafeUserFields(data) {
+      return data.uid == request.auth.uid &&
+             data.email is string && data.email.size() <= 200 &&
+             data.email == request.auth.token.get('email', '') &&
+             hasSafeProfession(data) &&
+             (!data.keys().hasAny(['displayName']) ||
+               (data.displayName is string && data.displayName.size() <= 80)) &&
+             (!data.keys().hasAny(['photoURL']) ||
+               (data.photoURL is string && data.photoURL.size() <= 2048 &&
+                (data.photoURL == '' || data.photoURL.matches('^https://.*')))) &&
+             (!data.keys().hasAny(['bio']) ||
+               (data.bio is string && data.bio.size() <= 500)) &&
+             (!data.keys().hasAny(['qualifications']) ||
+               (data.qualifications is string && data.qualifications.size() <= 160)) &&
+             (!data.keys().hasAny(['interests']) ||
+               (data.interests is list && data.interests.size() <= 20));
     }
 
     function isValidUser(data) {
-      return data.keys().hasAll(['uid', 'email']) && 
-             data.uid == request.auth.uid &&
-             data.email is string && data.email.size() <= 200 &&
-             hasSafeProfession(data);
+      return data.keys().hasAll(['uid', 'email', 'createdAt']) &&
+             data.keys().hasOnly([
+               'uid', 'email', 'displayName', 'photoURL', 'profession',
+               'bio', 'qualifications', 'interests', 'createdAt', 'updatedAt'
+             ]) &&
+             hasSafeUserFields(data);
+    }
+
+    function isValidUserUpdate(data, previous) {
+      return data.keys().hasAll(['uid', 'email', 'createdAt', 'updatedAt']) &&
+             data.uid == previous.uid &&
+             data.email == previous.email &&
+             data.createdAt == previous.createdAt &&
+             data.diff(previous).affectedKeys().hasOnly([
+               'displayName', 'photoURL', 'profession', 'bio',
+               'qualifications', 'interests', 'updatedAt'
+             ]) &&
+             data.updatedAt == request.time &&
+             hasSafeUserFields(data);
     }
 
     function isValidQuestion(data) {
-      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'createdAt']) &&
+      return data.keys().hasAll(['userId', 'subject', 'content', 'status', 'isAnonymous', 'createdAt', 'updatedAt']) &&
+             data.keys().hasOnly(['userId', 'subject', 'content', 'status', 'isAnonymous', 'createdAt', 'updatedAt']) &&
              data.userId == request.auth.uid &&
              data.subject is string && data.subject.size() >= 5 && data.subject.size() <= 200 &&
              data.content is string && data.content.size() >= 10 && data.content.size() <= 2000 &&
-             data.status in ['pending', 'answered', 'featured'];
+             data.status == 'pending' &&
+             data.isAnonymous is bool &&
+             data.createdAt == request.time &&
+             data.updatedAt == request.time;
     }
 
     function isValidOrder(data) {
@@ -134,31 +178,20 @@ service cloud.firestore {
     // --- Collection: Users ---
     
     match /users/{userId} {
-      allow get: if isOwner(userId) || isAdmin();
-      allow list: if isOwner(userId) || isAdmin();
-      
-      allow create: if isOwner(userId) && 
-                      isValidUser(incoming()) &&
-                      incoming().createdAt == request.time;
-      
+      // Profiles are readable only by their owner. No bulk directory exposure.
+      allow get: if isOwner(userId);
+      allow list: if false;
+
+      allow create: if isOwner(userId) &&
+                    isValidUser(incoming()) &&
+                    incoming().createdAt == request.time;
+
       allow update: if isOwner(userId) &&
-                       hasSafeProfession(incoming()) &&
-                       incoming().uid == existing().uid &&
-                       incoming().email == existing().email &&
-                       incoming().createdAt == existing().createdAt &&
-                       incoming().diff(existing()).affectedKeys().hasOnly([
-                         'displayName', 'photoURL', 'profession', 'bio', 'qualifications', 
-                         'clinicAddress', 'interests', 'bookmarks', 'readingHistory', 
-                         'activities', 'studyStats', 'streakCount', 'lastActiveDate', 
-                         'phoneNumber', 'updatedAt'
-                       ]) &&
-                       incoming().updatedAt == request.time;
+                    isValidUserUpdate(incoming(), existing());
 
-      allow update: if isAdmin() && 
-                       incoming().diff(existing()).affectedKeys().hasAny(['updatedAt']) &&
-                       incoming().updatedAt == request.time;
-
-      allow delete: if isAdmin();
+      // Account deletion and staff corrections run through a privileged,
+      // audited server-side process; clients cannot erase/alter whole profiles.
+      allow delete: if false;
     }
 
     // --- Collection: Native learning progress ---
@@ -242,28 +275,37 @@ service cloud.firestore {
       data.updatedAt == request.time;
     }
 
+    // Free-text notes, reflections, flashcards and reading logs may contain
+    // sensitive details. The web workspace is now tab-local and never syncs here.
+    // Existing documents must be migrated/deleted by the controlled admin process.
     match /studyToolkitProgress/{userId} {
-      allow get: if isOwner(userId);
-      allow list: if false;
-      allow create, update: if isOwner(userId) && isValidStudyToolkitProgress(incoming(), userId);
-      allow delete: if false;
+      allow read, write: if false;
     }
 
     // --- Collection: Questions ---
     match /questions/{questionId} {
-      allow get: if resource.data.status == 'featured' || resource.data.status == 'answered';
-      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
+      // Only curated featured questions are public. Answered submissions remain
+      // visible to their author and authorised administrators, not site visitors.
+      allow get: if resource.data.status == 'featured' ||
+                 (isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin()));
+
+      allow list: if resource.data.status == 'featured' ||
+                  (isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin()));
       
-      allow list: if resource.data.status == 'featured' || resource.data.status == 'answered';
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      
-      allow create: if isSignedIn() && 
-                      isValidQuestion(incoming()) &&
-                      incoming().status == 'pending' &&
-                      incoming().createdAt == request.time;
-      
-      allow update: if isAdmin() && 
-                       incoming().diff(existing()).affectedKeys().hasOnly(['status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt']) &&
+      allow create: if isSignedIn() && isValidQuestion(incoming());
+
+      // Only privileged administrators may publish or answer a submission.
+      // Keep responses bounded and status transitions within the review workflow.
+      allow update: if isAdmin() &&
+                       incoming().diff(existing()).affectedKeys().hasOnly([
+                         'status', 'answer', 'answeredBy', 'answeredAt', 'updatedAt'
+                       ]) &&
+                       incoming().status in ['pending', 'answered', 'featured'] &&
+                       (!incoming().keys().hasAny(['answer']) ||
+                         (incoming().answer is string && incoming().answer.size() <= 4000)) &&
+                       (!incoming().keys().hasAny(['answeredBy']) ||
+                         (incoming().answeredBy is string && incoming().answeredBy.size() <= 80)) &&
+                       (!incoming().keys().hasAny(['answeredAt']) || incoming().answeredAt == request.time) &&
                        incoming().updatedAt == request.time;
 
       allow delete: if isAdmin();
@@ -286,36 +328,17 @@ service cloud.firestore {
     }
 
     // --- Collection: Kits ---
+    // Legacy case logs can include patient names, histories, tests and notes.
+    // All client access is denied while records are reviewed for controlled migration.
     match /kits/{kitId} {
-      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn() && isValidKit(incoming()) && incoming().createdAt == request.time;
-      allow update: if isSignedIn() && (
-        (resource.data.userId == request.auth.uid && incoming().userId == resource.data.userId) ||
-        isAdmin()
-      );
-      allow delete: if isAdmin();
+      allow read, write: if false;
     }
 
     // --- Collection: Screenings ---
+    // Reproductive-health screening answers are sensitive health information.
+    // This legacy client collection is closed pending a separately reviewed service.
     match /screenings/{screeningId} {
-      allow get: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow list: if isSignedIn() && (resource.data.userId == request.auth.uid || isAdmin());
-      allow create: if isSignedIn() &&
-                    isValidScreening(incoming()) &&
-                    incoming().createdAt == request.time;
-      allow update: if isSignedIn() &&
-                    resource.data.userId == request.auth.uid &&
-                    incoming().userId == resource.data.userId &&
-                    incoming().id == resource.data.id &&
-                    incoming().createdAt == resource.data.createdAt &&
-                    incoming().updatedAt == request.time &&
-                    incoming().diff(resource.data).affectedKeys().hasOnly([
-                      'age', 'hpvVaxStatus', 'lastPapSmearYears', 'symptoms',
-                      'familyHistory', 'updatedAt'
-                    ]) &&
-                    isValidScreening(incoming());
-      allow delete: if isAdmin();
+      allow read, write: if false;
     }
 
     // --- Collection: Appointment Requests ---
@@ -376,9 +399,11 @@ service cloud.firestore {
     match /admins/{adminId} {
       // A user may check only their own membership document. Only an existing
       // administrator can create, modify, list, or delete admin memberships.
-      allow get: if isAdmin() || (isSignedIn() && request.auth.uid == adminId);
-      allow list: if isAdmin();
-      allow create, update, delete: if isAdmin();
+      allow get: if isSignedIn() && request.auth.uid == adminId;
+      allow list: if false;
+      // Admin membership is provisioned/revoked only through a privileged,
+      // audited Firebase Admin SDK / Console operation. Never from a web client.
+      allow create, update, delete: if false;
     }
   }
 }

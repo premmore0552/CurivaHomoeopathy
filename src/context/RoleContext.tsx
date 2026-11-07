@@ -73,8 +73,8 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const [onboardingCompleted, setOnboardingCompleted] = useState<boolean>(false);
   const [authorizedRoles, setAuthorizedRoles] = useState<UserRole[]>(['Guest', 'Public']);
 
-  // Admin status comes only from a protected membership document or the verified
-  // bootstrap account. The editable profile profession is never an authority source.
+      // Admin status comes only from a privileged, read-only membership document.
+  // The editable profile profession and historic bootstrap email are never authority sources.
   // Listen to auth changes directly so a sign-out/account switch revokes access immediately.
   useEffect(() => {
     let active = true;
@@ -87,12 +87,10 @@ export const RoleProvider: React.FC<{ children: React.ReactNode }> = ({ children
         return;
       }
 
-      let granted = Boolean(
-        user.emailVerified && user.email?.toLowerCase() === 'premmore0552@gmail.com'
-      );
+      let granted = false;
       try {
         const membership = await getDoc(doc(db, 'admins', user.uid));
-        granted = granted || membership.exists();
+        granted = membership.exists();
       } catch (error) {
         // Fail closed: a failed membership lookup must never grant admin access.
         console.warn('Curiva administrator membership could not be verified.', error);

@@ -5,6 +5,7 @@ import {
   HelpCircle, ArrowRight, ChevronLeft, ChevronRight, Info, ShieldAlert, Award, FileText, Check
 } from 'lucide-react';
 import SEO from '../components/SEO';
+import SafeHtmlContent from '../components/SafeHtmlContent';
 
 interface ParameterDetail {
   name: string;
@@ -714,7 +715,7 @@ export default function CbcHandbook() {
                   ) : (
                     <ul className="list-disc pl-5 text-xs text-text-secondary space-y-2">
                       {analysis.interpretations.map((text, idx) => (
-                        <li key={idx} dangerouslySetInnerHTML={{ __html: text }} />
+                        <li key={idx}><SafeHtmlContent html={text} /></li>
                       ))}
                     </ul>
                   )}

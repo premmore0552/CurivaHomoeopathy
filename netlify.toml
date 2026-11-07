@@ -18,6 +18,10 @@
   to = "/.netlify/functions/api/:splat"
   status = 200
   force = true
+  [redirects.rate_limit]
+    window_limit = 120
+    window_size = 60
+    aggregate_by = ["ip", "domain"]
 
 [[redirects]]
   from = "/*"
@@ -28,12 +32,30 @@
   for = "/*"
   [headers.values]
     X-Frame-Options = "DENY"
-    X-XSS-Protection = "1; mode=block"
     X-Content-Type-Options = "nosniff"
     Referrer-Policy = "strict-origin-when-cross-origin"
-    Permissions-Policy = "camera=(), microphone=(), geolocation=()"
+    Permissions-Policy = "camera=(), microphone=(), geolocation=(), usb=()"
     Strict-Transport-Security = "max-age=31536000; includeSubDomains; preload"
-    # Content-Security-Policy = "default-src 'self'; script-src 'self' 'unsafe-inline' https://checkout.razorpay.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://picsum.photos https://images.unsplash.com https://curivahomoeopathy.netlify.app; connect-src 'self' https://lumberjack-cx.razorpay.com; frame-src https://api.razorpay.com;"
+    Cross-Origin-Opener-Policy = "same-origin-allow-popups"
+    X-Permitted-Cross-Domain-Policies = "none"
+    Origin-Agent-Cluster = "?1"
+    Content-Security-Policy = "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self' https://api.razorpay.com https://checkout.razorpay.com; script-src 'self' https://checkout.razorpay.com https://www.google.com https://www.gstatic.com; script-src-attr 'none'; style-src 'self' https://fonts.googleapis.com; style-src-elem 'self' https://fonts.googleapis.com; style-src-attr 'unsafe-inline'; font-src 'self' data: https://fonts.gstatic.com; img-src 'self' data: blob: https://images.unsplash.com https://picsum.photos https://*.googleusercontent.com; connect-src 'self' https://www.google.com https://www.gstatic.com https://identitytoolkit.googleapis.com https://securetoken.googleapis.com https://firestore.googleapis.com https://firebasestorage.googleapis.com https://firebaseinstallations.googleapis.com https://firebaseremoteconfig.googleapis.com https://firebaseappcheck.googleapis.com https://*.firebaseio.com https://*.firebaseapp.com https://lumberjack-cx.razorpay.com https://api.razorpay.com; frame-src https://api.razorpay.com https://checkout.razorpay.com https://*.firebaseapp.com https://accounts.google.com https://www.google.com https://www.gstatic.com https://recaptcha.google.com; worker-src 'self' blob:; manifest-src 'self'; upgrade-insecure-requests"
+
+[[headers]]
+  for = "/api/*"
+  [headers.values]
+    Cache-Control = "private, no-store, max-age=0, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+    Surrogate-Control = "no-store"
+
+[[headers]]
+  for = "/.netlify/functions/api/*"
+  [headers.values]
+    Cache-Control = "private, no-store, max-age=0, must-revalidate"
+    Pragma = "no-cache"
+    Expires = "0"
+    Surrogate-Control = "no-store"
 
 
 # Allow the native Capacitor WebView to fetch self-hosted live-update metadata and bundles.

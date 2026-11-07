@@ -16,6 +16,8 @@ import {
 import { auth } from '../lib/firebase';
 import { onAuthStateChanged } from 'firebase/auth';
 import SEO from '../components/SEO';
+import AiPrivacyNotice, { hasCurrentAiAcademicConsent } from '../components/AiPrivacyNotice';
+import { validateAcademicAiText } from '../server/aiPrivacyGuard';
 import ReactMarkdown from 'react-markdown';
 
 interface ChatMessage {
@@ -31,6 +33,7 @@ export default function AskHomoeopath() {
   const [inputText, setInputText] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const [errorText, setErrorText] = useState('');
+  const [aiConsent, setAiConsent] = useState(hasCurrentAiAcademicConsent);
   
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -70,6 +73,18 @@ Please use this as an academic learning aid, not as a consultation or source of 
 
   const handleSendMessage = async (userQuery: string) => {
     if (!userQuery.trim() || isTyping) return;
+    if (!aiConsent || !hasCurrentAiAcademicConsent()) {
+      setErrorText('Please review and acknowledge the AI data-sharing notice before sending an academic-only prompt.');
+      return;
+    }
+
+    const validatedPrompt = validateAcademicAiText(userQuery, 4000);
+    const recentHistory = messages.slice(-12);
+    const historyHasSensitiveText = recentHistory.some(message => !validateAcademicAiText(message.text, 3000).ok);
+    if (!validatedPrompt.ok || historyHasSensitiveText) {
+      setErrorText('This message or recent conversation may contain personal, identifying or health information. Nothing was sent. Please start a new conversation and use only generic academic study text.');
+      return;
+    }
 
     const userMsg: ChatMessage = {
       id: `usr_${Date.now()}`,
@@ -85,7 +100,7 @@ Please use this as an academic learning aid, not as a consultation or source of 
 
     try {
       // Map stateful message arrays for API consistency
-      const conversationHistory = messages.slice(-12).map(msg => ({
+      const conversationHistory = recentHistory.map(msg => ({
         role: msg.role === 'model' ? 'model' : 'user',
         text: msg.text
       }));
@@ -93,10 +108,11 @@ Please use this as an academic learning aid, not as a consultation or source of 
       const res = await fetch('/api/gemini/curiva-care', {
         method: 'POST',
         headers: {
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          'X-Curiva-AI-Consent': 'academic-only-v1'
         },
         body: JSON.stringify({
-          prompt: userQuery,
+          prompt: validatedPrompt.text,
           conversationHistory
         })
       });
@@ -149,6 +165,10 @@ Please use this as an academic learning aid, not as a consultation or source of 
           <p className="font-bold text-amber-800 dark:text-amber-200">Educational use only — not a clinical consultation</p>
           <p>Responses are AI-generated and may be inaccurate. This tool cannot diagnose, choose remedies, or recommend potencies, doses, or treatment plans. Do not delay medical assessment or stop/change prescribed treatment because of a response. For personal health concerns, consult a qualified registered medical practitioner; for emergencies, contact local emergency services.</p>
           <p>Do not enter names, contact details, medical-record numbers, photographs, or other identifying or sensitive patient information. The prompt and recent chat context are sent to Curiva's server; when an AI-generated reply is needed, they are passed to Google Gemini. Some keyword matches return study links directly without Gemini generation.</p>
+        </div>
+
+        <div className="mb-6">
+          <AiPrivacyNotice onChange={setAiConsent} />
         </div>
 
         {/* Outer Split Layout */}
@@ -276,12 +296,12 @@ Please use this as an academic learning aid, not as a consultation or source of 
                 onChange={(e) => setInputText(e.target.value)}
                 placeholder="Ask an academic question about homoeopathic history or study concepts..."
                 maxLength={4000}
-                disabled={isTyping}
+                disabled={isTyping || !aiConsent}
                 className="flex-grow px-5 py-3 rounded-xl border border-border bg-bg-primary focus:outline-none focus:border-primary text-xs md:text-sm font-medium"
               />
               <button
                 type="submit"
-                disabled={!inputText.trim() || isTyping}
+                disabled={!inputText.trim() || isTyping || !aiConsent}
                 className={`p-3.5 rounded-xl transition-all ${
                   inputText.trim() && !isTyping 
                     ? 'bg-primary text-white hover:bg-primary-dark cursor-pointer' 

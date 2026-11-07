@@ -30,6 +30,7 @@ import {
   Hash
 } from "lucide-react";
 import SEO from "../components/SEO";
+import SafeHtmlContent from "../components/SafeHtmlContent";
 
 // Define Types
 interface Chapter {
@@ -1079,118 +1080,63 @@ export default function HairFallGuide() {
     return { text: "Excellent foundation! Keep shining! 🌱", color: "text-emerald-500 font-bold" };
   };
 
-  // AI Personalized Custom Blueprint Generator
+  // External personal hair-health coaching is disabled. Free-text symptoms,
+  // health details, and routine information are not sent to a third-party model.
   const generateCustomAIPlan = async () => {
-    const query = aiPlanInput.trim();
-    if (!query) {
-      triggerToast("Please provide details about your routine first.");
-      return;
-    }
-
-    setIsGeneratingPlan(true);
-    setPlanError("");
-    setAiPlanOutput("");
-
-    try {
-      const response = await fetch("/api/gemini/hair-loss-coach", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: query,
-          type: "blueprint"
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Service returned error " + response.status);
-      }
-
-      const resData = await response.json();
-      setAiPlanOutput(resData.text || "No plan was compiled.");
-    } catch (err: any) {
-      console.error(err);
-      setPlanError(err.message || "Failed to customize plan. Please try again.");
-    } finally {
-      setIsGeneratingPlan(false);
-    }
+    setAiPlanOutput('');
+    setPlanError('Personalized AI hair-health planning is disabled to protect health information. This page remains a general educational guide. Please consult a qualified registered medical practitioner or dermatologist for personal advice.');
   };
 
-  // Send message to Gemini coach
   const handleSendChatMessage = async (presetText?: string) => {
     const textToSend = presetText || chatInput.trim();
     if (!textToSend) return;
-
-    if (!presetText) setChatInput("");
-
-    // Append user message
-    const nextMessages = [...chatMessages, { sender: "user" as const, text: textToSend }];
-    setChatMessages(nextMessages);
-    setIsCoachTyping(true);
-
-    try {
-      const response = await fetch("/api/gemini/hair-loss-coach", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          prompt: textToSend,
-          type: "coach",
-          conversationHistory: nextMessages.slice(-5) // Send short context
-        })
-      });
-
-      if (!response.ok) {
-        throw new Error("Coach failed to fetch response: status " + response.status);
-      }
-
-      const resData = await response.json();
-      setChatMessages(prev => [...prev, { sender: "coach", text: resData.text || "No advice received." }]);
-    } catch (err: any) {
-      console.error(err);
-      setChatMessages(prev => [...prev, { sender: "coach", text: `I am experiencing a slight connectivity glitch. Please try again! (${err.message})`, isError: true }]);
-    } finally {
-      setIsCoachTyping(false);
-    }
+    if (!presetText) setChatInput('');
+    setChatMessages(prev => [
+      ...prev,
+      { sender: 'user' as const, text: textToSend },
+      { sender: 'coach' as const, text: 'This personalized AI health-chat feature has been paused. Your message was not sent. Please use the general educational chapters and consult a qualified registered medical practitioner or dermatologist for personal concerns.' }
+    ]);
   };
 
   // Parse custom markdown tags
   const renderFormattedMarkdown = (text: string) => {
-    // Simple fast safe transformer
-    return text
-      .split("\n\n")
-      .map((para, i) => {
-        let content = para;
-        // Headings
-        if (content.startsWith("### ")) {
-          return <h4 key={i} className="font-bold text-slate-900 dark:text-white mt-4 mb-2 text-base">{content.replace("### ", "")}</h4>;
-        }
-        if (content.startsWith("## ")) {
-          return <h3 key={i} className="font-serif font-bold text-slate-900 dark:text-white mt-6 mb-3 text-lg">{content.replace("## ", "")}</h3>;
-        }
-        if (content.startsWith("- ")) {
-          const listItems = para.split("\n").map((li, j) => {
-            const cleanLi = li.replace("- ", "").trim();
-            return (
-              <li key={j} className="flex items-start gap-2.5 my-1.5 text-sm text-slate-700 dark:text-slate-300">
-                <CheckCircle className="w-4 h-4 text-emerald-600 mt-1 shrink-0" />
-                <span>{cleanLi}</span>
-              </li>
-            );
-          });
-          return <ul key={i} className="my-3 space-y-1">{listItems}</ul>;
-        }
-
-        // Bold and italics
-        content = content.replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>");
-        content = content.replace(/\*(.*?)\*/g, "<em>$1</em>");
-
+    return text.split("\n\n").map((paragraph, index) => {
+      const lines = paragraph.split("\n");
+      const first = lines[0] || "";
+      if (first.startsWith("### ")) {
+        return <h4 key={index} className="mb-2 mt-4 text-base font-bold text-slate-900 dark:text-white">{first.slice(4)}</h4>;
+      }
+      if (first.startsWith("## ")) {
+        return <h3 key={index} className="mb-3 mt-6 font-serif text-lg font-bold text-slate-900 dark:text-white">{first.slice(3)}</h3>;
+      }
+      if (first.startsWith("- ")) {
         return (
-          <p 
-            key={i} 
-            className="mb-4 leading-relaxed text-sm text-slate-700 dark:text-slate-350"
-            dangerouslySetInnerHTML={{ __html: content }}
-          />
+          <ul key={index} className="my-3 space-y-1">
+            {lines.map((line, lineIndex) => (
+              <li key={lineIndex} className="my-1.5 flex items-start gap-2.5 text-sm text-slate-700 dark:text-slate-300">
+                <CheckCircle className="mt-1 h-4 w-4 shrink-0 text-emerald-600" />
+                <span>{line.replace(/^\-\s*/, "").trim()}</span>
+              </li>
+            ))}
+          </ul>
         );
-      });
+      }
+
+      const parts = paragraph.split(/(\*\*[^*]+\*\*|\*[^*]+\*)/g);
+      return (
+        <p key={index} className="mb-4 text-sm leading-relaxed text-slate-700 dark:text-slate-300">
+          {parts.map((part, partIndex) => {
+            if (part.startsWith("**") && part.endsWith("**")) {
+              return <strong key={partIndex}>{part.slice(2, -2)}</strong>;
+            }
+            if (part.startsWith("*") && part.endsWith("*")) {
+              return <em key={partIndex}>{part.slice(1, -1)}</em>;
+            }
+            return <React.Fragment key={partIndex}>{part}</React.Fragment>;
+          })}
+        </p>
+      );
+    });
   };
 
   // Define focus goals array for Chapter 24
@@ -1438,7 +1384,7 @@ export default function HairFallGuide() {
                   className={`max-w-none transition-all duration-200 prose ${getProseThemeClasses()}`}
                   style={{ fontSize: `${18 + fontSizeMultiplier * 2}px`, lineHeight: "1.85" }}
                 >
-                  <div dangerouslySetInnerHTML={{ __html: getSanitizedContent(currentChapter.content) }} />
+                  <SafeHtmlContent html={currentChapter.content} className="max-w-none" />
                 </motion.div>
               </AnimatePresence>
 
@@ -1564,7 +1510,7 @@ export default function HairFallGuide() {
 
                     <div role="note" className="mb-3 rounded-xl border border-amber-500/30 bg-amber-500/5 p-3 text-[11px] text-text-secondary">
                       <strong className="block text-amber-800 dark:text-amber-200 mb-1">Educational information only</strong>
-                      This checklist cannot diagnose hair loss or recommend an individualized plan, test, medicine, supplement, or remedy. Do not change prescribed care based on AI output. Consult a qualified registered medical practitioner or dermatologist for personal health concerns. Prompts are sent to Curiva's server and may be sent to Google Gemini to generate a reply. Do not include identifying or sensitive patient information.
+                      This checklist cannot diagnose hair loss or recommend an individualized plan, test, medicine, supplement, or remedy. Do not change prescribed care based on AI output. Consult a qualified registered medical practitioner or dermatologist for personal health concerns. Personalized AI coaching is currently disabled. Text entered in this page is not submitted to an external AI service. Do not enter patient or personally identifiable health information.
                     </div>
                     <div className="space-y-3">
                       <textarea
@@ -1757,7 +1703,7 @@ export default function HairFallGuide() {
                 </div>
 
                 <div role="note" className="border-b border-amber-500/30 bg-amber-500/5 px-4 py-3 text-[10px] leading-relaxed text-text-secondary">
-                  <strong className="text-amber-800 dark:text-amber-200">Educational use only — not medical advice.</strong> This assistant cannot diagnose or create treatment plans. Do not start or change medicines, supplements, homoeopathic products, or prescribed care based on a response. For personal concerns, consult a qualified registered medical practitioner or dermatologist. Prompts and recent chat context reach Curiva's server and may be sent to Google Gemini for generated replies; do not share identifiers or sensitive patient information.
+                  <strong className="text-amber-800 dark:text-amber-200">Educational use only — not medical advice.</strong> This assistant cannot diagnose or create treatment plans. Do not start or change medicines, supplements, homoeopathic products, or prescribed care based on a response. For personal concerns, consult a qualified registered medical practitioner or dermatologist. Personalized AI coaching is currently disabled. Chat text is not submitted to an external AI service. Do not enter patient or personally identifiable health information.
                 </div>
 
                 {/* Message area */}

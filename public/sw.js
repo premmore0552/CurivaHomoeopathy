@@ -1,22 +1,22 @@
-const CACHE_NAME = 'curiva-public-static-v6';
+const CACHE_NAME = 'curiva-public-static-v7';
 const ASSETS_TO_CACHE = [
-  '/',
-  '/index.html',
   '/app_icon.png.png',
   '/manifest.json'
 ];
 
-const SENSITIVE_PATH = /^\/(?:api(?:\/|$)|auth(?:\/|$)|account(?:\/|$)|appointments?(?:\/|$)|private(?:\/|$)|downloads?(?:\/|$)|resources?\/private(?:\/|$))/i;
+const SENSITIVE_PATH = /^\/(?:api(?:\/|$)|\.netlify\/functions\/api(?:\/|$)|auth(?:\/|$)|account(?:\/|$)|appointments?(?:\/|$)|private(?:\/|$)|downloads?(?:\/|$)|resources?\/private(?:\/|$)|profile(?:\/|$)|admin(?:\/|$))/i;
 const STATIC_DESTINATIONS = new Set(['script', 'style', 'image', 'font']);
 
 function mayStoreResponse(request, response) {
   if (!response || !response.ok || response.type === 'opaque') return false;
-  if (request.headers.has('authorization')) return false;
+  if (request.headers.has('authorization') || request.headers.has('cookie')) return false;
   if (request.cache === 'no-store') return false;
 
   const cacheControl = response.headers.get('cache-control') || '';
   if (/\b(?:private|no-store|no-cache)\b/i.test(cacheControl)) return false;
   if (response.headers.has('set-cookie')) return false;
+  const vary = response.headers.get('vary') || '';
+  if (vary === '*' || /\b(?:cookie|authorization)\b/i.test(vary)) return false;
   return true;
 }
 
@@ -47,6 +47,7 @@ self.addEventListener('fetch', (event) => {
   if (
     SENSITIVE_PATH.test(url.pathname) ||
     request.headers.has('authorization') ||
+    request.headers.has('cookie') ||
     request.cache === 'no-store'
   ) {
     event.respondWith(fetch(request));
@@ -56,7 +57,7 @@ self.addEventListener('fetch', (event) => {
   // Never cache document responses: a route may render account-specific data.
   const acceptsHtml = request.headers.get('accept')?.includes('text/html');
   if (acceptsHtml) {
-    event.respondWith(fetch(request).catch(() => caches.match('/') ));
+    event.respondWith(fetch(request));
     return;
   }
 

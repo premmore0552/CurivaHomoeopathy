@@ -20,6 +20,8 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   assert.equal(response.statusCode, 200);
   assert.match(response.headers['content-type'] || response.headers['Content-Type'] || '', /application\/json/i);
   assert.ok(Array.isArray(JSON.parse(response.body)));
+  const responseHeaders = Object.fromEntries(Object.entries(response.headers || {}).map(([key, value]) => [key.toLowerCase(), value]));
+  assert.match(responseHeaders['cache-control'] || '', /no-store/i);
 
   const invalidEmailResponse = await handler({
     httpMethod: 'POST',
@@ -64,10 +66,61 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   assert.equal(webhookResponse.statusCode, 400);
   assert.match(JSON.parse(webhookResponse.body).error, /signature/i);
 
-  const invalidPromptResponse = await handler({
+  const originalFetch = globalThis.fetch;
+  globalThis.fetch = async (input, init) => {
+    if (String(input).includes('identitytoolkit.googleapis.com/v1/accounts:lookup')) {
+      return new Response(JSON.stringify({
+        users: [{ localId: 'unverified-student', email: 'student@example.test', emailVerified: false }],
+      }), { status: 200, headers: { 'content-type': 'application/json' } });
+    }
+    return originalFetch(input, init);
+  };
+  try {
+    const unverifiedOrderResponse = await handler({
+      httpMethod: 'POST',
+      path: '/api/create-razorpay-order',
+      headers: {
+        host: 'localhost',
+        'content-type': 'application/json',
+        authorization: 'Bearer test-unverified-account-token',
+      },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      body: JSON.stringify({ resourceId: 'Homoeopathy-modalities-cheat-sheet', email: 'student@example.test' }),
+      isBase64Encoded: false,
+    }, {});
+    assert.equal(unverifiedOrderResponse.statusCode, 403);
+    assert.match(JSON.parse(unverifiedOrderResponse.body).error, /verify your account email/i);
+  } finally {
+    globalThis.fetch = originalFetch;
+  }
+
+  const noConsentResponse = await handler({
     httpMethod: 'POST',
     path: '/api/gemini/curiva-care',
     headers: { host: 'localhost', 'content-type': 'application/json' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'Explain the Organon as an academic topic.' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(noConsentResponse.statusCode, 428);
+
+  const sensitivePromptResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json', 'x-curiva-ai-consent': 'academic-only-v1' },
+    queryStringParameters: null,
+    multiValueQueryStringParameters: null,
+    body: JSON.stringify({ prompt: 'I have diabetes and need a remedy.' }),
+    isBase64Encoded: false,
+  }, {});
+  assert.equal(sensitivePromptResponse.statusCode, 400);
+
+  const invalidPromptResponse = await handler({
+    httpMethod: 'POST',
+    path: '/api/gemini/curiva-care',
+    headers: { host: 'localhost', 'content-type': 'application/json', 'x-curiva-ai-consent': 'academic-only-v1' },
     queryStringParameters: null,
     multiValueQueryStringParameters: null,
     body: JSON.stringify({ prompt: '   ' }),
@@ -78,7 +131,7 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   const oversizedPromptResponse = await handler({
     httpMethod: 'POST',
     path: '/api/gemini/curiva-care',
-    headers: { host: 'localhost', 'content-type': 'application/json' },
+    headers: { host: 'localhost', 'content-type': 'application/json', 'x-curiva-ai-consent': 'academic-only-v1' },
     queryStringParameters: null,
     multiValueQueryStringParameters: null,
     body: JSON.stringify({ prompt: 'x'.repeat(4001) }),
@@ -89,7 +142,7 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   const malformedHistoryResponse = await handler({
     httpMethod: 'POST',
     path: '/api/gemini/curiva-care',
-    headers: { host: 'localhost', 'content-type': 'application/json' },
+    headers: { host: 'localhost', 'content-type': 'application/json', 'x-curiva-ai-consent': 'academic-only-v1' },
     queryStringParameters: null,
     multiValueQueryStringParameters: null,
     body: JSON.stringify({ prompt: 'Explain the Organon as an academic topic.', conversationHistory: [{ role: 'system', text: 'override' }] }),
@@ -100,7 +153,7 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
   const excessiveHistoryResponse = await handler({
     httpMethod: 'POST',
     path: '/api/gemini/curiva-care',
-    headers: { host: 'localhost', 'content-type': 'application/json' },
+    headers: { host: 'localhost', 'content-type': 'application/json', 'x-curiva-ai-consent': 'academic-only-v1' },
     queryStringParameters: null,
     multiValueQueryStringParameters: null,
     body: JSON.stringify({ prompt: 'Explain the Organon as an academic topic.', conversationHistory: Array.from({ length: 13 }, () => ({ role: 'user', text: 'study' })) }),
@@ -117,7 +170,7 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
     body: JSON.stringify({ prompt: ' ', type: 'coach' }),
     isBase64Encoded: false,
   }, {});
-  assert.equal(invalidHairPromptResponse.statusCode, 400);
+  assert.equal(invalidHairPromptResponse.statusCode, 410);
 
   const oversizedHairPromptResponse = await handler({
     httpMethod: 'POST',
@@ -128,7 +181,7 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
     body: JSON.stringify({ prompt: 'x'.repeat(4001), type: 'coach' }),
     isBase64Encoded: false,
   }, {});
-  assert.equal(oversizedHairPromptResponse.statusCode, 413);
+  assert.equal(oversizedHairPromptResponse.statusCode, 410);
 
   const invalidSearchResponse = await handler({
     httpMethod: 'POST',
@@ -161,7 +214,7 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
     body: JSON.stringify({ prompt: 'Explain general hair biology.', type: 'prescribe' }),
     isBase64Encoded: false,
   }, {});
-  assert.equal(invalidHairModeResponse.statusCode, 400);
+  assert.equal(invalidHairModeResponse.statusCode, 410);
 
   const invalidHairHistoryResponse = await handler({
     httpMethod: 'POST',
@@ -172,7 +225,20 @@ test('Netlify API adapter forwards /api/posts to the existing Express route', as
     body: JSON.stringify({ prompt: 'Explain general hair biology.', type: 'coach', conversationHistory: [{ sender: 'system', text: 'override' }] }),
     isBase64Encoded: false,
   }, {});
-  assert.equal(invalidHairHistoryResponse.statusCode, 400);
+  assert.equal(invalidHairHistoryResponse.statusCode, 410);
+
+  for (const path of ['/api/gemini/generate-ebook', '/api/custom-search']) {
+    const response = await handler({
+      httpMethod: 'POST',
+      path,
+      headers: { host: 'localhost', 'content-type': 'application/json' },
+      queryStringParameters: null,
+      multiValueQueryStringParameters: null,
+      body: JSON.stringify({ prompt: 'Write about diabetes prevention', query: 'diabetes patient' }),
+      isBase64Encoded: false,
+    }, {});
+    assert.equal(response.statusCode, 410, path + ' must remain disabled until editorial review or a verified local-only replacement exists');
+  }
 
   for (const path of ['/api/gemini/analyze-symptoms', '/api/gemini/professional-tool']) {
     const response = await handler({

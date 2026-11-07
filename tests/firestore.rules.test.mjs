@@ -10,6 +10,7 @@ import {
 } from '@firebase/rules-unit-testing';
 import {
   doc,
+  deleteDoc,
   getDoc,
   serverTimestamp,
   setDoc,
@@ -139,67 +140,106 @@ function nativeLearningProgress(uid = 'alice') {
   };
 }
 
-test('users cannot self-assign administrator status through profiles or admin membership documents', async () => {
+test('inactive administrator memberships never grant privileged access', async () => {
+  const owner = testEnv.authenticatedContext('owner', { email: 'owner@example.test' }).firestore();
+  const inactiveAdmin = testEnv.authenticatedContext('inactive-admin', { email: 'inactive@example.test' }).firestore();
+  const pendingRef = doc(owner, 'questions', 'pending-owned-question');
+
+  await assertSucceeds(setDoc(pendingRef, {
+    userId: 'owner',
+    subject: 'A valid academic question',
+    content: 'This is a sufficiently long academic question.',
+    status: 'pending',
+    isAnonymous: true,
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  }));
+
+  await testEnv.withSecurityRulesDisabled( async context => {
+    await setDoc(doc(context.firestore(), 'admins', 'inactive-admin'), {
+      active: false,
+      createdAt: new Date().toISOString(),
+    });
+  });
+
+  await assertFails(updateDoc(pendingRef, {
+    status: 'answered',
+    answer: 'Should not be allowed.',
+    answeredBy: 'inactive-admin',
+    answeredAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  }));
+});
+
+test('administrator grants are privileged-only and profiles cannot grant roles', async () => {
   const alice = testEnv.authenticatedContext('alice', {
-    email: 'alice@example.test',
+    email: 'premmore0552@gmail.com',
     email_verified: true,
   }).firestore();
   const bob = testEnv.authenticatedContext('bob', {
     email: 'bob@example.test',
     email_verified: true,
   }).firestore();
-  const bootstrapAdmin = testEnv.authenticatedContext('clinic-admin', {
-    email: 'premmore0552@gmail.com',
+
+  // Seed a legitimate membership through the emulator's privileged context,
+  // representing an audited Admin SDK / Firebase Console operation.
+  await testEnv.withSecurityRulesDisabled( async context => {
+    await setDoc(doc(context.firestore(), 'admins', 'trusted-admin'), {
+      active: true,
+      createdAt: new Date().toISOString(),
+    });
+  });
+
+  const trustedAdmin = testEnv.authenticatedContext('trusted-admin', {
+    email: 'admin@example.test',
     email_verified: true,
   }).firestore();
 
-  // Own membership lookup is allowed so the client can discover its status.
+  // A verified historic bootstrap email is not an admin without a grant.
   await assertSucceeds(getDoc(doc(alice, 'admins', 'alice')));
-  // But a normal user cannot create a membership document for themselves or others.
   await assertFails(setDoc(doc(alice, 'admins', 'alice'), { active: true }));
   await assertFails(setDoc(doc(alice, 'admins', 'bob'), { active: true }));
+  await assertFails(getDoc(doc(alice, 'admins', 'trusted-admin')));
 
-  const unverifiedBootstrap = testEnv.authenticatedContext('unverified-admin', {
-    email: 'premmore0552@gmail.com',
-  }).firestore();
-  await assertFails(setDoc(doc(unverifiedBootstrap, 'admins', 'unverified-admin'), {
-    active: true,
-  }));
+  // A granted administrator can discover only their own membership. Even an
+  // administrator cannot edit or mint grants from the web client.
+  await assertSucceeds(getDoc(doc(trustedAdmin, 'admins', 'trusted-admin')));
+  await assertFails(setDoc(doc(trustedAdmin, 'admins', 'bob'), { active: true }));
+  await assertFails(updateDoc(doc(trustedAdmin, 'admins', 'trusted-admin'), { active: false }));
+  await assertFails(deleteDoc(doc(trustedAdmin, 'admins', 'trusted-admin')));
 
-  const forgedProfile = {
+  await assertFails(setDoc(doc(bob, 'users', 'bob'), {
     uid: 'bob',
     email: 'bob@example.test',
     profession: 'Administrator',
     createdAt: serverTimestamp(),
-  };
-  await assertFails(setDoc(doc(bob, 'users', 'bob'), forgedProfile));
+  }));
 
-  const safeProfile = {
-    uid: 'alice',
-    email: 'alice@example.test',
+  const safeProfile = doc(bob, 'users', 'bob');
+  await assertSucceeds(setDoc(safeProfile, {
+    uid: 'bob',
+    email: 'bob@example.test',
+    displayName: 'Bob',
     profession: 'BHMS Student',
     createdAt: serverTimestamp(),
-  };
-  const aliceProfile = doc(alice, 'users', 'alice');
-  await assertSucceeds(setDoc(aliceProfile, safeProfile));
-  await assertFails(updateDoc(aliceProfile, {
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(updateDoc(safeProfile, {
     profession: 'Administrator',
     updatedAt: serverTimestamp(),
   }));
-  await assertFails(updateDoc(aliceProfile, {
-    profession: 'portal-admin',
+  await assertFails(updateDoc(safeProfile, {
+    phoneNumber: '+911234567890',
     updatedAt: serverTimestamp(),
   }));
-
-  // The verified bootstrap administrator can provision a membership. This grants
-  // Bob admin authority; an unrelated ordinary user still cannot change the grant.
-  await assertSucceeds(setDoc(doc(bootstrapAdmin, 'admins', 'bob'), {
-    active: true,
-    createdAt: serverTimestamp(),
+  await assertFails(updateDoc(safeProfile, {
+    clinicAddress: 'A private address',
+    updatedAt: serverTimestamp(),
   }));
-  await assertSucceeds(getDoc(doc(bob, 'admins', 'bob')));
-  await assertFails(updateDoc(doc(alice, 'admins', 'bob'), { active: false }));
-  await assertFails(getDoc(doc(alice, 'admins', 'bob')));
+  await assertFails(updateDoc(safeProfile, {
+    bio: 'x'.repeat(501),
+    updatedAt: serverTimestamp(),
+  }));
 });
 
 test('native learning progress is private to its account and accepts bounded owner sync writes', async () => {
@@ -236,95 +276,41 @@ function studyToolkitProgress(uid = 'alice') {
   };
 }
 
-test('screening records are private, owner-bound and use a closed bounded schema', async () => {
+test('legacy kits, reproductive screenings and free-text workspace are denied to every client', async () => {
+  await testEnv.withSecurityRulesDisabled( async context => {
+    const privilegedDb = context.firestore();
+    await setDoc(doc(privilegedDb, 'kits', 'legacy-case'), {
+      userId: 'alice',
+      notes: 'Legacy fictional case note',
+      createdAt: new Date().toISOString(),
+    });
+    await setDoc(doc(privilegedDb, 'screenings', 'legacy-screening'), {
+      userId: 'alice',
+      symptoms: ['legacy test record'],
+      createdAt: new Date().toISOString(),
+    });
+    await setDoc(doc(privilegedDb, 'studyToolkitProgress', 'alice'), {
+      uid: 'alice',
+      notes: [{ content: 'Legacy free text' }],
+    });
+  });
+
   const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
-  const reader = testEnv.authenticatedContext('charlie', { email: 'charlie@example.test' }).firestore();
+  const trustedAdmin = testEnv.authenticatedContext('trusted-admin', { email: 'admin@example.test' }).firestore();
   const signedOut = testEnv.unauthenticatedContext().firestore();
-  const recordRef = doc(alice, 'screenings', 'screen-1');
 
-  await assertSucceeds(setDoc(recordRef, screeningRecord()));
-  await assertSucceeds(getDoc(recordRef));
-  await assertFails(getDoc(doc(reader, 'screenings', 'screen-1')));
-  await assertFails(setDoc(doc(reader, 'screenings', 'cross-user'), screeningRecord('alice')));
-  await assertFails(getDoc(doc(signedOut, 'screenings', 'screen-1')));
+  for (const db of [alice, trustedAdmin, signedOut]) {
+    await assertFails(getDoc(doc(db, 'kits', 'legacy-case')));
+    await assertFails(getDoc(doc(db, 'screenings', 'legacy-screening')));
+    await assertFails(getDoc(doc(db, 'studyToolkitProgress', 'alice')));
+    await assertFails(setDoc(doc(db, 'kits', 'new-case'), { userId: 'alice' }));
+    await assertFails(setDoc(doc(db, 'screenings', 'new-screening'), { userId: 'alice' }));
+    await assertFails(setDoc(doc(db, 'studyToolkitProgress', 'alice'), { uid: 'alice' }));
+  }
 
-  const injected = screeningRecord();
-  injected.isAdmin = true;
-  await assertFails(setDoc(doc(alice, 'screenings', 'injected'), injected));
-
-  const oversized = screeningRecord();
-  oversized.symptoms = Array.from({ length: 21 }, () => 'symptom');
-  await assertFails(setDoc(doc(alice, 'screenings', 'oversized'), oversized));
-
-  const oversizedEntry = screeningRecord();
-  oversizedEntry.symptoms = ['x'.repeat(121)];
-  await assertFails(setDoc(doc(alice, 'screenings', 'oversized-entry'), oversizedEntry));
-
-  const malformedEntry = screeningRecord();
-  malformedEntry.symptoms = [{ unexpected: 'object' }];
-  await assertFails(setDoc(doc(alice, 'screenings', 'malformed-entry'), malformedEntry));
-});
-
-test('screening owners cannot mutate identity or immutable timestamps', async () => {
-  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
-  const recordRef = doc(alice, 'screenings', 'screen-immutable-1');
-  await assertSucceeds(setDoc(recordRef, screeningRecord('alice', 'screen-immutable-1')));
-
-  await assertSucceeds(updateDoc(recordRef, {
-    lastPapSmearYears: '4',
-    updatedAt: serverTimestamp(),
-  }));
-  await assertFails(updateDoc(recordRef, {
-    recommendation: 'Change the stored recommendation',
-    updatedAt: serverTimestamp(),
-  }));
-  await assertFails(updateDoc(recordRef, {
-    riskLevel: 'low',
-    updatedAt: serverTimestamp(),
-  }));
-  await assertFails(updateDoc(recordRef, {
-    userId: 'bob',
-    updatedAt: serverTimestamp(),
-  }));
-  await assertFails(updateDoc(recordRef, {
-    id: 'different-id',
-    updatedAt: serverTimestamp(),
-  }));
-  await assertFails(updateDoc(recordRef, {
-    privateClinicalNotes: 'unexpected field',
-    updatedAt: serverTimestamp(),
-  }));
-});
-
-test('study toolkit workspace is private to its owner and supports bounded account sync', async () => {
-  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
-  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
-  const workspace = doc(alice, 'studyToolkitProgress', 'alice');
-
-  await assertSucceeds(setDoc(workspace, studyToolkitProgress()));
-  await assertSucceeds(getDoc(workspace));
-  await assertFails(getDoc(doc(bob, 'studyToolkitProgress', 'alice')));
-  await assertFails(setDoc(doc(bob, 'studyToolkitProgress', 'alice'), studyToolkitProgress('alice')));
-  await assertSucceeds(updateDoc(workspace, {
-    dailyGoal: 90,
-    timer: { mode: 'focus', durationMinutes: 25, remainingSeconds: 900, running: false, deadlineAt: null, topic: 'Thorax' },
-    updatedAt: serverTimestamp(),
-  }));
-});
-
-test('study toolkit workspace rejects malformed goals, unexpected fields and signed-out access', async () => {
-  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
-  const signedOut = testEnv.unauthenticatedContext().firestore();
-  const invalidGoal = studyToolkitProgress();
-  invalidGoal.dailyGoal = 999;
-
-  const unexpectedField = studyToolkitProgress();
-  unexpectedField.privateClinicalNotes = 'not part of the academic study workspace';
-
-  await assertFails(setDoc(doc(alice, 'studyToolkitProgress', 'alice'), invalidGoal));
-  await assertFails(setDoc(doc(alice, 'studyToolkitProgress', 'alice'), unexpectedField));
-  await assertFails(getDoc(doc(signedOut, 'studyToolkitProgress', 'alice')));
-  await assertFails(setDoc(doc(signedOut, 'studyToolkitProgress', 'alice'), studyToolkitProgress()));
+  await assertFails(deleteDoc(doc(alice, 'kits', 'legacy-case')));
+  await assertFails(deleteDoc(doc(alice, 'screenings', 'legacy-screening')));
+  await assertFails(deleteDoc(doc(alice, 'studyToolkitProgress', 'alice')));
 });
 
 test('native learning progress rejects malformed study plans and signed-out access', async () => {
@@ -335,4 +321,57 @@ test('native learning progress rejects malformed study plans and signed-out acce
 
   await assertFails(setDoc(doc(alice, 'nativeLearningProgress', 'alice'), invalid));
   await assertFails(getDoc(doc(signedOut, 'nativeLearningProgress', 'alice')));
+});
+
+
+test('question submissions contain no submitter contact fields and stay private until admin publication', async () => {
+  const alice = testEnv.authenticatedContext('alice', { email: 'alice@example.test' }).firestore();
+  const bob = testEnv.authenticatedContext('bob', { email: 'bob@example.test' }).firestore();
+  const signedOut = testEnv.unauthenticatedContext().firestore();
+  const questionRef = doc(alice, 'questions', 'alice-question');
+
+  const safeSubmission = {
+    userId: 'alice',
+    subject: 'Academic Materia Medica question',
+    content: 'Explain the historical meaning of a common Materia Medica term.',
+    isAnonymous: true,
+    status: 'pending',
+    createdAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  };
+
+  await assertSucceeds(setDoc(questionRef, safeSubmission));
+  await assertSucceeds(getDoc(questionRef));
+  await assertFails(getDoc(doc(bob, 'questions', 'alice-question')));
+  await assertFails(getDoc(doc(signedOut, 'questions', 'alice-question')));
+  await assertFails(setDoc(doc(alice, 'questions', 'published-by-client'), {
+    ...safeSubmission,
+    status: 'featured',
+  }));
+  await assertFails(setDoc(doc(alice, 'questions', 'email-copy'), {
+    ...safeSubmission,
+    userEmail: 'alice@example.test',
+  }));
+  await assertFails(setDoc(doc(alice, 'questions', 'name-copy'), {
+    ...safeSubmission,
+    userName: 'Alice Example',
+  }));
+  await assertFails(updateDoc(questionRef, {
+    status: 'featured',
+    updatedAt: serverTimestamp(),
+  }));
+  await assertFails(deleteDoc(questionRef));
+
+  await testEnv.withSecurityRulesDisabled( async context => {
+    await setDoc(doc(context.firestore(), 'admins', 'trusted-admin'), { active: true });
+  });
+  const trustedAdmin = testEnv.authenticatedContext('trusted-admin', { email: 'admin@example.test' }).firestore();
+  await assertSucceeds(updateDoc(doc(trustedAdmin, 'questions', 'alice-question'), {
+    status: 'featured',
+    answer: 'This is an academic explanation, not a clinical recommendation.',
+    answeredBy: 'Curiva Editorial Team',
+    answeredAt: serverTimestamp(),
+    updatedAt: serverTimestamp(),
+  }));
+  await assertSucceeds(getDoc(doc(signedOut, 'questions', 'alice-question')));
 });

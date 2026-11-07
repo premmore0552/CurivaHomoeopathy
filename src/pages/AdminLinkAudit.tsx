@@ -23,6 +23,7 @@ import {
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import SEO from '../components/SEO';
+import SafeHtmlContent from '../components/SafeHtmlContent';
 import { useRole } from '../context/RoleContext';
 
 interface Node {
@@ -1418,10 +1419,9 @@ export default function AdminLinkAudit() {
             <div className="flex flex-col justify-between">
               <div className="space-y-3.5">
                 <span className="text-xs font-bold text-text-secondary block">Parsed Live Preview (Dynamic Routing Injected)</span>
-                <div 
-                  className="bg-bg-secondary border border-border rounded-xl p-4.5 text-xs leading-relaxed text-text-secondary min-h-[140px]"
-                  dangerouslySetInnerHTML={{ __html: parsedHtmlContent }}
-                />
+                <div className="bg-bg-secondary border border-border rounded-xl p-4.5 text-xs leading-relaxed text-text-secondary min-h-[140px]">
+                  <SafeHtmlContent html={parsedHtmlContent} />
+                </div>
               </div>
 
               <div className="p-4 bg-primary/5 border border-border/50 rounded-xl mt-4 flex gap-3 items-center">

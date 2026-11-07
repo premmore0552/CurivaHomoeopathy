@@ -1,3 +1,5 @@
+import { validateAcademicAiText } from "../server/aiPrivacyGuard";
+
 /**
  * Client-side Gemini API Service.
  * Proxies calls to the Express server to prevent exposing API keys to the browser
@@ -5,6 +7,7 @@
  */
 
 export async function aiSearch(query: string) {
+  if (!validateAcademicAiText(query, 500).ok) return [];
   try {
     const res = await fetch("/api/gemini/search", {
       method: "POST",
@@ -19,22 +22,17 @@ export async function aiSearch(query: string) {
   }
 }
 
-export async function analyzeSymptoms(symptoms: string) {
-  try {
-    const res = await fetch("/api/gemini/analyze-symptoms", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ symptoms }),
-    });
-    if (!res.ok) throw new Error("Failed to analyze");
-    return await res.json();
-  } catch (error) {
-    console.error("analyzeSymptoms fallback:", error);
-    return [];
-  }
+export async function analyzeSymptoms(_symptoms: string) {
+  // Individual symptom-to-remedy analysis is intentionally disabled. Do not
+  // transmit patient or personal health narratives to the server or an AI.
+  return [];
 }
 
 export async function runCaseSimulationTurn(messages: any[], targetRemedy: string) {
+  const latestText = messages.map(message => typeof message?.content === 'string' ? message.content : '').join('\n');
+  if (!validateAcademicAiText(targetRemedy, 120).ok || !validateAcademicAiText(latestText, 6000).ok) {
+    return "This fictional study simulator does not accept personal, identifying or health information. Your text was not sent. Use only generic academic exercise prompts.";
+  }
   try {
     const res = await fetch("/api/gemini/case-simulation", {
       method: "POST",
@@ -51,6 +49,11 @@ export async function runCaseSimulationTurn(messages: any[], targetRemedy: strin
 }
 
 export async function getSimulationFeedback(targetRemedy: string, userPrescription: string, sessionSummary: string) {
+  if (!validateAcademicAiText(targetRemedy, 120).ok ||
+      !validateAcademicAiText(userPrescription, 500).ok ||
+      (sessionSummary.trim().length > 0 && !validateAcademicAiText(sessionSummary, 3000).ok)) {
+    return { score: 0, strengths: [], weaknesses: [], lesson: "Feedback is disabled for personal or clinical records. Use only fictional academic exercise text." };
+  }
   try {
     const res = await fetch("/api/gemini/simulation-feedback", {
       method: "POST",

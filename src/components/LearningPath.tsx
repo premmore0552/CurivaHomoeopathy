@@ -49,12 +49,10 @@ export default function LearningPath({ profile }: LearningPathProps) {
     profession: 'student',
     qualifications: '',
     bio: 'Self-guided Homoeopathic student.',
-    clinicAddress: '',
     interests: [],
     studyStats: {},
     bookmarks: [],
     readingHistory: [],
-    activities: [],
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString()
   };

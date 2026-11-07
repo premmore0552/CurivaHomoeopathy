@@ -1,182 +1,64 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { Instagram, Facebook, Send, CheckCircle2, MessageCircle, HelpCircle, ShieldCheck, GraduationCap } from 'lucide-react';
+import { Instagram, Facebook, ShieldCheck, GraduationCap, ExternalLink, AlertTriangle, BookOpen } from 'lucide-react';
 import SEO from '../components/SEO';
+import { Link } from 'react-router-dom';
 
 export default function Contact() {
-  const [isSubmitted, setIsSubmitted] = useState(false);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    setIsSubmitted(true);
-  };
-
-  const handleWhatsApp = () => {
-    const text = `Hi, I'm reaching out from Curiva Homoeopathy for guidance on a health concern.`;
-    const url = `https://wa.me/919876543210?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank');
-  };
-
   return (
-    <div className="pt-24 pb-24 bg-bg-primary transition-colors duration-300">
-      <SEO 
-        title="Feedback & Research | Curiva Homoeopathy" 
-        description="Share your feedback, report content errors, or suggest topics for our educational Homoeopathic resource."
+    <div className="min-h-screen bg-bg-primary pb-24 pt-24 transition-colors duration-300">
+      <SEO
+        title="Contact & Feedback | Curiva Homoeopathy"
+        description="Find Curiva's public education resources and social channels. Protect personal and patient information when communicating online."
       />
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
-        <div className="grid lg:grid-cols-2 gap-8 items-start">
-          <motion.div 
-            initial={{ opacity: 0, x: -20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5 }}
-            className="space-y-8"
-          >
-             <div className="inline-flex items-center gap-2 px-4 py-2 bg-primary/10 text-primary font-bold rounded-full text-xs tracking-widest uppercase">
-              <ShieldCheck className="w-4 h-4" />
-              Educational Mission
-            </div>
-            <h1 className="text-4xl md:text-6xl font-display font-black text-text-primary leading-tight">
-              Community <span className="text-primary italic">Feedback.</span>
-            </h1>
-            <p className="text-xl text-text-secondary leading-relaxed max-w-xl">
-              Curiva is a living educational repository. We rely on community feedback and student research to keep our clinical insights accurate and useful.
+      <div className="mx-auto grid w-full max-w-6xl gap-8 px-4 sm:px-6 lg:grid-cols-2 lg:px-8">
+        <motion.section initial={{ opacity: 0, x: -16 }} animate={{ opacity: 1, x: 0 }} className="space-y-7">
+          <div className="inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-2 text-xs font-bold uppercase tracking-widest text-primary">
+            <ShieldCheck className="h-4 w-4" /> Privacy-first contact information
+          </div>
+          <h1 className="font-display text-4xl font-black leading-tight text-text-primary md:text-6xl">
+            Contact &amp; <span className="italic text-primary">Feedback.</span>
+          </h1>
+          <p className="max-w-xl text-base leading-8 text-text-secondary">
+            Curiva is an educational platform. The website does not currently operate a verified online feedback inbox or newsletter subscription service. We do not display a contact form that pretends to submit information.
+          </p>
+          <div className="rounded-3xl border border-border bg-bg-secondary p-6">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-text-primary"><BookOpen className="h-5 w-5 text-primary" /> Browse educational resources</h2>
+            <p className="mt-2 text-sm leading-6 text-text-secondary">For questions about the educational content, review the public library and the medical disclaimer first.</p>
+            <Link to="/public-education" className="mt-4 inline-flex rounded-xl bg-primary px-5 py-3 text-xs font-bold text-white">Open Public Education</Link>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <a href="https://www.instagram.com/curivahomoeopathy/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl border border-border bg-bg-secondary p-4 font-bold text-text-primary hover:border-primary/40">
+              <Instagram className="h-5 w-5 text-primary" /> Instagram <ExternalLink className="ml-auto h-4 w-4 text-text-tertiary" />
+            </a>
+            <a href="https://www.facebook.com/curivahomoeopathy/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl border border-border bg-bg-secondary p-4 font-bold text-text-primary hover:border-primary/40">
+              <Facebook className="h-5 w-5 text-primary" /> Facebook <ExternalLink className="ml-auto h-4 w-4 text-text-tertiary" />
+            </a>
+          </div>
+        </motion.section>
+
+        <motion.aside initial={{ opacity: 0, x: 16 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.1 }} className="space-y-5">
+          <div className="rounded-3xl border border-amber-500/30 bg-amber-500/5 p-6">
+            <h2 className="flex items-center gap-2 text-lg font-bold text-text-primary"><AlertTriangle className="h-5 w-5 text-amber-600" /> Protect your information</h2>
+            <ul className="mt-4 list-disc space-y-2 pl-5 text-sm leading-6 text-text-secondary">
+              <li>Do not send patient names, phone numbers, addresses, medical-record numbers, photographs, diagnoses or case histories through social media.</li>
+              <li>Do not use social media or this website for urgent symptoms or emergencies.</li>
+              <li>Do not upload medical reports or identity documents to general learning tools.</li>
+              <li>Social platforms process data under their own privacy terms; opening them takes you outside Curiva.</li>
+            </ul>
+          </div>
+          <div className="rounded-3xl border border-border bg-bg-secondary p-6">
+            <h2 className="text-lg font-bold text-text-primary">A note about online communication</h2>
+            <p className="mt-3 text-sm leading-7 text-text-secondary">
+              The social links above are public channels, not secure clinical communication services. A response or review is not guaranteed. For personal health concerns, contact a qualified registered healthcare professional through an appropriate, private channel. For emergencies, contact local emergency services.
             </p>
-
-            <div className="bg-bg-secondary p-8 rounded-[2.5rem] border border-border shadow-sm space-y-6">
-              <h3 className="text-xl font-bold text-text-primary italic">How to contribute:</h3>
-              <ul className="space-y-4">
-                <li className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
-                    <CheckCircle2 className="w-4 h-4 text-primary" />
-                  </div>
-                  <p className="text-sm text-text-secondary">Report errors in Materia Medica or clinical patterns.</p>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
-                    <CheckCircle2 className="w-4 h-4 text-primary" />
-                  </div>
-                  <p className="text-sm text-text-secondary">Suggest new conditions or research topics to cover.</p>
-                </li>
-                <li className="flex gap-4">
-                  <div className="w-6 h-6 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-1">
-                    <CheckCircle2 className="w-4 h-4 text-primary" />
-                  </div>
-                  <p className="text-sm text-text-secondary">Share feedback on our interactive symptom tools.</p>
-                </li>
-              </ul>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-4">
-              <a 
-                href="https://www.instagram.com/curivahomoeopathy/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group flex items-center gap-4 p-4 bg-bg-secondary rounded-2xl border border-border hover:border-primary/30 transition-all"
-              >
-                <div className="w-10 h-10 bg-gradient-to-tr from-[#f09433] via-[#e6683c] to-[#bc1888] text-white rounded-lg flex items-center justify-center shadow-md">
-                  <Instagram size={20} />
-                </div>
-                <div className="text-sm font-bold text-text-primary">Instagram</div>
-              </a>
-
-              <a 
-                href="https://www.facebook.com/curivahomoeopathy/" 
-                target="_blank" 
-                rel="noopener noreferrer"
-                className="group flex items-center gap-4 p-4 bg-bg-secondary rounded-2xl border border-border hover:border-primary/30 transition-all"
-              >
-                <div className="w-10 h-10 bg-[#1877F2] text-white rounded-lg flex items-center justify-center shadow-md">
-                  <Facebook size={20} />
-                </div>
-                <div className="text-sm font-bold text-text-primary">Facebook</div>
-              </a>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, x: 20 }}
-            animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-            className="space-y-6"
-          >
-            <div className="bg-bg-secondary p-8 md:p-12 rounded-[2.5rem] border border-border shadow-xl relative overflow-hidden">
-               <div className="absolute top-0 right-0 p-8 opacity-10">
-                  <HelpCircle className="w-24 h-24 text-primary" />
-               </div>
-              {isSubmitted ? (
-                <div className="text-center py-12">
-                  <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-6 text-primary">
-                    <CheckCircle2 size={40} />
-                  </div>
-                  <h2 className="text-3xl font-display font-bold text-text-primary mb-4">Feedback Received</h2>
-                  <p className="text-text-secondary mb-8">
-                    Thank you for helping us improve this educational resource. We review all submissions for accuracy.
-                  </p>
-                  <button 
-                    onClick={() => setIsSubmitted(false)}
-                    className="text-primary font-bold hover:underline"
-                  >
-                    Send another query
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6 relative z-10">
-                  <h3 className="text-2xl font-bold text-text-primary mb-6">Submit Feedback</h3>
-                  <div>
-                    <label htmlFor="name" className="block text-xs font-black text-text-secondary mb-2 uppercase tracking-widest">Your Name</label>
-                    <input 
-                      type="text" 
-                      id="name"
-                      required
-                      className="w-full px-5 py-4 bg-bg-primary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all font-medium"
-                      placeholder="e.g. Rahul Sharma"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="email" className="block text-xs font-black text-text-secondary mb-2 uppercase tracking-widest">Email (Optional)</label>
-                    <input 
-                      type="email" 
-                      id="email"
-                      className="w-full px-5 py-4 bg-bg-primary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all font-medium"
-                      placeholder="name@email.com"
-                    />
-                  </div>
-                  <div>
-                    <label htmlFor="message" className="block text-xs font-black text-text-secondary mb-2 uppercase tracking-widest">Feedback / Suggestion</label>
-                    <textarea 
-                      id="message"
-                      required
-                      rows={4}
-                      className="w-full px-5 py-4 bg-bg-primary border border-border rounded-xl focus:ring-2 focus:ring-primary/20 outline-none transition-all font-medium"
-                      placeholder="Please describe the correction or suggestion..."
-                    ></textarea>
-                  </div>
-                  <button 
-                    type="submit"
-                    className="w-full py-5 bg-primary text-white font-bold rounded-xl shadow-xl shadow-primary/20 hover:scale-[1.02] active:scale-95 transition-all flex items-center justify-center gap-3 text-lg cursor-pointer"
-                  >
-                    Send Feedback
-                    <Send size={20} />
-                  </button>
-                </form>
-              )}
-            </div>
-
-            <div className="p-8 bg-white border border-border rounded-[2.5rem] shadow-sm">
-              <div className="flex items-center gap-4 text-left">
-                <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center text-primary">
-                  <GraduationCap size={24} />
-                </div>
-                <div>
-                  <h4 className="font-bold text-text-primary italic">Student Resource</h4>
-                  <p className="text-xs text-text-secondary leading-relaxed">
-                    This platform is maintained by a BHMS student. All feedback helps refine the accuracy of this clinical repository.
-                  </p>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
+            <Link to="/privacy-policy" className="mt-5 inline-flex text-sm font-bold text-primary underline underline-offset-4">Read the Privacy Policy</Link>
+          </div>
+          <div className="flex items-start gap-3 rounded-2xl border border-border p-5 text-xs leading-6 text-text-tertiary">
+            <GraduationCap className="mt-0.5 h-5 w-5 shrink-0 text-primary" />
+            Curiva's public learning resources are for education and do not create a doctor–patient relationship or provide individual diagnosis or treatment.
+          </div>
+        </motion.aside>
       </div>
     </div>
   );

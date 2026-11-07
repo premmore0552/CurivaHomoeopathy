@@ -1,10 +1,11 @@
-// Simple analytics utility for tracking interactions
-export const trackEvent = (eventName: string, properties?: Record<string, any>) => {
-  // In a real app, this would send data to Google Analytics, Mixpanel, etc.
-  console.log(`[Analytics Event] ${eventName}:`, properties || {});
-  
-  // Example implementation for GA4
-  if (typeof window !== 'undefined' && (window as any).gtag) {
-    (window as any).gtag('event', eventName, properties);
-  }
-};
+/**
+ * Privacy-first analytics adapter.
+ *
+ * Curiva does not currently operate a consent-managed analytics service.
+ * Never log event properties or forward them to a global gtag object. This
+ * no-op preserves existing call sites while preventing accidental collection.
+ */
+export function trackEvent(_eventName: string, _properties?: Record<string, unknown>): void {
+  // Deliberately disabled until an independently reviewed consent manager,
+  // retention policy, data-processing agreement and withdrawal flow exist.
+}
