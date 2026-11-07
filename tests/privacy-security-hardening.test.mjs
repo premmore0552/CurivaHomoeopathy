@@ -30,6 +30,7 @@ const adminLinkAudit = read('../src/pages/AdminLinkAudit.tsx');
 const nativeAndroidScript = read('../scripts/apply-native-android.mjs');
 const nativeAndroidVerifier = read('../scripts/verify-native-android.mjs');
 const nativeMainActivity = read('../native-android/MainActivity.kt');
+const verifyWorkflow = read('../.github/workflows/verify-curiva.yml');
 
 test('HTML has no inline scripts or embedded styles; boot assets are same-origin', () => {
   const scriptTags = [...indexHtml.matchAll(/<script\b([^>]*)>/gi)].map(match => match[1]);
@@ -98,6 +99,24 @@ test('Firebase App Check is supported for web when an environment site key is co
   assert.match(firebaseClient, /isTokenAutoRefreshEnabled: true/);
   assert.match(firebaseClient, /!Capacitor\.isNativePlatform\(\)/);
   assert.match(firebaseClient, /firebaseAppCheckConfigured/);
+});
+
+test('privacy policy distinguishes the offline Android APK from website account sync', () => {
+  assert.match(privacyPolicy, /standalone Jetpack Compose Android app has no account sign-in or cloud sync/);
+  assert.match(privacyPolicy, /excluded from Android cloud backup and device-to-device transfer/);
+  assert.match(privacyPolicy, /signed-in website learning workspace may sync a limited study-progress document/);
+});
+
+test('Netlify build configuration contains no unused dummy provider credentials', () => {
+  assert.doesNotMatch(netlify, /CLOUDFLARE_(?:ZONE_ID|API_KEY|EMAIL|API_TOKEN)/);
+  assert.doesNotMatch(netlify, /dummy_(?:zone_id|api_key|email|api_token)/i);
+});
+
+test('CI reports fresh full-tree and production-only npm audit results', () => {
+  assert.match(verifyWorkflow, /npm audit --json/);
+  assert.match(verifyWorkflow, /npm audit --omit=dev --json/);
+  assert.match(verifyWorkflow, /production-only/);
+  assert.match(verifyWorkflow, /fixAvailable/);
 });
 
 test('native Android does not register the website service worker', () => {
