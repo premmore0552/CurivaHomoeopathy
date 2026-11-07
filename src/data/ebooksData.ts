@@ -1284,213 +1284,391 @@ Curiva Homoeopathy promotes holistic lifestyle wellness.`
   {
     id: "understanding-stroke-guide",
     title: "Stroke Awareness & Brain Protection Guide",
-    subtitle: "A Public Health Guide to Recognizing Stroke Symptoms, Ischemic Risk, Prevention, and Emergency Protocols",
+    subtitle: "A clear public guide to stroke warning signs, emergency action, hospital care, recovery, and prevention.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Heart & Circulation",
-    readTime: "18 min read",
+    readTime: "30 min read",
     coverImage: "https://images.unsplash.com/photo-1559757175-5700dde675bc?auto=format&fit=crop&w=1200&q=80",
-    tagline: "BE-FAST stroke recognition and brain vascular health.",
-    description: "Understand stroke types (ischemic vs hemorrhagic), BE-FAST warning acronym, emergency protocols, and vascular care.",
+    tagline: "Recognise stroke early. Act quickly. Protect brain health.",
+    description: "Learn what a stroke is, how to recognise sudden warning signs, why every minute matters, and how risk factors can be managed with a healthcare team.",
     icon: "🫀",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Stroke Awareness Guide
-*Curiva Public Health Series*`
+        title: "Start Here: A Safety-First Guide",
+        content: "# Stroke Awareness & Brain Protection Guide\n\nA stroke is a medical emergency. This guide explains warning signs in everyday language, what to do, what happens in hospital, and how people can reduce future risk.\n\n**Important:** This book cannot diagnose a stroke. If stroke is suspected, call emergency services immediately. Do not wait for symptoms to improve.\n\n**For readers in India:** The national emergency response number is **112**. If you are elsewhere, use your local emergency number."
       },
       {
         id: "what-is-stroke",
         title: "What Is a Stroke?",
-        content: `## Brain Vascular Accidents
-
-A stroke occurs when blood flow to part of the brain is interrupted, depriving brain tissue of oxygen.`
+        content: "## A simple explanation\n\nYour brain needs a steady supply of blood. Blood carries oxygen and nutrients that brain cells need to work. A stroke happens when part of the brain suddenly loses its normal blood supply or when a blood vessel breaks and bleeding occurs.\n\nBrain cells can be injured quickly. This is why a stroke must be treated as an emergency, even when the first symptom seems small.\n\n### Two main types\n\n- **Ischaemic stroke:** A blood clot or other blockage prevents blood from reaching part of the brain. This is the more common type.\n- **Haemorrhagic stroke:** A blood vessel breaks and blood leaks into or around the brain.\n\nA **transient ischaemic attack (TIA)** can cause stroke-like symptoms that disappear after a short time. It is not safe to ignore it. A TIA needs urgent medical assessment because it can be a warning of a future stroke.\n\nOnly a healthcare team using examination and brain imaging can identify the type. The correct treatment depends on that assessment."
       },
       {
         id: "be-fast",
-        title: "BE-FAST Warning Signals",
-        content: `## The BE-FAST Acronym
-- **B:** Balance loss
-- **E:** Eyesight changes
-- **F:** Facial drooping
-- **A:** Arm weakness
-- **S:** Speech difficulty
-- **T:** Time to call 102/112 emergency immediately!`
+        title: "Know the Warning Signs: BE-FAST",
+        content: "## BE-FAST: a memory aid\n\nStroke symptoms often begin suddenly. Remember **BE-FAST**:\n\n- **B — Balance:** sudden loss of balance, dizziness, or difficulty walking.\n- **E — Eyes:** sudden loss or change of vision.\n- **F — Face:** one side of the face droops or looks uneven when smiling.\n- **A — Arms:** weakness or numbness in an arm or leg, especially on one side.\n- **S — Speech:** speech becomes slurred, strange, or difficult to understand; the person may struggle to understand you.\n- **T — Time:** time to call an ambulance immediately.\n\nOther possible warning signs include a sudden, unusually severe headache, sudden confusion, or loss of coordination.\n\n**You do not need to see every sign. One sudden warning sign is enough to act.** A quick face, arm, and speech check can help you notice a problem, but it must never delay the emergency call."
+      },
+      {
+        id: "emergency-action",
+        title: "What to Do If You Suspect a Stroke",
+        content: "## Act first. Do not wait.\n\n1. Call 112 in India or your local emergency number. Request an ambulance and say that stroke is suspected.\n2. Note the time the symptoms started. If the person woke up with symptoms, note the last time they were known to be well.\n3. Keep the person safe and supported. Follow the emergency call-taker's instructions.\n4. Do not give food, drink, or tablets unless a clinician or emergency professional instructs you. Swallowing may be unsafe, and some treatments can be harmful for certain stroke types.\n5. Do not give aspirin on your own. A bleeding stroke must be ruled out first.\n6. Do not wait for symptoms to disappear and do not drive the person yourself when an ambulance is available.\n\nIf symptoms improve or disappear, still seek urgent assessment. A TIA can be an important warning."
+      },
+      {
+        id: "hospital-care",
+        title: "What Happens in Hospital?",
+        content: "## Why scans and quick assessment matter\n\nThe hospital team checks breathing, circulation, blood glucose, blood pressure, the time symptoms began, medicines, and medical history. A brain scan such as CT or MRI helps the team understand whether bleeding or a blockage is present.\n\n### Treatment depends on the stroke type\n\nFor selected people with an ischaemic stroke, doctors may consider clot-busting medicine or a procedure to remove a clot. These treatments have strict time windows and medical eligibility rules. They are not suitable for everyone.\n\nA haemorrhagic stroke is managed differently. The team works to control the bleeding and pressure, manage the cause, and protect the brain.\n\nDo not compare one person's treatment with another's. Stroke care is individual and time-sensitive. The safest action for the public is early ambulance transport and clear information about the first symptom time."
+      },
+      {
+        id: "recovery-and-rehabilitation",
+        title: "Recovery, Rehabilitation, and Family Support",
+        content: "## Recovery can take time\n\nAfter a stroke, a person may have difficulty moving, speaking, swallowing, remembering, seeing, or managing emotions. The pattern is different for each person.\n\nA rehabilitation team may include doctors, nurses, physiotherapists, occupational therapists, speech and language therapists, dietitians, and mental-health professionals.\n\n### How family members can help\n\n- Ask the care team what activities are safe at the current stage.\n- Use prescribed walking aids and home modifications.\n- Keep follow-up appointments and bring a current medicine list.\n- Allow the person time to communicate. Do not finish every sentence for them.\n- Watch for new stroke symptoms. New sudden symptoms are an emergency, not a routine rehabilitation issue.\n- Support the caregiver too. Rest, practical help, and emotional support matter.\n\nNever start an exercise programme or change medicines without the treating team’s guidance."
+      },
+      {
+        id: "prevention-and-risk",
+        title: "Reducing the Risk of Another Stroke",
+        content: "## Risk factors that can be managed\n\nRisk can be affected by high blood pressure, diabetes, high cholesterol, smoking or tobacco use, some heart rhythm problems such as atrial fibrillation, physical inactivity, and an unhealthy diet. Age and family history may also affect risk, but they cannot be changed.\n\n### Useful steps to discuss with a clinician\n\n- Check blood pressure and follow the agreed treatment plan.\n- Review diabetes and cholesterol control at recommended visits.\n- Ask whether an irregular heartbeat needs assessment.\n- Stop tobacco use with support if needed.\n- Choose regular movement that is safe for your abilities.\n- Eat a varied diet with vegetables, fruit, pulses, and suitable whole grains; discuss salt intake if you have high blood pressure.\n- Take prescribed medicines as directed. Do not stop them because you feel well.\n\nA prevention plan should be personal. Supplements and home remedies are not substitutes for proven risk-reducing treatment."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [World Health Organization — Stroke fact sheet](https://www.who.int/news-room/fact-sheets/detail/stroke)\n- [US Centers for Disease Control and Prevention — Stroke signs and symptoms](https://www.cdc.gov/stroke/signs-symptoms/index.html)\n- [Government of India — Emergency Response Support System (112)](https://112.gov.in/)\n\n**Editorial note:** This guide is general education, not a substitute for clinical assessment. Source pages and recommendations can change; check the linked organisations for the latest guidance."
       }
     ]
   },
-
   {
     id: "pCOS-and-women-menstrual-health",
     title: "Menstrual Health & Cycle Care Handbook",
-    subtitle: "A Complete Public Health Guide to Menstrual Physiology, Pain Management, Iron Balance, and Hygiene",
+    subtitle: "A reader-friendly guide to the menstrual cycle, period symptoms, hygiene, common conditions, and when to seek care.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Women's Health",
-    readTime: "20 min read",
+    readTime: "30 min read",
     coverImage: "https://images.unsplash.com/photo-1516549655169-df83a0774514?auto=format&fit=crop&w=1200&q=80",
-    tagline: "Nourishing women's cycle health through physiological awareness and compassionate care.",
-    description: "Explore the 4 cycle phases, dysmenorrhea relief, PMS management, iron replacement, and holistic women's care.",
+    tagline: "Understand your cycle. Recognise changes. Ask for care without shame.",
+    description: "Understand cycle changes, track symptoms, learn safer ways to manage discomfort, and recognise signs that need medical review.",
     icon: "👩",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Menstrual Health Handbook
-*Curiva Public Health Series*`
+        title: "Welcome: Your Cycle Is Health Information",
+        content: "# Menstrual Health & Cycle Care Handbook\n\nPeriods are a normal body process, but pain, heavy bleeding, or sudden changes should not be ignored. This guide explains the menstrual cycle in simple language and helps readers prepare for a respectful healthcare conversation.\n\nMenstrual experiences differ. Not every person has a 28-day cycle, and a period app cannot diagnose a condition. This book is for education, not individual diagnosis or treatment."
       },
       {
-        id: "cycle-phases",
-        title: "The 4 Cycle Phases",
-        content: `## Cycle Physiology
-1. Menstrual Phase
-2. Follicular Phase
-3. Ovulatory Phase
-4. Luteal Phase`
+        id: "cycle-basics",
+        title: "How the Menstrual Cycle Works",
+        content: "## The cycle in simple words\n\nThe menstrual cycle is a series of hormone changes involving the brain, ovaries, and uterus (womb). The uterus builds a soft lining. If pregnancy does not occur, that lining is shed as menstrual bleeding.\n\nThe cycle is counted from the first day of one period to the first day of the next. For many adults, cycles around 21 to 35 days can be normal, and bleeding often lasts 2 to 7 days. Cycles can be less predictable during the first years after periods begin and around the transition to menopause.\n\n### Four broad phases\n\n1. **Menstruation:** the uterine lining leaves the body as bleeding.\n2. **Follicular phase:** hormones support the growth of an egg follicle and the uterine lining begins to build again.\n3. **Ovulation:** an ovary releases an egg. Timing varies and is not always day 14.\n4. **Luteal phase:** hormones prepare the uterine lining. If pregnancy does not occur, hormone levels fall and another period begins.\n\nThe cycle is not a clock. Stress, illness, sleep changes, weight change, medicines, and health conditions can affect timing."
+      },
+      {
+        id: "tracking-your-cycle",
+        title: "A Simple Way to Track Your Period",
+        content: "## What to write down\n\nA small diary or calendar can help you describe a pattern to a clinician. You do not need an expensive app.\n\nRecord:\n- the first and last day of bleeding;\n- whether flow is light, moderate, or heavy;\n- how often you change pads, tampons, or other products;\n- pain level and whether pain affects sleep, school, or work;\n- bleeding between periods or after sex;\n- headaches, bowel symptoms, mood changes, or other symptoms;\n- medicines or contraception changes.\n\nA record is useful only if it feels safe to keep. On a shared device, consider privacy before saving sensitive cycle information to an app. A paper record may be preferable for some people."
+      },
+      {
+        id: "period-pain-and-pms",
+        title: "Cramps, PMS, and Everyday Comfort",
+        content: "## Why cramps happen\n\nThe uterus tightens to help shed its lining. This can cause lower-abdominal cramps that may spread to the back or thighs. Some people also have headache, breast tenderness, bloating, tiredness, or mood changes before a period.\n\n### Low-risk comfort measures\n\n- Try gentle walking or stretching if it feels comfortable.\n- A warm bath or a wrapped heat pack may ease cramps.\n- Rest, regular meals, and hydration can support general wellbeing.\n- Track symptoms so you can explain what changes over time.\n\nSome over-the-counter pain medicines help some people, but they are not suitable for everyone. For example, anti-inflammatory medicines may be unsafe with certain stomach, kidney, heart, bleeding, pregnancy, or asthma-related situations. Ask a clinician or pharmacist what is suitable for you and follow the product label. Do not mix medicines or exceed label instructions."
+      },
+      {
+        id: "heavy-or-irregular-periods",
+        title: "Heavy, Irregular, or Missed Periods",
+        content: "## What changes deserve attention?\n\nA period may be heavier or lighter than another person's. Consider a medical review if bleeding regularly disrupts normal activities, lasts longer than usual, or changes suddenly.\n\nExamples of heavy bleeding include needing to change a pad or tampon every 1 to 2 hours, needing two products at once, or passing large clots. Heavy bleeding can lead to iron deficiency or anaemia, which may cause tiredness, dizziness, or breathlessness.\n\nPeriods can be irregular during puberty, after pregnancy, with some contraceptives, and near menopause. Other causes can include PCOS, thyroid problems, fibroids, changes in weight, stress, or other medical conditions.\n\nA missed period can happen for many reasons, including pregnancy. If pregnancy is possible, consider a pregnancy test and seek advice about the result and next steps. A clinician may suggest blood tests, examination, or ultrasound depending on the history."
+      },
+      {
+        id: "common-conditions",
+        title: "Conditions That Can Affect Menstrual Health",
+        content: "## Examples, not self-diagnoses\n\n- **PCOS:** a hormone-related condition that may involve irregular periods, acne, increased facial or body hair, and metabolic changes. Not everyone has the same features.\n- **Endometriosis:** tissue similar to the uterine lining grows outside the uterus. It can cause significant period pain, pelvic pain, pain during sex, or bowel and bladder symptoms.\n- **Fibroids:** non-cancerous growths in or around the uterus that may cause heavy bleeding, pressure, or pain.\n- **Thyroid disorders:** changes in thyroid hormone levels can affect menstrual patterns.\n- **Pregnancy-related bleeding:** bleeding during pregnancy should be assessed; pain with bleeding can need urgent evaluation.\n\nSymptoms overlap. A checklist or online article cannot tell which condition is present. A healthcare professional can evaluate the pattern and discuss tests and options."
+      },
+      {
+        id: "hygiene-and-self-care",
+        title: "Menstrual Hygiene and Everyday Care",
+        content: "## Keeping comfortable and reducing irritation\n\nWash your hands before and after changing menstrual products. Follow the product instructions and change products at the recommended intervals. Wash reusable products as directed and allow them to dry fully. Store products in a clean, dry place.\n\nThe vagina cleans itself. Avoid internal vaginal washing or scented products that can irritate the skin. Clean the external genital area gently with water; use mild, unscented products only if they suit your skin.\n\nMenstruation is not dirty. A person can bathe, study, work, exercise, and take part in everyday activities during a period if they feel well enough. There is no single correct product: pads, tampons, menstrual cups, and period underwear each have practical considerations. Choose what is accessible, comfortable, and safe for you."
+      },
+      {
+        id: "when-to-get-care",
+        title: "When to Seek Medical Help",
+        content: "## Arrange a healthcare review\n\nSeek a medical review if periods become much heavier, more painful, or irregular; if bleeding occurs between periods or after sex; if pelvic pain affects daily life; or if you have symptoms of anaemia such as persistent tiredness, dizziness, or breathlessness.\n\n**Seek urgent medical care** if you have severe or worsening pelvic pain, very heavy bleeding with faintness or weakness, or bleeding with possible pregnancy and abdominal/pelvic pain. Pregnancy outside the uterus (ectopic pregnancy) can be life-threatening.\n\nBleeding after menopause should always be checked by a healthcare professional.\n\nIf you feel faint, collapse, have severe pain, or think you may be in immediate danger, use your local emergency service."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [NHS — Periods and cycle overview](https://www.nhs.uk/conditions/periods/)\n- [NHS — Period problems and heavy bleeding](https://www.nhs.uk/conditions/periods/period-problems/)\n- [NHS — Period pain](https://www.nhs.uk/symptoms/period-pain/)\n- [NHS — Bleeding between periods or after sex](https://www.nhs.uk/symptoms/vaginal-bleeding-between-periods-or-after-sex/)\n\nThis guide does not replace assessment. If you have a concern, take your symptom notes to a qualified healthcare professional."
       }
     ]
   },
-
   {
     id: "childhood-fever-guide",
     title: "Childhood Fever & Immunity Handbook",
-    subtitle: "A Gentle Public Health Guide to Pediatric Fever Management, Hydration, Warning Signs, and Child Care",
+    subtitle: "A safety-first guide for parents and carers about measuring fever, comfort, hydration, and warning signs.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Child Health",
-    readTime: "18 min read",
+    readTime: "30 min read",
     coverImage: "https://images.unsplash.com/photo-1502086223501-7ea6ecd79368?auto=format&fit=crop&w=1200&q=80",
-    tagline: "Compassionate, safe guidance for parents managing pediatric fever and building strong immunity.",
-    description: "Understand child fever mechanisms, tepid sponging rules, hydration, febrile seizure awareness, and red flag warnings.",
+    tagline: "Calm, clear steps for caring for a child with fever.",
+    description: "Learn how to measure a child's temperature, support comfort and fluids, avoid common medicine mistakes, and recognise when a child needs urgent help.",
     icon: "👶",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Childhood Fever Guide
-*Curiva Public Health Series*`
+        title: "Welcome: Fever Needs Context",
+        content: "# Childhood Fever & Immunity Handbook\n\nA fever is common in children and often happens when the body responds to an infection. The number on a thermometer is only one part of the picture. A child's age, breathing, alertness, drinking, urine output, and other symptoms matter too.\n\nThis guide is for parents and carers. It does not diagnose the cause of fever or replace advice from a paediatrician. Babies and children can become unwell quickly; trust your concern and seek help when needed."
       },
       {
         id: "fever-basics",
-        title: "Understanding Pediatric Fever",
-        content: `## Fever Is an Immune Response
-
-Fever is the immune system's physiological weapon against viruses and bacteria, not a disease itself.`
+        title: "What Is a Fever?",
+        content: "## Understanding temperature\n\nA temperature of **38°C or higher** is commonly used as a fever threshold in children. A digital thermometer is more reliable than judging temperature by touch alone.\n\nTo measure, follow the thermometer instructions. For a young child, an underarm digital reading is commonly used in public guidance. Record the number, the time, and how the child is behaving.\n\nA fever is a sign, not a diagnosis. Viral infections are common causes, but bacterial infections and other conditions can also cause fever. A fever after vaccination can occur, but serious symptoms still need assessment."
+      },
+      {
+        id: "home-care",
+        title: "Comfort, Fluids, and Home Observation",
+        content: "## What carers can do\n\n- Offer fluids often. Continue breastfeeding for babies who breastfeed.\n- Offer normal food if the child wants it; do not force meals.\n- Let the child rest and keep the room comfortably ventilated.\n- Dress the child comfortably. Avoid wrapping in too many layers.\n- Check the child regularly, including during the night.\n- Watch for wet nappies or urination, tears, mouth moisture, alertness, and breathing.\n- Keep a note of temperature, symptoms, fluids, and medicines already given.\n\nDo not use cold baths or alcohol rubs. Tepid sponging is not recommended in the cited NHS guidance. The goal is to keep the child comfortable and notice worsening illness, not to force the temperature to a normal number."
+      },
+      {
+        id: "medicine-safety",
+        title: "Fever Medicines: Avoid Common Mistakes",
+        content: "## Ask before giving a medicine\n\nParacetamol or ibuprofen may be considered for a child who is distressed or uncomfortable, but the correct product and amount depend on the child's age, weight, medical history, and formulation. Read the exact product leaflet and ask a pharmacist or doctor if unsure.\n\nImportant safety points:\n- Do not give aspirin to a child under 16 unless a specialist has specifically prescribed it.\n- Do not give paracetamol to a baby under 2 months.\n- Ibuprofen is not suitable for every child; age, weight, dehydration, chickenpox, asthma, and other health factors matter.\n- Do not alternate paracetamol and ibuprofen unless a healthcare professional tells you to.\n- Check combination cough/cold products so the same ingredient is not given twice.\n- Never use an adult dose or a kitchen spoon to measure liquid medicine.\n\nThis guide intentionally does not provide a dosing table. Use the child's own product label and professional advice."
+      },
+      {
+        id: "urgent-age-signs",
+        title: "Age-Based Warning Signs",
+        content: "## Babies need extra caution\n\nSeek urgent medical assessment if:\n- a baby under **3 months** has a temperature of **38°C or higher**;\n- a baby aged **3 to 6 months** has a temperature of **39°C or higher**;\n- a fever lasts 5 days or more;\n- the child is becoming less responsive, is not drinking, or you are worried.\n\nThese thresholds are examples from NHS public guidance; local clinical advice may differ. A child who looks seriously unwell needs help regardless of the exact temperature.\n\nSigns of dehydration can include much less urine or fewer wet nappies, dry mouth, sunken eyes, and no tears when crying. Seek medical advice promptly if these appear."
+      },
+      {
+        id: "emergency-red-flags",
+        title: "Emergency Signs: Get Help Now",
+        content: "## Do not wait if you notice these signs\n\nGet immediate emergency help if a child:\n- struggles to breathe, breathes very fast, grunts, or has the chest pulling in with each breath;\n- is blue, grey, very pale, or unusually blotchy;\n- is difficult to wake, confused, floppy, or not responding normally;\n- has a seizure, especially a first seizure;\n- has a stiff neck or a rash that does not fade when pressed with a clear glass;\n- has a very weak or continuous high-pitched cry;\n- cannot keep fluids down or shows severe dehydration.\n\nCall **112 in India** or your local emergency number if the child appears to be in immediate danger. Follow the emergency call-taker's instructions. Do not delay to search online."
+      },
+      {
+        id: "febrile-seizure",
+        title: "What About a Fever-Related Seizure?",
+        content: "## A seizure can be frightening\n\nA fever-related seizure can happen in some young children. During a seizure, move dangerous objects away, protect the child's head, and note how long it lasts. Do not restrain the child and do not put anything in the mouth.\n\nAfter the movements stop, follow emergency advice. A first seizure, a seizure lasting longer than expected, breathing difficulty, injury, or failure to recover normally needs urgent assessment. Do not assume every seizure is caused by fever.\n\nA clinician should assess the child and explain what to watch for next time."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [NHS — High temperature (fever) in children](https://www.nhs.uk/symptoms/fever-in-children/)\n- [NHS — Urgent medical help for babies and children under 5](https://www.nhs.uk/baby/health/when-to-get-urgent-medical-help-for-babies-and-children-under-5/)\n- [Government of India — Emergency Response Support System (112)](https://112.gov.in/)\n\nChildren's guidance differs by age and country. Follow your child's clinician and local emergency service when their advice differs from this general guide."
       }
     ]
   },
-
   {
     id: "asthma-and-allergy-survival-guide",
     title: "Asthma & Allergy Survival Guide",
-    subtitle: "A Complete Public Health Guide to Airway Reactivity, Trigger Control, Inhaler Safety, and Breath Health",
+    subtitle: "A practical guide to asthma symptoms, inhalers, action plans, allergy triggers, and emergency warning signs.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Respiratory Health",
-    readTime: "20 min read",
+    readTime: "32 min read",
     coverImage: "https://images.unsplash.com/photo-1584308666744-24d5c474f2ae?auto=format&fit=crop&w=1200&q=80",
-    tagline: "Breathe freely through trigger identification, peak flow checks, and respiratory vitality.",
-    description: "Understand bronchial hypersensitivity, allergy triggers, peak flow monitoring, emergency asthma action plans, and homoeopathic respiratory support.",
+    tagline: "Understand symptoms. Use your agreed action plan. Know when breathing trouble is an emergency.",
+    description: "Understand how asthma affects the airways, how to use a clinician-approved action plan, and how to recognise a severe asthma or allergic emergency.",
     icon: "🫁",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Asthma & Allergy Survival Guide
-*Curiva Public Health Series*`
+        title: "Welcome: Breathing Safety Comes First",
+        content: "# Asthma & Allergy Survival Guide\n\nAsthma and allergies can affect daily life, sleep, school, work, and exercise. Many people manage them well with a clear diagnosis, the right treatment plan, and knowledge of warning signs.\n\n**Emergency reminder:** Severe breathing difficulty is an emergency. Do not wait for a website, an inhaler search, or a home remedy to make the decision for you. Use your local emergency service."
       },
       {
         id: "asthma-basics",
         title: "What Is Asthma?",
-        content: `## Airway Hyper-responsiveness
-
-Asthma involves chronic airway inflammation, bronchospasm, and mucus hypersecretion.`
+        content: "## What happens inside the airways?\n\nThe airways are tubes that carry air into and out of the lungs. In asthma, the airways can become inflamed and extra-sensitive. The muscles around them may tighten, the lining can swell, and mucus may increase. This makes it harder for air to move.\n\nSymptoms can include wheezing, cough, chest tightness, and shortness of breath. Symptoms may come and go. Some people notice them at night, during exercise, after an infection, or around specific triggers.\n\nAsthma symptoms have other possible causes. A clinician assesses the pattern and may use breathing tests before confirming a diagnosis."
+      },
+      {
+        id: "triggers-and-patterns",
+        title: "Triggers and Symptom Patterns",
+        content: "## Common triggers\n\nTriggers vary from person to person. Examples include tobacco smoke, air pollution, dust, mould, pollen, animal allergens, respiratory infections, cold air, and some workplace exposures.\n\nA trigger diary can help identify patterns. Record when symptoms happen, where you were, possible exposures, activity, and what helped. Do not deliberately expose yourself to a suspected allergen to test it.\n\nAvoiding smoke and reducing known exposures may help, but trigger avoidance alone is not a replacement for prescribed asthma treatment."
+      },
+      {
+        id: "inhalers-and-action-plan",
+        title: "Inhalers and Your Written Action Plan",
+        content: "## Different inhalers can have different jobs\n\nSome inhalers are used to prevent symptoms over time. Others are used for quick relief, and some prescribed inhalers may have both roles. The colour of an inhaler is not a safe way to identify its purpose because products and plans differ.\n\nAsk your clinician or pharmacist to:\n- explain the name and purpose of each inhaler;\n- demonstrate the correct technique and check that you can use it correctly;\n- explain whether a spacer is recommended;\n- write down what to do when symptoms worsen;\n- explain when to call for urgent or emergency help.\n\nCarry your prescribed reliever if your action plan says to. Do not stop a preventer or change doses because symptoms have improved without speaking to the prescriber."
+      },
+      {
+        id: "during-an-asthma-attack",
+        title: "What to Do During an Asthma Attack",
+        content: "## Follow the person's own action plan\n\nIf symptoms suddenly worsen, stop the activity and sit upright. Use the prescribed reliever exactly as stated in the person's written asthma action plan or as directed by an emergency professional.\n\nGet emergency help if breathing is very difficult, symptoms are getting worse, the person cannot speak in full sentences, becomes drowsy or confused, looks blue or grey, or is not improving as the action plan says. In India call 112; elsewhere use the local emergency number.\n\nDo not leave a severely breathless person alone. Do not make them lie flat, and do not delay an emergency call to search for a home treatment."
+      },
+      {
+        id: "allergy-and-anaphylaxis",
+        title: "Allergies and Anaphylaxis",
+        content: "## Allergy is not always a minor reaction\n\nAn allergy is an immune reaction to a substance that is usually harmless to most people. It can cause sneezing, itchy eyes, hives, swelling, or stomach symptoms.\n\n**Anaphylaxis** is a severe, potentially life-threatening allergic reaction. Warning signs can include sudden swelling of the tongue or throat, difficulty breathing, wheeze, faintness or collapse, or rapidly worsening symptoms affecting more than one body system.\n\nIf the person has been prescribed an adrenaline auto-injector, use it according to their emergency plan and the product instructions, then call emergency services. Do not wait to see whether the reaction settles. Follow the emergency call-taker's instructions."
+      },
+      {
+        id: "prevention-and-follow-up",
+        title: "Prevention, Review, and Everyday Life",
+        content: "## Make a plan before symptoms get worse\n\n- Keep regular review appointments, even when symptoms feel controlled.\n- Check inhaler technique and expiry dates.\n- Know the person's written action plan and share it with school, work, or carers when appropriate.\n- Avoid tobacco smoke and known triggers where practical.\n- Ask about vaccinations and infection prevention according to age and medical history.\n- Seek review if symptoms wake you at night, limit activity, or require reliever use more often than the plan expects.\n\nA peak-flow meter may be part of a clinician-designed plan for some people; not everyone needs one. Do not use a reading alone to decide whether a severe attack is safe."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [NHS — Asthma](https://www.nhs.uk/conditions/asthma/)\n- [NHS — Anaphylaxis](https://www.nhs.uk/conditions/anaphylaxis/)\n- [Global Initiative for Asthma — Strategy reports and patient resources](https://ginasthma.org/)\n\nTreatment plans are individual. Follow the most recent plan prepared by your healthcare team."
       }
     ]
   },
-
   {
     id: "acidity-and-gerd-handbook",
     title: "Acidity, GERD & Digestive Relief Handbook",
-    subtitle: "A Public Health Guide to Gastric Acid Physiology, Heartburn Relief, Diet Resets, and Gut Care",
+    subtitle: "A plain-language guide to heartburn, acid reflux, common triggers, self-care boundaries, and warning signs.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Digestive Health",
-    readTime: "18 min read",
+    readTime: "30 min read",
     coverImage: "https://images.unsplash.com/photo-1498837167922-ddd27525d352?auto=format&fit=crop&w=1200&q=80",
-    tagline: "Restoring digestive calm through gastric acid balance, posture care, and dietary mindfulness.",
-    description: "Understand stomach acid production, lower esophageal sphincter weakness, GERD triggers, meal timing, and homoeopathic digestive remedies.",
+    tagline: "Understand reflux, make practical changes, and recognise symptoms that should not be ignored.",
+    description: "Understand why reflux happens, which everyday habits may help, and when chest or digestive symptoms need medical assessment.",
     icon: "🍽️",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Acidity & GERD Handbook
-*Curiva Public Health Series*`
+        title: "Welcome: Not Every Chest Symptom Is Acidity",
+        content: "# Acidity, GERD & Digestive Relief Handbook\n\nHeartburn is common, but repeated reflux can affect sleep and quality of life. This guide explains the basics, practical steps, and when medical help is important.\n\n**Safety first:** New, severe, or unexplained chest pain should not automatically be labelled acidity. Heart and lung problems can also cause chest discomfort. If you have chest pressure or pain with breathlessness, sweating, faintness, or pain spreading to the arm, jaw, back, or neck, call emergency services."
       },
       {
-        id: "gerd-basics",
-        title: "Understanding Acidity & Reflux",
-        content: `## Gastric Acid Physiology
-When stomach acid flows back up into the esophagus due to sphincter relaxation, burning heartburn occurs.`
+        id: "reflux-basics",
+        title: "What Are Heartburn, Reflux, and GERD?",
+        content: "## A simple explanation\n\nThe oesophagus is the tube that carries food from the mouth to the stomach. A ring of muscle near the lower end helps keep stomach contents from flowing backwards.\n\nAcid reflux happens when stomach contents move back into the oesophagus. It may cause a burning feeling behind the breastbone or a sour taste in the mouth. If reflux keeps happening and causes troublesome symptoms or complications, it may be called gastro-oesophageal reflux disease (GERD or GORD).\n\nOccasional heartburn does not always mean a person has GERD. Symptoms, frequency, risk factors, and other warning signs guide assessment."
+      },
+      {
+        id: "symptoms-and-triggers",
+        title: "Symptoms and Common Triggers",
+        content: "## What can reflux feel like?\n\nCommon symptoms include a burning feeling in the chest after meals, sour or bitter fluid coming up into the mouth, or symptoms that worsen when bending or lying down. Some people report cough, hoarse voice, nausea, or bloating, but these symptoms can have other causes too.\n\nPossible triggers include large meals, eating close to bedtime, smoking, excess body weight, pregnancy, alcohol, and particular foods or drinks. Not everyone reacts to the same foods. A brief symptom diary can help you notice your own pattern without unnecessarily restricting many foods."
+      },
+      {
+        id: "practical-self-care",
+        title: "Everyday Steps That May Help",
+        content: "## Start with manageable changes\n\n- Try smaller meals if large meals trigger symptoms.\n- Avoid lying down for about 3 to 4 hours after eating if night reflux is a problem.\n- If symptoms happen at night, ask a clinician or pharmacist whether raising the head end of the bed is appropriate.\n- If you smoke, seek support to stop.\n- If weight is contributing to symptoms, discuss a sustainable plan without crash diets.\n- Notice your own food triggers; do not remove whole food groups without a reason.\n- Wear comfortable clothing that does not press tightly on the abdomen.\n\nThese steps may reduce symptoms for some people, but persistent symptoms still deserve medical review."
+      },
+      {
+        id: "medicines-and-tests",
+        title: "Medicines and Medical Assessment",
+        content: "## What a clinician may discuss\n\nA pharmacist or doctor can review symptoms, medicines, pregnancy status, and other health conditions. Depending on the situation, they may discuss antacids, alginates, acid-reducing medicines, or tests.\n\nDo not use over-the-counter medicines continuously for long periods without advice. Some medicines can interact with other prescriptions, and some symptoms need investigation rather than repeated symptom relief.\n\nDo not stop a prescribed medicine that may be contributing to reflux without discussing an alternative with the prescriber."
+      },
+      {
+        id: "red-flags",
+        title: "Warning Signs: When to Seek Care",
+        content: "## Arrange prompt medical review\n\nSeek a medical review if heartburn happens most days, does not improve with suitable self-care, or is accompanied by repeated vomiting, unexplained weight loss, or food sticking when you swallow.\n\nBlood in vomit, black tar-like stools, fainting, or severe weakness needs urgent medical assessment.\n\n**Call emergency services** for new or severe chest pressure/pain, especially with breathlessness, sweating, faintness, nausea, or pain spreading to the arm, jaw, back, or neck. Do not try to diagnose this as reflux yourself."
+      },
+      {
+        id: "preparing-for-appointment",
+        title: "Preparing for a Reflux Appointment",
+        content: "## Make the conversation easier\n\nBefore an appointment, note when symptoms began, how often they happen, what they feel like, whether they wake you at night, and what seems to trigger or ease them. Bring a list of medicines, supplements, and any allergies.\n\nTell the clinician about difficulty or pain when swallowing, vomiting, weight change, bleeding, chest pain, pregnancy, and any heart or lung conditions. Ask what symptoms should prompt urgent care, how long a treatment trial should last, and when a review is needed.\n\nIf you have chest pressure, breathlessness, sweating, faintness, or pain spreading to the arm, jaw, back, or neck, do not wait for a routine appointment—use emergency services."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [NHS — Heartburn and acid reflux](https://www.nhs.uk/conditions/heartburn-and-acid-reflux/)\n- [National Institute of Diabetes and Digestive and Kidney Diseases — GER and GERD in adults](https://www.niddk.nih.gov/health-information/digestive-diseases/acid-reflux-ger-gerd-adults)\n\nThese resources provide general information. A clinician can help assess persistent, severe, or unusual symptoms."
       }
     ]
   },
-
   {
     id: "arthritis-and-joint-care-guide",
     title: "Arthritis & Joint Care Handbook",
-    subtitle: "A Public Health Guide to Osteoarthritis, Rheumatoid Pain Relief, Joint Movement, and Cartilage Health",
+    subtitle: "An easy guide to joint structure, osteoarthritis, inflammatory arthritis, movement, and medical care.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Bone & Joint Health",
-    readTime: "20 min read",
+    readTime: "32 min read",
     coverImage: "https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?auto=format&fit=crop&w=1200&q=80",
-    tagline: "Protecting mobility and joint flexibility through gentle movement, anti-inflammatory foods, and cartilage care.",
-    description: "Compare Osteoarthritis vs Rheumatoid Arthritis, morning stiffness relief, knee care, Vitamin D3/Calcium synergy, and joint remedies.",
+    tagline: "Understand joint pain and protect movement with an informed care plan.",
+    description: "Learn why joints become painful, how osteoarthritis differs from rheumatoid arthritis, and which signs need early or urgent assessment.",
     icon: "🦴",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Arthritis & Joint Care Handbook
-*Curiva Public Health Series*`
+        title: "Welcome: Joint Pain Has More Than One Cause",
+        content: "# Arthritis & Joint Care Handbook\n\nJoint pain can make walking, writing, climbing stairs, or sleeping difficult. The word arthritis covers many conditions. The right care depends on the cause, the affected joints, and the person's overall health.\n\nThis guide explains common patterns in everyday language. It does not diagnose arthritis or recommend an individual treatment."
       },
       {
         id: "joint-basics",
-        title: "Understanding Joint Health",
-        content: `## Joint Mechanics & Cartilage
-Cartilage cushions bone ends. Degradation leads to stiffness, swelling, and friction.`
+        title: "How a Healthy Joint Works",
+        content: "## The parts of a joint\n\nA joint is where two or more bones meet. Smooth cartilage covers the ends of many bones and helps them glide. A joint lining makes fluid that lubricates movement. Muscles, tendons, ligaments, and surrounding tissues help support the joint.\n\nPain can come from cartilage, joint lining, tendons, muscles, nerves, or nearby structures. Swelling or stiffness should not automatically be called wear and tear."
+      },
+      {
+        id: "osteoarthritis-vs-inflammatory",
+        title: "Osteoarthritis and Rheumatoid Arthritis",
+        content: "## Two different examples\n\n**Osteoarthritis (OA)** involves changes in the whole joint, including cartilage, bone, and surrounding tissues. Pain may worsen with activity and stiffness often appears after rest. It can affect knees, hips, hands, and other joints.\n\n**Rheumatoid arthritis (RA)** is an autoimmune inflammatory condition. The immune system mistakenly attacks the joint lining. It can cause swelling, warmth, pain, and morning stiffness, often in several joints. It may also affect parts of the body beyond joints.\n\nOther conditions such as gout, infection, injury, and other autoimmune diseases can also cause joint symptoms. Only assessment can identify the cause."
+      },
+      {
+        id: "assessment-and-red-flags",
+        title: "When Joint Symptoms Need Assessment",
+        content: "## Arrange a clinical review\n\nGet assessed if joint pain is persistent, swelling keeps returning, morning stiffness lasts a long time, several joints are affected, or pain is limiting everyday life. Early assessment matters when inflammatory arthritis is possible because timely treatment can reduce damage.\n\n**Urgent warning:** A joint that becomes suddenly very painful, hot, red, or swollen—especially with fever or feeling very unwell—may be infected. Seek urgent medical care. Do not wait for a routine appointment or try to treat it at home."
+      },
+      {
+        id: "movement-and-daily-care",
+        title: "Movement, Exercise, and Daily Activities",
+        content: "## Gentle, regular movement\n\nFor many people with osteoarthritis, suitable strengthening and aerobic exercise can improve pain and function. A physiotherapist can help choose movements that match ability, balance, and other conditions.\n\n- Start with manageable activity and build gradually.\n- Warm up and use comfortable footwear.\n- Break long tasks into smaller parts.\n- Use handrails or appropriate walking aids if recommended.\n- Balance activity with rest; complete inactivity can make stiffness and strength worse.\n- Ask for help modifying work, school, or home tasks when needed.\n\nIf exercise causes severe or unusual pain, swelling, chest symptoms, or breathlessness, stop and seek appropriate advice."
+      },
+      {
+        id: "medical-treatment",
+        title: "Treatment and Medicines: What to Discuss",
+        content: "## Treatment depends on the diagnosis\n\nTreatment may include education, supervised exercise, physiotherapy, weight support when relevant, aids for daily tasks, and medicines selected for the individual. Rheumatoid arthritis often needs disease-modifying treatment from a specialist; pain relief alone does not control the underlying inflammation.\n\nMedicines such as anti-inflammatory painkillers can cause stomach, kidney, heart, blood pressure, or bleeding problems in some people. Do not start, combine, or use them for long periods without checking whether they are safe for you.\n\nDo not stop prescribed arthritis or steroid treatment suddenly without medical advice. Supplements, topical products, and complementary therapies should be discussed with a clinician and should not replace effective treatment."
+      },
+      {
+        id: "living-well",
+        title: "Living Well With a Long-Term Joint Condition",
+        content: "## A practical support plan\n\n- Keep a list of affected joints, symptoms, swelling, and morning stiffness.\n- Attend review appointments and bring your medicine list.\n- Ask about vaccinations and infection risk if you take immune-suppressing treatment.\n- Seek support for sleep, mood, work, and daily activities.\n- Set realistic movement goals and review them when symptoms change.\n\nLiving well is not about ignoring pain. It is about finding a safe, sustainable plan with the right team."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [NICE — Osteoarthritis in over 16s: diagnosis and management](https://www.nice.org.uk/guidance/ng226)\n- [NICE — Rheumatoid arthritis in adults: management](https://www.nice.org.uk/guidance/ng100)\n- [NHS — Osteoarthritis](https://www.nhs.uk/conditions/osteoarthritis/)\n\nGuidelines may be updated. Ask your healthcare team about the current recommendations for your diagnosis."
       }
     ]
   },
-
   {
     id: "stress-and-anxiety-self-help",
     title: "Understanding Stress & Anxiety Self-Help Guide",
-    subtitle: "A Public Health Guide to Cortisol Regulation, Mindful Breathing, Emotional Resilience, and Calming Habits",
+    subtitle: "A compassionate, practical guide to stress, anxiety, grounding, daily routines, and getting professional support.",
     brand: "Curiva Homoeopathy",
-    version: "2.0 (Public Health Series)",
+    version: "3.0 (Public Health Edition)",
     category: "Mental Wellness",
-    readTime: "20 min read",
+    readTime: "30 min read",
     coverImage: "https://images.unsplash.com/photo-1506126613408-eca07ce68773?auto=format&fit=crop&w=1200&q=80",
-    tagline: "Calming the nervous system through evidence-informed stress reduction and emotional balance.",
-    description: "Understand the fight-or-flight response, cortisol effects, 4-7-8 breathing techniques, cognitive grounding, and homoeopathic anxiety support.",
+    tagline: "Small practical steps, supportive relationships, and timely care.",
+    description: "Understand the body's stress response, learn simple coping skills, and recognise when professional or urgent mental-health support is needed.",
     icon: "🧠",
     sections: [
       {
         id: "welcome-note",
-        title: "Welcome Note & Disclaimer",
-        content: `# Stress & Anxiety Self-Help Guide
-*Curiva Public Health Series*`
+        title: "Welcome: You Do Not Have to Manage Alone",
+        content: "# Understanding Stress & Anxiety Self-Help Guide\n\nStress and anxiety are common human experiences. They can affect sleep, concentration, appetite, relationships, and the body. Support is available, and asking for help is a strength.\n\nThis guide offers general coping ideas. It is not a diagnosis, psychotherapy, or an emergency service. If you feel unsafe or may harm yourself or someone else, seek immediate help from a trusted person and emergency services."
       },
       {
-        id: "stress-physiology",
-        title: "Stress & the Autonomic Nervous System",
-        content: `## Fight-or-Flight Physiology
-Chronic stress maintains sympathetic arousal, elevating cortisol and resting heart rate.`
+        id: "stress-and-anxiety",
+        title: "What Are Stress and Anxiety?",
+        content: "## Similar feelings, different meanings\n\n**Stress** is a response to pressure or a demand. A short-lived stress response can help a person act, but ongoing pressure can become exhausting.\n\n**Anxiety** involves worry, fear, or anticipation of danger. It can continue even when the immediate threat is not clear. Anxiety disorders are health conditions that may need professional treatment.\n\nPossible signs include racing thoughts, restlessness, irritability, poor concentration, muscle tension, stomach discomfort, a racing heart, and sleep changes. These symptoms can also have physical causes, so new or severe symptoms should not automatically be labelled anxiety."
+      },
+      {
+        id: "body-response",
+        title: "How the Body Responds to Stress",
+        content: "## The alarm system\n\nWhen the brain senses a challenge or threat, it can activate the body's alarm response. Heart rate and breathing may increase, muscles tense, and attention narrows. This can be useful in a short emergency.\n\nIf pressure continues, a person may feel tired, irritable, distracted, or unable to relax. There is no single hormone test that can explain every person's stress. Avoid products or online claims that promise to reset or detoxify cortisol.\n\nThe aim is not to remove every stressful event. It is to build ways to respond, recover, and get support when the load becomes too heavy."
+      },
+      {
+        id: "quick-grounding",
+        title: "Grounding and Calming Skills",
+        content: "## A gentle exercise you can try\n\nGrounding brings attention back to the present moment. Try this slowly:\n1. Put both feet on the floor if comfortable.\n2. Notice five things you can see.\n3. Notice four things you can feel, such as your feet on the floor.\n4. Notice three things you can hear.\n5. Take a comfortable, unforced breath and name one thing you can do next.\n\nYou do not have to force deep breathing. If focusing on breathing makes you feel worse, open your eyes, look around, and focus on an ordinary object or a conversation with someone you trust.\n\nThese exercises may help some people manage a difficult moment. They are not a substitute for treatment when anxiety or depression is persistent or severe."
+      },
+      {
+        id: "daily-routines",
+        title: "Daily Habits That Support Wellbeing",
+        content: "## Small steps are more realistic than a perfect routine\n\n- Keep a regular wake-up time when possible.\n- Eat regular meals and drink enough water.\n- Include enjoyable movement that fits your health and ability.\n- Make time for daylight, rest, and activities that matter to you.\n- Keep contact with supportive people.\n- Limit news or social-media exposure if it increases distress.\n- Reduce caffeine if it makes anxiety or sleep worse.\n- Break large tasks into smaller steps and allow recovery time.\n\nSelf-care is not a test. If a habit is not possible today, begin again when you can. Avoid blaming yourself for symptoms that need care."
+      },
+      {
+        id: "professional-help",
+        title: "When Professional Help Can Make a Difference",
+        content: "## You can ask for help early\n\nSpeak with a healthcare professional if worry, panic, low mood, poor sleep, or physical symptoms are persistent, worsening, or affecting study, work, relationships, or daily tasks.\n\nSupport may include a medical assessment, talking therapies such as cognitive behavioural therapy (CBT), practical social support, or medication when appropriate. Treatment is individual. A clinician can also check whether a physical condition or medicine is contributing to symptoms.\n\nIf you start medication, take it as prescribed and discuss concerns or side effects with the prescriber. Do not stop psychiatric medicines suddenly without advice."
+      },
+      {
+        id: "urgent-mental-health",
+        title: "Urgent Mental-Health Warning Signs",
+        content: "## Take immediate safety concerns seriously\n\nGet urgent professional help if distress is escalating, you cannot care for basic needs, panic or agitation feels unmanageable, or you are using alcohol or drugs in a way that puts you at risk.\n\nIf you think you may harm yourself or another person, have taken an overdose, or cannot stay safe:\n- tell a trusted person and do not stay alone if possible;\n- move away from medicines, weapons, or other items that could be used for harm, with help from another person;\n- call **112 in India** or your local emergency number, or go to the nearest emergency department.\n\nYou deserve timely, compassionate help. Do not rely on an online article or AI tool during a crisis."
+      },
+      {
+        id: "sources",
+        title: "Sources & Further Reading",
+        content: "## Trusted public information\n\n- [World Health Organization — Stress: questions and answers](https://www.who.int/news-room/questions-and-answers/item/stress)\n- [WHO — Mental well-being resources for the public](https://www.who.int/news-room/feature-stories/mental-well-being-resources-for-the-public/)\n- [NHS — Get help with stress](https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/stress/)\n- [NHS — Get help with anxiety, fear or panic](https://www.nhs.uk/mental-health/feelings-symptoms-behaviours/feelings-and-symptoms/anxiety-fear-panic/)\n- [Government of India — Emergency Response Support System (112)](https://112.gov.in/)\n\nThis publication cannot provide diagnosis, counselling, or crisis response."
       }
     ]
-  }
+  },
 ];

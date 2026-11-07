@@ -18,7 +18,6 @@ import RouteScrollToTop from './components/RouteScrollToTop';
 import ScrollToTop from './components/ScrollToTop';
 import Breadcrumbs from './components/Breadcrumbs';
 import MedicalDisclaimerModal from './components/MedicalDisclaimerModal';
-import Logo from './components/Logo';
 import FloatingQuickActions from './components/FloatingQuickActions';
 import { Loader2 } from 'lucide-react';
 import { useRole } from './context/RoleContext';
@@ -151,7 +150,14 @@ function LoadingScreen() {
            className="w-20 h-20 rounded-full border-2 border-primary/10 border-t-primary"
          />
          <div className="absolute inset-0 flex items-center justify-center">
-           <Logo size="xs" className="scale-110 transform pointer-events-none select-none" />
+           <motion.img
+             src="/app_icon.png.png"
+             alt="Curiva Homoeopathy"
+             onError={(event) => { event.currentTarget.src = '/curiva_logo.svg'; }}
+             animate={{ y: [0, -3, 0], scale: [1, 1.04, 1] }}
+             transition={{ repeat: Infinity, duration: 2.8, ease: "easeInOut" }}
+             className="h-8 w-8 rounded-lg object-cover pointer-events-none select-none"
+           />
          </div>
        </div>
        <div className="text-center space-y-1">
@@ -621,7 +627,14 @@ export default function App() {
                   className="w-24 h-24 rounded-full border-2 border-primary/10 border-t-primary"
                 />
                 <div className="absolute inset-0 flex items-center justify-center scale-[1.1]">
-                  <Logo size="xs" className="scale-125 transform pointer-events-none select-none" />
+                  <motion.img
+                    src="/app_icon.png.png"
+                    alt="Curiva Homoeopathy"
+                    onError={(event) => { event.currentTarget.src = '/curiva_logo.svg'; }}
+                    animate={{ y: [0, -4, 0], scale: [1, 1.05, 1] }}
+                    transition={{ repeat: Infinity, duration: 2.8, ease: "easeInOut" }}
+                    className="h-14 w-14 rounded-2xl object-cover shadow-xl shadow-primary/20 pointer-events-none select-none"
+                  />
                 </div>
               </div>
               <div className="space-y-2">

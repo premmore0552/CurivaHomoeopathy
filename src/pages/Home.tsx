@@ -404,10 +404,7 @@ export default function Home() {
         description="Learn classical Homoeopathy with our Materia Medica suite and prepare for exams. Practice with advanced AI symptom-checkers and repertory tools."
       />
 
-      {/* High Impact Hero Banner */}
-      <HighImpactHero />
-
-      {/* Quick Navigation Below Hero */}
+      {/* Quick Navigation remains at the top so learning content is immediately accessible. */}
       <QuickNavigation />
 
       {/* High-Contrast Divider with Icon */}
@@ -663,6 +660,9 @@ export default function Home() {
         onClose={() => setIsModalOpen(false)} 
         topic={selectedTopic} 
       />
+
+      {/* Brand introduction placed after the learning content so it never covers the page. */}
+      <HighImpactHero />
     </div>
   );
 }
