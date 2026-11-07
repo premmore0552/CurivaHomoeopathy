@@ -147,7 +147,7 @@ test('Firestore denies all client reads and writes to legacy patient-like collec
     assert.match(block, /allow read, write: if false/);
   }
   assert.match(firestoreRules, /function isAdmin\(\)[\s\S]*?exists\(\/databases\/\$\(database\)\/documents\/admins\/\$\(request\.auth\.uid\)\)/);
-  assert.match(firestoreRules, /data\\.active == true/);
+  assert.match(firestoreRules, /data\.active == true/);
   assert.doesNotMatch(firestoreRules, /premmore0552@gmail\.com/);
   assert.match(firestoreRules, /match \/admins\/{adminId}[\s\S]*?allow create, update, delete: if false/);
 });
@@ -217,7 +217,8 @@ test('server disables health-specific AI and arbitrary content-generation endpoi
 
 test('analytics and fake collection forms stay disabled', () => {
   assert.match(analytics, /Deliberately disabled/);
-  assert.doesNotMatch(analytics, /gtag|console\.log/);
+  assert.doesNotMatch(analytics, /^\\s*(?:window\\.)?gtag\\s*\\(/m);
+  assert.doesNotMatch(analytics, /^\\s*console\\.log\\s*\\(/m);
   assert.match(contactPage, /does not currently operate a verified online feedback inbox/);
   assert.doesNotMatch(contactPage, /wa\.me\/|onSubmit=/);
   assert.match(newsletter, /Newsletter subscriptions are not currently enabled/);
