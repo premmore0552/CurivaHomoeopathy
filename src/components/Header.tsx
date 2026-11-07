@@ -316,12 +316,14 @@ export default function Header() {
 
             </div>
 
-            <div className="flex items-center justify-between gap-3 border-t border-border p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
-              <div className="flex items-center gap-2">
+            <div className="border-t border-border p-4 pb-[calc(1rem+env(safe-area-inset-bottom))]">
+              <div className="flex items-center justify-between gap-3">
                 <ThemeToggle />
                 <ProfileSwitch />
               </div>
-              <AuthButton isMobile onCloseMenu={closeMobileNavigation} />
+              <div className="mt-3">
+                <AuthButton isMobile onCloseMenu={closeMobileNavigation} />
+              </div>
             </div>
           </div>
         </div>
