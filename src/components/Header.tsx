@@ -134,7 +134,7 @@ export default function Header() {
                     ref={node => { menuTriggerRefs.current[group.label] = node; }}
                     type="button"
                     aria-expanded={expanded}
-                    aria-controls={panelId}
+                    aria-controls={expanded ? panelId : undefined}
                     onClick={() => setOpenMenu(expanded ? null : group.label)}
                     onFocus={() => setOpenMenu(group.label)}
                     className={'inline-flex min-h-11 items-center gap-2 rounded-xl px-3 text-sm font-semibold transition-colors focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary ' + (active || expanded
@@ -150,7 +150,7 @@ export default function Header() {
                     <section
                       id={panelId}
                       aria-label={group.label + ' navigation'}
-                      className="absolute left-0 top-full z-[80] mt-2 w-[min(42rem,calc(100vw-2rem))] rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl"
+                      className="absolute left-0 top-full z-[80] mt-2 max-h-[min(75vh,42rem)] w-[min(42rem,calc(100vw-2rem))] overflow-y-auto rounded-2xl border border-border bg-bg-primary p-5 shadow-2xl"
                     >
                       <div className="mb-4 flex items-start gap-3 border-b border-border pb-4">
                         <span className="rounded-xl bg-primary/10 p-2.5 text-primary">
@@ -226,19 +226,19 @@ export default function Header() {
 
       {!isFmtExperience && (
         <nav aria-label="Mobile quick navigation" className="fixed inset-x-0 bottom-0 z-[60] grid grid-cols-5 border-t border-border bg-bg-primary/95 px-1 pt-1 shadow-[0_-8px_24px_rgba(15,23,42,0.08)] backdrop-blur-xl pb-[env(safe-area-inset-bottom)] xl:hidden">
-          <Link to="/" aria-current={location.pathname === '/' ? 'page' : undefined} className="flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold text-text-secondary hover:text-primary">
+          <Link to="/" aria-current={location.pathname === '/' ? 'page' : undefined} className={"flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold " + (location.pathname === '/' ? 'text-primary' : 'text-text-secondary hover:text-primary')}>
             <Home className="h-5 w-5" aria-hidden="true" /><span>Home</span>
           </Link>
-          <Link to="/subjects" aria-current={isActiveRoute(location.pathname, '/subjects') ? 'page' : undefined} className="flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold text-text-secondary hover:text-primary">
+          <Link to="/subjects" aria-current={isActiveRoute(location.pathname, '/subjects') ? 'page' : undefined} className={"flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold " + (isActiveRoute(location.pathname, '/subjects') ? 'text-primary' : 'text-text-secondary hover:text-primary')}>
             <GraduationCap className="h-5 w-5" aria-hidden="true" /><span>Learn</span>
           </Link>
-          <Link to="/quizzes" aria-current={isActiveRoute(location.pathname, '/quizzes') ? 'page' : undefined} className="flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold text-text-secondary hover:text-primary">
+          <Link to="/quizzes" aria-current={isActiveRoute(location.pathname, '/quizzes') ? 'page' : undefined} className={"flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold " + (isActiveRoute(location.pathname, '/quizzes') ? 'text-primary' : 'text-text-secondary hover:text-primary')}>
             <Brain className="h-5 w-5" aria-hidden="true" /><span>Practice</span>
           </Link>
           <button type="button" onClick={openGlobalSearch} className="flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold text-text-secondary hover:text-primary">
             <Search className="h-5 w-5" aria-hidden="true" /><span>Search</span>
           </button>
-          <button type="button" onClick={() => setMobileOpen(true)} aria-expanded={mobileOpen} className="flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold text-text-secondary hover:text-primary">
+          <button type="button" onClick={() => setMobileOpen(true)} aria-expanded={mobileOpen} className={"flex min-h-12 flex-col items-center justify-center gap-0.5 rounded-lg text-[10px] font-semibold " + (mobileOpen ? 'text-primary' : 'text-text-secondary hover:text-primary')}>
             <Menu className="h-5 w-5" aria-hidden="true" /><span>More</span>
           </button>
         </nav>
@@ -287,7 +287,7 @@ export default function Header() {
                 const panelId = 'curiva-mobile-' + group.label.toLowerCase();
                 return (
                   <section key={group.label} className={'overflow-hidden rounded-2xl border ' + (active ? 'border-primary/30' : 'border-border')}>
-                    <button type="button" onClick={() => setMobileGroup(expanded ? '' : group.label)} aria-expanded={expanded} aria-controls={panelId} className="flex min-h-14 w-full items-center justify-between px-4 py-3 text-left">
+                    <button type="button" onClick={() => setMobileGroup(expanded ? '' : group.label)} aria-expanded={expanded} aria-controls={expanded ? panelId : undefined} className="flex min-h-14 w-full items-center justify-between px-4 py-3 text-left">
                       <span className="flex items-center gap-3 font-bold text-text-primary">
                         <Icon className="h-5 w-5 text-primary" aria-hidden="true" />
                         {group.label}
