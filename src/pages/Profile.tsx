@@ -258,14 +258,23 @@ export default function Profile() {
     if (user) {
       try {
         await setDoc(doc(db, 'kits', newLogId), newLog);
-        await userService.trackActivity('study_tool', `Created Case Totality Log: ${newLogId}`);
+        await userService.trackActivity('study_tool', `Created simulated study log: ${newLogId}`);
       } catch (err) {
-        console.error("Failed to post study log to Firestore:", err);
+        console.error('Could not save simulated study log:', (err as any)?.code || 'unknown');
+        alert('Your study log could not be saved. Please try again.');
+        setIsSubmitting(false);
+        return;
       }
     } else {
-      const updated = [newLog, ...kits];
-      setKits(updated);
-      localStorage.setItem('curiva_demo_kits', JSON.stringify(updated));
+      try {
+        const updated = [newLog, ...kits];
+        localStorage.setItem('curiva_demo_kits', JSON.stringify(updated));
+        setKits(updated);
+      } catch {
+        alert('Local storage is unavailable. Your study log was not saved.');
+        setIsSubmitting(false);
+        return;
+      }
     }
     
     // Reset Form
