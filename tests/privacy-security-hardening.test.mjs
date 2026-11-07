@@ -6,6 +6,7 @@ const read = (path) => readFileSync(new URL(path, import.meta.url), 'utf8');
 const indexHtml = read('../index.html');
 const netlify = read('../netlify.toml');
 const serviceWorker = read('../public/sw.js');
+const firebaseClient = read('../src/lib/firebase.ts');
 const appBootstrap = read('../src/appBootstrap.ts');
 const studyToolkit = read('../src/context/StudyToolkitContext.tsx');
 const userService = read('../src/services/userService.ts');
@@ -144,6 +145,18 @@ test('AI data sharing requires versioned consent and best-effort sensitive text 
   assert.match(server, /requireAcademicAiConsent/);
   assert.match(server, /res\.status\(428\)/);
   assert.match(server, /limit: "128kb"/);
+});
+
+test('Firestore client diagnostics never log or return user identity', () => {
+  const start = firebaseClient.indexOf('export function handleFirestoreError');
+  const end = firebaseClient.indexOf('// Safe connection check for Firestore', start);
+  assert.ok(start >= 0 && end > start);
+  const handler = firebaseClient.slice(start, end);
+  assert.doesNotMatch(handler, /currentUser\?\.uid|currentUser\?\.email|providerData|emailVerified/);
+  assert.doesNotMatch(handler, /authInfo|userId:\s*auth/);
+  assert.doesNotMatch(handler, /error:\s*errMsg/);
+  assert.match(handler, /collection/);
+  assert.match(handler, /Cloud data operation failed/);
 });
 
 test('server disables health-specific AI and arbitrary content-generation endpoints', () => {
