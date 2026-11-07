@@ -72,7 +72,7 @@ export const DiseaseSearch: React.FC = () => {
           <div className="divide-y divide-border">
             {results.map(disease => (
               <button
-                key={disease.id}
+                key={`${disease.system}/${disease.slug}`}
                 onClick={() => {
                   navigate(`/disease-hub/${disease.system}/${disease.slug}`);
                   setQuery('');
