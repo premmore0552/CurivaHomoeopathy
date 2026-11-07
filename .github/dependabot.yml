@@ -9,14 +9,10 @@ updates:
       timezone: "Asia/Kolkata"
     open-pull-requests-limit: 10
     groups:
-      production-security-updates:
-        dependency-type: "production"
-        update-types:
-          - "security"
-      development-security-updates:
-        dependency-type: "development"
-        update-types:
-          - "security"
+      npm-security-updates:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "security"
@@ -28,6 +24,11 @@ updates:
       time: "05:30"
       timezone: "Asia/Kolkata"
     open-pull-requests-limit: 5
+    groups:
+      actions-security-updates:
+        applies-to: "security-updates"
+        patterns:
+          - "*"
     labels:
       - "dependencies"
       - "security"
