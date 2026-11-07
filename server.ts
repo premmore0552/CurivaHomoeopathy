@@ -431,6 +431,9 @@ async function startServer() {
       } catch {
         return res.status(401).json({ error: "Your account session could not be verified. Sign in again before checkout." });
       }
+      if (!verifiedOrderUser.emailVerified) {
+        return res.status(403).json({ error: "Verify your account email before placing an account-linked order. Guest checkout remains available." });
+      }
     }
     const emailParts = customerEmail.split("@");
     const emailDomain = emailParts[1] || "";
