@@ -124,7 +124,7 @@ export const userService = {
         updatedAt: data.updatedAt
       };
     } catch (error) {
-      handleFirestoreError(error, OperationType.GET, \`users/\${uid}\`);
+      handleFirestoreError(error, OperationType.GET, `users/${uid}`);
       return null;
     }
   },
@@ -161,7 +161,7 @@ export const userService = {
       await updateDoc(reference, update);
       return profession ? safeProfession : safeProfileProfession(current.profession);
     } catch (error) {
-      handleFirestoreError(error, OperationType.WRITE, \`users/\${user.uid}\`);
+      handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
     }
   },
 
@@ -196,7 +196,7 @@ export const userService = {
     try {
       await updateDoc(doc(db, 'users', user.uid), update);
     } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, \`users/\${user.uid}\`);
+      handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
       throw error;
     }
   },
@@ -213,7 +213,7 @@ export const userService = {
         updatedAt: serverTimestamp()
       });
     } catch (error) {
-      handleFirestoreError(error, OperationType.UPDATE, \`users/\${user.uid}\`);
+      handleFirestoreError(error, OperationType.UPDATE, `users/${user.uid}`);
       throw error;
     }
   },
