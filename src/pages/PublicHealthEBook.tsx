@@ -169,12 +169,15 @@ export default function PublicHealthEBook() {
   }));
 
   const toggleAudio = () => {
-    if (!('speechSynthesis' in window)) {
+    const speech = typeof window !== 'undefined'
+      ? (window as unknown as { speechSynthesis?: SpeechSynthesis }).speechSynthesis
+      : undefined;
+    if (!speech || typeof SpeechSynthesisUtterance === 'undefined') {
       window.alert('Audio reading is not supported in this browser. You can still read the chapter normally.');
       return;
     }
     if (speaking) {
-      window.speechSynthesis.cancel();
+      speech.cancel();
       setSpeaking(false);
       return;
     }
@@ -183,8 +186,8 @@ export default function PublicHealthEBook() {
     utterance.rate = 0.92;
     utterance.onend = () => setSpeaking(false);
     utterance.onerror = () => setSpeaking(false);
-    window.speechSynthesis.cancel();
-    window.speechSynthesis.speak(utterance);
+    speech.cancel();
+    speech.speak(utterance);
     setSpeaking(true);
   };
 
