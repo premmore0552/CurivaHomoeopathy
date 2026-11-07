@@ -39,7 +39,7 @@ function persistSearchHistory(history: string[]) {
 }
 
 
-export default function SearchAutocomplete() {
+export default function SearchAutocomplete({ triggerClassName }: { triggerClassName?: string }) {
   const { currentRole } = useRole();
   const [query, setQuery] = useState('');
   const [isModalOpen, setIsModalOpen] = useState(false);
