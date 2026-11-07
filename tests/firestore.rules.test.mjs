@@ -89,7 +89,6 @@ function practiceCaseLog(userId = 'alice', id = 'CASE-00001') {
   return {
     id,
     userId,
-    userEmail: userId + '@example.test',
     testType: 'repertory_check',
     testDate: '2026-11-07',
     clinicName: 'BHMS classroom exercise',
