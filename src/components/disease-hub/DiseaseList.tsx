@@ -29,7 +29,7 @@ export const DiseaseList: React.FC<DiseaseListProps> = ({ system, diseases, onSe
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {diseases.map((disease, idx) => (
           <motion.button
-            key={disease.id}
+            key={`${disease.system}/${disease.slug}`}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: idx * 0.05 }}
