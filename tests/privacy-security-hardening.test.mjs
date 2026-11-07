@@ -107,7 +107,7 @@ test('Firebase App Check is supported for web when an environment site key is co
 });
 
 test('privacy policy distinguishes the offline Android APK from website account sync', () => {
-  assert.match(privacyPolicy, /standalone Jetpack Compose Android app has no account sign-in or cloud sync/);
+  assert.match(privacyPolicy, /standalone Jetpack Compose Android APK has no account sign-in or cloud sync/);
   assert.match(privacyPolicy, /excluded from Android cloud backup and device-to-device transfer/);
   assert.match(privacyPolicy, /signed-in website learning workspace may sync a limited study-progress document/);
 });
@@ -152,7 +152,7 @@ test('account-enabled native progress disclosure documents synced fields and sig
   assert.match(privacyPolicy, /quiz subject\/date\/scores/);
   assert.match(privacyPolicy, /reset the synced progress from the Progress screen/);
   assert.match(privacyPolicy, /Signing out stops subsequent sync but does not itself delete previously synced progress/);
-  assert.match(controls, /sync is serialized with background sync/i);
+  assert.match(controls, /write is serialized with background sync/i);
   assert.match(controls, /Bookmarks are deliberately retained/);
 });
 
