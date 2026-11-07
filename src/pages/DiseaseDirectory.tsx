@@ -16,6 +16,7 @@ const DiseaseDirectory: React.FC = () => {
   const [diseases, setDiseases] = useState<DiseaseSummary[]>([]);
   const [catalogLoading, setCatalogLoading] = useState(true);
   const [catalogError, setCatalogError] = useState('');
+  const [catalogAttempt, setCatalogAttempt] = useState(0);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -31,7 +32,7 @@ const DiseaseDirectory: React.FC = () => {
         if (active) setCatalogLoading(false);
       });
     return () => { active = false; };
-  }, []);
+  }, [catalogAttempt]);
 
   const filteredDiseases = useMemo(() => {
     let result = [...diseases];
@@ -119,7 +120,12 @@ const DiseaseDirectory: React.FC = () => {
           </div>
 
           {catalogLoading && <p className="text-xs text-text-secondary" role="status">Loading disease index…</p>}
-          {catalogError && <p className="rounded-xl border border-red-500/25 bg-red-500/5 p-3 text-xs text-red-600" role="alert">{catalogError}</p>}
+          {catalogError && (
+            <div role="alert" className="flex flex-wrap items-center justify-between gap-2 rounded-xl border border-red-500/25 bg-red-500/5 p-3 text-xs text-red-600">
+              <span>{catalogError}</span>
+              <button type="button" onClick={() => setCatalogAttempt((attempt) => attempt + 1)} className="font-bold underline underline-offset-2">Retry disease index</button>
+            </div>
+          )}
 
           {/* Grid */}
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
