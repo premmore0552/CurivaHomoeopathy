@@ -1,647 +1,323 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
+import { AnimatePresence, motion, useReducedMotion } from 'motion/react';
 import Markdown from 'react-markdown';
-import { useParams, useNavigate } from 'react-router-dom';
-import { 
-  BookOpen, 
-  Sun, 
-  Moon, 
-  BookMarked, 
-  Volume2, 
-  VolumeX, 
-  ChevronRight, 
-  ChevronLeft, 
-  List, 
-  Search, 
-  ShieldCheck, 
-  AlertTriangle, 
-  Clock, 
-  Sparkles,
-  CheckCircle2,
-  Star,
-  Filter
+import { useNavigate, useParams } from 'react-router-dom';
+import {
+  ArrowRight, Bookmark, BookmarkCheck, BookOpen, BookMarked, CheckCircle2,
+  ChevronLeft, ChevronRight, Clock3, HeartPulse, List, Moon, Search,
+  ShieldCheck, Sparkles, Star, Sun, Type, Volume2, VolumeX, X
 } from 'lucide-react';
 import SEO from '../components/SEO';
 import { EBOOKS_DATABASE, EBookBook, EBookSection } from '../data/ebooksData';
 
-const CATEGORY_TABS = [
-  "All",
-  "⭐ Best Sellers",
-  "Heart & Circulation",
-  "Diabetes & Metabolism",
-  "Thyroid Health",
-  "Women's Health",
-  "Child Health",
-  "Respiratory Health",
-  "Digestive Health",
-  "Bone & Joint Health",
-  "Mental Wellness",
-  "Skin & Hair",
-  "Nutrition",
-  "Preventive Health"
-];
+type ReaderTheme = 'light' | 'sepia' | 'dark';
+type BookProgress = { lastSectionId?: string; completedSectionIds: string[]; bookmarkedSectionIds: string[] };
+type ProgressStore = Record<string, BookProgress>;
+const PROGRESS_KEY = 'curiva-public-ebook-progress-v1';
+const EMPTY_SECTION: EBookSection = { id: 'overview', title: 'Overview', content: '# Welcome to Curiva\\n\\nChoose a chapter from the contents panel to begin.' };
+
+function readProgress(): ProgressStore {
+  try {
+    const raw = typeof window === 'undefined' ? null : window.localStorage.getItem(PROGRESS_KEY);
+    if (!raw) return {};
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === 'object' && !Array.isArray(parsed) ? parsed as ProgressStore : {};
+  } catch { return {}; }
+}
+
+function forBook(store: ProgressStore, id: string): BookProgress {
+  const saved = store[id];
+  return {
+    lastSectionId: saved?.lastSectionId,
+    completedSectionIds: Array.isArray(saved?.completedSectionIds) ? saved.completedSectionIds : [],
+    bookmarkedSectionIds: Array.isArray(saved?.bookmarkedSectionIds) ? saved.bookmarkedSectionIds : []
+  };
+}
+
+function themeClass(theme: ReaderTheme) {
+  if (theme === 'sepia') return 'bg-[#fbf4e8] text-[#382b20] border-[#e7d8bf]';
+  if (theme === 'dark') return 'bg-[#171b24] text-[#e8edf4] border-[#30394a]';
+  return 'bg-white text-slate-800 border-slate-200';
+}
+
+function PublicMarkdown({ content }: { content: string }) {
+  return (
+    <div className="curiva-public-markdown max-w-none space-y-5 leading-relaxed">
+      <Markdown components={{
+        h1: ({ children }) => <h1 className="mb-6 mt-3 border-b border-current/10 pb-5 font-display text-3xl font-bold tracking-tight text-primary md:text-4xl">{children}</h1>,
+        h2: ({ children }) => <h2 className="mb-4 mt-10 border-t border-current/10 pt-7 font-display text-2xl font-bold text-primary md:text-3xl">{children}</h2>,
+        h3: ({ children }) => <h3 className="mb-3 mt-7 font-display text-xl font-bold text-current md:text-2xl">{children}</h3>,
+        h4: ({ children }) => <h4 className="mb-2 mt-5 font-sans text-base font-bold text-current">{children}</h4>,
+        p: ({ children }) => <p className="mb-4 leading-[1.9] text-current/85">{children}</p>,
+        ul: ({ children }) => <ul className="mb-5 list-disc space-y-2 pl-6 text-current/85 marker:text-primary">{children}</ul>,
+        ol: ({ children }) => <ol className="mb-5 list-decimal space-y-2 pl-6 text-current/85 marker:font-bold marker:text-primary">{children}</ol>,
+        li: ({ children }) => <li className="pl-1 leading-[1.85]">{children}</li>,
+        blockquote: ({ children }) => <blockquote className="my-7 rounded-r-2xl border-l-4 border-primary bg-primary/5 px-5 py-4 text-current/85">{children}</blockquote>,
+        strong: ({ children }) => <strong className="font-bold text-current">{children}</strong>,
+        hr: () => <hr className="my-8 border-current/15" />,
+        table: ({ children }) => <div className="my-7 overflow-x-auto rounded-2xl border border-current/15"><table className="w-full min-w-[34rem] border-collapse text-left text-sm">{children}</table></div>,
+        th: ({ children }) => <th className="bg-primary/10 px-4 py-3 text-left font-bold text-primary">{children}</th>,
+        td: ({ children }) => <td className="border-t border-current/10 px-4 py-3 align-top text-current/85">{children}</td>
+      }}>{content}</Markdown>
+    </div>
+  );
+}
 
 export default function PublicHealthEBook() {
   const { bookId } = useParams<{ bookId: string }>();
   const navigate = useNavigate();
+  const reduceMotion = useReducedMotion();
+  const readerRef = useRef<HTMLDivElement>(null);
+  const selectedBook = useMemo<EBookBook>(() => EBOOKS_DATABASE.find((item) => item.id === bookId) || EBOOKS_DATABASE[0], [bookId]);
 
-  // Selected eBook from Database
-  const [selectedBook, setSelectedBook] = useState<EBookBook>(() => {
-    if (bookId) {
-      const book = EBOOKS_DATABASE.find(b => b.id === bookId);
-      if (book) return book;
-    }
-    return EBOOKS_DATABASE[0];
-  });
+  const [progress, setProgress] = useState<ProgressStore>(readProgress);
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [category, setCategory] = useState('All');
+  const [search, setSearch] = useState('');
+  const [chapterSearch, setChapterSearch] = useState('');
+  const [theme, setTheme] = useState<ReaderTheme>('light');
+  const [fontSize, setFontSize] = useState(18);
+  const [serif, setSerif] = useState(true);
+  const [speaking, setSpeaking] = useState(false);
+  const [mobileContents, setMobileContents] = useState(false);
 
-  const [activeSectionIndex, setActiveSectionIndex] = useState<number>(0);
+  const saved = forBook(progress, selectedBook.id);
+  const section = selectedBook.sections[activeIndex] || selectedBook.sections[0] || EMPTY_SECTION;
+  const percent = selectedBook.sections.length ? Math.min(100, Math.round(saved.completedSectionIds.length / selectedBook.sections.length * 100)) : 0;
+  const totalChapters = EBOOKS_DATABASE.reduce((sum, book) => sum + book.sections.length, 0);
 
-  // Sync state with URL params
+  const categories = useMemo(
+    () => ['All', 'Featured', ...Array.from(new Set(EBOOKS_DATABASE.map((book) => book.category))).sort()],
+    []
+  );
+
+  const books = useMemo(() => {
+    const query = search.trim().toLocaleLowerCase();
+    return EBOOKS_DATABASE.filter((book) => {
+      const categoryMatch = category === 'All' || (category === 'Featured' ? Boolean(book.isBestSeller) : category === book.category);
+      const searchable = [book.title, book.subtitle, book.description, book.tagline, book.category, book.brand];
+      const textMatch = !query ||
+        searchable.some((value) => value.toLocaleLowerCase().includes(query)) ||
+        book.sections.some((item) => item.title.toLocaleLowerCase().includes(query) || item.content.toLocaleLowerCase().includes(query));
+      return categoryMatch && textMatch;
+    });
+  }, [category, search]);
+
+  const chapters = useMemo(() => {
+    const query = chapterSearch.trim().toLocaleLowerCase();
+    return selectedBook.sections.map((item, index) => ({ item, index })).filter(({ item }) =>
+      !query || item.title.toLocaleLowerCase().includes(query) || item.content.toLocaleLowerCase().includes(query));
+  }, [chapterSearch, selectedBook]);
+
   useEffect(() => {
-    if (bookId) {
-      const book = EBOOKS_DATABASE.find(b => b.id === bookId);
-      if (book && book.id !== selectedBook.id) {
-        setSelectedBook(book);
-        setActiveSectionIndex(0);
-      }
-    }
-  }, [bookId]);
+    try { window.localStorage.setItem(PROGRESS_KEY, JSON.stringify(progress)); } catch { /* Local storage is optional. */ }
+  }, [progress]);
 
-  // Category & Search State
-  const [activeCategory, setActiveCategory] = useState<string>("All");
-  const [bookSearchQuery, setBookSearchQuery] = useState<string>("");
-
-  // Reader Customization State
-  const [readerTheme, setReaderTheme] = useState<'light' | 'sepia' | 'dark'>('light');
-  const [fontSize, setFontSize] = useState<number>(17); // in px
-  const [fontFamily, setFontFamily] = useState<'sans' | 'serif' | 'mono'>('serif');
-  const [isPlayingAudio, setIsPlayingAudio] = useState<boolean>(false);
-  const [chapterSearchQuery, setChapterSearchQuery] = useState<string>("");
-  const [showTocMobile, setShowTocMobile] = useState<boolean>(false);
-
-  // Reader viewport container ref for scrolling
-  const readerContentRef = useRef<HTMLDivElement>(null);
-
-  // Current active section
-  const currentSection: EBookSection = selectedBook.sections[activeSectionIndex] || selectedBook.sections[0];
-
-  // Filtered eBooks
-  const filteredBooks = EBOOKS_DATABASE.filter(book => {
-    const matchesCategory = 
-      activeCategory === "All" ||
-      (activeCategory === "⭐ Best Sellers" && book.isBestSeller) ||
-      book.category.toLowerCase().includes(activeCategory.toLowerCase().replace(/[^\w\s]/gi, '').trim());
-
-    const matchesSearch = 
-      !bookSearchQuery ||
-      book.title.toLowerCase().includes(bookSearchQuery.toLowerCase()) ||
-      book.subtitle.toLowerCase().includes(bookSearchQuery.toLowerCase()) ||
-      book.category.toLowerCase().includes(bookSearchQuery.toLowerCase());
-
-    return matchesCategory && matchesSearch;
-  });
-
-  // Stop audio speech if active book or section changes
   useEffect(() => {
-    if ('speechSynthesis' in window) {
-      window.speechSynthesis.cancel();
-      setIsPlayingAudio(false);
-    }
-  }, [selectedBook.id, activeSectionIndex]);
+    const lastId = progress[selectedBook.id]?.lastSectionId;
+    const restored = selectedBook.sections.findIndex((item) => item.id === lastId);
+    setActiveIndex(restored >= 0 ? restored : 0);
+    setChapterSearch('');
+    setMobileContents(false);
+  }, [selectedBook.id]);
 
-  // Handle Book Switching
-  const handleSelectBook = (book: EBookBook) => {
-    navigate(`/ebooks/${book.id}`);
-    if (readerContentRef.current) {
-      readerContentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  useEffect(() => {
+    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+    setSpeaking(false);
+    return () => { if ('speechSynthesis' in window) window.speechSynthesis.cancel(); };
+  }, [selectedBook.id, section.id]);
+
+  const updateProgress = (updater: (current: BookProgress) => BookProgress) => {
+    setProgress((previous) => ({ ...previous, [selectedBook.id]: updater(forBook(previous, selectedBook.id)) }));
   };
 
-  // Section Navigation
-  const handleNextSection = () => {
-    if (activeSectionIndex < selectedBook.sections.length - 1) {
-      setActiveSectionIndex(prev => prev + 1);
-      scrollToTop();
-    }
+  const scrollToReader = () => readerRef.current?.scrollIntoView({ behavior: reduceMotion ? 'auto' : 'smooth', block: 'start' });
+  const selectBook = (book: EBookBook) => {
+    setActiveIndex(0);
+    navigate('/ebooks/' + book.id);
+    window.setTimeout(scrollToReader, reduceMotion ? 0 : 100);
   };
 
-  const handlePrevSection = () => {
-    if (activeSectionIndex > 0) {
-      setActiveSectionIndex(prev => prev - 1);
-      scrollToTop();
-    }
+  const selectChapter = (index: number) => {
+    const target = selectedBook.sections[index];
+    if (!target) return;
+    setActiveIndex(index);
+    setMobileContents(false);
+    updateProgress((current) => ({ ...current, lastSectionId: target.id }));
+    scrollToReader();
   };
 
-  const scrollToTop = () => {
-    if (readerContentRef.current) {
-      readerContentRef.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const moveChapter = (direction: -1 | 1) => {
+    const next = Math.max(0, Math.min(selectedBook.sections.length - 1, activeIndex + direction));
+    if (next !== activeIndex) selectChapter(next);
   };
 
-  // Text-to-Speech Toggler
-  const toggleSpeech = () => {
+  const toggleComplete = () => updateProgress((current) => ({
+    ...current,
+    lastSectionId: section.id,
+    completedSectionIds: current.completedSectionIds.includes(section.id)
+      ? current.completedSectionIds.filter((id) => id !== section.id)
+      : [...current.completedSectionIds, section.id]
+  }));
+
+  const toggleBookmark = () => updateProgress((current) => ({
+    ...current,
+    lastSectionId: section.id,
+    bookmarkedSectionIds: current.bookmarkedSectionIds.includes(section.id)
+      ? current.bookmarkedSectionIds.filter((id) => id !== section.id)
+      : [...current.bookmarkedSectionIds, section.id]
+  }));
+
+  const toggleAudio = () => {
     if (!('speechSynthesis' in window)) {
-      alert("Audio speech synthesis is not supported in this browser.");
+      window.alert('Audio reading is not supported in this browser. You can still read the chapter normally.');
       return;
     }
-
-    if (isPlayingAudio) {
+    if (speaking) {
       window.speechSynthesis.cancel();
-      setIsPlayingAudio(false);
-    } else {
-      const textToRead = currentSection.content.replace(/[#*`>_\[\]\(\)]/g, ' ');
-      const utterance = new SpeechSynthesisUtterance(textToRead.substring(0, 3500));
-      utterance.rate = 0.95;
-      utterance.onend = () => setIsPlayingAudio(false);
-      utterance.onerror = () => setIsPlayingAudio(false);
-      window.speechSynthesis.speak(utterance);
-      setIsPlayingAudio(true);
+      setSpeaking(false);
+      return;
     }
+    const text = section.content.replace(/\[([^\]]+)\]\([^)]+\)/g, '$1').replace(/[#*_\u0060>]/g, ' ').replace(/\s+/g, ' ').trim();
+    const utterance = new SpeechSynthesisUtterance(text.slice(0, 12000));
+    utterance.rate = 0.92;
+    utterance.onend = () => setSpeaking(false);
+    utterance.onerror = () => setSpeaking(false);
+    window.speechSynthesis.cancel();
+    window.speechSynthesis.speak(utterance);
+    setSpeaking(true);
   };
 
-  // Reader Background Theme Classes
-  const getThemeClasses = () => {
-    switch (readerTheme) {
-      case 'sepia':
-        return 'bg-[#FBF0D9] text-[#332516] border-[#E5D2B3] shadow-md';
-      case 'dark':
-        return 'bg-[#18181B] text-[#E4E4E7] border-[#27272A] shadow-lg';
-      case 'light':
-      default:
-        return 'bg-white text-text-primary border-border shadow-soft';
-    }
-  };
-
-  // Font Family Classes
-  const getFontFamilyClass = () => {
-    switch (fontFamily) {
-      case 'serif':
-        return 'font-serif';
-      case 'mono':
-        return 'font-mono';
-      case 'sans':
-      default:
-        return 'font-sans';
-    }
-  };
+  const bookmarked = saved.bookmarkedSectionIds.includes(section.id);
+  const completed = saved.completedSectionIds.includes(section.id);
 
   return (
-    <div className="min-h-screen bg-bg-primary pb-28">
-      <SEO 
-        title={`${selectedBook.title} | Curiva Public Health Series`}
-        description={selectedBook.description}
-      />
+    <div className="min-h-screen overflow-x-clip bg-[#f7f8f5] pb-10 text-slate-900">
+      <SEO title={bookId ? selectedBook.title + ' | Curiva Public Health Library' : 'Public Health eBooks | Curiva Homoeopathy'} description="Free, reader-friendly public health eBooks from Curiva. Search the full text, read chapter by chapter, and save reading progress privately on this device." />
 
-      {/* Hero Header */}
-      <header className="relative pt-32 pb-20 md:pt-36 md:pb-24 overflow-hidden bg-bg-secondary border-b border-border text-center mb-10">
-        <div className="max-w-4xl mx-auto px-4 relative z-10 space-y-4 flex flex-col items-center">
-          <motion.div 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="inline-flex items-center gap-2 px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full text-[10px] font-black uppercase tracking-[0.25em] text-primary"
-          >
-            <BookOpen className="w-3.5 h-3.5" /> Curiva Public Health Series
+      <header className="relative isolate overflow-hidden border-b border-[#e6e9e2] bg-[#102f2b] text-white">
+        <div className="pointer-events-none absolute inset-0 overflow-hidden">
+          <motion.div aria-hidden="true" animate={reduceMotion ? undefined : { x: [0, 24, 0], y: [0, -16, 0], scale: [1, 1.08, 1] }} transition={{ duration: 18, repeat: Infinity, ease: 'easeInOut' }} className="absolute -right-24 -top-32 h-96 w-96 rounded-full bg-[#cf2d83]/20 blur-3xl" />
+          <motion.div aria-hidden="true" animate={reduceMotion ? undefined : { x: [0, -18, 0], y: [0, 14, 0] }} transition={{ duration: 16, repeat: Infinity, ease: 'easeInOut' }} className="absolute -bottom-36 -left-24 h-96 w-96 rounded-full bg-emerald-300/10 blur-3xl" />
+          <div className="absolute inset-0 opacity-[0.08]" style={{ backgroundImage: 'radial-gradient(#fff 0.7px, transparent 0.7px)', backgroundSize: '18px 18px' }} />
+        </div>
+
+        <div className="relative mx-auto grid w-full max-w-7xl gap-10 px-4 py-16 sm:px-6 md:grid-cols-[1.2fr_0.8fr] md:items-center md:py-20 lg:px-8">
+          <div className="space-y-7">
+            <motion.div initial={reduceMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.55 }} className="inline-flex items-center gap-2 rounded-full border border-white/20 bg-white/10 px-4 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-white/90 backdrop-blur">
+              <HeartPulse className="h-4 w-4 text-[#f3a6cd]" /> Curiva · Public Health Series
+            </motion.div>
+            <motion.div initial={reduceMotion ? false : { opacity: 0, y: 18 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.65, delay: 0.08 }} className="space-y-4">
+              <h1 className="max-w-3xl font-display text-4xl font-semibold leading-[1.08] tracking-tight sm:text-5xl lg:text-6xl">
+                Health knowledge,<span className="mt-1 block font-serif italic font-normal text-[#f5b8d8]">made easier to understand.</span>
+              </h1>
+              <p className="max-w-2xl text-sm leading-7 text-white/75 sm:text-base">Explore practical guides on everyday health topics. Read at your pace, search through chapter text, adjust the page for comfortable reading, and return to where you left off.</p>
+            </motion.div>
+            <div className="flex flex-wrap items-center gap-3">
+              <button type="button" onClick={scrollToReader} className="inline-flex min-h-12 items-center gap-2 rounded-full bg-[#f5b8d8] px-6 py-3 text-xs font-black uppercase tracking-wider text-[#35142a] shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-white">Open the reader <ArrowRight className="h-4 w-4" /></button>
+              <span className="inline-flex items-center gap-2 text-xs font-semibold text-white/70"><ShieldCheck className="h-4 w-4 text-emerald-200" /> General education · Not personal medical advice</span>
+            </div>
+          </div>
+
+          <motion.div initial={reduceMotion ? false : { opacity: 0, scale: 0.94, rotate: 2 }} animate={{ opacity: 1, scale: 1, rotate: 0 }} transition={{ duration: 0.7, delay: 0.15 }} className="relative mx-auto w-full max-w-sm">
+            <div className="absolute -inset-4 rounded-[2.5rem] border border-white/10" />
+            <div className="relative overflow-hidden rounded-[2rem] border border-white/15 bg-white/10 p-5 shadow-2xl shadow-black/20 backdrop-blur">
+              <div className="flex items-center justify-between text-[10px] font-black uppercase tracking-[0.18em] text-white/65"><span>Inside the library</span><Sparkles className="h-4 w-4 text-[#f5b8d8]" /></div>
+              <div className="mt-7 grid grid-cols-2 gap-3">
+                <div className="rounded-2xl bg-white/10 p-4"><BookOpen className="h-5 w-5 text-[#f5b8d8]" /><strong className="mt-4 block text-3xl font-semibold">{EBOOKS_DATABASE.length}</strong><span className="mt-1 block text-[10px] font-bold uppercase tracking-wider text-white/65">Public guides</span></div>
+                <div className="rounded-2xl bg-white/10 p-4"><List className="h-5 w-5 text-emerald-200" /><strong className="mt-4 block text-3xl font-semibold">{totalChapters}</strong><span className="mt-1 block text-[10px] font-bold uppercase tracking-wider text-white/65">Chapters</span></div>
+              </div>
+              <div className="mt-4 flex items-center gap-3 rounded-2xl border border-white/10 bg-[#0a2421]/60 p-4">
+                <div className="h-10 w-10 shrink-0 overflow-hidden rounded-xl bg-[#cf2d83]"><img src="/app_icon.png.png" alt="Curiva" className="h-full w-full object-cover" onError={(event) => { event.currentTarget.src = '/curiva_logo.svg'; }} /></div>
+                <div><p className="text-sm font-bold text-white">Your reading stays on this device</p><p className="mt-1 text-[11px] leading-relaxed text-white/60">Saved chapters and progress stay in this browser.</p></div>
+              </div>
+            </div>
           </motion.div>
-
-          <motion.h1 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.1 }}
-            className="text-3xl md:text-5xl font-display font-medium text-text-primary tracking-tight"
-          >
-            Curiva Public Health <span className="text-primary italic">Education Library</span>
-          </motion.h1>
-
-          <motion.p 
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.2 }}
-            className="text-xs md:text-sm text-text-secondary max-w-2xl mx-auto leading-relaxed"
-          >
-            Your trusted health education library featuring official patient awareness publications, medical report decoders, and evidence-informed homoeopathic wellness guides.
-          </motion.p>
         </div>
       </header>
 
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 space-y-12">
-
-        {/* SECTION 1: eBook Library Selection Shelf */}
-        <section className="space-y-6">
-          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b border-border/60 pb-4">
-            <div>
-              <span className="text-[10px] font-black uppercase tracking-widest text-primary block">Select Publication</span>
-              <h2 className="text-2xl font-display font-bold text-text-primary">Public Health Series Directory</h2>
-            </div>
-
-            {/* Search Input */}
-            <div className="relative w-full md:w-72">
-              <Search className="w-4 h-4 text-text-tertiary absolute left-3.5 top-3" />
-              <input
-                type="text"
-                value={bookSearchQuery}
-                onChange={(e) => setBookSearchQuery(e.target.value)}
-                placeholder="Search eBook library..."
-                className="w-full pl-10 pr-4 py-2 bg-white border border-border rounded-xl text-xs font-medium text-text-primary focus:outline-none focus:border-primary shadow-xs"
-              />
-            </div>
+      <main className="mx-auto w-full max-w-7xl space-y-14 px-4 py-12 sm:px-6 lg:px-8">
+        <section aria-labelledby="library-heading" className="space-y-6">
+          <div className="flex flex-col gap-5 lg:flex-row lg:items-end lg:justify-between">
+            <div className="max-w-2xl space-y-2"><span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#b51e70]">Explore the collection</span><h2 id="library-heading" className="font-display text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">The Curiva health library</h2><p className="text-sm leading-7 text-slate-600">Search the book titles, descriptions and chapter text. Open any guide to read it chapter by chapter.</p></div>
+            <div className="relative w-full lg:max-w-md"><Search className="pointer-events-none absolute left-4 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" /><input type="search" value={search} onChange={(event) => setSearch(event.target.value)} placeholder="Search a condition, topic or phrase..." aria-label="Search all public health eBooks and their contents" className="min-h-12 w-full rounded-2xl border border-slate-200 bg-white py-3 pl-11 pr-4 text-sm text-slate-800 shadow-sm outline-none transition placeholder:text-slate-400 focus:border-[#b51e70] focus:ring-4 focus:ring-[#b51e70]/10" /></div>
           </div>
 
-          {/* Category Tabs */}
-          <div className="flex items-center gap-2 overflow-x-auto pb-2 no-scrollbar">
-            {CATEGORY_TABS.map((cat) => {
-              const isActive = activeCategory === cat;
-              return (
-                <button
-                  key={cat}
-                  onClick={() => setActiveCategory(cat)}
-                  className={`px-4 py-2 rounded-xl text-xs font-bold whitespace-nowrap transition-all cursor-pointer border ${
-                    isActive
-                      ? 'bg-primary text-white border-primary shadow-xs'
-                      : 'bg-white border-border text-text-secondary hover:border-primary/50'
-                  }`}
-                >
-                  {cat}
-                </button>
-              );
-            })}
+          <div className="flex gap-2 overflow-x-auto pb-2" aria-label="Filter eBooks by category">
+            {categories.map((item) => <button key={item} type="button" onClick={() => setCategory(item)} aria-pressed={item === category} className={'min-h-10 shrink-0 rounded-full border px-4 py-2 text-[11px] font-bold transition ' + (item === category ? 'border-[#102f2b] bg-[#102f2b] text-white shadow-sm' : 'border-slate-200 bg-white text-slate-600 hover:border-[#b51e70]/50 hover:text-[#9e155e]')}>{item === 'Featured' ? '★ Featured' : item}</button>)}
           </div>
+          <div className="flex items-center justify-between gap-3 text-xs text-slate-500"><span>{books.length} {books.length === 1 ? 'guide' : 'guides'} found</span>{(search || category !== 'All') && <button type="button" onClick={() => { setSearch(''); setCategory('All'); }} className="font-bold text-[#a51b68] hover:underline">Clear filters</button>}</div>
 
-          {/* eBooks Grid */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-            {filteredBooks.length > 0 ? (
-              filteredBooks.map((book) => {
-                const isSelected = selectedBook.id === book.id;
-                return (
-                  <motion.div
-                    key={book.id}
-                    whileHover={{ y: -4 }}
-                    whileTap={{ scale: 0.98 }}
-                    onClick={() => handleSelectBook(book)}
-                    className={`relative p-5 rounded-3xl border transition-all cursor-pointer flex flex-col justify-between space-y-4 ${
-                      isSelected
-                        ? 'bg-primary/5 border-primary shadow-md ring-2 ring-primary/20'
-                        : 'bg-white border-border hover:border-primary/40 shadow-xs'
-                    }`}
-                  >
-                    <div className="space-y-3">
-                      <div className="relative h-40 rounded-2xl overflow-hidden bg-bg-secondary border border-border/60">
-                        <img 
-                          src={book.coverImage} 
-                          alt={book.title} 
-                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-                          referrerPolicy="no-referrer"
-                        />
-                        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent" />
-                        
-                        <div className="absolute bottom-2.5 left-2.5 right-2.5 flex items-center justify-between">
-                          <span className="px-2.5 py-0.5 bg-primary text-white text-[9px] font-black uppercase tracking-wider rounded-md">
-                            {book.category}
-                          </span>
-                          {book.isBestSeller && (
-                            <span className="px-2.5 py-0.5 bg-amber-500 text-white text-[9px] font-black uppercase tracking-wider rounded-md flex items-center gap-1 shadow-xs">
-                              <Star className="w-3 h-3 fill-white" /> Best Seller
-                            </span>
-                          )}
-                        </div>
-                      </div>
-
-                      <div className="space-y-1">
-                        <div className="flex items-center justify-between gap-2">
-                          <span className="text-[10px] font-bold text-text-tertiary flex items-center gap-1">
-                            <Clock className="w-3 h-3 text-primary" /> {book.readTime}
-                          </span>
-                          {isSelected && <CheckCircle2 className="w-4 h-4 text-primary shrink-0" />}
-                        </div>
-                        <h3 className="text-sm font-bold text-text-primary line-clamp-2 leading-snug">
-                          {book.title}
-                        </h3>
-                        <p className="text-[11px] text-text-secondary line-clamp-2 leading-relaxed font-normal">
-                          {book.subtitle}
-                        </p>
-                      </div>
-                    </div>
-
-                    <div className="pt-2 border-t border-border/40 flex items-center justify-between text-[10px] text-text-secondary font-medium">
-                      <span className="flex items-center gap-1 font-bold text-primary">
-                        {book.brand}
-                      </span>
-                      <span className="text-primary font-bold">Read Publication →</span>
-                    </div>
-                  </motion.div>
-                );
-              })
-            ) : (
-              <div className="col-span-full py-12 text-center bg-white rounded-3xl border border-dashed border-border p-8">
-                <BookOpen className="w-8 h-8 text-text-tertiary mx-auto mb-2" />
-                <p className="text-xs text-text-secondary font-bold">No eBooks match your filter criteria.</p>
-                <button 
-                  onClick={() => { setActiveCategory("All"); setBookSearchQuery(""); }}
-                  className="mt-3 px-4 py-1.5 bg-primary/10 text-primary rounded-xl text-xs font-bold cursor-pointer hover:bg-primary hover:text-white transition-all"
-                >
-                  Reset Search Filters
-                </button>
-              </div>
-            )}
-          </div>
+          <AnimatePresence mode="popLayout">
+            {books.length ? <motion.div layout className="grid grid-cols-1 gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {books.map((book, index) => {
+                const state = forBook(progress, book.id);
+                const done = book.sections.length ? Math.min(100, Math.round(state.completedSectionIds.length / book.sections.length * 100)) : 0;
+                return <motion.button key={book.id} type="button" layout initial={reduceMotion ? false : { opacity: 0, y: 16 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? undefined : { opacity: 0, y: -10 }} transition={{ duration: 0.28, delay: Math.min(index * 0.025, 0.18) }} whileHover={reduceMotion ? undefined : { y: -5 }} whileTap={reduceMotion ? undefined : { scale: 0.99 }} onClick={() => selectBook(book)} aria-pressed={selectedBook.id === book.id} className={'group flex h-full flex-col overflow-hidden rounded-[1.65rem] border bg-white text-left shadow-sm transition ' + (selectedBook.id === book.id ? 'border-[#b51e70] ring-2 ring-[#b51e70]/15' : 'border-slate-200 hover:border-[#b51e70]/45 hover:shadow-xl hover:shadow-slate-900/5')}>
+                  <div className="relative h-44 w-full overflow-hidden bg-[#102f2b]">
+                    <img src={book.coverImage} alt="" loading="lazy" decoding="async" referrerPolicy="no-referrer" onError={(event) => { event.currentTarget.style.opacity = '0'; }} className="absolute inset-0 h-full w-full object-cover transition duration-700 group-hover:scale-105" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#081c19]/95 via-[#081c19]/25 to-transparent" />
+                    <div className="absolute left-4 top-4 flex max-w-[calc(100%-2rem)] flex-wrap gap-2"><span className="rounded-full border border-white/20 bg-black/25 px-3 py-1 text-[9px] font-black uppercase tracking-wider text-white backdrop-blur">{book.category}</span>{book.isBestSeller && <span className="inline-flex items-center gap-1 rounded-full bg-[#f5b8d8] px-3 py-1 text-[9px] font-black uppercase tracking-wider text-[#35142a]"><Star className="h-3 w-3 fill-current" /> Featured</span>}</div>
+                    <div className="absolute bottom-4 left-5 right-5"><p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/65">{book.brand} · {book.version}</p><h3 className="mt-1 line-clamp-2 font-display text-xl font-semibold leading-tight text-white">{book.title}</h3></div>
+                  </div>
+                  <div className="flex flex-1 flex-col gap-4 p-5"><p className="line-clamp-3 text-sm leading-6 text-slate-600">{book.subtitle || book.description}</p><div className="mt-auto space-y-3"><div className="flex items-center justify-between gap-3 text-[11px] font-semibold text-slate-500"><span className="inline-flex items-center gap-1.5"><Clock3 className="h-3.5 w-3.5 text-[#b51e70]" />{book.readTime}</span><span>{book.sections.length} chapters</span></div><div className="h-1.5 overflow-hidden rounded-full bg-slate-100"><div className="h-full rounded-full bg-[#b51e70] transition-all" style={{ width: done + '%' }} /></div><div className="flex items-center justify-between border-t border-slate-100 pt-3"><span className="text-[10px] font-bold uppercase tracking-wider text-slate-500">{done ? done + '% completed' : 'Start reading'}</span><span className="inline-flex items-center gap-1 text-xs font-black text-[#a51b68] group-hover:gap-2">Open guide <ArrowRight className="h-3.5 w-3.5" /></span></div></div></div>
+                </motion.button>;
+              })}
+            </motion.div> : <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="rounded-3xl border border-dashed border-slate-300 bg-white px-6 py-14 text-center"><Search className="mx-auto h-8 w-8 text-slate-400" /><h3 className="mt-4 font-display text-xl font-bold text-slate-800">No guide matched that search</h3><p className="mt-2 text-sm text-slate-500">Try a broader phrase or clear the category filter.</p><button type="button" onClick={() => { setSearch(''); setCategory('All'); }} className="mt-5 rounded-full bg-[#102f2b] px-5 py-3 text-xs font-bold text-white">Show all guides</button></motion.div>}
+          </AnimatePresence>
         </section>
 
-        {/* SECTION 2: Publication Reader Canvas */}
-        <section className="space-y-6">
+        <section ref={readerRef} id="ebook-reader" aria-labelledby="reader-heading" className="scroll-mt-20 space-y-6">
+          <div className="flex flex-col gap-4 border-b border-slate-200 pb-5 md:flex-row md:items-end md:justify-between"><div className="space-y-2"><span className="text-[10px] font-black uppercase tracking-[0.22em] text-[#b51e70]">Now reading</span><h2 id="reader-heading" className="max-w-3xl font-display text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{selectedBook.title}</h2><p className="max-w-3xl text-sm leading-7 text-slate-600">{selectedBook.description}</p></div><div className="flex shrink-0 flex-wrap gap-2 text-[11px] font-bold text-slate-500"><span className="rounded-full border border-slate-200 bg-white px-3 py-2">{selectedBook.sections.length} chapters</span><span className="rounded-full border border-slate-200 bg-white px-3 py-2">{percent}% completed</span></div></div>
 
-          {/* Reader Top Controls Toolbar */}
-          <div className="bg-white border border-border rounded-2xl p-4 shadow-sm flex flex-wrap items-center justify-between gap-4 sticky top-10 z-30">
-            
-            {/* Left: Active Book & Current Chapter */}
-            <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-2xl bg-primary text-white flex items-center justify-center font-bold text-xs shrink-0 shadow-xs">
-                <BookOpen className="w-5 h-5" />
-              </div>
-              <div>
-                <h3 className="text-xs md:text-sm font-bold text-text-primary line-clamp-1">{selectedBook.title}</h3>
-                <span className="text-[10px] text-text-secondary font-medium">
-                  Chapter {activeSectionIndex + 1} of {selectedBook.sections.length}: <span className="text-primary font-semibold">{currentSection.title}</span>
-                </span>
+          <div className="overflow-hidden rounded-3xl border border-slate-200 bg-white shadow-sm">
+            <div className="flex flex-col gap-4 border-b border-slate-200 bg-white/95 p-4 md:flex-row md:items-center md:justify-between md:px-5">
+              <div className="flex min-w-0 items-center gap-3"><div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-2xl bg-[#102f2b] text-[#f5b8d8]"><BookMarked className="h-5 w-5" /></div><div className="min-w-0"><p className="truncate text-sm font-bold text-slate-900">{selectedBook.title}</p><p className="truncate text-[11px] text-slate-500">Chapter {activeIndex + 1} of {selectedBook.sections.length} · {section.title}</p></div></div>
+              <div className="flex flex-wrap items-center gap-2">
+                <div className="inline-flex items-center rounded-xl border border-slate-200 bg-slate-50 p-1" aria-label="Reader colour theme"><button type="button" onClick={() => setTheme('light')} aria-label="Light reading theme" aria-pressed={theme === 'light'} className={'rounded-lg p-2 transition ' + (theme === 'light' ? 'bg-white text-[#b51e70] shadow-sm' : 'text-slate-500 hover:text-slate-900')}><Sun className="h-4 w-4" /></button><button type="button" onClick={() => setTheme('sepia')} aria-label="Sepia reading theme" aria-pressed={theme === 'sepia'} className={'rounded-lg p-2 transition ' + (theme === 'sepia' ? 'bg-[#eadbc1] text-[#4e3924] shadow-sm' : 'text-slate-500 hover:text-slate-900')}><BookOpen className="h-4 w-4" /></button><button type="button" onClick={() => setTheme('dark')} aria-label="Dark reading theme" aria-pressed={theme === 'dark'} className={'rounded-lg p-2 transition ' + (theme === 'dark' ? 'bg-slate-800 text-white shadow-sm' : 'text-slate-500 hover:text-slate-900')}><Moon className="h-4 w-4" /></button></div>
+                <div className="inline-flex items-center gap-1 rounded-xl border border-slate-200 bg-slate-50 px-2 py-1"><Type className="ml-1 h-4 w-4 text-slate-400" /><button type="button" onClick={() => setFontSize((value) => Math.max(16, value - 1))} aria-label="Decrease reading text size" className="rounded-lg px-2 py-1 text-xs font-black text-slate-600 hover:bg-white">A−</button><span className="min-w-10 text-center text-[10px] font-bold text-slate-500">{fontSize}px</span><button type="button" onClick={() => setFontSize((value) => Math.min(24, value + 1))} aria-label="Increase reading text size" className="rounded-lg px-2 py-1 text-xs font-black text-slate-600 hover:bg-white">A+</button></div>
+                <button type="button" onClick={() => setSerif((value) => !value)} aria-label="Toggle reading font" className="min-h-10 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[11px] font-bold text-slate-600 hover:border-[#b51e70]/40 hover:text-[#a51b68]">{serif ? 'Serif' : 'Sans'}</button>
+                <button type="button" onClick={toggleAudio} aria-pressed={speaking} className={'inline-flex min-h-10 items-center gap-2 rounded-xl px-3 text-[11px] font-bold transition ' + (speaking ? 'bg-[#b51e70] text-white' : 'border border-slate-200 bg-slate-50 text-slate-600 hover:border-[#b51e70]/40 hover:text-[#a51b68]')}>{speaking ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}{speaking ? 'Stop audio' : 'Listen'}</button>
+                <button type="button" onClick={() => setMobileContents((value) => !value)} aria-expanded={mobileContents} aria-controls="ebook-contents" className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-slate-200 bg-slate-50 px-3 text-[11px] font-bold text-slate-600 lg:hidden">{mobileContents ? <X className="h-4 w-4" /> : <List className="h-4 w-4" />} Contents</button>
               </div>
             </div>
 
-            {/* Middle: Controls (Theme, Typography, Audio, TOC) */}
-            <div className="flex items-center gap-2">
-              
-              {/* Theme Switcher */}
-              <div className="flex items-center p-1 bg-bg-secondary border border-border rounded-xl">
-                <button
-                  onClick={() => setReaderTheme('light')}
-                  className={`p-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${readerTheme === 'light' ? 'bg-white text-primary shadow-xs' : 'text-text-secondary hover:text-primary'}`}
-                  title="Light Theme"
-                >
-                  <Sun className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => setReaderTheme('sepia')}
-                  className={`p-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${readerTheme === 'sepia' ? 'bg-[#FBF0D9] text-[#433422] shadow-xs' : 'text-text-secondary hover:text-primary'}`}
-                  title="Sepia Warm Theme"
-                >
-                  <BookMarked className="w-3.5 h-3.5" />
-                </button>
-                <button
-                  onClick={() => setReaderTheme('dark')}
-                  className={`p-1.5 rounded-lg text-xs font-bold transition-colors cursor-pointer ${readerTheme === 'dark' ? 'bg-[#18181B] text-white shadow-xs' : 'text-text-secondary hover:text-primary'}`}
-                  title="Night Mode"
-                >
-                  <Moon className="w-3.5 h-3.5" />
-                </button>
-              </div>
+            <div className="h-1.5 bg-slate-100"><div className="h-full bg-gradient-to-r from-[#b51e70] to-[#e7a1c7] transition-all duration-500" style={{ width: percent + '%' }} /></div>
+            <div className="grid min-w-0 lg:grid-cols-[18rem_minmax(0,1fr)]">
+              <aside id="ebook-contents" className={(mobileContents ? 'block ' : 'hidden ') + 'border-b border-slate-200 bg-[#f8f9f7] p-4 lg:block lg:border-b-0 lg:border-r lg:p-5'}>
+                <div className="flex items-center justify-between gap-3"><div><p className="text-[10px] font-black uppercase tracking-[0.18em] text-[#a51b68]">Contents</p><p className="mt-1 text-xs font-semibold text-slate-500">{selectedBook.sections.length} chapters</p></div><span className="rounded-full bg-white px-3 py-1.5 text-[10px] font-bold text-slate-500">{percent}% complete</span></div>
+                <div className="relative mt-4"><Search className="pointer-events-none absolute left-3 top-1/2 h-3.5 w-3.5 -translate-y-1/2 text-slate-400" /><input value={chapterSearch} onChange={(event) => setChapterSearch(event.target.value)} placeholder="Search inside this book..." aria-label="Search chapters and chapter text" className="min-h-10 w-full rounded-xl border border-slate-200 bg-white py-2 pl-9 pr-3 text-xs text-slate-700 outline-none focus:border-[#b51e70] focus:ring-2 focus:ring-[#b51e70]/10" /></div>
+                <nav aria-label="Book chapters" className="mt-4 max-h-[65vh] space-y-1 overflow-y-auto pr-1">
+                  {chapters.length ? chapters.map(({ item, index }) => {
+                    const active = index === activeIndex;
+                    const done = saved.completedSectionIds.includes(item.id);
+                    const isSaved = saved.bookmarkedSectionIds.includes(item.id);
+                    return <button key={item.id} type="button" onClick={() => selectChapter(index)} aria-current={active ? 'page' : undefined} className={'flex w-full items-start gap-2 rounded-xl px-3 py-3 text-left text-xs transition ' + (active ? 'bg-[#102f2b] font-bold text-white shadow-sm' : 'text-slate-600 hover:bg-white hover:text-[#a51b68]')}><span className={'mt-0.5 flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-[9px] font-black ' + (active ? 'bg-white/15 text-white' : 'bg-white text-slate-400')}>{done ? <CheckCircle2 className="h-3.5 w-3.5" /> : String(index + 1).padStart(2, '0')}</span><span className="min-w-0 flex-1 leading-5">{item.title}</span>{isSaved && <Bookmark className={'mt-1 h-3.5 w-3.5 shrink-0 ' + (active ? 'text-[#f5b8d8]' : 'text-[#b51e70]')} />}</button>;
+                  }) : <p className="rounded-xl bg-white px-3 py-4 text-xs leading-5 text-slate-500">No chapters matched. Try a shorter search phrase.</p>}
+                </nav>
+              </aside>
 
-              {/* Font Size Selector */}
-              <div className="flex items-center gap-1 p-1 bg-bg-secondary border border-border rounded-xl">
-                <button
-                  onClick={() => setFontSize(prev => Math.max(14, prev - 1))}
-                  className="px-2 py-1 text-xs font-black text-text-secondary hover:text-primary cursor-pointer"
-                  title="Decrease Font Size"
-                >
-                  A-
-                </button>
-                <span className="text-[10px] font-bold text-text-tertiary px-1">{fontSize}px</span>
-                <button
-                  onClick={() => setFontSize(prev => Math.min(24, prev + 1))}
-                  className="px-2 py-1 text-xs font-black text-text-secondary hover:text-primary cursor-pointer"
-                  title="Increase Font Size"
-                >
-                  A+
-                </button>
-              </div>
-
-              {/* Font Family Selector */}
-              <select
-                value={fontFamily}
-                onChange={(e) => setFontFamily(e.target.value as any)}
-                className="px-2.5 py-1.5 bg-bg-secondary border border-border rounded-xl text-xs font-bold text-text-primary focus:outline-none cursor-pointer"
-              >
-                <option value="serif">Book Serif</option>
-                <option value="sans">Clean Sans</option>
-                <option value="mono">Monospace</option>
-              </select>
-
-              {/* Speech Audio Reader */}
-              <button
-                onClick={toggleSpeech}
-                className={`p-2 rounded-xl text-xs font-bold transition-all cursor-pointer flex items-center gap-1.5 ${
-                  isPlayingAudio ? 'bg-accent text-white animate-pulse' : 'bg-bg-secondary text-text-secondary hover:text-primary'
-                }`}
-                title="Listen to Section Audio"
-              >
-                {isPlayingAudio ? <VolumeX className="w-4 h-4" /> : <Volume2 className="w-4 h-4" />}
-                <span className="hidden sm:inline">{isPlayingAudio ? "Stop Audio" : "Listen"}</span>
-              </button>
-
-              {/* Mobile TOC Toggler */}
-              <button
-                onClick={() => setShowTocMobile(!showTocMobile)}
-                className="lg:hidden p-2 bg-bg-secondary border border-border text-text-secondary rounded-xl text-xs font-bold cursor-pointer"
-              >
-                <List className="w-4 h-4" />
-              </button>
-            </div>
-          </div>
-
-          {/* Main Book Reader Layout (Sidebar Index + Page Content) */}
-          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-
-            {/* Sidebar Table of Contents */}
-            <aside className={`lg:block ${showTocMobile ? 'block' : 'hidden'} lg:col-span-1 bg-white border border-border rounded-3xl p-6 shadow-soft space-y-4 max-h-[80vh] overflow-y-auto sticky top-10`}>
-              <div className="flex items-center justify-between border-b border-border/60 pb-3">
-                <span className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
-                  <List className="w-4 h-4" /> Chapter Index
-                </span>
-                <span className="text-[10px] font-black text-text-tertiary">{selectedBook.sections.length} Chapters</span>
-              </div>
-
-              {/* Search Within Book */}
-              <div className="relative">
-                <Search className="w-3.5 h-3.5 text-text-tertiary absolute left-3 top-2.5" />
-                <input
-                  type="text"
-                  value={chapterSearchQuery}
-                  onChange={(e) => setChapterSearchQuery(e.target.value)}
-                  placeholder="Filter chapters..."
-                  className="w-full pl-8 pr-3 py-1.5 bg-bg-secondary border border-border rounded-xl text-[11px] font-medium text-text-primary focus:outline-none focus:border-primary"
-                />
-              </div>
-
-              {/* Chapter Navigation Items */}
-              <nav className="space-y-1.5 pt-2">
-                {selectedBook.sections
-                  .filter((sec) => !chapterSearchQuery || sec.title.toLowerCase().includes(chapterSearchQuery.toLowerCase()))
-                  .map((sec, idx) => {
-                    const isCurrent = idx === activeSectionIndex;
-                    return (
-                      <button
-                        key={sec.id}
-                        onClick={() => {
-                          setActiveSectionIndex(idx);
-                          setShowTocMobile(false);
-                          scrollToTop();
-                        }}
-                        className={`w-full text-left py-2 px-3 rounded-xl text-xs transition-all flex items-center gap-2 cursor-pointer ${
-                          isCurrent
-                            ? 'bg-primary text-white font-bold shadow-xs'
-                            : 'text-text-secondary hover:bg-bg-secondary hover:text-primary font-medium'
-                        }`}
-                      >
-                        <span className={`w-5 h-5 rounded-full flex items-center justify-center text-[10px] font-black shrink-0 ${isCurrent ? 'bg-white/20 text-white' : 'bg-bg-secondary text-text-tertiary'}`}>
-                          {idx + 1}
-                        </span>
-                        <span className="line-clamp-1">{sec.title}</span>
-                      </button>
-                    );
-                  })}
-              </nav>
-            </aside>
-
-            {/* eBook Reader Page Canvas */}
-            <div className="lg:col-span-3">
-              <div ref={readerContentRef} className="scroll-mt-16">
+              <div className="min-w-0 p-4 sm:p-6 md:p-8 lg:p-10">
                 <AnimatePresence mode="wait">
-                  <motion.article 
-                    key={`${selectedBook.id}-${currentSection.id}`}
-                    initial={{ opacity: 0, y: 15 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -15 }}
-                    transition={{ duration: 0.35, ease: 'easeOut' }}
-                    className={`p-8 md:p-14 border rounded-[3rem] transition-all duration-300 ${getThemeClasses()} ${getFontFamilyClass()}`}
-                    style={{ fontSize: `${fontSize}px` }}
-                  >
-                    {/* Publication Cover Branding Header */}
-                    <div className="border-b border-border/40 pb-8 mb-10 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-2xl bg-primary text-white flex items-center justify-center font-bold text-sm">
-                          CH
-                        </div>
-                        <div>
-                          <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary block">
-                            {selectedBook.brand} • {selectedBook.category}
-                          </span>
-                          <span className="text-xs font-bold text-text-secondary">
-                            Official Publication • {selectedBook.version}
-                          </span>
-                        </div>
-                      </div>
-
-                      <div className="flex items-center gap-2 text-[11px] text-text-tertiary font-medium">
-                        <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                        <span>Curiva Evidence-Informed Publication</span>
-                      </div>
-                    </div>
-
-                    {/* Markdown Content Renderer */}
-                    <div className="markdown-body space-y-6 leading-relaxed">
-                      <Markdown
-                        components={{
-                          h1: ({ children }) => (
-                            <h1 className="text-3xl md:text-4xl font-display font-bold text-primary mt-6 mb-6 pb-3 border-b border-border/60">
-                              {children}
-                            </h1>
-                          ),
-                          h2: ({ children }) => (
-                            <h2 className="text-2xl font-bold text-text-primary mt-8 mb-4 pt-4 border-t border-border/30">
-                              {children}
-                            </h2>
-                          ),
-                          h3: ({ children }) => (
-                            <h3 className="text-xl font-bold text-primary/90 mt-6 mb-3">
-                              {children}
-                            </h3>
-                          ),
-                          p: ({ children }) => (
-                            <p className="mb-4 leading-relaxed font-normal">
-                              {children}
-                            </p>
-                          ),
-                          ul: ({ children }) => (
-                            <ul className="list-disc pl-6 mb-4 space-y-2 text-text-secondary font-medium">
-                              {children}
-                            </ul>
-                          ),
-                          ol: ({ children }) => (
-                            <ol className="list-decimal pl-6 mb-4 space-y-2 text-text-secondary font-medium">
-                              {children}
-                            </ol>
-                          ),
-                          blockquote: ({ children }) => (
-                            <blockquote className="p-5 my-6 bg-primary/5 border-l-4 border-primary rounded-r-2xl font-medium text-text-secondary text-sm italic">
-                              {children}
-                            </blockquote>
-                          ),
-                          table: ({ children }) => (
-                            <div className="overflow-x-auto my-6 rounded-2xl border border-border/60">
-                              <table className="w-full text-left text-xs">
-                                {children}
-                              </table>
-                            </div>
-                          ),
-                          th: ({ children }) => (
-                            <th className="bg-primary/10 p-3 font-bold text-primary border-b border-border/60">
-                              {children}
-                            </th>
-                          ),
-                          td: ({ children }) => (
-                            <td className="p-3 border-b border-border/40 font-medium text-text-secondary">
-                              {children}
-                            </td>
-                          ),
-                          hr: () => (
-                            <hr className="my-8 border-border/60" />
-                          )
-                        }}
-                      >
-                        {currentSection.content}
-                      </Markdown>
-                    </div>
-
-                    {/* Bottom Page Pagination Bar */}
-                    <div className="border-t border-border/40 pt-8 mt-12 flex flex-col sm:flex-row items-center justify-between gap-4">
-                      <button
-                        onClick={handlePrevSection}
-                        disabled={activeSectionIndex === 0}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-bg-secondary border border-border rounded-xl text-xs font-bold text-text-secondary hover:text-primary transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer"
-                      >
-                        <ChevronLeft className="w-4 h-4" />
-                        <span>Previous Chapter</span>
-                      </button>
-
-                      <span className="text-xs font-bold text-text-tertiary">
-                        {activeSectionIndex + 1} / {selectedBook.sections.length}
-                      </span>
-
-                      <button
-                        onClick={handleNextSection}
-                        disabled={activeSectionIndex === selectedBook.sections.length - 1}
-                        className="w-full sm:w-auto px-5 py-2.5 bg-primary text-white rounded-xl text-xs font-bold hover:bg-primary-strong transition-all flex items-center justify-center gap-2 disabled:opacity-30 disabled:cursor-not-allowed cursor-pointer shadow-xs"
-                      >
-                        <span>Next Chapter</span>
-                        <ChevronRight className="w-4 h-4" />
-                      </button>
-                    </div>
-
-                    {/* Footer Medical Disclaimer */}
-                    <div className="border-t border-border/40 pt-8 mt-8 space-y-3 text-center">
-                      <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-[10px] font-black uppercase tracking-widest text-amber-700">
-                        <AlertTriangle className="w-3.5 h-3.5" /> Medical Disclaimer
-                      </div>
-                      <p className="text-[11px] text-text-tertiary max-w-2xl mx-auto leading-relaxed">
-                        This publication is created for public education, academic reference, and patient awareness. It does not replace individual clinical consultation or personal medical diagnosis.
-                      </p>
-                      <p className="text-[10px] font-black text-primary uppercase tracking-widest pt-1">
-                        © Curiva Homoeopathy • All Rights Reserved
-                      </p>
-                    </div>
+                  <motion.article key={selectedBook.id + '-' + section.id} initial={reduceMotion ? false : { opacity: 0, y: 12 }} animate={{ opacity: 1, y: 0 }} exit={reduceMotion ? undefined : { opacity: 0, y: -8 }} transition={{ duration: 0.24 }} className={'min-w-0 rounded-2xl border p-5 shadow-sm transition-colors sm:p-7 md:p-9 ' + themeClass(theme)} style={{ fontSize: fontSize + 'px', fontFamily: serif ? 'Georgia, Cambria, "Times New Roman", serif' : 'Inter, ui-sans-serif, system-ui, sans-serif' }}>
+                    <div className="mb-7 flex flex-col gap-4 border-b border-current/10 pb-6 sm:flex-row sm:items-start sm:justify-between"><div className="space-y-2"><span className="inline-flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.18em] text-[#b51e70]"><BookMarked className="h-3.5 w-3.5" /> {selectedBook.brand} · {selectedBook.category}</span><h3 className="font-display text-2xl font-bold leading-tight text-current sm:text-3xl">{section.title}</h3><p className="text-xs leading-5 text-current/60">Chapter {activeIndex + 1} of {selectedBook.sections.length} · {selectedBook.version}</p></div><div className="flex shrink-0 flex-wrap gap-2"><button type="button" onClick={toggleBookmark} aria-pressed={bookmarked} className="inline-flex min-h-10 items-center gap-2 rounded-xl border border-current/15 px-3 py-2 text-[11px] font-bold text-current/75 transition hover:border-[#b51e70]/50 hover:text-[#b51e70]">{bookmarked ? <BookmarkCheck className="h-4 w-4" /> : <Bookmark className="h-4 w-4" />}{bookmarked ? 'Saved' : 'Save chapter'}</button><button type="button" onClick={toggleComplete} aria-pressed={completed} className={'inline-flex min-h-10 items-center gap-2 rounded-xl px-3 py-2 text-[11px] font-bold transition ' + (completed ? 'bg-emerald-600 text-white' : 'bg-[#102f2b] text-white hover:bg-[#1b4942]')}><CheckCircle2 className="h-4 w-4" />{completed ? 'Completed' : 'Mark complete'}</button></div></div>
+                    <div className="mb-7 rounded-2xl border border-current/10 bg-black/[0.025] px-4 py-3 text-xs leading-6 text-current/70"><span className="font-bold text-current">A note for readers:</span> Read at your own pace. Medical words and recommendations should be checked against the chapter context and its cited sources. This library is for general education, not a personal diagnosis or treatment plan.</div>
+                    <PublicMarkdown content={section.content} />
+                    <div className="mt-10 rounded-2xl border border-amber-500/25 bg-amber-500/10 p-4 text-xs leading-6 text-current/80"><div className="flex items-start gap-3"><ShieldCheck className="mt-0.5 h-5 w-5 shrink-0 text-amber-600" /><div><p className="font-bold text-current">Health and safety reminder</p><p className="mt-1">This publication is educational and cannot assess your individual health. Do not stop prescribed medicines, delay urgent care, or rely on a home remedy or complementary product in place of proven treatment. For personal advice, speak with a qualified healthcare professional. For an emergency, use your local emergency service.</p></div></div></div>
                   </motion.article>
                 </AnimatePresence>
+                <div className="mt-6 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"><button type="button" onClick={() => moveChapter(-1)} disabled={activeIndex === 0} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-5 py-3 text-xs font-bold text-slate-600 transition hover:border-[#b51e70]/40 hover:text-[#a51b68] disabled:cursor-not-allowed disabled:opacity-35"><ChevronLeft className="h-4 w-4" /> Previous chapter</button><span className="text-center text-[11px] font-bold text-slate-400">{activeIndex + 1} / {selectedBook.sections.length}</span><button type="button" onClick={() => moveChapter(1)} disabled={activeIndex >= selectedBook.sections.length - 1} className="inline-flex min-h-11 items-center justify-center gap-2 rounded-xl bg-[#102f2b] px-5 py-3 text-xs font-bold text-white transition hover:bg-[#1b4942] disabled:cursor-not-allowed disabled:opacity-35">Next chapter <ChevronRight className="h-4 w-4" /></button></div>
               </div>
             </div>
           </div>
         </section>
+
+        <section className="grid gap-5 rounded-[1.75rem] border border-[#e8d7e2] bg-gradient-to-br from-white via-[#fff8fc] to-[#f8f1f5] p-6 shadow-sm md:grid-cols-[1fr_auto] md:items-center md:p-8">
+          <div className="flex items-start gap-4"><div className="flex h-14 w-14 shrink-0 items-center justify-center overflow-hidden rounded-2xl bg-[#b51e70] shadow-lg shadow-[#b51e70]/15"><img src="/app_icon.png.png" alt="Curiva Homoeopathy" className="h-full w-full object-cover" loading="lazy" onError={(event) => { event.currentTarget.src = '/curiva_logo.svg'; }} /></div><div className="space-y-1"><p className="text-[10px] font-black uppercase tracking-[0.2em] text-[#a51b68]">Curiva Public Health Series</p><h2 className="font-display text-xl font-semibold text-slate-900">Clear information. Better conversations with your healthcare team.</h2><p className="max-w-2xl text-sm leading-6 text-slate-600">Keep exploring the library, save chapters on this device, and use what you learn to prepare questions for a qualified health professional.</p></div></div>
+          <a href="/medical-disclaimer" className="inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-[#b51e70]/25 bg-white px-5 py-3 text-xs font-bold text-[#a51b68] transition hover:border-[#b51e70] hover:bg-[#b51e70] hover:text-white">Read our medical disclaimer <ArrowRight className="h-4 w-4" /></a>
+        </section>
       </main>
+      <footer className="border-t border-[#e5e9e3] bg-white px-4 py-7 text-center text-[11px] leading-6 text-slate-500">Curiva Homoeopathy · Public education library · Reading progress is saved locally in this browser.</footer>
     </div>
   );
 }
