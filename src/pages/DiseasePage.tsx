@@ -58,7 +58,7 @@ const DiseasePage: React.FC = () => {
 
   useEffect(() => {
     if (disease) {
-      trackView(disease.id || disease.slug, disease.name, 'Therapeutics', location.pathname);
+      trackView(`${disease.system}/${disease.slug}`, disease.name, 'Therapeutics', location.pathname);
     }
   }, [disease, location.pathname]);
 
