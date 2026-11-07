@@ -1061,6 +1061,6 @@ svg.lucide { flex-shrink: 0; }
 @media (min-width: 1024px) {
   .curiva-materia-search-position {
     left: auto;
-    right: max(10rem, calc(var(--curiva-floating-safe-right) + 9rem));
+    right: max(11rem, calc(var(--curiva-floating-safe-right) + 10rem));
   }
 }
