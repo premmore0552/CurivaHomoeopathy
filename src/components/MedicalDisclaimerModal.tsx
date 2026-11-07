@@ -46,7 +46,7 @@ const MedicalDisclaimerModal: React.FC = () => {
           aria-labelledby="medical-disclaimer-title"
           aria-describedby="medical-disclaimer-description"
           aria-live="polite"
-          className="fixed inset-x-3 bottom-[calc(env(safe-area-inset-bottom)+5.5rem)] z-[85] mx-auto max-h-[min(70dvh,32rem)] w-auto max-w-[28rem] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-4 shadow-2xl shadow-black/15 dark:bg-bg-primary sm:inset-x-auto sm:left-1/2 sm:w-[min(30rem,calc(100vw-2rem))] sm:-translate-x-1/2 sm:p-5 xl:bottom-4 xl:left-auto xl:right-4 xl:mx-0 xl:w-[min(28rem,calc(100vw-2rem))] xl:translate-x-0"
+          className="fixed z-[85] max-h-[min(55dvh,26rem)] overflow-y-auto overscroll-contain rounded-2xl border border-border bg-white p-4 shadow-2xl shadow-black/15 dark:bg-bg-primary curiva-disclaimer-position sm:p-5"
         >
           <div className="flex items-center gap-3">
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-xl bg-primary/10 text-primary">
