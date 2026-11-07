@@ -6,7 +6,9 @@ This implementation applies one information architecture across desktop, tablet 
 
 - Desktop navigation uses Learn, Practice, Library and Guidance mega-menus. Menu buttons support click, pointer hover, visible focus, expanded-state semantics and Escape dismissal.
 - Mobile and tablet navigation uses a full-height drawer with the active group opened, touch-sized controls, focus trapping, Escape and backdrop dismissal, scroll locking and focus restoration.
-- A five-action mobile navigation bar provides Home, Learn, Practice, Search and More. It uses the device safe-area inset and is hidden in the dedicated FMT experience to prevent duplicate bars.
+- A five-action mobile navigation bar provides Home, Learn, Practice, Search and More. It uses the device safe-area inset, highlights the current route, and is hidden in the dedicated FMT experience to prevent duplicate bars.
+- Existing account access, ProfileSwitch, workspace role selection and the Find a remedy shortcut are retained in the appropriate desktop and mobile locations.
+- The FMT workspace More action now opens a touch-friendly panel for Viva questions, MCQ practice, the student dashboard and library. It supports Escape, focus trapping, focus restoration and scroll locking.
 - Desktop and mobile search launch the existing global search console, retaining local search, filters, recent searches and Ctrl/Cmd+K.
 - Desktop navigation, mobile drawer and homepage quick links share the same navigation configuration.
 - The homepage quick-navigation section expands to six learning shortcuts with responsive two-, three- and six-column layouts.
