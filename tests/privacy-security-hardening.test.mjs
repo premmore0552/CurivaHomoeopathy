@@ -90,7 +90,10 @@ test('API redirect applies a Netlify edge rate limit by client IP and domain', (
 
 test('Firebase App Check is supported for web when an environment site key is configured', () => {
   assert.match(firebaseClient, /initializeAppCheck/);
+  assert.match(firebaseClient, /ReCaptchaEnterpriseProvider/);
   assert.match(firebaseClient, /ReCaptchaV3Provider/);
+  assert.match(firebaseClient, /VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY/);
+  assert.ok(firebaseClient.indexOf('new ReCaptchaEnterpriseProvider') < firebaseClient.indexOf('new ReCaptchaV3Provider'));
   assert.match(firebaseClient, /VITE_FIREBASE_APPCHECK_SITE_KEY/);
   assert.match(firebaseClient, /isTokenAutoRefreshEnabled: true/);
   assert.match(firebaseClient, /!Capacitor\.isNativePlatform\(\)/);
