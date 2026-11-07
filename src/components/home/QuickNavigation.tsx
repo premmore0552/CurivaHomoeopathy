@@ -1,22 +1,24 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Activity, BookOpen, Brain, GraduationCap, Library, Search, Timer } from 'lucide-react';
+import { Activity, BookOpen, Brain, GraduationCap, Library, Search, Timer, Stethoscope } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { quickNavigationItems } from '../../navigation/navigationConfig';
 
-const icons = [Library, Search, Activity, GraduationCap, Brain, Timer];
+const icons = [Library, Search, Activity, GraduationCap, Brain, Timer, BookOpen, Stethoscope];
 const iconStyles = [
   'bg-emerald-500/10 text-emerald-600',
   'bg-blue-500/10 text-blue-600',
   'bg-rose-500/10 text-rose-600',
   'bg-amber-500/10 text-amber-600',
   'bg-violet-500/10 text-violet-600',
-  'bg-sky-500/10 text-sky-600'
+  'bg-sky-500/10 text-sky-600',
+  'bg-cyan-500/10 text-cyan-600',
+  'bg-indigo-500/10 text-indigo-600'
 ];
 
 const QuickNavigation: React.FC = () => (
   <section className="py-6 sm:py-8" aria-label="Quick access to learning areas">
-    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 xl:grid-cols-6">
+    <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
       {quickNavigationItems.map((item, index) => {
         const Icon = icons[index] ?? BookOpen;
         return (
