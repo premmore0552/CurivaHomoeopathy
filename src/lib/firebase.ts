@@ -38,8 +38,23 @@ import {
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
-export const firebaseAuthDomain = firebaseConfig.authDomain;
-const app = initializeApp(firebaseConfig);
+// Netlify does not host Firebase's auth helper by default. For the fixed Preview 65
+// URL and the site's production hostname, /__/auth/* is transparently proxied to
+// this project's Firebase Hosting auth helper (see netlify.toml). Using the
+// current app hostname makes popup/redirect helper storage same-origin.
+const NETLIFY_AUTH_HOSTS = new Set([
+  'deploy-preview-65--curivahomoeopathy.netlify.app',
+  'curivahomoeopathy.netlify.app',
+]);
+const currentHostname = typeof window !== 'undefined'
+  ? window.location.hostname.toLowerCase().replace(/\\.$/, '')
+  : '';
+const runtimeFirebaseConfig = NETLIFY_AUTH_HOSTS.has(currentHostname)
+  ? { ...firebaseConfig, authDomain: currentHostname }
+  : firebaseConfig;
+
+export const firebaseAuthDomain = runtimeFirebaseConfig.authDomain;
+const app = initializeApp(runtimeFirebaseConfig);
 
 // App Check starts when a site key has been configured in the hosting
 // environment and the web app has been registered in Firebase Console.
