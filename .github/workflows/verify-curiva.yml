@@ -93,11 +93,20 @@ jobs:
       - name: Test complete UPSC and MD question-bank import
         run: npm run test:chauhan-question-bank
 
+      - name: Test Google authentication recovery and error messages
+        run: npm run test:auth
+
       - name: Typecheck
         run: npm run lint
 
       - name: Build website and self-hosted app update bundle
         run: npm run build
+
+      - name: Ensure server-only Node bundle stays outside the public site
+        run: |
+          test -s .server-build/server.cjs
+          test ! -e dist/server.cjs
+          test ! -e dist/server.cjs.map
 
       - name: Verify disease asset partition fidelity
         run: npm run test:disease-assets

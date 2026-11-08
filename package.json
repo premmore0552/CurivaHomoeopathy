@@ -6,10 +6,10 @@
   "scripts": {
     "dev": "tsx server.ts",
     "sitemap": "tsx scripts/generate-sitemap.ts",
-    "build": "npm run sitemap && vite build && node scripts/create-live-update-bundle.mjs && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs",
-    "start": "node dist/server.cjs",
+    "build": "npm run sitemap && vite build && node scripts/create-live-update-bundle.mjs && mkdir -p .server-build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=.server-build/server.cjs",
+    "start": "node .server-build/server.cjs",
     "preview": "vite preview",
-    "clean": "rm -rf dist",
+    "clean": "rm -rf dist .server-build",
     "lint": "tsc --noEmit",
     "cap:add": "cap add android",
     "cap:sync": "cap sync",
@@ -24,7 +24,8 @@
     "export:native-content": "tsx scripts/export-native-content.ts",
     "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts",
     "verify:deploy-preview": "node scripts/verify-deploy-preview.mjs",
-    "test:disease-assets": "tsx --test tests/disease-hub-assets.test.ts"
+    "test:disease-assets": "tsx --test tests/disease-hub-assets.test.ts",
+    "test:auth": "tsx --test tests/auth-error-message.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",

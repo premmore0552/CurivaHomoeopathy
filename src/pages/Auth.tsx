@@ -10,11 +10,14 @@ import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   auth, 
   googleProvider,
-  signInWithPopup, 
+  signInWithPopup,
+  signInWithRedirect,
+  getRedirectResult,
   onAuthStateChanged
 } from '../lib/firebase';
 import { userService } from '../services/userService';
 import SEO from '../components/SEO';
+import { getGoogleAuthErrorMessage, shouldUseGoogleRedirectFallback } from '../lib/authErrorMessage';
 
 export default function Auth() {
   const navigate = useNavigate();
@@ -27,71 +30,49 @@ export default function Auth() {
   // Redirect path
   const redirectPath = location.state?.from || '/profile';
 
-  const handleAuthError = (err: any, actionName: string = 'Authentication') => {
-    console.error(err);
-    const code = err.code || '';
-    const message = err.message || '';
-
-    if (
-      code === 'auth/firebase-app-check-token-is-invalid' || 
-      message.includes('firebase-app-check-token-is-invalid') || 
-      code === 'auth/app-check-invalid-token' ||
-      message.includes('app-check-token-is-invalid')
-    ) {
-      setError(
-        <div className="space-y-3 text-left bg-red-500/5 p-4 rounded-xl border border-red-500/10">
-          <p className="font-extrabold text-red-600 uppercase tracking-wide text-[10px]">Firebase App Check Blocked Access</p>
-          <p className="text-[11px] leading-relaxed text-red-500">
-            Your Firebase project has <b>App Check Enforcement</b> active for Authentication & APIs. Since this development session runs inside a secure local sandbox, this request failed token validation:
-          </p>
-          <ul className="list-disc pl-4 text-[10px] space-y-1.5 text-red-600/90 font-bold leading-normal">
-            <li>
-              <b>Quick Sandbox Bypass:</b> Go to your <a href="https://console.firebase.google.com" target="_blank" rel="noopener noreferrer" className="underline hover:text-red-700">Firebase Console</a> &gt; <b>App Check</b> &gt; <b>APIs</b>. Under <b>Identity Toolkit API (Auth)</b>, change settings to "Monitor" or temporarily "Unenforce" App Check.
-            </li>
-            <li>
-              <b>Developer Solution:</b> If you need active App Check protection, please register a reCAPTCHA Enterprise/v3 site key on Firebase and initialize it using <code>initializeAppCheck()</code> in your client code.
-            </li>
-          </ul>
-        </div>
-      );
-      return;
-    }
-
-    if (
-      code === 'auth/internal-error' || 
-      code === 'auth/unauthorized-domain' || 
-      message.includes('internal-error') || 
-      message.includes('unauthorized-domain')
-    ) {
-      setError(
-        <div className="space-y-3 text-left bg-red-500/5 p-4 rounded-xl border border-red-500/10">
-          <p className="font-extrabold text-red-600 uppercase tracking-wide text-[10px]">Firebase Project Scope Config Error</p>
-          <p className="text-[11px] leading-relaxed text-red-500">
-            We encountered a Firebase configuration / connection error (<b>{code || 'auth/internal-error'}</b>). Please ensure your Firebase Console has the following active:
-          </p>
-          <ol className="list-decimal pl-4 text-[10px] space-y-1.5 text-red-600/90 font-bold leading-normal">
-            <li>Go to <b>Firebase Console</b> &gt; Authentication &gt; <b>Sign-in method</b>, edit and enable the providers (<b>Google</b>).</li>
-            <li>Go to Authentication &gt; <b>Settings</b> &gt; <b>Authorized domains</b>, and add <code>{window.location.hostname}</code>.</li>
-            <li>Make sure <b>Identity Toolkit API</b> is enabled on GCP Console.</li>
-            <li><b>Iframe Sandbox note:</b> If using Google authentication inside the embedded AI Studio iframe, third-party cookies or popups might be blocked by your browser. Open the application in a <b>new tab</b> (using the icon in the top right corner).</li>
-          </ol>
-        </div>
-      );
-      return;
-    }
-
-    // Default friendly overrides
-    let friendlyMessage = message || `${actionName} failed.`;
-    setError(friendlyMessage);
+  const handleAuthError = (err: unknown) => {
+    setError(getGoogleAuthErrorMessage(err));
   };
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (user) => {
-      if (user) {
-        navigate(redirectPath);
+    let active = true;
+    let unsubscribe: (() => void) | undefined;
+
+    const initializeAuth = async () => {
+      let redirectUserHandled = false;
+
+      try {
+        const redirectResult = await getRedirectResult(auth);
+        if (redirectResult?.user) {
+          redirectUserHandled = true;
+          try {
+            await userService.syncAuthUser('Scholar');
+            if (active) navigate(redirectPath);
+          } catch {
+            if (active) {
+              setError('Google sign-in succeeded, but your Curiva profile could not be synchronized. Refresh the page or contact support; your account is still signed in.');
+            }
+          }
+        }
+      } catch (err: unknown) {
+        if (active) handleAuthError(err);
       }
-    });
-    return () => unsubscribe();
+
+      // Wait for the redirect result before subscribing. This prevents the
+      // initial auth-state event from navigating away before profile sync.
+      if (!active || redirectUserHandled) return;
+
+      unsubscribe = onAuthStateChanged(auth, (user) => {
+        if (user) navigate(redirectPath);
+      });
+    };
+
+    void initializeAuth();
+
+    return () => {
+      active = false;
+      unsubscribe?.();
+    };
   }, [navigate, redirectPath]);
 
   const handleGoogleSignIn = async () => {
@@ -101,8 +82,16 @@ export default function Auth() {
       await signInWithPopup(auth, googleProvider);
       await userService.syncAuthUser('Scholar');
       navigate(redirectPath);
-    } catch (err: any) {
-      handleAuthError(err, 'Google Sign-In');
+    } catch (err: unknown) {
+      if (shouldUseGoogleRedirectFallback(err)) {
+        try {
+          await signInWithRedirect(auth, googleProvider);
+        } catch (redirectError: unknown) {
+          handleAuthError(redirectError);
+        }
+      } else {
+        handleAuthError(err);
+      }
     } finally {
       setLoading(false);
     }

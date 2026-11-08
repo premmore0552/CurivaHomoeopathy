@@ -1,0 +1,42 @@
+import assert from 'node:assert/strict';
+import { test } from 'node:test';
+import {
+  getGoogleAuthErrorCode,
+  getGoogleAuthErrorMessage,
+  shouldUseGoogleRedirectFallback,
+} from '../src/lib/authErrorMessage.ts';
+
+test('extracts only safe Firebase Auth error codes', () => {
+  assert.equal(getGoogleAuthErrorCode({ code: 'auth/unauthorized-domain' }), 'auth/unauthorized-domain');
+  assert.equal(getGoogleAuthErrorCode({ code: 'not-an-auth-code' }), '');
+  assert.equal(getGoogleAuthErrorCode(new Error('internal details')), '');
+  assert.equal(getGoogleAuthErrorCode(null), '');
+});
+
+test('uses redirect fallback only when popup sign-in is blocked or unsupported', () => {
+  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/popup-blocked' }), true);
+  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/operation-not-supported-in-this-environment' }), true);
+  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/popup-closed-by-user' }), false);
+  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/unauthorized-domain' }), false);
+});
+
+test('provides actionable messages for common Google sign-in errors', () => {
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/unauthorized-domain' }), /exact site hostname/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/popup-blocked' }), /redirect sign-in/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/network-request-failed' }), /network error/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/invalid-api-key' }), /web API key/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/firebase-app-check-token-is-invalid' }), /App Check/i);
+});
+
+test('does not expose raw provider exception messages to the UI', () => {
+  const error = Object.assign(new Error('private provider detail, email or token'), { code: 'auth/internal-error' });
+  const message = getGoogleAuthErrorMessage(error);
+  assert.match(message, /Identity Toolkit request/i);
+  assert.doesNotMatch(message, /private provider detail|email or token/i);
+});
+
+test('sanitizes unknown provider codes before displaying them', () => {
+  const message = getGoogleAuthErrorMessage({ code: 'auth/something-new' });
+  assert.match(message, /auth\/something-new/);
+  assert.doesNotMatch(getGoogleAuthErrorMessage({ code: '<script>alert(1)</script>' }), /script/);
+});
