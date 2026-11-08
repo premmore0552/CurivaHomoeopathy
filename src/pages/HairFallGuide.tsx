@@ -1045,7 +1045,7 @@ export default function HairFallGuide() {
 
     const matches: any[] = [];
     BOOK_DATA.forEach((chapter, index) => {
-      const plainText = chapter.content.replace(/<[^>]*>/g, "").toLowerCase();
+      const plainText = chapter.content.replace(/[<>]/g, "").toLowerCase();
       if (plainText.includes(query)) {
         const matchIdx = plainText.indexOf(query);
         const start = Math.max(0, matchIdx - 40);
