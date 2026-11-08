@@ -34,7 +34,7 @@ test('uses redirect fallback only when the app and Firebase auth helper share an
 test('provides actionable messages for common Google sign-in errors', () => {
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/unauthorized-domain' }), /exact site hostname/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/popup-blocked' }), /allow pop-ups/i);
-  assert.match(getGoogleAuthErrorMessage({ code: 'auth/operation-not-supported-in-this-environment' }), /same origin/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/operation-not-supported-in-this-environment' }), /same[- ]origin/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/network-request-failed' }), /network error/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/invalid-api-key' }), /web API key/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/firebase-app-check-token-is-invalid' }), /App Check/i);
