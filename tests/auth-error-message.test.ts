@@ -13,16 +13,24 @@ test('extracts only safe Firebase Auth error codes', () => {
   assert.equal(getGoogleAuthErrorCode(null), '');
 });
 
-test('uses redirect fallback only when popup sign-in is blocked or unsupported', () => {
-  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/popup-blocked' }), true);
-  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/operation-not-supported-in-this-environment' }), true);
-  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/popup-closed-by-user' }), false);
-  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/unauthorized-domain' }), false);
+test('uses redirect fallback only when the app and Firebase auth helper share an origin', () => {
+  const popupBlocked = { code: 'auth/popup-blocked' };
+  const unsupported = { code: 'auth/operation-not-supported-in-this-environment' };
+  const firebaseDomain = 'gen-lang-client-0830179867.firebaseapp.com';
+
+  assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, firebaseDomain, firebaseDomain), true);
+  assert.equal(shouldUseGoogleRedirectFallback(unsupported, firebaseDomain, firebaseDomain), true);
+  assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, 'deploy-preview-63--curivahomoeopathy.netlify.app', firebaseDomain), false);
+  assert.equal(shouldUseGoogleRedirectFallback(unsupported, 'curiva.web.app', firebaseDomain), false);
+  assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, 'localhost', firebaseDomain), false);
+  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/popup-closed-by-user' }, firebaseDomain, firebaseDomain), false);
+  assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/unauthorized-domain' }, firebaseDomain, firebaseDomain), false);
 });
 
 test('provides actionable messages for common Google sign-in errors', () => {
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/unauthorized-domain' }), /exact site hostname/i);
-  assert.match(getGoogleAuthErrorMessage({ code: 'auth/popup-blocked' }), /redirect sign-in/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/popup-blocked' }), /allow pop-ups/i);
+  assert.match(getGoogleAuthErrorMessage({ code: 'auth/operation-not-supported-in-this-environment' }), /same origin/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/network-request-failed' }), /network error/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/invalid-api-key' }), /web API key/i);
   assert.match(getGoogleAuthErrorMessage({ code: 'auth/firebase-app-check-token-is-invalid' }), /App Check/i);

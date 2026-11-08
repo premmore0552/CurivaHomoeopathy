@@ -38,6 +38,7 @@ import {
 } from 'firebase/firestore';
 import firebaseConfig from '../../firebase-applet-config.json';
 
+export const firebaseAuthDomain = firebaseConfig.authDomain;
 const app = initializeApp(firebaseConfig);
 
 // App Check starts when a site key has been configured in the hosting
