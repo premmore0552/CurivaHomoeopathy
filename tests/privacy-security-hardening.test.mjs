@@ -73,7 +73,7 @@ test('production CSP allows required Google sign-in origins without inline scrip
 
   // No path-substring allowlists: exact trusted origins avoid ambiguous URL matching.
   assert.doesNotMatch(policy, /https:\/\/(?:apis\.google\.com\/js|accounts\.google\.com\/(?:gsi|o\/fedcm))\//);
-  assert.doesNotMatch(script, /unsafe-inline/);
+  assert.equal(script.has("'unsafe-inline'"), false);
   assert.match(policy, /script-src-attr 'none'/);
   assert.match(policy, /object-src 'none'/);
   assert.match(policy, /frame-ancestors 'none'/);
