@@ -123,3 +123,18 @@ These cannot safely be completed by editing client source alone:
 - [ ] Manual mobile/desktop sign-in, payment, reading, accessibility and offline tests
 - [ ] Security configuration review and independent penetration test
 - [ ] Clinical editorial, content licence and privacy/legal review
+
+
+## Follow-up verification after PR #58 merge — 8 November 2026
+
+This section supersedes the earlier point-in-time statements above where they described PR #58 as a draft or said that no post-merge production-context deployment existed. The historical section is retained to preserve what was known at the time.
+
+- **PR #58 is merged.** It merged into `main` on 8 November 2026. The current `main` commit is `54241aa2f155fae1fefb56aa47d1bd85c98dacf2`.
+- **The PR #58 CI runs passed.** The website verification job, Android debug APK job, and CodeQL analyses for Actions, Java/Kotlin, and JavaScript/TypeScript all completed successfully.
+- **A new Netlify production-context deployment is ready, but publication is not yet confirmed.** Deploy `6af01842f271bc3d7f3312fd` was created on 8 November 2026 for branch `main` at commit `54241aa2f155fae1fefb56aa47d1bd85c98dacf2`. Its state is `ready`; the summary reports one deployed `api` Function, three redirect rules and five header rules. However, its `published_at` field is unset. The Netlify project's published-deploy record still points to deploy `6ada8a18eb547690fb669c28`, published on 23 October 2026, with no Functions. **Do not claim that the new API or security routing is live on the public alias until Netlify confirms the new deploy is published and the alias points to it.**
+- **The visible Netlify environment-variable inventories are empty.** The site-level environment-variable listing and team-level environment-variable listing both returned no entries during this follow-up check. This does not rule out credentials held in a separately linked provider or other account context, but no required integration secrets were visible through these inventories. Before enabling the affected integrations, verify the Netlify UI and configure the required server-only credentials as secrets with least-privilege scopes and appropriate deploy contexts.
+- **Live production HTTP smoke testing remains incomplete.** The repository's existing `scripts/verify-deploy-preview.mjs` intentionally rejects the production alias and is designed for deploy-preview URLs. The five low-risk preview probes were not rerun against production as part of this follow-up. Run an approved production smoke-test plan after publication, using safe requests that do not create charges, send email, write real appointments or mutate user data.
+- **GitHub repository protection remains an administrator task.** The repository rulesets endpoint returned an empty list. The current GitHub connection could not read the branch-protection endpoint, so verify the live branch-protection page directly. The weekly Dependabot update schedules are present, but alert and push-protection states still require confirmation in repository settings.
+- **No published GitHub Release was returned by the releases endpoint during this check.** Semantic release/versioning remains a separate project task.
+
+The new operator procedure is documented in [GitHub repository protection](GITHUB_REPOSITORY_PROTECTION.md). These facts are a point-in-time audit and should be refreshed after publication and provider configuration.
