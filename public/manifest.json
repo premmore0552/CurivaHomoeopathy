@@ -4,14 +4,14 @@
   "description": "Tiny Doses. True Shifts. Modern Homoeopathic Guide & Research Repository.",
   "icons": [
     {
-      "src": "/app_icon.png.png",
-      "sizes": "192x192 512x512 1024x1024",
+      "src": "/app_icon.jpg",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
       "purpose": "any"
     },
     {
-      "src": "/app_icon.png.png",
-      "sizes": "192x192 512x512 1024x1024",
+      "src": "/app_icon.jpg",
+      "sizes": "1024x1024",
       "type": "image/jpeg",
       "purpose": "maskable"
     }

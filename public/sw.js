@@ -1,6 +1,6 @@
-const CACHE_NAME = 'curiva-public-static-v7';
+const CACHE_NAME = 'curiva-public-static-v8';
 const ASSETS_TO_CACHE = [
-  '/app_icon.png.png',
+  '/app_icon.jpg',
   '/manifest.json'
 ];
 

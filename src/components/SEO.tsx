@@ -19,7 +19,7 @@ const SEO: React.FC<SEOProps> = ({
   title, 
   description = SEO_CONFIG.defaultDescription,
   keywords = 'homoeopathy, natural healing, holistic health, Homoeopathic remedies, curiva, BHMS study materials',
-  image = `${SEO_CONFIG.domain}/curiva_logo.png`,
+  image = `${SEO_CONFIG.domain}/curiva_logo.jpg`,
   url,
   type = 'website',
   noindex = false,
