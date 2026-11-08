@@ -47,7 +47,7 @@ const NETLIFY_AUTH_HOSTS = new Set([
   'curivahomoeopathy.netlify.app',
 ]);
 const currentHostname = typeof window !== 'undefined'
-  ? window.location.hostname.toLowerCase().replace(/\\.$/, '')
+  ? window.location.hostname.toLowerCase()
   : '';
 const runtimeFirebaseConfig = NETLIFY_AUTH_HOSTS.has(currentHostname)
   ? { ...firebaseConfig, authDomain: currentHostname }
