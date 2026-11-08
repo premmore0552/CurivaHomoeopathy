@@ -64,7 +64,7 @@ try {
   const authHelper = await request('/__/auth/iframe.js');
   if (
     authHelper.response.status === 200 &&
-    /(?:application|text)\\/javascript/i.test(authHelper.contentType) &&
+    /(?:application|text)\/javascript/i.test(authHelper.contentType) &&
     authHelper.text.length > 100
   ) {
     pass('GET /__/auth/iframe.js', '200 JavaScript; same-origin Firebase auth helper proxy is reachable');
