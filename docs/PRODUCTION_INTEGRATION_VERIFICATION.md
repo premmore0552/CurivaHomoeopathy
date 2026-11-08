@@ -1,6 +1,6 @@
 # Production integration verification
 
-Last reviewed: 2026-11-07
+Last reviewed: 2026-11-08
 
 This runbook separates code-level checks from provider and production checks. A green build or a Netlify deploy marked **ready** does not prove that a function is deployed, that provider credentials are available in the relevant deploy context, or that external systems accept requests.
 
@@ -117,3 +117,79 @@ The Netlify site-level environment-variable inventory observed during this revie
 The two database URL variables were visible as non-secret values during the review. Treat the associated database credential as exposed: rotate the database password, update both Netlify URL variables, mark them secret, and restrict their scopes to the processes that actually need them. Verify the database provider's connection/audit logs after rotation.
 
 No production deployment, Firestore rules deployment, provider secret change, payment, email, or calendar event is performed by this runbook.
+
+
+## 9. Firebase App Check web rollout — Curiva configuration
+
+### Current repository integration
+
+The web client already initializes App Check in `src/lib/firebase.ts` immediately after `initializeApp(firebaseConfig)` and before `getAuth(app)` / `getFirestore(app, ...)`. It prefers `ReCaptchaEnterpriseProvider`, falls back to `ReCaptchaV3Provider` only when the Enterprise key is absent, enables token auto-refresh, and skips the web provider in development and native Capacitor runtimes.
+
+The following values are read from `import.meta.env` at build time:
+
+- `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` — preferred public reCAPTCHA Enterprise site key.
+- `VITE_FIREBASE_APPCHECK_SITE_KEY` — optional legacy reCAPTCHA v3 site-key fallback. Leave it empty when using Enterprise.
+
+The reCAPTCHA site key is intentionally public because it is embedded in the browser bundle. It is not a secret. Never put the reCAPTCHA Enterprise API credentials, service-account keys, debug tokens, or other private credentials in a `VITE_*` variable.
+
+### Curiva project identity to verify in the consoles
+
+Use these identifiers to avoid creating a key in the wrong Google Cloud/Firebase project:
+
+- Firebase project ID: `gen-lang-client-0830179867` (from `firebase-applet-config.json`).
+- Firebase Web app ID: `1:750296789037:web:462a945cb832f6d4ac88a4` (from `firebase-applet-config.json`).
+- Current production hostname: `curivahomoeopathy.netlify.app`.
+
+Before proceeding, confirm that the Firebase Console project selector shows the same project ID and that the Web app ID shown under Project settings → Your apps matches the ID above. If either differs, stop and resolve the project mismatch before registering a provider.
+
+### A. Create the reCAPTCHA Enterprise key
+
+1. Open the [Google Cloud console](https://console.cloud.google.com/) and select project `gen-lang-client-0830179867`.
+2. Open Google Cloud Fraud Defense / reCAPTCHA Enterprise. Enable the reCAPTCHA Enterprise API if Google prompts you.
+3. Create a **Web** key with a **score-based** integration. Do not choose a checkbox/challenge key; App Check's web Enterprise provider uses score-based keys and does not show an interactive challenge.
+4. Keep domain verification enabled. Add only `curivahomoeopathy.netlify.app` and any verified custom production hostname that Curiva actually serves. Do not add the broad `netlify.app` parent domain, do not disable domain verification, and do not add `localhost` to a production key.
+5. Save the key and copy its **site key**. Do not copy or publish any private API credentials or service-account credentials.
+
+If the project picker shows a different project, stop. Do not make a key in a personal/default project by accident.
+
+### B. Register that same key in Firebase App Check
+
+1. Open the [Firebase console](https://console.firebase.google.com/) and select `gen-lang-client-0830179867`.
+2. Open **Security → App Check → Apps**.
+3. Locate the Web app whose app ID is `1:750296789037:web:462a945cb832f6d4ac88a4`.
+4. Register/select the **reCAPTCHA Enterprise** provider and enter the same site key created in step A.
+5. Save the app registration. Do not enable enforcement yet.
+6. Review the Apps tab for every other app in this Firebase project. Before enforcing any Firebase product, make sure every legitimate client application that uses that product is registered with an appropriate provider. The standalone Kotlin Android APK described in the README is offline-only; do not register it with the web provider. Any separate online/native Firebase client needs its own supported native attestation provider.
+
+### C. Configure the Netlify production build
+
+1. Open the [Curiva Netlify project](https://app.netlify.com/projects/curivahomoeopathy).
+2. Open **Project configuration → Environment variables**.
+3. Create `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` with the site key from step A.
+4. Set the variable context to **Production only** and its scope to **Builds**. The key is public, so it should not be treated as a secret. It is deliberately a `VITE_*` build variable because the browser SDK must receive it.
+5. Leave `VITE_FIREBASE_APPCHECK_SITE_KEY` unset unless deliberately using reCAPTCHA v3 instead.
+6. Do not copy the production key into every deploy-preview or branch-deploy context. PR preview hostnames are dynamic and are not covered by the production hostname allowlist. Use an isolated Firebase staging project and a separate preview key if preview deployments need live Firebase integration. Avoid making `netlify.app` a blanket allowed domain just to cover ephemeral previews.
+7. Trigger a new production build only after the Firebase app registration and Netlify variable have been reviewed. Confirm the resulting deployment was intentionally published; a Netlify deployment marked `ready` is not necessarily the published production alias.
+
+Do not place the site key in `FIREBASE_SERVICE_ACCOUNT_JSON`, `GEMINI_API_KEY`, or any server-only secret variable.
+
+### D. Verify before enforcement
+
+1. Open the production site and test sign-in plus ordinary Firestore-backed flows using a normal browser session. Do not use patient data.
+2. In browser developer tools, confirm the Firebase SDK can obtain and attach App Check tokens to requests. Do not copy, post, or log the token value.
+3. In Firebase Console → App Check, review request metrics for the Web app and for the Firebase products Curiva actually uses. Confirm that legitimate production traffic is being recognized as valid and investigate any unverified/invalid traffic before proceeding.
+4. Check sign-in, Firestore reads/writes used by the learning experience, and any client-side Firebase Storage access if it is introduced later. The current repository's visible client Firebase initialization uses Authentication and Firestore; private paid resources use the server-side download flow. Do not enforce a service the app does not use without a separate reason.
+5. Confirm production browser errors and Firebase request failures have not increased. Keep the previous deploy available for rollback.
+6. After an observation period that covers normal usage, enable enforcement one Firebase product at a time for the products actually used by registered clients. Monitor metrics and user-facing errors after each change. If legitimate users are rejected, disable enforcement for that product and investigate before retrying.
+7. Record the date, app ID, key type, allowed hostnames, Netlify variable context/scope, metric observation window, and enforcement decisions in this runbook. Never record the site key if a policy prefers not to expose config, and never record private credentials or debug tokens.
+
+### E. Development and preview environments
+
+- The current client intentionally skips App Check initialization while `import.meta.env.DEV` is true. Do not put `localhost` into the production reCAPTCHA key's domain list.
+- If local development later needs to run while enforcement is active, implement the Firebase App Check debug provider only in a strictly local development build, register an individual debug token in Firebase Console, and keep that token outside source control. Never include a debug token in a public Netlify preview or production bundle.
+- For deploy previews, use a separate Firebase staging project and an allowed staging hostname/key, or limit previews to tests that do not call enforced production Firebase services. Do not reuse a production debug token to make public previews pass.
+- The standalone Kotlin/Jetpack Compose APK documented in the README is offline-only and does not use Firebase. A future online native app must use a native App Check provider (for example Play Integrity), not the web reCAPTCHA site key.
+
+### Follow-up state observed on 8 November 2026
+
+The Firebase App Check code is present, but the reCAPTCHA key registration could not be verified from repository files. The Netlify site-level and team-level environment-variable inventories returned no variables during this audit, including neither App Check site-key variable. The user reported that the key-registration status is unknown. Therefore, treat App Check as **not yet configured** until steps A–C are completed and confirmed in the provider consoles. No key has been generated, no Firebase provider registration has been changed, no Netlify variable has been added, and no Firebase enforcement has been enabled by this runbook.
