@@ -48,20 +48,29 @@ test('HTML has no inline scripts or embedded styles; boot assets are same-origin
   assert.match(indexHtml, /\/src\/main\.tsx/);
 });
 
-test('production CSP blocks inline JavaScript and unsafe embedding', () => {
+test('production CSP allows required Google sign-in origins without inline scripts or arbitrary hosts', () => {
   const policy = netlify.split('\n').find(line => line.includes('Content-Security-Policy ='));
   assert.ok(policy);
-  const scriptDirective = policy.split(';').find(directive => directive.trim().startsWith('script-src ')) || '';
-  assert.ok(scriptDirective.includes("script-src 'self'"));
-  assert.ok(scriptDirective.includes('https://checkout.razorpay.com'));
-  assert.ok(scriptDirective.includes('https://apis.google.com/js/api.js'));
-  const connectDirective = policy.split(';').find(directive => directive.trim().startsWith('connect-src ')) || '';
-  assert.ok(connectDirective.includes('https://apis.google.com/js/'));
-  assert.ok(connectDirective.includes('https://accounts.google.com/gsi/'));
-  assert.ok(connectDirective.includes('https://accounts.google.com/o/fedcm/'));
-  const frameDirective = policy.split(';').find(directive => directive.trim().startsWith('frame-src ')) || '';
-  assert.ok(frameDirective.includes('https://apis.google.com/js/'));
-  assert.doesNotMatch(scriptDirective, /unsafe-inline/);
+  const directive = (name) => policy.split(';').find(part => part.trim().startsWith(name + ' ')) || '';
+  const script = directive('script-src');
+  const connect = directive('connect-src');
+  const frame = directive('frame-src');
+  const style = directive('style-src');
+  const styleElement = directive('style-src-elem');
+
+  assert.ok(script.includes("script-src 'self'"));
+  assert.ok(script.includes('https://checkout.razorpay.com'));
+  assert.ok(script.includes('https://apis.google.com'));
+  assert.ok(script.includes('https://accounts.google.com'));
+  assert.ok(connect.includes('https://apis.google.com'));
+  assert.ok(connect.includes('https://accounts.google.com'));
+  assert.ok(frame.includes('https://accounts.google.com'));
+  assert.ok(style.includes('https://accounts.google.com'));
+  assert.ok(styleElement.includes('https://accounts.google.com'));
+
+  // No path-substring allowlists: exact trusted origins avoid ambiguous URL matching.
+  assert.doesNotMatch(policy, /https:\/\/(?:apis\.google\.com\/js|accounts\.google\.com\/(?:gsi|o\/fedcm))\//);
+  assert.doesNotMatch(script, /unsafe-inline/);
   assert.match(policy, /script-src-attr 'none'/);
   assert.match(policy, /object-src 'none'/);
   assert.match(policy, /frame-ancestors 'none'/);
