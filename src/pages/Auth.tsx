@@ -9,6 +9,7 @@ import {
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { 
   auth, 
+  firebaseAuthDomain,
   googleProvider,
   signInWithPopup,
   signInWithRedirect,
@@ -94,7 +95,7 @@ export default function Auth() {
         // to work consistently in browsers that partition third-party storage.
         // Only use redirect fallback on Firebase Hosting domains where the
         // helper is already same-site; elsewhere show a popup-specific error.
-        if (shouldUseGoogleRedirectFallback(authError, window.location.hostname)) {
+        if (shouldUseGoogleRedirectFallback(authError, window.location.hostname, firebaseAuthDomain)) {
           try {
             await signInWithRedirect(auth, googleProvider);
           } catch (redirectError: unknown) {
