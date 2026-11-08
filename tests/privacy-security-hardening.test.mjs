@@ -68,6 +68,7 @@ test('production CSP allows required Google sign-in origins without inline scrip
   assert.ok(connect.has('https://apis.google.com'));
   assert.ok(connect.has('https://accounts.google.com'));
   assert.ok(frame.has('https://accounts.google.com'));
+  assert.ok(frame.has("'self'"));
   assert.ok(frame.has('https://app.netlify.com'));
   assert.ok(style.has('https://accounts.google.com'));
   assert.ok(styleElement.has('https://accounts.google.com'));
@@ -82,6 +83,16 @@ test('production CSP allows required Google sign-in origins without inline scrip
   assert.match(policy, /frame-ancestors 'none'/);
   assert.match(policy, /base-uri 'self'/);
   assert.match(policy, /upgrade-insecure-requests/);
+
+  // Firebase's supported same-origin helper proxy enables redirect fallback on Netlify.
+  const authProxyIndex = netlify.indexOf('from = "/__/auth/*"');
+  const spaFallbackIndex = netlify.indexOf('from = "/*"');
+  assert.ok(authProxyIndex >= 0 && authProxyIndex < spaFallbackIndex);
+  assert.match(netlify, /to = "https:\\/\\/gen-lang-client-0830179867\\.firebaseapp\\.com\\/__\\/auth\\/:splat"/);
+  assert.match(netlify.slice(authProxyIndex, spaFallbackIndex), /status = 200[\\s\\S]*force = true/);
+  assert.match(firebaseClient, /deploy-preview-65--curivahomoeopathy\\.netlify\\.app/);
+  assert.match(firebaseClient, /authDomain: currentHostname/);
+  assert.match(firebaseClient, /initializeApp\\(runtimeFirebaseConfig\\)/);
   assert.match(netlify, /for = "\/api\/\*"/);
   assert.match(netlify, /Cache-Control = "private, no-store/);
 });
