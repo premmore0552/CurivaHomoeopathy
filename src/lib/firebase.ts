@@ -5,6 +5,7 @@ import {
   getAuth, 
   signInWithPopup, 
   signInWithRedirect,
+  getRedirectResult,
   GoogleAuthProvider, 
   signOut,
   signInWithPhoneNumber,
@@ -71,6 +72,7 @@ export const googleProvider = new GoogleAuthProvider();
 export { 
   signInWithPopup, 
   signInWithRedirect,
+  getRedirectResult,
   signOut,
   signInWithPhoneNumber,
   RecaptchaVerifier,
