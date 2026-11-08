@@ -89,7 +89,12 @@ export default function Auth() {
       try {
         await signInWithPopup(auth, googleProvider);
       } catch (authError: unknown) {
-        if (shouldUseGoogleRedirectFallback(authError)) {
+        // Firebase redirect sign-in relies on a cross-origin helper iframe.
+        // Netlify/local custom hosts need a same-origin /__/auth proxy for this
+        // to work consistently in browsers that partition third-party storage.
+        // Only use redirect fallback on Firebase Hosting domains where the
+        // helper is already same-site; elsewhere show a popup-specific error.
+        if (shouldUseGoogleRedirectFallback(authError, window.location.hostname)) {
           try {
             await signInWithRedirect(auth, googleProvider);
           } catch (redirectError: unknown) {
