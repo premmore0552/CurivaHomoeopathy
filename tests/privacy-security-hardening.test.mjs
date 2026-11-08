@@ -48,18 +48,53 @@ test('HTML has no inline scripts or embedded styles; boot assets are same-origin
   assert.match(indexHtml, /\/src\/main\.tsx/);
 });
 
-test('production CSP blocks inline JavaScript and unsafe embedding', () => {
+test('production CSP allows required Google sign-in origins without inline scripts or arbitrary hosts', () => {
   const policy = netlify.split('\n').find(line => line.includes('Content-Security-Policy ='));
   assert.ok(policy);
-  const scriptDirective = policy.split(';').find(directive => directive.trim().startsWith('script-src ')) || '';
-  assert.ok(scriptDirective.includes("script-src 'self'"));
-  assert.ok(scriptDirective.includes('https://checkout.razorpay.com'));
-  assert.doesNotMatch(scriptDirective, /unsafe-inline/);
+  const sources = (name) => {
+    const directive = policy.split(';').find(part => part.trim().startsWith(name + ' ')) || '';
+    return new Set(directive.trim().split(/\s+/).slice(1));
+  };
+  const script = sources('script-src');
+  const connect = sources('connect-src');
+  const frame = sources('frame-src');
+  const style = sources('style-src');
+  const styleElement = sources('style-src-elem');
+
+  assert.ok(script.has("'self'"));
+  assert.ok(script.has('https://checkout.razorpay.com'));
+  assert.ok(script.has('https://apis.google.com'));
+  assert.ok(script.has('https://accounts.google.com'));
+  assert.ok(connect.has('https://apis.google.com'));
+  assert.ok(connect.has('https://accounts.google.com'));
+  assert.ok(frame.has('https://accounts.google.com'));
+  assert.ok(frame.has("'self'"));
+  assert.ok(frame.has('https://app.netlify.com'));
+  assert.ok(style.has('https://accounts.google.com'));
+  assert.ok(styleElement.has('https://accounts.google.com'));
+  // Permit only the exact checkout style block reported by the browser; no blanket inline-style allowance.
+  assert.ok(styleElement.has("'sha256-VYoJM+B5VwF3YDs5YIEt5XASBqk8M2apkiuz5wugOu4='"));
+
+  // No path-substring allowlists: exact trusted origins avoid ambiguous URL matching.
+  assert.doesNotMatch(policy, /https:\/\/(?:apis\.google\.com\/js|accounts\.google\.com\/(?:gsi|o\/fedcm))\//);
+  assert.equal(script.has("'unsafe-inline'"), false);
   assert.match(policy, /script-src-attr 'none'/);
   assert.match(policy, /object-src 'none'/);
   assert.match(policy, /frame-ancestors 'none'/);
   assert.match(policy, /base-uri 'self'/);
   assert.match(policy, /upgrade-insecure-requests/);
+
+  // Firebase's supported same-origin helper proxy enables redirect fallback on Netlify.
+  const authProxyIndex = netlify.indexOf('from = "/__/auth/*"');
+  const spaFallbackIndex = netlify.indexOf('from = "/*"');
+  assert.ok(authProxyIndex >= 0 && authProxyIndex < spaFallbackIndex);
+  const authProxyRule = netlify.slice(authProxyIndex, spaFallbackIndex);
+  assert.ok(authProxyRule.includes('to = "https://gen-lang-client-0830179867.firebaseapp.com/__/auth/:splat"'));
+  assert.ok(authProxyRule.includes('status = 200'));
+  assert.ok(authProxyRule.includes('force = true'));
+  assert.ok(firebaseClient.includes('deploy-preview-65--curivahomoeopathy.netlify.app'));
+  assert.ok(firebaseClient.includes('authDomain: currentHostname'));
+  assert.ok(firebaseClient.includes('initializeApp(runtimeFirebaseConfig)'));
   assert.match(netlify, /for = "\/api\/\*"/);
   assert.match(netlify, /Cache-Control = "private, no-store/);
 });
