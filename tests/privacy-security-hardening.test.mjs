@@ -88,11 +88,13 @@ test('production CSP allows required Google sign-in origins without inline scrip
   const authProxyIndex = netlify.indexOf('from = "/__/auth/*"');
   const spaFallbackIndex = netlify.indexOf('from = "/*"');
   assert.ok(authProxyIndex >= 0 && authProxyIndex < spaFallbackIndex);
-  assert.match(netlify, /to = "https:\\/\\/gen-lang-client-0830179867\\.firebaseapp\\.com\\/__\\/auth\\/:splat"/);
-  assert.match(netlify.slice(authProxyIndex, spaFallbackIndex), /status = 200[\\s\\S]*force = true/);
-  assert.match(firebaseClient, /deploy-preview-65--curivahomoeopathy\\.netlify\\.app/);
-  assert.match(firebaseClient, /authDomain: currentHostname/);
-  assert.match(firebaseClient, /initializeApp\\(runtimeFirebaseConfig\\)/);
+  const authProxyRule = netlify.slice(authProxyIndex, spaFallbackIndex);
+  assert.ok(authProxyRule.includes('to = "https://gen-lang-client-0830179867.firebaseapp.com/__/auth/:splat"'));
+  assert.ok(authProxyRule.includes('status = 200'));
+  assert.ok(authProxyRule.includes('force = true'));
+  assert.ok(firebaseClient.includes('deploy-preview-65--curivahomoeopathy.netlify.app'));
+  assert.ok(firebaseClient.includes('authDomain: currentHostname'));
+  assert.ok(firebaseClient.includes('initializeApp(runtimeFirebaseConfig)'));
   assert.match(netlify, /for = "\/api\/\*"/);
   assert.match(netlify, /Cache-Control = "private, no-store/);
 });
