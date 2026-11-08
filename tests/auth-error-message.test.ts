@@ -20,7 +20,7 @@ test('uses redirect fallback only when the app and Firebase auth helper share an
 
   assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, firebaseDomain, firebaseDomain), true);
   assert.equal(shouldUseGoogleRedirectFallback(unsupported, firebaseDomain, firebaseDomain), true);
-  assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, 'deploy-preview-63--curivahomoeopathy.netlify.app', firebaseDomain), false);
+  assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, 'deploy-preview-65--curivahomoeopathy.netlify.app', firebaseDomain), false);
   assert.equal(shouldUseGoogleRedirectFallback(unsupported, 'curiva.web.app', firebaseDomain), false);
   assert.equal(shouldUseGoogleRedirectFallback(popupBlocked, 'localhost', firebaseDomain), false);
   assert.equal(shouldUseGoogleRedirectFallback({ code: 'auth/popup-closed-by-user' }, firebaseDomain, firebaseDomain), false);
