@@ -54,6 +54,13 @@ test('production CSP blocks inline JavaScript and unsafe embedding', () => {
   const scriptDirective = policy.split(';').find(directive => directive.trim().startsWith('script-src ')) || '';
   assert.ok(scriptDirective.includes("script-src 'self'"));
   assert.ok(scriptDirective.includes('https://checkout.razorpay.com'));
+  assert.ok(scriptDirective.includes('https://apis.google.com/js/api.js'));
+  const connectDirective = policy.split(';').find(directive => directive.trim().startsWith('connect-src ')) || '';
+  assert.ok(connectDirective.includes('https://apis.google.com/js/'));
+  assert.ok(connectDirective.includes('https://accounts.google.com/gsi/'));
+  assert.ok(connectDirective.includes('https://accounts.google.com/o/fedcm/'));
+  const frameDirective = policy.split(';').find(directive => directive.trim().startsWith('frame-src ')) || '';
+  assert.ok(frameDirective.includes('https://apis.google.com/js/'));
   assert.doesNotMatch(scriptDirective, /unsafe-inline/);
   assert.match(policy, /script-src-attr 'none'/);
   assert.match(policy, /object-src 'none'/);
