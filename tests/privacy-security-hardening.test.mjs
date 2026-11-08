@@ -72,7 +72,7 @@ test('production CSP allows required Google sign-in origins without inline scrip
   assert.ok(style.has('https://accounts.google.com'));
   assert.ok(styleElement.has('https://accounts.google.com'));
   // Permit only the exact checkout style block reported by the browser; no blanket inline-style allowance.
-  assert.ok(styleElement.has("'sha256-VYoJM+B5VwF3YDs5YIEtX5ASBqk8M2apkiuz5wugOu4='"));
+  assert.ok(styleElement.has("'sha256-VYoJM+B5VwF3YDs5YIEt5XASBqk8M2apkiuz5wugOu4='"));
 
   // No path-substring allowlists: exact trusted origins avoid ambiguous URL matching.
   assert.doesNotMatch(policy, /https:\/\/(?:apis\.google\.com\/js|accounts\.google\.com\/(?:gsi|o\/fedcm))\//);
