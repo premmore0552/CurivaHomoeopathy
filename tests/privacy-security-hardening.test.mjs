@@ -53,7 +53,7 @@ test('production CSP allows required Google sign-in origins without inline scrip
   assert.ok(policy);
   const sources = (name) => {
     const directive = policy.split(';').find(part => part.trim().startsWith(name + ' ')) || '';
-    return new Set(directive.trim().split(/\\s+/).slice(1));
+    return new Set(directive.trim().split(/\s+/).slice(1));
   };
   const script = sources('script-src');
   const connect = sources('connect-src');
