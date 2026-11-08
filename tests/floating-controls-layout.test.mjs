@@ -44,7 +44,8 @@ test('tablet disclaimer is centered while the study timer remains in a separate 
 
 test('bottom navigation remains reserved and floating triggers clear the navigation bar', () => {
   assert.match(styles, /body\s*\{\s*padding-bottom:\s*calc\(4\.75rem \+ env\(safe-area-inset-bottom, 0px\)\)/);
-  assert.match(header, /fixed inset-x-0 bottom-0 z-\[60\]/);
+  assert.doesNotMatch(header, /fixed inset-x-0 bottom-0 z-\[60\]/);
+  assert.match(fmtNavigation, /fixed bottom-0 left-0 right-0 z-\[60\]/);
   assert.match(fmtNavigation, /fixed bottom-0 left-0 right-0 z-\[60\]/);
   assert.match(styles, /--curiva-study-dock-bottom:\s*calc\(var\(--curiva-floating-safe-bottom\) \+ 4\.75rem\)/);
 });

@@ -30,9 +30,9 @@ jobs:
           node-version: 22
           cache: npm
 
-      - name: Refresh lockfile for Phase 2 security pins
-        if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-final'
-        run: npm install --package-lock-only --ignore-scripts
+      - name: Regenerate lockfile from package manifest
+        if: github.event_name == 'pull_request' && github.head_ref == 'security/issue-46-netlify-deploy-fix'
+        run: rm -f package-lock.json && npm install --package-lock-only --ignore-scripts
 
       - name: Install locked dependencies
         run: npm ci
@@ -62,6 +62,27 @@ jobs:
             );
           }
           if (report.error) console.log('NPM_AUDIT_ERROR', JSON.stringify(report.error));
+          NODE
+
+      - name: Report production-only npm security advisories
+        shell: bash
+        run: |
+          npm audit --omit=dev --json > "$RUNNER_TEMP/npm-audit-production.json" || true
+          node - "$RUNNER_TEMP/npm-audit-production.json" <<'NODE'
+          const fs = require('node:fs');
+          let report = {};
+          try {
+            report = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          } catch (error) {
+            console.log('Production-only npm audit report could not be parsed:', error.message);
+            process.exit(0);
+          }
+          console.log('NPM_AUDIT_PRODUCTION_COUNTS', JSON.stringify(report.metadata?.vulnerabilities || {}));
+          for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+            console.log(
+              `NPM_AUDIT_PRODUCTION ${String(item.severity).toUpperCase()} ${name} range=${item.range} fix=${JSON.stringify(item.fixAvailable)}`,
+            );
+          }
           NODE
       - name: Verify Boericke source reconciliation and importer
         run: npm run test:boericke
@@ -143,8 +164,12 @@ jobs:
       - name: Test Firestore security rules in the emulator
         run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
 
+      - name: Smoke-test the live Netlify Deploy Preview
+        if: github.event_name == 'pull_request'
+        run: npm run verify:deploy-preview -- "https://deploy-preview-${{ github.event.pull_request.number }}--curivahomoeopathy.netlify.app"
+
   safe-dependency-fix:
-    if: github.event_name == 'pull_request' && github.head_ref == 'codex/phase-2-performance-final'
+    if: github.event_name == 'pull_request' && github.head_ref == 'security/issue-46-netlify-deploy-fix'
     name: Apply available non-forced npm security updates
     runs-on: ubuntu-latest
     permissions:
@@ -163,7 +188,7 @@ jobs:
           cache: npm
 
       - name: Refresh package lock for selected safe versions
-        run: npm install --package-lock-only --ignore-scripts
+        run: rm -f package-lock.json && npm install --package-lock-only --ignore-scripts
 
       - name: Install locked dependencies
         run: npm ci

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { BookOpen, Home, Library, Menu, Search, X, Zap } from 'lucide-react';
 
@@ -18,6 +18,48 @@ const moreItems = [
 
 export default function FmtBottomNav() {
   const [moreOpen, setMoreOpen] = useState(false);
+  const moreButtonRef = useRef<HTMLButtonElement>(null);
+  const moreDialogRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    if (!moreOpen) return;
+    const previousOverflow = document.body.style.overflow;
+    const previouslyFocused = document.activeElement instanceof HTMLElement ? document.activeElement : null;
+    document.body.style.overflow = 'hidden';
+    const focusTimer = window.setTimeout(() => {
+      const focusable = moreDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      focusable?.[0]?.focus();
+    }, 0);
+    const onKeyDown = (event: KeyboardEvent) => {
+      if (event.key === 'Escape') {
+        setMoreOpen(false);
+        return;
+      }
+      if (event.key !== 'Tab') return;
+      const focusable = moreDialogRef.current?.querySelectorAll<HTMLElement>(
+        'a[href], button:not([disabled]), [tabindex]:not([tabindex="-1"])',
+      );
+      if (!focusable?.length) return;
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (event.shiftKey && document.activeElement === first) {
+        event.preventDefault();
+        last.focus();
+      } else if (!event.shiftKey && document.activeElement === last) {
+        event.preventDefault();
+        first.focus();
+      }
+    };
+    window.addEventListener('keydown', onKeyDown);
+    return () => {
+      window.clearTimeout(focusTimer);
+      document.body.style.overflow = previousOverflow;
+      window.removeEventListener('keydown', onKeyDown);
+      previouslyFocused?.focus();
+    };
+  }, [moreOpen]);
 
   return (
     <>
@@ -35,14 +77,14 @@ export default function FmtBottomNav() {
             <span className="text-[10px] font-black uppercase tracking-tighter">{item.label}</span>
           </NavLink>
         ))}
-        <button type="button" onClick={() => setMoreOpen(true)} className="flex flex-col items-center gap-1 rounded-xl px-3 py-1 text-text-tertiary transition-all hover:text-text-secondary" aria-label="Open more FMT options">
+        <button ref={moreButtonRef} type="button" onClick={() => setMoreOpen(true)} className="flex flex-col items-center gap-1 rounded-xl px-3 py-1 text-text-tertiary transition-all hover:text-text-secondary" aria-label="Open more FMT options">
           <Menu className="h-5 w-5" />
           <span className="text-[10px] font-black uppercase tracking-tighter">More</span>
         </button>
       </nav>
 
       {moreOpen && (
-        <div className="fixed inset-0 z-[80] flex items-end bg-black/40 md:hidden" role="dialog" aria-modal="true" aria-label="More FMT options" onClick={() => setMoreOpen(false)}>
+        <div ref={moreDialogRef} className="fixed inset-0 z-[80] flex items-end bg-black/40 md:hidden" role="dialog" aria-modal="true" aria-label="More FMT options" onClick={() => setMoreOpen(false)}>
           <div className="w-full rounded-t-3xl bg-bg-primary p-5 pb-8 shadow-2xl" onClick={(event) => event.stopPropagation()}>
             <div className="mb-4 flex items-center justify-between">
               <div>
