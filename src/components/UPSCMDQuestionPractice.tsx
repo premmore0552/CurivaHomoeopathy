@@ -105,7 +105,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
         try {
           if (localStorage.getItem(GOOGLE_REDIRECT_PENDING_KEY) === 'true') {
             localStorage.removeItem(GOOGLE_REDIRECT_PENDING_KEY);
-            void userService.syncAuthUser().catch(() => {
+            void userService.syncAuthUser('BHMS Student').catch(() => {
               setAuthError('Google sign-in succeeded, but Curiva could not synchronize your scholar profile. Check your connection and refresh the page.');
             });
           }
@@ -198,7 +198,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
       // of profile persistence, and report profile sync failures as a separate issue.
       setAuthUser(credential.user);
       try {
-        await userService.syncAuthUser();
+        await userService.syncAuthUser('BHMS Student');
       } catch {
         setAuthError('Google sign-in succeeded, but Curiva could not synchronize your scholar profile. Check your connection and refresh the page.');
       }
