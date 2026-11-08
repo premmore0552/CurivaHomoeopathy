@@ -2,20 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { User, LogIn, LogOut, ShieldCheck, ChevronDown, Crown, ArrowRight, Sparkles, Library } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { 
-  auth, 
-  googleProvider,
-  db, 
-  handleFirestoreError, 
-  OperationType,
-  signInWithPopup, 
-  signOut, 
-  onAuthStateChanged, 
-  doc, 
-  getDoc, 
-  setDoc, 
-  serverTimestamp 
-} from '../lib/firebase';
+import { auth, signOut, onAuthStateChanged } from '../lib/firebase';
 import { userService } from '../services/userService';
 
 type FirebaseUser = any;
@@ -38,7 +25,7 @@ export default function AuthButton({ isMobile, onCloseMenu, style }: AuthButtonP
       setLoading(false);
       
       if (currentUser) {
-        userService.syncAuthUser().catch(console.error);
+        void userService.syncAuthUser().catch(() => { /* Profile sync is retried on the next account visit. */ });
       }
     });
 
@@ -58,14 +45,6 @@ export default function AuthButton({ isMobile, onCloseMenu, style }: AuthButtonP
       document.removeEventListener('mousedown', handleClickOutside);
     };
   }, [showDropdown]);
-
-  const handleLogin = async () => {
-    try {
-      await signInWithPopup(auth, googleProvider);
-    } catch (error) {
-      console.error("Login failed:", error);
-    }
-  };
 
   const handleLogout = async () => {
     try {

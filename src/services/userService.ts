@@ -132,7 +132,7 @@ export const userService = {
   async syncAuthUser(profession?: string) {
     const user = auth.currentUser;
     if (!user) return;
-    const safeProfession = safeProfileProfession(profession);
+    const safeProfession = safeProfileProfession(profession ?? 'BHMS Student');
 
     try {
       const reference = doc(db, 'users', user.uid);
@@ -157,7 +157,12 @@ export const userService = {
         photoURL: user.photoURL?.startsWith('https://') ? user.photoURL : (current.photoURL || ''),
         updatedAt: serverTimestamp()
       };
-      if (profession) update.profession = safeProfession;
+      if (profession) {
+        update.profession = safeProfession;
+      } else if (!current.profession || safeProfileProfession(current.profession) === 'user') {
+        // Repair legacy OAuth profiles that were incorrectly normalised to "user".
+        update.profession = 'BHMS Student';
+      }
       await updateDoc(reference, update);
       return profession ? safeProfession : safeProfileProfession(current.profession);
     } catch (error) {

@@ -49,7 +49,7 @@ export default function Auth() {
         if (redirectResult?.user) {
           redirectUserHandled = true;
           try {
-            await userService.syncAuthUser('Scholar');
+            await userService.syncAuthUser();
             if (active) navigate(redirectPath);
           } catch {
             if (active) {
@@ -102,7 +102,7 @@ export default function Auth() {
       }
 
       try {
-        await userService.syncAuthUser('Scholar');
+        await userService.syncAuthUser();
         navigate(redirectPath);
       } catch {
         setError(

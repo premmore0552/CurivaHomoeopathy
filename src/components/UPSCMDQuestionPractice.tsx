@@ -4,6 +4,7 @@ import { Capacitor } from '@capacitor/core';
 import { AlertCircle, ArrowLeft, ArrowRight, Bookmark, BookmarkCheck, CheckCircle2, Clock3, Filter, Flag, LogOut, Search, ShieldCheck, Trophy, UserRound, XCircle } from 'lucide-react';
 import { auth, googleProvider, onAuthStateChanged, signInWithPopup, signInWithRedirect, signOut } from '../lib/firebase';
 import { userService } from '../services/userService';
+import { getGoogleAuthErrorMessage, shouldUseGoogleRedirectFallback } from '../lib/authErrorMessage';
 import SEO from './SEO';
 import {
   chauhanQuestionBankStats,
@@ -104,8 +105,8 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
         try {
           if (localStorage.getItem(GOOGLE_REDIRECT_PENDING_KEY) === 'true') {
             localStorage.removeItem(GOOGLE_REDIRECT_PENDING_KEY);
-            void userService.syncAuthUser('Scholar').catch((error) => {
-              console.warn('Curiva profile sync will retry at the next sign-in.', error);
+            void userService.syncAuthUser().catch(() => {
+              setAuthError('Google sign-in succeeded, but Curiva could not synchronize your scholar profile. Check your connection and refresh the page.');
             });
           }
         } catch { /* Auth remains available if optional browser storage is blocked. */ }
@@ -180,25 +181,30 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
         await signInWithRedirect(auth, googleProvider);
         return;
       }
-      const credential = await signInWithPopup(auth, googleProvider);
+
+      let credential;
       try {
-        await userService.syncAuthUser('Scholar');
-      } catch (profileError) {
-        console.warn('Google sign-in succeeded; Curiva profile sync will retry later.', profileError);
+        credential = await signInWithPopup(auth, googleProvider);
+      } catch (authError: unknown) {
+        if (shouldUseGoogleRedirectFallback(authError)) {
+          localStorage.setItem(GOOGLE_REDIRECT_PENDING_KEY, 'true');
+          await signInWithRedirect(auth, googleProvider);
+          return;
+        }
+        throw authError;
       }
+
+      // Authentication succeeded: reveal the account-gated study bank independently
+      // of profile persistence, and report profile sync failures as a separate issue.
       setAuthUser(credential.user);
-    } catch (error) {
+      try {
+        await userService.syncAuthUser();
+      } catch {
+        setAuthError('Google sign-in succeeded, but Curiva could not synchronize your scholar profile. Check your connection and refresh the page.');
+      }
+    } catch (error: unknown) {
       try { localStorage.removeItem(GOOGLE_REDIRECT_PENDING_KEY); } catch { /* Ignore optional cleanup failures. */ }
-      const code = (error as { code?: string })?.code || '';
-      setAuthError(
-        code === 'auth/popup-blocked'
-          ? 'Your browser blocked the Google sign-in popup. Allow popups for Curiva and try again.'
-          : code === 'auth/popup-closed-by-user'
-            ? 'Google sign-in was closed before it finished. Try again.'
-            : code === 'auth/unauthorized-domain'
-              ? 'This website domain is not yet authorised in Firebase Authentication.'
-              : (error instanceof Error ? error.message : 'Google sign-in could not be completed.')
-      );
+      setAuthError(getGoogleAuthErrorMessage(error));
     } finally {
       setAuthBusy(false);
     }
@@ -216,7 +222,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
       setPracticeAnswers({});
       setExpandedExplanationId(null);
     } catch (error) {
-      setAuthError(error instanceof Error ? error.message : 'Sign out could not be completed.');
+      setAuthError('Sign out could not be completed. Please retry.');
     }
   };
 
