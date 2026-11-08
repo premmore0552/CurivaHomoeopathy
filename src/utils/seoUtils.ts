@@ -36,7 +36,7 @@ export const getOrganizationSchema = () => ({
   '@type': 'Organization',
   'name': SEO_CONFIG.siteName,
   'url': SEO_CONFIG.domain,
-  'logo': `${SEO_CONFIG.domain}/curiva_logo.png`,
+  'logo': `${SEO_CONFIG.domain}/curiva_logo.jpg`,
   'sameAs': [
     // Add social links here
   ]

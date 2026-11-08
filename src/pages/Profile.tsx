@@ -30,8 +30,7 @@ import {
   BadgeAlert,
   Database
 } from 'lucide-react';
-import { auth, signOut } from '../lib/firebase';
-import { onAuthStateChanged, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
+import { auth, signOut, onAuthStateChanged } from '../lib/firebase';
 import SEO from '../components/SEO';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import StudyToolkitDashboard from '../components/StudyToolkitDashboard';
@@ -96,13 +95,8 @@ export default function Profile() {
     }
   }, [profile]);
 
-  const handleSignInGoogle = async () => {
-    try {
-      const provider = new GoogleAuthProvider();
-      await signInWithPopup(auth, provider);
-    } catch (e) {
-      console.error("Sign in failed: ", e);
-    }
+  const handleSignInGoogle = () => {
+    navigate('/auth', { state: { from: '/profile' } });
   };
 
   const handleSignOut = async () => {

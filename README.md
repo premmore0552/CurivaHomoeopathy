@@ -6,7 +6,7 @@ An educational medical-learning platform for BHMS students. The website and Andr
 
 ## Existing project and deployment workflow
 
-This repository contains the Curiva Homoeopathy website and a separate native Android learning app. The website remains a React/Vite deployment; Android is Kotlin/Jetpack Compose. Continue development in the repository's development branch `feat/full-platform-transformation`; do not create another repository or Netlify site for this work.
+This repository contains the Curiva Homoeopathy website and a separate native Android learning app. The website remains a React/Vite deployment; Android is Kotlin/Jetpack Compose. Start new work from the current `main` branch using short-lived feature branches and pull requests; do not revive historical feature branches or create another repository or Netlify site for this work.
 
 - Production hosting remains connected to `main` on the existing Netlify site.
 - Feature work should stay in the draft pull request until review and deploy-preview verification are complete.

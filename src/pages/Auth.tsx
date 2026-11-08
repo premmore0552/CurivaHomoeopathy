@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   ShieldCheck, 
@@ -26,6 +26,9 @@ export default function Auth() {
   // Status states
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<React.ReactNode | null>(null);
+  // Prevent the auth-state observer from navigating before the explicit sign-in
+  // action has finished synchronizing the user's Curiva profile.
+  const authFlowStarted = useRef(false);
 
   // Redirect path
   const redirectPath = location.state?.from || '/profile';
@@ -46,7 +49,7 @@ export default function Auth() {
         if (redirectResult?.user) {
           redirectUserHandled = true;
           try {
-            await userService.syncAuthUser('Scholar');
+            await userService.syncAuthUser('BHMS Student');
             if (active) navigate(redirectPath);
           } catch {
             if (active) {
@@ -63,7 +66,7 @@ export default function Auth() {
       if (!active || redirectUserHandled) return;
 
       unsubscribe = onAuthStateChanged(auth, (user) => {
-        if (user) navigate(redirectPath);
+        if (user && !authFlowStarted.current) navigate(redirectPath);
       });
     };
 
@@ -76,21 +79,35 @@ export default function Auth() {
   }, [navigate, redirectPath]);
 
   const handleGoogleSignIn = async () => {
+    authFlowStarted.current = true;
     setLoading(true);
     setError(null);
+
     try {
-      await signInWithPopup(auth, googleProvider);
-      await userService.syncAuthUser('Scholar');
-      navigate(redirectPath);
-    } catch (err: unknown) {
-      if (shouldUseGoogleRedirectFallback(err)) {
-        try {
-          await signInWithRedirect(auth, googleProvider);
-        } catch (redirectError: unknown) {
-          handleAuthError(redirectError);
+      // Keep provider authentication separate from the Firestore profile write.
+      // A profile-sync failure must not be reported as a Google OAuth failure.
+      try {
+        await signInWithPopup(auth, googleProvider);
+      } catch (authError: unknown) {
+        if (shouldUseGoogleRedirectFallback(authError)) {
+          try {
+            await signInWithRedirect(auth, googleProvider);
+          } catch (redirectError: unknown) {
+            handleAuthError(redirectError);
+          }
+        } else {
+          handleAuthError(authError);
         }
-      } else {
-        handleAuthError(err);
+        return;
+      }
+
+      try {
+        await userService.syncAuthUser('BHMS Student');
+        navigate(redirectPath);
+      } catch {
+        setError(
+          'Google sign-in succeeded, but Curiva could not synchronize your scholar profile. Your Google account is authenticated. Check your connection and refresh; if the problem continues, contact support.'
+        );
       }
     } finally {
       setLoading(false);

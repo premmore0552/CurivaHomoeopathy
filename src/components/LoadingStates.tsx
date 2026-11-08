@@ -9,7 +9,7 @@ export default function RouteLoadingScreen({ label = 'Loading page content' }: L
       <span className="sr-only">{label}</span>
       <div className="mb-6 flex items-center justify-center gap-3">
         <img
-          src="/app_icon.png.png"
+          src="/app_icon.jpg"
           alt=""
           onError={(event) => { event.currentTarget.src = '/curiva_logo.svg'; }}
           className="h-10 w-10 rounded-xl object-cover"

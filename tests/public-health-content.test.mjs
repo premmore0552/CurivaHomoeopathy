@@ -13,6 +13,8 @@ const home = read('../src/pages/Home.tsx');
 const homeHero = read('../src/components/home/HighImpactHero.tsx');
 const app = read('../src/App.tsx');
 const appLoader = read('../src/components/LoadingStates.tsx');
+const publicHealthEbook = read('../src/pages/PublicHealthEBook.tsx');
+const appIconBytes = readFileSync(new URL('../public/app_icon.jpg', import.meta.url));
 const serviceWorker = read('../public/sw.js');
 
 const expandedGuides = [
@@ -58,10 +60,16 @@ test('ebook reading progress is disclosed as device-local', () => {
 });
 
 test('latest Curiva mark is used in boot, app loaders and PWA manifest', () => {
-  assert.match(splash, /src="\/app_icon\.png\.png"/);
+  assert.match(splash, /src="\/app_icon\.jpg"/);
+  assert.match(splash, /apple-touch-icon" href="\/app_icon\.jpg"/);
   assert.match(app, /RouteLoadingScreen/);
-  assert.match(appLoader, /src="\/app_icon\.png\.png"/);
-  assert.ok(manifest.icons.every((icon) => icon.src === '/app_icon.png.png' && icon.type === 'image/jpeg'));
+  assert.match(appLoader, /src="\/app_icon\.jpg"/);
+  assert.match(publicHealthEbook, /src="\/app_icon\.jpg"/);
+  assert.ok(manifest.icons.every((icon) => icon.src === '/app_icon.jpg' && icon.type === 'image/jpeg' && icon.sizes === '1024x1024'));
+  assert.equal(appIconBytes.subarray(0, 3).toString('hex'), 'ffd8ff', 'PWA icon must be a real JPEG');
+  assert.match(serviceWorker, /curiva-public-static-v8/);
+  assert.match(serviceWorker, /'\/app_icon\.jpg'/);
+  assert.doesNotMatch(serviceWorker, /app_icon\.png\.png/);
   assert.match(bootCss, /prefers-reduced-motion/);
 });
 
