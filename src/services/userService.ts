@@ -157,9 +157,15 @@ export const userService = {
         photoURL: user.photoURL?.startsWith('https://') ? user.photoURL : (current.photoURL || ''),
         updatedAt: serverTimestamp()
       };
-      if (profession) update.profession = safeProfession;
+      if (profession && (!current.profession || safeProfileProfession(current.profession) === 'user')) {
+        // Upgrade legacy OAuth profiles normalised to "user" without replacing
+        // an existing Public, student, practitioner, faculty or researcher role.
+        update.profession = safeProfession;
+      }
       await updateDoc(reference, update);
-      return profession ? safeProfession : safeProfileProfession(current.profession);
+      return typeof update.profession === 'string'
+        ? update.profession
+        : safeProfileProfession(current.profession);
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
       // handleFirestoreError deliberately returns for transient offline errors;
