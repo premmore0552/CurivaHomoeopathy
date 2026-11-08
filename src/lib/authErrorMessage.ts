@@ -35,9 +35,9 @@ export function getGoogleAuthErrorMessage(error: unknown): string {
     case 'auth/unauthorized-domain':
       return 'Google sign-in is not authorized for this website. Add the exact site hostname in Firebase Authentication settings, then retry.';
     case 'auth/popup-blocked':
-      return 'Your browser blocked the Google sign-in popup. Allow pop-ups for this Curiva site and try again. Automatic redirect sign-in is not enabled because this host does not serve Firebase’s auth helper on the same origin.';
+      return 'Your browser blocked the Google sign-in popup. Curiva will use its same-origin sign-in route when available. Allow pop-ups for this site and retry if sign-in does not continue.';
     case 'auth/operation-not-supported-in-this-environment':
-      return 'This browser cannot open Google sign-in popups. Try an up-to-date browser that permits pop-ups. Redirect sign-in requires Firebase’s auth helper to be configured on this same origin.';
+      return 'This browser cannot open Google sign-in popups. Curiva will use its same-origin sign-in route when available; otherwise, try an up-to-date browser that permits pop-ups.';
     case 'auth/popup-closed-by-user':
       return 'The Google sign-in window was closed before sign-in completed. Please try again.';
     case 'auth/cancelled-popup-request':
