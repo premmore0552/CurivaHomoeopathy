@@ -59,6 +59,19 @@ function fail(name, detail) {
 }
 
 try {
+  // Verify the same-origin Firebase helper proxy resolves to Firebase's helper
+  // JavaScript instead of falling through to the SPA shell.
+  const authHelper = await request('/__/auth/iframe.js');
+  if (
+    authHelper.response.status === 200 &&
+    /(?:application|text)\\/javascript/i.test(authHelper.contentType) &&
+    authHelper.text.length > 100
+  ) {
+    pass('GET /__/auth/iframe.js', '200 JavaScript; same-origin Firebase auth helper proxy is reachable');
+  } else {
+    fail('GET /__/auth/iframe.js', `expected 200 JavaScript from Firebase helper; got ${authHelper.response.status} ${authHelper.contentType}`);
+  }
+
   const posts = await request('/api/posts');
   if (posts.response.status === 200 && /application\/json/i.test(posts.contentType) && Array.isArray(posts.json)) {
     pass('GET /api/posts', `200 JSON; ${posts.json.length} posts`);
