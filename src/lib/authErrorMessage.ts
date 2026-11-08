@@ -9,16 +9,20 @@ export function getGoogleAuthErrorCode(error: unknown): string {
   return candidate.toLowerCase();
 }
 
-export function shouldUseGoogleRedirectFallback(error: unknown, hostname = ''): boolean {
+export function shouldUseGoogleRedirectFallback(
+  error: unknown,
+  hostname = '',
+  authDomain = ''
+): boolean {
   const code = getGoogleAuthErrorCode(error);
   const host = hostname.toLowerCase().replace(/\.$/, '');
-  const usesFirebaseHosting = host.endsWith('.firebaseapp.com') || host.endsWith('.web.app');
+  const configuredAuthHost = authDomain.toLowerCase().replace(/\.$/, '');
+  const sameOriginAuthHelper = Boolean(host && configuredAuthHost && host === configuredAuthHost);
 
-  // Redirect sign-in is only a safe automatic fallback when the app and
-  // Firebase's auth helper are already on Firebase Hosting. Other hosts
-  // (including Netlify previews and localhost) need a same-origin /__/auth
-  // proxy and matching OAuth redirect URI configured first.
-  return usesFirebaseHosting && (
+  // A redirect fallback is safe only when Firebase's auth helper is served
+  // from the same origin as the app. External hosts such as Netlify require a
+  // documented same-origin /__/auth proxy and OAuth redirect URI setup first.
+  return sameOriginAuthHelper && (
     code === 'auth/popup-blocked' ||
     code === 'auth/operation-not-supported-in-this-environment'
   );
@@ -31,9 +35,9 @@ export function getGoogleAuthErrorMessage(error: unknown): string {
     case 'auth/unauthorized-domain':
       return 'Google sign-in is not authorized for this website. Add the exact site hostname in Firebase Authentication settings, then retry.';
     case 'auth/popup-blocked':
-      return 'Your browser blocked the Google sign-in popup. Allow pop-ups for this Curiva site and try again. Automatic redirect sign-in is not enabled because this Netlify host does not proxy Firebase’s auth helper on the same domain.';
+      return 'Your browser blocked the Google sign-in popup. Allow pop-ups for this Curiva site and try again. Automatic redirect sign-in is not enabled because this host does not serve Firebase’s auth helper on the same origin.';
     case 'auth/operation-not-supported-in-this-environment':
-      return 'This browser cannot open Google sign-in popups. Try an up-to-date browser that permits pop-ups. Redirect sign-in needs an additional same-origin Firebase auth proxy on this hosting domain.';
+      return 'This browser cannot open Google sign-in popups. Try an up-to-date browser that permits pop-ups. Redirect sign-in requires Firebase’s auth helper to be configured on this same host.';
     case 'auth/popup-closed-by-user':
       return 'The Google sign-in window was closed before sign-in completed. Please try again.';
     case 'auth/cancelled-popup-request':
