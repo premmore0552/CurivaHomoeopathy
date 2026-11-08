@@ -182,7 +182,7 @@ export default function UPSCMDQuestionPractice({ embedded = false, onBack, onMan
         return;
       }
 
-      let credential;
+      let credential: Awaited<ReturnType<typeof signInWithPopup>>;
       try {
         credential = await signInWithPopup(auth, googleProvider);
       } catch (authError: unknown) {

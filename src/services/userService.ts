@@ -164,7 +164,9 @@ export const userService = {
         update.profession = 'BHMS Student';
       }
       await updateDoc(reference, update);
-      return profession ? safeProfession : safeProfileProfession(current.profession);
+      return typeof update.profession === 'string'
+        ? update.profession
+        : safeProfileProfession(current.profession);
     } catch (error) {
       handleFirestoreError(error, OperationType.WRITE, `users/${user.uid}`);
     }
