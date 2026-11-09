@@ -750,7 +750,7 @@ async function startServer() {
       apiKey,
       httpOptions: {
         headers: {
-          'User-Agent': 'aistudio-build',
+          'User-Agent': 'curiva-homoeopathy',
         }
       }
     });
