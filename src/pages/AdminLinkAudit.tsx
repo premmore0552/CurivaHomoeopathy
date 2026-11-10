@@ -638,11 +638,15 @@ export default function AdminLinkAudit() {
       { key: 'repertorization', path: '/symptom-checker', desc: 'Symptom Checker Kent Repertory' }
     ];
 
-    // Escape regex
+    // Convert matched keywords into safe marker tokens, not HTML.
     let parsed = text;
     keywordsMap.forEach(({ key, path, desc }) => {
-      const regex = new RegExp(`(${key})`, 'gi');
-      parsed = parsed.replace(regex, `<a href="${path}" title="${desc}" class="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-primary/5 hover:bg-primary/10 border border-primary/20 text-primary rounded text-xs font-semibold font-mono transition-colors" onclick="alert('Navigating contextually to ${path}'); return false;">$1 <span class="text-[8px] opacity-70">🔗</span></a>`);
+      const escapedKey = key.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+      const regex = new RegExp(`(${escapedKey})`, 'gi');
+      parsed = parsed.replace(
+        regex,
+        (_, match) => `[[AUTO_LINK|${path}|${desc}|${match}]]`
+      );
     });
 
     setParsedHtmlContent(parsed);
