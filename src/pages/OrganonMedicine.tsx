@@ -693,9 +693,16 @@ const OrganonMedicine: React.FC = () => {
                     <h3 className="text-sm font-bold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
                       <Book className="w-4 h-4" /> {BHMS_CURRICULUM[selectedYear].title} Highlights
                     </h3>
-                    <span className="text-xs text-stone-500 font-medium italic">
-                      {BHMS_CURRICULUM[selectedYear].courseHours}
-                    </span>
+                    <div className="text-right">
+                      <span className="text-xs text-stone-500 font-medium italic">
+                        {BHMS_CURRICULUM[selectedYear].courseHours}
+                      </span>
+                      {BHMS_CURRICULUM[selectedYear].courseHoursNote && (
+                        <p className="mt-1 max-w-md text-[10px] leading-5 text-stone-400">
+                          {BHMS_CURRICULUM[selectedYear].courseHoursNote}
+                        </p>
+                      )}
+                    </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {BHMS_CURRICULUM[selectedYear].lessons.map((lesson, idx) => (
@@ -1791,7 +1798,7 @@ const OrganonMedicine: React.FC = () => {
                     ) : quizSubmitted ? (
                       <div className="flex items-center gap-3">
                         <p className="text-sm font-bold text-stone-800">
-                          Mock Score: <strong className="text-amber-800 text-lg">{calculateQuizScore()}</strong> / {activeQuizQuestions.length}
+                          Practice Score: <strong className="text-amber-800 text-lg">{calculateQuizScore()}</strong> / {activeQuizQuestions.length}
                         </p>
                         <button
                           onClick={() => {
@@ -1809,7 +1816,7 @@ const OrganonMedicine: React.FC = () => {
                         disabled={Object.keys(quizSelectedAnswers).length === 0}
                         className="w-full py-3 bg-amber-800 hover:bg-amber-900 disabled:opacity-50 text-white font-bold text-xs rounded-xl tracking-wider uppercase transition-all shadow-md shadow-amber-800/10"
                       >
-                        Submit Examination Answers
+                        Submit Practice Answers
                       </button>
                     )}
                   </div>
