@@ -22,7 +22,7 @@ export const navigationGroups: NavigationGroup[] = [
   { label: 'Library', to: '/materia-medica', description: 'Explore reference material for structured academic learning.', items: [
     { label: 'Materia Medica', description: 'Study classical remedy references', to: '/materia-medica' },
     { label: 'Repertory', description: 'Explore rubrics and repertory structure', to: '/repertory' },
-    { label: 'Organon', description: 'Study principles and philosophy', to: '/organon-philosophy' },
+    { label: 'Organon', description: 'Open the four NCH-aligned professional-year subject pages', to: '/organon-philosophy' },
     { label: 'Anatomy', description: 'Revise structural anatomy', to: '/anatomy' },
     { label: 'Physiology', description: 'Revise normal function and systems', to: '/physiology' },
     { label: 'Clinical guides', description: 'Browse structured learning references', to: '/clinical-guides' },
@@ -48,5 +48,5 @@ export const quickNavigationItems: NavigationItem[] = [
   { label: 'Flashcards', description: 'Active-recall practice', to: '/flashcards' },
   { label: 'Study Toolkit', description: 'Organise focused study', to: '/study-toolkit' },
   { label: 'Anatomy', description: 'Build structural foundations', to: '/anatomy' },
-  { label: 'Organon', description: 'Review principles and philosophy', to: '/organon-philosophy' }
+  { label: 'Organon', description: 'Year-wise BHMS Organon syllabus pages', to: '/organon-philosophy' }
 ];

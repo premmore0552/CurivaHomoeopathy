@@ -96,6 +96,9 @@ jobs:
       - name: Test Google authentication recovery and error messages
         run: npm run test:auth
 
+      - name: Verify NCH year-wise Organon curriculum coverage
+        run: npm run test:organon-curriculum
+
       - name: Typecheck
         run: npm run lint
 

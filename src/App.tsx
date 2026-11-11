@@ -70,6 +70,8 @@ const ConditionsExplained = lazyLoad(() => import('./pages/ConditionsExplained')
 const ConditionDetail = lazyLoad(() => import('./pages/ConditionDetail'));
 const RemedyDetail = lazyLoad(() => import('./pages/RemedyDetail'));
 const OrganonMedicine = lazyLoad(() => import('./pages/OrganonMedicine'));
+const OrganonCurriculumHub = lazyLoad(() => import('./pages/OrganonCurriculumHub'));
+const OrganonYearPage = lazyLoad(() => import('./pages/OrganonYearPage'));
 const ResourceStore = lazyLoad(() => import('./pages/ResourceStore'));
 const MyLibrary = lazyLoad(() => import('./pages/MyLibrary'));
 const StudentResources = lazyLoad(() => import('./pages/StudentResources'));
@@ -159,6 +161,9 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
     location.pathname.includes('/remedy/') ||
     location.pathname.includes('/read/') ||
     location.pathname.includes('/materia-medica') ||
+    location.pathname.startsWith('/organon/') ||
+    location.pathname === '/organon-philosophy' ||
+    location.pathname === '/organon-library' ||
     location.pathname.includes('/anatomy') ||
     location.pathname.includes('/physiology') ||
     location.pathname.includes('/fmt') ||
@@ -225,6 +230,11 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
     '/anatomy': 'Human Anatomy',
     '/physiology': 'Physiology and Biochemistry',
     '/organon-philosophy': 'Organon of Medicine',
+    '/organon/1st-bhms': 'Organon of Medicine — 1st BHMS',
+    '/organon/2nd-bhms': 'Organon of Medicine — 2nd BHMS',
+    '/organon/3rd-bhms': 'Organon of Medicine — 3rd BHMS',
+    '/organon/4th-bhms': 'Organon of Medicine — 4th BHMS',
+    '/organon-library': 'Organon of Medicine — Reference Library',
     '/fmt': 'Forensic Medicine and Toxicology'
   };
   const matchedSubjectRoute = Object.keys(subjectRoutes).find(path => location.pathname === path || (path === '/subject/pathology' && location.pathname.startsWith('/subject/pathology/')) || (['/fmt','/anatomy','/physiology'].includes(path) && location.pathname.startsWith(path + '/')));
@@ -270,8 +280,13 @@ function AppRoutes() {
                 {/* Subject-Wise Study Center Routes */}
                 <Route path="/subjects" element={<PageWrapper><AllSubjectsHub /></PageWrapper>} />
                 <Route path="/free-books" element={<PageWrapper><FreeBookLibrary /></PageWrapper>} />
+                <Route path="/organon/1st-bhms" element={<PageWrapper><OrganonYearPage yearSlug="1st-bhms" /></PageWrapper>} />
+                <Route path="/organon/2nd-bhms" element={<PageWrapper><OrganonYearPage yearSlug="2nd-bhms" /></PageWrapper>} />
+                <Route path="/organon/3rd-bhms" element={<PageWrapper><OrganonYearPage yearSlug="3rd-bhms" /></PageWrapper>} />
+                <Route path="/organon/4th-bhms" element={<PageWrapper><OrganonYearPage yearSlug="4th-bhms" /></PageWrapper>} />
+                <Route path="/organon-library" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/all-subjects" element={<Navigate to="/subjects" replace />} />
-                <Route path="/subject/organon" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
+                <Route path="/subject/organon" element={<Navigate to="/organon-philosophy" replace />} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
                 <Route path="/subject/repertory" element={<PageWrapper><RepertorySubject /></PageWrapper>} />
                 <Route path="/repertory/boericke" element={<PageWrapper><BoerickeRepertoryPage /></PageWrapper>} />
@@ -469,7 +484,7 @@ function AppRoutes() {
                 <Route path="/fmt/:chapterId" element={<PageWrapper><FmtTopicDetail /></PageWrapper>} />
                 <Route path="/forensic-medicine" element={<Navigate to="/fmt" replace />} />
                 <Route path="/materia-medica" element={<PageWrapper><Encyclopedia /></PageWrapper>} />
-                <Route path="/organon-philosophy" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
+                <Route path="/organon-philosophy" element={<PageWrapper><OrganonCurriculumHub /></PageWrapper>} />
                 <Route path="/miasms" element={<PageWrapper><Miasms /></PageWrapper>} />
                 <Route path="/public-education" element={<PageWrapper><PublicEducation /></PageWrapper>} />
                 <Route path="/public-education/ebooks" element={<PageWrapper><PublicHealthEBook /></PageWrapper>} />
