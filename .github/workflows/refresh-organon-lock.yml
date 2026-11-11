@@ -1,51 +1,55 @@
-name: Refresh Organon PR npm lockfile
+name: Reconcile npm lockfile for CI
 
 on:
-  pull_request:
-    branches: [main]
-    types: [opened, synchronize, reopened]
+  push:
+    branches:
+      - fix/ci-install-and-codeql-node
 
 permissions:
   contents: write
 
 concurrency:
-  group: organon-lock-refresh-${{ github.event.pull_request.number }}
-  cancel-in-progress: true
+  group: reconcile-npm-lockfile
+  cancel-in-progress: false
 
 jobs:
-  refresh:
-    if: github.head_ref == 'feat/organon-content-preservation-foundation'
+  refresh-and-verify:
     runs-on: ubuntu-latest
+    timeout-minutes: 25
     steps:
-      - name: Check out the Organon preparation branch
+      - name: Check out repair branch
         uses: actions/checkout@v7
         with:
-          ref: ${{ github.head_ref }}
+          persist-credentials: true
 
-      - name: Set up Node.js
+      - name: Set up the Node.js version required by locked dependencies
         uses: actions/setup-node@v7
         with:
           node-version: 24.12.0
           cache: npm
 
-      - name: Regenerate package-lock.json from package.json
+      - name: Regenerate package lock from the declared dependency ranges
         run: npm install --package-lock-only --ignore-scripts --no-audit --no-fund
 
-      - name: Verify a clean locked dependency installation
+      - name: Prove a clean dependency installation works
         run: npm ci --no-audit --no-fund
 
-      - name: Commit the reconciled lockfile
-        env:
-          HEAD_REF: ${{ github.head_ref }}
+      - name: Typecheck the repository
+        run: npm run lint
+
+      - name: Verify Organon curriculum and protected aphorism source
+        run: npm run test:organon-curriculum
+
+      - name: Commit regenerated lockfile only after clean install and tests pass
         shell: bash
         run: |
           set -euo pipefail
           if git diff --quiet -- package-lock.json; then
-            echo "package-lock.json already matches package.json."
+            echo "The existing lockfile is already synchronized."
             exit 0
           fi
           git config user.name "github-actions[bot]"
-          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git config user.email "41898282+users.noreply.github.com"
           git add package-lock.json
-          git commit -m "fix: regenerate npm lockfile from package manifest"
-          git push origin "HEAD:${HEAD_REF}"
+          git commit -m "fix: synchronize npm lockfile and dependency tree"
+          git push origin "HEAD:fix/ci-install-and-codeql-node"
