@@ -1,6 +1,7 @@
 import React from 'react';
 import { motion } from 'motion/react';
-import { Instagram, Facebook, ShieldCheck, GraduationCap, ExternalLink, AlertTriangle, BookOpen } from 'lucide-react';
+import { ShieldCheck, GraduationCap, ExternalLink, AlertTriangle, BookOpen } from 'lucide-react';
+import BrandIcon from '../components/BrandIcon';
 import SEO from '../components/SEO';
 import { Link } from 'react-router-dom';
 
@@ -29,10 +30,10 @@ export default function Contact() {
           </div>
           <div className="grid gap-3 sm:grid-cols-2">
             <a href="https://www.instagram.com/curivahomoeopathy/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl border border-border bg-bg-secondary p-4 font-bold text-text-primary hover:border-primary/40">
-              <Instagram className="h-5 w-5 text-primary" /> Instagram <ExternalLink className="ml-auto h-4 w-4 text-text-tertiary" />
+              <BrandIcon brand="instagram" className="h-5 w-5 text-primary" /> Instagram <ExternalLink className="ml-auto h-4 w-4 text-text-tertiary" />
             </a>
             <a href="https://www.facebook.com/curivahomoeopathy/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 rounded-2xl border border-border bg-bg-secondary p-4 font-bold text-text-primary hover:border-primary/40">
-              <Facebook className="h-5 w-5 text-primary" /> Facebook <ExternalLink className="ml-auto h-4 w-4 text-text-tertiary" />
+              <BrandIcon brand="facebook" className="h-5 w-5 text-primary" /> Facebook <ExternalLink className="ml-auto h-4 w-4 text-text-tertiary" />
             </a>
           </div>
         </motion.section>

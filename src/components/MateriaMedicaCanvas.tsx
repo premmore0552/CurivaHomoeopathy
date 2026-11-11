@@ -639,7 +639,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
       setChatMessages(prev => [...prev, { role: 'assistant', content: data.text || 'No response compiled.' }]);
     } catch (err: any) {
       console.error(err);
-      setChatMessages(prev => [...prev, { role: 'assistant', content: `⚠️ **AI Studio Connection Error:** ${err.message || "Failed to contact proxy. Please check network keys."}` }]);
+      setChatMessages(prev => [...prev, { role: 'assistant', content: `⚠️ **Curiva AI Service Connection Error:** ${err.message || "Failed to contact proxy. Please check network keys."}` }]);
     } finally {
       setIsGenerating(false);
     }
@@ -1894,7 +1894,7 @@ You can click any ready-to-study suggestion below to load insights. If you like 
                     </div>
                     
                     <p className="text-[10px] text-text-tertiary italic text-center leading-relaxed">
-                      Google AI Studio &middot; Unified Study Canvas
+                      Curiva Homoeopathy &middot; Materia Medica Workspace
                     </p>
                   </motion.div>
                 </motion.div>
