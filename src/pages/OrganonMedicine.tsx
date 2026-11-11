@@ -510,9 +510,17 @@ const OrganonMedicine: React.FC = () => {
   return (
     <div id="organon-parent" className="bg-[#fcfbf7] min-h-screen pb-24 selection:bg-[#d4b982]/30 selection:text-[#5c401b]">
       <Helmet>
-        <title>Organon of Medicine | BHMS Scholarly Academy | Curiva</title>
-        <meta name="description" content="A comprehensive academic study suite for Samuel Hahnemann's Organon of Medicine, designed strictly for BHMS curriculum compliance." />
+        <title>Legacy Organon Reference Reader | Curiva</title>
+        <meta name="description" content="Legacy all-in-one Organon reference reader. Use the NCH-aligned year-wise BHMS curriculum pages for current course coverage." />
       </Helmet>
+
+      <div className="mx-auto max-w-7xl px-4 pt-5 sm:px-6 lg:px-8" role="note">
+        <div className="rounded-2xl border border-amber-300 bg-amber-50 p-4 text-amber-950">
+          <p className="text-xs font-black uppercase tracking-wider">Legacy reference reader — not the NCH year-wise course map</p>
+          <p className="mt-2 text-sm leading-6">Some aphorism text records, lecture notes and commentary have not been fully verified against their cited editions; exam prompts are not confirmed university PYQs. Use the dedicated year-wise pages as the curriculum authority and verify quotations against the prescribed NCH source and textbook.</p>
+          <a href="/organon-philosophy" className="mt-2 inline-flex text-sm font-bold underline underline-offset-4">Open the NCH-aligned Organon year pages →</a>
+        </div>
+      </div>
 
       {/* Parchment Page Overlay effect for academic texture */}
       <div className="absolute inset-0 bg-radial-gradient pointer-events-none opacity-[0.03] mix-blend-multiply" 
@@ -817,7 +825,7 @@ const OrganonMedicine: React.FC = () => {
                       <div className="space-y-4">
                         <div className="flex items-center gap-1.5 text-[10px] font-bold text-stone-400 uppercase tracking-widest">
                           <Book className="w-3.5 h-3.5 text-amber-700" />
-                          <span>Hahnemann's Verbatim Original</span>
+                          <span>Legacy transcription — verify edition and source</span>
                         </div>
 
                         {/* Traditional Serif Parchment Text Area */}
@@ -832,7 +840,7 @@ const OrganonMedicine: React.FC = () => {
                       {/* Interactive Footnotes section of the original text */}
                       {currentAphorism?.versions[0]?.footnotes && currentAphorism.versions[0].footnotes.length > 0 && (
                         <div className="pt-4 border-t border-[#ebdcb9]/40 space-y-2">
-                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-800 block">Verbatim Scholar Footnotes:</span>
+                          <span className="text-[9px] font-black uppercase tracking-wider text-amber-800 block">Legacy footnotes — verify source:</span>
                           <div className="space-y-2 max-h-[140px] overflow-y-auto scrollbar-thin">
                             {currentAphorism.versions[0].footnotes.map(fn => (
                               <button
@@ -962,7 +970,7 @@ const OrganonMedicine: React.FC = () => {
 
                               {/* Previous University Questions */}
                               <div className="space-y-2">
-                                <span className="text-[9px] font-bold uppercase tracking-widest text-stone-400 block">Previous Year Questions:</span>
+                                <span className="text-[9px] font-bold uppercase tracking-widest text-stone-400 block">Illustrative exam prompts (not verified PYQs):</span>
                                 <div className="space-y-1">
                                   {(currentLecture?.previousYearQuestions || [
                                     "Define the highest ideal of cure and how to adapt it. (5 Marks)",
@@ -986,7 +994,7 @@ const OrganonMedicine: React.FC = () => {
                                 {/* Hahnemann */}
                                 <div className="p-3 bg-[#fdfcf9] border border-amber-900/10 rounded-xl space-y-1">
                                   <div className="flex items-center justify-between">
-                                    <span className="text-[9px] font-bold text-amber-900 uppercase">Dr. Samuel Hahnemann (Verbatim)</span>
+                                    <span className="text-[9px] font-bold text-amber-900 uppercase">Hahnemann — explanatory interpretation</span>
                                     <span className="text-[8px] uppercase font-bold text-stone-400">Classical Induction</span>
                                   </div>
                                   <p className="text-[11px] font-serif leading-relaxed text-stone-700 italic">
@@ -1024,7 +1032,7 @@ const OrganonMedicine: React.FC = () => {
                       {/* Summary indicator */}
                       <div className="pt-4 border-t border-stone-100 text-[10px] font-semibold text-stone-400 flex items-center justify-between mt-6">
                         <span>Curiva Scholar Suite</span>
-                        <span>BHMS Approved Coursework</span>
+                        <span>Legacy reader — not NCH curriculum authority</span>
                       </div>
 
                       {/* Previous / Next Aphorism Navigation */}
