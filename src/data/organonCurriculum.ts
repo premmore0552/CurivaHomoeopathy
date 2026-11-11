@@ -105,6 +105,20 @@ export const ORGANON_CURRICULUM_YEARS: OrganonYearCurriculum[] = [
   }
 ];
 
+/**
+ * Aphorism blocks assigned to a professional year, including that year's
+ * prescribed revision blocks. Ranges stay separate so students do not
+ * accidentally study aphorisms assigned to another year as new content.
+ */
+export function getOrganonStudyAphorismRanges(slug: string): Array<[number, number]> {
+  const year = getOrganonYear(slug);
+  if (!year) return [];
+
+  return [...year.revisionAphorismRanges, ...year.coreAphorismRanges]
+    .map(({ start, end }) => [start, end] as [number, number])
+    .sort((left, right) => left[0] - right[0]);
+}
+
 export const ORGANON_CURRICULUM_HUB_PATH = '/organon-philosophy';
 export const ORGANON_LEGACY_LIBRARY_PATH = '/organon-library';
 
