@@ -9,7 +9,7 @@ permissions:
   contents: write
 
 concurrency:
-  group: reconcile-npm-lockfile-ci
+  group: reconcile-npm-lockfile-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
