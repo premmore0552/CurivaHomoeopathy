@@ -34,10 +34,17 @@ export default function FirstBhmsPortal() {
             1st BHMS Academic Center
           </h1>
           <p className="text-emerald-100 text-sm sm:text-base leading-relaxed">
-            Your essential guide to Anatomy, Physiology, Biochemistry, Homoeopathic Pharmacy, and Organon of Medicine (§1–§70) aligned with NCH competency guidelines.
+            Your essential guide to first-year subjects, including Organon of Medicine, Homoeopathic Philosophy and Fundamentals of Psychology. Organon covers §§1–27 and §§105–145.
           </p>
         </div>
       </div>
+
+      <section className="mb-7 rounded-3xl border border-purple-200 bg-purple-50/70 p-6 dark:border-purple-900/50 dark:bg-purple-950/20">
+        <p className="text-xs font-bold uppercase tracking-wider text-purple-700 dark:text-purple-300">HomUG-OM-I · NCH CBDC</p>
+        <h2 className="mt-1 text-xl font-serif font-bold text-text-primary">Organon of Medicine & Homoeopathic Philosophy — I</h2>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">History, logic, fundamentals, physician, drug proving, §§1–27, §§105–145 and Fundamentals of Psychology.</p>
+        <Link to="/organon/1st-bhms" className="mt-4 inline-flex items-center gap-2 rounded-full bg-purple-800 px-5 py-3 text-xs font-bold text-white hover:bg-purple-700">Open Organon — 1st BHMS <ArrowRight className="h-4 w-4" /></Link>
+      </section>
 
       {/* 1st BHMS Subjects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
