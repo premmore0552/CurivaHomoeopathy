@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
   Book, 
@@ -144,8 +145,23 @@ const getCompareInterpretations = (id: number) => {
 };
 
 const OrganonMedicine: React.FC = () => {
+  const [searchParams] = useSearchParams();
+  const requestedYear = searchParams.get('year');
+  const initialReaderYear: '1st' | '2nd' | '3rd' | '4th' =
+    requestedYear === '2nd' || requestedYear === '3rd' || requestedYear === '4th' ? requestedYear : '1st';
+  const initialYearSlug = `${initialReaderYear}-bhms`;
+  const initialYearRanges = getOrganonStudyAphorismRanges(initialYearSlug);
+  const requestedAphorism = Number(searchParams.get('aphorism'));
+  const defaultCoreAphorism = getOrganonYear(initialYearSlug)?.coreAphorismRanges[0]?.start ?? initialYearRanges[0]?.[0] ?? 1;
+  const initialAphorismId = initialYearRanges.some(([start, end]) =>
+    Number.isInteger(requestedAphorism) && requestedAphorism >= start && requestedAphorism <= end
+  ) ? requestedAphorism : defaultCoreAphorism;
+  const requestedTab = searchParams.get('tab');
+  const initialReaderTab: 'cbdc' | 'matrix' | 'study' =
+    requestedTab === 'matrix' || requestedTab === 'study' ? requestedTab : 'cbdc';
+
   // Main Navigation Tabs
-  const [activeTab, setActiveTab] = useState<'cbdc' | 'matrix' | 'psychology' | 'philosophers' | 'study' | 'prefaces' | 'chronology'>('cbdc');
+  const [activeTab, setActiveTab] = useState<'cbdc' | 'matrix' | 'psychology' | 'philosophers' | 'study' | 'prefaces' | 'chronology'>(initialReaderTab);
 
   // Psychology Tab States
   const [selectedPsychologyId, setSelectedPsychologyId] = useState<string>(PSYCHOLOGY_TOPICS[0].id);
@@ -157,9 +173,9 @@ const OrganonMedicine: React.FC = () => {
   const [stalwartSearch, setStalwartSearch] = useState('');
 
   // Matrix tab states (Syllabus Years 1st - 4th)
-  const [selectedYear, setSelectedYear] = useState<'1st' | '2nd' | '3rd' | '4th'>('1st');
+  const [selectedYear, setSelectedYear] = useState<'1st' | '2nd' | '3rd' | '4th'>(initialReaderYear);
   const [searchTerm, setSearchTerm] = useState('');
-  const [selectedAphorismId, setSelectedAphorismId] = useState<number | null>(1);
+  const [selectedAphorismId, setSelectedAphorismId] = useState<number | null>(initialAphorismId);
   const [activeAphorismFilter, setActiveAphorismFilter] = useState<'All' | 'Philosophical' | 'Practical' | 'Therapeutic' | 'Historical'>('All');
 
   const aphorismIndex = organonData.findIndex(a => a.id === selectedAphorismId);
@@ -167,13 +183,13 @@ const OrganonMedicine: React.FC = () => {
   const nextAph = aphorismIndex < organonData.length - 1 ? organonData[aphorismIndex + 1] : null;
 
   // Study Tools states
-  const [flashcardYear, setFlashcardYear] = useState<'1st' | '2nd' | '3rd' | '4th'>('1st');
+  const [flashcardYear, setFlashcardYear] = useState<'1st' | '2nd' | '3rd' | '4th'>(initialReaderYear);
   const [currentFlashcardIndex, setCurrentFlashcardIndex] = useState(0);
   const [isFlipped, setIsFlipped] = useState(false);
   const [masteredCards, setMasteredCards] = useState<number[]>([]);
 
   // Practice Quiz states
-  const [quizYear, setQuizYear] = useState<'1st' | '2nd' | '3rd' | '4th'>('1st');
+  const [quizYear, setQuizYear] = useState<'1st' | '2nd' | '3rd' | '4th'>(initialReaderYear);
   const [quizSelectedAnswers, setQuizSelectedAnswers] = useState<Record<number, number>>({});
   const [quizSubmitted, setQuizSubmitted] = useState(false);
 
@@ -188,6 +204,24 @@ const OrganonMedicine: React.FC = () => {
 
   // Interactive Footnote Highlights
   const [activeFootnoteId, setActiveFootnoteId] = useState<string | null>(null);
+
+  // Open the requested reader panel when arriving from a year-wise syllabus page.
+  useEffect(() => {
+    const mode = searchParams.get('mode');
+    const targetId = mode === 'flashcards'
+      ? 'organon-flashcards'
+      : mode === 'quiz'
+        ? 'organon-practice-quiz'
+        : searchParams.get('tab') === 'matrix'
+          ? 'matrix-anchor'
+          : null;
+    if (!targetId) return;
+
+    const frame = window.requestAnimationFrame(() => {
+      document.getElementById(targetId)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+    return () => window.cancelAnimationFrame(frame);
+  }, [searchParams]);
 
   // Reset indices and tabs when states change
   useEffect(() => {
@@ -648,7 +682,9 @@ const OrganonMedicine: React.FC = () => {
                         key={yr}
                         onClick={() => {
                           setSelectedYear(yr);
-                          // Set first aphorism in that range as selected
+                          setFlashcardYear(yr);
+                          setQuizYear(yr);
+                          // Keep the reading desk and both practice tools on the selected professional year.
                           setSelectedAphorismId(info.coreAphorismRanges[0]?.[0] ?? info.aphorismRanges[0]?.[0] ?? 1);
                         }}
                         className={`text-left p-5 rounded-2xl border transition-all duration-300 relative group flex flex-col justify-between ${
@@ -1579,7 +1615,7 @@ const OrganonMedicine: React.FC = () => {
               <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
                 
                 {/* PART A: TACTILE FLASHCARDS */}
-                <div className="bg-white rounded-3xl border border-[#ebdcb9] p-8 shadow-sm space-y-6">
+                <div id="organon-flashcards" className="scroll-mt-24 bg-white rounded-3xl border border-[#ebdcb9] p-8 shadow-sm space-y-6">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-stone-100">
                     <div className="space-y-1">
                       <h3 className="text-lg font-serif text-[#2c241a] flex items-center gap-2">
@@ -1708,8 +1744,8 @@ const OrganonMedicine: React.FC = () => {
                   )}
                 </div>
 
-                {/* PART B: INTERACTIVE UNIVERSITY PRACTICE QUIZZES */}
-                <div className="bg-white rounded-3xl border border-[#ebdcb9] p-8 shadow-sm space-y-6">
+                {/* PART B: YEAR-MAPPED SELF-ASSESSMENT */}
+                <div id="organon-practice-quiz" className="scroll-mt-24 bg-white rounded-3xl border border-[#ebdcb9] p-8 shadow-sm space-y-6">
                   <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-4 border-b border-stone-100">
                     <div className="space-y-1">
                       <h3 className="text-lg font-serif text-[#2c241a] flex items-center gap-2">
