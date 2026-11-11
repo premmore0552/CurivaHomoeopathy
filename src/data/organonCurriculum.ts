@@ -125,3 +125,40 @@ export const ORGANON_LEGACY_LIBRARY_PATH = '/organon-library';
 export function getOrganonYear(slug: string | undefined): OrganonYearCurriculum | undefined {
   return ORGANON_CURRICULUM_YEARS.find((year) => year.slug === slug);
 }
+
+export type OrganonReaderTab = 'matrix' | 'study';
+export type OrganonReaderMode = 'flashcards' | 'quiz';
+
+/**
+ * Build a validated deep link from a syllabus year to the legacy reader.
+ * Aphorism links are constrained to that year's core/revision blocks so a
+ * year page cannot accidentally open an unrelated aphorism.
+ */
+export function getOrganonReaderPath(
+  slug: string,
+  options: { tab?: OrganonReaderTab; aphorism?: number; mode?: OrganonReaderMode } = {}
+): string {
+  const year = getOrganonYear(slug);
+  if (!year) return ORGANON_CURRICULUM_HUB_PATH;
+
+  const yearKey = year.slug.replace('-bhms', '');
+  const tab = options.tab ?? 'matrix';
+  const params = new URLSearchParams();
+  params.set('year', yearKey);
+  params.set('tab', tab);
+
+  if (tab === 'matrix') {
+    const ranges = getOrganonStudyAphorismRanges(year.slug);
+    const requested = options.aphorism;
+    const isInYearSyllabus = Number.isInteger(requested)
+      && ranges.some(([start, end]) => requested! >= start && requested! <= end);
+    const defaultAphorism = year.coreAphorismRanges[0]?.start ?? ranges[0]?.[0] ?? 1;
+    params.set('aphorism', String(isInYearSyllabus ? requested : defaultAphorism));
+  }
+
+  if (tab === 'study' && options.mode) {
+    params.set('mode', options.mode);
+  }
+
+  return `${ORGANON_LEGACY_LIBRARY_PATH}?${params.toString()}`;
+}

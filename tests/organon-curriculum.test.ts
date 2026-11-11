@@ -1,6 +1,6 @@
 import assert from 'node:assert/strict';
 import test from 'node:test';
-import { ORGANON_CURRICULUM_YEARS } from '../src/data/organonCurriculum';
+import { getOrganonReaderPath, ORGANON_CURRICULUM_YEARS } from '../src/data/organonCurriculum';
 
 test('four professional-year course codes are mapped', () => {
   assert.equal(ORGANON_CURRICULUM_YEARS.length, 4);
@@ -51,4 +51,31 @@ test('legacy reader ranges match the NCH core and revision blocks for each year'
 test('legacy range helper leaves unknown years empty', async () => {
   const { getOrganonStudyAphorismRanges } = await import('../src/data/organonCurriculum');
   assert.deepEqual(getOrganonStudyAphorismRanges('final-year'), []);
+});
+
+
+test('year-wise reader links open the matching year, range and practice mode', () => {
+  assert.equal(
+    getOrganonReaderPath('1st-bhms', { tab: 'matrix', aphorism: 105 }),
+    '/organon-library?year=1st&tab=matrix&aphorism=105'
+  );
+  assert.equal(
+    getOrganonReaderPath('3rd-bhms', { tab: 'matrix', aphorism: 231 }),
+    '/organon-library?year=3rd&tab=matrix&aphorism=231'
+  );
+  assert.equal(
+    getOrganonReaderPath('4th-bhms', { tab: 'study', mode: 'quiz' }),
+    '/organon-library?year=4th&tab=study&mode=quiz'
+  );
+});
+
+test('reader deep links cannot select an aphorism outside that year syllabus', () => {
+  assert.equal(
+    getOrganonReaderPath('1st-bhms', { tab: 'matrix', aphorism: 104 }),
+    '/organon-library?year=1st&tab=matrix&aphorism=1'
+  );
+  assert.equal(
+    getOrganonReaderPath('unknown-year', { tab: 'matrix', aphorism: 1 }),
+    '/organon-philosophy'
+  );
 });
