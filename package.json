@@ -25,7 +25,8 @@
     "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts",
     "verify:deploy-preview": "node scripts/verify-deploy-preview.mjs",
     "test:disease-assets": "tsx --test tests/disease-hub-assets.test.ts",
-    "test:auth": "tsx --test tests/auth-error-message.test.ts"
+    "test:auth": "tsx --test tests/auth-error-message.test.ts",
+    "test:organon-curriculum": "tsx --test tests/organon-curriculum.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
