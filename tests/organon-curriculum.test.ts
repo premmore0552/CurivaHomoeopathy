@@ -33,3 +33,22 @@ test('every year has an official NCH source and study structure', () => {
     assert.ok(year.teachingHours.lectures > 0 && year.teachingHours.nonLectures > 0);
   }
 });
+
+
+test('legacy reader ranges match the NCH core and revision blocks for each year', async () => {
+  const { getOrganonStudyAphorismRanges } = await import('../src/data/organonCurriculum');
+
+  assert.deepEqual(getOrganonStudyAphorismRanges('1st-bhms'), [[1, 27], [105, 145]]);
+  assert.deepEqual(getOrganonStudyAphorismRanges('2nd-bhms'), [[28, 104]]);
+  assert.deepEqual(getOrganonStudyAphorismRanges('3rd-bhms'), [
+    [1, 70], [71, 145], [146, 209], [231, 294]
+  ]);
+  assert.deepEqual(getOrganonStudyAphorismRanges('4th-bhms'), [
+    [1, 70], [71, 104], [105, 145], [146, 209], [210, 230], [231, 294]
+  ]);
+});
+
+test('legacy range helper leaves unknown years empty', async () => {
+  const { getOrganonStudyAphorismRanges } = await import('../src/data/organonCurriculum');
+  assert.deepEqual(getOrganonStudyAphorismRanges('final-year'), []);
+});

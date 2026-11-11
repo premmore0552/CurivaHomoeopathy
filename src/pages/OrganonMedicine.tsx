@@ -32,6 +32,7 @@ import {
 import { Helmet } from 'react-helmet-async';
 import { ContentNavigator } from '../components/ContentNavigator';
 import { organonData, OrganonAphorism } from '../data/organon_data';
+import { getOrganonStudyAphorismRanges, getOrganonYear } from '../data/organonCurriculum';
 import { prefacesData, westernPhilosophyData } from '../data/prefacesData';
 import { getProfessorLecture } from '../data/professor_lectures';
 import { CbdcLearningEcosystem } from '../components/CbdcLearningEcosystem';
@@ -96,6 +97,20 @@ const CaduceusIcon: React.FC<{ className?: string }> = ({ className = "w-10 h-10
     <circle cx="12" cy="2" r="1.5" fill="currentColor" />
   </svg>
 );
+
+const getYearStudyMetadata = (slug: string) => {
+  const year = getOrganonYear(slug);
+  if (!year) throw new Error(`Missing Organon curriculum data for ${slug}`);
+
+  return {
+    courseCode: year.courseCode,
+    aphorismRanges: getOrganonStudyAphorismRanges(slug),
+    coreAphorismRanges: year.coreAphorismRanges.map(({ start, end }) => [start, end] as [number, number]),
+    coreRangeLabel: year.coreAphorismRanges.map(({ label }) => label).join(' · '),
+    courseHours: `${year.teachingHours.lectures} lecture / ${year.teachingHours.nonLectures} non-lecture hours`,
+    courseHoursNote: year.teachingHours.note || ''
+  };
+};
 
 // High-yield stalwart interpretations to support "compare interpretations"
 const STALWART_COMMENTARIES: Record<string, Record<string, string>> = {
@@ -194,11 +209,10 @@ const OrganonMedicine: React.FC = () => {
   const BHMS_CURRICULUM = {
     '1st': {
       title: "1st Year BHMS – Foundations of Organon & Psychology",
-      badge: "Syllabus Compliant §1–27 & §105–145",
-      weightage: "High Weightage (40 Marks)",
+      badge: "NCH CBDC — Core §§1–27 & §§105–145",
+      ...getYearStudyMetadata('1st-bhms'),
       difficulty: "Beginner",
-      objectives: "Foundations of Organon, History of Medicine & Homoeopathy, Stalwarts, Logic, Fundamental Principles, Basic Concepts, Health/Disease/Cure, Aphorisms §1-27 & §105-145, Drug Proving, Physician, and Fundamentals of Psychology.",
-      aphorismRange: [1, 28] as [number, number],
+      objectives: "Foundations of Organon, History of Medicine & Homoeopathy, Stalwarts, Logic, Fundamental Principles, Basic Concepts, Health/Disease/Cure, Aphorisms §1–27 & §105–145, Drug Proving, Physician, and Fundamentals of Psychology.",
       lessons: [
         { title: "1. History of Medicine", range: "Evolution, Milestones, Ancient Systems" },
         { title: "2. History of Homoeopathy", range: "Discovery 1790, Hahnemann, India, Europe, USA" },
@@ -216,19 +230,18 @@ const OrganonMedicine: React.FC = () => {
     },
     '2nd': {
       title: "2nd Year BHMS – Disease, Case Taking & Philosophy",
-      badge: "Syllabus Compliant §28–104",
-      weightage: "Medium Weightage (30 Marks)",
+      badge: "NCH CBDC — Core §§28–104",
+      ...getYearStudyMetadata('2nd-bhms'),
       difficulty: "Intermediate",
-      objectives: "Organon Aphorisms §28-104, Natural vs Artificial Disease, Therapeutic Law, Classification of Diseases, Miasms, Case Taking, Record Keeping, Symptomatology, Case Processing, Susceptibility & Causation.",
-      aphorismRange: [29, 104] as [number, number],
+      objectives: "Organon Aphorisms §§28–104, natural and artificial disease, therapeutic law, disease classification, miasms, case taking, record keeping, symptomatology, case processing, susceptibility and causation.",
       lessons: [
         { title: "1. Organon Aphorisms", range: "§28–70 & §71–104" },
-        { title: "2. Natural vs Artificial Disease", range: "Dynamic interactions & disease behavior (§29–34)" },
-        { title: "3. Therapeutic Law of Nature", range: "Nature's Law of Cure (§26)" },
+        { title: "2. Natural vs Artificial Disease", range: "Aphorisms §§28–33" },
+        { title: "3. Therapeutic Law of Nature", range: "Aphorisms §§34–51" },
         { title: "4. Classification of Diseases", range: "Acute, Chronic, Surgical, Pseudo-chronic, Local" },
         { title: "5. Introduction to Miasms", range: "Psora, Sycosis, Syphilis (§72–81)" },
-        { title: "6. Scientific Case Taking", range: "Principles, History, Observation, Acute/Chronic (§83–104)" },
-        { title: "7. Record Keeping", range: "Systematic case records & longitudinal logs" },
+        { title: "6. Case Taking", range: "Aphorisms §§83–103" },
+        { title: "7. Record Keeping", range: "Aphorism §104" },
         { title: "8. Symptomatology", range: "Analysis, Evaluation, Grading, Totality" },
         { title: "9. Case Processing", range: "Portrait of Disease & Individualization" },
         { title: "10. Susceptibility", range: "Dynamic capacity to react to stimuli" },
@@ -240,21 +253,20 @@ const OrganonMedicine: React.FC = () => {
     },
     '3rd': {
       title: "3rd Year BHMS – Chronic Diseases & Advanced Organon",
-      badge: "Syllabus Compliant §146–209 & §231–294",
-      weightage: "High Weightage (35 Marks)",
+      badge: "NCH CBDC — Core §§146–209 & §§231–294",
+      ...getYearStudyMetadata('3rd-bhms'),
       difficulty: "Advanced",
-      objectives: "Prefaces & Introduction of Organon, §146-209 & §231-294, Action of Medicines, Management of Acute/Chronic/Surgical/Epidemic diseases, Posology, Follow-up, Remedy Reactions, Second Prescription, and J.H. Allen Miasms.",
-      aphorismRange: [105, 244] as [number, number],
+      objectives: "Preface and Introduction; aphorisms §§146–209 and §§231–294, plus revision of earlier blocks; disease management, follow-up, pharmacy, diet, regimen, susceptibility, posology and chronic-disease theory.",
       lessons: [
         { title: "1. Prefaces & Introduction", range: "Historical evolution & review of allopathy" },
         { title: "2. Organon Aphorisms", range: "§146–209 & §231–294" },
-        { title: "3. Action of Medicines", range: "Primary & Secondary action of remedies (§63–66)" },
+        { title: "3. Revision: Action of Medicines", range: "Primary and secondary action — §§63–66 (revision)" },
         { title: "4. Disease Management", range: "Acute, Chronic, Surgical, Epidemic, One-sided" },
-        { title: "5. Repetition & Posology", range: "Dose repetition, Posology & LM Scale (§245–271)" },
+        { title: "5. Repetition, Follow-up & Posology", range: "Repetition and follow-up — §§245–258; posology as a philosophy topic" },
         { title: "6. Follow-up & Remedy Reaction", range: "12 Observations, Aggravation, Amelioration" },
         { title: "7. Second Prescription", range: "8 choices in second prescription" },
         { title: "8. Pharmacy & Administration", range: "Potentisation, Routes, Fundamental Laws" },
-        { title: "9. Diet, Regimen & Auxiliary", range: "Dietary restrictions & auxiliary measures (§286–294)" },
+        { title: "9. Diet, Regimen & Auxiliary Measures", range: "Aphorisms §§259–263 and §§285–291" },
         { title: "10. Scope & Limitations", range: "Boundaries of Homoeopathy & General Pathology" },
         { title: "11. Theory of Chronic Diseases", range: "Hahnemann's Miasmatic evolution (1828)" },
         { title: "12. J.H. Allen's Chronic Miasms", range: "Psora, Pseudo-Psora (Tubercular), Sycosis" }
@@ -262,11 +274,10 @@ const OrganonMedicine: React.FC = () => {
     },
     '4th': {
       title: "4th Year BHMS – Clinical Application & Revision",
-      badge: "Syllabus Compliant §210–230 & Full Revision",
-      weightage: "Expert Weightage (45 Marks)",
+      badge: "NCH CBDC — Core §§210–230 + revision",
+      ...getYearStudyMetadata('4th-bhms'),
       difficulty: "Expert",
-      objectives: "Mental Diseases §210-230, Complete Revision of Organon §1-294, Clinical Case Taking, Symptomatology & Value of Symptoms, Portrait Formation, Susceptibility & Miasms, Posology, Remedy Reactions, and Philosophy Revision (Kent, Close, Roberts).",
-      aphorismRange: [245, 294] as [number, number],
+      objectives: "Aphorisms §§210–230 on mental diseases; prescribed revision of earlier aphorism blocks; case taking, symptomatology, value of symptoms, disease-portrait formation, susceptibility, miasm, posology, remedy reaction and philosophy texts.",
       lessons: [
         { title: "1. Mental Diseases (§210–230)", range: "Classification, Somato-psychic & Psychosomatic" },
         { title: "2. Full Organon Revision", range: "§1–70, §71–104, §105–145, §146–209, §231–294" },
@@ -284,10 +295,10 @@ const OrganonMedicine: React.FC = () => {
 
   // Filter Aphorisms dynamically by Search, Category, and Selected Year
   const getFilteredAphorisms = () => {
-    const range = BHMS_CURRICULUM[selectedYear].aphorismRange;
+    const ranges = BHMS_CURRICULUM[selectedYear].aphorismRanges;
     return organonData.filter(aph => {
-      // Must fall in correct Year range
-      const inYearRange = aph.id >= range[0] && aph.id <= range[1];
+      // A year can have separate core and revision blocks; do not flatten them.
+      const inYearRange = ranges.some(([start, end]) => aph.id >= start && aph.id <= end);
       if (!inYearRange) return false;
 
       // Category matching
@@ -321,12 +332,12 @@ const OrganonMedicine: React.FC = () => {
 
   // Flashcards builder based on selected syllabus year
   const getFlashcardsForYear = () => {
-    const range = BHMS_CURRICULUM[flashcardYear].aphorismRange;
-    const cards = organonData.filter(aph => aph.id >= range[0] && aph.id <= range[1]);
+    const ranges = BHMS_CURRICULUM[flashcardYear].aphorismRanges;
+    const cards = organonData.filter(aph => ranges.some(([start, end]) => aph.id >= start && aph.id <= end));
     
     if (cards.length > 0) {
       return cards.map(aph => {
-        const aid = selectedAphorismId ? getProfessorLecture(aph.id) : null;
+        const aid = getProfessorLecture(aph.id);
         return {
           id: aph.id,
           title: `Aphorism §${aph.id}`,
@@ -338,16 +349,7 @@ const OrganonMedicine: React.FC = () => {
       });
     }
 
-    return [
-      {
-        id: 1,
-        title: "Aphorism §1",
-        category: "Philosophy" as const,
-        front: "What is the primary mission of the physician?",
-        back: "The physician's high and only mission is to restore the sick to health, to cure, as it is termed.",
-        takeaway: "Reject speculative systems and act to cure."
-      }
-    ];
+    return [];
   };
 
   const activeFlashcards = getFlashcardsForYear();
@@ -377,13 +379,18 @@ const OrganonMedicine: React.FC = () => {
 
   // Mock quiz setup
   const getMockQuizQuestions = () => {
-    const range = BHMS_CURRICULUM[quizYear].aphorismRange;
-    // Collect lectures that contain custom MCQs in this range
+    const ranges = BHMS_CURRICULUM[quizYear].aphorismRanges;
+    // Collect mapped lecture questions from the year's core and revision blocks.
     const validLectures = [];
-    for (let id = range[0]; id <= range[1]; id++) {
-      const lec = getProfessorLecture(id);
-      if (lec && lec.mcqs && lec.mcqs.length > 0) {
-        validLectures.push({ id, mcqs: lec.mcqs });
+    const seenAphorisms = new Set<number>();
+    for (const [start, end] of ranges) {
+      for (let id = start; id <= end; id++) {
+        if (seenAphorisms.has(id)) continue;
+        seenAphorisms.add(id);
+        const lec = getProfessorLecture(id);
+        if (lec && lec.mcqs && lec.mcqs.length > 0) {
+          validLectures.push({ id, mcqs: lec.mcqs });
+        }
       }
     }
 
@@ -401,7 +408,10 @@ const OrganonMedicine: React.FC = () => {
       return flatQuestions.slice(0, 8); // Display top 8 questions
     }
 
-    // Default high-quality quiz if no specific mapped lectures
+    // The curated fallback set below covers first-year foundations only.
+    // Never show it as a second-, third- or fourth-year assessment.
+    if (quizYear !== '1st') return [];
+
     return [
       {
         aphorismId: 1,
@@ -624,7 +634,7 @@ const OrganonMedicine: React.FC = () => {
                   {/* Syllabus Compliance Badge */}
                   <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-xs font-semibold">
                     <span className="w-2 h-2 bg-emerald-500 rounded-full animate-pulse" />
-                    <span>NCH CBDC v2024 Compliant Syllabus</span>
+                    <span>NCH CBDC Year-wise Course Map</span>
                   </div>
                 </div>
 
@@ -639,7 +649,7 @@ const OrganonMedicine: React.FC = () => {
                         onClick={() => {
                           setSelectedYear(yr);
                           // Set first aphorism in that range as selected
-                          setSelectedAphorismId(info.aphorismRange[0]);
+                          setSelectedAphorismId(info.coreAphorismRanges[0]?.[0] ?? info.aphorismRanges[0]?.[0] ?? 1);
                         }}
                         className={`text-left p-5 rounded-2xl border transition-all duration-300 relative group flex flex-col justify-between ${
                           isSelected
@@ -655,11 +665,11 @@ const OrganonMedicine: React.FC = () => {
                               {yr} Year BHMS
                             </span>
                             <span className="text-xs font-semibold text-stone-400">
-                              §{info.aphorismRange[0]}–§{info.aphorismRange[1]}
+                              {info.coreRangeLabel}
                             </span>
                           </div>
                           <h3 className={`text-base font-bold ${isSelected ? 'text-amber-900' : 'text-[#2c241a]'}`}>
-                            {yr === '1st' ? 'Foundations' : yr === '2nd' ? 'Case Taking' : yr === '3rd' ? 'Drug Proving' : 'Posology & Scales'}
+                            {yr === '1st' ? 'Foundations' : yr === '2nd' ? 'Disease & Case Taking' : yr === '3rd' ? 'Advanced Disease Management' : 'Mental Diseases & Revision'}
                           </h3>
                           <p className="text-xs text-stone-500 line-clamp-2 leading-relaxed">
                             {info.objectives}
@@ -683,9 +693,16 @@ const OrganonMedicine: React.FC = () => {
                     <h3 className="text-sm font-bold uppercase tracking-wider text-amber-900 flex items-center gap-1.5">
                       <Book className="w-4 h-4" /> {BHMS_CURRICULUM[selectedYear].title} Highlights
                     </h3>
-                    <span className="text-xs text-stone-500 font-medium italic">
-                      {BHMS_CURRICULUM[selectedYear].weightage}
-                    </span>
+                    <div className="text-right">
+                      <span className="text-xs text-stone-500 font-medium italic">
+                        {BHMS_CURRICULUM[selectedYear].courseHours}
+                      </span>
+                      {BHMS_CURRICULUM[selectedYear].courseHoursNote && (
+                        <p className="mt-1 max-w-md text-[10px] leading-5 text-stone-400">
+                          {BHMS_CURRICULUM[selectedYear].courseHoursNote}
+                        </p>
+                      )}
+                    </div>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
                     {BHMS_CURRICULUM[selectedYear].lessons.map((lesson, idx) => (
@@ -1555,7 +1572,7 @@ const OrganonMedicine: React.FC = () => {
                 <GraduationCap className="w-12 h-12 text-amber-800 mx-auto" />
                 <h2 className="text-2xl font-serif text-[#2c241a]">Academic Retention & Study Hub</h2>
                 <p className="text-xs text-stone-500 max-w-lg mx-auto leading-relaxed">
-                  Homoeopathic philosophy requires active retention. Use our tactile syllabus flashcards and practice quizzes mapped directly to BHMS exam questions to test your progress.
+                  Use the aphorism flashcards and year-mapped practice questions for syllabus revision. Question sets are study aids, not verified university past papers.
                 </p>
               </section>
 
@@ -1578,14 +1595,19 @@ const OrganonMedicine: React.FC = () => {
                       value={flashcardYear}
                       onChange={(e) => setFlashcardYear(e.target.value as any)}
                     >
-                      <option value="1st">1st Year (§1–28)</option>
-                      <option value="2nd">2nd Year (§29–104)</option>
-                      <option value="3rd">3rd Year (§105–244)</option>
-                      <option value="4th">4th Year (§245–294)</option>
+                      <option value="1st">1st Year (§§1–27, 105–145)</option>
+                      <option value="2nd">2nd Year (§§28–104)</option>
+                      <option value="3rd">3rd Year (§§146–209, 231–294 + revision)</option>
+                      <option value="4th">4th Year (§§210–230 + revision)</option>
                     </select>
                   </div>
 
                   {/* Tactile Card Interface */}
+                  {activeFlashcards.length === 0 ? (
+                    <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-6 text-amber-900">
+                      No aphorism text is currently indexed for this year's mapped study blocks. The year selection remains available; verify the prescribed text in the official source.
+                    </p>
+                  ) : (
                   <div className="flex flex-col items-center space-y-6">
                     <div 
                       onClick={() => setIsFlipped(!isFlipped)}
@@ -1683,6 +1705,7 @@ const OrganonMedicine: React.FC = () => {
                       </div>
                     </div>
                   </div>
+                  )}
                 </div>
 
                 {/* PART B: INTERACTIVE UNIVERSITY PRACTICE QUIZZES */}
@@ -1691,9 +1714,9 @@ const OrganonMedicine: React.FC = () => {
                     <div className="space-y-1">
                       <h3 className="text-lg font-serif text-[#2c241a] flex items-center gap-2">
                         <HelpCircle className="w-5 h-5 text-amber-800" />
-                        Syllabus University Mock Exam
+                        Organon Self-assessment
                       </h3>
-                      <p className="text-[10px] text-stone-400 uppercase font-black tracking-widest">Mailed from university papers</p>
+                      <p className="text-[10px] text-stone-400 uppercase font-black tracking-widest">Year-mapped practice questions · not verified university PYQs</p>
                     </div>
 
                     <select
@@ -1710,7 +1733,11 @@ const OrganonMedicine: React.FC = () => {
 
                   {/* Active Questions list */}
                   <div className="space-y-6 max-h-[440px] overflow-y-auto pr-2 scrollbar-thin">
-                    {activeQuizQuestions.map((q, qIdx) => {
+                    {activeQuizQuestions.length === 0 ? (
+                      <p className="rounded-2xl border border-amber-200 bg-amber-50 p-4 text-xs leading-6 text-amber-900">
+                        No year-mapped quiz items are available for this professional year yet. The reader will not substitute unrelated first-year questions.
+                      </p>
+                    ) : activeQuizQuestions.map((q, qIdx) => {
                       const selectedOpt = quizSelectedAnswers[qIdx];
                       const isCorrect = selectedOpt === q.correctIndex;
 
@@ -1766,10 +1793,12 @@ const OrganonMedicine: React.FC = () => {
 
                   {/* Submit score and restart toolbar */}
                   <div className="pt-4 border-t border-stone-100 flex items-center justify-between gap-4">
-                    {quizSubmitted ? (
+                    {activeQuizQuestions.length === 0 ? (
+                      <span className="text-[10px] font-semibold text-stone-400">Question bank not yet available</span>
+                    ) : quizSubmitted ? (
                       <div className="flex items-center gap-3">
                         <p className="text-sm font-bold text-stone-800">
-                          Mock Score: <strong className="text-amber-800 text-lg">{calculateQuizScore()}</strong> / {activeQuizQuestions.length}
+                          Practice Score: <strong className="text-amber-800 text-lg">{calculateQuizScore()}</strong> / {activeQuizQuestions.length}
                         </p>
                         <button
                           onClick={() => {
@@ -1787,7 +1816,7 @@ const OrganonMedicine: React.FC = () => {
                         disabled={Object.keys(quizSelectedAnswers).length === 0}
                         className="w-full py-3 bg-amber-800 hover:bg-amber-900 disabled:opacity-50 text-white font-bold text-xs rounded-xl tracking-wider uppercase transition-all shadow-md shadow-amber-800/10"
                       >
-                        Submit Examination Answers
+                        Submit Practice Answers
                       </button>
                     )}
                   </div>
