@@ -177,7 +177,7 @@ export const allBhmsSubjects: SubjectItem[] = [
     mainRoute: '/organon/1st-bhms',
     theoryHours: 180,
     nonLectureHours: 100,
-    hoursNote: 'Combined HomUG-OM-I: Organon 130/78 and Fundamentals of Psychology 50/22 lecture/non-lecture hours.'
+    hoursNote: 'Combined HomUG-OM-I: Organon 130/78 and Fundamentals of Psychology 50/22 lecture/non-lecture hours.',
     totalMarks: 100,
     examPattern: 'NCH HomUG-OM-I assessment; see the official CBDC and university notices for current examination details.',
     summary: 'History, logic, fundamental principles, health–disease–cure, the physician, drug proving, aphorisms §§1–27 and §§105–145, and Fundamentals of Psychology.',
