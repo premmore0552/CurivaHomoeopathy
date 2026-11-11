@@ -327,11 +327,12 @@ export default function AllSubjectsHub() {
                 </div>
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary block">Theory Hours</span>
-                  <span className="font-bold text-text-primary">{sub.theoryHours} Hours</span>
+                  <span className="font-bold text-text-primary">{sub.theoryHours == null ? 'See source note' : sub.theoryHours + ' Hours'}</span>
                 </div>
                 <div>
-                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary block">Practical Hours</span>
-                  <span className="font-bold text-text-primary">{sub.practicalHours} Hours</span>
+                  <span className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary block">{sub.nonLectureHours != null ? 'Non-lecture Hours' : 'Practical Hours'}</span>
+                  <span className="font-bold text-text-primary">{sub.nonLectureHours != null ? sub.nonLectureHours + ' Hours' : sub.practicalHours == null ? 'See source note' : sub.practicalHours + ' Hours'}</span>
+                  {sub.hoursNote && <span className="mt-1 block text-[10px] leading-4 text-text-tertiary" title={sub.hoursNote}>Course-hour breakdown</span>}
                 </div>
                 <div>
                   <span className="text-[10px] font-bold uppercase tracking-wider text-text-tertiary block">Exam Pattern</span>
