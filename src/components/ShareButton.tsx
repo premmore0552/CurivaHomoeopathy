@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Share2, Check, Link2, MessageCircle, Mail, Twitter, Facebook, Linkedin } from 'lucide-react';
+import { Share2, Check, Link2, MessageCircle, Mail } from 'lucide-react';
+import BrandIcon from './BrandIcon';
 
 interface ShareButtonProps {
   title: string;
@@ -181,7 +182,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
               onClick={(e) => handlePlatformShare('twitter', e)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-text-primary hover:bg-sky-500/10 hover:text-sky-600 transition-colors cursor-pointer border-none text-left"
             >
-              <Twitter className="w-4 h-4 text-sky-500" />
+              <BrandIcon brand="x" className="w-4 h-4 text-sky-500" />
               <span>X (Twitter)</span>
             </button>
 
@@ -189,7 +190,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
               onClick={(e) => handlePlatformShare('facebook', e)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-text-primary hover:bg-indigo-500/10 hover:text-indigo-600 transition-colors cursor-pointer border-none text-left"
             >
-              <Facebook className="w-4 h-4 text-indigo-500" />
+              <BrandIcon brand="facebook" className="w-4 h-4 text-indigo-500" />
               <span>Facebook</span>
             </button>
 
@@ -197,7 +198,7 @@ export const ShareButton: React.FC<ShareButtonProps> = ({
               onClick={(e) => handlePlatformShare('linkedin', e)}
               className="w-full flex items-center gap-2.5 px-3 py-2 rounded-xl text-xs font-bold text-text-primary hover:bg-cyan-500/10 hover:text-cyan-600 transition-colors cursor-pointer border-none text-left"
             >
-              <Linkedin className="w-4 h-4 text-cyan-600" />
+              <BrandIcon brand="linkedin" className="w-4 h-4 text-cyan-600" />
               <span>LinkedIn</span>
             </button>
           </div>

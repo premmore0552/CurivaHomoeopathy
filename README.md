@@ -2,6 +2,12 @@
 
 An educational medical-learning platform for BHMS students. The website and Android app are separate products.
 
+## Development ownership
+
+Curiva Homoeopathy is developed and maintained by the Curiva Homoeopathy project owner. Product direction, Curiva-specific architecture, feature development, integrations, testing, and ongoing maintenance are managed as part of this independent project. The codebase began from a starter scaffold and has since been developed into the Curiva website and native Android learning application.
+
+Open-source libraries and external services—including Google Gemini for selected AI-assisted features—are used as documented technical dependencies. These services do not own, publish, or maintain the Curiva Homoeopathy product.
+
 > **Android app architecture:** The Android build is a standalone Kotlin + Jetpack Compose application. It does not open the React website, does not embed a website WebView, and does not request internet access. Its curriculum, lessons, question bank, flashcards, Materia Medica profiles, and Kent Repertory index are bundled for offline study. Learning progress is saved locally on the device; account sign-in and cloud progress sync are not part of this native build.
 
 ## Existing project and deployment workflow

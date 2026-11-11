@@ -1,5 +1,5 @@
 {
-  "name": "react-example",
+  "name": "curiva-homoeopathy",
   "private": true,
   "version": "0.0.0",
   "type": "module",
@@ -25,7 +25,8 @@
     "test:privacy-security": "node --test tests/privacy-security-hardening.test.mjs && tsx --test tests/ai-privacy-guard.test.ts",
     "verify:deploy-preview": "node scripts/verify-deploy-preview.mjs",
     "test:disease-assets": "tsx --test tests/disease-hub-assets.test.ts",
-    "test:auth": "tsx --test tests/auth-error-message.test.ts"
+    "test:auth": "tsx --test tests/auth-error-message.test.ts",
+    "test:organon-curriculum": "tsx --test tests/organon-curriculum.test.ts"
   },
   "dependencies": {
     "@capacitor/android": "^8.6.0",
@@ -33,10 +34,10 @@
     "@google/genai": "^2.32.0",
     "@tailwindcss/vite": "^4.1.14",
     "@types/d3": "^7.4.3",
-    "@vitejs/plugin-react": "^5.0.4",
+    "@vitejs/plugin-react": "^6.2.1",
     "d3": "^7.9.0",
     "dotenv": "^18.0.9",
-    "express": "^4.21.2",
+    "express": "^5.3.0",
     "firebase": "^12.12.1",
     "lucide-react": "^0.546.0",
     "motion": "^12.23.24",
@@ -59,7 +60,7 @@
     "esbuild": "^0.28.2",
     "tailwindcss": "^4.3.4",
     "terser": "^5.46.1",
-    "typescript": "~5.8.2",
+    "typescript": "~7.0.2",
     "vite": "^6.4.5"
   },
   "overrides": {

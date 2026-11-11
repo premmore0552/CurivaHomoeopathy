@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react';
-import { Instagram, ArrowRight, Heart, MessageCircle } from 'lucide-react';
+import { ArrowRight, Heart, MessageCircle } from 'lucide-react';
+import BrandIcon from './BrandIcon';
 import { motion } from 'motion/react';
 
 export const InstagramFeed: React.FC = () => {
@@ -20,7 +21,7 @@ export const InstagramFeed: React.FC = () => {
                     viewport={{ once: true }}
                     className="inline-flex items-center gap-3 px-6 py-3 bg-primary/10 rounded-full text-primary mb-8 font-bold"
                 >
-                    <Instagram className="w-6 h-6" />
+                    <BrandIcon brand="instagram" className="w-6 h-6" />
                     <span>From Instagram</span>
                 </motion.div>
                 <motion.h2 
@@ -53,7 +54,7 @@ export const InstagramFeed: React.FC = () => {
                     className="mt-12 flex gap-4 justify-center"
                 >
                     <a href="https://www.instagram.com/curivahomoeopathy/" target="_blank" rel="noopener noreferrer" className="px-8 sm:px-10 py-4 sm:py-5 bg-gradient-to-r from-purple-600 via-pink-500 to-orange-500 text-white font-bold rounded-2xl flex items-center gap-3 hover:scale-105 transition-all shadow-lg hover:shadow-orange-500/25">
-                        <Instagram className="w-5 h-5" />
+                        <BrandIcon brand="instagram" className="w-5 h-5" />
                         Follow on Instagram 
                     </a>
                 </motion.div>
