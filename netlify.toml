@@ -1,4 +1,7 @@
+"$schema" = "https://open-api.netlify.com/netlify.schema.json"
+
 [build]
+  ignore = 'if [ "$CONTEXT" = "deploy-preview" ] && [ "$BRANCH" = "feature/organon-year-wise-cbdc" ]; then echo "Skipping Deploy Preview for this PR by repository policy"; exit 0; else exit 1; fi'
   command = "npm run build"
   publish = "dist"
 
