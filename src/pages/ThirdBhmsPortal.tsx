@@ -30,10 +30,17 @@ export default function ThirdBhmsPortal() {
             3rd BHMS Academic Center
           </h1>
           <p className="text-blue-100 text-sm sm:text-base leading-relaxed">
-            Master General Surgery, ENT, Ophthalmology, Orthopaedics, Gynecology & Obstetrics, Repertory fundamentals, and Organon posology (§146–§291).
+            Study the third-year clinical subjects alongside Organon: §§146–209 and §§231–294, including disease management, follow-up, pharmacy, diet, regimen and chronic disease theory.
           </p>
         </div>
       </div>
+
+      <section className="mb-7 rounded-3xl border border-indigo-200 bg-indigo-50/70 p-6 dark:border-indigo-900/50 dark:bg-indigo-950/20">
+        <p className="text-xs font-bold uppercase tracking-wider text-indigo-700 dark:text-indigo-300">HomUG-OM-III · NCH CBDC</p>
+        <h2 className="mt-1 text-xl font-serif font-bold text-text-primary">Organon of Medicine & Homoeopathic Philosophy — III</h2>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">Preface and Introduction; §§146–209 and §§231–294, with revision of earlier aphorisms.</p>
+        <Link to="/organon/3rd-bhms" className="mt-4 inline-flex items-center gap-2 rounded-full bg-indigo-900 px-5 py-3 text-xs font-bold text-white hover:bg-indigo-800">Open Organon — 3rd BHMS <ArrowRight className="h-4 w-4" /></Link>
+      </section>
 
       {/* Subjects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">

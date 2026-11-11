@@ -45,8 +45,10 @@ export interface SubjectItem {
   icon: any;
   iconBg: string;
   mainRoute: string;
-  theoryHours: number;
-  practicalHours: number;
+  theoryHours?: number;
+  practicalHours?: number;
+  nonLectureHours?: number;
+  hoursNote?: string;
   totalMarks: number;
   examPattern: string;
   summary: string;
@@ -168,29 +170,33 @@ export const allBhmsSubjects: SubjectItem[] = [
     year: '1st BHMS',
     yearNumber: 1,
     category: 'Homoeopathic Core',
-    badge: 'Foundations Subject',
+    badge: 'NCH CBDC — Foundations',
     badgeColor: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border-purple-300',
     icon: BookOpen,
     iconBg: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-400',
-    mainRoute: '/subject/organon',
-    theoryHours: 80,
-    practicalHours: 40,
+    mainRoute: '/organon/1st-bhms',
+    theoryHours: 180,
+    nonLectureHours: 100,
+    hoursNote: 'Combined HomUG-OM-I: Organon 130/78 and Fundamentals of Psychology 50/22 lecture/non-lecture hours.',
     totalMarks: 100,
-    examPattern: 'Foundational Aphorisms §1–27, Pioneer History, and Basic Principles',
-    summary: 'The scientific and philosophical basis of homoeopathic medicine, Vital Principle, Similia principle, and disease dynamics.',
+    examPattern: 'NCH HomUG-OM-I assessment; see the official CBDC and university notices for current examination details.',
+    summary: 'History, logic, fundamental principles, health–disease–cure, the physician, drug proving, aphorisms §§1–27 and §§105–145, and Fundamentals of Psychology.',
     chapters: [
-      { title: 'Life of Dr. Samuel Hahnemann & Discovery of Homoeopathy', tag: 'Historical', link: '/subject/organon' },
-      { title: 'Cinchona Bark Experiment (1790)', tag: 'Discovery', link: '/subject/organon' },
-      { title: 'Aphorisms §1–§4: Physician\'s Mission, Highest Ideal of Cure', tag: 'Core §1-4', link: '/subject/organon' },
-      { title: 'Aphorisms §9–§17: Vital Principle in Health, Disease & Cure', tag: 'Vital Force', link: '/subject/organon' },
-      { title: 'Aphorisms §26–§28: Therapeutic Law of Nature', tag: 'Law of Similars', link: '/subject/organon' },
+      { title: 'History of medicine, Homoeopathy and Hahnemann', tag: 'History', link: '/organon/1st-bhms' },
+      { title: 'Homoeopathic stalwarts in India, Europe and the USA', tag: 'Stalwarts', link: '/organon/1st-bhms' },
+      { title: 'Inductive and deductive logic; science and art in Homoeopathy', tag: 'Logic', link: '/organon/1st-bhms' },
+      { title: 'Fundamental principles; individualistic, holistic and dynamic concepts', tag: 'Foundations', link: '/organon/1st-bhms' },
+      { title: 'Aphorisms §§1–27', tag: 'Core aphorisms', link: '/organon/1st-bhms' },
+      { title: 'Aphorisms §§105–145 and drug proving', tag: 'Drug proving', link: '/organon/1st-bhms' },
+      { title: 'Physician: purpose, qualities, duties and knowledge', tag: 'Physician', link: '/organon/1st-bhms' },
+      { title: 'Fundamentals of Psychology', tag: 'Psychology', link: '/organon/1st-bhms' }
     ],
     highYieldTopics: [
-      'Aphorism 1: The physician\'s mission and meaning of \'To Cure\'',
-      'Aphorism 9: Dynamic Vital Force operating in health',
-      'Aphorism 26: Therapeutic Law of Nature and its scientific explanation',
-      'Primary vs. Secondary Action of medicines on Vital Force',
-      'Difference between Homoeopathy, Antipathy, and Isopathy'
+      'History of medicine and the development of Homoeopathy; Hahnemann’s life and contributions.',
+      'Inductive and deductive logic; editions and construction of the Organon.',
+      'Individualistic, holistic and dynamic concepts; life, health, disease and cure.',
+      'Aphorisms §§1–27 and §§105–145; physician’s mission and drug-proving procedure.',
+      'Psychological organisation, cognition, affect, conation, development and applied psychology.'
     ]
   },
   {
@@ -336,29 +342,32 @@ export const allBhmsSubjects: SubjectItem[] = [
     year: '2nd BHMS',
     yearNumber: 2,
     category: 'Homoeopathic Core',
-    badge: 'University Exam Subject (1 Paper)',
+    badge: 'NCH CBDC — Disease and Case Taking',
     badgeColor: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border-purple-300',
     icon: BookOpen,
     iconBg: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-400',
-    mainRoute: '/subject/organon',
-    theoryHours: 120,
-    practicalHours: 60,
+    mainRoute: '/organon/2nd-bhms',
+    theoryHours: 150,
+    nonLectureHours: 100,
     totalMarks: 200,
-    examPattern: '100 Marks Theory + 100 Marks Practical/Viva (Aphorisms §71–145 & Chronic Miasms)',
-    summary: 'Classification of diseases, theory of chronic miasms (Psora, Sycosis, Syphilis), and systematic Hahnemannian case-taking (§83–104).',
+    examPattern: 'NCH HomUG-OM-II course; consult the official CBDC for assessment details.',
+    summary: 'Natural and artificial disease, therapeutic law, disease classification and miasms, case taking, symptomatology, case processing and suppression.',
     chapters: [
-      { title: 'Aphorisms §71–§82: Classification of Acute & Chronic Diseases', tag: 'Classification', link: '/subject/organon' },
-      { title: 'Theory of Chronic Miasms: Psora, Sycosis, and Syphilis', tag: 'Miasms', link: '/subject/organon' },
-      { title: 'Aphorisms §83–§104: Hahnemannian Case Taking Principles', tag: 'Case Taking', link: '/subject/organon' },
-      { title: 'Aphorisms §105–§145: Drug Proving on Healthy Provers', tag: 'Drug Proving', link: '/subject/organon' },
-      { title: 'Symptomatology, Analysis, Evaluation & Totality Construction', tag: 'Methodology', link: '/subject/organon' }
+      { title: 'Natural disease vs artificial disease — §§28–33', tag: 'Disease', link: '/organon/2nd-bhms' },
+      { title: 'Therapeutic law of nature — §§34–51', tag: 'Therapeutic law', link: '/organon/2nd-bhms' },
+      { title: 'Various systems of medicine — §§52–70', tag: 'Systems', link: '/organon/2nd-bhms' },
+      { title: 'Disease classification and introduction to miasms — §§71–82', tag: 'Classification', link: '/organon/2nd-bhms' },
+      { title: 'Case taking — §§83–103', tag: 'Case taking', link: '/organon/2nd-bhms' },
+      { title: 'Record keeping — §104', tag: 'Records', link: '/organon/2nd-bhms' },
+      { title: 'Symptomatology, analysis, evaluation, totality and susceptibility', tag: 'Case processing', link: '/organon/2nd-bhms' },
+      { title: 'Causation, anamnesis, disease progress and suppression', tag: 'Philosophy', link: '/organon/2nd-bhms' }
     ],
     highYieldTopics: [
-      'Hahnemannian Classification of Diseases (Acute: Individual, Sporadic, Epidemic; Chronic: Pseudo-chronic, Artificial, True Chronic)',
-      'The Fundamental Nature and manifestations of Psora according to Chronic Diseases',
-      'Case Taking requirements for an unprejudiced observer (§83–104)',
-      'Qualifications, diet, and method of proving drugs on healthy human beings (§105–145)',
-      'Evaluation of symptoms according to Kent, Boenninghausen, and Hahnemann'
+      'Natural disease vs artificial disease (§§28–33) and therapeutic law of nature (§§34–51).',
+      'Various systems of medicine (§§52–70).',
+      'Hahnemannian classification of disease and introduction to miasms (§§71–82).',
+      'Case taking (§§83–103) and record keeping (§104).',
+      'Symptomatology, analysis, evaluation, totality, susceptibility, causation, anamnesis and suppression.'
     ]
   },
 
@@ -473,29 +482,33 @@ export const allBhmsSubjects: SubjectItem[] = [
     year: '3rd BHMS',
     yearNumber: 3,
     category: 'Homoeopathic Core',
-    badge: 'University Exam Subject (1 Paper)',
+    badge: 'NCH CBDC — Advanced Organon',
     badgeColor: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border-purple-300',
     icon: BookOpen,
     iconBg: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-400',
-    mainRoute: '/subject/organon',
-    theoryHours: 100,
-    practicalHours: 50,
+    mainRoute: '/organon/3rd-bhms',
+    theoryHours: 150,
+    nonLectureHours: 50,
     totalMarks: 200,
-    examPattern: '100 Marks Theory + 100 Marks Practical/Viva (Aphorisms §146–294 & Advanced Philosophy)',
-    summary: 'Advanced case management, posology, repetition of doses, intermittent and one-sided diseases, and Hahnemannian second prescription rules.',
+    examPattern: 'NCH HomUG-OM-III course; consult the official CBDC for assessment details.',
+    summary: 'Preface and introduction; §§146–209 and §§231–294; medicine action, disease management, follow-up, pharmacy, routes of administration, diet, regimen and chronic disease theory.',
     chapters: [
-      { title: 'Aphorisms §146–§184: Indisposition, Acute Diseases & One-Sided Affections', tag: 'One-Sided', link: '/subject/organon' },
-      { title: 'Aphorisms §185–§209: Local Maladies & Mental Diseases', tag: 'Mental Diseases', link: '/subject/organon' },
-      { title: 'Aphorisms §210–§244: Intermittent & Alternating Fevers', tag: 'Fevers', link: '/subject/organon' },
-      { title: 'Aphorisms §245–§285: Posology, Repetition of Doses & LM Potencies', tag: 'Posology', link: '/subject/organon' },
-      { title: 'Aphorisms §286–§294: Mesmerism, Magnetism, Baths & Ancillary Measures', tag: 'Ancillary', link: '/subject/organon' }
+      { title: 'Hahnemann’s Preface and Introduction', tag: 'Introduction', link: '/organon/3rd-bhms' },
+      { title: 'Actions of medicines and points necessary for cure — §§146–149', tag: 'Medicine action', link: '/organon/3rd-bhms' },
+      { title: 'Acute, chronic, surgical, one-sided and epidemic disease — §§150–209', tag: 'Disease management', link: '/organon/3rd-bhms' },
+      { title: 'Intermittent diseases — §§231–244', tag: 'Intermittent disease', link: '/organon/3rd-bhms' },
+      { title: 'Repetition, follow-up and prejudice in prescription — §§245–258', tag: 'Follow-up', link: '/organon/3rd-bhms' },
+      { title: 'Diet, regimen and auxiliary measures — §§259–263 and §§285–291', tag: 'Regimen', link: '/organon/3rd-bhms' },
+      { title: 'Pharmacy, routes of administration and fundamental laws — §§264–285', tag: 'Pharmacy', link: '/organon/3rd-bhms' },
+      { title: 'Susceptibility, palliation, suppression, remedy reaction and posology', tag: 'Philosophy', link: '/organon/3rd-bhms' },
+      { title: 'Hahnemann’s Theory of Chronic Diseases and J. H. Allen’s chronic miasms', tag: 'Chronic disease', link: '/organon/3rd-bhms' }
     ],
     highYieldTopics: [
-      'Treatment of Mental Diseases according to Hahnemann (§210–230)',
-      'Management of Local Maladies and danger of external topical suppression (§185–203)',
-      'Posology and repetition of doses in acute vs. chronic diseases (§245–248)',
-      'Intermittent Fevers prescription timing (during apyrexia vs. paroxysm §235–244)',
-      'Preparation, administration, and advantages of 50-Millesimal LM Potencies (§270–272)'
+      'Prescribed sixth-edition content in §§146–209 and §§231–294, including footnotes.',
+      'Actions of medicines; acute, chronic, surgical, one-sided and epidemic disease management.',
+      'Repetition, follow-up, pharmacy, routes of administration, diet, regimen and auxiliary measures.',
+      'Susceptibility, idiosyncrasy, palliation, suppression, remedy reaction, second prescription and posology.',
+      'Hahnemann’s Theory of Chronic Diseases and J. H. Allen’s chronic miasms; revise earlier sections.'
     ]
   },
 
@@ -608,29 +621,31 @@ export const allBhmsSubjects: SubjectItem[] = [
     year: '4th BHMS',
     yearNumber: 4,
     category: 'Homoeopathic Core',
-    badge: 'University Exam Subject (1 Paper)',
+    badge: 'NCH CBDC — Final Professional Year',
     badgeColor: 'bg-purple-100 text-purple-800 dark:bg-purple-950 dark:text-purple-300 border-purple-300',
     icon: BookOpen,
     iconBg: 'bg-purple-50 text-purple-700 dark:bg-purple-950/60 dark:text-purple-400',
-    mainRoute: '/subject/organon',
+    mainRoute: '/organon/4th-bhms',
     theoryHours: 100,
-    practicalHours: 60,
+    nonLectureHours: 75,
     totalMarks: 200,
-    examPattern: '100 Marks Theory + 100 Marks Practical/Viva (Kent\'s, Close\'s, Roberts\' Philosophy)',
-    summary: 'Critical analysis of homoeopathic stalwarts: Kent\'s 12 Observations, Stuart Close\'s Genius of Homoeopathy, and H.A. Roberts\' Principles of Art of Cure.',
+    examPattern: 'NCH HomUG-OM-IV: §§210–230 and structured revision; confirm the detailed local examination plan with faculty.',
+    summary: 'Mental diseases §§210–230, complete course revision, case taking, symptomatology, value of symptoms, disease portrait, susceptibility, miasm, posology and remedy reaction.',
     chapters: [
-      { title: 'Dr. J.T. Kent\'s Lectures on Homoeopathic Philosophy & 12 Observations', tag: 'Kent\'s 12', link: '/subject/organon' },
-      { title: 'Stuart Close\'s The Genius of Homoeopathy (General Pathology, Drug Potential)', tag: 'Stuart Close', link: '/subject/organon' },
-      { title: 'H.A. Roberts\' Principles and Art of Cure by Homoeopathy', tag: 'Roberts', link: '/subject/organon' },
-      { title: 'Miasmatic Cleavage in Complex Multi-Miasmatic Pathology', tag: 'Miasms', link: '/subject/organon' },
-      { title: 'Second Prescription Rules & Prognosis Evaluation', tag: 'Prognosis', link: '/subject/organon' }
+      { title: 'Aphorisms §§210–230, including footnotes', tag: 'Core aphorisms', link: '/organon/4th-bhms' },
+      { title: 'Revision of §§1–70, §§71–104 and §§105–145', tag: 'Revision', link: '/organon/4th-bhms' },
+      { title: 'Revision of §§146–209 and §§231–294', tag: 'Revision', link: '/organon/4th-bhms' },
+      { title: 'Case taking, symptomatology and value of symptoms', tag: 'Case analysis', link: '/organon/4th-bhms' },
+      { title: 'Formation of the portrait of disease', tag: 'Disease portrait', link: '/organon/4th-bhms' },
+      { title: 'Susceptibility, miasm, posology and remedy reaction', tag: 'Clinical integration', link: '/organon/4th-bhms' },
+      { title: 'Prescribed chapters of Kent, Stuart Close and H. A. Roberts', tag: 'Philosophy texts', link: '/organon/4th-bhms' }
     ],
     highYieldTopics: [
-      'Kent\'s 12 Observations on remedy action (Aggr. followed by quick recovery, Prolonged aggr. then decline, etc.)',
-      'Stuart Close: Susceptibility, Reaction, and Immunity dynamics in Homoeopathy',
-      'H.A. Roberts: Deficient reaction and constitutional remedy selection in incurable states',
-      'The Second Prescription: Repetition of same remedy, change of remedy, antidote, or complementary',
-      'Hering\'s Law of Cure: From above downwards, inside outwards, more vital to less vital organ, and reverse order of appearance'
+      'Aphorisms §§210–230 and their footnotes.',
+      'Revision of designated aphorism sections: §§1–70, §§71–104, §§105–145, §§146–209 and §§231–294.',
+      'Case taking, symptomatology, value of symptoms and formation of the disease portrait.',
+      'Susceptibility, miasm, posology and remedy reaction.',
+      'Prescribed revision of Kent, Stuart Close and H. A. Roberts.'
     ]
   }
 ];

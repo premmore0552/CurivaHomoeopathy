@@ -48,6 +48,68 @@ function safeHref(value: string | null): string | null {
   return null;
 }
 
+const SAFE_INTERNAL_PATHS = new Set([
+  '/materia-medica',
+  '/miasms',
+  '/cbc-handbook',
+  '/anatomy',
+  '/cbdc-syllabus',
+  '/symptom-checker'
+]);
+
+function safeAutoLinkPath(value: string | null): string | null {
+  if (!value) return null;
+  const path = value.trim();
+  if (!SAFE_INTERNAL_PATHS.has(path)) return null;
+  return path;
+}
+
+const AUTO_LINK_TOKEN_REGEX = /\[\[AUTO_LINK\|([^|\]]+)\|([^|\]]+)\|([\s\S]*?)\]\]/g;
+
+function renderAutoLinkTokens(input: string): React.ReactNode[] | null {
+  if (!input.includes('[[AUTO_LINK|')) return null;
+
+  const nodes: React.ReactNode[] = [];
+  let lastIndex = 0;
+  let match: RegExpExecArray | null;
+  let tokenIndex = 0;
+
+  while ((match = AUTO_LINK_TOKEN_REGEX.exec(input)) !== null) {
+    const [fullMatch, rawPath, rawTitle, rawText] = match;
+    if (match.index > lastIndex) {
+      nodes.push(input.slice(lastIndex, match.index));
+    }
+
+    const href = safeAutoLinkPath(rawPath);
+    if (!href) {
+      nodes.push(rawText);
+    } else {
+      const external = /^https:\/\//i.test(href);
+      nodes.push(
+        <a
+          key={`auto-link-${tokenIndex}`}
+          href={href}
+          title={rawTitle}
+          className="inline-flex items-center gap-0.5 px-1.5 py-0.5 bg-primary/5 hover:bg-primary/10 border border-primary/20 text-primary rounded text-xs font-semibold font-mono transition-colors"
+          target={external ? '_blank' : undefined}
+          rel={external ? 'noopener noreferrer nofollow' : undefined}
+        >
+          {rawText} <span className="text-[8px] opacity-70">🔗</span>
+        </a>
+      );
+    }
+
+    tokenIndex += 1;
+    lastIndex = match.index + fullMatch.length;
+  }
+
+  if (lastIndex < input.length) {
+    nodes.push(input.slice(lastIndex));
+  }
+
+  return nodes;
+}
+
 function renderSafeNode(node: ChildNode, key: string): React.ReactNode {
   if (node.nodeType === 3) return node.textContent || '';
   if (node.nodeType !== 1) return null;
@@ -102,6 +164,9 @@ function renderSafeNode(node: ChildNode, key: string): React.ReactNode {
  */
 export default function SafeHtmlContent({ html, className }: Props) {
   const content = useMemo(() => {
+    const tokenRendered = renderAutoLinkTokens(html);
+    if (tokenRendered) return tokenRendered;
+
     if (typeof DOMParser === 'undefined') return [html.replace(/<[^>]*>/g, '')];
     try {
       const parsed = new DOMParser().parseFromString(html, 'text/html');

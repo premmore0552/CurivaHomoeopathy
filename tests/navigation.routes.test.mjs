@@ -116,6 +116,24 @@ test('FMT More opens an accessible panel with Escape and focus handling', () => 
   }
 });
 
+test('Organon exposes a hub, four year-specific subject pages and a separate legacy reader', () => {
+  for (const route of [
+    '/organon-philosophy',
+    '/organon/1st-bhms',
+    '/organon/2nd-bhms',
+    '/organon/3rd-bhms',
+    '/organon/4th-bhms',
+    '/organon-library'
+  ]) {
+    assert.ok(routePaths.has(route), 'missing Organon route: ' + route);
+  }
+  assert.match(app, /OrganonCurriculumHub/);
+  assert.match(app, /OrganonYearPage yearSlug="1st-bhms"/);
+  assert.match(app, /OrganonYearPage yearSlug="2nd-bhms"/);
+  assert.match(app, /OrganonYearPage yearSlug="3rd-bhms"/);
+  assert.match(app, /OrganonYearPage yearSlug="4th-bhms"/);
+});
+
 test('download URLs do not leak into the public resource catalogue', () => {
   assert.doesNotMatch(catalogue, /drive\.google\.com|fileUrl\s*:/);
 });

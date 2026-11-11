@@ -1,5 +1,6 @@
 import React from 'react';
-import { Facebook, Instagram, Mail, ShieldAlert, FileText, ArrowUpRight, GraduationCap, Sparkles, BookOpen, HeartPulse } from 'lucide-react';
+import { Mail, ShieldAlert, FileText, ArrowUpRight, GraduationCap, Sparkles, BookOpen, HeartPulse } from 'lucide-react';
+import BrandIcon from './BrandIcon';
 import { Link } from 'react-router-dom';
 
 import Logo from './Logo';
@@ -28,8 +29,8 @@ const Footer: React.FC = () => {
             </p>
             <div className="flex gap-3 pt-2">
               {[
-                { icon: Facebook, href: "https://www.facebook.com/curivahomoeopathy/", label: "Facebook" },
-                { icon: Instagram, href: "https://www.instagram.com/curivahomoeopathy/", label: "Instagram" },
+                { brand: 'facebook' as const, href: "https://www.facebook.com/curivahomoeopathy/", label: "Facebook" },
+                { brand: 'instagram' as const, href: "https://www.instagram.com/curivahomoeopathy/", label: "Instagram" },
               ].map((social) => (
                 <a 
                   key={social.label}
@@ -39,7 +40,7 @@ const Footer: React.FC = () => {
                   aria-label={social.label}
                   className="w-10 h-10 rounded-xl bg-bg-secondary border border-border flex items-center justify-center text-text-tertiary hover:bg-primary hover:text-white hover:border-primary hover:shadow-soft transition-all transform hover:-translate-y-0.5"
                 >
-                  <social.icon className="w-4.5 h-4.5" />
+                  <BrandIcon brand={social.brand} className="w-4.5 h-4.5" />
                 </a>
               ))}
             </div>

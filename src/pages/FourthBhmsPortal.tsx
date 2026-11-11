@@ -35,6 +35,13 @@ export default function FourthBhmsPortal() {
         </div>
       </div>
 
+      <section className="mb-7 rounded-3xl border border-emerald-200 bg-emerald-50/70 p-6 dark:border-emerald-900/50 dark:bg-emerald-950/20">
+        <p className="text-xs font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-300">HomUG-OM-IV · NCH CBDC · 7 May 2026</p>
+        <h2 className="mt-1 text-xl font-serif font-bold text-text-primary">Organon of Medicine & Homoeopathic Philosophy — IV</h2>
+        <p className="mt-2 text-sm leading-6 text-text-secondary">Aphorisms §§210–230 and the prescribed revision blocks, case taking, symptomatology, disease portrait, susceptibility, miasm and posology.</p>
+        <Link to="/organon/4th-bhms" className="mt-4 inline-flex items-center gap-2 rounded-full bg-emerald-900 px-5 py-3 text-xs font-bold text-white hover:bg-emerald-800">Open Organon — 4th BHMS <ArrowRight className="h-4 w-4" /></Link>
+      </section>
+
       {/* Subjects Grid */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         <div className="bg-bg-secondary border border-border rounded-3xl p-6 space-y-4 shadow-sm hover:shadow-md transition-all">

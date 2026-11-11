@@ -101,7 +101,7 @@ export default function SecondBhmsPortal() {
       badgeColor: "bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border-indigo-500/20",
       icon: Layers,
       iconColor: "p-3 bg-indigo-100 text-indigo-800 dark:bg-indigo-900/40 dark:text-indigo-300",
-      link: "/subject/organon",
+      link: "/organon/2nd-bhms",
       topics: [
         "Natural vs Artificial Disease (§28–33) & Therapeutic Law (§34–51)",
         "Hahnemannian Classification of Diseases & Miasms (§71–82)",

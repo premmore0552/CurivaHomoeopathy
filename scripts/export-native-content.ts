@@ -109,6 +109,8 @@ const subjects = allBhmsSubjects.map(subject => ({
   examPattern: subject.examPattern,
   theoryHours: subject.theoryHours,
   practicalHours: subject.practicalHours,
+  nonLectureHours: subject.nonLectureHours,
+  hoursNote: subject.hoursNote,
   totalMarks: subject.totalMarks,
   chapters: (subject.chapters || []).map(chapter => ({
     title: chapter.title,
