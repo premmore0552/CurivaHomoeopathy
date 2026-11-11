@@ -59,7 +59,7 @@
     "esbuild": "^0.28.2",
     "tailwindcss": "^4.3.4",
     "terser": "^5.46.1",
-    "typescript": "~5.8.2",
+    "typescript": "~7.0.2",
     "vite": "^6.4.5"
   },
   "overrides": {
