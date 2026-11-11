@@ -48,6 +48,22 @@ function safeHref(value: string | null): string | null {
   return null;
 }
 
+const SAFE_INTERNAL_PATHS = new Set([
+  '/materia-medica',
+  '/miasms',
+  '/cbc-handbook',
+  '/anatomy',
+  '/cbdc-syllabus',
+  '/symptom-checker'
+]);
+
+function safeAutoLinkPath(value: string | null): string | null {
+  if (!value) return null;
+  const path = value.trim();
+  if (!SAFE_INTERNAL_PATHS.has(path)) return null;
+  return path;
+}
+
 const AUTO_LINK_TOKEN_REGEX = /\[\[AUTO_LINK\|([^|\]]+)\|([^|\]]+)\|([\s\S]*?)\]\]/g;
 
 function renderAutoLinkTokens(input: string): React.ReactNode[] | null {
@@ -64,7 +80,7 @@ function renderAutoLinkTokens(input: string): React.ReactNode[] | null {
       nodes.push(input.slice(lastIndex, match.index));
     }
 
-    const href = safeHref(rawPath);
+    const href = safeAutoLinkPath(rawPath);
     if (!href) {
       nodes.push(rawText);
     } else {
