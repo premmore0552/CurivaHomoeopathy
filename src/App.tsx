@@ -284,7 +284,7 @@ function AppRoutes() {
                 <Route path="/organon/2nd-bhms" element={<PageWrapper><OrganonYearPage yearSlug="2nd-bhms" /></PageWrapper>} />
                 <Route path="/organon/3rd-bhms" element={<PageWrapper><OrganonYearPage yearSlug="3rd-bhms" /></PageWrapper>} />
                 <Route path="/organon/4th-bhms" element={<PageWrapper><OrganonYearPage yearSlug="4th-bhms" /></PageWrapper>} />
-                <Route path="/organon-library" element={<PageWrapper><OrganonMedicine /></PageWrapper} />
+                <Route path="/organon-library" element={<PageWrapper><OrganonMedicine /></PageWrapper>} />
                 <Route path="/all-subjects" element={<Navigate to="/subjects" replace />} />
                 <Route path="/subject/organon" element={<Navigate to="/organon-philosophy" replace />} />
                 <Route path="/subject/materia-medica" element={<PageWrapper><MateriaMedicaSubject /></PageWrapper>} />
