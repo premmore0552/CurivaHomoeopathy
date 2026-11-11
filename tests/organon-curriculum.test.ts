@@ -96,7 +96,7 @@ test('the source aphorism text and footnotes retain their protected Git blob ide
     footnoteCount: number;
   };
   const sourceBytes = readFileSync(sourceUrl);
-  const gitBlobHeader = Buffer.from(`blob ${sourceBytes.length}\\0`, 'utf8');
+  const gitBlobHeader = Buffer.from(`blob ${sourceBytes.length}\0`, 'utf8');
   const actualBlobSha = createHash('sha1').update(gitBlobHeader).update(sourceBytes).digest('hex');
 
   assert.equal(lock.sourceFile, 'src/data/organon_data.ts');
