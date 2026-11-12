@@ -9,33 +9,10 @@ import { assertPrivateDownloadAvailable, createSignedDownloadUrl, getFirestoreDo
 import { isResourceEmailConfigured, sendAppointmentRequestNotification, sendAppointmentStatusNotification, sendPaidResourceEmail } from "./src/server/resourceEmail";
 import { deleteClinicCalendarEvent, getClinicTimezone, isClinicCalendarConfigured, upsertClinicCalendarEvent } from "./src/server/clinicCalendar";
 import path from "path";
-import { fileURLToPath } from "url";
 import Razorpay from "razorpay";
 import crypto from "crypto";
 import { GoogleGenAI, Type } from "@google/genai";
 import { AI_ACADEMIC_CONSENT_HEADER, hasAiAcademicConsent, validateAcademicAiText } from "./src/server/aiPrivacyGuard";
-
-// Safe path resolution for both ES modules and CommonJS
-const getDirNameAndFileName = () => {
-  try {
-    if (typeof __filename !== "undefined" && typeof __dirname !== "undefined" && __filename && __dirname) {
-      return { filename: __filename, dirname: __dirname };
-    }
-  } catch (e) {}
-
-  try {
-    if (typeof import.meta !== "undefined" && import.meta.url) {
-      const filename = fileURLToPath(import.meta.url);
-      const dirname = path.dirname(filename);
-      return { filename, dirname };
-    }
-  } catch (e) {}
-
-  const cwd = process.cwd();
-  return { filename: path.join(cwd, "server.ts"), dirname: cwd };
-};
-
-const { filename: __filename, dirname: __dirname } = getDirNameAndFileName();
 
 // Initialize Razorpay lazily to avoid crash if keys are missing
 let razorpayInstance: Razorpay | null = null;
@@ -1654,7 +1631,8 @@ async function startServer() {
         res.status(404).json({ error: "Post not found" });
       }
     } catch (error) {
-      console.error("[API] Public article lookup failed:", error?.name || "StorageError");
+      const errorName = error instanceof Error ? error.name : "StorageError";
+      console.error("[API] Public article lookup failed:", errorName);
       res.status(500).json({ error: "Failed to fetch post" });
     }
   });

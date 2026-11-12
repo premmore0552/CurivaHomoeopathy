@@ -343,10 +343,10 @@ const RemedyCard = ({ remedy }: { remedy: ImportantRemedy }) => (
   </div>
 );
 
-const RemedyDetailItem = ({ label, value }: { label: string, value: string }) => (
+const RemedyDetailItem = ({ label, value }: { label: string, value: string | undefined }) => (
   <div>
     <span className="block text-[10px] font-black uppercase tracking-widest text-text-secondary mb-1">{label}</span>
-    <span className="block text-sm font-bold text-text-primary leading-relaxed">{value}</span>
+    <span className="block text-sm font-bold text-text-primary leading-relaxed">{value?.trim() || 'Not specified in this source profile.'}</span>
   </div>
 );
 
