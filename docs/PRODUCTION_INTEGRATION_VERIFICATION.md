@@ -209,3 +209,10 @@ PR #84 passed website verification, Firestore emulator tests and CodeQL on its P
 ## Single-maintainer release governance — 13 November 2026
 
 The repository owner confirmed that `curivahomoeopathy` and `premmore0552` are both their own GitHub accounts. Cross-account reviews are not independent. Do not treat an approval by the original account as peer review of a PR authored by the newer account. Use a solo-maintainer branch policy with required CI and resolved conversations, and zero required approvals until a second human maintainer exists. If the original account is no longer needed, remove/downgrade its write access after verifying recovery from the newer owner account; keep MFA/passkeys enabled on every account that retains access.
+
+
+## Solo-maintainer and current-main note — 13 November 2026
+
+The owner confirmed both GitHub usernames in the permission audit belong to the same person. Cross-account reviews are not independent; require CI and resolved review threads while using zero approval count until another trusted person is onboarded. Do not assign CODEOWNERS to both aliases.
+
+Current main after PR #85 is `771a07bda115572861374c28dfb7f8302590d717`. Current Netlify published production remains on commit `32d8df7a2461993a3826b9b831d50e63a95f61fc`; no current-main production build or publication was triggered. CI website and CodeQL passed for PR #85; SonarQube scanner and Deploy Preview smoke test were skipped as documented.
