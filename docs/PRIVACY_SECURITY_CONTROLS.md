@@ -168,3 +168,31 @@ This addendum records the live state observed after PR #83 merged. It supersedes
 - Do not put service-account JSON, Gemini/Razorpay/webhook credentials, email credentials, patient data or private files in GitHub, issues, PRs or chat.
 - Before changing the main protection policy, identify a second trusted human reviewer. Then activate a ruleset requiring PRs, one independent approval, stale-review dismissal, resolved conversations, the verified website/Android/CodeQL checks, and no force pushes or deletion. Keep bypass empty for routine work.
 - Repository security feature states, account MFA, collaborator access, Firebase Console state, external-provider credentials, independent penetration test, backup/restore drill, India privacy/legal review and clinical editorial review remain owner/provider/independent-review tasks.
+
+
+## Post-PR #84 current-main and configuration re-check — 12 November 2026
+
+After PR #84 merged, current GitHub main is `fa14d6014662a127e4159acd0af06fe5183e1fc9`. This supersedes the earlier `e65e6a82...` main-head reference above. PR #84's documentation-only merge retained `[skip netlify]`.
+
+### Current production deployment
+
+- Netlify's published production deploy remains `6af2291dafedaeb655e0dbb2` for commit `32d8df7a2461993a3826b9b831d50e63a95f61fc` (published 9 November 2026). It contains one `api` Function, four redirect rules and five header rules. The published commit is behind current GitHub main (`fa14d601...`). No deployment for the current main commit was triggered during this review.
+- No production publication or mutation test was run. The deploy is not upgraded merely because a newer GitHub commit was merged. Production remains a separate release gate.
+
+### Current Netlify environment inventory
+
+- The site inventory returns exactly one variable: `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` in Production. Its value is masked, it is marked secret, and its scopes are Builds, Functions and Runtime. The team-level inventory is empty.
+- This is a public browser site key, not a private credential. It should ultimately be configured non-secret, Production-only, Builds-only, but only after the value is independently matched against the reCAPTCHA Enterprise key registered to the Curiva Web app in Firebase Console. The current masked value cannot be compared, and the Netlify connector cannot amend an existing variable's secret flag/scopes through its upsert operation. Do not delete or overwrite it without the verified site key and a reviewed change window.
+- No server-side provider variables were visible in the site-level inventory. Variables documented in `.env.example` and `docs/PRODUCTION_INTEGRATION_VERIFICATION.md` but absent from the inventory include `FIREBASE_SERVICE_ACCOUNT_JSON`, `GEMINI_API_KEY`, `RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`, `RAZORPAY_WEBHOOK_SECRET`, `CURIVA_PRIVATE_DOWNLOAD_BUCKET`, `RESEND_API_KEY`, `RESOURCE_EMAIL_FROM`, `CURIVA_APPOINTMENT_NOTIFICATION_EMAIL`, `CURIVA_CLINIC_CALENDAR_ID`, `CURIVA_CLINIC_TIMEZONE`, and `CURIVA_APPOINTMENT_ADMIN_UIDS`. Optional server configuration values `FIRESTORE_DATABASE_ID` and `FIREBASE_WEB_API_KEY` were also not present. The public checkout variable `VITE_RAZORPAY_KEY_ID` was not present. These should only be provisioned if the corresponding feature is intentionally enabled, using isolated test values in deploy previews and least-privilege production secrets/functions scopes. Do not place secrets in `VITE_*`.
+- The server reads `CURIVA_APPOINTMENT_ADMIN_UIDS` as a server-side comma-separated Firebase UID allowlist. No value was visible in Netlify. Appointment administration must remain disabled until real staff UIDs are reconciled and added through privileged configuration; never use email/display-name matching or client profile roles as a substitute.
+
+### Latest CI and analysis status
+
+- PR #84's `Typecheck, build website, and validate free OTA bundle` job passed on head `be9ca3577a8cdc1c1a9d36074678baa816e38827`, including typecheck, website/OTA build, dependency advisory reports, Organon curriculum tests, privacy/security checks and Firestore emulator tests.
+- CodeQL passed for Actions, Java/Kotlin and JavaScript/TypeScript on that head.
+- The SonarQube workflow job completed successfully but skipped the actual scanner because repository settings `SONAR_TOKEN`, `SONAR_HOST_URL` and `SONAR_PROJECT_KEY` are not configured.
+- The deploy-preview smoke test was skipped intentionally with `[skip netlify]`. These CI results do not prove live Firebase, Razorpay, Resend, private Cloud Storage or Calendar integration credentials are configured.
+
+### Current closure decision
+
+Keep issue #46 open. Main is flagged protected but required-check enforcement is off and no required contexts are configured; rulesets remain empty. Secret scanning, push protection, Dependabot alert toggles, private vulnerability reporting, account MFA/passkeys, all collaborator membership, Firebase App Check registration/enforcement, external linked-provider credentials, production smoke tests, independent penetration testing, backup/restore, India privacy/legal review and qualified clinical editorial review remain unverified or owner/provider/independent-review actions. This document is not a certification.
