@@ -214,3 +214,22 @@ Use a solo-maintainer branch ruleset (PR-only, automated CI required, resolved c
 The current main commit after PR #85 is `771a07bda115572861374c28dfb7f8302590d717`. Its deployment has not been verified as published; latest Netlify published deploy remains `6af2291dafedaeb655e0dbb2` for older commit `32d8df7a2461993a3826b9b831d50e63a95f61fc`. Site environment inventory still contains only the masked App Check site key, incorrectly marked secret and scoped to Builds/Functions/Runtime; team inventory is empty. Do not alter the key until its exact value is verified in Firebase Console.
 
 PR #85 website verification and all three CodeQL analyses passed. SonarQube scanner execution was skipped for missing configuration. The temporary Firestore tooling install emitted 14 moderate advisories; the app's checked-in lockfile audits were zero in the CI run. CI has been updated to pin Firebase CLI to 15.36.0 to avoid an unpinned CLI dependency tree; the resulting workflow must be checked for advisory count after it runs.
+
+
+## Isolated Firestore CI toolchain — final check (13 November 2026)
+
+PR #86 now creates a separate temporary npm project for Firestore emulator tooling. The isolated project uses pinned `firebase-tools@15.36.0`, `@firebase/rules-unit-testing@6.0.0`, Firebase JS SDK 13.2.0 and the repository's patched gRPC override. Non-forced `npm audit fix` is attempted in that temporary project before the audit and emulator run. The website's normal locked dependency install remains untouched by the test-tool installation.
+
+Observed result on PR #86 head `a377282c8ddefc279b87c01b6f0d98acbebaa37e`:
+
+- Application lockfile audit: zero vulnerabilities (full tree and production-only).
+- Isolated temporary Firestore toolchain: 14 moderate, 0 high, 0 critical advisories remain after non-forced fixes.
+- Firestore rules emulator: 9 tests passed, 0 failed.
+- Android debug APK build: passed; artifact uploaded.
+- CodeQL Actions, Java/Kotlin and JavaScript/TypeScript: passed.
+- SonarQube workflow job: success, but the actual scanner was skipped because `SONAR_TOKEN`, `SONAR_HOST_URL` and `SONAR_PROJECT_KEY` are not configured.
+- Netlify Deploy Preview smoke test: intentionally skipped by the `[skip netlify]` PR title; no Deploy Preview or production deploy was triggered.
+
+The 14 moderate findings are confined to the ephemeral CI-only Firebase CLI/test toolchain, not the application's checked-in or deployed website dependency graph. The affected advisory chains include OpenTelemetry core, glob/minimatch, uuid, gaxios, Pub/Sub and archive tooling. Do not force-downgrade Firebase CLI to an older major merely to suppress the npm report. Firebase's 15.34.2 release notes include security fixes in the newer CLI line; 15.36.0 was the current published package version during this check. Keep this residual CI-only risk visible, review compatible overrides as upstream fixes arrive, and repeat the audit periodically. This is not a zero-advisory result and is not a penetration-test certification.
+
+References: [Firebase CLI release notes](https://firebase.google.com/support/release-notes/cli) · [firebase-tools package versions](https://www.npmjs.com/package/firebase-tools?activeTab=versions).
