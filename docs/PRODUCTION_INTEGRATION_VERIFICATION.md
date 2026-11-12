@@ -204,3 +204,8 @@ Netlify's site environment inventory exposes only `VITE_FIREBASE_APPCHECK_ENTERP
 The app's server-side appointment administrator allowlist is `CURIVA_APPOINTMENT_ADMIN_UIDS`; the code does not make client profile roles authoritative. Provision only verified staff Firebase UIDs through the Netlify function environment after confirming account identities. If no allowlist is configured, appointments remain request-only and admin confirmation should not be enabled.
 
 PR #84 passed website verification, Firestore emulator tests and CodeQL on its PR head. SonarQube scanner execution was skipped because `SONAR_TOKEN`, `SONAR_HOST_URL` and `SONAR_PROJECT_KEY` are absent. Deploy Preview smoke tests were skipped intentionally because of `[skip netlify]`. A ready CI job or PR merge does not replace real provider testing.
+
+
+## Single-maintainer release governance — 13 November 2026
+
+The repository owner confirmed that `curivahomoeopathy` and `premmore0552` are both their own GitHub accounts. Cross-account reviews are not independent. Do not treat an approval by the original account as peer review of a PR authored by the newer account. Use a solo-maintainer branch policy with required CI and resolved conversations, and zero required approvals until a second human maintainer exists. If the original account is no longer needed, remove/downgrade its write access after verifying recovery from the newer owner account; keep MFA/passkeys enabled on every account that retains access.
