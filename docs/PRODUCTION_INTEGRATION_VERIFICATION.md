@@ -1,6 +1,6 @@
 # Production integration verification
 
-Last reviewed: 2026-11-08
+Last reviewed: 2026-11-12
 
 This runbook separates code-level checks from provider and production checks. A green build or a Netlify deploy marked **ready** does not prove that a function is deployed, that provider credentials are available in the relevant deploy context, or that external systems accept requests.
 
@@ -193,3 +193,14 @@ Do not place the site key in `FIREBASE_SERVICE_ACCOUNT_JSON`, `GEMINI_API_KEY`, 
 ### Follow-up state observed on 8 November 2026
 
 The Firebase App Check code is present, but the reCAPTCHA key registration could not be verified from repository files. The Netlify site-level and team-level environment-variable inventories returned no variables during this audit, including neither App Check site-key variable. The user reported that the key-registration status is unknown. Therefore, treat App Check as **not yet configured** until steps A–C are completed and confirmed in the provider consoles. No key has been generated, no Firebase provider registration has been changed, no Netlify variable has been added, and no Firebase enforcement has been enabled by this runbook.
+
+
+## Latest production and provider configuration snapshot — 12 November 2026
+
+The latest published Netlify deploy remains `6af2291dafedaeb655e0dbb2` for commit `32d8df7a2461993a3826b9b831d50e63a95f61fc`, behind current GitHub main `fa14d6014662a127e4159acd0af06fe5183e1fc9`. The published deploy includes the `api` Function, but no build or publication for current main has been triggered. Do not enable provider-backed workflows on the assumption that current source is live.
+
+Netlify's site environment inventory exposes only `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY`, in Production, with its value masked, marked secret and scoped to Builds/Functions/Runtime. The team inventory is empty. This variable is a public reCAPTCHA site key and should be non-secret and Builds-only after its exact value is verified against Firebase Console. Do not replace it without the verified key. No server-side Firebase Admin, Gemini, Razorpay, webhook, private bucket, Resend, calendar or appointment-admin UID values were visible. Keep these integrations disabled/request-only until correct test and production credentials are provisioned and verified.
+
+The app's server-side appointment administrator allowlist is `CURIVA_APPOINTMENT_ADMIN_UIDS`; the code does not make client profile roles authoritative. Provision only verified staff Firebase UIDs through the Netlify function environment after confirming account identities. If no allowlist is configured, appointments remain request-only and admin confirmation should not be enabled.
+
+PR #84 passed website verification, Firestore emulator tests and CodeQL on its PR head. SonarQube scanner execution was skipped because `SONAR_TOKEN`, `SONAR_HOST_URL` and `SONAR_PROJECT_KEY` are absent. Deploy Preview smoke tests were skipped intentionally because of `[skip netlify]`. A ready CI job or PR merge does not replace real provider testing.
