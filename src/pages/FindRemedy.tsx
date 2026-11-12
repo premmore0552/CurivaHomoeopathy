@@ -202,7 +202,7 @@ export default function FindRemedy() {
       } else if (currentSection) {
         currentContent.push(line);
       }
-    });
+    }
 
     if (currentSection) {
       currentSection.content = currentContent.join('\n');
