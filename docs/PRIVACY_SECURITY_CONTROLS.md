@@ -138,3 +138,33 @@ This section supersedes the earlier point-in-time statements above where they de
 - **No published GitHub Release was returned by the releases endpoint during this check.** Semantic release/versioning remains a separate project task.
 
 The new operator procedure is documented in [GitHub repository protection](GITHUB_REPOSITORY_PROTECTION.md). These facts are a point-in-time audit and should be refreshed after publication and provider configuration.
+
+
+## Security readiness re-check — 12 November 2026
+
+This addendum records the live state observed after PR #83 merged. It supersedes older point-in-time statements only where explicitly noted. This is an operational configuration review, not a penetration test or compliance certification.
+
+### GitHub repository controls
+
+- Default branch is main; observed head: e65e6a82e5b2f2975441411b1764690ffaab9c13 (PR #83 merge commit).
+- GitHub's branch listing reports protected: true, but its embedded protection summary reports required_status_checks.enforcement_level: off and an empty contexts/checks list. The rulesets endpoint returns an empty array. The detailed branch-protection endpoint returns HTTP 403 to the connected integration, so approval count, conversation resolution, force-push and deletion restrictions cannot be independently verified. Do not describe main as fully protected.
+- No root CODEOWNERS or .github/CODEOWNERS file exists. Do not enable code-owner review until at least two active, independent human maintainers are confirmed.
+- .github/dependabot.yml configures weekly npm and GitHub Actions update schedules, including security-update grouping. This is not evidence that Dependabot alerts/security updates are enabled in repository settings.
+- The connected GitHub integration cannot read or administer repository security feature toggles, collaborator membership/MFA, or account passkey state. Secret scanning, push protection, Dependabot alerts, private vulnerability reporting, collaborator access and administrator MFA therefore remain unverified.
+- The GitHub connection has admin permission on the repository object, but its installed integration cannot access branch-protection administration endpoints. No branch rules, security toggles or collaborator permissions were changed in this audit.
+
+### Netlify and Firebase configuration
+
+- Netlify project curivahomoeopathy (site ID 93ecb839-499a-4284-aafc-97d19fec7d04) is public; visitor password and team-SSO gates are both off.
+- The latest published deploy returned by Netlify is 6af2291dafedaeb655e0dbb2, published 9 November 2026, for main commit 32d8df7a2461993a3826b9b831d50e63a95f61fc. It contains one api Function, four redirect rules and five header rules. This is not the current GitHub main head (e65e6a82e5b2f2975441411b1764690ffaab9c13); PR #83 was merged with [skip netlify]. No build or publication for the newer main commit was triggered by this audit.
+- The site-level Netlify environment inventory contains VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY in the Production context. Netlify masks its value and marks the variable is_secret=true; its scopes are builds, functions and runtime. The site/team inventory returned no team-level variables.
+- The masked value cannot be compared with the Firebase Console's registered reCAPTCHA Enterprise site key. Therefore App Check key equality, Firebase registration and enforcement remain unverified. A public reCAPTCHA site key is not a server secret: after verifying the exact key with Firebase, recreate/configure this variable as non-secret, Production context, Builds scope only. The Netlify connector cannot change the secret flag or scopes on an existing variable; its upsert operation changes the value only. Do not delete/recreate it without the verified plaintext value and an approved maintenance window.
+- No Firebase Console registration or enforcement state was available through the connected services. Do not enable enforcement until the exact provider/key match is verified and valid traffic has been monitored.
+- The team-level environment inventory is empty. The site-level inventory contains only the masked App Check variable; no Firebase Admin service-account, Gemini, Razorpay, webhook, private-storage, Resend or calendar credentials were visible. Do not infer that linked-provider or other external account scopes are empty.
+
+### Release gate and owner actions
+
+- Keep production publication on hold until the current main commit has a reviewed production-context build, the App Check key is verified and correctly scoped, required server-only credentials are provisioned where the relevant features are intentionally enabled, and sandbox/negative-path smoke tests pass.
+- Do not put service-account JSON, Gemini/Razorpay/webhook credentials, email credentials, patient data or private files in GitHub, issues, PRs or chat.
+- Before changing the main protection policy, identify a second trusted human reviewer. Then activate a ruleset requiring PRs, one independent approval, stale-review dismissal, resolved conversations, the verified website/Android/CodeQL checks, and no force pushes or deletion. Keep bypass empty for routine work.
+- Repository security feature states, account MFA, collaborator access, Firebase Console state, external-provider credentials, independent penetration test, backup/restore drill, India privacy/legal review and clinical editorial review remain owner/provider/independent-review tasks.
