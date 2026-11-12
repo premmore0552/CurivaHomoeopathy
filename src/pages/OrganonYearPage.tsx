@@ -2,6 +2,8 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   getOrganonReaderPath,
+  getOrganonProgressStorageKey,
+  parseOrganonCompletedTerms,
   getOrganonYear,
   ORGANON_CURRICULUM_YEARS,
   type OrganonYearSlug
@@ -11,16 +13,13 @@ interface OrganonYearPageProps { yearSlug: OrganonYearSlug }
 
 export default function OrganonYearPage({ yearSlug }: OrganonYearPageProps) {
   const year = getOrganonYear(yearSlug);
-  const progressStorageKey = `curiva:organon-study-progress:v1:${yearSlug}`;
-  const allowedTermIds = year?.terms.map((term) => term.term) ?? [];
+  const progressStorageKey = getOrganonProgressStorageKey(yearSlug);
 
   const [completedTerms, setCompletedTerms] = useState<string[]>(() => {
     if (!year || typeof window === 'undefined') return [];
     try {
       const saved: unknown = JSON.parse(window.sessionStorage.getItem(progressStorageKey) || '[]');
-      return Array.isArray(saved)
-        ? saved.filter((term): term is string => typeof term === 'string' && allowedTermIds.includes(term))
-        : [];
+      return parseOrganonCompletedTerms(yearSlug, saved);
     } catch {
       return [];
     }

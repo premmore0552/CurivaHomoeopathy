@@ -134,6 +134,14 @@ const studentFeatures: Feature[] = [
     tone: 'amber',
     eyebrow: 'Study library',
   },
+  {
+    title: 'Organon year-wise study',
+    description: 'Open four NCH-mapped professional-year pathways, original aphorism reading, flashcards and practice quizzes.',
+    href: '/organon-philosophy',
+    icon: BookOpen,
+    tone: 'mint',
+    eyebrow: 'Organon portal',
+  },
 ];
 
 const practitionerFeatures: Feature[] = [
