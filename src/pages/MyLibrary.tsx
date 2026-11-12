@@ -199,8 +199,9 @@ const MyLibrary = () => {
   }, [location.state, navigate]);
 
   const bookmarkedPosts = blogPosts.filter(post => profile?.bookmarks?.includes(post.id || ''));
-  const historyPosts: Array<BlogPost & { viewedAt: string }> = (profile?.readingHistory || [])
-    .flatMap((entry) => {
+  const readingHistory = (profile?.readingHistory ?? []) as Array<{ postId: string; timestamp: string }>;
+  const historyPosts: Array<BlogPost & { viewedAt: string }> = readingHistory
+    .flatMap((entry): Array<BlogPost & { viewedAt: string }> => {
       const post = blogPosts.find((candidate) => candidate.id === entry.postId);
       return post ? [{ ...post, viewedAt: entry.timestamp }] : [];
     })
