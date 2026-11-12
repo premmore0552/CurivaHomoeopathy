@@ -1,6 +1,6 @@
 # GitHub repository protection for Curiva
 
-_Last verified: 8 November 2026_
+_Last verified: 12 November 2026_
 
 This runbook covers GitHub controls that are repository/account settings, not source-code changes. The connected GitHub integration can read repository files and CI results but cannot administer branch protection, repository rulesets, secret-scanning settings, push protection, or account MFA. A repository owner must complete and verify those settings in GitHub.
 
@@ -11,7 +11,7 @@ This runbook covers GitHub controls that are repository/account settings, not so
 - The previous operational audit recorded `main` as unprotected. The current connection could not read the branch-protection endpoint, so the owner must verify the live setting in GitHub.
 - `.github/dependabot.yml` already schedules weekly npm and GitHub Actions updates. This does not prove Dependabot security alerts are enabled.
 - There is no `.github/CODEOWNERS` file. Do not enable “Require review from Code Owners” until at least two active human maintainers are listed; otherwise PRs authored by the only listed owner may become impossible to approve.
-- PR #58 merged on 8 November 2026. Its latest GitHub Actions runs passed: website verification, Android debug APK build, and all three CodeQL analyses.
+- PR #83 merged on 12 November 2026. Its branch checks passed for website verification and Android build; JavaScript/TypeScript CodeQL passed. Recheck the latest main-commit runs before selecting exact required check names.
 
 ## Protect `main`
 
@@ -72,3 +72,16 @@ After saving the ruleset:
 ## Important distinction
 
 These settings protect the repository from unsafe source changes. They do not configure Firebase App Check, Netlify environment secrets, payment/webhook credentials, email delivery, clinic calendar access, or production deployment. Those remain separate provider-console and release tasks documented in `docs/PRIVACY_SECURITY_CONTROLS.md` and `docs/PRODUCTION_INTEGRATION_VERIFICATION.md`.
+
+
+## 12 November 2026 live verification
+
+- main head: e65e6a82e5b2f2975441411b1764690ffaab9c13.
+- main is flagged protected, but required status-check enforcement is off and no required check contexts are configured. Rulesets are empty. The integration receives 403 when requesting detailed branch protection.
+- No CODEOWNERS file exists at repository root or under .github/. A second active human reviewer must be confirmed before enabling a mandatory approval rule.
+- Weekly Dependabot schedules are configured; alert/security-update toggles, secret scanning, push protection and private vulnerability reporting cannot be verified through this integration.
+- Administrator MFA/passkeys and collaborator permissions cannot be inspected through the available connection.
+- Netlify's currently published production deploy is 6af2291dafedaeb655e0dbb2 for commit 32d8df7a2461993a3826b9b831d50e63a95f61fc, not current main. The newer PR #83 merge commit was intentionally skipped by Netlify; no deployment was triggered during this audit.
+- The App Check environment variable exists in Netlify Production but is marked secret and scoped to Builds, Functions and Runtime. Its value is masked, so it cannot be matched against Firebase Console. Recreate with the verified value as a non-secret, Builds-only Production variable after checking the Firebase registration; do not rotate/delete it blindly.
+- Netlify team-level variables returned an empty inventory. The site inventory showed only the App Check variable; external provider/account scopes remain outside this evidence.
+- Keep issue #46 open until the owner/provider controls and release gates above are verified.
