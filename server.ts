@@ -1662,10 +1662,13 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
-  } else {
+  } else if (!isServerlessRuntime) {
+    // The Netlify function serves API routes only. Netlify's static hosting
+    // handles SPA assets and rewrites, so do not register a browser fallback
+    // in the serverless Express app.
     const distPath = path.join(process.cwd(), "dist");
     app.use(express.static(distPath));
-    app.get("*", (req, res) => {
+    app.get("/{*splat}", (_req, res) => {
       res.sendFile(path.join(distPath, "index.html"));
     });
   }

@@ -1,4 +1,4 @@
-import { CapacitorConfig } from '@capacitor/cli';
+import type { CapacitorConfig } from '@capacitor/cli';
 
 // Free self-hosted OTA mode: verify downloaded ZIPs by SHA-256 checksum over HTTPS.
 // No paid OTA service or Netlify secret is required. Publisher signatures are not used

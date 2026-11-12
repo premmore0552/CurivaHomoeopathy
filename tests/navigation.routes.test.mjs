@@ -13,6 +13,8 @@ const profileSwitch = readFileSync(new URL('../src/components/ProfileSwitch.tsx'
 const catalogue = readFileSync(new URL('../src/data/resources.ts', import.meta.url), 'utf8');
 const organonHub = readFileSync(new URL('../src/pages/OrganonCurriculumHub.tsx', import.meta.url), 'utf8');
 const curivaHome = readFileSync(new URL('../src/pages/CurivaHome.tsx', import.meta.url), 'utf8');
+const capacitorConfig = readFileSync(new URL('../capacitor.config.ts', import.meta.url), 'utf8');
+const serverSource = readFileSync(new URL('../server.ts', import.meta.url), 'utf8');
 
 const routePaths = new Set(
   [...app.matchAll(/<Route\s+path=["']([^"']+)["']/g)].map(match => match[1]),
@@ -153,4 +155,14 @@ test('Organon hub provides cross-year topic search, progress overview and direct
 test('BHMS student homepage links directly to the Organon year-wise portal', () => {
   assert.match(curivaHome, /title: 'Organon year-wise study'/);
   assert.match(curivaHome, /href: '\/organon-philosophy'/);
+});
+
+
+test('Capacitor config imports its CLI config contract as a type only', () => {
+  assert.match(capacitorConfig, /^import type \{ CapacitorConfig \} from '@capacitor\/cli';/);
+});
+
+test('serverless Express app does not register the desktop SPA fallback', () => {
+  assert.match(serverSource, /else if \(!isServerlessRuntime\) \{[\s\S]*?app\.get\("\/\{\*splat\}"[\s\S]*?\n  \}/);
+  assert.doesNotMatch(serverSource, /app\.get\("\*"\s*,/);
 });
