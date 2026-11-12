@@ -7,8 +7,8 @@ This runbook covers GitHub controls that are repository/account settings, not so
 ## Current verified state
 
 - The default branch is `main`.
-- The repository rulesets endpoint returned an empty list during this audit.
-- The previous operational audit recorded `main` as unprotected. The current connection could not read the branch-protection endpoint, so the owner must verify the live setting in GitHub.
+- The repository rulesets endpoint returned an empty list on 12 November 2026.
+- GitHub's branch listing currently reports `main` as protected, but the embedded protection summary shows required status-check enforcement off and no required contexts/checks. The detailed protection endpoint returns HTTP 403 to this integration. Treat the branch as only partially protected; approval, conversation, force-push and deletion rules are not verified.
 - `.github/dependabot.yml` already schedules weekly npm and GitHub Actions updates. This does not prove Dependabot security alerts are enabled.
 - There is no `.github/CODEOWNERS` file. Do not enable “Require review from Code Owners” until at least two active human maintainers are listed; otherwise PRs authored by the only listed owner may become impossible to approve.
 - PR #83 merged on 12 November 2026. Its branch checks passed for website verification and Android build; JavaScript/TypeScript CodeQL passed. Recheck the latest main-commit runs before selecting exact required check names.
