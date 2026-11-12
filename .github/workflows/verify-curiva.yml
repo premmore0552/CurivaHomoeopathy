@@ -54,8 +54,7 @@ jobs:
           console.log('NPM_AUDIT_COUNTS', JSON.stringify(report.metadata?.vulnerabilities || {}));
           for (const [name, item] of entries) {
             const advisories = (item.via || [])
-              .filter((entry) => typeof entry === 'object')
-              .map((entry) => [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
+              .map((entry) => typeof entry === 'string' ? entry : [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
               .join('; ');
             console.log(
               `NPM_AUDIT ${String(item.severity).toUpperCase()} ${name} range=${item.range} direct=${item.isDirect} fix=${JSON.stringify(item.fixAvailable)} advisories=${advisories}`,
@@ -171,14 +170,15 @@ jobs:
           java-version: '21'
 
       - name: Install pinned temporary Firestore rules test tools
-        run: npm install --no-save --package-lock=false firebase-tools@15.36.0 @firebase/rules-unit-testing@6.0.0
+        run: npm install --no-save --package-lock=false firebase-tools@15.36.0 @firebase/rules-unit-testing@6.0.0 firebase@13.2.0 @grpc/grpc-js@1.13.6 && npm audit fix --no-save --package-lock=false
 
       - name: Report temporary Firestore tooling advisories
         shell: bash
         run: |
           audit_dir="$(mktemp -d)"
-          printf '%s\n' '{"name":"curiva-firestore-tooling-audit","private":true,"dependencies":{"firebase-tools":"15.36.0","@firebase/rules-unit-testing":"6.0.0"}}' > "$audit_dir/package.json"
+          printf '%s\n' '{"name":"curiva-firestore-tooling-audit","private":true,"dependencies":{"firebase-tools":"15.36.0","@firebase/rules-unit-testing":"6.0.0","firebase":"13.2.0","@grpc/grpc-js":"1.13.6"}}' > "$audit_dir/package.json"
           npm --prefix "$audit_dir" install --package-lock-only --ignore-scripts
+          npm --prefix "$audit_dir" audit fix --package-lock-only --ignore-scripts || true
           npm --prefix "$audit_dir" audit --json > "$RUNNER_TEMP/firestore-tools-audit.json" || true
           node - "$RUNNER_TEMP/firestore-tools-audit.json" <<'NODE'
           const fs = require('node:fs');
