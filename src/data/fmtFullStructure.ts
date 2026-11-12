@@ -96,30 +96,27 @@ export const FMT_FULL_STRUCTURE: FMTChapterDetail[] = [
     importantConcepts: [
       {
         title: 'The Tripod of Life (Bichat’s Tripod)',
-        content: 'Life is sustained by the synchronized functioning of three systems: the Brain (Coma), the Heart (Syncope), and the Lungs (Asphyxia). Failure of any one leads to somatic death.'
+        content: 'Life is sustained by the synchronized functioning of three systems: the Brain (Coma), the Heart (Syncope), and the Lungs (Asphyxia). Failure of any one leads to somatic death.',
+        type: 'info'
       },
       {
         title: 'Postmortem Caloricity',
-        content: 'In certain conditions like sunstroke, tetanus, or septicaemia, the body temperature may actually rise for a short period after death instead of falling.'
+        content: 'In certain conditions like sunstroke, tetanus, or septicaemia, the body temperature may actually rise for a short period after death instead of falling.',
+        type: 'warning'
       }
     ],
     stepByStep: [
       {
+        stepNumber: 1,
         title: 'Early Signs of Death',
-        steps: [
-          'Cessation of Respiration and Circulation.',
-          'Loss of Muscle Tone (Primary Flaccidity).',
-          'Changes in the Eye (Clouding of cornea, Taches Noires).',
-          'Cooling of the body (Algor Mortis).'
-        ]
+        description: 'Cessation of Respiration and Circulation. Loss of Muscle Tone (Primary Flaccidity). Changes in the Eye (Clouding of cornea, Taches Noires). Cooling of the body (Algor Mortis).',
+        keyTakeaway: 'Record early cessation, ocular changes and body cooling together during postmortem assessment.'
       },
       {
+        stepNumber: 2,
         title: 'Intermediate Signs of Death',
-        steps: [
-          'Postmortem Lividity (Livor Mortis).',
-          'Rigor Mortis (Muscle stiffening).',
-          'Cadaveric Spasm (Instantaneous stiffening).'
-        ]
+        description: 'Postmortem Lividity (Livor Mortis). Rigor Mortis (Muscle stiffening). Cadaveric Spasm (Instantaneous stiffening).',
+        keyTakeaway: 'Assess lividity and muscle changes alongside the other findings when estimating the postmortem interval.'
       }
     ],
     vivaQuestions: [
@@ -129,21 +126,23 @@ export const FMT_FULL_STRUCTURE: FMTChapterDetail[] = [
     ],
     mcqs: [
       {
+        id: 1,
         question: 'The first internal organ to show signs of putrefaction is:',
         options: ['Lungs', 'Heart', 'Stomach', 'Brain'],
-        correctAnswer: 2,
+        correctIndex: 2,
         explanation: 'The stomach and intestines putrefy early due to the high bacterial load and presence of digestive enzymes.'
       },
       {
+        id: 2,
         question: 'Adipocere is also known as:',
         options: ['Mummification', 'Saponification', 'Desiccation', 'Maceration'],
-        correctAnswer: 1,
+        correctIndex: 1,
         explanation: 'Adipocere formation is the process of saponification, where body fats are converted into a waxy substance.'
       }
     ],
     flashcards: [
-      { front: 'Postmortem Lividity starts appearing within...', back: '30 minutes to 2 hours after death.' },
-      { front: 'The cooling rate of the body is roughly...', back: '0.5 to 0.7°C per hour under normal conditions.' }
+      { id: 1, category: 'Death and postmortem changes', front: 'Postmortem Lividity starts appearing within...', back: '30 minutes to 2 hours after death.' },
+      { id: 2, category: 'Death and postmortem changes', front: 'The cooling rate of the body is roughly...', back: '0.5 to 0.7°C per hour under normal conditions.' }
     ],
     quickRevision: {
       definition: 'Thanatology is the scientific study of death, including its signs, changes, and medicolegal aspects.',

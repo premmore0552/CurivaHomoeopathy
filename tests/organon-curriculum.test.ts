@@ -4,12 +4,62 @@ import { createHash } from 'node:crypto';
 import { readFileSync } from 'node:fs';
 import { organonData } from '../src/data/organon_data';
 import { ORGANON_SIMPLE_EXPLANATIONS } from '../src/data/organonAuthoredContent';
-import { getOrganonReaderPath, ORGANON_CURRICULUM_YEARS } from '../src/data/organonCurriculum';
+import {
+  getOrganonProgressStorageKey,
+  getOrganonReaderPath,
+  parseOrganonCompletedTerms,
+  searchOrganonCurriculum,
+  ORGANON_CURRICULUM_YEARS
+} from '../src/data/organonCurriculum';
 
 test('four professional-year course codes are mapped', () => {
   assert.equal(ORGANON_CURRICULUM_YEARS.length, 4);
   assert.deepEqual(ORGANON_CURRICULUM_YEARS.map((year) => year.courseCode), ['HomUG-OM-I', 'HomUG-OM-II', 'HomUG-OM-III', 'HomUG-OM-IV']);
 });
+test('core aphorism syllabus blocks map every original aphorism from 1 through 294 exactly once', () => {
+  const coverage = Array.from({ length: 294 }, () => 0);
+  for (const year of ORGANON_CURRICULUM_YEARS) {
+    for (const range of year.coreAphorismRanges) {
+      assert.ok(range.start >= 1 && range.end <= 294 && range.start <= range.end);
+      for (let aphorism = range.start; aphorism <= range.end; aphorism += 1) {
+        coverage[aphorism - 1] += 1;
+      }
+    }
+  }
+  assert.deepEqual(coverage, Array.from({ length: 294 }, () => 1));
+});
+
+test('curriculum search finds topics, course codes and aphorism numbers without generating explanations', () => {
+  const psychology = searchOrganonCurriculum('psychology');
+  assert.ok(psychology.some((result) => result.yearSlug === '1st-bhms'));
+
+  const caseTaking = searchOrganonCurriculum('case taking');
+  assert.ok(caseTaking.some((result) => result.yearSlug === '2nd-bhms'));
+
+  const aphorism = searchOrganonCurriculum('§230');
+  assert.ok(aphorism.some((result) =>
+    result.yearSlug === '4th-bhms' &&
+    result.matches.some((match) => match.section === 'Aphorism coverage')
+  ));
+
+  const courseCode = searchOrganonCurriculum('HomUG-OM-III');
+  assert.ok(courseCode.some((result) => result.yearSlug === '3rd-bhms'));
+  assert.deepEqual(searchOrganonCurriculum('   '), []);
+});
+
+test('Organon term progress keeps the existing tab-scoped storage key and validates saved values', () => {
+  assert.equal(
+    getOrganonProgressStorageKey('1st-bhms'),
+    'curiva:organon-study-progress:v1:1st-bhms'
+  );
+  const validTerm = ORGANON_CURRICULUM_YEARS[0].terms[0].term;
+  assert.deepEqual(
+    parseOrganonCompletedTerms('1st-bhms', [validTerm, 'unknown term', validTerm, 7]),
+    [validTerm]
+  );
+  assert.deepEqual(parseOrganonCompletedTerms('unknown-year', [validTerm]), []);
+});
+
 test('first-year aphorism blocks are separate and Psychology appears', () => {
   const year = ORGANON_CURRICULUM_YEARS.find((item) => item.slug === '1st-bhms');
   assert.ok(year);
@@ -104,7 +154,16 @@ test('the source aphorism text and footnotes retain their protected Git blob ide
     'Original Organon aphorism text changed. Do not rewrite, normalise or paraphrase it without explicit editorial approval.');
   assert.equal(organonData.length, lock.aphorismCount);
   assert.equal(organonData.reduce((count, aphorism) => count + aphorism.versions.length, 0), lock.editionVersionCount);
-  assert.equal(organonData.reduce((count, aphorism) => count + aphorism.versions.reduce((total, version) => total + version.footnotes.length, 0), 0), lock.footnoteCount);
+  // The lock's footnoteCount is the Sixth Edition baseline; older editions
+  // are preserved too, and their repeated/edition-specific notes are protected by the blob hash.
+  const sixthEditionFootnoteCount = organonData.reduce(
+    (count, aphorism) => count + aphorism.versions.reduce(
+      (total, version) => total + (version.edition === 'Sixth Edition' ? version.footnotes.length : 0),
+      0
+    ),
+    0
+  );
+  assert.equal(sixthEditionFootnoteCount, lock.footnoteCount);
 });
 
 test('the complete source dataset has one non-empty text record for every aphorism from 1 through 294', () => {

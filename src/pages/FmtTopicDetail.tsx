@@ -850,7 +850,7 @@ export default function FmtTopicDetail() {
                           "{mn.phrase}"
                         </div>
                         <ul className="space-y-1 text-xs text-text-secondary">
-                          {mn.breakdown.map((b, bIdx) => (
+                          {(mn.breakdown ?? []).map((b, bIdx) => (
                             <li key={bIdx} className="flex items-center gap-2">
                               <span className="w-5 h-5 rounded-md bg-amber-200 dark:bg-amber-800 text-amber-900 dark:text-amber-100 font-mono text-[10px] font-bold flex items-center justify-center shrink-0">
                                 {b.letter}
@@ -1125,12 +1125,13 @@ export default function FmtTopicDetail() {
                 </div>
 
                 <div className="space-y-4">
-                  {chapterDetail.vivaQuestions.map((v) => {
-                    const isRevealed = revealedVivas[v.id];
+                  {chapterDetail.vivaQuestions.map((v, vIdx) => {
+                    const vivaId = v.id ?? vIdx;
+                    const isRevealed = revealedVivas[vivaId];
 
                     return (
                       <div
-                        key={v.id}
+                        key={vivaId}
                         className="p-5 bg-bg-secondary/40 border border-border/60 rounded-2xl space-y-3"
                       >
                         <div className="flex items-start justify-between gap-4">
@@ -1138,7 +1139,7 @@ export default function FmtTopicDetail() {
                             Q: {v.question}
                           </h4>
                           <button
-                            onClick={() => toggleVivaReveal(v.id)}
+                            onClick={() => toggleVivaReveal(vivaId)}
                             className="px-3 py-1.5 bg-primary/10 hover:bg-primary/20 text-primary text-xs font-bold rounded-xl transition-colors shrink-0 flex items-center gap-1"
                           >
                             {isRevealed ? <EyeOff className="w-3.5 h-3.5" /> : <Eye className="w-3.5 h-3.5" />}
@@ -1294,7 +1295,7 @@ export default function FmtTopicDetail() {
                 </div>
 
                 <div className="space-y-4">
-                  {chapterDetail.shortNotes.map((sn, idx) => (
+                  {(chapterDetail.shortNotes ?? []).map((sn, idx) => (
                     <div key={idx} className="p-5 bg-bg-secondary/40 border border-border/60 rounded-2xl space-y-2">
                       <h4 className="text-sm font-bold text-primary">{sn.title}</h4>
                       <p className="text-xs text-text-secondary leading-relaxed font-medium">
@@ -1316,7 +1317,7 @@ export default function FmtTopicDetail() {
                   </h3>
                 </div>
 
-                {chapterDetail.longQuestions.map((lq, lIdx) => (
+                {(chapterDetail.longQuestions ?? []).map((lq, lIdx) => (
                   <div key={lIdx} className="p-5 bg-primary/5 border border-primary/20 rounded-2xl space-y-3">
                     <h4 className="text-sm font-bold text-text-primary">{lq.title}</h4>
                     <ol className="list-decimal pl-5 text-xs text-text-secondary space-y-1 font-medium">
@@ -1338,7 +1339,7 @@ export default function FmtTopicDetail() {
                 </div>
 
                 <ul className="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs text-amber-950 dark:text-amber-200 font-medium">
-                  {chapterDetail.revisionSheet.map((item, rIdx) => (
+                  {(chapterDetail.revisionSheet ?? []).map((item, rIdx) => (
                     <li key={rIdx} className="p-3 bg-white/80 dark:bg-zinc-900/80 border border-amber-200/50 rounded-xl flex items-start gap-2">
                       <span className="w-1.5 h-1.5 rounded-full bg-amber-500 shrink-0 mt-1.5" />
                       <span>{item}</span>

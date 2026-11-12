@@ -105,6 +105,94 @@ export const ORGANON_CURRICULUM_YEARS: OrganonYearCurriculum[] = [
   }
 ];
 
+
+export const ORGANON_PROGRESS_STORAGE_KEY_PREFIX = 'curiva:organon-study-progress:v1:';
+
+/** Keep the current tab-scoped progress key stable for existing student checklists. */
+export function getOrganonProgressStorageKey(slug: OrganonYearSlug): string {
+  return `${ORGANON_PROGRESS_STORAGE_KEY_PREFIX}${slug}`;
+}
+
+/** Validate saved checklist data against the selected year's real term identifiers. */
+export function parseOrganonCompletedTerms(slug: string, saved: unknown): string[] {
+  const year = getOrganonYear(slug);
+  if (!year || !Array.isArray(saved)) return [];
+  const allowed = new Set(year.terms.map((term) => term.term));
+  return [...new Set(saved.filter((term): term is string =>
+    typeof term === 'string' && allowed.has(term)
+  ))];
+}
+
+export interface OrganonCurriculumSearchMatch {
+  section: string;
+  text: string;
+}
+
+export interface OrganonCurriculumSearchResult {
+  yearSlug: OrganonYearSlug;
+  yearLabel: string;
+  courseCode: string;
+  matches: OrganonCurriculumSearchMatch[];
+}
+
+/**
+ * Search only the published curriculum metadata and aphorism ranges.
+ * This intentionally does not generate or infer aphorism explanations.
+ */
+export function searchOrganonCurriculum(query: string): OrganonCurriculumSearchResult[] {
+  const normalized = query.trim().toLocaleLowerCase();
+  if (!normalized) return [];
+
+  const aphorismNumberMatch = normalized.match(/^(?:aphorism\s*)?§{0,2}\s*(\d{1,3})$/);
+  const aphorismNumber = aphorismNumberMatch ? Number(aphorismNumberMatch[1]) : null;
+
+  return ORGANON_CURRICULUM_YEARS.flatMap((year) => {
+    const matches: OrganonCurriculumSearchMatch[] = [];
+    const seen = new Set<string>();
+    const add = (section: string, text: string) => {
+      const key = `${section}\u0000${text}`;
+      if (seen.has(key)) return;
+      seen.add(key);
+      matches.push({ section, text });
+    };
+    const includesQuery = (value: string) => value.toLocaleLowerCase().includes(normalized);
+
+    if ([year.yearLabel, year.courseCode, year.pageTitle, year.subjectTitle].some(includesQuery)) {
+      add('Year and course', `${year.yearLabel} · ${year.courseCode} — ${year.subjectTitle}`);
+    }
+
+    for (const range of [...year.coreAphorismRanges, ...year.revisionAphorismRanges]) {
+      const description = range.detail ? `${range.label}: ${range.detail}` : range.label;
+      const containsNumber = aphorismNumber !== null &&
+        aphorismNumber >= range.start && aphorismNumber <= range.end;
+      if (containsNumber || includesQuery(description)) add('Aphorism coverage', description);
+    }
+
+    for (const term of year.terms) {
+      if (includesQuery(term.term)) add('Term', term.term);
+      for (const topic of term.topics) {
+        if (includesQuery(topic)) add(term.term, topic);
+      }
+    }
+
+    for (const outcome of year.learningOutcomes) {
+      if (includesQuery(outcome)) add('Learning outcome', outcome);
+    }
+    for (const assessment of year.assessment) {
+      if (includesQuery(assessment)) add('Assessment', assessment);
+    }
+
+    return matches.length
+      ? [{
+          yearSlug: year.slug,
+          yearLabel: year.yearLabel,
+          courseCode: year.courseCode,
+          matches: matches.slice(0, 6)
+        }]
+      : [];
+  });
+}
+
 /**
  * Aphorism blocks assigned to a professional year, including that year's
  * prescribed revision blocks. Ranges stay separate so students do not

@@ -94,7 +94,7 @@ export const questionService = {
 
     try {
       const snapshot = await getDocs(q);
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map((document: { id: string; data: () => Record<string, unknown> }) => ({ id: document.id, ...document.data() } as Question));
       return sortCreatedDesc(docs);
     } catch (error) {
       handleFirestoreError(error, OperationType.LIST, COLLECTION_NAME);
@@ -109,7 +109,7 @@ export const questionService = {
 
     try {
       const snapshot = await getDocs(q);
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map((document: { id: string; data: () => Record<string, unknown> }) => ({ id: document.id, ...document.data() } as Question));
       return sortCreatedDesc(docs);
     } catch (error) {
       handleFirestoreError(error, OperationType.LIST, COLLECTION_NAME);
@@ -123,7 +123,7 @@ export const questionService = {
 
     try {
       const snapshot = await getDocs(q);
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map((document: { id: string; data: () => Record<string, unknown> }) => ({ id: document.id, ...document.data() } as Question));
       return sortCreatedDesc(docs);
     } catch (error) {
       handleFirestoreError(error, OperationType.LIST, COLLECTION_NAME);
@@ -155,7 +155,7 @@ export const questionService = {
     );
 
     return onSnapshot(q, (snapshot) => {
-      const docs = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as Question));
+      const docs = snapshot.docs.map((document: { id: string; data: () => Record<string, unknown> }) => ({ id: document.id, ...document.data() } as Question));
       callback(sortCreatedDesc(docs));
     }, (error) => {
       handleFirestoreError(error, OperationType.GET, COLLECTION_NAME);

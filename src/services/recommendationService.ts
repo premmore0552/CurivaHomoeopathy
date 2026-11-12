@@ -20,6 +20,8 @@ export function getPersonalizedRecommendations(
   
   // Set of already interacted posts to avoid repeating them in recommendations
   const interactedSlugs = new Set([...bookmarkedSlugs, ...readSlugs]);
+  const hasInteracted = (post: BlogPost) =>
+    interactedSlugs.has(post.id) || (post.slug ? interactedSlugs.has(post.slug) : false);
 
   // If the user has zero interactions, provide diverse fallback contents
   if (interactedSlugs.size === 0) {
@@ -59,7 +61,7 @@ export function getPersonalizedRecommendations(
 
   // Score remaining posts
   const scoredPosts = allPosts
-    .filter(post => !interactedSlugs.has(post.slug) && !interactedSlugs.has(post.id))
+    .filter(post => !hasInteracted(post))
     .map(post => {
       let score = 0;
 
@@ -93,7 +95,7 @@ export function getPersonalizedRecommendations(
   if (recommended.length < limit) {
     const remainingCount = limit - recommended.length;
     const fallbacks = allPosts.filter(
-      p => !interactedSlugs.has(p.slug) && !interactedSlugs.has(p.id) && !recommended.some(r => r.id === p.id)
+      p => !hasInteracted(p) && !recommended.some(r => r.id === p.id)
     );
     recommended.push(...fallbacks.slice(0, remainingCount));
   }

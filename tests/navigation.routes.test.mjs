@@ -11,6 +11,10 @@ const fmtNavigation = readFileSync(new URL('../src/components/FmtBottomNav.tsx',
 const authButton = readFileSync(new URL('../src/components/AuthButton.tsx', import.meta.url), 'utf8');
 const profileSwitch = readFileSync(new URL('../src/components/ProfileSwitch.tsx', import.meta.url), 'utf8');
 const catalogue = readFileSync(new URL('../src/data/resources.ts', import.meta.url), 'utf8');
+const organonHub = readFileSync(new URL('../src/pages/OrganonCurriculumHub.tsx', import.meta.url), 'utf8');
+const curivaHome = readFileSync(new URL('../src/pages/CurivaHome.tsx', import.meta.url), 'utf8');
+const capacitorConfig = readFileSync(new URL('../capacitor.config.ts', import.meta.url), 'utf8');
+const serverSource = readFileSync(new URL('../server.ts', import.meta.url), 'utf8');
 
 const routePaths = new Set(
   [...app.matchAll(/<Route\s+path=["']([^"']+)["']/g)].map(match => match[1]),
@@ -136,4 +140,29 @@ test('Organon exposes a hub, four year-specific subject pages and a separate leg
 
 test('download URLs do not leak into the public resource catalogue', () => {
   assert.doesNotMatch(catalogue, /drive\.google\.com|fileUrl\s*:/);
+});
+
+test('Organon hub provides cross-year topic search, progress overview and direct study actions', () => {
+  assert.match(organonHub, /searchOrganonCurriculum\(query\)/);
+  assert.match(organonHub, /type="search"/);
+  assert.match(organonHub, /aria-live="polite"/);
+  assert.match(organonHub, /getOrganonProgressStorageKey/);
+  assert.match(organonHub, /mode: 'flashcards'/);
+  assert.match(organonHub, /mode: 'quiz'/);
+  assert.match(organonHub, /Open official NCH curriculum PDF/);
+});
+
+test('BHMS student homepage links directly to the Organon year-wise portal', () => {
+  assert.match(curivaHome, /title: 'Organon year-wise study'/);
+  assert.match(curivaHome, /href: '\/organon-philosophy'/);
+});
+
+
+test('Capacitor config imports its CLI config contract as a type only', () => {
+  assert.match(capacitorConfig, /^import type \{ CapacitorConfig \} from '@capacitor\/cli';/);
+});
+
+test('serverless Express app does not register the desktop SPA fallback', () => {
+  assert.match(serverSource, /else if \(!isServerlessRuntime\) \{[\s\S]*?app\.get\("\/\{\*splat\}"[\s\S]*?\n  \}/);
+  assert.doesNotMatch(serverSource, /app\.get\("\*"\s*,/);
 });

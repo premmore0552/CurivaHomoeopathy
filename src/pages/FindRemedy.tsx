@@ -185,7 +185,7 @@ export default function FindRemedy() {
     let currentSection: RemedySection | null = null;
     let currentContent: string[] = [];
 
-    lines.forEach((line) => {
+    for (const line of lines) {
       if (line.startsWith('### ')) {
         if (currentSection) {
           currentSection.content = currentContent.join('\n');
@@ -202,7 +202,7 @@ export default function FindRemedy() {
       } else if (currentSection) {
         currentContent.push(line);
       }
-    });
+    }
 
     if (currentSection) {
       currentSection.content = currentContent.join('\n');

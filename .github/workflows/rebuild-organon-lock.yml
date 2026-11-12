@@ -1,0 +1,66 @@
+name: Rebuild and verify npm lockfile
+
+on:
+  push:
+    branches:
+      - feat/organon-learning-hub-upgrade
+
+permissions:
+  contents: write
+
+concurrency:
+  group: organon-hub-lock-refresh-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  fresh-lock-and-validation:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - name: Check out upgrade branch
+        uses: actions/checkout@v7
+        with:
+          persist-credentials: true
+
+      - name: Set up Node.js required by repository dependencies
+        uses: actions/setup-node@v7
+        with:
+          node-version: 24.12.0
+          cache: npm
+
+      - name: Rebuild the lockfile from scratch
+        run: |
+          set -euo pipefail
+          rm -f package-lock.json
+          npm install --package-lock-only --ignore-scripts --no-audit --no-fund
+
+      - name: Prove a clean locked install works
+        run: npm ci --no-audit --no-fund
+
+      - name: Typecheck the website
+        run: npm run lint
+
+      - name: Verify Organon curriculum and source preservation
+        run: npm run test:organon-curriculum
+
+      - name: Verify navigation and website routes
+        run: node --test tests/navigation.routes.test.mjs
+
+      - name: Build website and self-hosted bundle
+        run: npm run build
+        env:
+          COMMIT_REF: ${{ github.sha }}
+
+      - name: Commit the regenerated lockfile after validation passes
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- package-lock.json; then
+            echo "The fresh lockfile is already identical to the committed version."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add package-lock.json
+          git commit -m "fix: regenerate a clean npm lockfile"
+          git push origin "HEAD:feat/organon-learning-hub-upgrade"
