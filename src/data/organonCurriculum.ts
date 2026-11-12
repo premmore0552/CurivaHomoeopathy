@@ -143,14 +143,14 @@ export function searchOrganonCurriculum(query: string): OrganonCurriculumSearchR
   const normalized = query.trim().toLocaleLowerCase();
   if (!normalized) return [];
 
-  const aphorismNumberMatch = normalized.match(/^(?:aphorism\\s*)?§{0,2}\\s*(\\d{1,3})$/);
+  const aphorismNumberMatch = normalized.match(/^(?:aphorism\s*)?§{0,2}\s*(\d{1,3})$/);
   const aphorismNumber = aphorismNumberMatch ? Number(aphorismNumberMatch[1]) : null;
 
   return ORGANON_CURRICULUM_YEARS.flatMap((year) => {
     const matches: OrganonCurriculumSearchMatch[] = [];
     const seen = new Set<string>();
     const add = (section: string, text: string) => {
-      const key = `${section}\\u0000${text}`;
+      const key = `${section}\u0000${text}`;
       if (seen.has(key)) return;
       seen.add(key);
       matches.push({ section, text });
