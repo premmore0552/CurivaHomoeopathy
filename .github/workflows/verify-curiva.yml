@@ -173,6 +173,30 @@ jobs:
       - name: Install pinned temporary Firestore rules test tools
         run: npm install --no-save --package-lock=false firebase-tools@15.36.0 @firebase/rules-unit-testing@6.0.0
 
+      - name: Report temporary Firestore tooling advisories
+        shell: bash
+        run: |
+          audit_dir="$(mktemp -d)"
+          printf '%s\n' '{"name":"curiva-firestore-tooling-audit","private":true,"dependencies":{"firebase-tools":"15.36.0","@firebase/rules-unit-testing":"6.0.0"}}' > "$audit_dir/package.json"
+          npm --prefix "$audit_dir" install --package-lock-only --ignore-scripts
+          npm --prefix "$audit_dir" audit --json > "$RUNNER_TEMP/firestore-tools-audit.json" || true
+          node - "$RUNNER_TEMP/firestore-tools-audit.json" <<'NODE'
+          const fs = require('node:fs');
+          const report = JSON.parse(fs.readFileSync(process.argv[2], 'utf8'));
+          const counts = report.metadata?.vulnerabilities || {};
+          console.log('TEMP_FIRESTORE_TOOLS_AUDIT_COUNTS', JSON.stringify(counts));
+          for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
+            const advisories = (item.via || [])
+              .filter((entry) => typeof entry === 'object')
+              .map((entry) => [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
+              .join('; ');
+            console.log(`TEMP_FIRESTORE_TOOLS_AUDIT ${String(item.severity).toUpperCase()} ${name} range=${item.range} fix=${JSON.stringify(item.fixAvailable)} advisories=${advisories}`);
+          }
+          if ((counts.high || 0) > 0 || (counts.critical || 0) > 0) {
+            process.exitCode = 1;
+          }
+          NODE
+
       - name: Test Firestore security rules in the emulator
         run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
 
