@@ -28,6 +28,7 @@ import { auth, db, collection, query, where, getDocs, orderBy } from '../lib/fir
 import { resources, Resource } from '../data/resources';
 import { userService } from '../services/userService';
 import { allBlogPosts as blogPosts } from '../data/blogPosts';
+import type { BlogPost } from '../types';
 import SEO from '../components/SEO';
 import { getBookmarkedRemedies, removeBookmarkRemedy, BookmarkedRemedy } from '../utils/bookmarkUtils';
 
@@ -198,12 +199,11 @@ const MyLibrary = () => {
   }, [location.state, navigate]);
 
   const bookmarkedPosts = blogPosts.filter(post => profile?.bookmarks?.includes(post.id || ''));
-  const historyPosts = (profile?.readingHistory || [])
-    .map((h: any) => ({
-      ...blogPosts.find(p => p.id === h.postId),
-      viewedAt: h.timestamp
-    }))
-    .filter((p: any) => p.id)
+  const historyPosts: Array<BlogPost & { viewedAt: string }> = (profile?.readingHistory || [])
+    .flatMap((entry) => {
+      const post = blogPosts.find((candidate) => candidate.id === entry.postId);
+      return post ? [{ ...post, viewedAt: entry.timestamp }] : [];
+    })
     .sort((a, b) => new Date(b.viewedAt).getTime() - new Date(a.viewedAt).getTime());
 
   const filteredSavedRemedies = savedRemedies.filter(r =>

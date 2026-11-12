@@ -1173,24 +1173,26 @@ export default function FirstBhmsCrashCourse() {
                       </div>
 
                       {/* Next Topic Recommendation Banner */}
-                      <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-                        <div>
-                          <span className="text-[10px] font-bold text-primary uppercase tracking-wider block">Recommended Next Lesson</span>
-                          <h4 className="text-lg font-bold text-text-primary">
-                            {currentTopic.lessonContent.recommendedNextTopic.title}
-                          </h4>
-                          <p className="text-xs text-text-secondary">
-                            Seamlessly advance through the guided learning journey: Learn → Visualize → Revise → Test
-                          </p>
+                      {currentTopic.lessonContent.recommendedNextTopic && (
+                        <div className="bg-gradient-to-r from-primary/10 to-accent/10 border border-primary/20 rounded-2xl p-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                          <div>
+                            <span className="text-[10px] font-bold text-primary uppercase tracking-wider block">Recommended Next Lesson</span>
+                            <h4 className="text-lg font-bold text-text-primary">
+                              {currentTopic.lessonContent.recommendedNextTopic.title}
+                            </h4>
+                            <p className="text-xs text-text-secondary">
+                              Seamlessly advance through the guided learning journey: Learn → Visualize → Revise → Test
+                            </p>
+                          </div>
+                          <button
+                            onClick={navigateToNextTopic}
+                            className="px-5 py-3 rounded-xl bg-primary text-white font-bold text-xs shadow-md hover:shadow-lg transition-all flex items-center gap-2 shrink-0"
+                          >
+                            <span>Next Lesson</span>
+                            <ChevronRight className="w-4 h-4" />
+                          </button>
                         </div>
-                        <button
-                          onClick={navigateToNextTopic}
-                          className="px-5 py-3 rounded-xl bg-primary text-white font-bold text-xs shadow-md hover:shadow-lg transition-all flex items-center gap-2 shrink-0"
-                        >
-                          <span>Next Lesson</span>
-                          <ChevronRight className="w-4 h-4" />
-                        </button>
-                      </div>
+                      )}
 
                     </div>
                   )}

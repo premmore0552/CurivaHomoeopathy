@@ -90,18 +90,18 @@ export async function getPersonalizedView(params: {
  * Local client fallback if backend is offline.
  */
 function getFallbackPersonalization(role: string, tabs?: BrowserTab[]): PersonalizationResult {
-  const normalizedRole = (role.toLowerCase().includes('student') ? 'student' :
-                          role.toLowerCase().includes('intern') ? 'intern' :
-                          role.toLowerCase().includes('practitioner') || role.toLowerCase().includes('doctor') ? 'practitioner' : 'public') as any;
+  const normalizedRole: PersonalizationResult['role'] = role.toLowerCase().includes('student') ? 'student' :
+    role.toLowerCase().includes('intern') ? 'intern' :
+    role.toLowerCase().includes('practitioner') || role.toLowerCase().includes('doctor') ? 'practitioner' : 'public';
 
-  const tones: Record<string, 'academic' | 'clinical' | 'simple'> = {
+  const tones: Record<PersonalizationResult['role'], 'academic' | 'clinical' | 'simple'> = {
     student: 'academic',
     intern: 'clinical',
     practitioner: 'clinical',
     public: 'simple'
   };
 
-  const navs = {
+  const navs: Record<PersonalizationResult['role'], PersonalizationResult['nav']> = {
     student: [
       { name: "BHMS Course Syllabus", to: "/cbdc-syllabus", icon: "GraduationCap", desc: "NCH Competencies" },
       { name: "Anatomy Core", to: "/anatomy", icon: "Activity", desc: "Anatomy library & notes" },
@@ -121,7 +121,7 @@ function getFallbackPersonalization(role: string, tabs?: BrowserTab[]): Personal
     ]
   };
 
-  const modules = {
+  const modules: Record<PersonalizationResult['role'], PersonalizationResult['modules']> = {
     student: [
       { id: "syllabus-explorer", title: "NCH CBDC Syllabus", cta: "Explore Curriculum", link: "/cbdc-syllabus", desc: "Explore official year-wise competency maps." },
       { id: "study-booster", title: "1st BHMS Crash Course", cta: "Launch Crash Course", link: "/first-bhms-crash-course", desc: "Quick prep across core Anatomy, Physiology, and Pharmacy guides." }
@@ -140,14 +140,14 @@ function getFallbackPersonalization(role: string, tabs?: BrowserTab[]): Personal
     ]
   };
 
-  const searchDefaults = {
+  const searchDefaults: Record<PersonalizationResult['role'], PersonalizationResult['searchDefaults']> = {
     student: ["Anatomy regional study guides", "Samuel Hahnemann Aphorisms", "Sulphur Allen Keynotes"],
     intern: ["Kent repertorization rules", "CBC report miasmatic mapping", "Acute gastrointestinal therapeutics"],
     practitioner: ["Miasm diagnosis of chronic cases", "Lycopodium and Sulphur concordances", "Sister remedy differentiation matrix"],
     public: ["Is Homoeopathy safe?", "What to expect in a Homoeopathic consult", "Safe natural sleep aids"]
   };
 
-  const recommendations = {
+  const recommendations: Record<PersonalizationResult['role'], PersonalizationResult['recommendations']> = {
     student: [
       { title: "1st BHMS Crash Course", link: "/first-bhms-crash-course", snippet: "Boost your first year BHMS grades with curated revision guides, interactive maps, and oral viva simulators." }
     ],
