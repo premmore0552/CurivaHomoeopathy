@@ -196,3 +196,10 @@ After PR #84 merged, current GitHub main is `fa14d6014662a127e4159acd0af06fe5183
 ### Current closure decision
 
 Keep issue #46 open. Main is flagged protected but required-check enforcement is off and no required contexts are configured; rulesets remain empty. Secret scanning, push protection, Dependabot alert toggles, private vulnerability reporting, account MFA/passkeys, all collaborator membership, Firebase App Check registration/enforcement, external linked-provider credentials, production smoke tests, independent penetration testing, backup/restore, India privacy/legal review and qualified clinical editorial review remain unverified or owner/provider/independent-review actions. This document is not a certification.
+
+
+## Single-maintainer governance update — 13 November 2026
+
+The repository owner confirmed that GitHub accounts `curivahomoeopathy` and `premmore0552` are both operated by the same person. They do not provide independent review. Do not count reviews from one account against PRs authored by the other, and do not create CODEOWNERS entries for both accounts. The newer `curivahomoeopathy` account currently has repository admin; the original `premmore0552` has write access. If the original account is no longer required, remove its write access or downgrade it to read after verifying recovery and access from the newer account. Enable MFA/passkeys on both while both have access.
+
+For a solo-maintainer interim policy, protect `main` with PR-only changes, required website/Android/CodeQL checks, resolved review conversations, no force-push/deletion, empty bypass, and zero required approvals. This is not equivalent to peer review; require external review for security-sensitive changes where practical. When a second trusted human maintainer is added, set one independent approval and consider CODEOWNERS.
