@@ -102,3 +102,11 @@ The repository owner confirmed that `curivahomoeopathy` and `premmore0552` are b
 Until a second trusted human maintainer is added, the workable protection profile is: active main ruleset; require a pull request; require the website validation, Android debug APK and three CodeQL jobs; require resolved review conversations; prohibit force-push and deletion; bypass list empty; required approving reviews = 0. This removes direct pushes and enforces automated gates without creating a self-approval deadlock. It is intentionally weaker than independent human review. After a second person is added, change required approvals to one independent reviewer and revisit CODEOWNERS.
 
 The Android workflow previously used path filters and could be skipped on documentation-only PRs. A required check that is not triggered can remain pending and prevent merging. Its PR trigger is therefore changed in the accompanying change to run on every PR targeting main. This makes the `Build installable Android debug APK` check consistently available, at the cost of extra CI minutes. The SonarQube scan is not a required check until the owner configures its token, host URL and project key.
+
+
+## Latest repository state — 13 November 2026
+
+- Current main is `771a07bda115572861374c28dfb7f8302590d717` (PR #85 merge). PR #85 is documentation-only and retained `[skip netlify]`.
+- PR #85 website verification completed successfully; CodeQL passed for Actions, Java/Kotlin and JavaScript/TypeScript. SonarQube workflow succeeded but scanner execution was skipped because `SONAR_TOKEN`, `SONAR_HOST_URL` and `SONAR_PROJECT_KEY` are not configured. Deploy Preview smoke test was intentionally skipped.
+- Android APK validation is now configured to run on every pull request to `main`, so its check can be required consistently even for documentation-only changes. This increases CI usage but avoids path-filtered missing required checks.
+- The verified solo-maintainer baseline is PR-only, zero required approvals, website + Android + CodeQL checks required, resolved conversations, no force-push/deletion, and no bypass. Revisit approval count when a genuine second maintainer is onboarded.
