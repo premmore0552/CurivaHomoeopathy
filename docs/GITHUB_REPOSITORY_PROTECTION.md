@@ -77,7 +77,7 @@ These settings protect the repository from unsafe source changes. They do not co
 
 - main head after PR #84: fa14d6014662a127e4159acd0af06fe5183e1fc9. The earlier e65e6a82... reference is the parent commit and is superseded.
 - main is flagged protected, but required status-check enforcement is off and no required check contexts are configured. Rulesets are empty. The integration receives 403 when requesting detailed branch protection.
-- No CODEOWNERS file exists at repository root or under .github/. A second active human reviewer must be confirmed before enabling a mandatory approval rule.
+- No CODEOWNERS file exists at repository root or under .github/. The owner has confirmed that both GitHub usernames belong to one person; do not count cross-account reviews as independent. The interim sole-maintainer policy uses zero required approvals.
 - Weekly Dependabot schedules are configured; alert/security-update toggles, secret scanning, push protection and private vulnerability reporting cannot be verified through this integration.
 - Administrator MFA/passkeys and collaborator permissions cannot be inspected through the available connection.
 - Netlify's currently published production deploy is 6af2291dafedaeb655e0dbb2 for commit 32d8df7a2461993a3826b9b831d50e63a95f61fc, not current main. PR #83 and PR #84 merge commits both retained [skip netlify]; no deployment for current main was triggered during these audits. The latest published production deploy remains commit 32d8df7a2461993a3826b9b831d50e63a95f61fc.
@@ -92,7 +92,7 @@ These settings protect the repository from unsafe source changes. They do not co
 - The exact names to select as required check runs should be taken from a current successful PR run: `Typecheck, build website, and validate free OTA bundle`, `Analyze actions`, `Analyze java-kotlin`, and `Analyze javascript-typescript`. The Android debug APK workflow must also be required by its exact check-run name from the successful Android PR workflow. Do not guess a display name in settings.
 - Netlify currently publishes commit `32d8df7a2461993a3826b9b831d50e63a95f61fc`, not current main. No current-main production build was triggered.
 - Site env inventory: only `VITE_FIREBASE_APPCHECK_ENTERPRISE_SITE_KEY` exists. It is marked secret and scoped to Builds/Functions/Runtime; do not change without verified replacement key. No other server-side integration variables were visible. Refer to `docs/PRIVACY_SECURITY_CONTROLS.md` for the exact absent variable list and gating instructions.
-- Since the integration cannot manage rulesets/security toggles or inspect MFA/collaborators, the owner must apply and verify these settings in GitHub before issue closure. No CODEOWNERS file should be created until two independent maintainers have been confirmed.
+- Since the integration cannot manage rulesets/security toggles or inspect MFA/collaborators, the owner must apply and verify these settings in GitHub before issue closure. Keep CODEOWNERS disabled until a genuinely separate human maintainer is onboarded.
 
 
 ## Single-maintainer policy correction — 13 November 2026
