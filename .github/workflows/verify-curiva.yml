@@ -169,16 +169,28 @@ jobs:
           distribution: temurin
           java-version: '21'
 
-      - name: Install pinned temporary Firestore rules test tools
-        run: npm install --no-save --package-lock=false firebase-tools@15.36.0 @firebase/rules-unit-testing@6.0.0 firebase@13.2.0 && npm audit fix --no-save --package-lock=false
-
-      - name: Report temporary Firestore tooling advisories
+      - name: Install, audit, and run isolated Firestore rules tests
         shell: bash
         run: |
-          audit_dir="$(mktemp -d)"
-          printf '%s\n' '{"name":"curiva-firestore-tooling-audit","private":true,"dependencies":{"firebase-tools":"15.36.0","@firebase/rules-unit-testing":"6.0.0","firebase":"13.2.0"},"overrides":{"@grpc/grpc-js":"^1.13.6"}}' > "$audit_dir/package.json"
-          npm --prefix "$audit_dir" install --package-lock-only --ignore-scripts
-          npm --prefix "$audit_dir" audit fix --package-lock-only --ignore-scripts || true
+          set -euo pipefail
+          audit_dir="$RUNNER_TEMP/curiva-firestore-tools"
+          mkdir -p "$audit_dir/tests"
+          cat > "$audit_dir/package.json" <<'JSON'
+          {
+            "name": "curiva-firestore-tooling",
+            "private": true,
+            "dependencies": {
+              "firebase-tools": "15.36.0",
+              "@firebase/rules-unit-testing": "6.0.0",
+              "firebase": "13.2.0"
+            },
+            "overrides": {
+              "@grpc/grpc-js": "^1.13.6"
+            }
+          }
+          JSON
+          npm --prefix "$audit_dir" install --ignore-scripts
+          npm --prefix "$audit_dir" audit fix --ignore-scripts || true
           npm --prefix "$audit_dir" audit --json > "$RUNNER_TEMP/firestore-tools-audit.json" || true
           node - "$RUNNER_TEMP/firestore-tools-audit.json" <<'NODE'
           const fs = require('node:fs');
@@ -187,18 +199,24 @@ jobs:
           console.log('TEMP_FIRESTORE_TOOLS_AUDIT_COUNTS', JSON.stringify(counts));
           for (const [name, item] of Object.entries(report.vulnerabilities || {})) {
             const advisories = (item.via || [])
-              .filter((entry) => typeof entry === 'object')
-              .map((entry) => [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
+              .map((entry) => typeof entry === 'string'
+                ? entry
+                : [entry.title, entry.range, entry.url].filter(Boolean).join(' | '))
               .join('; ');
-            console.log(`TEMP_FIRESTORE_TOOLS_AUDIT ${String(item.severity).toUpperCase()} ${name} range=${item.range} fix=${JSON.stringify(item.fixAvailable)} advisories=${advisories}`);
+            console.log(`TEMP_FIRESTORE_TOOLS_AUDIT ${String(item.severity).toUpperCase()} ${name} range=${item.range} direct=${item.isDirect} fix=${JSON.stringify(item.fixAvailable)} advisories=${advisories}`);
           }
           if ((counts.high || 0) > 0 || (counts.critical || 0) > 0) {
+            console.error('High or critical advisories remain in the isolated Firestore test toolchain.');
             process.exitCode = 1;
           }
           NODE
-
-      - name: Test Firestore security rules in the emulator
-        run: npx firebase emulators:exec --only firestore --project demo-curiva-firestore-rules "node --test tests/firestore.rules.test.mjs"
+          cp firestore.rules "$audit_dir/firestore.rules"
+          cp tests/firestore.rules.test.mjs "$audit_dir/tests/firestore.rules.test.mjs"
+          "$audit_dir/node_modules/.bin/firebase" emulators:exec \
+            --config "$GITHUB_WORKSPACE/firebase.json" \
+            --only firestore \
+            --project demo-curiva-firestore-rules \
+            "node --test $audit_dir/tests/firestore.rules.test.mjs"
 
       - name: Smoke-test the live Netlify Deploy Preview
         if: github.event_name == 'pull_request' && !contains(github.event.pull_request.title, '[skip netlify]')
