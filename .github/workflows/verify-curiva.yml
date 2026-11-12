@@ -170,13 +170,13 @@ jobs:
           java-version: '21'
 
       - name: Install pinned temporary Firestore rules test tools
-        run: npm install --no-save --package-lock=false firebase-tools@15.36.0 @firebase/rules-unit-testing@6.0.0 firebase@13.2.0 @grpc/grpc-js@1.13.6 && npm audit fix --no-save --package-lock=false
+        run: npm install --no-save --package-lock=false firebase-tools@15.36.0 @firebase/rules-unit-testing@6.0.0 firebase@13.2.0 && npm audit fix --no-save --package-lock=false
 
       - name: Report temporary Firestore tooling advisories
         shell: bash
         run: |
           audit_dir="$(mktemp -d)"
-          printf '%s\n' '{"name":"curiva-firestore-tooling-audit","private":true,"dependencies":{"firebase-tools":"15.36.0","@firebase/rules-unit-testing":"6.0.0","firebase":"13.2.0","@grpc/grpc-js":"1.13.6"}}' > "$audit_dir/package.json"
+          printf '%s\n' '{"name":"curiva-firestore-tooling-audit","private":true,"dependencies":{"firebase-tools":"15.36.0","@firebase/rules-unit-testing":"6.0.0","firebase":"13.2.0"},"overrides":{"@grpc/grpc-js":"^1.13.6"}}' > "$audit_dir/package.json"
           npm --prefix "$audit_dir" install --package-lock-only --ignore-scripts
           npm --prefix "$audit_dir" audit fix --package-lock-only --ignore-scripts || true
           npm --prefix "$audit_dir" audit --json > "$RUNNER_TEMP/firestore-tools-audit.json" || true
