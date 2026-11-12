@@ -154,7 +154,16 @@ test('the source aphorism text and footnotes retain their protected Git blob ide
     'Original Organon aphorism text changed. Do not rewrite, normalise or paraphrase it without explicit editorial approval.');
   assert.equal(organonData.length, lock.aphorismCount);
   assert.equal(organonData.reduce((count, aphorism) => count + aphorism.versions.length, 0), lock.editionVersionCount);
-  assert.equal(organonData.reduce((count, aphorism) => count + aphorism.versions.reduce((total, version) => total + version.footnotes.length, 0), 0), lock.footnoteCount);
+  // The lock's footnoteCount is the Sixth Edition baseline; older editions
+  // are preserved too, and their repeated/edition-specific notes are protected by the blob hash.
+  const sixthEditionFootnoteCount = organonData.reduce(
+    (count, aphorism) => count + aphorism.versions.reduce(
+      (total, version) => total + (version.edition === 'Sixth Edition' ? version.footnotes.length : 0),
+      0
+    ),
+    0
+  );
+  assert.equal(sixthEditionFootnoteCount, lock.footnoteCount);
 });
 
 test('the complete source dataset has one non-empty text record for every aphorism from 1 through 294', () => {
