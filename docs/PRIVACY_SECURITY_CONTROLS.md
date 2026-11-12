@@ -148,7 +148,7 @@ This addendum records the live state observed after PR #83 merged. It supersedes
 
 - Default branch is main; observed head: e65e6a82e5b2f2975441411b1764690ffaab9c13 (PR #83 merge commit).
 - GitHub's branch listing reports protected: true, but its embedded protection summary reports required_status_checks.enforcement_level: off and an empty contexts/checks list. The rulesets endpoint returns an empty array. The detailed branch-protection endpoint returns HTTP 403 to the connected integration, so approval count, conversation resolution, force-push and deletion restrictions cannot be independently verified. Do not describe main as fully protected.
-- No root CODEOWNERS or .github/CODEOWNERS file exists. Do not enable code-owner review until at least two active, independent human maintainers are confirmed.
+- No root CODEOWNERS or .github/CODEOWNERS file exists. Both known GitHub accounts belong to the same person; do not count cross-account approvals or enable code-owner review until a genuinely separate human maintainer is onboarded.
 - .github/dependabot.yml configures weekly npm and GitHub Actions update schedules, including security-update grouping. This is not evidence that Dependabot alerts/security updates are enabled in repository settings.
 - The connected GitHub integration cannot read or administer repository security feature toggles, collaborator membership/MFA, or account passkey state. Secret scanning, push protection, Dependabot alerts, private vulnerability reporting, collaborator access and administrator MFA therefore remain unverified.
 - The GitHub connection has admin permission on the repository object, but its installed integration cannot access branch-protection administration endpoints. No branch rules, security toggles or collaborator permissions were changed in this audit.
@@ -166,7 +166,7 @@ This addendum records the live state observed after PR #83 merged. It supersedes
 
 - Keep production publication on hold until the current main commit has a reviewed production-context build, the App Check key is verified and correctly scoped, required server-only credentials are provisioned where the relevant features are intentionally enabled, and sandbox/negative-path smoke tests pass.
 - Do not put service-account JSON, Gemini/Razorpay/webhook credentials, email credentials, patient data or private files in GitHub, issues, PRs or chat.
-- Before changing the main protection policy, identify a second trusted human reviewer. Then activate a ruleset requiring PRs, one independent approval, stale-review dismissal, resolved conversations, the verified website/Android/CodeQL checks, and no force pushes or deletion. Keep bypass empty for routine work.
+- While the repository has one human maintainer, activate a solo-maintainer ruleset requiring PRs, the verified website/Android/CodeQL checks, resolved conversations, and no force pushes or deletion; set required approvals to zero and keep bypass empty. Add one independent approval requirement after a genuinely separate trusted maintainer is onboarded.
 - Repository security feature states, account MFA, collaborator access, Firebase Console state, external-provider credentials, independent penetration test, backup/restore drill, India privacy/legal review and clinical editorial review remain owner/provider/independent-review tasks.
 
 
